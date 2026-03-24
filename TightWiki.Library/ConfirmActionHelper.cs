@@ -29,7 +29,12 @@ namespace TightWiki.Library
             param.Append($"&Message={Uri.EscapeDataString(message)}");
             param.Append($"&Style=Danger");
 
-            return new HtmlString($"<a class=\"btn btn-danger {@class}\" href=\"{basePath}/Utility/ConfirmAction?{param}\">{linkLabel}</a>");
+            if (string.IsNullOrEmpty(@class))
+            {
+                @class = "btn-danger";
+            }
+
+            return new HtmlString($"<a class=\"btn {@class}\" href=\"{basePath}/Utility/ConfirmAction?{param}\">{linkLabel}</a>");
         }
 
         /// <summary>
@@ -55,7 +60,12 @@ namespace TightWiki.Library
             param.Append($"&Message={Uri.EscapeDataString(message)}");
             param.Append($"&Style=Safe");
 
-            return new HtmlString($"<a class=\"btn btn-success {@class}\" href=\"{basePath}/Utility/ConfirmAction?{param}\">{linkLabel}</a>");
+            if (string.IsNullOrEmpty(@class))
+            {
+                @class = "btn-success";
+            }
+
+            return new HtmlString($"<a class=\"btn {@class}\" href=\"{basePath}/Utility/ConfirmAction?{param}\">{linkLabel}</a>");
         }
 
         /// <summary>
@@ -81,7 +91,12 @@ namespace TightWiki.Library
             param.Append($"&Message={Uri.EscapeDataString(message)}");
             param.Append($"&Style=Warn");
 
-            return new HtmlString($"<a class=\"btn btn-warning {@class}\" href=\"{basePath}/Utility/ConfirmAction?{param}\">{linkLabel}</a>");
+            if (string.IsNullOrEmpty(@class))
+            {
+                @class = "btn-warning";
+            }
+
+            return new HtmlString($"<a class=\"btn {@class}\" href=\"{basePath}/Utility/ConfirmAction?{param}\">{linkLabel}</a>");
         }
     }
 }

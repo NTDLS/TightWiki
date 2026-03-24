@@ -1,5 +1,8 @@
 @inject SignInManager<IdentityUser> SignInManager
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
+
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");

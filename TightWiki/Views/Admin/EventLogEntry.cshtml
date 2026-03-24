@@ -1,0 +1,113 @@
+@using TightWiki.Models
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
+
+@model TightWiki.Models.ViewModels.Admin.EventLogEntryViewModel
+@{
+    Layout = "_Layout";
+    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+}
+
+<h3>
+    @Localizer["Event Log Entry"]
+</h3>
+
+<div class="card shadow-sm">
+    <div class="card-header fw-semibold">
+        @Localizer["Log Entry Details"]
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped mb-0 align-middle">
+            <tbody>
+
+                <tr>
+                    <th class="w-25">@Localizer["Id"]</th>
+                    <td>@Model.LogEntry.Id</td>
+                </tr>
+
+                <tr>
+                    <th>@Localizer["Severity"]</th>
+                    <td>
+                        @{
+                            string severity = Model.LogEntry.Severity ?? "";
+                            string icon = "bi-circle";
+                            string badge = "text-secondary";
+
+                            if (severity.Equals("Trace", StringComparison.OrdinalIgnoreCase)
+                                || severity.Equals("Debug", StringComparison.OrdinalIgnoreCase)
+                                || severity.Equals("None", StringComparison.OrdinalIgnoreCase))
+                            {
+                                icon = "bi-terminal";
+                                badge = "text-secondary";
+                            }
+                            else if (severity.Equals("Information", StringComparison.OrdinalIgnoreCase))
+                            {
+                                icon = "bi-info-circle-fill";
+                                badge = "text-info";
+                            }
+                            else if (severity.Equals("Warning", StringComparison.OrdinalIgnoreCase))
+                            {
+                                icon = "bi-exclamation-triangle-fill";
+                                badge = "text-warning";
+                            }
+                            else if (severity.Equals("Error", StringComparison.OrdinalIgnoreCase))
+                            {
+                                icon = "bi-x-circle-fill";
+                                badge = "text-danger";
+                            }
+                            else if (severity.Equals("Critical", StringComparison.OrdinalIgnoreCase))
+                            {
+                                icon = "bi-fire";
+                                badge = "text-dark";
+                            }
+                        }
+
+                        <span>
+                            <i class="bi @icon @badge me-1"></i>
+                            @severity
+                        </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>@Localizer["Date/Time"]</th>
+                    <td>@Model.LogEntry.CreatedDate</td>
+                </tr>
+
+                @if (!string.IsNullOrEmpty(Model.LogEntry.Text))
+                {
+                    <tr>
+                        <th>@Localizer["Text"]</th>
+                        <td class="text-break">@Model.LogEntry.Text</td>
+                    </tr>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.LogEntry.ExceptionText))
+                {
+                    <tr>
+                        <th>@Localizer["Exception"]</th>
+                        <td class="text-danger text-break">
+                            @Model.LogEntry.ExceptionText
+                        </td>
+                    </tr>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.LogEntry.StackTrace))
+                {
+                    <tr>
+                        <th>@Localizer["Stack Trace"]</th>
+                        <td>
+                            <pre class="mb-0 small bg-light p-2 rounded border"
+                                 style="white-space: pre-wrap; max-height: 300px; overflow-y: auto;">
+                                @Model.LogEntry.StackTrace
+                            </pre>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+

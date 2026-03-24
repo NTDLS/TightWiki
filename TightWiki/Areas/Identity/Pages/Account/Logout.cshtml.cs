@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 using TightWiki.Models;
-using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -15,12 +16,13 @@ namespace TightWiki.Areas.Identity.Pages.Account
         : PageModelBase
     {
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly ILogger<LogoutModel> _logger;
+        private readonly ILogger<ITightEngine> _logger;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public LogoutModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<LogoutModel> logger, IAuthenticationSchemeProvider schemeProvider)
-            : base(signInManager)
+        public LogoutModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager,
+            ILogger<ITightEngine> logger, IAuthenticationSchemeProvider schemeProvider, ISharedLocalizationText localizer)
+            : base(logger, signInManager, localizer)
         {
             _schemeProvider = schemeProvider;
             _signInManager = signInManager;
@@ -39,10 +41,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                ExceptionRepository.InsertException(ex);
             }
 
-            _logger.LogInformation("User logged out.");
+            _logger.LogDebug("User logged out.");
             if (returnUrl != null)
             {
                 return Redirect(returnUrl);

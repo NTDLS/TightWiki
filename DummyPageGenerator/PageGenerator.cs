@@ -84,7 +84,7 @@ namespace DummyPageGenerator
             }
 
             var userId = _userManager.GetUserIdAsync(user).Result;
-            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
+            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
 
             UsersRepository.CreateProfile(Guid.Parse(userId), GetRandomUnusedAccountName());
 
@@ -195,7 +195,7 @@ namespace DummyPageGenerator
         /// Creates a random page on the wiki.
         /// </summary>
         /// <param name="userId"></param>
-        public void GeneratePage(ITightEngine engine, Guid userId)
+        public void GeneratePage(ITightEngine tightEngine, Guid userId)
         {
             try
             {
@@ -247,7 +247,7 @@ namespace DummyPageGenerator
                     ModifiedDate = DateTime.UtcNow,
                     Description = string.Join(' ', WordsRepository.GetRandomWords(_random.Next(3, 5))),
                 };
-                int newPageId = RepositoryHelpers.UpsertPage(engine, page);
+                int newPageId = RepositoryHelpers.UpsertPage(tightEngine, page);
 
                 if (_random.Next(100) >= 70)
                 {

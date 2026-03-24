@@ -1,20 +1,22 @@
 SELECT
-	MAX(P.Name) as Name,
+	MAX(P.Name) as PageName,
 	MAX(P.Namespace) as Namespace,
 	MAX(P.Navigation) as Navigation,
-	MAX(Stats.CreatedDate) as LatestBuild,
-	COUNT(0) as Compilations,
-	AVG(Stats.WikifyTimeMs) as AvgBuildTimeMs,
-	AVG(Stats.MatchCount) as AvgWikiMatches,
-	SUM(Stats.ErrorCount) as TotalErrorCount,
-	AVG(Stats.OutgoingLinkCount) as AvgOutgoingLinkCount,
-	AVG(Stats.TagCount) as AvgTagCount,
-	AVG(Stats.BodySize) as AvgRawBodySize,
-	AVG(Stats.ProcessedBodySize) as AvgWikifiedBodySize,
+    Stats.PageId,
+    Stats.LastCompileDateTime,
+    Stats.TotalCompilationCount,
+    Stats.LastWikifyTimeMs,
+    Stats.TotalWikifyTimeMs,
+    Stats.LastMatchCount,
+    Stats.LastErrorCount,
+    Stats.LastOutgoingLinkCount,
+    Stats.LastTagCount,
+    Stats.LastProcessedBodySize,
+    Stats.LastBodySize,
 	@PageSize as PaginationPageSize,
 	(
 		SELECT
-			CAST((Count(DISTINCT P.Id) + (@PageSize - 1.0)) / @PageSize AS INTEGER)
+			(Count(DISTINCT P.Id) + (@PageSize - 1)) / @PageSize
 		FROM
 			CompilationStatistics as Stats
 		INNER JOIN pages_db.[Page] as P
@@ -30,21 +32,22 @@ GROUP BY
 --CONFIG::
 /*
 Name=MAX(P.Name)
-Namespace=MAX(P.Namespace)
 Navigation=MAX(P.Navigation)
-CreatedDate=MAX(P.CreatedDate)
-Compilations=COUNT(0)
-AvgBuildTimeMs=AVG(Stats.WikifyTimeMs)
-AvgWikiMatches=AVG(Stats.MatchCount)
-TotalErrorCount=SUM(Stats.ErrorCount)
-AvgOutgoingLinkCount=AVG(Stats.OutgoingLinkCount)
-AvgTagCount=AVG(Stats.TagCount)
-AvgRawBodySize=AVG(Stats.BodySize)
-AvgWikifiedBodySize=AVG(Stats.ProcessedBodySize)
+PageId=Stats.PageId
+LastCompileDateTime=Stats.LastCompileDateTime
+TotalCompilationCount=Stats.TotalCompilationCount
+LastWikifyTimeMs=Stats.LastWikifyTimeMs
+TotalWikifyTimeMs=Stats.TotalWikifyTimeMs
+LastMatchCount=Stats.LastMatchCount
+LastErrorCount=Stats.LastErrorCount
+LastOutgoingLinkCount=Stats.LastOutgoingLinkCount
+LastTagCount=Stats.LastTagCount
+LastProcessedBodySize=Stats.LastProcessedBodySize
+LastBodySize=Stats.LastBodySize
 */
 --::CONFIG
 ORDER BY
-	MAX(P.Name) DESC
+	MAX(P.Name)
 --::CUSTOM_ORDER_BEGIN
 LIMIT @PageSize
-OFFSET (@PageNumber - 1) * @PageSize;
+OFFSET (@PageNumber - 1) * @PageSize

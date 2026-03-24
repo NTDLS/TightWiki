@@ -4,7 +4,6 @@ using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Repository;
 using static TightWiki.Engine.Library.Constants;
-using static TightWiki.Library.Constants;
 
 namespace TightWiki.Engine.Implementation.Handlers
 {

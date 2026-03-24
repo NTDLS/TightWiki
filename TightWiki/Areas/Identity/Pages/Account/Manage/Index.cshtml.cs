@@ -8,7 +8,8 @@ using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
-    public class IndexModel : PageModel
+    public class IndexModel
+        : PageModel
     {
         public IActionResult OnGetAsync()
         {

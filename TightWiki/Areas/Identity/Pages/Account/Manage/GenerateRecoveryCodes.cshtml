@@ -1,8 +1,11 @@
 ﻿@page
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
+
 @model GenerateRecoveryCodesModel
 @{
-    ViewData["Title"] = Localizer["Generate two-factor authentication (2FA) recovery codes"];
+    ViewData["Title"]= Localizer["Generate two-factor authentication (2FA) recovery codes"];
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }

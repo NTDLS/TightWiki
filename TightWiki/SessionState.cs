@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki.Caching;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Exceptions;
 using TightWiki.Extensions;
 using TightWiki.Library;
@@ -12,8 +13,7 @@ using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
-using TightWiki.Static;
-using static TightWiki.Library.Constants;
+using TightWiki.Translations;
 
 namespace TightWiki
 {
@@ -24,6 +24,7 @@ namespace TightWiki
         private readonly string _allowString = WikiPermissionDisposition.Allow.ToString();
 
         public IQueryCollection? QueryString { get; set; }
+        public ILogger<ITightEngine>? Logger { get; private set; }
 
         #region Authentication.
 
@@ -54,16 +55,19 @@ namespace TightWiki
 
         #endregion
 
-        public SessionState Hydrate(SignInManager<IdentityUser> signInManager, PageModel pageModel)
+        public SessionState Hydrate(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, PageModel pageModel)
         {
+            Logger = logger;
             QueryString = pageModel.Request.Query;
 
             HydrateSecurityContext(pageModel.HttpContext, signInManager, pageModel.User);
             return this;
         }
 
-        public SessionState Hydrate(SignInManager<IdentityUser> signInManager, Controller controller)
+        public SessionState Hydrate(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, Controller controller)
         {
+            Logger = logger;
+
             QueryString = controller.Request.Query;
             PageNavigation = RouteValue("givenCanonical", "Home");
             PageNavigationEscaped = Uri.EscapeDataString(PageNavigation);
@@ -122,7 +126,7 @@ namespace TightWiki
                         httpContext.SignOutAsync(user.Identity.AuthenticationType);
                     }
 
-                    ExceptionRepository.InsertException(ex);
+                    Logger?.LogError(ex, "An error occurred while hydrating the security context.");
                 }
             }
 
@@ -293,7 +297,8 @@ namespace TightWiki
         {
             if (!IsAuthenticated)
             {
-                throw new UnauthorizedException(StaticLocalizer.Localizer["You are not authorized"]);
+                var localizer = LocalizerFactory.Create();
+                throw new UnauthorizedException(localizer["You are not authorized"]);
             }
         }
 
@@ -304,8 +309,9 @@ namespace TightWiki
         {
             if (!HoldsPermission(givenCanonical, permissions))
             {
-                throw new UnauthorizedException(StaticLocalizer.Localizer["You do not have permission to perform the action: {0}"]
-                    .Format(string.Join(", ", permissions.Select(o => StaticLocalizer.Localizer[o.ToString()]))));
+                var localizer = LocalizerFactory.Create();
+                throw new UnauthorizedException(localizer["You do not have permission to perform the action: {0}"]
+                    .Format(string.Join(", ", permissions.Select(o => localizer[o.ToString()]))));
             }
         }
 
@@ -316,8 +322,9 @@ namespace TightWiki
         {
             if (!HoldsPermission(givenCanonical, permission))
             {
-                throw new UnauthorizedException(StaticLocalizer.Localizer["You do not have permission to perform the action: {0}"]
-                    .Format(StaticLocalizer.Localizer[permission.ToString()]));
+                var localizer = LocalizerFactory.Create();
+                throw new UnauthorizedException(localizer["You do not have permission to perform the action: {0}"]
+                    .Format(localizer[permission.ToString()]));
             }
         }
 
@@ -328,8 +335,9 @@ namespace TightWiki
         {
             if (!IsAdministrator)
             {
-                throw new UnauthorizedException(StaticLocalizer.Localizer["You do not have permission to perform the action: {0}"]
-                    .Format(StaticLocalizer.Localizer["Administration"].Value));
+                var localizer = LocalizerFactory.Create();
+                throw new UnauthorizedException(localizer["You do not have permission to perform the action: {0}"]
+                    .Format(localizer["Administration"].Value));
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -53,6 +54,7 @@ namespace TightWiki.Engine
         public ISessionState? Session { get; }
         public HashSet<WikiMatchType> OmitMatches { get; private set; } = new();
         public int NestDepth { get; private set; } //Used for recursion.
+        public ILogger<ITightEngine> Logger { get; private set; }
 
         #endregion
 
@@ -104,9 +106,10 @@ namespace TightWiki.Engine
         /// <param name="revision">The revision of the page that is being processed.</param>
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
         /// <param name="nestDepth">The current depth of recursion.</param>
-        internal TightEngineState(ITightEngine engine, ISessionState? session,
+        internal TightEngineState(ILogger<ITightEngine> logger, ITightEngine engine, ISessionState? session,
             IPage page, int? revision = null, WikiMatchType[]? omitMatches = null, int nestDepth = 0)
         {
+            Logger = logger;
             QueryString = session?.QueryString ?? new QueryCollection();
             Page = page;
             Revision = revision;
@@ -130,7 +133,7 @@ namespace TightWiki.Engine
         /// <param name="revision">The optional revision of the child page to process.</param>
         public ITightEngineState TransformChild(IPage page, int? revision = null)
         {
-            return new TightEngineState(Engine, Session, page, revision, OmitMatches.ToArray(), NestDepth + 1).Transform();
+            return new TightEngineState(Logger, Engine, Session, page, revision, OmitMatches.ToArray(), NestDepth + 1).Transform();
         }
 
         internal ITightEngineState Transform()
@@ -194,7 +197,7 @@ namespace TightWiki.Engine
             }
             catch (Exception ex)
             {
-                StoreCriticalError(ex);
+                StoreCriticalWikiError(ex);
             }
 
             ProcessingTime = DateTime.UtcNow - startTime;
@@ -369,7 +372,7 @@ namespace TightWiki.Engine
 
             while (true)
             {
-                startPos = content.LastIndexOf("{{", startPos);
+                startPos = content.LastIndexOf("{{", startPos, StringComparison.InvariantCultureIgnoreCase);
                 if (startPos < 0)
                 {
                     break;
@@ -380,9 +383,9 @@ namespace TightWiki.Engine
 
                 do
                 {
-                    int endPos = content.IndexOf("}}", endScopeSearchIndex);
+                    int endPos = content.IndexOf("}}", endScopeSearchIndex, StringComparison.InvariantCultureIgnoreCase);
 
-                    if (endPos < 0 || endPos < startPos)
+                    if (endPos < 0 || endPos <= startPos)
                     {
                         var exception = new StringBuilder();
                         exception.AppendLine($"<strong>A parsing error occurred after position {startPos}:<br /></strong> Unable to locate closing tag.<br /><br />");
@@ -391,7 +394,7 @@ namespace TightWiki.Engine
                             exception.AppendLine($"<strong>The last successfully parsed block was:</strong><br /> {rawBlock}");
                         }
                         exception.AppendLine($"<strong>The problem occurred after:</strong><br /> {pageContent.ToString().Substring(startPos)}<br /><br />");
-                        exception.AppendLine($"<strong>The content the parser was working on is:</strong><br /> {pageContent}<br /><br />");
+                        exception.AppendLine($"<strong>The content the parser was working on is:</strong><br /> {content}<br /><br />");
 
                         throw new Exception(exception.ToString());
                     }
@@ -451,7 +454,7 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreWikiError(pageContent, match.Value, ex.Message);
                     continue;
                 }
 
@@ -463,7 +466,7 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreWikiError(pageContent, match.Value, ex.Message);
                 }
             }
         }
@@ -698,7 +701,7 @@ namespace TightWiki.Engine
                 }
                 else
                 {
-                    StoreError(pageContent, match.Value, "The external link contains no page name.");
+                    StoreWikiError(pageContent, match.Value, "The external link contains no page name.");
                     continue;
                 }
 
@@ -749,7 +752,7 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreWikiError(pageContent, match.Value, ex.Message);
                     continue;
                 }
 
@@ -760,7 +763,7 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreWikiError(pageContent, match.Value, ex.Message);
                 }
             }
         }
@@ -793,12 +796,12 @@ namespace TightWiki.Engine
                     {
                         continue; //This IS a function, but it is meant to be parsed at the end of processing.
                     }
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreWikiError(pageContent, match.Value, ex.Message);
                     continue;
                 }
                 catch (Exception ex)
                 {
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreWikiError(pageContent, match.Value, ex.Message);
                     continue;
                 }
 
@@ -813,7 +816,7 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreWikiError(pageContent, match.Value, ex.Message);
                     continue;
                 }
 
@@ -824,7 +827,7 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreWikiError(pageContent, match.Value, ex.Message);
                 }
             }
         }
@@ -851,7 +854,7 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreWikiError(pageContent, match.Value, ex.Message);
                     continue;
                 }
 
@@ -862,7 +865,7 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreWikiError(pageContent, match.Value, ex.Message);
                 }
             }
         }
@@ -917,17 +920,22 @@ namespace TightWiki.Engine
             }
         }
 
-        private void StoreCriticalError(Exception ex)
+        /// <summary>
+        /// Used to store errors that halt the wiki processing and display a warning card with the error message on the page.
+        /// This is still just a wiki error, not a serious server error.
+        /// </summary>
+        /// <param name="ex"></param>
+        private void StoreCriticalWikiError(Exception ex)
         {
-            Engine.ExceptionHandler.Log(this, ex, $"Page: {Page.Navigation}, Error: {ex.Message}");
+            Engine.ExceptionHandler.Log(this, LogLevel.Warning, $"Page: [{Page.Navigation}], Revision: [{Page.Revision}]", ex);
 
             ErrorCount++;
             HtmlResult = WikiUtility.WarningCard("Wiki Parser Exception", ex.Message);
         }
 
-        private string StoreError(WikiString pageContent, string match, string value)
+        private string StoreWikiError(WikiString pageContent, string match, string value)
         {
-            Engine.ExceptionHandler.Log(this, null, $"Page: {Page.Navigation}, Error: {value}");
+            Engine.ExceptionHandler.Log(this, LogLevel.Debug, $"Page: [{Page.Navigation}], Revision: [{Page.Revision}], Error: [{value}]");
 
             ErrorCount++;
             _matchesStoredPerIteration++;

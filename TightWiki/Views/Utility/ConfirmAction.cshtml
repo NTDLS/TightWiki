@@ -1,51 +1,73 @@
-﻿@inject IViewLocalizer Localizer
+﻿@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
+
 @model TightWiki.Models.ViewModels.Utility.ConfirmActionViewModel
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 
-    string cardClass = "card mb-3";
-    string cardHeaderClass = "card-header";
+    string cardClass = "card shadow-sm mb-3";
+    string headerClass = "card-header";
+    string headerTextClass = "fw-semibold";
+    string yesButtonClass = "btn btn-danger";
 
-    if (string.Equals(Model.Style, "Danger", StringComparison.InvariantCultureIgnoreCase))
+    if (string.Equals(Model.Style, "Safe", StringComparison.InvariantCultureIgnoreCase))
     {
-        cardHeaderClass += " bg-danger text-white";
-        cardClass += " border-danger";
+        cardClass += " border-success";
+        headerClass += " bg-success-subtle border-success";
+        headerTextClass += " text-success";
+        yesButtonClass = "btn btn-success";
     }
-    if (string.Equals(Model.Style, "Warn", StringComparison.InvariantCultureIgnoreCase))
+    else if (string.Equals(Model.Style, "Warn", StringComparison.InvariantCultureIgnoreCase))
     {
-        cardHeaderClass += " bg-warning";
         cardClass += " border-warning";
+        headerClass += " bg-warning-subtle border-warning";
+        headerTextClass += " text-dark";
+        yesButtonClass = "btn btn-warning";
+    }
+    else
+    {
+        cardClass += " border-danger";
+        headerClass += " bg-danger-subtle border-danger";
+        headerTextClass += " text-danger";
+        yesButtonClass = "btn btn-danger";
     }
 }
 
-<div class="@cardClass shadow-lg">
-    <div class="@cardHeaderClass">
-        <strong>@Localizer["Are you sure?"]</strong>
+<div class="@cardClass">
+    <div class="@headerClass">
+        <div class="@headerTextClass">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>@Localizer["Are you sure?"]
+        </div>
     </div>
+
     <div class="card-body">
+        <div class="mb-4">
+            @Html.Raw(Model.Message)
+        </div>
 
-        @Html.Raw(@Model.Message)<br /><br />
-
-        <form action='@Model.ControllerURL' method="post">
+        <form action="@Model.ControllerURL" method="post">
+            @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.NoRedirectURL)
             @Html.HiddenFor(m => m.YesRedirectURL)
             @Html.HiddenFor(m => m.Message)
             @Html.HiddenFor(m => m.Style)
 
-            @if (Model.Style == "Safe")
-            {
-                <div class="form-group"><button type="submit" class="btn btn-success" name="UserSelection" value="true">@Localizer["Yes"]</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success" name="UserSelection" value="false">@Localizer["No"]</button></div>
-            }
-            else if (Model.Style == "Warn")
-            {
-                <div class="form-group"><button type="submit" class="btn btn-warning" name="UserSelection" value="true">@Localizer["Yes"]</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success" name="UserSelection" value="false">@Localizer["No"]</button></div>
-            }
-            else
-            {
-                <div class="form-group"><button type="submit" class="btn btn-danger" name="UserSelection" value="true">@Localizer["Yes"]</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success" name="UserSelection" value="false">@Localizer["No"]</button></div>
-            }
+            <div class="d-flex flex-wrap gap-2">
+                <button type="submit"
+                        class="@yesButtonClass"
+                        name="UserSelection"
+                        value="true">
+                    @Localizer["Yes"]
+                </button>
+
+                <button type="submit"
+                        class="btn btn-success"
+                        name="UserSelection"
+                        value="false">
+                    @Localizer["No"]
+                </button>
+            </div>
         </form>
     </div>
 </div>
-

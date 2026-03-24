@@ -40,8 +40,7 @@ namespace TightWiki.Repository
         public static void RefreshPageMetadata(ITightEngine wikifier, Page page, ISessionState? sessionState = null)
         {
             //We omit function calls from the tokenization process because they are too dynamic for static searching.
-            var state = wikifier.Transform(sessionState, page, null,
-                [WikiMatchType.StandardFunction]);
+            var state = wikifier.Transform(sessionState, page, null, [WikiMatchType.StandardFunction]);
 
             PageRepository.UpdatePageTags(page.Id, state.Tags);
             PageRepository.UpdatePageProcessingInstructions(page.Id, state.ProcessingInstructions);
@@ -84,7 +83,7 @@ namespace TightWiki.Repository
 
         internal static List<WeightedSearchToken> ComputeParsedPageTokens(string content, double weightMultiplier)
         {
-            var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
+            var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
 
             var exclusionWords = searchConfig?.Value<string>("Word Exclusions")?
                 .Split([',', ';'], StringSplitOptions.RemoveEmptyEntries).Distinct() ?? new List<string>();

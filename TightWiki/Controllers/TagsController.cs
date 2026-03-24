@@ -1,19 +1,19 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using System.Text;
 using TightWiki.Engine.Implementation.Utility;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models.ViewModels.Page;
 using TightWiki.Repository;
-using static TightWiki.Library.Constants;
 
 namespace TightWiki.Controllers
 {
     [Authorize]
-    public class TagsController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<TagsController> localizer)
-        : WikiControllerBase<TagsController>(signInManager, userManager, localizer)
+    public class TagsController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer)
+        : WikiControllerBase<TagsController>(logger, signInManager, userManager, localizer)
     {
         [AllowAnonymous]
         public ActionResult Browse(string givenCanonical)

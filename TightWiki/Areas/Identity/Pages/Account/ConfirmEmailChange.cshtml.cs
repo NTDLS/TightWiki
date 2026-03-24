@@ -5,10 +5,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Localization;
 using System.Text;
+using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 using TightWiki.Models;
-using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -16,14 +16,14 @@ namespace TightWiki.Areas.Identity.Pages.Account
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly IStringLocalizer<ConfirmEmailChangeModel> _localizer;
-        private readonly ILogger<ConfirmEmailChangeModel> _logger;
+        private readonly ILogger<ITightEngine> _logger;
+        private readonly ISharedLocalizationText _localizer;
+
         public ConfirmEmailChangeModel(
-            ILogger<ConfirmEmailChangeModel> logger,
+            ILogger<ITightEngine> logger,
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
-            IStringLocalizer<ConfirmEmailChangeModel> localizer)
-            : base(signInManager)
+            SignInManager<IdentityUser> signInManager, ISharedLocalizationText localizer)
+            : base(logger, signInManager, localizer)
         {
             _logger = logger;
             _userManager = userManager;
@@ -77,7 +77,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                ExceptionRepository.InsertException(ex);
             }
             return Page();
         }

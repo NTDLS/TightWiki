@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 
 namespace TightWiki.Areas.Identity.Pages
 {
@@ -38,8 +40,8 @@ namespace TightWiki.Areas.Identity.Pages
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
         }
 
-        public ErrorModel(SignInManager<IdentityUser> signInManager)
-            : base(signInManager)
+        public ErrorModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, ISharedLocalizationText localizer)
+            : base(logger, signInManager, localizer)
         {
 
         }

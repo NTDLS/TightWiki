@@ -1,9 +1,11 @@
 ﻿@page
 @using TightWiki.Extensions
-@inject IViewLocalizer Localizer
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
+
 @model EnableAuthenticatorModel
 @{
-    ViewData["Title"] = Localizer["Configure authenticator app"].Value;
+    ViewData["Title"]= Localizer["Configure authenticator app"].Value;
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }

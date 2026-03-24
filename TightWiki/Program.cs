@@ -8,9 +8,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NTDLS.Helpers;
@@ -19,12 +17,12 @@ using TightWiki.Engine;
 using TightWiki.Engine.Implementation;
 using TightWiki.Engine.Implementation.Handlers;
 using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Extensions;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Repository;
-using TightWiki.Static;
-using static TightWiki.Library.Constants;
+using TightWiki.Translations;
 
 namespace TightWiki
 {
@@ -36,26 +34,37 @@ namespace TightWiki
 
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(builder.Configuration.GetConnectionString("UsersConnection")));
+            //This is the minimum log level for the database logger, which is used for logging application events and errors to the database.
+            var minimumLogLevel = Enum.Parse<LogLevel>(builder.Configuration.GetValue("EventLogLevel", LogLevel.Information.ToString()));
 
-            ManagedDataStorage.Pages.SetConnectionString(builder.Configuration.GetConnectionString("PagesConnection"));
-            ManagedDataStorage.DeletedPages.SetConnectionString(builder.Configuration.GetConnectionString("DeletedPagesConnection"));
-            ManagedDataStorage.DeletedPageRevisions.SetConnectionString(builder.Configuration.GetConnectionString("DeletedPageRevisionsConnection"));
-            ManagedDataStorage.Statistics.SetConnectionString(builder.Configuration.GetConnectionString("StatisticsConnection"));
-            ManagedDataStorage.Emoji.SetConnectionString(builder.Configuration.GetConnectionString("EmojiConnection"));
-            ManagedDataStorage.Exceptions.SetConnectionString(builder.Configuration.GetConnectionString("ExceptionsConnection"));
-            ManagedDataStorage.Users.SetConnectionString(builder.Configuration.GetConnectionString("UsersConnection"));
-            ManagedDataStorage.Config.SetConnectionString(builder.Configuration.GetConnectionString("ConfigConnection"));
+            ManagedDataStorage.Config.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("ConfigConnection", "config.db"));
+            ManagedDataStorage.Logging.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("LoggingConnection", "logging.db"));
+
+            builder.Logging.ClearProviders();
+            builder.Logging.AddProvider(new DatabaseLoggerProvider(minimumLogLevel));
+
+            ManagedDataStorage.Pages.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("PagesConnection", "pages.db"));
+            ManagedDataStorage.DeletedPages.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("DeletedPagesConnection", "deletedpages.db"));
+            ManagedDataStorage.DeletedPageRevisions.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("DeletedPageRevisionsConnection", "deletedpagerevisions.db"));
+            ManagedDataStorage.Statistics.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("StatisticsConnection", "statistics.db"));
+            ManagedDataStorage.Emoji.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("EmojiConnection", "emoji.db"));
+            ManagedDataStorage.Users.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("UsersConnection", "users.db"));
+
+            var independentLogger = new DatabaseLogger("", LogLevel.Information);
+
+            var userConnectionString = ManagedDataStorage.Users.Ephemeral(o => o.NativeConnection.ConnectionString);
+            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(userConnectionString));
+
+            LoggingRepository.CreateTablesIfNotExist();
 
             //Upgrade database if needed and create defaults database if needed. This is done at the very beginning before
             //  almost anything else to ensure the database is in the correct state for the rest of the application to work with.
             //
             // Default data is seeded further down after the injection of ILogger, UserManager, and ITightEngine,
             //  via a call to DatabaseUpgrade.ApplyAllSeedData()
-            var wasDatabaseUpgraded = DatabaseUpgrade.ApplyDatabaseUpgradeScripts();
+            var wasDatabaseUpgraded = DatabaseUpgrade.ApplyDatabaseUpgradeScripts(independentLogger);
 
-            var defaultsDatabasePath = DatabaseUpgrade.CreateDefaultsDatabase(wasDatabaseUpgraded);
+            var defaultsDatabasePath = DatabaseUpgrade.CreateDefaultsDatabase(independentLogger, builder.Configuration, wasDatabaseUpgraded);
             if (defaultsDatabasePath != null)
             {
                 ManagedDataStorage.Defaults.SetConnectionString(defaultsDatabasePath);
@@ -68,36 +77,30 @@ namespace TightWiki
             builder.Services.AddScoped<ISideBySideDiffBuilder>(sp =>
                 new SideBySideDiffBuilder(sp.GetRequiredService<IDiffer>()));
 
-            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
+            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
             var requireConfirmedAccount = membershipConfig.Value<bool>("Require Email Verification");
 
             // Add services to the container.
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-            builder.Services.AddLocalization(opts => { opts.ResourcesPath = "Resources"; });
 
             // Adds support for controllers and views
             builder.Services.AddControllersWithViews(config =>
                 {
                     config.ModelBinderProviders.Insert(0, new InvariantDecimalModelBinderProvider());
                 })
-                .AddViewLocalization(
-                    LanguageViewLocationExpanderFormat.Suffix,
-                    opts =>
-                    {
-                        opts.ResourcesPath = "Resources";
-                    })
                 .AddDataAnnotationsLocalization()
                 .AddXmlSerializerFormatters()
                 .AddXmlDataContractSerializerFormatters();
 
-            builder.Services.AddRazorPages()
-                .AddViewLocalization(
-                    LanguageViewLocationExpanderFormat.Suffix,
-                    opts =>
-                    {
-                        opts.ResourcesPath = "Resources";
-                    });
+
+            builder.Services.AddLocalization(options =>
+            {
+                options.ResourcesPath = "";
+            });
+
+            builder.Services.AddScoped<ISharedLocalizationText, SharedLocalizationText>();
+
+            builder.Services.AddRazorPages();
 
             var supportedCultures = new SupportedCultures();
             builder.Services.AddSingleton(x => supportedCultures);
@@ -120,20 +123,14 @@ namespace TightWiki
             });
             builder.Services.AddSingleton<RequestLocalizationOptions>();
 
-            //builder.Services.Configure<RouteOptions>(options =>
-            //{
-            //    options.ConstraintMap.Add("lang", typeof(LanguageRouteConstraint));
-            //});
-
-
             builder.Services.AddSingleton<IWikiEmailSender, WikiEmailSender>();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = requireConfirmedAccount)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            var externalAuthenticationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.ExternalAuthentication);
-            var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Basic);
-            var cookiesConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Cookies);
+            var externalAuthenticationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.ExternalAuthentication);
+            var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Basic);
+            var cookiesConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Cookies);
 
             var authentication = builder.Services.AddAuthentication()
                 .AddCookie("CookieAuth", options =>
@@ -160,7 +157,7 @@ namespace TightWiki
                 }
                 else
                 {
-                    ExceptionRepository.InsertException($"Cannot read/write to the specified path for persistent keys: {persistKeysPath}. Check the configuration and path permission.");
+                    LoggingRepository.WriteException($"Cannot read/write to the specified path for persistent keys: {persistKeysPath}. Check the configuration and path permission.");
                 }
             }
 
@@ -188,6 +185,7 @@ namespace TightWiki
                     });
                 }
             }
+
             if (externalAuthenticationConfig.Value<bool>("Microsoft : Use Microsoft Authentication"))
             {
                 var clientId = externalAuthenticationConfig.Value<string>("Microsoft : ClientId");
@@ -344,22 +342,20 @@ namespace TightWiki
                 });
             }
 
-            //Global localization providers.
-            var localizer = app.Services.GetRequiredService<IStringLocalizer<StaticLocalizer>>();
-            StaticLocalizer.Initialize(localizer);
-            PageSelectorGenerator.Initialize(localizer);
+            //We are just going to use one giant resource file for all the shared strings in the application for simplicity.
+            //This makes it easy to scan the code and add missing source language entries to the resource file, as well as to find and reuse existing entries.
+            LocalizerFactory.Initialize(app.Services);
+
+            var localizationOptions = app.Services
+                .GetRequiredService<IOptions<RequestLocalizationOptions>>()
+                .Value;
+
+            app.UseRequestLocalization(localizationOptions);
 
             app.UseRouting();
 
             app.UseAuthentication(); // Ensures the authentication middleware is configured
             app.UseAuthorization();
-
-            using (var scope = app.Services.CreateScope())
-            {
-                var options = scope.ServiceProvider.GetService<IOptions<RequestLocalizationOptions>>();
-                if (options != null)
-                    app.UseRequestLocalization(options.Value);
-            }
 
             app.MapRazorPages();
 
@@ -383,10 +379,10 @@ namespace TightWiki
                     try
                     {
                         await DatabaseUpgrade.ApplyAllSeedData(logger, userManager, tightEngine,
-                            [DefaultDataType.Themes,
-                            DefaultDataType.Configurations,
-                            DefaultDataType.FeatureTemplates,
-                            DefaultDataType.WikiHelpPages]);
+                            [WikiDefaultDataType.Themes,
+                            WikiDefaultDataType.Configurations,
+                            WikiDefaultDataType.FeatureTemplates,
+                            WikiDefaultDataType.WikiHelpPages]);
                     }
                     catch (Exception ex)
                     {
@@ -403,7 +399,6 @@ namespace TightWiki
                     logger.LogError(ex, "An error occurred while validating encryption or creating the admin user.");
                 }
             }
-
 
             app.Run();
         }

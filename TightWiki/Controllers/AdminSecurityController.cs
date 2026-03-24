@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki.Caching;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
@@ -19,9 +19,9 @@ namespace TightWiki.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class AdminSecurityController(SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, IStringLocalizer<AdminSecurityController> localizer)
-        : WikiControllerBase<AdminSecurityController>(signInManager, userManager, localizer)
+    public class AdminSecurityController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer)
+        : WikiControllerBase<AdminSecurityController>(logger, signInManager, userManager, localizer)
     {
         #region Roles.
 
@@ -399,6 +399,7 @@ namespace TightWiki.Controllers
             {
                 AccountProfile = Models.ViewModels.AdminSecurity.AccountProfileAccountViewModel.FromDataModel(
                     UsersRepository.GetAccountProfileByNavigation(Navigation.Clean(navigation))),
+
                 Credential = new CredentialViewModel(),
                 Themes = ConfigurationRepository.GetAllThemes(),
                 TimeZones = TimeZoneItem.GetAll(),
@@ -579,7 +580,7 @@ namespace TightWiki.Controllers
                 }
             }
 
-            model.SuccessMessage = Localize("Your profile has been saved successfully!");
+            model.SuccessMessage = Localize("The profile has been saved successfully!");
             WikiCache.ClearCategory(WikiCache.Category.Security);
 
             return View(model);
@@ -597,9 +598,9 @@ namespace TightWiki.Controllers
             {
                 return NotifyOfError(ex.GetBaseException().Message, "/");
             }
-            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
+            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
             var defaultSignupRole = membershipConfig.Value<string>("Default Signup Role").EnsureNotNull();
-            var customizationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Customization);
+            var customizationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Customization);
 
             var model = new AccountProfileViewModel()
             {

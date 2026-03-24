@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using System.Net;
 using System.Security.Claims;
+using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Models.ViewModels;
 using TightWiki.Repository;
@@ -19,11 +20,11 @@ namespace TightWiki.Controllers
         private readonly IUserEmailStore<IdentityUser> _emailStore;
 
         public AccountController(
+            ILogger<ITightEngine> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore,
-            IStringLocalizer<AccountController> localizer)
-            : base(signInManager, userManager, localizer)
+            IUserStore<IdentityUser> userStore, ISharedLocalizationText localizer)
+            : base(logger, signInManager, userManager, localizer)
         {
             _userStore = userStore;
             _emailStore = (IUserEmailStore<IdentityUser>)_userStore;

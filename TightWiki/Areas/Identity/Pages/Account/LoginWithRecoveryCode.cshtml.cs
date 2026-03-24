@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 using TightWiki.Models;
-using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -32,13 +33,13 @@ namespace TightWiki.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<LoginWithRecoveryCodeModel> _logger;
+        private readonly ILogger<ITightEngine> _logger;
 
         public LoginWithRecoveryCodeModel(
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            ILogger<LoginWithRecoveryCodeModel> logger)
-                        : base(signInManager)
+            ILogger<ITightEngine> logger, ISharedLocalizationText localizer)
+                        : base(logger, signInManager, localizer)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -76,7 +77,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                ExceptionRepository.InsertException(ex);
             }
             return Page();
         }
@@ -124,7 +124,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                ExceptionRepository.InsertException(ex);
             }
 
             return Page();

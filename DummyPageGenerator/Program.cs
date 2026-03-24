@@ -70,7 +70,7 @@ namespace DummyPageGenerator
             ManagedDataStorage.DeletedPageRevisions.SetConnectionString(configuration.GetConnectionString("DeletedPageRevisionsConnection"));
             ManagedDataStorage.Statistics.SetConnectionString(configuration.GetConnectionString("StatisticsConnection"));
             ManagedDataStorage.Emoji.SetConnectionString(configuration.GetConnectionString("EmojiConnection"));
-            ManagedDataStorage.Exceptions.SetConnectionString(configuration.GetConnectionString("ExceptionsConnection"));
+            ManagedDataStorage.Logging.SetConnectionString(configuration.GetConnectionString("ExceptionsConnection"));
             WordsRepository.Words.SetConnectionString(configuration.GetConnectionString("WordsConnection"));
             ManagedDataStorage.Users.SetConnectionString(configuration.GetConnectionString("UsersConnection"));
             ManagedDataStorage.Config.SetConnectionString(configuration.GetConnectionString("ConfigConnection"));

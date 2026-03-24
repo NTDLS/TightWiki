@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.9.34714.143
+# Visual Studio Version 18
+VisualStudioVersion = 18.4.11612.150
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TightWiki", "TightWiki\TightWiki.csproj", "{D738E581-7699-4C8D-B965-92970C75C110}"
 EndProject
@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TightWiki.Engine.Implementa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerateSeedData", "GenerateSeedData\GenerateSeedData.csproj", "{AF2BE41A-FF04-EAA7-EB00-B73AA37F6251}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslationAI", "TranslationAI\TranslationAI.csproj", "{1CCE8C25-2C71-4BA7-8483-162A3C2C280E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizerScan", "LocalizerScan\LocalizerScan.csproj", "{D77B9820-653B-49E9-8BD3-4BFEF93D7932}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,10 +107,10 @@ Global
 		{AF2BE41A-FF04-EAA7-EB00-B73AA37F6251}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF2BE41A-FF04-EAA7-EB00-B73AA37F6251}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF2BE41A-FF04-EAA7-EB00-B73AA37F6251}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1CCE8C25-2C71-4BA7-8483-162A3C2C280E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1CCE8C25-2C71-4BA7-8483-162A3C2C280E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1CCE8C25-2C71-4BA7-8483-162A3C2C280E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1CCE8C25-2C71-4BA7-8483-162A3C2C280E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D77B9820-653B-49E9-8BD3-4BFEF93D7932}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D77B9820-653B-49E9-8BD3-4BFEF93D7932}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D77B9820-653B-49E9-8BD3-4BFEF93D7932}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D77B9820-653B-49E9-8BD3-4BFEF93D7932}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -129,7 +129,7 @@ Global
 		{9FF1674E-15AD-4D20-B1D0-1249A027C95B} = {E877E5D9-BD3A-486A-ABA6-B890133D5220}
 		{ED4F5B2D-B3C4-435B-811A-25AB4C7259DF} = {E877E5D9-BD3A-486A-ABA6-B890133D5220}
 		{AF2BE41A-FF04-EAA7-EB00-B73AA37F6251} = {B20FC982-E0BE-4893-A3B4-535C3E48EBE6}
-		{1CCE8C25-2C71-4BA7-8483-162A3C2C280E} = {B20FC982-E0BE-4893-A3B4-535C3E48EBE6}
+		{D77B9820-653B-49E9-8BD3-4BFEF93D7932} = {B20FC982-E0BE-4893-A3B4-535C3E48EBE6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3299E570-76FA-4831-9150-C1CCF4CB50E0}

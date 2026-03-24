@@ -2,32 +2,32 @@
 {
     public class PageCompilationStatistics
     {
-        public string Name { get; set; } = string.Empty;
-
         public string Title
         {
             get
             {
-                if (Name.Contains("::"))
+                if (PageName.Contains("::"))
                 {
-                    return Name.Substring(Name.IndexOf("::") + 2).Trim();
+                    return PageName.Substring(PageName.IndexOf("::") + 2).Trim();
                 }
-                return Name;
+                return PageName;
             }
         }
 
+        public string PageName { get; set; } = string.Empty;
         public string Namespace { get; set; } = string.Empty;
         public string Navigation { get; set; } = string.Empty;
-        public DateTime LatestBuild { get; set; }
-        public decimal Compilations { get; set; }
-        public decimal AvgBuildTimeMs { get; set; }
-        public decimal AvgWikiMatches { get; set; }
-        public decimal TotalErrorCount { get; set; }
-        public decimal AvgOutgoingLinkCount { get; set; }
-        public decimal AvgTagCount { get; set; }
-        public decimal AvgRawBodySize { get; set; }
-        public decimal AvgWikifiedBodySize { get; set; }
-
+        public int PageId { get; set; }
+        public DateTime LastCompileDateTime { get; set; }
+        public int TotalCompilationCount { get; set; }
+        public decimal LastWikifyTimeMs { get; set; }
+        public decimal TotalWikifyTimeMs { get; set; }
+        public int LastMatchCount { get; set; }
+        public int LastErrorCount { get; set; }
+        public int LastOutgoingLinkCount { get; set; }
+        public int LastTagCount { get; set; }
+        public int LastProcessedBodySize { get; set; }
+        public int LastBodySize { get; set; }
         public int PaginationPageSize { get; set; }
         public int PaginationPageCount { get; set; }
     }

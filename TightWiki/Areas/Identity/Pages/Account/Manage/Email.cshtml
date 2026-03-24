@@ -1,8 +1,10 @@
 ﻿@page
-@inject IViewLocalizer Localizer
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
+
 @model EmailModel
 @{
-    ViewData["Title"] = Localizer["Manage Email"].Value;
+    ViewData["Title"]= Localizer["Manage Email"].Value;
     ViewData["ActivePage"] = ManageNavPages.Email;
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }

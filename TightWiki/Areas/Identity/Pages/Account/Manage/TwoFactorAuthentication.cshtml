@@ -1,9 +1,12 @@
 ﻿@page
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
+
 @using Microsoft.AspNetCore.Http.Features
 @model TwoFactorAuthenticationModel
 @{
-    ViewData["Title"] = Localizer["Two-factor authentication (2FA)"].Value;
+    ViewData["Title"]= Localizer["Two-factor authentication (2FA)"].Value;
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }

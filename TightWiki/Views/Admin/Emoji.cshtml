@@ -1,67 +1,156 @@
 ﻿@using TightWiki.Library
 @using TightWiki.Models
-@inject IViewLocalizer Localizer
+@inject ISharedLocalizationText Localizer
+
 @model TightWiki.Models.ViewModels.Admin.EmojiViewModel
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<h3>@Localizer["Emoji"]</h3>
-
-<p>@Localizer["Configuration for an emoji."]</p>
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+    <div>
+        <h3 class="mb-1">@Localizer["Emoji"]</h3>
+        <div class="text-muted">@Localizer["Configuration for an emoji."]</div>
+    </div>
+</div>
 
 @using (Html.BeginForm(null, null, new { navigation = Model.Emoji.Name }, FormMethod.Post, true, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-    <div id="toolbar" class="d-flex justify-content-between align-items-center mb-3 p-2 border rounded bg-light shadow-sm">
-        <div>
-            @*Left-aligned "toolbar" controls*@
-            <button type="submit" class="btn btn-success">@Localizer["Save"]</button>
-            @ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
-            Localizer["Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?"].Format(Model.Emoji.Name),
-                Localizer["Delete"].Value, $"/Admin/DeleteEmoji/{Model.Emoji.Name}", $"{GlobalConfiguration.BasePath}/Admin/Emojis", Context.Request.Path.Value)
-    </div>
-
-        <div>
-            @*Right-aligned "toolbar" controls*@
-    </div>
-    </div>
-
     @Html.HiddenFor(m => m.OriginalName)
     @Html.HiddenFor(m => m.Emoji.Id)
 
-    <div class="form-group row mb-1">
-        <label for="ImageData" class="col-sm-2 col-form-label"><strong>@Localizer["Image"]</strong></label>
-        <div class="col-sm-10">
-            @if (@Model.Emoji.Name != "")
-            {
-                <img src="@GlobalConfiguration.BasePath/File/Emoji/@Model.Emoji.Name" class="mb-3" />
-                <br />
-            }
-            <input type="file" id="ImageData" name="ImageData" class="form-control-file" onchange="fileCheck(this);" accept="image/png, image/jpeg, image/gif" />
-        </div>
-    </div>
+    <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <span class="fw-semibold">
+                <i class="bi bi-emoji-smile me-2"></i>@Localizer["Emoji Editor"]
+            </span>
 
-    <div class="form-group row mb-1">
-        <label for="Name" class="col-sm-2 col-form-label"><strong>@Localizer["Name"]</strong></label>
-        <div class="col-sm-10">
-            @Html.TextBoxFor(m => m.Emoji.Name, new { @class = "form-control" })
-            <div class="text-danger">@Html.ValidationMessageFor(m => m.Emoji.Name)</div>
-        </div>
-    </div>
+            <div class="d-flex flex-wrap gap-2">
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-floppy me-1"></i>@Localizer["Save"]
+                </button>
 
-    <div class="form-group row mb-1">
-        <label for="Categories" class="col-sm-2 col-form-label"><strong>@Localizer["Categories"]</strong></label>
-        <div class="col-sm-10">
-            @Html.TextBoxFor(m => m.Categories, new { @class = "form-control" })
-            <div class="text-danger">@Html.ValidationMessageFor(m => m.Categories)</div>
+                @ConfirmActionHelper.GenerateDangerButton(
+                    GlobalConfiguration.BasePath,
+                    Localizer["Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?"].Format(Model.Emoji.Name),
+                    Localizer["Delete"].Value,
+                    $"/Admin/DeleteEmoji/{Model.Emoji.Name}",
+                    $"{GlobalConfiguration.BasePath}/Admin/Emojis",
+                    Context.Request.Path.Value)
+            </div>
         </div>
-    </div>
 
-    <div class="form-group row mb-1">
-        <div class="col-sm-10 offset-sm-2">
+        <div class="card-body">
+            <div class="row g-4">
+                <div class="col-12 col-lg-4">
+                    <div class="card h-100 border">
+                        <div class="card-header fw-semibold">
+                            <i class="bi bi-image me-2"></i>@Localizer["Image"]
+                        </div>
+                        <div class="card-body text-center">
+                            <div id="emoji-preview-container">
+                                @if (!string.IsNullOrWhiteSpace(Model.Emoji.Name))
+                                {
+                                    <img id="emoji-preview"
+                                         src="@GlobalConfiguration.BasePath/File/Emoji/@Model.Emoji.Name"
+                                         alt="@Model.Emoji.Name"
+                                         class="img-thumbnail"
+                                         style="max-width: 160px; max-height: 160px;" />
+                                }
+                                else
+                                {
+                                    <div class="text-muted small">
+                                        @Localizer["No image uploaded."]
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="card-footer text-center">
+                            <label for="ImageData" class="btn btn-outline-primary mb-0">
+                                <i class="bi bi-upload me-1"></i>@Localizer["Change Image"]
+                            </label>
+                            <input type="file"
+                                   id="ImageData"
+                                   name="ImageData"
+                                   class="d-none"
+                                   onchange="fileCheck(this); previewEmoji(this);"
+                                   accept="image/png, image/jpeg, image/gif" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-8">
+                    <div class="card h-100 border">
+                        <div class="card-header fw-semibold">
+                            <i class="bi bi-sliders me-2"></i>@Localizer["Details"]
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label for="Emoji_Name" class="form-label fw-semibold">
+                                        @Localizer["Name"]
+                                    </label>
+                                    @Html.TextBoxFor(m => m.Emoji.Name, new
+                                    {
+                                        @class = "form-control",
+                                        placeholder = Localizer["Required"].Value
+                                    })
+                                    <div class="text-danger small">
+                                        @Html.ValidationMessageFor(m => m.Emoji.Name)
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="Categories" class="form-label fw-semibold">
+                                        @Localizer["Categories"]
+                                    </label>
+                                    @Html.TextBoxFor(m => m.Categories, new
+                                    {
+                                        @class = "form-control",
+                                        placeholder = Localizer["Comma-separated categories"].Value
+                                    })
+                                    <div class="form-text">
+                                        @Localizer["Use commas to separate categories."]
+                                    </div>
+                                    <div class="text-danger small">
+                                        @Html.ValidationMessageFor(m => m.Categories)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 }
+
+<script>
+    function previewEmoji(input) {
+        const file = input.files && input.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const container = document.getElementById("emoji-preview-container");
+            const existing = document.getElementById("emoji-preview");
+
+            if (existing) {
+                existing.src = e.target.result;
+            } else if (container) {
+                container.innerHTML = `
+                    <img id="emoji-preview"
+                         src="${e.target.result}"
+                         alt="Emoji Preview"
+                         class="img-thumbnail"
+                         style="max-width: 160px; max-height: 160px;" />
+                `;
+            }
+        };
+
+        reader.readAsDataURL(file);
+    }
+</script>

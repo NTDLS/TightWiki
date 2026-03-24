@@ -1,6 +1,8 @@
-﻿@using TightWiki.Models
+﻿@using TightWiki.Library
+@using TightWiki.Models
 @using static TightWiki.Library.Constants
-@inject IViewLocalizer Localizer
+@inject ISharedLocalizationText Localizer
+
 @model TightWiki.Models.ViewModels.Page.PageEditViewModel
 @{
     Layout = "_Layout";

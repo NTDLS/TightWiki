@@ -4,8 +4,9 @@
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
+using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
@@ -40,18 +41,16 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly IStringLocalizer<SetPasswordModel> _localizer;
 
         public SetPasswordModel(
+            ILogger<ITightEngine> logger,
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
-            IStringLocalizer<SetPasswordModel> localizer)
-                        : base(signInManager)
+            SignInManager<IdentityUser> signInManager, ISharedLocalizationText localizer)
+                        : base(logger, signInManager, localizer)
 
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _localizer = localizer;
         }
 
         /// <summary>
@@ -111,7 +110,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = _localizer["Your password has been set."];
+            StatusMessage = Localizer["Your password has been set."];
 
             return RedirectToPage();
         }

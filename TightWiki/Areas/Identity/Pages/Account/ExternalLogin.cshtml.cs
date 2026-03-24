@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
@@ -27,17 +27,16 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly IWikiEmailSender _emailSender;
-        private readonly ILogger<ExternalLoginModel> _logger;
-        private readonly IStringLocalizer<ExternalLoginModel> _localizer;
+        private readonly ILogger<ITightEngine> _logger;
+        private readonly ISharedLocalizationText _localizer;
 
         public ExternalLoginModel(
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
-            ILogger<ExternalLoginModel> logger,
-            IWikiEmailSender emailSender,
-            IStringLocalizer<ExternalLoginModel> localizer)
-                        : base(signInManager)
+            ILogger<ITightEngine> logger,
+            IWikiEmailSender emailSender, ISharedLocalizationText localizer)
+                        : base(logger, signInManager, localizer)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -101,7 +100,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                ExceptionRepository.InsertException(ex);
             }
             return Page();
         }
@@ -153,7 +151,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                ExceptionRepository.InsertException(ex);
             }
             return Page();
         }
@@ -196,8 +193,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
                                 values: new { area = "Identity", userId = userId, code = encodedCode },
                                 protocol: Request.Scheme);
 
-                            var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>(Constants.ConfigurationGroup.Membership, "Template: Account Verification Email"));
-                            var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Basic);
+                            var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>(Constants.WikiConfigurationGroup.Membership, "Template: Account Verification Email"));
+                            var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Basic);
                             var siteName = basicConfig.Value<string>("Name");
                             var address = basicConfig.Value<string>("Address");
                             var profile = UsersRepository.GetAccountProfileByUserId(Guid.Parse(userId));
@@ -240,7 +237,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                ExceptionRepository.InsertException(ex);
             }
             return Page();
         }

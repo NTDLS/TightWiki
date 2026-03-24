@@ -1,55 +1,98 @@
 ﻿@using TightWiki.Library
 @using TightWiki.Models
-@inject IViewLocalizer Localizer
+@inject ISharedLocalizationText Localizer
+
 @model TightWiki.Models.ViewModels.Admin.MenuItemViewModel
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<h3>@Localizer["Site Menu Item"]</h3>
-
-<p>@Localizer["Global configuration for the site menu item."]</p>
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+    <div>
+        <h3 class="mb-1">@Localizer["Site Menu Item"]</h3>
+        <div class="text-muted">@Localizer["Global configuration for the site menu item."]</div>
+    </div>
+</div>
 
 @using (Html.BeginForm(FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-
-    <div id="toolbar" class="d-flex justify-content-between align-items-center mb-3 p-2 border rounded bg-light shadow-sm">
-        <div>
-            @*Left-aligned "toolbar" controls*@
-            <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
-            @ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
-            Localizer["Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?"].Format(Model.Name),
-                Localizer["Delete"].Value, $"/Admin/DeleteMenuItem/{@Model.Id}", $"{GlobalConfiguration.BasePath}/Admin/MenuItems", Context.Request.Path.Value)
-    </div>
-
-        <div>
-            @*Right-aligned "toolbar" controls*@
-        </div>
-    </div>
-
     @Html.HiddenFor(m => m.Id)
 
-    <div class="form-group row mb-1">
-        <label for="Name" class="col-sm-2 col-form-label"><strong>@Localizer["Name"]</strong></label>
-        <div class="col-sm-10">
-            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = Localizer["required"].Value })
-            <div class="text-danger">@Html.ValidationMessageFor(m => m.Name)</div>
+    <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <span class="fw-semibold">
+                <i class="bi bi-list-ul me-2"></i>@Localizer["Menu Item Editor"]
+            </span>
+
+            <div class="d-flex flex-wrap gap-2">
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-floppy me-1"></i>@Localizer["Save"]
+                </button>
+
+                @ConfirmActionHelper.GenerateDangerButton(
+                    GlobalConfiguration.BasePath,
+                    Localizer["Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?"].Format(Model.Name),
+                    Localizer["Delete"].Value,
+                    $"/Admin/DeleteMenuItem/{Model.Id}",
+                    $"{GlobalConfiguration.BasePath}/Admin/MenuItems",
+                    Context.Request.Path.Value)
+            </div>
         </div>
-    </div>
-    <div class="form-group row mb-1">
-        <label for="Link" class="col-sm-2 col-form-label"><strong>@Localizer["Hyperlink"]</strong></label>
-        <div class="col-sm-10">
-            @Html.TextBoxFor(m => m.Link, new { @class = "form-control", placeholder = Localizer["required"].Value })
-            <div class="text-danger">@Html.ValidationMessageFor(m => m.Link)</div>
-        </div>
-    </div>
-    <div class="form-group row mb-1">
-        <label for="Ordinal" class="col-sm-2 col-form-label"><strong>@Localizer["Ordinal"]</strong></label>
-        <div class="col-sm-10">
-            @Html.TextBoxFor(m => m.Ordinal, new { @class = "form-control", placeholder = Localizer["required"].Value })
-            <div class="text-danger">@Html.ValidationMessageFor(m => m.Ordinal)</div>
+
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-12">
+                    <label for="Name" class="form-label fw-semibold">
+                        @Localizer["Name"]
+                    </label>
+                    @Html.TextBoxFor(m => m.Name, new
+                    {
+                        @class = "form-control",
+                        placeholder = Localizer["Required"].Value
+                    })
+                    <div class="text-danger small">
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label for="Link" class="form-label fw-semibold">
+                        @Localizer["Hyperlink"]
+                    </label>
+                    @Html.TextBoxFor(m => m.Link, new
+                    {
+                        @class = "form-control",
+                        placeholder = Localizer["Required"].Value
+                    })
+                    <div class="form-text">
+                        @Localizer["Enter an internal path or external URL."]
+                    </div>
+                    <div class="text-danger small">
+                        @Html.ValidationMessageFor(m => m.Link)
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <label for="Ordinal" class="form-label fw-semibold">
+                        @Localizer["Ordinal"]
+                    </label>
+                    @Html.TextBoxFor(m => m.Ordinal, new
+                    {
+                        @class = "form-control",
+                        placeholder = Localizer["Required"].Value,
+                        type = "number",
+                        min = "0"
+                    })
+                    <div class="form-text">
+                        @Localizer["Lower numbers appear first."]
+                    </div>
+                    <div class="text-danger small">
+                        @Html.ValidationMessageFor(m => m.Ordinal)
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 }

@@ -3,7 +3,7 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Version>2.30.0</Version>
+		<Version>2.31.2</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -33,7 +33,6 @@
 		<None Remove="Scripts\GetAllEmojis.sql" />
 		<None Remove="Scripts\GetAllEmojisPaged.sql" />
 		<None Remove="Scripts\GetAllEmojisPagedByCategories.sql" />
-		<None Remove="Scripts\GetAllExceptionsPaged.sql" />
 		<None Remove="Scripts\GetAllMenuItems.sql" />
 		<None Remove="Scripts\GetAllNamespacePagesPaged.sql" />
 		<None Remove="Scripts\GetAllNamespaces.sql" />
@@ -68,7 +67,6 @@
 		<None Remove="Scripts\GetEmojiCategoriesGrouped.sql" />
 		<None Remove="Scripts\GetEmojisByCategory.sql" />
 		<None Remove="Scripts\GetExactPageSearchTokens.sql" />
-		<None Remove="Scripts\GetExceptionById.sql" />
 		<None Remove="Scripts\GetExceptionCount.sql" />
 		<None Remove="Scripts\GetFlatConfiguration.sql" />
 		<None Remove="Scripts\GetFuzzyPageSearchTokens.sql" />
@@ -123,9 +121,7 @@
 		<None Remove="Scripts\Initialization\PostInitialization\^002^Config^UpsertTheme.sql" />
 		<None Remove="Scripts\Initialization\PostInitialization\^003^Pages^FeatureTemplate.sql" />
 		<None Remove="Scripts\Initialization\PostInitialization\^003^Pages^UpsertTheme.sql" />
-		<None Remove="Scripts\InsertCompilationStatistics.sql" />
 		<None Remove="Scripts\InsertEmoji.sql" />
-		<None Remove="Scripts\InsertException.sql" />
 		<None Remove="Scripts\InsertMenuItem.sql" />
 		<None Remove="Scripts\InsertPageComment.sql" />
 		<None Remove="Scripts\InsertPageFile.sql" />
@@ -144,7 +140,6 @@
 		<None Remove="Scripts\PurgeDeletedPageRevisions.sql" />
 		<None Remove="Scripts\PurgeDeletedPageRevisionsByPageId.sql" />
 		<None Remove="Scripts\PurgeDeletedPages.sql" />
-		<None Remove="Scripts\PurgeExceptions.sql" />
 		<None Remove="Scripts\PurgeOrphanedPageAttachment.sql" />
 		<None Remove="Scripts\PurgeOrphanedPageAttachments.sql" />
 		<None Remove="Scripts\ReassociateAllPageAttachments.sql" />
@@ -176,6 +171,8 @@
 
 	<ItemGroup>
 		<EmbeddedResource Include="Defaults\defaults.db" />
+		<EmbeddedResource Include="Scripts\CreateSeverityTable.sql" />
+		<EmbeddedResource Include="Scripts\CreateLogTable.sql" />
 		<EmbeddedResource Include="Scripts\AddAccountMembership.sql" />
 		<EmbeddedResource Include="Scripts\AddRoleMemberByName.sql" />
 		<EmbeddedResource Include="Scripts\AutoCompleteRole.sql" />
@@ -208,6 +205,9 @@
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.27.1\^001^Users^AddCreatePermissionToContributor.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.27.8\^001^DeletedPageRevisions^AddChangeSummary.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.27.8\^001^DeletedPages^AddChangeSummary.sql" />
+		<EmbeddedResource Include="Scripts\Initialization\Versions\2.31.0\^000^Config^FixLanguageCodes.sql" />
+		<EmbeddedResource Include="Scripts\Initialization\Versions\2.31.0\^001^Users^FixLanguageCodes.sql" />
+		<EmbeddedResource Include="Scripts\Initialization\Versions\2.31.1\^001^Statistics^NewStatsStructure.sql" />
 		<EmbeddedResource Include="Scripts\InsertRole.sql" />
 		<EmbeddedResource Include="Scripts\DoesRoleExist.sql" />
 		<EmbeddedResource Include="Scripts\InsertAccountPermission.sql" />
@@ -265,7 +265,7 @@
 		<EmbeddedResource Include="Scripts\GetAllEmojis.sql" />
 		<EmbeddedResource Include="Scripts\GetAllEmojisPaged.sql" />
 		<EmbeddedResource Include="Scripts\GetAllEmojisPagedByCategories.sql" />
-		<EmbeddedResource Include="Scripts\GetAllExceptionsPaged.sql" />
+		<EmbeddedResource Include="Scripts\GetLogEntriesPaged.sql" />
 		<EmbeddedResource Include="Scripts\GetAllMenuItems.sql" />
 		<EmbeddedResource Include="Scripts\GetAllNamespacePagesPaged.sql" />
 		<EmbeddedResource Include="Scripts\GetAllNamespaces.sql" />
@@ -296,7 +296,7 @@
 		<EmbeddedResource Include="Scripts\GetEmojiCategoriesGrouped.sql" />
 		<EmbeddedResource Include="Scripts\GetEmojisByCategory.sql" />
 		<EmbeddedResource Include="Scripts\GetExactPageSearchTokens.sql" />
-		<EmbeddedResource Include="Scripts\GetExceptionById.sql" />
+		<EmbeddedResource Include="Scripts\GetLogEntryById.sql" />
 		<EmbeddedResource Include="Scripts\GetExceptionCount.sql" />
 		<EmbeddedResource Include="Scripts\GetFlatConfiguration.sql" />
 		<EmbeddedResource Include="Scripts\GetFuzzyPageSearchTokens.sql" />
@@ -341,9 +341,9 @@
 		<EmbeddedResource Include="Scripts\GetWikiDatabaseStatistics.sql" />
 		<EmbeddedResource Include="Scripts\GetWikiMetrics.sql" />
 		<EmbeddedResource Include="Scripts\GetWordsCount.sql" />
-		<EmbeddedResource Include="Scripts\InsertCompilationStatistics.sql" />
+		<EmbeddedResource Include="Scripts\MergeCompilationStatistics.sql" />
 		<EmbeddedResource Include="Scripts\InsertEmoji.sql" />
-		<EmbeddedResource Include="Scripts\InsertException.sql" />
+		<EmbeddedResource Include="Scripts\InsertLog.sql" />
 		<EmbeddedResource Include="Scripts\InsertMenuItem.sql" />
 		<EmbeddedResource Include="Scripts\InsertPageComment.sql" />
 		<EmbeddedResource Include="Scripts\InsertPageFile.sql" />
@@ -360,7 +360,7 @@
 		<EmbeddedResource Include="Scripts\PurgeDeletedPageRevisions.sql" />
 		<EmbeddedResource Include="Scripts\PurgeDeletedPageRevisionsByPageId.sql" />
 		<EmbeddedResource Include="Scripts\PurgeDeletedPages.sql" />
-		<EmbeddedResource Include="Scripts\PurgeExceptions.sql" />
+		<EmbeddedResource Include="Scripts\PurgeLogs.sql" />
 		<EmbeddedResource Include="Scripts\PurgeOrphanedPageAttachment.sql" />
 		<EmbeddedResource Include="Scripts\PurgeOrphanedPageAttachments.sql" />
 		<EmbeddedResource Include="Scripts\ReassociateAllPageAttachments.sql" />

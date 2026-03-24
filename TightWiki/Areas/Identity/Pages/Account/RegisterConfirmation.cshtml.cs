@@ -6,9 +6,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
-using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -17,10 +18,11 @@ namespace TightWiki.Areas.Identity.Pages.Account
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IWikiEmailSender _emailSender;
-        private readonly ILogger<RegisterConfirmationModel> _logger;
+        private readonly ILogger<ITightEngine> _logger;
 
-        public RegisterConfirmationModel(ILogger<RegisterConfirmationModel> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IWikiEmailSender emailSender)
-                        : base(signInManager)
+        public RegisterConfirmationModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager, IWikiEmailSender emailSender, ISharedLocalizationText localizer)
+                        : base(logger, signInManager, localizer)
         {
             _logger = logger;
             _userManager = userManager;
@@ -41,7 +43,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                ExceptionRepository.InsertException(ex);
             }
             return Page();
         }

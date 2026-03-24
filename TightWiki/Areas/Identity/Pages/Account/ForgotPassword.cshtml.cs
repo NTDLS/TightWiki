@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
@@ -20,12 +21,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IWikiEmailSender _emailSender;
-        private readonly ILogger<ForgotPasswordModel> _logger;
+        private readonly ILogger<ITightEngine> _logger;
 
         public ForgotPasswordModel(
-            ILogger<ForgotPasswordModel> logger, UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager, IWikiEmailSender emailSender)
-            : base(signInManager)
+            ILogger<ITightEngine> logger, UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager, IWikiEmailSender emailSender, ISharedLocalizationText localizer)
+            : base(logger, signInManager, localizer)
         {
             _logger = logger;
             _userManager = userManager;
@@ -75,8 +76,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
                         values: new { area = "Identity", encodedCode },
                         protocol: Request.Scheme);
 
-                    var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>(Constants.ConfigurationGroup.Membership, "Template: Reset Password Email"));
-                    var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Basic);
+                    var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>(Constants.WikiConfigurationGroup.Membership, "Template: Reset Password Email"));
+                    var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Basic);
                     var siteName = basicConfig.Value<string>("Name");
                     var address = basicConfig.Value<string>("Address");
                     var profile = UsersRepository.GetAccountProfileByUserId(Guid.Parse(user.Id));
@@ -103,7 +104,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                ExceptionRepository.InsertException(ex);
             }
             return Page();
         }

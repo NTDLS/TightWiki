@@ -1,0 +1,2608 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="- or -" xml:space="preserve">
+    <value>- eða -</value>
+  </data>
+  <data name="(No description)" xml:space="preserve">
+    <value>(Enginn lýsing)</value>
+  </data>
+  <data name="(No link)" xml:space="preserve">
+    <value>(Engin hlekkur)</value>
+  </data>
+  <data name="(No text)" xml:space="preserve">
+    <value>(Enginn texti)</value>
+  </data>
+  <data name="{0}Continue now{1} or you will be redirected in {2} seconds." xml:space="preserve">
+    <value>{0} Haltu áfram núna{1} eða verður þú endurbein varaður í {2} sekúndur.</value>
+  </data>
+  <data name="2fa has been disabled. You can reenable 2fa when you setup an authenticator app" xml:space="preserve">
+    <value>2fa hefur verið slökkt á. Þú getur virkjað 2fa aftur þegar þú setur upp auðkenningarforrit</value>
+  </data>
+  <data name="Access denied." xml:space="preserve">
+    <value>Inngangur neitað.</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Reyndar</value>
+  </data>
+  <data name="Account Deleted!" xml:space="preserve">
+    <value>Reikningur Hruninn!</value>
+  </data>
+  <data name="Account Editor" xml:space="preserve">
+    <value>Reikningsritstjóri</value>
+  </data>
+  <data name="Account Email Verification" xml:space="preserve">
+    <value>Staðfesta tölvupóst reiknings</value>
+  </data>
+  <data name="Account Management" xml:space="preserve">
+    <value>Reikningstjórnun</value>
+  </data>
+  <data name="Account Permissions" xml:space="preserve">
+    <value>Réttindi reiknings</value>
+  </data>
+  <data name="Account Role Membership" xml:space="preserve">
+    <value>Meðlimahópar hlutverka reiknings</value>
+  </data>
+  <data name="Account roles and permissions for a single account." xml:space="preserve">
+    <value>Hlutverk og réttindi reiknings fyrir einn reikning.</value>
+  </data>
+  <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
+    <value>Hlutverk og réttindi reikninga fyrir: {0}</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>Reikningar</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>aðgerð</value>
+  </data>
+  <data name="Add Account" xml:space="preserve">
+    <value>Bæta við reikningi</value>
+  </data>
+  <data name="Add authenticator app" xml:space="preserve">
+    <value>Bæta við auðkenningarforriti</value>
+  </data>
+  <data name="Add Emoji" xml:space="preserve">
+    <value>Bæta við Táknmáli</value>
+  </data>
+  <data name="Add Member to Role" xml:space="preserve">
+    <value>Bæta við Innlimaa í Hlutverk</value>
+  </data>
+  <data name="Add new account" xml:space="preserve">
+    <value>Bæta við nýju reikningi</value>
+  </data>
+  <data name="Add new emoji" xml:space="preserve">
+    <value>Bæta við nýju táknmáli</value>
+  </data>
+  <data name="Add new item" xml:space="preserve">
+    <value>Bæta við nýju lagi</value>
+  </data>
+  <data name="Add Permission to Account" xml:space="preserve">
+    <value>Bæta við Heimild fyrir Reikning</value>
+  </data>
+  <data name="Add Permission to Role" xml:space="preserve">
+    <value>Bæta við Heimild fyrir Hlutverk</value>
+  </data>
+  <data name="Add Role" xml:space="preserve">
+    <value>Bæta við Hlutverki</value>
+  </data>
+  <data name="Add Role to Account" xml:space="preserve">
+    <value>Bæta við Hlutverki í Reikning</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value>ALL</value>
+  </data>
+  <data name="All changes that have been made to the attached file." xml:space="preserve">
+    <value>Allar breytingar sem gerðar hafa verið á viðhengdu skjali.</value>
+  </data>
+  <data name="All changes that have been made to the page." xml:space="preserve">
+    <value>Allar breytingar sem gerðar hafa verið á síðunni.</value>
+  </data>
+  <data name="All comments made on the given page." xml:space="preserve">
+    <value>Allar athugasemdir sem gerðar hafa verið á gefnu síðunni.</value>
+  </data>
+  <data name="All namespaces contained in the wiki." xml:space="preserve">
+    <value>Allir nafngreindar svið sem innihaldið eru í wiki.</value>
+  </data>
+  <data name="All pages contained in the namespace." xml:space="preserve">
+    <value>Allar síður sem innihaldið eru í nafngreindri skemmtun.</value>
+  </data>
+  <data name="All pages contained in the wiki." xml:space="preserve">
+    <value>Allar síður sem innihaldið eru í wiki.</value>
+  </data>
+  <data name="Already a member?" xml:space="preserve">
+    <value>Þú ert þegar meðlimur?</value>
+  </data>
+  <data name="An error occurred while processing your request." xml:space="preserve">
+    <value>Villa kom upp meðan á vinnslu beiðni þinnar stóð.</value>
+  </data>
+  <data name="Analysis" xml:space="preserve">
+    <value>Greining</value>
+  </data>
+  <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
+    <value>Ertu alveg viss um að þú viljir halda áfram með þessa eyðingu?</value>
+  </data>
+  <data name="Are you sure you want to continue?" xml:space="preserve">
+    <value>Ertu alveg viss um að þú viljir halda áfram?</value>
+  </data>
+  <data name="Are you sure you want to delete this comment?" xml:space="preserve">
+    <value>Ertu alveg viss um að þú viljir eyða þessum athugasemd?</value>
+  </data>
+  <data name="Are you sure you want to detach" xml:space="preserve">
+    <value>Ertu alveg viss um að þú viljir losa þig við</value>
+  </data>
+  <data name="Are you sure you want to log out of the application?" xml:space="preserve">
+    <value>Ertu alveg viss um að þú viljir skrá þig út úr forritinu?</value>
+  </data>
+  <data name="Are you sure?" xml:space="preserve">
+    <value>Ertu alveg viss?</value>
+  </data>
+  <data name="Associate your {0} account." xml:space="preserve">
+    <value>Staðfestaðu reikninginn þinn {{0}}.</value>
+  </data>
+  <data name="Associated Pages" xml:space="preserve">
+    <value>Staðbundnar síður</value>
+  </data>
+  <data name="Associated Tags" xml:space="preserve">
+    <value>Staðbundnar merkingar</value>
+  </data>
+  <data name="Attach files by dropping them here or by manually selecting them below:" xml:space="preserve">
+    <value>Festðu skrár með því að draga þær hingað eða með því að velja þær handvirkt hér neðan:</value>
+  </data>
+  <data name="Attachments" xml:space="preserve">
+    <value>Tenglar</value>
+  </data>
+  <data name="Authenticator app" xml:space="preserve">
+    <value>Sannvottunarforrit</value>
+  </data>
+  <data name="Available Languages" xml:space="preserve">
+    <value>Tiltækar tungumál</value>
+  </data>
+  <data name="Avatar" xml:space="preserve">
+    <value>Andi</value>
+  </data>
+  <data name="Bind failed." xml:space="preserve">
+    <value>Tenging tókst ekki.</value>
+  </data>
+  <data name="Bind succeeded." xml:space="preserve">
+    <value>Tenging tókst.</value>
+  </data>
+  <data name="Biography" xml:space="preserve">
+    <value>Lýsing</value>
+  </data>
+  <data name="Bold" xml:space="preserve">
+    <value>Features</value>
+  </data>
+  <data name="Browse pages marked with various processing instructions to see what is in draft, pending deletion, protected, etc." xml:space="preserve">
+    <value>Yfirfararnefnd síður merktar ýmiss konar vinnsluaðferðum til að sjá hvað er á drögunum, í biðstöðu um eyðingu, verndaðar o.s.frv.</value>
+  </data>
+  <data name="Built-in Pages" xml:space="preserve">
+    <value>Innbyggðar síður</value>
+  </data>
+  <data name="Cache" xml:space="preserve">
+    <value>Geymsla</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Hætta við</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Flokkar</value>
+  </data>
+  <data name="Change Avatar" xml:space="preserve">
+    <value>Breyta persónumynd</value>
+  </data>
+  <data name="Change email" xml:space="preserve">
+    <value>Breyta tölvupósti</value>
+  </data>
+  <data name="Change Image" xml:space="preserve">
+    <value>Breyta mynd</value>
+  </data>
+  <data name="Change password" xml:space="preserve">
+    <value>Breyta lykilorði</value>
+  </data>
+  <data name="Change Summary" xml:space="preserve">
+    <value>Breyta samantekt</value>
+  </data>
+  <data name="Change your account settings" xml:space="preserve">
+    <value>Breyta stillingum reikningsins þíns</value>
+  </data>
+  <data name="Choose a page" xml:space="preserve">
+    <value>Veldu síðu</value>
+  </data>
+  <data name="Choose Image" xml:space="preserve">
+    <value>Veldu mynd</value>
+  </data>
+  <data name="Choose template" xml:space="preserve">
+    <value>Veldu snið</value>
+  </data>
+  <data name="Choose your preferred language for the interface." xml:space="preserve">
+    <value>Veldu þýðingu fyrir viðmótið sem þér hentar best.</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Loka</value>
+  </data>
+  <data name="Comma-separated categories" xml:space="preserve">
+    <value>Flokkað með kommu</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Aðgerðir</value>
+  </data>
+  <data name="Compilation Statistics" xml:space="preserve">
+    <value>Tölfræði samsetninga</value>
+  </data>
+  <data name="Compilations" xml:space="preserve">
+    <value>Samsetningar</value>
+  </data>
+  <data name="Complete Signup" xml:space="preserve">
+    <value>fullklára skráningu</value>
+  </data>
+  <data name="Configuration" xml:space="preserve">
+    <value>stilling</value>
+  </data>
+  <data name="Configuration for an emoji." xml:space="preserve">
+    <value>Stillik að fyrir emoji.</value>
+  </data>
+  <data name="Configuration for user account." xml:space="preserve">
+    <value>Stillik fyrir notendaaðgang.</value>
+  </data>
+  <data name="Configuration to add an emoji." xml:space="preserve">
+    <value>Stillik til að bæta við emoji.</value>
+  </data>
+  <data name="Configure authenticator app" xml:space="preserve">
+    <value>Stilltu auðkenningarráðningarforrit</value>
+  </data>
+  <data name="Confirm email change" xml:space="preserve">
+    <value>Staðfestu tölvupóstbreytingu</value>
+  </data>
+  <data name="Confirm logout" xml:space="preserve">
+    <value>Staðfestu útskráningu</value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>Staðfestu lykilorð</value>
+  </data>
+  <data name="Confirm your email address." xml:space="preserve">
+    <value>Staðfestu póstfangið þitt.</value>
+  </data>
+  <data name="Confirmation link to change email sent. Please check your email." xml:space="preserve">
+    <value>Staðfestingartengill til að breyta póstfangi sendur. Vinsamlegast athugaðu tölvupóstinn þinn.</value>
+  </data>
+  <data name="Confirmed" xml:space="preserve">
+    <value>Staðfest</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>Innihald</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Áfram</value>
+  </data>
+  <data name="Copy Tag" xml:space="preserve">
+    <value>Afrita merk</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Land</value>
+  </data>
+  <data name="Create a new account" xml:space="preserve">
+    <value>Stofna nýtt reikning</value>
+  </data>
+  <data name="Create new page" xml:space="preserve">
+    <value>Stofna nýja síðu</value>
+  </data>
+  <data name="Create new role." xml:space="preserve">
+    <value>Stofna nýtt hlutverk.</value>
+  </data>
+  <data name="Create new user account." xml:space="preserve">
+    <value>Stofna nýtt notendareikning.</value>
+  </data>
+  <data name="Create your account and configure your basic profile details." xml:space="preserve">
+    <value>Stofnaðu reikninginn þinn og stilltu helstu stillingar prófílsins.</value>
+  </data>
+  <data name="Created Date" xml:space="preserve">
+    <value>Búið til dagsetning</value>
+  </data>
+  <data name="Credentials" xml:space="preserve">
+    <value>viðkenni</value>
+  </data>
+  <data name="Current admin login" xml:space="preserve">
+    <value>Núverandi aðgangsupplýsingar stjórnunar</value>
+  </data>
+  <data name="Database" xml:space="preserve">
+    <value>Gagnagrunnur</value>
+  </data>
+  <data name="Database Utilities" xml:space="preserve">
+    <value>Gagnagrunnsforrit</value>
+  </data>
+  <data name="Date/Time" xml:space="preserve">
+    <value>Dagsetning/Tími</value>
+  </data>
+  <data name="Default password has not been changed" xml:space="preserve">
+    <value>Sjálfgefið lykilorð hefur ekki verið breytt</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Eyða</value>
+  </data>
+  <data name="Delete Account" xml:space="preserve">
+    <value>Eyða reikningi</value>
+  </data>
+  <data name="Delete page '{0}'?" xml:space="preserve">
+    <value>Viltu eyða síðu '{0}'?</value>
+  </data>
+  <data name="Delete Role" xml:space="preserve">
+    <value>Eyða hlutverki</value>
+  </data>
+  <data name="Delete this page" xml:space="preserve">
+    <value>Eyða þessari síðu</value>
+  </data>
+  <data name="Deleted By" xml:space="preserve">
+    <value>Eytt af</value>
+  </data>
+  <data name="Deleted Date" xml:space="preserve">
+    <value>Eyðingardags</value>
+  </data>
+  <data name="Deleted Page Content" xml:space="preserve">
+    <value>Efni eyddrar síðu</value>
+  </data>
+  <data name="Deleted Page Queue" xml:space="preserve">
+    <value>biðlistar eyddrar síðu</value>
+  </data>
+  <data name="Deleted Page Revisions" xml:space="preserve">
+    <value>Endurskoðanir eyddrar síðu</value>
+  </data>
+  <data name="Deleted Pages" xml:space="preserve">
+    <value>Eyðarsíður</value>
+  </data>
+  <data name="Deleted Revision Content" xml:space="preserve">
+    <value>Efni endurskoðunar sem eytt var</value>
+  </data>
+  <data name="Deleted Revisions" xml:space="preserve">
+    <value>Endurskoðanir sem eytt var</value>
+  </data>
+  <data name="Deleting '{0}' will move the page, all {1} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
+    <value>Eyða '{0}' mun færa síðuna, allar {1} endurskoðanir og tengd skjalaviðbót til eyðingar biðlistans. Þessi aðgerð er aðeins aflögð af stjórnanda eða stjórnanda. Halda áfram?</value>
+  </data>
+  <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
+    <value>Að eyða '{0}' verður til þess að síðunni verður færð í eyðingar biðröðina með öllum {1} breytingum og {2} skjala viðhengum.</value>
+  </data>
+  <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value>Að eyða '{0}' mun varanlega fjarlægja reikninginn. Allar síður sem þessi notandi hefur búið til eða breytt verða skráðar undir tímabundinn reikning og þú munt ekki geta hætt við þessa aðgerð. Halda áfram?</value>
+  </data>
+  <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account. Continue?" xml:space="preserve">
+    <value>Að eyða '{0}' mun varanlega fjarlægja reikninginn. Allar síður sem þessi notandi hefur búið til eða breytt verða skráðar undir tímabundinn reikning. Halda áfram?</value>
+  </data>
+  <data name="Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value>Að eyða '{0}' mun varanlega fjarlægja valmyndaliðinn og þú munt ekki geta hætt við þessa aðgerð. Halda áfram?</value>
+  </data>
+  <data name="Deleting revision {0} of &quot;{1}&quot; will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
+    <value>Að eyða endurtekningum {0} af "{1}" mun færa endurtekninguna í eyðingar biðröðina. Þessa aðgerð má aðeins afturkalla af stjórnanda eða stjórnanda. Halda áfram?</value>
+  </data>
+  <data name="Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?" xml:space="preserve">
+    <value>Að eyða emoji '{0}' mun varanlega fjarlægja myndina og öll tilvísanir í hana verða skilin eftir. Þú munt ekki geta hætt við þessa eyðingu. Halda áfram?</value>
+  </data>
+  <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
+    <value>Að eyða hlutverkinu '{0}' mun afturkalla allar heimildir sem það hlutverk hefur veitt eða neitunar. Halda áfram?</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Lýsing</value>
+  </data>
+  <data name="Detach" xml:space="preserve">
+    <value>Færa í sundur</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Upplýsingar</value>
+  </data>
+  <data name="Development Mode" xml:space="preserve">
+    <value>Þróunarbrúða</value>
+  </data>
+  <data name="Differences" xml:space="preserve">
+    <value>Munur</value>
+  </data>
+  <data name="Disable 2FA" xml:space="preserve">
+    <value>Slökkva á 2FA</value>
+  </data>
+  <data name="Disable two-factor authentication (2FA)" xml:space="preserve">
+    <value>Slökkva á tveggja þátta auðkenningu (2FA)</value>
+  </data>
+  <data name="Disabling 2FA does not change the keys used in authenticator apps." xml:space="preserve">
+    <value>Að slökkva á 2FA breytir ekki lykilunum sem notaðir eru í auðkenningarforskriftum.</value>
+  </data>
+  <data name="Discussion for this page." xml:space="preserve">
+    <value>Umræða um þessa síðu.</value>
+  </data>
+  <data name="Display Name" xml:space="preserve">
+    <value>Sýna nafn</value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value>Skipan</value>
+  </data>
+  <data name="Distinguished Name:" xml:space="preserve">
+    <value>Einkennandi nafn:</value>
+  </data>
+  <data name="Don't have access to your authenticator device?" xml:space="preserve">
+    <value>Hefurðu ekki aðgang að auðkenningartækinu þínu?</value>
+  </data>
+  <data name="Download a two-factor authenticator app like Microsoft Authenticator for {0} and {1} or Google Authenticator for {2} and {3}." xml:space="preserve">
+    <value>Hlaða niður tvíþátta auðkenningarforriti eins og Microsoft Authenticator fyrir {0} og {1} eða Google Authenticator fyrir {2} og {3}.</value>
+  </data>
+  <data name="Drop file attachments here or click to upload manually." xml:space="preserve">
+    <value>Sleppa skráaaupilum hér eða smelltu til að hlaða upp handvirkt.</value>
+  </data>
+  <data name="Drop files here..." xml:space="preserve">
+    <value>Sleppa skráum hér...</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Tímalengd</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Breyta</value>
+  </data>
+  <data name="Editor Size" xml:space="preserve">
+    <value>Breidd ritstjóra</value>
+  </data>
+  <data name="Either the deleted pages queue is empty or your search criteria returned no results." xml:space="preserve">
+    <value>Annars er biðröð fyrir eyðilagðar síðurnar tóm eða leitarferli þitt skilaði engum niðurstöðum.</value>
+  </data>
+  <data name="Either there are no accounts configured or your search criteria returned no results." xml:space="preserve">
+    <value>Annars eru engar reikningayfirlit stilltar eða leitarferli þitt skilaði engum niðurstöðum.</value>
+  </data>
+  <data name="Either there are no emojis configured or your search criteria returned no results." xml:space="preserve">
+    <value>Annars eru engar emoji stilltar eða leitarferli þitt skilaði engum niðurstöðum.</value>
+  </data>
+  <data name="Either there are no pages or your search criteria returned no results." xml:space="preserve">
+    <value>Annars eru engar síður eða leitarferli þitt skilaði engum niðurstöðum.</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Netfang</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>Netfang</value>
+  </data>
+  <data name="Email Confirmed?" xml:space="preserve">
+    <value>Netfang staðfest?</value>
+  </data>
+  <data name="Emoji" xml:space="preserve">
+    <value>Gáfu</value>
+  </data>
+  <data name="Emoji Editor" xml:space="preserve">
+    <value>Gáfuritstjóri</value>
+  </data>
+  <data name="Emoji Management" xml:space="preserve">
+    <value>Gáfumangement</value>
+  </data>
+  <data name="Emojis" xml:space="preserve">
+    <value>Gáfur</value>
+  </data>
+  <data name="Enter a URL." xml:space="preserve">
+    <value>Sláðu inn vefslóð.</value>
+  </data>
+  <data name="Enter an internal path or external URL." xml:space="preserve">
+    <value>Sláðu inn innanhópaleið eða utanaðkomandi vefslóð.</value>
+  </data>
+  <data name="Enter your email." xml:space="preserve">
+    <value>Sláðu inn þitt netfang.</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>Umhverfi</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Villa</value>
+  </data>
+  <data name="Error copying text" xml:space="preserve">
+    <value>Villa við að afrita texta</value>
+  </data>
+  <data name="Errors" xml:space="preserve">
+    <value>Villur</value>
+  </data>
+  <data name="Event Log" xml:space="preserve">
+    <value>atburðaskrá</value>
+  </data>
+  <data name="Event Log Entry" xml:space="preserve">
+    <value>Færslufærsla í atburðaskrá</value>
+  </data>
+  <data name="Exception" xml:space="preserve">
+    <value>Undantekning</value>
+  </data>
+  <data name="Exceptions" xml:space="preserve">
+    <value>Undantekningar</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Útflutningur</value>
+  </data>
+  <data name="External logins" xml:space="preserve">
+    <value>Ytri innskráningar</value>
+  </data>
+  <data name="External URL" xml:space="preserve">
+    <value>Ytri URL</value>
+  </data>
+  <data name="Extra Large" xml:space="preserve">
+    <value>ULM stærri</value>
+  </data>
+  <data name="Extra Small" xml:space="preserve">
+    <value>Lítill</value>
+  </data>
+  <data name="Failed to load preview." xml:space="preserve">
+    <value>Miseyldist innskorun á forskoðun.</value>
+  </data>
+  <data name="Feature Templates" xml:space="preserve">
+    <value>Eiginleika sniðmát</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>Skrá</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Sía</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Fyrsta nafn</value>
+  </data>
+  <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
+    <value>Hreinsun á minni-möppum mun leiða til þess að hlaðnir hlutir verði felldir niður og krefjast gagnagrunnsins í samþjöppunum þegar síður eru kröfuð. Áfram?</value>
+  </data>
+  <data name="Forget this browser" xml:space="preserve">
+    <value>Gleyma þessari vafara</value>
+  </data>
+  <data name="Forgot password confirmation" xml:space="preserve">
+    <value>Staðfesting á lykilorðsupplýsingum</value>
+  </data>
+  <data name="Forgot your password?" xml:space="preserve">
+    <value>Gafst þér upp lykilorð?</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>Veffang</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Almennt</value>
+  </data>
+  <data name="Generate Recovery Codes" xml:space="preserve">
+    <value>Mynda endurheimtarkóða</value>
+  </data>
+  <data name="Generate two-factor authentication (2FA) recovery codes" xml:space="preserve">
+    <value>Mynda tveggja þátta auðkenningar (2FA) endurheimtarkóða</value>
+  </data>
+  <data name="Generating new recovery codes does not change the keys used in authenticator apps." xml:space="preserve">
+    <value>Að búa til nýja endurheimtarkóða breytir ekki lykilunum sem notaðir eru í auðkenningarforritum.</value>
+  </data>
+  <data name="Gets" xml:space="preserve">
+    <value>Fá</value>
+  </data>
+  <data name="Global configuration for Emojis." xml:space="preserve">
+    <value>Almennt stilling fyrir Emoji.</value>
+  </data>
+  <data name="Global configuration for security roles and membership." xml:space="preserve">
+    <value>Almennt stilling fyrir öryggishlutverk og meðlimi.</value>
+  </data>
+  <data name="Global configuration for the site menu item." xml:space="preserve">
+    <value>Almenn stilling fyrir vefstikunni.</value>
+  </data>
+  <data name="Global configuration for the site menu." xml:space="preserve">
+    <value>Almennt stilling fyrir vefstikuna.</value>
+  </data>
+  <data name="Global configuration for user accounts." xml:space="preserve">
+    <value>Almennt stilling fyrir notandareikninga.</value>
+  </data>
+  <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
+    <value>Almennt gildi stillinga fyrir wiki, virkni hennar, hegðun, snið og vörumerki.</value>
+  </data>
+  <data name="Hello {0}!" xml:space="preserve">
+    <value>Halló {0}!</value>
+  </data>
+  <data name="Highlight" xml:space="preserve">
+    <value>Ákveða</value>
+  </data>
+  <data name="Hits" xml:space="preserve">
+    <value>Leitar</value>
+  </data>
+  <data name="Huge" xml:space="preserve">
+    <value>Risastór</value>
+  </data>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>Vefhlekki</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Ids</value>
+  </data>
+  <data name="If it's here, you should be able to find it." xml:space="preserve">
+    <value>Ef eitthvað er hér, ættirðu að geta fundið það.</value>
+  </data>
+  <data name="If you lose your device and don't have the recovery codes you will lose access to your account." xml:space="preserve">
+    <value>Ef þú tapar tækjunum þínum og hefur ekki endurheimtarkóða, missir þú aðgang að reikningnum þínum.</value>
+  </data>
+  <data name="If you reset your authenticator key your authenticator app will not work until you reconfigure it." xml:space="preserve">
+    <value>Ef þú endurstillir auðkenningarlyklann þinn mun auðkenningarforritið þitt ekki virka þar til þú endurogar það.</value>
+  </data>
+  <data name="If you wish to change the key used in an authenticator app you should reset your authenticator keys." xml:space="preserve">
+    <value>Ef þú vilt breyta lykkju í auðkenningarforriti, ættirðu að endurstillta auðkenningarlyklana þína.</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Mynd</value>
+  </data>
+  <data name="Include Pages" xml:space="preserve">
+    <value>Inkludera síður</value>
+  </data>
+  <data name="Info1" xml:space="preserve">
+    <value>Info1</value>
+  </data>
+  <data name="Info2" xml:space="preserve">
+    <value>Info2</value>
+  </data>
+  <data name="Insert" xml:space="preserve">
+    <value>Setja inn</value>
+  </data>
+  <data name="Insert Emoji" xml:space="preserve">
+    <value>Setja inn teiknimyndamerki</value>
+  </data>
+  <data name="Inter-Page Links" xml:space="preserve">
+    <value>Leitar tengiliðir milli síða</value>
+  </data>
+  <data name="It can result in displaying sensitive information from exceptions to end users." xml:space="preserve">
+    <value>Þetta getur leitt til þess að birtist viðkvæmar upplýsingar úr undantekningum fyrir endanotendur.</value>
+  </data>
+  <data name="Italic" xml:space="preserve">
+    <value>Óreglulegur</value>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>Atriði</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Tungumál</value>
+  </data>
+  <data name="Languages" xml:space="preserve">
+    <value>Tungumál</value>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Stór</value>
+  </data>
+  <data name="Last modified by" xml:space="preserve">
+    <value>Síðast breytt af</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Eftirnafn</value>
+  </data>
+  <data name="Leave a Comment" xml:space="preserve">
+    <value>Skilaboð</value>
+  </data>
+  <data name="Limit(MB)" xml:space="preserve">
+    <value>Takmörk (MB)</value>
+  </data>
+  <data name="Link Text (Optional)" xml:space="preserve">
+    <value>Texti hlekkis (Valfrjálst)</value>
+  </data>
+  <data name="Link Type" xml:space="preserve">
+    <value>Gerð hlekkjar</value>
+  </data>
+  <data name="Links" xml:space="preserve">
+    <value>Hlekkir</value>
+  </data>
+  <data name="Loading preview..." xml:space="preserve">
+    <value>Er að birta forskoðun...</value>
+  </data>
+  <data name="Locked out" xml:space="preserve">
+    <value>Lokað út</value>
+  </data>
+  <data name="Log Entries" xml:space="preserve">
+    <value>Skráningar</value>
+  </data>
+  <data name="Log Entry Details" xml:space="preserve">
+    <value>Upplýsingar um skráningu</value>
+  </data>
+  <data name="Log in" xml:space="preserve">
+    <value>Skráðu þig inn</value>
+  </data>
+  <data name="Log in using your {0} account" xml:space="preserve">
+    <value>Innskráning með reikningnum þínum {{0}}</value>
+  </data>
+  <data name="Logged out" xml:space="preserve">
+    <value>Úrskráning</value>
+  </data>
+  <data name="Logging out will make sure that others can't use this session to make changes to the wiki. You'll need to log back in before making changes." xml:space="preserve">
+    <value>Útskráning mun tryggja að aðrir geti ekki notað þessa fundaraðferð til að gera breytingar á vefkönnuninni. Þú verður að skrá þig aftur inn áður en þú gerir breytingar.</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Skrá inn</value>
+  </data>
+  <data name="Login to leave a comment" xml:space="preserve">
+    <value>Skrá inn til að skilja eftir athugasemd</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Útskráning</value>
+  </data>
+  <data name="Lower numbers appear first." xml:space="preserve">
+    <value>Lágari tölur birtast fyrst.</value>
+  </data>
+  <data name="Manage Email" xml:space="preserve">
+    <value>Stjórna tölvupósti</value>
+  </data>
+  <data name="Manage your account" xml:space="preserve">
+    <value>Stjórna reikningi þínum</value>
+  </data>
+  <data name="Manage your external logins" xml:space="preserve">
+    <value>Stjórna ytri innskráningum þínum</value>
+  </data>
+  <data name="Matches" xml:space="preserve">
+    <value>Samningar</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Miðlungs</value>
+  </data>
+  <data name="Menu Configuration" xml:space="preserve">
+    <value>stjórnun matseðils</value>
+  </data>
+  <data name="Menu Item Editor" xml:space="preserve">
+    <value>Uppfæra matseðlahlut</value>
+  </data>
+  <data name="Metrics" xml:space="preserve">
+    <value>Mælingar</value>
+  </data>
+  <data name="Misses" xml:space="preserve">
+    <value>Vantar</value>
+  </data>
+  <data name="Missing Pages" xml:space="preserve">
+    <value>Vantar síður</value>
+  </data>
+  <data name="Moderate" xml:space="preserve">
+    <value>Hægur</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Breytt</value>
+  </data>
+  <data name="Modified By" xml:space="preserve">
+    <value>Breytt af</value>
+  </data>
+  <data name="Modified Date" xml:space="preserve">
+    <value>Breytt dagsetning</value>
+  </data>
+  <data name="My" xml:space="preserve">
+    <value>Mitt</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nafn</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>Nafnagögn</value>
+  </data>
+  <data name="Namespaces" xml:space="preserve">
+    <value>Nafnagögn</value>
+  </data>
+  <data name="New Account" xml:space="preserve">
+    <value>New Account</value>
+  </data>
+  <data name="New Emoji" xml:space="preserve">
+    <value>New Emoji</value>
+  </data>
+  <data name="New Role" xml:space="preserve">
+    <value>New Role</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Nästa</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nei</value>
+  </data>
+  <data name="No avatar uploaded." xml:space="preserve">
+    <value>Enginn ljósmyndaskráning skiluð.</value>
+  </data>
+  <data name="No database information is available." xml:space="preserve">
+    <value>Engin gagnagrunnsupplýsingar eru tiltækar.</value>
+  </data>
+  <data name="No image selected." xml:space="preserve">
+    <value>Mynd er ekki valin.</value>
+  </data>
+  <data name="No image uploaded." xml:space="preserve">
+    <value>Mynd hefur ekki verið hlaðið upp.</value>
+  </data>
+  <data name="Not a member?" xml:space="preserve">
+    <value>Ekki meðlimur?</value>
+  </data>
+  <data name="not required" xml:space="preserve">
+    <value>ekki krafist</value>
+  </data>
+  <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
+    <value>Þegar þú hefur skannað QR kóðann eða slegið inn lykilinn hér að ofan, mun tveggja þátta authentications forritið þitt gefa þér einstakt kod. Sláðu inn kóðann í staðfestingarkassann hér að neðan.</value>
+  </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>Stýrikerfi</value>
+  </data>
+  <data name="Optimize" xml:space="preserve">
+    <value>Auka skilvirkni</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>Valkvæður</value>
+  </data>
+  <data name="Ordinal" xml:space="preserve">
+    <value>Raðkóðun</value>
+  </data>
+  <data name="Orphaned Attachments" xml:space="preserve">
+    <value>Ekkar skráningar</value>
+  </data>
+  <data name="Orphaned Page Attachments" xml:space="preserve">
+    <value>Ekkar síðuskráningar</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>Vélbúnaðaruppsetning</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Síða</value>
+  </data>
+  <data name="Page Administration" xml:space="preserve">
+    <value>Stjórnun síðna</value>
+  </data>
+  <data name="Page Attachment Revisions" xml:space="preserve">
+    <value>Únkoma á skráningu á síðunni</value>
+  </data>
+  <data name="Page Attachments" xml:space="preserve">
+    <value>Síðuskráningar</value>
+  </data>
+  <data name="Page File Revisions" xml:space="preserve">
+    <value>Uppfærslur á skráningum á skrám</value>
+  </data>
+  <data name="Page Moderate" xml:space="preserve">
+    <value>Viðhald síðunnar</value>
+  </data>
+  <data name="Page Revisions" xml:space="preserve">
+    <value>Uppfærslur síðunnar</value>
+  </data>
+  <data name="Page revisions that have been deleted for the given page. These can be purged or restored." xml:space="preserve">
+    <value>Þýðingar á síðusögu sem hafa verið eyðileggðar fyrir viðkomandi síðuna. Þær geta verið fjarlægðar eða endurheimtar.</value>
+  </data>
+  <data name="Page Search" xml:space="preserve">
+    <value>Leit að síðum</value>
+  </data>
+  <data name="Page Search Tokens" xml:space="preserve">
+    <value>Lykilorð í leitarorðum síðna</value>
+  </data>
+  <data name="Page Tags" xml:space="preserve">
+    <value>Merkimiðar síðna</value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>Síður</value>
+  </data>
+  <data name="Pages that have been deleted. Can be purged or restored." xml:space="preserve">
+    <value>Síður sem eru teknar burt. Má fjarlægja eða endurheimta.</value>
+  </data>
+  <data name="Pages that have been linked to, but do not exist." xml:space="preserve">
+    <value>Síður sem tengdar hafa verið, en eru ekki til.</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Lykilorð</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>Aðgangur</value>
+  </data>
+  <data name="Permissions and Roles" xml:space="preserve">
+    <value>Áskriftir og hlutverk</value>
+  </data>
+  <data name="Please check your email to confirm your account." xml:space="preserve">
+    <value>Vinsamlegast athugaðu tölvupóstinn þinn til að staðfesta reikninginn þinn.</value>
+  </data>
+  <data name="Please check your email to reset your password." xml:space="preserve">
+    <value>Vinsamlegast athugaðu tölvupóstinn þinn til að endurstilla lykilorðið þitt.</value>
+  </data>
+  <data name="Please click here to log in" xml:space="preserve">
+    <value>Vinsamlegast smelltu hér til að skrá þig inn</value>
+  </data>
+  <data name="Please confirm your new password." xml:space="preserve">
+    <value>Vinsamlegast staðfestu nýtt lykilorð þitt.</value>
+  </data>
+  <data name="Please confirm your password." xml:space="preserve">
+    <value>Vinsamlegast staðfestu lykilorðið þitt.</value>
+  </data>
+  <data name="Please enter both username and password." xml:space="preserve">
+    <value>Vinsamlegast sláðu inn bæði notandanafn og lykilorð.</value>
+  </data>
+  <data name="Please enter new email." xml:space="preserve">
+    <value>Vinsamlegast sláðu inn nýja tölvupóstinn.</value>
+  </data>
+  <data name="Please enter the code." xml:space="preserve">
+    <value>Vinsamlegast sláðu inn kóðann.</value>
+  </data>
+  <data name="Please enter your email." xml:space="preserve">
+    <value>Vinsamlegast sláðu inn tölvupóstinn þinn.</value>
+  </data>
+  <data name="Please enter your new password." xml:space="preserve">
+    <value>Vinsamlegast sláðu inn nýja lykilorðinu þínu.</value>
+  </data>
+  <data name="Please enter your old password." xml:space="preserve">
+    <value>Vinsamlegast sláðu inn gamla lykilorðið þitt.</value>
+  </data>
+  <data name="Please enter your password." xml:space="preserve">
+    <value>Vinsamlegast sláðu inn lykilorðið þitt.</value>
+  </data>
+  <data name="Please wait, loading preview..." xml:space="preserve">
+    <value>Vinsamlegast bíðið, að færslan er að hlaðast...</value>
+  </data>
+  <data name="Post" xml:space="preserve">
+    <value>Færsla</value>
+  </data>
+  <data name="Pre-Cache All Pages" xml:space="preserve">
+    <value>Forhanda allar síður</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Skoða forskoðun</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Fyrri</value>
+  </data>
+  <data name="Privacy and cookie policy have not been accepted." xml:space="preserve">
+    <value>Persónuverndarstefna og kökukostur hafa ekki verið samþykkt.</value>
+  </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>Vinnsluaðferðarkenning</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Prófíll</value>
+  </data>
+  <data name="Profile Details" xml:space="preserve">
+    <value>Upplýsingar um prófíl</value>
+  </data>
+  <data name="Profile Settings" xml:space="preserve">
+    <value>Stillingar prófíls</value>
+  </data>
+  <data name="Profiles" xml:space="preserve">
+    <value>Prófílar</value>
+  </data>
+  <data name="Public profile information." xml:space="preserve">
+    <value>Opinber upplýsingar um prófíl.</value>
+  </data>
+  <data name="Purge" xml:space="preserve">
+    <value>Hreinsa</value>
+  </data>
+  <data name="Purge Compilation Statistics" xml:space="preserve">
+    <value>Hreinsa tölfræðir fyrir safn</value>
+  </data>
+  <data name="Purge Deleted Pages" xml:space="preserve">
+    <value>Hreinsa eyðilagt síður</value>
+  </data>
+  <data name="Purge Deleted Revisions" xml:space="preserve">
+    <value>Hreinsa eyðilagðar endurskoðanir</value>
+  </data>
+  <data name="Purge Event Log" xml:space="preserve">
+    <value>Hreinsa atburðarás skrá</value>
+  </data>
+  <data name="Purge Memory Cache" xml:space="preserve">
+    <value>Hreinsa minnisköðu</value>
+  </data>
+  <data name="Purge Orphaned Attachments" xml:space="preserve">
+    <value>hreinsa yfirgefnar viðhengi</value>
+  </data>
+  <data name="Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?" xml:space="preserve">
+    <value>Hreinsun á tölfræðimyndunarlistun verður til þess að öll safnuð tölfræði um myndunarlista allra síðna verður tekin úr gagnagrunninum. Halda áfram?</value>
+  </data>
+  <data name="Put these codes in a safe place." xml:space="preserve">
+    <value>Settu þessi forrit í öruggt stað.</value>
+  </data>
+  <data name="Puts" xml:space="preserve">
+    <value>Setningar</value>
+  </data>
+  <data name="Raw Size" xml:space="preserve">
+    <value>Óunnar stærð</value>
+  </data>
+  <data name="Rebuild All Pages" xml:space="preserve">
+    <value>Endurmynda allar síður</value>
+  </data>
+  <data name="Recently Modified" xml:space="preserve">
+    <value>Nýlega breytt</value>
+  </data>
+  <data name="Recovery code" xml:space="preserve">
+    <value>Endurheimtunarkóðar</value>
+  </data>
+  <data name="Recovery code verification" xml:space="preserve">
+    <value>Staðfesting endurheimtunkóða</value>
+  </data>
+  <data name="Recovery codes" xml:space="preserve">
+    <value>Endurheimtunarkóðar</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Endurnýja</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Skráðu þig</value>
+  </data>
+  <data name="Register as a new user" xml:space="preserve">
+    <value>Skráðu þig sem nýr notandi</value>
+  </data>
+  <data name="Register confirmation" xml:space="preserve">
+    <value>Staðfesting skráningar</value>
+  </data>
+  <data name="Registered Logins" xml:space="preserve">
+    <value>Skráningarinngöng</value>
+  </data>
+  <data name="Registration is not allowed" xml:space="preserve">
+    <value>Skráning ekki leyfð</value>
+  </data>
+  <data name="Registration is not allowed." xml:space="preserve">
+    <value>Skráning ekki leyfð.</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Fjarlægja</value>
+  </data>
+  <data name="Remove this {0} login from your account" xml:space="preserve">
+    <value>Fjarlægðu þessa {0} innskráningu úr þínu reikningi</value>
+  </data>
+  <data name="Request failed:" xml:space="preserve">
+    <value>Beiðni mistókst:</value>
+  </data>
+  <data name="Request ID" xml:space="preserve">
+    <value>Beiðni ID</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Krafist</value>
+  </data>
+  <data name="Resend" xml:space="preserve">
+    <value>Endur senda</value>
+  </data>
+  <data name="Resend email confirmation" xml:space="preserve">
+    <value>Endur senda tölvupóstsstaðfestingu</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Endurstilla</value>
+  </data>
+  <data name="Reset authenticator app" xml:space="preserve">
+    <value>Endurstilla authenticator forrit</value>
+  </data>
+  <data name="Reset authenticator key" xml:space="preserve">
+    <value>Endurstilla lykil fyrir authenticator</value>
+  </data>
+  <data name="Reset it" xml:space="preserve">
+    <value>Endurstilla það</value>
+  </data>
+  <data name="Reset Password" xml:space="preserve">
+    <value>Endurstilla lykilorð</value>
+  </data>
+  <data name="Reset password confirmation" xml:space="preserve">
+    <value>Staðfesta endurstillingu lykilorðs</value>
+  </data>
+  <data name="Reset recovery codes" xml:space="preserve">
+    <value>Endurstilla öryggiskóðana</value>
+  </data>
+  <data name="Reset your password." xml:space="preserve">
+    <value>Endurstilla lykilorðið þitt.</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>Auðlind</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Endurheimta</value>
+  </data>
+  <data name="Restore This Page" xml:space="preserve">
+    <value>Endurheimta þessa síðu</value>
+  </data>
+  <data name="Restore This Revision" xml:space="preserve">
+    <value>Endurheimta þessa útgáfu</value>
+  </data>
+  <data name="Revert" xml:space="preserve">
+    <value>Breyta aftur</value>
+  </data>
+  <data name="Revert to revision" xml:space="preserve">
+    <value>Breyta aftur í útgáfu</value>
+  </data>
+  <data name="Revert to revision {0}?" xml:space="preserve">
+    <value>Breyta aftur í útgáfu {0}?</value>
+  </data>
+  <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
+    <value>Endurnýjun "{0}" úr útgáfu {1} í {2} mun hafa áhrif á {3} breytingar.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
+    <value>Afturkalla {0} frá endurskoðun {1} til {2} mun kanna aftur {3} breytingar.&lt;br /&gt;Afturkalla þýðir ekki að breytingar tapist, en afturkallan ferli mun skapa nýja endurskoðun með afturkölluðum breytingum.&lt;br /&gt;&lt;br /&gt;Ertu viss um að þú viljir halda áfram?&lt;br /&gt;&lt;br /&gt;</value>
+  </data>
+  <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
+    <value>Afturkalla þýðir ekki að breytingar tapist, en afturkallan ferli mun skapa nýja endurskoðun með afturkölluðum breytingum.</value>
+  </data>
+  <data name="Review the differences between revisions of this page." xml:space="preserve">
+    <value>Yfirlit yfir mismuninn á milli endurskoðana á þessari síðu.</value>
+  </data>
+  <data name="Revision" xml:space="preserve">
+    <value>Endurskoðun</value>
+  </data>
+  <data name="Revision Comparison" xml:space="preserve">
+    <value>Samanburður á endurskoðunum</value>
+  </data>
+  <data name="Revision not found" xml:space="preserve">
+    <value>Endurskoðun ekki fundin</value>
+  </data>
+  <data name="revisions" xml:space="preserve">
+    <value>endurskoðanir</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Hlutverk</value>
+  </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>Ábyrgðarmaður Hlutverks</value>
+  </data>
+  <data name="Role membership and permissions." xml:space="preserve">
+    <value>Meðlimur hlutverks og heimildir.</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>hlutverkayfirráð</value>
+  </data>
+  <data name="Role: {0}" xml:space="preserve">
+    <value>Hlutverk: {0}</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Hlutverk</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Vista</value>
+  </data>
+  <data name="Save the page before uploading files." xml:space="preserve">
+    <value>vista síðuna áður en skrár eru hlaðnar upp.</value>
+  </data>
+  <data name="Scan the QR Code or enter this key &lt;kbd&gt;{0}&lt;/kbd&gt; into your two factor authenticator app. Spaces and casing do not matter." xml:space="preserve">
+    <value>Skannaðu QR kóðann eða sláðu inn þetta lykilorð &lt;kbd&gt;{0}&lt;/kbd&gt; í tvo þátta staðfestingarforritið þitt. Rými og stafrófsskiptir skiptir ekki máli.</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Leita</value>
+  </data>
+  <data name="Search accounts..." xml:space="preserve">
+    <value>Leita að reikningum...</value>
+  </data>
+  <data name="Search deleted pages..." xml:space="preserve">
+    <value>Leita að eyðilögðum síðum...</value>
+  </data>
+  <data name="Search emojis..." xml:space="preserve">
+    <value>Leita að táknmáli...</value>
+  </data>
+  <data name="Search for more emojis." xml:space="preserve">
+    <value>Leita að fleiri táknum.</value>
+  </data>
+  <data name="Search pages..." xml:space="preserve">
+    <value>Leita síðum...</value>
+  </data>
+  <data name="Search text" xml:space="preserve">
+    <value>Leita að texta</value>
+  </data>
+  <data name="Security Roles" xml:space="preserve">
+    <value>Öryggishlutverk</value>
+  </data>
+  <data name="Select a country" xml:space="preserve">
+    <value>Veldu land</value>
+  </data>
+  <data name="Select a language" xml:space="preserve">
+    <value>Veldu tungumál</value>
+  </data>
+  <data name="Select a role" xml:space="preserve">
+    <value>Veldu hlutverk</value>
+  </data>
+  <data name="Select a theme" xml:space="preserve">
+    <value>Veldu þema</value>
+  </data>
+  <data name="Select a time-zone" xml:space="preserve">
+    <value>Veldu tímabelti</value>
+  </data>
+  <data name="Select a wiki page." xml:space="preserve">
+    <value>Veldu wiki síðanu.</value>
+  </data>
+  <data name="Select an instruction" xml:space="preserve">
+    <value>Veldu leiðbeiningu</value>
+  </data>
+  <data name="Send verification email" xml:space="preserve">
+    <value>Sentu staðfestingarpóst</value>
+  </data>
+  <data name="Server and page event logs" xml:space="preserve">
+    <value>Þjónn og atburðaróskir síðna</value>
+  </data>
+  <data name="Set password" xml:space="preserve">
+    <value>Settu lykilorð</value>
+  </data>
+  <data name="Set up authenticator app" xml:space="preserve">
+    <value>Stofnaðu staðfestingaraðgerð</value>
+  </data>
+  <data name="Set your password" xml:space="preserve">
+    <value>Stilltu lykilorð þitt</value>
+  </data>
+  <data name="Severity" xml:space="preserve">
+    <value>Alvarleiki</value>
+  </data>
+  <data name="Shortcut" xml:space="preserve">
+    <value>Flýtileið</value>
+  </data>
+  <data name="Sign in with {0}" xml:space="preserve">
+    <value>Skráðu þig inn með {0}</value>
+  </data>
+  <data name="Signup" xml:space="preserve">
+    <value>Náðu inn</value>
+  </data>
+  <data name="Signup. Almost there..." xml:space="preserve">
+    <value>Skráning. Næstum komið...</value>
+  </data>
+  <data name="Site Menu" xml:space="preserve">
+    <value>Vefsíðumeny</value>
+  </data>
+  <data name="Site Menu Item" xml:space="preserve">
+    <value>Vefvanarmennain</value>
+  </data>
+  <data name="Site Menu Items" xml:space="preserve">
+    <value>Vefvanarmennalið</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Stærð</value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Lítið</value>
+  </data>
+  <data name="Source Page" xml:space="preserve">
+    <value>Upprunaspurning</value>
+  </data>
+  <data name="Stack Trace" xml:space="preserve">
+    <value>Stack Trace</value>
+  </data>
+  <data name="Strikethrough" xml:space="preserve">
+    <value>Strikethrough</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Yfirlit</value>
+  </data>
+  <data name="Swapping to the &lt;strong&gt;Development&lt;/strong&gt; environment displays detailed information about the error that occurred." xml:space="preserve">
+    <value>Vænting yfir á &lt;strong&gt;Þróun&lt;/strong&gt; umhverfið sýnir nákvæmar upplýsingar um villu sem varð.</value>
+  </data>
+  <data name="System Default" xml:space="preserve">
+    <value>Sjálfgefið kerfi</value>
+  </data>
+  <data name="System Metrics" xml:space="preserve">
+    <value>Kerfiseiginleikar</value>
+  </data>
+  <data name="Tag Copied" xml:space="preserve">
+    <value>Tákn búið til</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Tákn</value>
+  </data>
+  <data name="Target Page" xml:space="preserve">
+    <value>Markmiðsíða</value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>Prófa</value>
+  </data>
+  <data name="Test LDAP Authentication" xml:space="preserve">
+    <value>Prófa LDAP auðkenningu</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Texti</value>
+  </data>
+  <data name="The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile." xml:space="preserve">
+    <value>Reikningurinn hefur verið eytt og allur innihald sem var búið til eða breytt af þessum reikningi hefur verið þýðað yfir á nafnlaust prófíl.</value>
+  </data>
+  <data name="The compilation statistics for all wiki page operations." xml:space="preserve">
+    <value>Tölfræði yfir samantekt allra aðgerða á wiki síðum.</value>
+  </data>
+  <data name="The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code." xml:space="preserve">
+    <value>Vafrinn sem þú notar hefur verið gleyptur. Þegar þú skráir þig inn aftur af þessum vafra verður þú beðin um 2fa kodann þinn.</value>
+  </data>
+  <data name="The Development environment shouldn't be enabled for deployed applications." xml:space="preserve">
+    <value>Þróunarumhverfi ætti ekki að vera virkt fyrir útbjuggar hugbúnaðarforrit.</value>
+  </data>
+  <data name="The event log is empty." xml:space="preserve">
+    <value>Atburðaskráin er tóm.</value>
+  </data>
+  <data name="The external login was added." xml:space="preserve">
+    <value>Ytri innskráning hefur verið bætt við.</value>
+  </data>
+  <data name="The external login was not added. External logins can only be associated with one account." xml:space="preserve">
+    <value>Ytri innskráning var ekki bætt við. Ytri innskráningar geta eingöngu verið tengdar við eitt reikning.</value>
+  </data>
+  <data name="The external login was not removed." xml:space="preserve">
+    <value>Ytri innskráning var ekki fjarlægð.</value>
+  </data>
+  <data name="The external login was removed." xml:space="preserve">
+    <value>Ytri innskráning var fjarlægð.</value>
+  </data>
+  <data name="The page does not have any comments, why don't you add one?" xml:space="preserve">
+    <value>Það eru engar athugasemdir á síðunni, af hverju ýtirðu ekki á að bæta við?</value>
+  </data>
+  <data name="The requested page or revision does not exist." xml:space="preserve">
+    <value>Beðni síða eða útgáfa finnst ekki.</value>
+  </data>
+  <data name="The selected page does not have any revisions." xml:space="preserve">
+    <value>Valkað síða hefur engar endurskoðanir.</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Þema</value>
+  </data>
+  <data name="Themes" xml:space="preserve">
+    <value>Þemu</value>
+  </data>
+  <data name="There are currently no missing pages being referenced by other wiki pages." xml:space="preserve">
+    <value>Á meðan er engin vantað síða sem vísað er til frá öðrum wiki-síðum.</value>
+  </data>
+  <data name="There are currently no pages which exist within namespaces." xml:space="preserve">
+    <value>Á meðan eru engar síður sem tilheyra nafngreinum.</value>
+  </data>
+  <data name="There are no compilation statistics available." xml:space="preserve">
+    <value>Engin samantektartölfræði er tiltæk.</value>
+  </data>
+  <data name="There are no deleted revisions for this page." xml:space="preserve">
+    <value>Engar eyttar endurskoðanir fyrir þessa síðu.</value>
+  </data>
+  <data name="There are no menu items configured." xml:space="preserve">
+    <value>Engir valmöguleikar fyrir valmyndina eru stilltir.</value>
+  </data>
+  <data name="There are no orphaned page attachments." xml:space="preserve">
+    <value>Engar munaðarlausar viðhengi á síðu.</value>
+  </data>
+  <data name="There are no pages which contain the selected processing instruction." xml:space="preserve">
+    <value>Engar síður sem innihalda valda vinnslustillingu eru til.</value>
+  </data>
+  <data name="There are no security roles configured." xml:space="preserve">
+    <value>Engar öryr hlutverk eru stillt.</value>
+  </data>
+  <data name="These are all of the page attachments that are no longer attached to any page revision." xml:space="preserve">
+    <value>Þetta eru öll skjala viðhengi sem eru ekki lengur tengd neinni útgáfu af síðunni.</value>
+  </data>
+  <data name="This account has been locked out, please try again later." xml:space="preserve">
+    <value>Reikningurinn þinn hefur verið lokaður, vinsamlegast prófaðu aftur síðar.</value>
+  </data>
+  <data name="This action can only be undone by a moderator or administrator." xml:space="preserve">
+    <value>Þessi aðgerð er aðeins hægt að óvíkja af stjórnanda eða stjórnanda.</value>
+  </data>
+  <data name="This action only disables 2FA." xml:space="preserve">
+    <value>Þessi aðgerð hefur aðeins áhrif á 2FA.</value>
+  </data>
+  <data name="This display name will be visible publicly." xml:space="preserve">
+    <value>Þetta birtingarnafn verður sýnilegt almennt.</value>
+  </data>
+  <data name="This file does not have any revisions." xml:space="preserve">
+    <value>Þetta skjal hefur engar útgáfur.</value>
+  </data>
+  <data name="This is your profile, do with it what you may." xml:space="preserve">
+    <value>Þetta er prófíllinn þinn, gerðu það sem þér sýnist við hann.</value>
+  </data>
+  <data name="This process disables 2FA until you verify your authenticator app. If you do not complete your authenticator app configuration you may lose access to your account." xml:space="preserve">
+    <value>Þessi ferli deaktiveður 2FA þangað til þú staðfestir authenticator appið þitt. Ef þú klárar ekki stillingar fyrir authenticator appið gætir þú misst aðgang að reikningnum þínum.</value>
+  </data>
+  <data name="This will check the database integrity and validate all foreign keys. Continue?" xml:space="preserve">
+    <value>Þetta mun sannreyna gagnagrunnsheild og staðfesta öll óbdeginn lykla. Halda áfram?</value>
+  </data>
+  <data name="This will compile all pages in the wiki and store them in cache. This could take some time! Continue?" xml:space="preserve">
+    <value>Þetta mun safna öllu síðunum í wiki-inu og geyma þau í skyndiminni. Þetta gæti tekið dálítinn tíma! Halda áfram?</value>
+  </data>
+  <data name="This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?" xml:space="preserve">
+    <value>Þetta mun sameina allar sjálfgefnar stillingar, en mun ekki skrifa yfir núverandi stillingar þínar. Halda áfram?</value>
+  </data>
+  <data name="This will optimize the database indexes and structure. Continue?" xml:space="preserve">
+    <value>Þetta mun hámarka gagnagrunnslykla og uppbyggingu. Halda áfram?</value>
+  </data>
+  <data name="This will permanently delete the specified attachment. Continue?" xml:space="preserve">
+    <value>Þetta mun varanlega eyða viðhenginu sem tilgreint er. Halda áfram?</value>
+  </data>
+  <data name="This will permanently delete the specified deleted revision. Continue?" xml:space="preserve">
+    <value>Þetta mun varanlega eyða tilgreindri eyðilagðri útgáfu. Halda áfram?</value>
+  </data>
+  <data name="This will permanently delete the specified page, all revisions and attachments. Continue?" xml:space="preserve">
+    <value>Þetta mun varanlega eyða tiltekna síðunni, öllum útgáfum og viðhengjum. Halda áfram?</value>
+  </data>
+  <data name="This will permanently purge all deleted page revisions for &quot;{0}&quot;. Continue?" xml:space="preserve">
+    <value>Þetta mun varanlega hreinsa allar eyðilagðar útgáfur af síðunni "{0}". Halda áfram?</value>
+  </data>
+  <data name="This will permanently purge all deleted pages. Continue?" xml:space="preserve">
+    <value>Þetta mun varanlega hreinsa allar eyðilagðar síður. Halda áfram?</value>
+  </data>
+  <data name="This will permanently purge all event logs. Continue?" xml:space="preserve">
+    <value>Þetta mun varanlega hreinsa allar viðburðaskrár. Halda áfram?</value>
+  </data>
+  <data name="This will permanently purge all orphaned page attachments. Continue?" xml:space="preserve">
+    <value>Þetta mun varanlega hreinsa öll óskilgreind viðhengi síðna. Halda áfram?</value>
+  </data>
+  <data name="This will rebuild all pages in the wiki. This could take some time! Continue?" xml:space="preserve">
+    <value>Þetta mun endurbyggja allar síður í wiki-síðunni. Þetta gæti tekið smá tíma! Halda áfram?</value>
+  </data>
+  <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
+    <value>Þetta mun fjarlægja tómar pláss frá gagnagrunninum, sem getur losað pláss ef mikið af gögnum hefur verið eytt. Halda áfram?</value>
+  </data>
+  <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>Þetta mun endurheimta allar innbyggðar nafngreiningarsíður, skrifa yfir allar sérsniðnar breytingar sem þú hefur gert. Halda áfram?</value>
+  </data>
+  <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
+    <value>Þetta mun endurheimta allar sjálfgefnar sniðmát, skrifa yfir allar sérsniðnar breytingar sem þú hefur gert í gagnagrunninum. Halda áfram?</value>
+  </data>
+  <data name="This will restore all Feature Templates, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>Þetta mun endurheimta alla Feature Templates, skrifa yfir allar sérsniðnar breytingar sem þú hefur gert. Halda áfram?</value>
+  </data>
+  <data name="This will restore all Include namespace pages. Continue?" xml:space="preserve">
+    <value>Þetta mun endurheimta allar Include nafnssviðssíður. Halda áfram?</value>
+  </data>
+  <data name="This will restore all Wiki Help namespace pages. Continue?" xml:space="preserve">
+    <value>Þetta mun endurheimta allar Wiki Help nafnssviðssíður. Halda áfram?</value>
+  </data>
+  <data name="This will restore the deleted page and all of its history. Continue?" xml:space="preserve">
+    <value>Þetta mun endurheimta eydda síðu og allt sögulag hennar. Halda áfram?</value>
+  </data>
+  <data name="This will restore the deleted revision. Continue?" xml:space="preserve">
+    <value>Þetta mun endurheimta eydda útgáfu. Halda áfram?</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>Tíma svæði</value>
+  </data>
+  <data name="To use an authenticator app go through the following steps:" xml:space="preserve">
+    <value>Til að nota sannvottunarforrit skaltu fara í gegnum eftirfarandi skref:</value>
+  </data>
+  <data name="Truncate Page Revisions" xml:space="preserve">
+    <value>Takmarka breytingar á síðusíðum</value>
+  </data>
+  <data name="Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?" xml:space="preserve">
+    <value>að takmarka breytingar á síðusíðum mun eyða öllum útgáfuferli allra síða og skýrslum. Þetta mun aðeins endurráða nýjasta útgáfu allra hluta. Þetta telst almennt vera stórt mál! Halda áfram?</value>
+  </data>
+  <data name="Two-factor authentication" xml:space="preserve">
+    <value>Tvíþætt sannvottun</value>
+  </data>
+  <data name="Two-factor authentication (2FA)" xml:space="preserve">
+    <value>Tvíþætt sannvottun (2FA)</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Tegund</value>
+  </data>
+  <data name="Type comment..." xml:space="preserve">
+    <value>Sláðu inn athugasemd...</value>
+  </data>
+  <data name="Unable to delete page" xml:space="preserve">
+    <value>Get ekki eytt síðu</value>
+  </data>
+  <data name="Unauthorized" xml:space="preserve">
+    <value>Óheimilt</value>
+  </data>
+  <data name="Unconfirmed" xml:space="preserve">
+    <value>Óstaðfest</value>
+  </data>
+  <data name="Underline" xml:space="preserve">
+    <value>Undirali</value>
+  </data>
+  <data name="Unexpected Error" xml:space="preserve">
+    <value>Óvænt villa</value>
+  </data>
+  <data name="Unexpected error:" xml:space="preserve">
+    <value>Óvænt villa:</value>
+  </data>
+  <data name="Update password" xml:space="preserve">
+    <value>Uppfæra lykilorð</value>
+  </data>
+  <data name="Upload successful" xml:space="preserve">
+    <value>Hlaðið upp sem successful</value>
+  </data>
+  <data name="URL must start with" xml:space="preserve">
+    <value>Slóð verður að byrja á</value>
+  </data>
+  <data name="Use another service to register" xml:space="preserve">
+    <value>Notaðu annað þjónustu til að skrá sig</value>
+  </data>
+  <data name="Use commas to separate categories." xml:space="preserve">
+    <value>Notaðu komma til að aðskilja flokka.</value>
+  </data>
+  <data name="Use the Templates namespace to add a page to the list of templates, e.g. Templates :: My First Template." xml:space="preserve">
+    <value>Notaðu Templates nafntaknaðinn til að bæta við síðunni í lista yfir sniðmát, t.d. Templates :: Fyrsta sniðmátið mitt.</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Notandanafn</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Notendur</value>
+  </data>
+  <data name="Vacuum" xml:space="preserve">
+    <value>Ryksuga</value>
+  </data>
+  <data name="Various utilities to assist in management of the SQLite database." xml:space="preserve">
+    <value>Ýmis verkfæri til aðstoðar við stjórnun á SQLite gagnagrunninum.</value>
+  </data>
+  <data name="Verification Code" xml:space="preserve">
+    <value>Staðfestingarkóði</value>
+  </data>
+  <data name="Verification code is invalid." xml:space="preserve">
+    <value>Staðfestingarkóðinn er ógildur.</value>
+  </data>
+  <data name="Verification email sent. Please check your email." xml:space="preserve">
+    <value>Staðfestingarpóstur sendur. Vinsamlegast athugaðu póstinn þinn.</value>
+  </data>
+  <data name="Verify" xml:space="preserve">
+    <value>Staðfesta</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>útgáfa</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Skoða</value>
+  </data>
+  <data name="View all comments" xml:space="preserve">
+    <value>Skoða allar athugasemdir</value>
+  </data>
+  <data name="View all revisions" xml:space="preserve">
+    <value>Skoða allar endurskoðanir</value>
+  </data>
+  <data name="View latest revision" xml:space="preserve">
+    <value>Skoða nýjustu endurskoðun</value>
+  </data>
+  <data name="Viewing a deleted page" xml:space="preserve">
+    <value>Skoða eyða síðu</value>
+  </data>
+  <data name="Viewing a deleted page revision" xml:space="preserve">
+    <value>Skoða eydda endurskoðun síðu</value>
+  </data>
+  <data name="Viewing a historical version" xml:space="preserve">
+    <value>Skoða sögulega útgáfu</value>
+  </data>
+  <data name="What did you change and why?" xml:space="preserve">
+    <value>Hvað breyttir þú og hvers vegna?</value>
+  </data>
+  <data name="Wiki Help Pages" xml:space="preserve">
+    <value>Staðbundar hjálparsíður Wiki</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>Wiki síða</value>
+  </data>
+  <data name="Wikified Size" xml:space="preserve">
+    <value>Wikifærsla stærð</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Já</value>
+  </data>
+  <data name="You are viewing a page revision which was deleted on {0} by {1}." xml:space="preserve">
+    <value>Þú ert að skoða útgáfu síðunnar sem var fjarlægð þann {0} af {1}.</value>
+  </data>
+  <data name="You are viewing a page which was deleted on {0} by {1}." xml:space="preserve">
+    <value>Þú ert að skoða síðuna sem var fjarlægð þann {0} af {1}.</value>
+  </data>
+  <data name="You are viewing revision {0} of &quot;{1}&quot; modified by {2} on {3}." xml:space="preserve">
+    <value>Þú ert að skoða endurskoðun {0} af "{1}" breytt af {2} þann {3}.</value>
+  </data>
+  <data name="You can generate a new set of recovery codes." xml:space="preserve">
+    <value>Þú getur búið til nýja fylki af endurheimtukóðum.</value>
+  </data>
+  <data name="You can log in with a recovery code" xml:space="preserve">
+    <value>Þú getur skráð þig inn með endurheimtukóða</value>
+  </data>
+  <data name="You do not have a local username/password for this site. Add a local account so you can log in without an external login." xml:space="preserve">
+    <value>Þú hefur ekkert staðbundið notandanafn/lykilorð fyrir þetta vefsíðu. Bættu við staðbundnu aðgangsorði svo þú getir skráð þig inn án utanaðkomandi innskráningar.</value>
+  </data>
+  <data name="You do not have access to this resource." xml:space="preserve">
+    <value>Þú átt ekki aðgang að þessari auðlind.</value>
+  </data>
+  <data name="You have {0} recovery codes left." xml:space="preserve">
+    <value>Þú hefur {0} endurheimtukóða eftir.</value>
+  </data>
+  <data name="You have 1 recovery code left." xml:space="preserve">
+    <value>Þú hefur 1 endurheimtukóða eftir.</value>
+  </data>
+  <data name="You have generated new recovery codes." xml:space="preserve">
+    <value>Þú hefur búið til nýja endurheimtukóða.</value>
+  </data>
+  <data name="You have no recovery codes left." xml:space="preserve">
+    <value>Þú hefur ekki eftir endurreisnarkóða.</value>
+  </data>
+  <data name="You have requested to log in with a recovery code. This login will not be remembered until you provide an authenticator app code at log in or disable 2FA and log in again." xml:space="preserve">
+    <value>Þú hefur beðið um að skrá þig inn með endurreisnarkóða. Þessi innskráning mun ekki vera minnisstæð fyrr en þú leggur inn authenticator forritakóða við innskráningu eða öryggisákvæðið 2FA og skrá þig inn aftur.</value>
+  </data>
+  <data name="You have successfully logged out of the application." xml:space="preserve">
+    <value>Þú hefur verið skráður út af forritinu með árangri.</value>
+  </data>
+  <data name="You have successfully signed in with LDAP but we still need a bit of information." xml:space="preserve">
+    <value>Þú hefur skráð þig inn með LDAP með árangri en við þurfum enn smá upplýsingar.</value>
+  </data>
+  <data name="You have successfully signed in with the external provider but we still need a bit of information." xml:space="preserve">
+    <value>Þú hefur skráð þig inn með ytri þjónustu með árangri en við þurfum enn smá upplýsingar.</value>
+  </data>
+  <data name="You must accept the policy before you can enable two factor authentication." xml:space="preserve">
+    <value>Þú verður að samþykkja stefnuna áður en þú getur virkjað tvíþátta auðkenningu.</value>
+  </data>
+  <data name="You must generate a new set of recovery codes before you can log in with a recovery code." xml:space="preserve">
+    <value>Þú verður að búa til nýtt sett af endurreisnarkóðum áður en þú getur skráð þig inn með endurreisnarkóða.</value>
+  </data>
+  <data name="You should generate a new set of recovery codes." xml:space="preserve">
+    <value>Þú ættir að búa til nýtt sett af endurreisnarkóðum.</value>
+  </data>
+  <data name="You've successfully authenticated with {0}. Please enter an email address for this site below and click the Register button to finish logging in." xml:space="preserve">
+    <value>Þú hefur auðkennst með {0}. Vinsamlegast sláðu inn tölvupóstfang fyrir þetta vefsvæði hér að neðan og smelltu á Skráningartakkann til að ljúka innskráningunni.</value>
+  </data>
+  <data name="Your authenticator app has been verified." xml:space="preserve">
+    <value>Authenticátor forritið þitt hefur verið staðfest.</value>
+  </data>
+  <data name="Your authenticator app key has been reset, you will need to configure your authenticator app using the new key." xml:space="preserve">
+    <value>lykillinn á sannvottunarforriti hefur verið endurstillað, þú þarft að stilla sannvottunarforritið þitt með nýja lykli.</value>
+  </data>
+  <data name="Your email is unchanged." xml:space="preserve">
+    <value>Tölvupóstur þinn er óbreyttur.</value>
+  </data>
+  <data name="Your login is protected with an authenticator app. Enter your authenticator code below." xml:space="preserve">
+    <value>Innskráning þín er varin með sannvottunarforriti. Sláðu inn sannvottunarlykilinn þinn hér að neðan.</value>
+  </data>
+  <data name="Your password has been changed." xml:space="preserve">
+    <value>Lykilorð þitt hefur verið breytt.</value>
+  </data>
+  <data name="Your password has been reset." xml:space="preserve">
+    <value>Lykilorð þitt hefur verið endurstillað.</value>
+  </data>
+  <data name="Your password has been set." xml:space="preserve">
+    <value>Lykilorð þitt hefur verið stillt.</value>
+  </data>
+  <data name="Your search criteria resulted in no pages, simplify your search text." xml:space="preserve">
+    <value>Leitarforsendur þínar skiluðu engum síðum, einföldaðu leitartextann þinn.</value>
+  </data>
+  <data name="An error occurred retrieving user information from the external provider." xml:space="preserve">
+    <value>Óbirtist villu við að sækja notandaupplýsingar frá ytri þjónustu.</value>
+  </data>
+  <data name="An error occurred while adding the login." xml:space="preserve">
+    <value>Óbirtist villu við að bæta innskráningu við.</value>
+  </data>
+  <data name="An error occurred while creating the user." xml:space="preserve">
+    <value>Óbirtist villu við að búa til notanda.</value>
+  </data>
+  <data name="Display Name is already in use." xml:space="preserve">
+    <value>Visnafna er þegar í notkun.</value>
+  </data>
+  <data name="Display Name is required." xml:space="preserve">
+    <value>Þarft að gefa upp visanafnið.</value>
+  </data>
+  <data name="Error changing email." xml:space="preserve">
+    <value>Villa við að breyta pósti.</value>
+  </data>
+  <data name="Error changing user name." xml:space="preserve">
+    <value>Villa við að breyta notendanafni.</value>
+  </data>
+  <data name="Error confirming your email." xml:space="preserve">
+    <value>Villa við staðfestingu tölvupóstsins þíns.</value>
+  </data>
+  <data name="Error from external provider: {0}" xml:space="preserve">
+    <value>Villa frá ytri þjónustu: {0}</value>
+  </data>
+  <data name="Error loading external login information during confirmation." xml:space="preserve">
+    <value>Villa við að hlaða inn upplýsingum um ytri innskráningu meðan á staðfestingu stóð.</value>
+  </data>
+  <data name="Error loading external login information." xml:space="preserve">
+    <value>Villa við að hlaða inn upplýsingum um ytri innskráningu.</value>
+  </data>
+  <data name="Failed to add login info for LDAP stub account: {0}." xml:space="preserve">
+    <value>Mistekst að bæta inn innskráningarupplýsingum fyrir LDAP_stub reikning: {0}.</value>
+  </data>
+  <data name="Failed to create stub account for the LDAP credential: {0}." xml:space="preserve">
+    <value>Mistekst að búa til stub reikning fyrir LDAP vottorðs:</value>
+  </data>
+  <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
+    <value>Miseykst að finna notendareikning fyrir LDAP auðkenningu.</value>
+  </data>
+  <data name="Invalid login attempt." xml:space="preserve">
+    <value>Ógilt innskráningartilraun.</value>
+  </data>
+  <data name="Thank you for confirming your email change." xml:space="preserve">
+    <value>Þakka þér fyrir að staðfesta breytingu á netfangi þínu.</value>
+  </data>
+  <data name="Thank you for confirming your email." xml:space="preserve">
+    <value>Þakka þér fyrir að staðfesta netfangið þitt.</value>
+  </data>
+  <data name="The email address was not supplied by the external provider." xml:space="preserve">
+    <value>Netfangið var ekki veitt af utanaðkomandi þjónustu.</value>
+  </data>
+  <data name="The specified user could not be found." xml:space="preserve">
+    <value>Viðkomandi notandi fannst ekki.</value>
+  </data>
+  <data name="User created a new account with LDAP." xml:space="preserve">
+    <value>Notandi bjó til nýjan reikning með LDAP.</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Vaða</value>
+  </data>
+  <data name="Allow Fuzzy Matching" xml:space="preserve">
+    <value>Leyfa ófullkomna samsvörun</value>
+  </data>
+  <data name="Allow Signup" xml:space="preserve">
+    <value>Leyfa skráningu</value>
+  </data>
+  <data name="Authentication and Cookies." xml:space="preserve">
+    <value>auðkenning og kökur.</value>
+  </data>
+  <data name="Basic" xml:space="preserve">
+    <value>Grunnlína</value>
+  </data>
+  <data name="Basic wiki settings such as formatting." xml:space="preserve">
+    <value>Grundvallarstillingar wiki eins og útlit.</value>
+  </data>
+  <data name="Brand Image (Small)" xml:space="preserve">
+    <value>Merki Mynd (Litið)</value>
+  </data>
+  <data name="Cache Memory Limit MB" xml:space="preserve">
+    <value>Geymsluminni takmörk MB</value>
+  </data>
+  <data name="Configuration for Active Directory authentication using LDAP" xml:space="preserve">
+    <value>Samsetning fyrir virk skráarkerfi auðkenningu með LDAP</value>
+  </data>
+  <data name="Configuration related to searching and indexing." xml:space="preserve">
+    <value>Samsetning tengd leitan og stafrófsröð.</value>
+  </data>
+  <data name="Cookies" xml:space="preserve">
+    <value>Kökur</value>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>Höfundaréttur</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Sérsnið</value>
+  </data>
+  <data name="Default Country" xml:space="preserve">
+    <value>Default Land</value>
+  </data>
+  <data name="Default Emoji Height" xml:space="preserve">
+    <value>Sjálfgefin Emoji Hæð</value>
+  </data>
+  <data name="Default Language" xml:space="preserve">
+    <value>Sjálfgefin Tungumál</value>
+  </data>
+  <data name="Default Profile Recently Modified Count" xml:space="preserve">
+    <value>Fjöldi nýlega breyttra prófíla á sjálfgefnu stigum</value>
+  </data>
+  <data name="Default Signup Role" xml:space="preserve">
+    <value>Sjálfgefið skráningarhlutverk</value>
+  </data>
+  <data name="Default TimeZone" xml:space="preserve">
+    <value>Sjálfgefið Tímabelti</value>
+  </data>
+  <data name="EMail and SMTP setting." xml:space="preserve">
+    <value>Netfang og SMTP uppsetning.</value>
+  </data>
+  <data name="Enable Page Comments" xml:space="preserve">
+    <value>Virkja ummæli á síðunni</value>
+  </data>
+  <data name="Enable Public Profiles" xml:space="preserve">
+    <value>Virkja opinber prófíla</value>
+  </data>
+  <data name="Expiraion Hours" xml:space="preserve">
+    <value>Лiðs tímastundir</value>
+  </data>
+  <data name="External Authentication" xml:space="preserve">
+    <value>Ytri auðkenning</value>
+  </data>
+  <data name="External Authentication Providers" xml:space="preserve">
+    <value>Ytri auðkenningaraðilar</value>
+  </data>
+  <data name="File and Attachment settings." xml:space="preserve">
+    <value>Stillingar fyrir skrár og viðhengi.</value>
+  </data>
+  <data name="Files and Attachments" xml:space="preserve">
+    <value>Skrár og viðhengi</value>
+  </data>
+  <data name="Filesystem location where persistent cookies are stored for saved session logins." xml:space="preserve">
+    <value>Svæðis á skjölum þar sem varanlegir kökur eru vistaðar fyrir vistaðar skráningar á vefnum.</value>
+  </data>
+  <data name="Fixed Header Menu Position" xml:space="preserve">
+    <value>Fast stilling á hausmeinastiku</value>
+  </data>
+  <data name="Footer" xml:space="preserve">
+    <value>Fótur</value>
+  </data>
+  <data name="FooterBlurb" xml:space="preserve">
+    <value>Fótsetningur</value>
+  </data>
+  <data name="From Display Name" xml:space="preserve">
+    <value>Frá sýnilegu nafni</value>
+  </data>
+  <data name="Functionality" xml:space="preserve">
+    <value>Virkni</value>
+  </data>
+  <data name="General wiki functionality." xml:space="preserve">
+    <value>Almenn virkni vefsíðu.</value>
+  </data>
+  <data name="Google : ClientId" xml:space="preserve">
+    <value>Google : ClientId</value>
+  </data>
+  <data name="Google : ClientSecret" xml:space="preserve">
+    <value>Google : ClientSecret</value>
+  </data>
+  <data name="Google : Use Google Authentication" xml:space="preserve">
+    <value>Google : Nota Google auðkenningu</value>
+  </data>
+  <data name="Header" xml:space="preserve">
+    <value>Fyrirsögn</value>
+  </data>
+  <data name="HTML email template for new account verification" xml:space="preserve">
+    <value>HTML tölvupóstsundUrl fyrir nýja reikningsstaðfestingu</value>
+  </data>
+  <data name="HTML email template to use when sending a password reset email." xml:space="preserve">
+    <value>HTML tölvupóstsundUrl til að senda endurstillingu á lykilorði.</value>
+  </data>
+  <data name="HTML Layout" xml:space="preserve">
+    <value>HTML Skipulag</value>
+  </data>
+  <data name="HTML layout." xml:space="preserve">
+    <value>HTML skipulag.</value>
+  </data>
+  <data name="HTML placed inside the body tag but directly after the other body content." xml:space="preserve">
+    <value>HTML sem er sett inn í líkama tagsins en beint eftir efnisstefnu líkamans.</value>
+  </data>
+  <data name="HTML placed inside the body tag but just before the other content of the page." xml:space="preserve">
+    <value>HTML sett á inn í líkamskeðjuna en rétt fyrir öðrum innihaldi síðunnar.</value>
+  </data>
+  <data name="HTML placed into the footer section of the page." xml:space="preserve">
+    <value>HTML sett í fótseðilssvæði síðunnar.</value>
+  </data>
+  <data name="HTML placed into the header section of the HTML. A useful place to put scripts and CSS." xml:space="preserve">
+    <value>HTML sett í hausvið síðunnar. Áhugaverður staður til að setja skripti og CSS.</value>
+  </data>
+  <data name="If set, users can not login until their email addresses are verified. If changed, the website will need to be restarted. Default: Enabled." xml:space="preserve">
+    <value>Ef stillt, geta notendur ekki skráð sig inn fyrr en tölvupóstkenning þeirra er staðfest. Ef breytt, þarf að endurræsa vefsvæðið. Sjálfgefið: Virkt.</value>
+  </data>
+  <data name="If set, users will be allowed to sing up and create their own account. Default: Enabled." xml:space="preserve">
+    <value>Ef stillt, verða notendur leyfðir að skrá sig inn og búa til eigin reikning. Sjálfgefið: Virkt.</value>
+  </data>
+  <data name="Include Search on Navbar" xml:space="preserve">
+    <value>Innifali leitarstreng á Navigation Bar</value>
+  </data>
+  <data name="Include wiki Description in Meta" xml:space="preserve">
+    <value>Innifali wiki Lýsing í Meta</value>
+  </data>
+  <data name="Include wiki Tags in Meta" xml:space="preserve">
+    <value>Innifali wiki Merki í Meta</value>
+  </data>
+  <data name="LDAP : Default Sign-in Domain" xml:space="preserve">
+    <value>LDAP : Sjálfgefið skráningarsvæði</value>
+  </data>
+  <data name="LDAP : Enable LDAP Authentication" xml:space="preserve">
+    <value>LDAP : Virkja LDAP auðkenningu</value>
+  </data>
+  <data name="LDAP : Fully-Qualified Domain" xml:space="preserve">
+    <value>LDAP : Fullvísindaskráð domæn</value>
+  </data>
+  <data name="LDAP : Use Secure Socket Layer" xml:space="preserve">
+    <value>LDAP : Nota öruggur sokla lag</value>
+  </data>
+  <data name="LDAP Authentication" xml:space="preserve">
+    <value>LDAP sannvottun</value>
+  </data>
+  <data name="Look &amp; Feel customizations." xml:space="preserve">
+    <value>Svipmyndir og útlitshönnun.</value>
+  </data>
+  <data name="Max Attachment File Size" xml:space="preserve">
+    <value>Hámarksskjalstærð viðhengi</value>
+  </data>
+  <data name="Max Avatar File Size" xml:space="preserve">
+    <value>Hámarksstærð á aðgerðarmynd</value>
+  </data>
+  <data name="Max Emoji File Size" xml:space="preserve">
+    <value>Hámarksstærð á táknmálsmynd</value>
+  </data>
+  <data name="Maximum size in bytes for a user any page attachment." xml:space="preserve">
+    <value>Hámarksstærð í bætist sem notandi getur sett inn á eina síðu í bæti.</value>
+  </data>
+  <data name="Maximum size in bytes for a user avatar image." xml:space="preserve">
+    <value>Hámarksstærð á notendaskilti mynd</value>
+  </data>
+  <data name="Maximum size in bytes for an emoji image." xml:space="preserve">
+    <value>Hámarksstærð á táknmálsmynd</value>
+  </data>
+  <data name="Membership" xml:space="preserve">
+    <value>Ara meðalvara</value>
+  </data>
+  <data name="Membership settings such as defaults for new members and permissions." xml:space="preserve">
+    <value>Upplýsingar um meðlimi eins og sjálfgefinn stillingar fyrir nýja meðlimi og heimildir.</value>
+  </data>
+  <data name="Microsoft : ClientId" xml:space="preserve">
+    <value>Microsoft : ClientId</value>
+  </data>
+  <data name="Microsoft : ClientSecret" xml:space="preserve">
+    <value>Microsoft : ClientSecret</value>
+  </data>
+  <data name="Microsoft : Use Microsoft Authentication" xml:space="preserve">
+    <value>Microsoft : Nota Microsoft auðkenningu</value>
+  </data>
+  <data name="Minimum Match Score" xml:space="preserve">
+    <value>Lágmarks Samtalsstig</value>
+  </data>
+  <data name="New Page Template" xml:space="preserve">
+    <value>Ný snið fyrir síðu</value>
+  </data>
+  <data name="Number of hours before cookies expire." xml:space="preserve">
+    <value>Fjöldi klukkutíma áður en kökur rofna.</value>
+  </data>
+  <data name="OIDC : Authority" xml:space="preserve">
+    <value>OIDC : Staða</value>
+  </data>
+  <data name="OIDC : ClientId" xml:space="preserve">
+    <value>OIDC : ClientId</value>
+  </data>
+  <data name="OIDC : ClientSecret" xml:space="preserve">
+    <value>OIDC : ClientSecret</value>
+  </data>
+  <data name="OIDC : Use OIDC Authentication" xml:space="preserve">
+    <value>OIDC : Nota OIDC auðkenning notuð</value>
+  </data>
+  <data name="Page Cache Time (Seconds)" xml:space="preserve">
+    <value>Vikur af rekki síðusíðu (sekúndur)</value>
+  </data>
+  <data name="Page Not Exists Page" xml:space="preserve">
+    <value>Síðan finnst ekki</value>
+  </data>
+  <data name="Pagination Size" xml:space="preserve">
+    <value>Fjöldi síðna</value>
+  </data>
+  <data name="Performance" xml:space="preserve">
+    <value>Frammistaða</value>
+  </data>
+  <data name="Performance related settings." xml:space="preserve">
+    <value>Stillingar sem tengjast frammistöðu.</value>
+  </data>
+  <data name="Persist Keys Path" xml:space="preserve">
+    <value>Slóð til að vista lykla</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Hlið</value>
+  </data>
+  <data name="Post-Body" xml:space="preserve">
+    <value>Eftir-kroppur</value>
+  </data>
+  <data name="Pre-Body" xml:space="preserve">
+    <value>Undir Body</value>
+  </data>
+  <data name="Pre-Load Animated Emojis" xml:space="preserve">
+    <value>Fyrirlestrar Hreyfimyndir Emojis</value>
+  </data>
+  <data name="Record Compilation Metrics" xml:space="preserve">
+    <value>Mælingar Umsköpunar Skráningar</value>
+  </data>
+  <data name="Require Change Summary when Editing" xml:space="preserve">
+    <value>Krefjast Yfirlit um Breytingar við Uppfærslu</value>
+  </data>
+  <data name="Require Email Verification" xml:space="preserve">
+    <value>Krefjast Netföngauppröfunar</value>
+  </data>
+  <data name="Revision Does Not Exists Page" xml:space="preserve">
+    <value>Engin Skuldbinding á Breytingarsíðu</value>
+  </data>
+  <data name="Show Change Summary when Editing" xml:space="preserve">
+    <value>Sýna Yfirlit um Breytingar við Uppfærslu</value>
+  </data>
+  <data name="Show Comments on Page Footer" xml:space="preserve">
+    <value>Sýna Athugasemdir á Fótapalli Síðu</value>
+  </data>
+  <data name="Show Last Modified on Page Footer" xml:space="preserve">
+    <value>Sýna Síðasta Breytingu á Fótapalli Síðu</value>
+  </data>
+  <data name="Split Camel Case" xml:space="preserve">
+    <value>Skipta Kakamálum</value>
+  </data>
+  <data name="Template: Account Verification Email" xml:space="preserve">
+    <value>Sniðmát: Staðfesting tölvupósts reiknings</value>
+  </data>
+  <data name="Template: Reset Password Email" xml:space="preserve">
+    <value>Sniðmát: Endurstilla lykilorð tölvupósts</value>
+  </data>
+  <data name="The account name to use for all email communications." xml:space="preserve">
+    <value>Notandanafn sem notað er fyrir allar tölvupóstsamskipti.</value>
+  </data>
+  <data name="The base theme to use for all site styling." xml:space="preserve">
+    <value>Grunnþema til að nota fyrir alla útlit síðunnar.</value>
+  </data>
+  <data name="The brand image of the wiki, this is displayed on the top of all wiki pages." xml:space="preserve">
+    <value>Myndmerki vefsins, þetta birtist efst á öllum vefsíðunum.</value>
+  </data>
+  <data name="The copyright of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
+    <value>Farsíða vefsins, þetta sýnist neðst á öllum síðunum.</value>
+  </data>
+  <data name="The country to use for the site culture for guests." xml:space="preserve">
+    <value>Landið sem notað er fyrir menningu síðunnar fyrir gesti.</value>
+  </data>
+  <data name="The default country to use for new accounts." xml:space="preserve">
+    <value>Sjálfgefið land til að nota fyrir nýja reikninga.</value>
+  </data>
+  <data name="The default domain to use when the user does not specify a UPN or a fully qualified domain\\Username when signing in." xml:space="preserve">
+    <value>Sjálfgefið lén sem notað er þegar notandi tilgreinir ekki UPN eða fulla háskóðunardréttingu / Notandanafn við innskráningu.</value>
+  </data>
+  <data name="The default height to scale emojis to. The width will be scaled to the same ratio.  Default: 24." xml:space="preserve">
+    <value>Sjálfgefið hæðartakmörk fyrir emojis. Breidd verður stillt í sama hlutfalli. Sjálfgefið: 24.</value>
+  </data>
+  <data name="The default language to use for new accounts." xml:space="preserve">
+    <value>Sjálfgefið tungumál til að nota fyrir nýjar reikninga.</value>
+  </data>
+  <data name="The default role to assign accounts when they sing up. Default: Contributor." xml:space="preserve">
+    <value>Sjálfgefið hlutverk til að úthluta reikningum þegar þau skrá sig. Sjálfgefið: Framlagshöfundur.</value>
+  </data>
+  <data name="The default time zone to use for new accounts." xml:space="preserve">
+    <value>Sjálfgefið tímabelti til að nota fyrir nýjar reikninga.</value>
+  </data>
+  <data name="The display name to show for all email communications." xml:space="preserve">
+    <value>Sýningarnafn sem aðrir sjá fyrir allar tölvupóstsamskipti.</value>
+  </data>
+  <data name="The footer of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
+    <value>Fótur vikunnar, þetta er sýnilegt neðst á öllum síðum.</value>
+  </data>
+  <data name="The fully qualified domain name to use when performing LDAP authentication." xml:space="preserve">
+    <value>Fullgildur vefheimild nafn til að nota þegar þú ert að framkvæma LDAP auðkenningu.</value>
+  </data>
+  <data name="The internet address of your wiki." xml:space="preserve">
+    <value>Tölvupóstfangið á vefsíðunni þinni.</value>
+  </data>
+  <data name="The language to use for the site culture for guests." xml:space="preserve">
+    <value>Tungumálið sem notað er fyrir menningu vefsins fyrir gesti.</value>
+  </data>
+  <data name="The memory limit (in megabytes) for the cache. Oldest items will be ejected when limit is reached. Default: 1024." xml:space="preserve">
+    <value>Minni mörk (í megabætum) fyrir kökuna. Elstu atriðin verða fjarlægð þegar mörk eru náð. Sjálfgefið: 1024.</value>
+  </data>
+  <data name="The name of the wiki page to display when a non existing page is requested." xml:space="preserve">
+    <value>Nafnið á wiki-síðunni sem birtist þegar óþekkt síða er beðinn um.</value>
+  </data>
+  <data name="The name of the wiki page to display when a non existing page revision is requested." xml:space="preserve">
+    <value>Nafn vefsíðunnar sem birtist þegar óskað er eftir ósamþykktum útgáfum síðu.</value>
+  </data>
+  <data name="The name of the wiki page to use as the default content when new wiki pages are created." xml:space="preserve">
+    <value>Nafn vefsíðunnar sem notað er sem sjálfgefið innihald þegar nýjar vefsíður eru búðar til.</value>
+  </data>
+  <data name="The name of the wiki, this is displayed everywhere." xml:space="preserve">
+    <value>Nafn vefsins, þetta er sýnt alls staðar.</value>
+  </data>
+  <data name="The number of items to return when pagination is used. Default: 20." xml:space="preserve">
+    <value>Fjöldi hluta til að skila þegar flettivél er notuð. Sjálfgefið: 20.</value>
+  </data>
+  <data name="The number of recently modified pages to show on users public profiles. Default: 10." xml:space="preserve">
+    <value>Fjöldi nýlega breyttra síðna til að sýna á opinberum prófílum notenda. Sjálfgefið: 10.</value>
+  </data>
+  <data name="The number of seconds to cache pages in memory (0 = disabled). Default: 300." xml:space="preserve">
+    <value>Fjöldi sekúndna til að geyma síður í skema í skrá (0 = óvirkjað). Sjálfgefið: 300.</value>
+  </data>
+  <data name="The SMTP password to use when sending email." xml:space="preserve">
+    <value>SMTP lykilorð sem á að nota við sendingu tölvupósts.</value>
+  </data>
+  <data name="The SMTP port to use when sending email. Default: 587." xml:space="preserve">
+    <value>SMTP portur sem á að nota við sendingu tölvupósts. Sjálfgefið: 587.</value>
+  </data>
+  <data name="The SMTP server ip/host to use when sending email." xml:space="preserve">
+    <value>SMTPþjónn ip/host til að nota þegar sent er póstur.</value>
+  </data>
+  <data name="The time zone to use for the site culture for guests." xml:space="preserve">
+    <value>Tímasvæði sem á að nota fyrir kultúr vefsins fyrir gesti.</value>
+  </data>
+  <data name="Use SSL" xml:space="preserve">
+    <value>Notaðu SSL</value>
+  </data>
+  <data name="Value between 0.0 and 1.0 that determines how strong of a match a page search needs to be before it it returned in search results. Default: 0.6." xml:space="preserve">
+    <value>Gildi milli 0.0 og 1.0 sem ákvarðar hversu sterk þarf síu að vera fyrir að síða finni sé endurtekin í leitarniðurstöðum. Sjálfgefið: 0.6.</value>
+  </data>
+  <data name="When building a search index, these words will be excluded from indexing. (Comma separated)" xml:space="preserve">
+    <value>Þegar byggt er leitarvísitölu, eru þessi orð útilokuð frá skráningu. (Skilgr. aðskilin með kommum)</value>
+  </data>
+  <data name="When comments are enabled, this option causes comments to be shown at the bottom of each page. Default: Enabled." xml:space="preserve">
+    <value>Þegar athugasemdir eru virkjaðar, veldur þessi valkostur því að athugasemdir birtist neðst á hverri síðu. Sjálfgefið: Valið.</value>
+  </data>
+  <data name="Whether a search box will be shown on the navigation bar. Default: Enabled." xml:space="preserve">
+    <value>Hvort leitartæki muni birtast á valmyndastikunni. Sjálfgefið: Valið.</value>
+  </data>
+  <data name="Whether or not OpenID Connect is enabled." xml:space="preserve">
+    <value>Hvort eða ekki OpenID Connect sé virkt.</value>
+  </data>
+  <data name="Whether or not the engine should perform a lazy pre-load of all animated emojis on startup." xml:space="preserve">
+    <value>Hvort eða ekki vélin eigi að framkvæma seina forhlaðningu alla klukkustundir áætlunar fyrir allar myndlíkingar í upphafi.</value>
+  </data>
+  <data name="Whether or not to authenticate with LDAP when attempting to login users." xml:space="preserve">
+    <value>Hvort eða ekki auðkenna með LDAP þegar reynt er að skrá inn notendur.</value>
+  </data>
+  <data name="Whether or not to use a secure connection to LDAP. This is not always supported by domains." xml:space="preserve">
+    <value>Hvort eða ekki nota öruggt tenging við LDAP. Þetta er ekki alltaf styðjt af dölum.</value>
+  </data>
+  <data name="Whether page comments will be enabled. Authentication is required for comment, but all can read. Default: Enabled." xml:space="preserve">
+    <value>Hvort eða ekki verða síðuathugasemdir virkjar. Auðkenning er krafist fyrir athugasemdir, en allir geta lesið. Sjálfgefið: Valið.</value>
+  </data>
+  <data name="Whether SMTP should connect using SSL or not." xml:space="preserve">
+    <value>Á hvort SMTP eigi að tengjast með SSL eða ekki.</value>
+  </data>
+  <data name="Whether the description of the page should be included in the HTML head meta. Default: Enabled." xml:space="preserve">
+    <value>Hvort lýsing síðunar eigi að vera inni í HTML höfuðmörkum meta. Sjálfgefið: Virkt.</value>
+  </data>
+  <data name="Whether the top menu should stay in place when scrolling vertically." xml:space="preserve">
+    <value>Hvort efsta valmyndin eigi að halda sér á sama stað þegar skrollað er lóðrétt.</value>
+  </data>
+  <data name="Whether the wiki tags attached to the page should be included in the HTML head meta keywords. Default: Enabled." xml:space="preserve">
+    <value>Hvort wiki merkin sem fylgja síðunni eigi að vera inni í HTML höfuðsmerkingum skilmerkja. Sjálfgefið: Virkt.</value>
+  </data>
+  <data name="Whether to allow non-exact matches when searching. Default: Enabled." xml:space="preserve">
+    <value>Hvort að gera megi leitarviðmið án nákvæmra samsvarana. Sjálfgefið: Virkt.</value>
+  </data>
+  <data name="Whether to record page wiki Record compilation metrics to the database. This can be used for performance turning, but can itself cause slowness. Default: Disabled." xml:space="preserve">
+    <value>Hvort að skrá mælibreytur wikipæsluskrár á síðunni í gagnagrunninn. Þetta getur nýst við frammistöðumat, en getur líka valdið hægagang. Sjálfgefið: Atlet.</value>
+  </data>
+  <data name="Whether to show the last user and date that a page was modified with a link to the public user profile. Default: Enabled." xml:space="preserve">
+    <value>Hvort að sýna síðuna síðasta notanda og dagsetningu sem breyttu síðunni með tengli á opinbera notendaprofilinn. Sjálfgefið: Virkt.</value>
+  </data>
+  <data name="Whether to show the textbox to allow the user to enter a change summary when editing pages." xml:space="preserve">
+    <value>Hvort að sýna textabox til að notandi geti slegið inn breytingatilkynningu við ritun á síðum.</value>
+  </data>
+  <data name="Whether to split CamelCasedStrings when parsing pages for search tokens. This can be helpful when pages contain a lot of programming/code content. Default: Enabled." xml:space="preserve">
+    <value>Hvort að skipta CamelCasedStrings þegar rit eru flokkuð fyrir leitarorð. Þetta getur verið gagnlegt þegar síðurnar innihalda mikið af forritunar-/kóða efni. Sjálfgefið: Virkt.</value>
+  </data>
+  <data name="Whether users are required to enter a change summary when editing pages. Note that &quot;Show Change Summary when Editing&quot; must also be enabled." xml:space="preserve">
+    <value>Hvort að notendur þurfi að slá inn breytingatilkynningu þegar þeir breyta síðunum. Athugaðu að "Sýna breytingatilkynningu við rit" verður líka að vera virkt.</value>
+  </data>
+  <data name="Whether visitors can view members and their public profiles." xml:space="preserve">
+    <value>Hvort sem gestir geta skoðað meðlimi og opinber prófíl þeirra.</value>
+  </data>
+  <data name="Word Exclusions" xml:space="preserve">
+    <value>Orð útiloka</value>
+  </data>
+  <data name="You must select a role." xml:space="preserve">
+    <value>Þú þarft að velja hlutverk.</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>Reikningurinn er þegar meðlimur í tilteknu hlutverki.</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value>Auðlindategund</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Bæta við</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
+    <value>Ertu viss um að þú viljir fjarlægja heimildina frá þessari reikning?</value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value>Eyðublöð misheppnaðist</value>
+  </data>
+  <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
+    <value>Ertu viss um að þú viljir fjarlægja hlutverk frá þessari reikning?</value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value>Veldu ástand</value>
+  </data>
+  <data name="Select a permission" xml:space="preserve">
+    <value>Veldu heimild</value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value>Veldu síðu</value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value>Veldu nafnrými</value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value>Þú verður að velja heimildarástand.</value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value>Þú verður að velja leyfi.</value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value>Þú verður að velja síðu.</value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value>Þú verður að velja nafnssvæði.</value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value>Þú verður að velja annað hvort síðu eða nafnssvæði.</value>
+  </data>
+  <data name="The account already has the specified permission." xml:space="preserve">
+    <value>Reikningurinn hefur þegar tiltekið leyfi.</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
+    <value>Ertu viss um að þú viljir fjarlægja leyfið frá þessu hlutverki?</value>
+  </data>
+  <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
+    <value>Ertu viss um að þú viljir fjarlægja félaga frá þessu hlutverki?</value>
+  </data>
+  <data name="The role already has the specified permission." xml:space="preserve">
+    <value>Hlutverkið hefur þegar tiltekið leyfi.</value>
+  </data>
+  <data name="Select an account" xml:space="preserve">
+    <value>Veldu reikning</value>
+  </data>
+  <data name="You must select an account." xml:space="preserve">
+    <value>Þú verður að velja reikning.</value>
+  </data>
+  <data name="the address of your wiki." xml:space="preserve">
+    <value>slóð wiki þíns.</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>Enska</value>
+  </data>
+  <data name="Arabic" xml:space="preserve">
+    <value>Arabic</value>
+  </data>
+  <data name="Azerbaijani" xml:space="preserve">
+    <value>Azerbaijanski</value>
+  </data>
+  <data name="Belarusian" xml:space="preserve">
+    <value>Belarúska</value>
+  </data>
+  <data name="Bulgarian" xml:space="preserve">
+    <value>Búlgarska</value>
+  </data>
+  <data name="Czech" xml:space="preserve">
+    <value>Tékkneska</value>
+  </data>
+  <data name="Danish" xml:space="preserve">
+    <value>Dönska</value>
+  </data>
+  <data name="German" xml:space="preserve">
+    <value>Þýska</value>
+  </data>
+  <data name="Greek" xml:space="preserve">
+    <value>Gríska</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>spænska</value>
+  </data>
+  <data name="Estonian" xml:space="preserve">
+    <value>Eistneska</value>
+  </data>
+  <data name="Persian" xml:space="preserve">
+    <value>Persneska</value>
+  </data>
+  <data name="Finnish" xml:space="preserve">
+    <value>Finnska</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>Franska</value>
+  </data>
+  <data name="Hebrew" xml:space="preserve">
+    <value>Hebreska</value>
+  </data>
+  <data name="Croatian" xml:space="preserve">
+    <value>Corska</value>
+  </data>
+  <data name="Hungarian" xml:space="preserve">
+    <value>Ungverska</value>
+  </data>
+  <data name="Indonesian" xml:space="preserve">
+    <value>Indóneska</value>
+  </data>
+  <data name="Icelandic" xml:space="preserve">
+    <value>íslenska</value>
+  </data>
+  <data name="Italian" xml:space="preserve">
+    <value>ítalska</value>
+  </data>
+  <data name="Japanese" xml:space="preserve">
+    <value>Japanska</value>
+  </data>
+  <data name="Georgian" xml:space="preserve">
+    <value>Samtönsku</value>
+  </data>
+  <data name="Kazakh" xml:space="preserve">
+    <value>Kasakska</value>
+  </data>
+  <data name="Korean" xml:space="preserve">
+    <value>Kóreska</value>
+  </data>
+  <data name="Lithuanian" xml:space="preserve">
+    <value>Litháíska</value>
+  </data>
+  <data name="Latvian" xml:space="preserve">
+    <value>Letnenska</value>
+  </data>
+  <data name="Malay" xml:space="preserve">
+    <value>Malay</value>
+  </data>
+  <data name="Dutch" xml:space="preserve">
+    <value>Hollenska</value>
+  </data>
+  <data name="Norwegian" xml:space="preserve">
+    <value>Norska</value>
+  </data>
+  <data name="Bokmål" xml:space="preserve">
+    <value>Bókmál</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>Pólska</value>
+  </data>
+  <data name="Portuguese" xml:space="preserve">
+    <value>Portúgalska</value>
+  </data>
+  <data name="Romanian" xml:space="preserve">
+    <value>Rúmenska</value>
+  </data>
+  <data name="Russian" xml:space="preserve">
+    <value>Rússneska</value>
+  </data>
+  <data name="Slovak" xml:space="preserve">
+    <value>Slóvakíska</value>
+  </data>
+  <data name="Slovenian" xml:space="preserve">
+    <value>Slóvenska</value>
+  </data>
+  <data name="Serbian" xml:space="preserve">
+    <value>Serbóneska</value>
+  </data>
+  <data name="Swedish" xml:space="preserve">
+    <value>Sænska</value>
+  </data>
+  <data name="Thai" xml:space="preserve">
+    <value>Thailenska</value>
+  </data>
+  <data name="Turkish" xml:space="preserve">
+    <value>Turka</value>
+  </data>
+  <data name="Ukrainian" xml:space="preserve">
+    <value>Úkraínska</value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>Víetnamska</value>
+  </data>
+  <data name="Chinese simplified" xml:space="preserve">
+    <value>Kínverska einfalda</value>
+  </data>
+  <data name="Chinese traditional" xml:space="preserve">
+    <value>Kínverska hefðbundna</value>
+  </data>
+  <data name="Bengali" xml:space="preserve">
+    <value>Bengölska</value>
+  </data>
+  <data name="Hindi" xml:space="preserve">
+    <value>Hindí</value>
+  </data>
+  <data name="Urdu" xml:space="preserve">
+    <value>Úrdú</value>
+  </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>Mistókist að fá upplýsingar frá ytri þjónustu</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>Endurheimt lokið.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>Tölfræði samsetninga er eytt.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>Minni klefi er eytt.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>Staðreyndir um samsetningar</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>Rýming á síðunni</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>Þú getur ekki snúið aftur til núverandi útgáfu síðunnar.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>Síðan hefur verið afturkölluð.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>Tilgreinda síðuna fannst ekki.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>Síðuna fannst ekki.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>Þú mátt ekki eyða aðeins tilvistarmynd síðunnar, heldur þarftu að eyða öllu síðunni.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>Útgáfa síðunnar hefur verið færð yfir í eyðingarröð.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>Öll síður hafa verið endurbyggðar.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>Allar síður hafa verið skráðar í cache.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>Allar útgáfur síðunnar hafa verið skorna.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>Eyðingarröð síðunnar hefur verið hreinsuð.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>Útgáfa síðunnar hefur verið hreinsuð úr eyðingarröðinni.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>Útgáfa síðunnar hefur verið endurheimt.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>Síðan hefur verið hreinsuð úr eyðingarröðinni.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>Síðan hefur verið færð í eyðingarröð.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>Síðan hefur verið endurheimt.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>Allar skilaboð utan síðunnar hafa verið hreinsaðar.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>Skilaboð síðunnar utan síðunnar hafa verið hreinsaðar.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>Mælikerfi</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>Mælikerfið hefur verið stofnað.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>Matseðlinum hefur verið vistað.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>Tilgreindu matseðlinn hefur verið eytt.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>Stillingin hefur verið vistuð árangurslaust!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>Nafn emoji er þegar í notkun.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Gat ekki vistað meðfylgjandi mynd, of stór.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Gat ekki vistað meðfylgjandi mynd.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>Emoji hefur verið vistað árangurslaust!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>Emoji hefur verið vistað.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>Emoji hefur verið búið til.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>Tilgreinda emoji hefur verið eytt.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>Öll atburðaskrá hefur verið hreinsað.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>LDAP auðkenning er ekki virkt.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>LDAP áskorun tókst, en notandann hefur ekki objectGUID eiginleikann.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAP áskorun tókst (ónýtur reikningur).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>LDAP áskorun tókst (fullbúinn reikningur).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>LDAP áskorun tókst (hlutbundinn reikningur).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>LDAP áskorun mistókst.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>Tilgreindur hlutverk hefur verið eytt.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>NaFn hlutverks er nauðsynlegt.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>NaFn hlutverks er þegar í notkun.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>Reikningsnafn er þegar í notkun.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>Netfang er þegar í notkun.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Gat ekki vistað meðfylgjandi mynd, tegund er ekki leyfð.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>Prófíll hefur verið vistað árangurslaust!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>Reikningsnöfnið er nauðsynlegt.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>Reikningurinn hefur verið stofnaður.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Notandi fannst ekki.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Reikningurinn þinn hefur verið eytt.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Reikningurinn hefur verið eytt.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>Tókst ekki að vista viðhengið, of stórt</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Sigur</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Mistök</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>Síðan er varin og hægt er ekki að eyða henni. Stjórnandi eða stjórnandi þarf að fjarlægja verndina áður en eyðing fer fram.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>Síðan hefur verið eytt.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>Síðan er varin og hægt er ekki að breyta henni nema stjórnandi eða stjórnandi geri það, nema verndin sé fjarlægð.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>Útdráttur breytinga er krafist fyrir síðuuppfærslur.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>Stafirnir '::' eru notaðir til að tákna nafnabelti. Nafn síðunnar má ekki innihalda fleiri en einn þessara stafa.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>Nafn síðunnar sem þú sögðist vera með er þegar til.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>Síðan hefur verið stofnuð.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>Síðan var vistað.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>Almannareikningur</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>Almannareikningar eru óvirkir.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>Tilgreindi notandi fannst ekki.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>Mín persónuleiki</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>Persónuuppfærslan þín hefur verið vistað.</value>
+  </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>Nýjustu tölfræði um samsetningar fyrir allar Wikipedia síður.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Síðasta samsetning</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Byrjunar tími</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Wikipedia samræmi</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Útgangs tenglar</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Ósamið líkami</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>Unnið líkami</value>
+  </data>
+</root>

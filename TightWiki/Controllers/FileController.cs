@@ -1,25 +1,37 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Web;
 using TightWiki.Caching;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.File;
 using TightWiki.Repository;
-using static TightWiki.Library.Constants;
 using static TightWiki.Library.Images;
 
 namespace TightWiki.Controllers
 {
     [Route("File")]
-    public class FileController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<FileController> localizer)
-        : WikiControllerBase<FileController>(signInManager, userManager, localizer)
+    public class FileController
+        : WikiControllerBase<FileController>
     {
+        private readonly ILogger<ITightEngine> _logger;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public FileController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager, ISharedLocalizationText localizer)
+            : base(logger, signInManager, userManager, localizer)
+        {
+            _logger = logger;
+            _signInManager = signInManager;
+            _userManager = userManager;
+        }
+
         /// <summary>
         /// Gets an image attached to a page.
         /// </summary>
@@ -375,7 +387,7 @@ namespace TightWiki.Controllers
             }
             catch (Exception ex)
             {
-                ExceptionRepository.InsertException(ex, "Failed to upload file.");
+                _logger.LogError("Failed to upload file: {Message}", ex.Message);
                 return StatusCode(500, new { success = false, message = Localize("An error occurred: {0}", ex.Message) });
             }
         }

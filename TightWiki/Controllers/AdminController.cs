@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using NTDLS.DelegateThreadPooling;
 using NTDLS.Helpers;
 using System.Reflection;
@@ -16,7 +15,6 @@ using TightWiki.Models.ViewModels.Page;
 using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Repository;
 using TightWiki.Security;
-using TightWiki.Static;
 using static TightWiki.Library.Constants;
 
 namespace TightWiki.Controllers
@@ -28,16 +26,14 @@ namespace TightWiki.Controllers
     {
         private readonly ITightEngine _tightEngine;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IStringLocalizer<AdminController> _localizer;
-        private readonly ILogger<AdminController> _logger;
+        private readonly ILogger<ITightEngine> _logger;
 
         public AdminController(ITightEngine tightEngine, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, IStringLocalizer<AdminController> localizer, ILogger<AdminController> logger)
-            : base(signInManager, userManager, localizer)
+            UserManager<IdentityUser> userManager, ILogger<ITightEngine> logger, ISharedLocalizationText localizer)
+            : base(logger, signInManager, userManager, localizer)
         {
             _tightEngine = tightEngine;
             _userManager = userManager;
-            _localizer = localizer;
             _logger = logger;
         }
 
@@ -90,7 +86,7 @@ namespace TightWiki.Controllers
         [HttpPost("Database/restore/{defaultData}")]
         public async Task<ActionResult> Database(ConfirmActionViewModel model, string defaultData)
         {
-            var defaultDataType = Enum.Parse<DefaultDataType>(defaultData);
+            var defaultDataType = Enum.Parse<WikiDefaultDataType>(defaultData);
 
             try
             {
@@ -271,7 +267,7 @@ namespace TightWiki.Controllers
 
             model.Statistics.ForEach(o =>
             {
-                o.LatestBuild = SessionState.LocalizeDateTime(o.LatestBuild);
+                o.LastCompileDateTime = SessionState.LocalizeDateTime(o.LastCompileDateTime);
             });
 
             return View(model);
@@ -1537,11 +1533,11 @@ namespace TightWiki.Controllers
 
         #endregion
 
-        #region Exceptions.
+        #region EventLog.
 
         [Authorize]
-        [HttpGet("Exceptions")]
-        public ActionResult Exceptions()
+        [HttpGet("EventLog")]
+        public ActionResult EventLog()
         {
             try
             {
@@ -1551,25 +1547,25 @@ namespace TightWiki.Controllers
             {
                 return NotifyOfError(ex.GetBaseException().Message, "/");
             }
-            SessionState.Page.Name = Localize("Exceptions");
+            SessionState.Page.Name = Localize("Event Log");
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue<string>("OrderBy");
             var orderByDirection = GetQueryValue<string>("OrderByDirection");
 
-            var model = new ExceptionsViewModel()
+            var model = new EventLogViewModel()
             {
-                Exceptions = ExceptionRepository.GetAllExceptionsPaged(pageNumber, orderBy, orderByDirection)
+                LogEntries = LoggingRepository.GetLogEntriesPaged(pageNumber, orderBy, orderByDirection)
             };
 
-            model.PaginationPageCount = (model.Exceptions.FirstOrDefault()?.PaginationPageCount ?? 0);
+            model.PaginationPageCount = (model.LogEntries.FirstOrDefault()?.PaginationPageCount ?? 0);
 
             return View(model);
         }
 
         [Authorize]
-        [HttpGet("Exception/{id}")]
-        public ActionResult Exception(int id)
+        [HttpGet("EventLogEntry/{id}")]
+        public ActionResult EventLogEntry(int id)
         {
             try
             {
@@ -1579,19 +1575,19 @@ namespace TightWiki.Controllers
             {
                 return NotifyOfError(ex.GetBaseException().Message, "/");
             }
-            SessionState.Page.Name = Localize("Exception");
+            SessionState.Page.Name = Localize("Event Log Entry");
 
-            var model = new ExceptionViewModel()
+            var model = new EventLogEntryViewModel()
             {
-                Exception = ExceptionRepository.GetExceptionById(id)
+                LogEntry = LoggingRepository.GetLogEntryById(id)
             };
 
             return View(model);
         }
 
         [Authorize]
-        [HttpPost("PurgeExceptions")]
-        public ActionResult PurgeExceptions(ConfirmActionViewModel model)
+        [HttpPost("PurgeEventLog")]
+        public ActionResult PurgeEventLog(ConfirmActionViewModel model)
         {
             try
             {
@@ -1603,8 +1599,8 @@ namespace TightWiki.Controllers
             }
             if (model.UserSelection == true)
             {
-                ExceptionRepository.PurgeExceptions();
-                return NotifyOfSuccess(Localize("All exceptions have been purged."), model.YesRedirectURL);
+                LoggingRepository.PurgeLogs();
+                return NotifyOfSuccess(Localize("All event logs have been purged."), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
@@ -1620,7 +1616,7 @@ namespace TightWiki.Controllers
         [HttpPost("TestLdap")]
         public async Task<IActionResult> TestLdap([FromBody] LdapTestRequest req)
         {
-            var ldapAuthenticationConfiguration = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.LDAPAuthentication);
+            var ldapAuthenticationConfiguration = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.LDAPAuthentication);
 
             try
             {
@@ -1630,7 +1626,7 @@ namespace TightWiki.Controllers
                     return Json(new { ok = false, error = Localize("LDAP authentication is not enabled.") });
                 }
 
-                if (LDAPUtility.LdapCredentialChallenge(ldapAuthenticationConfiguration, StaticLocalizer.Localizer,
+                if (LDAPUtility.LdapCredentialChallenge(ldapAuthenticationConfiguration, Localizer,
                     req.Username, req.Password, out var samAccountName, out var objectGuid))
                 {
                     //We successfully authenticated against LDAP.

@@ -65,7 +65,7 @@ namespace TightWiki.Repository
                 using var pages_db = o.Attach("pages.db", "pages_db");
 
                 var result = o.QuerySingle<WikiDatabaseStatistics>("GetWikiDatabaseStatistics.sql");
-                result.Exceptions = ExceptionRepository.GetExceptionCount();
+                result.Exceptions = LoggingRepository.GetExceptionCount();
 
                 return result;
             });
@@ -372,21 +372,21 @@ namespace TightWiki.Repository
 
             GlobalConfiguration.IsDebug = Debugger.IsAttached;
 
-            var performanceConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Performance);
+            var performanceConfig = GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Performance);
             GlobalConfiguration.PageCacheSeconds = performanceConfig.Value<int>("Page Cache Time (Seconds)");
             GlobalConfiguration.RecordCompilationMetrics = performanceConfig.Value<bool>("Record Compilation Metrics");
             GlobalConfiguration.CacheMemoryLimitMB = performanceConfig.Value<int>("Cache Memory Limit MB");
 
             WikiCache.Initialize(GlobalConfiguration.CacheMemoryLimitMB, GlobalConfiguration.PageCacheSeconds);
 
-            var basicConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Basic);
-            var customizationConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Customization);
-            var htmlConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.HTMLLayout);
-            var functionalityConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Functionality);
-            var membershipConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
-            var searchConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Search);
-            var filesAndAttachmentsConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.FilesAndAttachments);
-            var ldapAuthentication = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.LDAPAuthentication);
+            var basicConfig = GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Basic);
+            var customizationConfig = GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Customization);
+            var htmlConfig = GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.HTMLLayout);
+            var functionalityConfig = GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Functionality);
+            var membershipConfig = GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
+            var searchConfig = GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Search);
+            var filesAndAttachmentsConfig = GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.FilesAndAttachments);
+            var ldapAuthentication = GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.LDAPAuthentication);
 
             GlobalConfiguration.EnableLDAPAuthentication = ldapAuthentication.Value("LDAP : Enable LDAP Authentication", false);
 

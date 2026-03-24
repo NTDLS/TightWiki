@@ -20,7 +20,7 @@ namespace TightWiki.Repository
                 UsersRepository.SetAdminPasswordClear();
             }
 
-            if (UsersRepository.AdminPasswordStatus() == Constants.AdminPasswordChangeState.NeedsToBeSet)
+            if (UsersRepository.AdminPasswordStatus() == WikiAdminPasswordChangeState.NeedsToBeSet)
             {
                 var user = await userManager.FindByNameAsync(Constants.DEFAULTUSERNAME);
                 if (user == null)
@@ -44,7 +44,7 @@ namespace TightWiki.Repository
                     throw new Exception(string.Join("\r\n", emailUpdateResult.Errors.Select(o => o.Description)));
                 }
 
-                var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
+                var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
 
                 var claimsToAdd = new List<Claim>
                     {

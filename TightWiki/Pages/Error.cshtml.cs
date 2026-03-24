@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 
 namespace TightWiki.Pages
 {
@@ -12,10 +14,10 @@ namespace TightWiki.Pages
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
-        private readonly ILogger<ErrorModel> _logger;
+        private readonly ILogger<ITightEngine> _logger;
 
-        public ErrorModel(SignInManager<IdentityUser> signInManager, ILogger<ErrorModel> logger)
-            : base(signInManager)
+        public ErrorModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, ISharedLocalizationText localizer)
+            : base(logger, signInManager, localizer)
         {
             _logger = logger;
         }

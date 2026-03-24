@@ -1,158 +1,257 @@
 ﻿@page
 @using TightWiki.Models
 @using System.Text.Encodings.Web
-@inject IViewLocalizer Localizer
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
+
 @model RegisterModel
 @{
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<div class="row">
-    <div class="col-md-8">
-        <form id="registerForm" asp-route-returnUrl="@(Model.ReturnUrl ?? "")" method="post">
-            <h4>@Localizer["Create a new account"]</h4>
-            <hr />
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+    <div>
+        <h3 class="mb-1">@Localizer["Create a new account"]</h3>
+        <div class="text-muted">
+            @Localizer["Create your account and configure your basic profile details."]
+        </div>
+    </div>
+</div>
 
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-
-            <div class="form-group row mb-3">
-                <label for="Input.Email" class="col-sm-2 col-form-label"><strong>@Localizer["Email Address"]</strong></label>
-                <div class="col-sm-10">
-                    @Html.TextBoxFor(m => Model.Input.Email, new { @class = "form-control", autocomplete = "email", placeholder = "name@example.com" })
-                    <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.Email)</div>
-                </div>
+<div class="row g-4">
+    <div class="col-12 @( (Model.ExternalLogins?.Count ?? 0) > 0 ? "col-lg-8" : "col-lg-10 col-xl-8")">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <span class="fw-semibold">
+                    <i class="bi bi-person-plus me-2"></i>@Localizer["Register"]
+                </span>
             </div>
 
-            <div class="form-group row mb-3">
-                <label for="Input.Password" class="col-sm-2 col-form-label"><strong>@Localizer["Password"]</strong></label>
-                <div class="col-sm-10">
-                    @Html.PasswordFor(m => Model.Input.Password, new { @class = "form-control", autocomplete = "password", placeholder = Localizer["required"].Value })
-                    <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.Password)</div>
-                </div>
-            </div>
+            <div class="card-body">
+                <form id="registerForm" asp-route-returnUrl="@(Model.ReturnUrl ?? "")" method="post">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2" role="alert"></div>
 
-            <div class="form-group row mb-3">
-                <label for="Input.ConfirmPassword" class="col-sm-2 col-form-label">@Localizer["Confirm Password"]/strong></label>
-                <div class="col-sm-10">
-                    @Html.PasswordFor(m => Model.Input.ConfirmPassword, new { @class = "form-control", autocomplete = "confirmpassword", placeholder = Localizer["required"].Value })
-                    <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.ConfirmPassword)</div>
-                </div>
-            </div>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="Input_Email" class="form-label fw-semibold">
+                                @Localizer["Email Address"]
+                            </label>
+                            @Html.TextBoxFor(m => m.Input.Email, new
+                            {
+                                @class = "form-control",
+                                autocomplete = "email",
+                                placeholder = "name@example.com",
+                                id = "Input_Email"
+                            })
+                            <div class="text-danger small">
+                                @Html.ValidationMessageFor(m => m.Input.Email)
+                            </div>
+                        </div>
 
-            <div class="form-group row mb-3">
-                <label for="Input.AccountName" class="col-sm-2 col-form-label"><strong>@Localizer["Display Name"]</strong></label>
-                <div class="col-sm-10">
-                    @Html.TextBoxFor(m => Model.Input.AccountName, new { @class = "form-control", placeholder = Localizer["required"].Value })
-                    <small class="form-text text-muted">@Localizer["This display name will be visible publicly."]</small>
-                    <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.AccountName)</div>
-                </div>
-            </div>
+                        <div class="col-12 col-md-6">
+                            <label for="Input_Password" class="form-label fw-semibold">
+                                @Localizer["Password"]
+                            </label>
+                            @Html.PasswordFor(m => m.Input.Password, new
+                            {
+                                @class = "form-control",
+                                autocomplete = "new-password",
+                                placeholder= Localizer["Required"].Value,
+                                id = "Input_Password"
+                            })
+                            <div class="text-danger small">
+                                @Html.ValidationMessageFor(m => m.Input.Password)
+                            </div>
+                        </div>
 
-            <div class="form-group row mb-1">
-                <label for="Input.FirstName" class="col-sm-2 col-form-label"><strong>@Localizer["First Name"]</strong></label>
-                <div class="col-sm-10">
-                    @Html.TextBoxFor(m => Model.Input.FirstName, new { @class = "form-control", placeholder = Localizer["not required"].Value })
-                    <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.FirstName)</div>
-                </div>
-            </div>
+                        <div class="col-12 col-md-6">
+                            <label for="Input_ConfirmPassword" class="form-label fw-semibold">
+                                @Localizer["Confirm Password"]
+                            </label>
+                            @Html.PasswordFor(m => m.Input.ConfirmPassword, new
+                            {
+                                @class = "form-control",
+                                autocomplete = "new-password",
+                                placeholder= Localizer["Required"].Value,
+                                id = "Input_ConfirmPassword"
+                            })
+                            <div class="text-danger small">
+                                @Html.ValidationMessageFor(m => m.Input.ConfirmPassword)
+                            </div>
+                        </div>
 
-            <div class="form-group row mb-3">
-                <label for="Input.Input.LastName" class="col-sm-2 col-form-label"><strong>@Localizer["Last Name"]</strong></label>
-                <div class="col-sm-10">
-                    @Html.TextBoxFor(m => Model.Input.LastName, new { @class = "form-control", placeholder = Localizer["not required"].Value })
-                    <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.LastName)</div>
-                </div>
-            </div>
+                        <div class="col-12">
+                            <label for="Input_AccountName" class="form-label fw-semibold">
+                                @Localizer["Display Name"]
+                            </label>
+                            @Html.TextBoxFor(m => m.Input.AccountName, new
+                            {
+                                @class = "form-control",
+                                placeholder= Localizer["Required"].Value,
+                                id = "Input_AccountName"
+                            })
+                            <div class="form-text">
+                                @Localizer["This display name will be visible publicly."]
+                            </div>
+                            <div class="text-danger small">
+                                @Html.ValidationMessageFor(m => m.Input.AccountName)
+                            </div>
+                        </div>
 
-            <div class="form-group row mb-1">
-                <label for="Input.Input.Country" class="col-sm-2 col-form-label"><strong>@Localizer["Display Name"]</strong></label>
-                <div class="col-sm-10">
-                    <select name="Input.Country" id="Input.Country" class="form-control">
-                        <option value="" style="color:#ccc !important;">@Localizer["Select a country"]</option>
-                        @foreach (var item in Model.Input.Countries)
-                        {
-                            <option value="@item.Value" selected=@(Model.Input.Country == item.Value ? "selected" : null)>
-                                @item.Text
-                            </option>
-                        }
-                    </select>
-                    <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.Country)</div>
-                </div>
-            </div>
+                        <div class="col-12 col-md-6">
+                            <label for="Input_FirstName" class="form-label fw-semibold">
+                                @Localizer["First Name"]
+                            </label>
+                            @Html.TextBoxFor(m => m.Input.FirstName, new
+                            {
+                                @class = "form-control",
+                                placeholder= Localizer["Optional"].Value,
+                                id = "Input_FirstName"
+                            })
+                            <div class="text-danger small">
+                                @Html.ValidationMessageFor(m => m.Input.FirstName)
+                            </div>
+                        </div>
 
-            <div class="form-group row mb-1">
-                <label for="Input.Input.Language" class="col-sm-2 col-form-label"><strong>@Localizer["Language"]</strong></label>
-                <div class="col-sm-10">
-                    <select name="Input.Language" id="Input.Language" class="form-control">
-                        <option value="" style="color:#ccc !important;">@Localizer["Select a language"]</option>
-                        @foreach (var item in Model.Input.Languages)
-                        {
-                            <option value="@item.Value" selected=@(Model.Input.Language == item.Value ? "selected" : null)>
-                                @item.Text
-                            </option>
-                        }
-                    </select>
-                    <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.Language)</div>
-                </div>
-            </div>
+                        <div class="col-12 col-md-6">
+                            <label for="Input_LastName" class="form-label fw-semibold">
+                                @Localizer["Last Name"]
+                            </label>
+                            @Html.TextBoxFor(m => m.Input.LastName, new
+                            {
+                                @class = "form-control",
+                                placeholder= Localizer["Optional"].Value,
+                                id = "Input_LastName"
+                            })
+                            <div class="text-danger small">
+                                @Html.ValidationMessageFor(m => m.Input.LastName)
+                            </div>
+                        </div>
 
-            <div class="form-group row mb-1">
-                <label for="Input.Input.TimeZone" class="col-sm-2 col-form-label"><strong>@Localizer["Time Zone"]</strong></label>
-                <div class="col-sm-10">
-                    <select name="Input.TimeZone" id="Input.TimeZone" class="form-control">
-                        <option value="" style="color:#ccc !important;">@Localizer["Select a time-zone"]</option>
-                        @foreach (var item in Model.Input.TimeZones)
-                        {
-                            <option value="@item.Value" selected=@(Model.Input.TimeZone == item.Value ? "selected" : null)>
-                                @item.Text
-                            </option>
-                        }
-                    </select>
-                    <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.TimeZone)</div>
-                </div>
-            </div>
+                        <div class="col-12 col-md-4">
+                            <label for="Input_Country" class="form-label fw-semibold">
+                                @Localizer["Country"]
+                            </label>
+                            <select name="Input.Country" id="Input_Country" class="form-select">
+                                <option value="">@Localizer["Select a country"]</option>
+                                @foreach (var item in Model.Input.Countries)
+                                {
+                                    <option value="@item.Value" selected="@(Model.Input.Country == item.Value ? "selected" : null)">
+                                        @item.Text
+                                    </option>
+                                }
+                            </select>
+                            <div class="text-danger small">
+                                @Html.ValidationMessageFor(m => m.Input.Country)
+                            </div>
+                        </div>
 
-            <div>
-                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">@Localizer["Signup"]</button>
-                <br /><br />
+                        <div class="col-12 col-md-4">
+                            <label for="Input_Language" class="form-label fw-semibold">
+                                @Localizer["Language"]
+                            </label>
+                            <select name="Input.Language" id="Input_Language" class="form-select">
+                                <option value="">@Localizer["Select a language"]</option>
+                                @foreach (var item in Model.Input.Languages)
+                                {
+                                    <option value="@item.Value" selected="@(Model.Input.Language == item.Value ? "selected" : null)">
+                                        @item.Text
+                                    </option>
+                                }
+                            </select>
+                            <div class="text-danger small">
+                                @Html.ValidationMessageFor(m => m.Input.Language)
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label for="Input_TimeZone" class="form-label fw-semibold">
+                                @Localizer["Time Zone"]
+                            </label>
+                            <select name="Input.TimeZone" id="Input_TimeZone" class="form-select">
+                                <option value="">@Localizer["Select a time-zone"]</option>
+                                @foreach (var item in Model.Input.TimeZones)
+                                {
+                                    <option value="@item.Value" selected="@(Model.Input.TimeZone == item.Value ? "selected" : null)">
+                                        @item.Text
+                                    </option>
+                                }
+                            </select>
+                            <div class="text-danger small">
+                                @Html.ValidationMessageFor(m => m.Input.TimeZone)
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <button id="login-submit" type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-person-plus me-1"></i>@Localizer["Signup"]
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 
     @if ((Model.ExternalLogins?.Count ?? 0) > 0)
     {
-        <div class="col-md-4">
-            <section>
-                <h4>@Localizer["Use another service to register"]</h4>
-                <hr />
-                <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@UrlEncoder.Default.Encode(Model.ReturnUrl ?? "")" method="post" class="form-horizontal">
-                    <div>
-                        <p>
+        <div class="col-12 col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <span class="fw-semibold">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>@Localizer["Use another service to register"]
+                    </span>
+                </div>
+
+                <div class="card-body">
+                    <form id="external-account"
+                          asp-page="./ExternalLogin"
+                          asp-route-returnUrl="@UrlEncoder.Default.Encode(Model.ReturnUrl ?? "")"
+                          method="post">
+                        <div class="d-flex flex-column gap-3">
                             @foreach (var provider in Model.ExternalLogins!)
                             {
                                 if (provider.Name == "Google")
                                 {
-                                    <button type="submit" class="btn w-100 mb-3 d-flex align-items-center" name="provider" value="@provider.Name" title="Log in using your Google account">
-                                        <img src="@GlobalConfiguration.BasePath/images/external/google-signin.svg" alt="Google" class="me-2" />
+                                    <button type="submit"
+                                            class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center"
+                                            name="provider"
+                                            value="@provider.Name"
+                                            title="Log in using your Google account">
+                                        <img src="@GlobalConfiguration.BasePath/images/external/google-signin.svg"
+                                             alt="Google"
+                                             class="me-2"
+                                             style="max-height: 50px;" />
                                     </button>
                                 }
                                 else if (provider.Name == "Microsoft")
                                 {
-                                    <button type="submit" class="btn w-100 mb-3 d-flex align-items-center" name="provider" value="@provider.Name" title="Log in using your Microsoft account">
-                                        <img src="@GlobalConfiguration.BasePath/images/external/microsoft-signin.svg" alt="Microsoft" class="me-2" />
+                                    <button type="submit"
+                                            class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center"
+                                            name="provider"
+                                            value="@provider.Name"
+                                            title="Log in using your Microsoft account">
+                                        <img src="@GlobalConfiguration.BasePath/images/external/microsoft-signin.svg"
+                                             alt="Microsoft"
+                                             class="me-2"
+                                             style="max-height: 50px;" />
                                     </button>
                                 }
                                 else
                                 {
-                                    <button type="submit" class="btn btn-primary w-100 mb-3" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                    <button type="submit"
+                                            class="btn btn-outline-primary w-100"
+                                            name="provider"
+                                            value="@provider.Name"
+                                            title="Log in using your @provider.DisplayName account">
                                         @provider.DisplayName
                                     </button>
                                 }
                             }
-                        </p>
-                    </div>
-                </form>
-            </section>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     }
 </div>

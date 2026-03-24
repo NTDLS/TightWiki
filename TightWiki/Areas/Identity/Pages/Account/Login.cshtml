@@ -2,7 +2,9 @@
 @using System.Text.Encodings.Web
 @using TightWiki.Extensions
 @using TightWiki.Models
-@inject IViewLocalizer Localizer
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
+
 @model LoginModel
 @{
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");

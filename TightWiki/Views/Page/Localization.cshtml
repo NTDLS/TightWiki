@@ -2,24 +2,95 @@
 @using Microsoft.Extensions.Options
 @using System.Globalization
 @using TightWiki.Models
-@inject IViewLocalizer Localizer
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
+
 @model TightWiki.Models.ViewModels.Page.PageLocalizationViewModel
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<h3>
-  @Localizer["Languages"]
-</h3>
-
-<div class="d-flex align-content-start flex-wrap">
-    @for (int i = 0; i < Model.Languages.Count(); i++)
-    {
-        <div class="p-2">
-            <a rel="nofollow" class="btn @(CultureInfo.CurrentCulture.Name == Model.Languages[i].Name ? "btn-primary" : "btn-link")" href="@GlobalConfiguration.BasePath/Page/SetLocalization?culture=@Model.Languages[i].Name&returnUrl=@ViewBag.ReturnUrl">
-                <span>@Localizer[Model.Languages[i].EnglishName] (@Model.Languages[i].Name.ToUpper())</span>
-            </a>
-        </div>
+<style>
+    .language-option {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.45rem 0.8rem;
+        border: 1px solid var(--bs-border-color);
+        border-radius: 0.5rem;
+        background-color: var(--bs-body-bg);
+        color: var(--bs-body-color);
+        text-decoration: none;
+        transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     }
+
+        .language-option:hover {
+            background-color: var(--bs-tertiary-bg);
+            text-decoration: none;
+            color: var(--bs-body-color);
+        }
+
+        .language-option.active {
+            background-color: var(--bs-primary);
+            border-color: var(--bs-primary);
+            color: #fff;
+        }
+
+    .language-native {
+        font-weight: 500;
+        line-height: 1;
+    }
+
+    .language-english {
+        font-size: 0.9rem;
+        opacity: 0.75;
+        line-height: 1;
+    }
+
+    .language-code {
+        font-size: 0.8rem;
+        opacity: 0.6;
+        line-height: 1;
+        text-transform: uppercase;
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+    <div>
+        <h3 class="mb-1">
+            @Localizer["Languages"]
+        </h3>
+        <div class="text-muted">
+            @Localizer["Choose your preferred language for the interface."]
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header">
+        <span class="fw-semibold">
+            <i class="bi bi-translate me-2"></i>@Localizer["Available Languages"]
+        </span>
+    </div>
+
+    <div class="card-body">
+        <div class="d-flex flex-wrap gap-2">
+            @for (int i = 0; i < Model.Languages.Count(); i++)
+            {
+                var language = Model.Languages[i];
+                var isCurrent = CultureInfo.CurrentCulture.Name == language.Name;
+
+                <a rel="nofollow"
+                       class="language-option @(isCurrent ? "active" : "")"
+                       href="@GlobalConfiguration.BasePath/Page/SetLocalization?culture=@language.Name&returnUrl=@ViewBag.ReturnUrl"
+                       aria-current="@(isCurrent ? "true" : "false")">
+
+                    <span class="language-native">@language.NativeName</span>
+                    <span class="language-english">@Localizer[language.EnglishName]</span>
+                    <span class="language-code">@language.Name</span>
+                </a>
+            }
+        </div>
+    </div>
 </div>

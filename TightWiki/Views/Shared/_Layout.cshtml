@@ -1,22 +1,25 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
-@using TightWiki;
+﻿@using System.Globalization
 @using System.Text.Encodings.Web
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+@using TightWiki
+@using TightWiki.Library
 @using TightWiki.Models
 @using static TightWiki.Library.Constants
-@inject IViewLocalizer Localizer
+@inject ISharedLocalizationText Localizer
+
 @{
     var sessionState = ViewData["SessionState"] as SessionState ?? throw new Exception("Wiki State Context cannot be null.");
-    string navBarClass = $"navbar navbar-expand-sm navbar-toggleable-sm {(TightWiki.Models.GlobalConfiguration.FixedMenuPosition ? "fixed-top" : "")} navbar-light bg-white border-bottom box-shadow mb-3";
 
+    string navBarClass = $"navbar navbar-expand-sm {(TightWiki.Models.GlobalConfiguration.FixedMenuPosition ? "fixed-top" : "")} navbar-light bg-white border-bottom shadow-sm";
     var isPageProtected = sessionState.PageInstructions.Contains(WikiInstruction.Protect);
 }
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@(sessionState.PageTitle ?? sessionState.Page.Name)</title>
 
@@ -24,31 +27,31 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
 
-    @if (string.IsNullOrWhiteSpace(TightWiki.Models.GlobalConfiguration.HTMLHeader) == false)
+    @if (!string.IsNullOrWhiteSpace(TightWiki.Models.GlobalConfiguration.HTMLHeader))
     {
-        <!-- HTMLHeader:Begin -->
         @Html.Raw(TightWiki.Models.GlobalConfiguration.HTMLHeader)
-        <!-- HTMLHeader:Begin -->
     }
 
     @if (TightWiki.Models.GlobalConfiguration.IncludeWikiDescriptionInMeta)
     {
-        <!-- PageDescription:Begin -->
         <meta name="description" content="@sessionState.Page.Description">
-        <!-- PageDescription:Begin -->
     }
 
     @if (TightWiki.Models.GlobalConfiguration.IncludeWikiTagsInMeta)
     {
-        <!-- PageTags:Begin -->
         <meta name="keywords" content="@sessionState.PageTags">
-        <!-- PageTags:Begin -->
     }
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/themes/base/jquery-ui.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.3.1/css/tabulator.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Theme:Begin -->
+    @if (sessionState.UserTheme.EditorTheme == "dark")
+    {
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.3.1/css/tabulator_midnight.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    }
+
     @foreach (var file in sessionState.UserTheme.Files)
     {
         if (file.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) || file.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
@@ -60,14 +63,8 @@
             <link rel="stylesheet" href="@Url.Content($"~{file}")" />
         }
     }
-    <!-- Theme:End-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/themes/base/jquery-ui.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.3.1/css/tabulator.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    @if (sessionState.UserTheme.EditorTheme == "dark")
-    {
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.3.1/css/tabulator_midnight.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    }
+    <link rel="stylesheet" href="@Url.Content("~/css/base.css")" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -75,36 +72,42 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/js/bootstrap.bundle.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.3.1/js/tabulator.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <link rel="stylesheet" href="@Url.Content("~/css/base.css")" />
-
     <script>
         $(function () {
-            localStorage.setItem('theme', '@sessionState.UserTheme.EditorTheme');
+        localStorage.setItem('theme', '@sessionState.UserTheme.EditorTheme');
 
-            $('nav')
-                .removeClass('navbar-light bg-white')
-                .addClass('@sessionState.UserTheme.ClassNavBar');
+        $('nav')
+        .removeClass('navbar-light bg-white')
+        .addClass('@sessionState.UserTheme.ClassNavBar');
 
-            $('a.nav-link')
-                .removeClass('text-dark')
-                .addClass('@sessionState.UserTheme.ClassNavLink');
+        $('a.nav-link')
+        .removeClass('text-dark')
+        .addClass('@sessionState.UserTheme.ClassNavLink');
 
-            $('a.dropdown-item')
-                .removeClass('text-dark')
-                .addClass('@sessionState.UserTheme.ClassDropdown');
+        $('a.dropdown-item')
+        .removeClass('text-dark')
+        .addClass('@sessionState.UserTheme.ClassDropdown');
 
-            $('span.glyphicon')
-                .removeClass('text-dark')
-                .addClass('@sessionState.UserTheme.ClassBranding');
+        $('.site-branding')
+        .removeClass('text-dark')
+        .addClass('@sessionState.UserTheme.ClassBranding');
 
-            // Fixed menu adjustment (conditionally rendered by Razor)
-            @if (TightWiki.Models.GlobalConfiguration.FixedMenuPosition)
-            {
-                <text>
-                let navheight = $('nav').outerHeight() + 20;
-                $('#mainContainer').css('margin-top', navheight + 'px');
-                </text>
-            }
+        @if (TightWiki.Models.GlobalConfiguration.FixedMenuPosition)
+        {
+            <text>
+                const navHeight = $('nav').outerHeight() + 20;
+                $('#mainContainer').css('margin-top', navHeight + 'px');
+            </text>
+        }
+
+        setTimeout(function () {
+        document.querySelectorAll('.auto-dismiss-alert').forEach(function (alertElement) {
+        if (alertElement) {
+        alertElement.classList.remove('show');
+        setTimeout(() => alertElement.remove(), 300);
+        }
+        });
+        }, 5000);
         });
     </script>
 
@@ -115,160 +118,202 @@
     <header>
         <nav class="@navBarClass">
             <div class="container">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand d-flex align-items-center gap-2" href="@GlobalConfiguration.BasePath/">
+                    <span class="site-branding d-inline-flex align-items-center gap-2">
+                        <img src="@Url.Content(TightWiki.Models.GlobalConfiguration.BrandImageSmall)"
+                             alt="@TightWiki.Models.GlobalConfiguration.Name"
+                             style="max-height: 28px;" />
+                        <span>@TightWiki.Models.GlobalConfiguration.Name</span>
+                    </span>
+                </a>
+
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#mainNavbar"
+                        aria-controls="mainNavbar"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="@GlobalConfiguration.BasePath/"><span class="glyphicon text-dark"><img src="@Url.Content(TightWiki.Models.GlobalConfiguration.BrandImageSmall)" /> @TightWiki.Models.GlobalConfiguration.Name</span></a>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
+
+                <div id="mainNavbar" class="collapse navbar-collapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+
                         @foreach (TightWiki.Models.DataModels.MenuItem item in TightWiki.Models.GlobalConfiguration.MenuItems)
                         {
-                            if (item.Link.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) || item.Link.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
+                            if (item.Link.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) ||
+                                item.Link.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
                             {
-                                <li class="nav-item"><a class="nav-link text-dark" href="@item.Link">@Localizer[item.Name]</a></li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" href="@item.Link" target="_blank" rel="noopener">
+                                        @Localizer[item.Name]
+                                    </a>
+                                </li>
                             }
-                            <li class="nav-item"><a class="nav-link text-dark" href="@GlobalConfiguration.BasePath@item.Link">@Localizer[item.Name]</a></li>
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" href="@GlobalConfiguration.BasePath@item.Link">
+                                        @Localizer[item.Name]
+                                    </a>
+                                </li>
+                            }
                         }
 
                         @if (sessionState.HoldsPermission(WikiPermission.Create)
-                                                || (sessionState.ShouldCreatePage == true && sessionState.HoldsPermission(WikiPermission.Create))
-                                                || (sessionState.Page.Exists == true && (sessionState.HoldsPermission([WikiPermission.Edit, WikiPermission.Moderate, WikiPermission.Delete])))
-                                                )
+                                                                            || (sessionState.ShouldCreatePage && sessionState.HoldsPermission(WikiPermission.Create))
+                                                                            || (sessionState.Page.Exists && sessionState.HoldsPermission([WikiPermission.Edit, WikiPermission.Moderate, WikiPermission.Delete])))
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@Localizer["Page"]</a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="pageMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    @Localizer["Page"]
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="pageMenuDropdown">
                                     @if (sessionState.HoldsPermission(WikiPermission.Create))
                                     {
-                                        if (sessionState.ShouldCreatePage == true)
+                                        if (sessionState.ShouldCreatePage)
                                         {
-                                            <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Create">Create "@sessionState.PageNavigation"</a>
+                                            <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Create">Create "@sessionState.PageNavigation"</a></li>
                                         }
 
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Page/Create">@Localizer["Create new page"]</a>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Page/Create">@Localizer["Create new page"]</a></li>
                                     }
 
-                                    @if (sessionState.Page.Exists == true)
+                                    @if (sessionState.Page.Exists)
                                     {
                                         @if (sessionState.HoldsPermission(WikiPermission.Create))
                                         {
-                                            <div class="dropdown-divider"></div>
+                                            <li><hr class="dropdown-divider"></li>
                                         }
-                                        if (sessionState.HoldsPermission(WikiPermission.Read) && TightWiki.Models.GlobalConfiguration.EnablePageComments)
+
+                                        @if (sessionState.HoldsPermission(WikiPermission.Read) && TightWiki.Models.GlobalConfiguration.EnablePageComments)
                                         {
-                                            <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Comments">@Localizer["Comments"]</a>
+                                            <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Comments">@Localizer["Comments"]</a></li>
                                         }
-                                        @if (sessionState.Page.IsHistoricalVersion == false)
+
+                                        @if (!sessionState.Page.IsHistoricalVersion)
                                         {
-                                            if ((isPageProtected != true && sessionState.HoldsPermission(WikiPermission.Edit))
-                                                || (isPageProtected == true && sessionState.HoldsPermission(WikiPermission.Moderate)))
+                                            if ((!isPageProtected && sessionState.HoldsPermission(WikiPermission.Edit))
+                                                || (isPageProtected && sessionState.HoldsPermission(WikiPermission.Moderate)))
                                             {
-                                                <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Delete">@Localizer["Delete this page"]</a>
+                                                <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Delete">@Localizer["Delete this page"]</a></li>
+                                                <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Edit">@Localizer["Edit"]</a></li>
                                             }
                                         }
-                                        @if (sessionState.Page.IsHistoricalVersion == false)
+
+                                        @if (sessionState.HoldsPermission(WikiPermission.Read))
                                         {
-                                            if ((isPageProtected != true && sessionState.HoldsPermission(WikiPermission.Edit))
-                                            || (isPageProtected == true && sessionState.HoldsPermission(WikiPermission.Moderate)))
-                                            {
-                                                <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Edit">@Localizer["Edit"]</a>
-                                            }
+                                            <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Revisions">@Localizer["Revisions"]</a></li>
                                         }
-                                        if (sessionState.HoldsPermission(WikiPermission.Read))
+
+                                        @if (sessionState.HoldsPermission(WikiPermission.Create))
                                         {
-                                            <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Revisions">@Localizer["Revisions"]</a>
+                                            <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Refresh">@Localizer["Refresh"]</a></li>
                                         }
-                                        if (sessionState.HoldsPermission(WikiPermission.Create))
+
+                                        @if (sessionState.Page.IsHistoricalVersion && sessionState.HoldsPermission(WikiPermission.Moderate))
                                         {
-                                            <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Refresh">@Localizer["Refresh"]</a>
+                                            <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/revert/@sessionState.Page.Revision">@Localizer["Revert to revision"] @sessionState.Page.Revision</a></li>
                                         }
-                                        if (sessionState.Page.IsHistoricalVersion == true && sessionState.HoldsPermission(WikiPermission.Moderate))
+
+                                        @if (TightWiki.Models.GlobalConfiguration.EnablePageComments && sessionState.HoldsPermission(WikiPermission.Read))
                                         {
-                                            <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/revert/@sessionState.Page.Revision">@Localizer["Revert to revision"] @sessionState.Page.Revision</a>
+                                            <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation">@Localizer["View"]</a></li>
                                         }
-                                        if (TightWiki.Models.GlobalConfiguration.EnablePageComments && sessionState.HoldsPermission(WikiPermission.Read))
+
+                                        @if (sessionState.HoldsPermission(WikiPermission.Read))
                                         {
-                                            <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation">@Localizer["View"]</a>
-                                        }
-                                        if (sessionState.HoldsPermission(WikiPermission.Read))
-                                        {
-                                            <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export">@Localizer["Export"]</a>
+                                            <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export">@Localizer["Export"]</a></li>
                                         }
                                     }
-                                </div>
+                                </ul>
                             </li>
                         }
 
-                        @if (sessionState.IsAuthenticated && (sessionState.HoldsPermission(WikiPermission.Moderate)))
+                        @if (sessionState.IsAuthenticated && sessionState.HoldsPermission(WikiPermission.Moderate))
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@Localizer["Admin"]</a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="adminMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    @Localizer["Admin"]
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="adminMenuDropdown">
                                     @if (sessionState.IsAdministrator)
                                     {
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/AdminSecurity/Accounts">@Localizer["Accounts"]</a>
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/AdminSecurity/Roles">@Localizer["Roles"]</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Config">@Localizer["Configuration"]</a>
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Emojis">@Localizer["Emojis"]</a>
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/MenuItems">@Localizer["Site Menu"]</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/CompilationStatistics">@Localizer["Compilations"]</a>
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Database">@Localizer["Database"]</a>
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Exceptions">@Localizer["Exceptions"]</a>
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Metrics">@Localizer["Metrics"]</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/DeletedPages">@Localizer["Deleted Pages"]</a>
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/MissingPages">@Localizer["Missing Pages"]</a>
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Moderate">@Localizer["Moderate"]</a>
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Namespaces">@Localizer["Namespaces"]</a>
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/OrphanedPageAttachments">@Localizer["Orphaned Attachments"]</a>
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Pages">@Localizer["Pages"]</a>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/AdminSecurity/Accounts">@Localizer["Accounts"]</a></li>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/AdminSecurity/Roles">@Localizer["Roles"]</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Config">@Localizer["Configuration"]</a></li>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Emojis">@Localizer["Emojis"]</a></li>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/MenuItems">@Localizer["Site Menu"]</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/CompilationStatistics">@Localizer["Compilations"]</a></li>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Database">@Localizer["Database"]</a></li>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/EventLog">@Localizer["Event Log"]</a></li>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Metrics">@Localizer["Metrics"]</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/DeletedPages">@Localizer["Deleted Pages"]</a></li>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/MissingPages">@Localizer["Missing Pages"]</a></li>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Moderate">@Localizer["Moderate"]</a></li>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Namespaces">@Localizer["Namespaces"]</a></li>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/OrphanedPageAttachments">@Localizer["Orphaned Attachments"]</a></li>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Pages">@Localizer["Pages"]</a></li>
                                     }
-                                    else if (sessionState.HoldsPermission(WikiPermission.Moderate))
+                                    else
                                     {
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/DeletedPages">@Localizer["Deleted Pages"]</a>
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/MissingPages">@Localizer["Missing Pages"]</a>
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Moderate">@Localizer["Moderate"]</a>
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Namespaces">@Localizer["Namespaces"]</a>
-                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Pages">@Localizer["Pages"]</a>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/DeletedPages">@Localizer["Deleted Pages"]</a></li>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/MissingPages">@Localizer["Missing Pages"]</a></li>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Moderate">@Localizer["Moderate"]</a></li>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Namespaces">@Localizer["Namespaces"]</a></li>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Pages">@Localizer["Pages"]</a></li>
                                     }
-                                </div>
+                                </ul>
                             </li>
                         }
 
-                        @if (sessionState.IsAuthenticated == true)
+                        @if (sessionState.IsAuthenticated)
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@Localizer["My"]</a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Profile/My">@Localizer["Profile"]</a>
-                                    <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Identity/Account/Manage">@Localizer["Account"]</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Identity/Account/Logout?returnUrl=/">@Localizer["Logout"]</a>
-                                </div>
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="myMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    @Localizer["My"]
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="myMenuDropdown">
+                                    <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Profile/My">@Localizer["Profile"]</a></li>
+                                    <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Identity/Account/Manage">@Localizer["Account"]</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Identity/Account/Logout?returnUrl=/">@Localizer["Logout"]</a></li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="@GlobalConfiguration.BasePath/Identity/Account/Login?returnUrl=@UrlEncoder.Default.Encode($"{GlobalConfiguration.BasePath}{Context.Request.Path.Value}")">
+                                    @Localizer["Login"]
+                                </a>
                             </li>
                         }
 
-                        @if (sessionState.IsAuthenticated == false)
-                        {
-                            <li class="nav-item"><a class="nav-link text-dark" href="@GlobalConfiguration.BasePath/Identity/Account/Login?returnUrl=@UrlEncoder.Default.Encode($"{GlobalConfiguration.BasePath}{Context.Request.Path.Value}")">@Localizer["Login"]</a></li>
-                        }
-
-                        @if (TightWiki.Models.GlobalConfiguration.IncludeSearchOnNavbar)
-                        {
-                            <li class="nav-item ms-auto d-none d-lg-block">
-                                <div class="collapse navbar-collapse justify-content-end">
-                                    <form class="d-flex" role="search" method="GET" action="@GlobalConfiguration.BasePath/Page/Search">
-                                        <input class="form-control me-2" type="search" placeholder="@Localizer["Search text"]" name="SearchString" aria-label="@Localizer["Search"]">
-                                        <button class="btn btn-outline-primary" type="submit">@Localizer["Search"]</button>
-                                    </form>
-                                </div>
-                            </li>
-                        }
-                        <li class="nav-item"><a class="btn btn-link" href="@GlobalConfiguration.BasePath/Page/Localization">@System.Globalization.CultureInfo.CurrentCulture.Name.ToUpperInvariant()</a></li>
+                        <li class="nav-item">
+                            <a class="btn btn-link nav-link" href="@GlobalConfiguration.BasePath/Page/Localization">
+                                @CultureInfo.CurrentCulture.Name.ToUpperInvariant()
+                            </a>
+                        </li>
                     </ul>
+
+                    @if (TightWiki.Models.GlobalConfiguration.IncludeSearchOnNavbar)
+                    {
+                        <form class="d-flex ms-sm-3 mt-2 mt-sm-0" role="search" method="get" action="@GlobalConfiguration.BasePath/Page/Search">
+                            <input class="form-control me-2"
+                                   type="search"
+                                   placeholder="@Localizer["Search text"]"
+                                   name="SearchString"
+                                   aria-label="@Localizer["Search"]" />
+                            <button class="btn btn-outline-primary" type="submit">
+                                @Localizer["Search"]
+                            </button>
+                        </form>
+                    }
                 </div>
             </div>
         </nav>
@@ -278,93 +323,79 @@
         <main role="main" class="pb-3">
             @Html.Raw(TightWiki.Models.GlobalConfiguration.HTMLPreBody)
 
-            @if (TightWiki.Repository.UsersRepository.AdminPasswordStatus() != TightWiki.Library.Constants.AdminPasswordChangeState.HasBeenChanged)
+            @if (TightWiki.Repository.UsersRepository.AdminPasswordStatus() != WikiAdminPasswordChangeState.HasBeenChanged)
             {
-                <div class="card shadow-lg bg-warning mb-3">
-                    <div class="card-header"><strong>@Localizer["Default password has not been changed"]</strong></div>
+                <div class="card shadow-sm border-warning mb-3">
+                    <div class="card-header bg-warning-subtle border-warning">
+                        <div class="fw-semibold text-dark">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>@Localizer["Default password has not been changed"]
+                        </div>
+                    </div>
                     <div class="card-body">
-                        <p class="card-text">
-                            @Localizer["Info1"]<br />
-                            <br />
-                            @Localizer["Info2"]<br />
-                            <br />
-                            <strong>@Localizer["Current admin login"]:</strong><br />
-                            &nbsp;&nbsp;&nbsp;<strong>@Localizer["Username"]:</strong>"admin@tightwiki.com"<br />
-                            &nbsp;&nbsp;&nbsp;<strong>@Localizer["Password"]:</strong>"@TightWiki.Library.Constants.DEFAULTPASSWORD"<br />
-                            <br />
-                        </p>
+                        <strong>@Localizer["Current admin login"]:</strong><br />
+                        <span class="ms-3"><strong>@Localizer["Username"]:</strong> "admin@tightwiki.com"</span><br />
+                        <span class="ms-3"><strong>@Localizer["Password"]:</strong> "@TightWiki.Library.Constants.DEFAULTPASSWORD"</span>
                     </div>
                 </div>
             }
 
             @{
-                Model.SuccessMessage = String.IsNullOrEmpty(Context.Request.Query["SuccessMessage"].ToString()) ? Model.SuccessMessage : Context.Request.Query["SuccessMessage"].ToString();
-                Model.WarningMessage = String.IsNullOrEmpty(Context.Request.Query["WarningMessage"].ToString()) ? Model.WarningMessage : Context.Request.Query["WarningMessage"].ToString();
-                Model.ErrorMessage = String.IsNullOrEmpty(Context.Request.Query["ErrorMessage"].ToString()) ? Model.ErrorMessage : Context.Request.Query["ErrorMessage"].ToString();
+                Model.SuccessMessage = string.IsNullOrEmpty(Context.Request.Query["SuccessMessage"].ToString()) ? Model.SuccessMessage : Context.Request.Query["SuccessMessage"].ToString();
+                Model.WarningMessage = string.IsNullOrEmpty(Context.Request.Query["WarningMessage"].ToString()) ? Model.WarningMessage : Context.Request.Query["WarningMessage"].ToString();
+                Model.ErrorMessage = string.IsNullOrEmpty(Context.Request.Query["ErrorMessage"].ToString()) ? Model.ErrorMessage : Context.Request.Query["ErrorMessage"].ToString();
             }
 
-            @if (!String.IsNullOrEmpty(Model.SuccessMessage))
+            @if (!string.IsNullOrEmpty(Model.SuccessMessage))
             {
-                <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
-                    <p class="fw-bold">@Html.Raw(Model.SuccessMessage)</p>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-
-                <script>
-                    document.addEventListener("DOMContentLoaded", function () {
-                    setTimeout(function () {
-                    let alertElement = document.getElementById('success-alert');
-                    if (alertElement) {
-                    // Add fade-out effect
-                    alertElement.classList.remove('show');
-                    alertElement.classList.add('fade');
-
-                    // Remove the alert completely after the fade-out animation
-                    setTimeout(() => alertElement.remove(), 300);
-                    }
-                    }, 5000);
-                    });
-                </script>
-            }
-
-            @if (!String.IsNullOrEmpty(Model.WarningMessage))
-            {
-                <div id="success-alert" class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <p class="fw-bold">@Html.Raw(Model.WarningMessage)</p>
+                <div class="alert alert-success alert-dismissible fade show auto-dismiss-alert" role="alert">
+                    <div class="fw-semibold">@Html.Raw(Model.SuccessMessage)</div>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             }
 
-            @if (!String.IsNullOrEmpty(Model.ErrorMessage))
+            @if (!string.IsNullOrEmpty(Model.WarningMessage))
             {
-                <div id="success-alert" class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <p class="fw-bold">@Html.Raw(Model.ErrorMessage)</p>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <div class="fw-semibold">@Html.Raw(Model.WarningMessage)</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <div class="fw-semibold">@Html.Raw(Model.ErrorMessage)</div>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             }
 
             @RenderBody()
+
             @Html.Raw(TightWiki.Models.GlobalConfiguration.HTMLPostBody)
         </main>
     </div>
 
-    <div class="container">
+    <footer class="container pb-4">
         @if (TightWiki.Models.GlobalConfiguration.FooterBlurb != null || TightWiki.Models.GlobalConfiguration.Copyright != null)
         {
-            <hr class="mt-5 mb-5">
+            <hr class="mt-5 mb-4" />
 
             @if (TightWiki.Models.GlobalConfiguration.FooterBlurb != null)
             {
-                @Html.Raw(TightWiki.Models.GlobalConfiguration.FooterBlurb)
+                <div class="mb-2">
+                    @Html.Raw(TightWiki.Models.GlobalConfiguration.FooterBlurb)
+                </div>
             }
+
             @if (TightWiki.Models.GlobalConfiguration.Copyright != null)
             {
-                <br />
-                @Html.Raw(TightWiki.Models.GlobalConfiguration.Copyright)
+                <div class="text-muted small">
+                    @Html.Raw(TightWiki.Models.GlobalConfiguration.Copyright)
+                </div>
             }
         }
-        @Html.Raw(TightWiki.Models.GlobalConfiguration.HTMLFooter)
-    </div>
 
+        @Html.Raw(TightWiki.Models.GlobalConfiguration.HTMLFooter)
+    </footer>
 </body>
 </html>

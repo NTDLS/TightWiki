@@ -5,15 +5,14 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Extensions;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Repository;
 using TightWiki.Security;
-using TightWiki.Static;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -34,11 +33,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<LoginModel> _logger;
-        private readonly IStringLocalizer<ConfirmEmailModel> _localizer;
+        private readonly ILogger<ITightEngine> _logger;
+        private readonly ISharedLocalizationText _localizer;
 
-        public LoginModel(ILogger<LoginModel> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<ConfirmEmailModel> localizer)
-                        : base(signInManager)
+        public LoginModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager, ISharedLocalizationText localizer)
+            : base(logger, signInManager, localizer)
         {
             _localizer = localizer;
             _signInManager = signInManager;
@@ -71,8 +71,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             }
             catch (Exception ex)
             {
-                _logger.LogError("Exception: {Message}", ex.Message);
-                ExceptionRepository.InsertException(ex, "LDAP authentication error");
+                _logger.LogError("LDAP authentication error: {Message}", ex.Message);
             }
         }
 
@@ -80,7 +79,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-                var ldapAuthenticationConfiguration = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.LDAPAuthentication);
+                var ldapAuthenticationConfiguration = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.LDAPAuthentication);
 
                 ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
 
@@ -93,7 +92,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                     if (result.Succeeded)
                     {
-                        _logger.LogInformation("User logged in.");
+                        _logger.LogDebug("User logged in.");
                         return Redirect(ReturnUrl);
                     }
                     if (result.RequiresTwoFactor)
@@ -111,7 +110,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                         if (GlobalConfiguration.EnableLDAPAuthentication)
                         {
-                            if (LDAPUtility.LdapCredentialChallenge(ldapAuthenticationConfiguration, StaticLocalizer.Localizer,
+                            if (LDAPUtility.LdapCredentialChallenge(ldapAuthenticationConfiguration, _localizer,
                                 Input.Username, Input.Password, out var samAccountName, out var objectGuid))
                             {
                                 //We successfully authenticated against LDAP.
@@ -154,12 +153,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
                                                     .Format(string.Join("; ", addLogin.Errors.Select(e => $"{e.Code}:{e.Description}"))));
                                             }
 
-                                            foundUser = await _userManager.FindByNameAsync(samAccountName);
-                                            if (foundUser == null)
-                                            {
-                                                throw new Exception(_localizer["Failed to locate the user account for the LDAP credential."]);
-                                            }
-
+                                            foundUser = await _userManager.FindByNameAsync(samAccountName)
+                                                ?? throw new Exception(_localizer["Failed to locate the user account for the LDAP credential."]);
                                         }
                                         else
                                         {
@@ -196,7 +191,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                ExceptionRepository.InsertException(ex);
             }
 
             // If we got this far, something failed, redisplay form

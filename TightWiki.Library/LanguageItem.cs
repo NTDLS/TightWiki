@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace TightWiki.Library
+﻿namespace TightWiki.Library
 {
     public class LanguageItem
     {
@@ -11,24 +9,15 @@ namespace TightWiki.Library
         {
             var list = new List<LanguageItem>();
 
-            var cultureInfo = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+            var supportedCultures = new SupportedCultures();
 
-            foreach (var culture in cultureInfo)
+            foreach (var culture in supportedCultures.Collection)
             {
-                var name = culture.NativeName;
-                if (name.Contains('('))
+                list.Add(new LanguageItem
                 {
-                    name = name.Substring(0, name.IndexOf('(')).Trim();
-                }
-
-                if (list.Where(o => o.Value == name).Any() == false)
-                {
-                    list.Add(new LanguageItem
-                    {
-                        Text = name,
-                        Value = name
-                    });
-                }
+                    Text = culture.Culture.NativeName,
+                    Value = culture.Code
+                });
             }
 
             return list.OrderBy(o => o.Text).ToList();

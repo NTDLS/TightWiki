@@ -4,6 +4,8 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -12,7 +14,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
     ///     directly from your code. This API may change or be removed in future releases.
     /// </summary>
     [AllowAnonymous]
-    public class LockoutModel : PageModelBase
+    public class LockoutModel
+        : PageModelBase
     {
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -21,8 +24,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public void OnGet()
         {
         }
-        public LockoutModel(SignInManager<IdentityUser> signInManager)
-            : base(signInManager)
+        public LockoutModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, ISharedLocalizationText localizer)
+            : base(logger, signInManager, localizer)
         {
 
         }

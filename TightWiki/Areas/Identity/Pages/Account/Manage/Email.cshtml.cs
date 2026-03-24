@@ -5,10 +5,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Repository;
@@ -36,19 +36,17 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IWikiEmailSender _emailSender;
-        private readonly IStringLocalizer<EmailModel> _localizer;
 
         public EmailModel(
+            ILogger<ITightEngine> logger,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IWikiEmailSender emailSender,
-            IStringLocalizer<EmailModel> localizer)
-                        : base(signInManager)
+            IWikiEmailSender emailSender, ISharedLocalizationText localizer)
+                        : base(logger, signInManager, localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
-            _localizer = localizer;
         }
 
         /// <summary>
@@ -130,8 +128,8 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
                     values: new { area = "Identity", userId = userId, email = Input.NewEmail, code = encodedCode },
                     protocol: Request.Scheme);
 
-                var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>(Constants.ConfigurationGroup.Membership, "Template: Account Verification Email"));
-                var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Basic);
+                var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>(Constants.WikiConfigurationGroup.Membership, "Template: Account Verification Email"));
+                var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Basic);
                 var siteName = basicConfig.Value<string>("Name");
                 var address = basicConfig.Value<string>("Address");
                 var profile = UsersRepository.GetAccountProfileByUserId(Guid.Parse(userId));
@@ -151,12 +149,12 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
                 emailTemplate.Replace("##CALLBACKURL##", HtmlEncoder.Default.Encode(callbackUrl));
 
                 await _emailSender.SendEmailAsync(Input.NewEmail, emailSubject, emailTemplate.ToString());
-                StatusMessage = _localizer["Confirmation link to change email sent. Please check your email."];
+                StatusMessage = Localizer["Confirmation link to change email sent. Please check your email."];
 
                 return RedirectToPage();
             }
 
-            StatusMessage = _localizer["Your email is unchanged."];
+            StatusMessage = Localizer["Your email is unchanged."];
             return RedirectToPage();
         }
 
@@ -188,7 +186,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
                 "Confirm your email",
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-            StatusMessage = _localizer["Verification email sent. Please check your email."];
+            StatusMessage = Localizer["Verification email sent. Please check your email."];
             return RedirectToPage();
         }
     }

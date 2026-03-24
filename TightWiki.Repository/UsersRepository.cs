@@ -4,7 +4,6 @@ using TightWiki.Caching;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
-using static TightWiki.Library.Constants;
 
 namespace TightWiki.Repository
 {
@@ -505,27 +504,27 @@ namespace TightWiki.Repository
             ManagedDataStorage.Users.Execute("UpdateProfileAvatar.sql", param);
         }
 
-        public static AdminPasswordChangeState AdminPasswordStatus()
+        public static WikiAdminPasswordChangeState AdminPasswordStatus()
         {
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Configuration);
 
             if (WikiCache.Get<bool?>(cacheKey) == true)
             {
-                return AdminPasswordChangeState.HasBeenChanged;
+                return WikiAdminPasswordChangeState.HasBeenChanged;
             }
 
             var result = ManagedDataStorage.Users.ExecuteScalar<bool?>("IsAdminPasswordChanged.sql");
             if (result == true)
             {
                 WikiCache.Put(cacheKey, true);
-                return AdminPasswordChangeState.HasBeenChanged;
+                return WikiAdminPasswordChangeState.HasBeenChanged;
             }
             if (result == null)
             {
-                return AdminPasswordChangeState.NeedsToBeSet;
+                return WikiAdminPasswordChangeState.NeedsToBeSet;
             }
 
-            return AdminPasswordChangeState.IsDefault;
+            return WikiAdminPasswordChangeState.IsDefault;
         }
 
         public static void SetAdminPasswordClear()

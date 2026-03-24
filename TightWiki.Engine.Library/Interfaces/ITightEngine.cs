@@ -1,11 +1,12 @@
-﻿using TightWiki.Library.Interfaces;
+﻿using Microsoft.Extensions.Logging;
+using TightWiki.Library.Interfaces;
 using static TightWiki.Engine.Library.Constants;
 
 namespace TightWiki.Engine.Library.Interfaces
 {
-
     public interface ITightEngine
     {
+        ILogger<ITightEngine> Logger { get; }
         IScopeFunctionHandler ScopeFunctionHandler { get; }
         IStandardFunctionHandler StandardFunctionHandler { get; }
         IProcessingInstructionFunctionHandler ProcessingInstructionFunctionHandler { get; }

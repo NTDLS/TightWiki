@@ -5,29 +5,28 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Localization;
 using System.Text;
+using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 using TightWiki.Models;
-using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
     public class ConfirmEmailModel : PageModelBase
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IStringLocalizer<ConfirmEmailModel> _localizer;
-        private readonly ILogger<ConfirmEmailModel> _logger;
+        private readonly ILogger<ITightEngine> _logger;
+        private readonly ISharedLocalizationText _localizer;
 
         public ConfirmEmailModel(
-            ILogger<ConfirmEmailModel> logger,
+            ILogger<ITightEngine> logger,
             SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager,
-            IStringLocalizer<ConfirmEmailModel> localizer)
-            : base(signInManager)
+            UserManager<IdentityUser> userManager, ISharedLocalizationText localizer)
+            : base(logger, signInManager, localizer)
         {
+            _localizer = localizer;
             _logger = logger;
             _userManager = userManager;
-            _localizer = localizer;
         }
 
         /// <summary>
@@ -59,7 +58,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                ExceptionRepository.InsertException(ex);
             }
             return Page();
         }

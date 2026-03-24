@@ -4,7 +4,8 @@
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
+using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
@@ -12,18 +13,15 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
     public class Disable2faModel : PageModelBase
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<Disable2faModel> _logger;
-        private readonly IStringLocalizer<Disable2faModel> _localizer;
+        private readonly ILogger<ITightEngine> _logger;
 
         public Disable2faModel(SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            ILogger<Disable2faModel> logger,
-            IStringLocalizer<Disable2faModel> localizer)
-                        : base(signInManager)
+            ILogger<ITightEngine> logger, ISharedLocalizationText localizer)
+                        : base(logger, signInManager, localizer)
         {
             _userManager = userManager;
             _logger = logger;
-            _localizer = localizer;
         }
 
         /// <summary>
@@ -64,7 +62,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             }
 
             _logger.LogInformation("User with ID '{UserId}' has disabled 2fa.", _userManager.GetUserId(User));
-            StatusMessage = _localizer["2fa has been disabled. You can reenable 2fa when you setup an authenticator app"];
+            StatusMessage = Localizer["2fa has been disabled. You can reenable 2fa when you setup an authenticator app"];
             return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/TwoFactorAuthentication");
         }
     }

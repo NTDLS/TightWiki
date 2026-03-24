@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 using TightWiki.Library.Interfaces;
 using static TightWiki.Engine.Library.Constants;
@@ -19,6 +20,8 @@ namespace TightWiki.Engine.Library.Interfaces
         public int NestDepth { get; } //Used for recursion.
 
         #endregion
+
+        public ILogger<ITightEngine> Logger { get; }
 
         #region State.
 

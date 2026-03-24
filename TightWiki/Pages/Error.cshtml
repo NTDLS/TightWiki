@@ -1,8 +1,11 @@
 ﻿@page
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
+
 @model ErrorModel
 @{
-    ViewData["Title"] = Localizer["Error"].Value;
+    ViewData["Title"]= Localizer["Error"].Value;
 }
 
 <h1 class="text-danger">@Localizer["Error"].</h1>
@@ -22,5 +25,4 @@
 <p>
     <strong>@Localizer["The Development environment shouldn't be enabled for deployed applications."]</strong>
     @Localizer["It can result in displaying sensitive information from exceptions to end users."]
-    @Localizer["For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong> and restarting the app."]
 </p>

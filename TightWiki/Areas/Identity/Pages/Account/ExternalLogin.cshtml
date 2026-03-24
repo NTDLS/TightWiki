@@ -1,6 +1,8 @@
 ﻿@page
 @using System.Text.Encodings.Web
-@inject IViewLocalizer Localizer
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
+
 @model ExternalLoginModel
 @{
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -14,7 +16,8 @@
 <hr />
 
 <p id="external-login-description" class="text-info">
-    @String.Format(Localizer["You've successfully authenticated with <strong>{0}</strong>. Please enter an email address for this site below and click the Register button to finish logging in."].Value, Model.ProviderDisplayName)
+    @String.Format(Localizer["You've successfully authenticated with {0}. Please enter an email address for this site below and click the Register button to finish logging in."].Value,
+        $"<strong>{Model.ProviderDisplayName}</strong>")
 </p>
 
 <div class="row">

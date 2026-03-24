@@ -1,0 +1,2608 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="- or -" xml:space="preserve">
+    <value>- veya -</value>
+  </data>
+  <data name="(No description)" xml:space="preserve">
+    <value>(Açıklama Yok)</value>
+  </data>
+  <data name="(No link)" xml:space="preserve">
+    <value>(Bağlantı Yok)</value>
+  </data>
+  <data name="(No text)" xml:space="preserve">
+    <value>(Metin Yok)</value>
+  </data>
+  <data name="{0}Continue now{1} or you will be redirected in {2} seconds." xml:space="preserve">
+    <value>{0}Şimdi devam et{1} yoksa {2} saniyede yönlendirileceksiniz.</value>
+  </data>
+  <data name="2fa has been disabled. You can reenable 2fa when you setup an authenticator app" xml:space="preserve">
+    <value>2fa devre dışı bırakıldı. Kimlik doğrulayıcı uygulaması kurduğunuzda 2fa'yı tekrar etkinleştirebilirsiniz</value>
+  </data>
+  <data name="Access denied." xml:space="preserve">
+    <value>Erişim reddedildi.</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Hesap</value>
+  </data>
+  <data name="Account Deleted!" xml:space="preserve">
+    <value>Hesap Silindi!</value>
+  </data>
+  <data name="Account Editor" xml:space="preserve">
+    <value>Hesap Düzenleyici</value>
+  </data>
+  <data name="Account Email Verification" xml:space="preserve">
+    <value>Hesap E-posta Doğrulaması</value>
+  </data>
+  <data name="Account Management" xml:space="preserve">
+    <value>Hesap Yönetimi</value>
+  </data>
+  <data name="Account Permissions" xml:space="preserve">
+    <value>Hesap İzinleri</value>
+  </data>
+  <data name="Account Role Membership" xml:space="preserve">
+    <value>Hesap Rolü Üyeliği</value>
+  </data>
+  <data name="Account roles and permissions for a single account." xml:space="preserve">
+    <value>Tek bir hesap için hesap rolleri ve izinleri.</value>
+  </data>
+  <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
+    <value>{0} için Hesap Rolleri ve İzinler</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>Hesaplar</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>İşlem</value>
+  </data>
+  <data name="Add Account" xml:space="preserve">
+    <value>Hesap Ekle</value>
+  </data>
+  <data name="Add authenticator app" xml:space="preserve">
+    <value>Kimlik doğrulama uygulaması ekle</value>
+  </data>
+  <data name="Add Emoji" xml:space="preserve">
+    <value>Emoji Ekle</value>
+  </data>
+  <data name="Add Member to Role" xml:space="preserve">
+    <value>Üye Rolüne Üye Ekle</value>
+  </data>
+  <data name="Add new account" xml:space="preserve">
+    <value>Yeni hesap ekle</value>
+  </data>
+  <data name="Add new emoji" xml:space="preserve">
+    <value>Yeni emoji ekle</value>
+  </data>
+  <data name="Add new item" xml:space="preserve">
+    <value>Yeni öğe ekle</value>
+  </data>
+  <data name="Add Permission to Account" xml:space="preserve">
+    <value>Hesaba İzin Ekle</value>
+  </data>
+  <data name="Add Permission to Role" xml:space="preserve">
+    <value>Role'e İzin Ekle</value>
+  </data>
+  <data name="Add Role" xml:space="preserve">
+    <value>Role Ekle</value>
+  </data>
+  <data name="Add Role to Account" xml:space="preserve">
+    <value>Hesaba Rol Ekle</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Yönetici</value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value>HEPSİ</value>
+  </data>
+  <data name="All changes that have been made to the attached file." xml:space="preserve">
+    <value>Ekli dosyaya yapılan tüm değişiklikler.</value>
+  </data>
+  <data name="All changes that have been made to the page." xml:space="preserve">
+    <value>Sayfaya yapılan tüm değişiklikler.</value>
+  </data>
+  <data name="All comments made on the given page." xml:space="preserve">
+    <value>Verilen sayfada yapılan tüm yorumlar.</value>
+  </data>
+  <data name="All namespaces contained in the wiki." xml:space="preserve">
+    <value>Viki'deki tüm isim alanları.</value>
+  </data>
+  <data name="All pages contained in the namespace." xml:space="preserve">
+    <value>İsim alanındaki tüm sayfalar.</value>
+  </data>
+  <data name="All pages contained in the wiki." xml:space="preserve">
+    <value>Viki'deki tüm sayfalar.</value>
+  </data>
+  <data name="Already a member?" xml:space="preserve">
+    <value>Zaten üye misiniz?</value>
+  </data>
+  <data name="An error occurred while processing your request." xml:space="preserve">
+    <value>İsteğiniz işlenirken bir hata oluştu.</value>
+  </data>
+  <data name="Analysis" xml:space="preserve">
+    <value>Analiz</value>
+  </data>
+  <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
+    <value>Bu silme işlemini devam ettirmek istediğinize emin misiniz?</value>
+  </data>
+  <data name="Are you sure you want to continue?" xml:space="preserve">
+    <value>İzlemek istediğinizden emin misiniz?</value>
+  </data>
+  <data name="Are you sure you want to delete this comment?" xml:space="preserve">
+    <value>Bu yorumu silmek istediğinize emin misiniz?</value>
+  </data>
+  <data name="Are you sure you want to detach" xml:space="preserve">
+    <value>Bağlantıyı kesmek istediğinizden emin misiniz</value>
+  </data>
+  <data name="Are you sure you want to log out of the application?" xml:space="preserve">
+    <value>Uygulamadan çıkmak istediğinize emin misiniz?</value>
+  </data>
+  <data name="Are you sure?" xml:space="preserve">
+    <value>Emin misiniz?</value>
+  </data>
+  <data name="Associate your {0} account." xml:space="preserve">
+    <value>{0} hesabınızı ilişkilendir.</value>
+  </data>
+  <data name="Associated Pages" xml:space="preserve">
+    <value>İlişkili Sayfalar</value>
+  </data>
+  <data name="Associated Tags" xml:space="preserve">
+    <value>İlişkili Etiketler</value>
+  </data>
+  <data name="Attach files by dropping them here or by manually selecting them below:" xml:space="preserve">
+    <value>Dosyaları buraya sürükleyerek veya aşağıda manuel olarak seçerek ekleyin:</value>
+  </data>
+  <data name="Attachments" xml:space="preserve">
+    <value>Eklentiler</value>
+  </data>
+  <data name="Authenticator app" xml:space="preserve">
+    <value>Kimlik doğrulama uygulaması</value>
+  </data>
+  <data name="Available Languages" xml:space="preserve">
+    <value>Kullanılabilir Diller</value>
+  </data>
+  <data name="Avatar" xml:space="preserve">
+    <value>Avatar</value>
+  </data>
+  <data name="Bind failed." xml:space="preserve">
+    <value>Bağlantı başarısız oldu.</value>
+  </data>
+  <data name="Bind succeeded." xml:space="preserve">
+    <value>Bağlantı başarılı.</value>
+  </data>
+  <data name="Biography" xml:space="preserve">
+    <value>Biyografi</value>
+  </data>
+  <data name="Bold" xml:space="preserve">
+    <value>Kalın</value>
+  </data>
+  <data name="Browse pages marked with various processing instructions to see what is in draft, pending deletion, protected, etc." xml:space="preserve">
+    <value>Çeşitli işlem talimatlarıyla işaretlenmiş sayfaları göz atın, taslakta, silinmek üzere, koruma altında vb. nelerin olduğunu görmek için.</value>
+  </data>
+  <data name="Built-in Pages" xml:space="preserve">
+    <value>Yerleşik Sayfalar</value>
+  </data>
+  <data name="Cache" xml:space="preserve">
+    <value>Önbellek</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>İptal</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Kategoriler</value>
+  </data>
+  <data name="Change Avatar" xml:space="preserve">
+    <value>Avatar değiştir</value>
+  </data>
+  <data name="Change email" xml:space="preserve">
+    <value>E-posta değiştir</value>
+  </data>
+  <data name="Change Image" xml:space="preserve">
+    <value>Resim Değiştir</value>
+  </data>
+  <data name="Change password" xml:space="preserve">
+    <value>Şifre değiştir</value>
+  </data>
+  <data name="Change Summary" xml:space="preserve">
+    <value>Özet değiştir</value>
+  </data>
+  <data name="Change your account settings" xml:space="preserve">
+    <value>Hesap ayarlarınızı değiştirin</value>
+  </data>
+  <data name="Choose a page" xml:space="preserve">
+    <value>Bir sayfa seçin</value>
+  </data>
+  <data name="Choose Image" xml:space="preserve">
+    <value>Resim Seç</value>
+  </data>
+  <data name="Choose template" xml:space="preserve">
+    <value>Şablon seç</value>
+  </data>
+  <data name="Choose your preferred language for the interface." xml:space="preserve">
+    <value>Arayüz için tercih edilen dilinizi seçin.</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Kapat</value>
+  </data>
+  <data name="Comma-separated categories" xml:space="preserve">
+    <value>Virgül ile ayrılmış kategoriler</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Yorumlar</value>
+  </data>
+  <data name="Compilation Statistics" xml:space="preserve">
+    <value>Derleme İstatistikleri</value>
+  </data>
+  <data name="Compilations" xml:space="preserve">
+    <value>Derlemeler</value>
+  </data>
+  <data name="Complete Signup" xml:space="preserve">
+    <value>Tam Kayıt Ol</value>
+  </data>
+  <data name="Configuration" xml:space="preserve">
+    <value>Yapılandırma</value>
+  </data>
+  <data name="Configuration for an emoji." xml:space="preserve">
+    <value>Bir emoji için yapılandırma.</value>
+  </data>
+  <data name="Configuration for user account." xml:space="preserve">
+    <value>Kullanıcı hesabı için yapılandırma.</value>
+  </data>
+  <data name="Configuration to add an emoji." xml:space="preserve">
+    <value>Bir emoji eklemek için yapılandırma.</value>
+  </data>
+  <data name="Configure authenticator app" xml:space="preserve">
+    <value>Kimlik doğrulama uygulamasını yapılandır</value>
+  </data>
+  <data name="Confirm email change" xml:space="preserve">
+    <value>E-posta değişikliğini onayla</value>
+  </data>
+  <data name="Confirm logout" xml:space="preserve">
+    <value>Çıkış yapmayı onayla</value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>Şifreyi onayla</value>
+  </data>
+  <data name="Confirm your email address." xml:space="preserve">
+    <value>E-posta adresinizi doğrulayın.</value>
+  </data>
+  <data name="Confirmation link to change email sent. Please check your email." xml:space="preserve">
+    <value>E-posta değişikliği için onay bağlantısı gönderildi. Lütfen e-posta kutunuzu kontrol edin.</value>
+  </data>
+  <data name="Confirmed" xml:space="preserve">
+    <value>Onaylandı</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>İçerik</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Devam et</value>
+  </data>
+  <data name="Copy Tag" xml:space="preserve">
+    <value>Etiket Kopyala</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Ülke</value>
+  </data>
+  <data name="Create a new account" xml:space="preserve">
+    <value>Yeni bir hesap oluştur</value>
+  </data>
+  <data name="Create new page" xml:space="preserve">
+    <value>Yeni sayfa oluştur</value>
+  </data>
+  <data name="Create new role." xml:space="preserve">
+    <value>Yeni rol oluştur.</value>
+  </data>
+  <data name="Create new user account." xml:space="preserve">
+    <value>Yeni kullanıcı hesabı oluştur.</value>
+  </data>
+  <data name="Create your account and configure your basic profile details." xml:space="preserve">
+    <value>Hesabınızı oluşturun ve temel profil detaylarınızı yapılandırın.</value>
+  </data>
+  <data name="Created Date" xml:space="preserve">
+    <value>Oluşturulma Tarihi</value>
+  </data>
+  <data name="Credentials" xml:space="preserve">
+    <value>Kimlik Bilgileri</value>
+  </data>
+  <data name="Current admin login" xml:space="preserve">
+    <value>Mevcut yöneticiyi giriş</value>
+  </data>
+  <data name="Database" xml:space="preserve">
+    <value>Veritabanı</value>
+  </data>
+  <data name="Database Utilities" xml:space="preserve">
+    <value>Veritabanı Araçları</value>
+  </data>
+  <data name="Date/Time" xml:space="preserve">
+    <value>Tarih/Saat</value>
+  </data>
+  <data name="Default password has not been changed" xml:space="preserve">
+    <value>Varsayılan şifre değiştirilmedi</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Sil</value>
+  </data>
+  <data name="Delete Account" xml:space="preserve">
+    <value>Hesabı Sil</value>
+  </data>
+  <data name="Delete page '{0}'?" xml:space="preserve">
+    <value>'{0}' sayfasını silmek istiyor musunuz?</value>
+  </data>
+  <data name="Delete Role" xml:space="preserve">
+    <value>Rolü Sil</value>
+  </data>
+  <data name="Delete this page" xml:space="preserve">
+    <value>Bu sayfayı sil</value>
+  </data>
+  <data name="Deleted By" xml:space="preserve">
+    <value>İ by Deleted</value>
+  </data>
+  <data name="Deleted Date" xml:space="preserve">
+    <value>Silinen Tarih</value>
+  </data>
+  <data name="Deleted Page Content" xml:space="preserve">
+    <value>Silinen Sayfa İçeriği</value>
+  </data>
+  <data name="Deleted Page Queue" xml:space="preserve">
+    <value>Silinen Sayfa Kuyruğu</value>
+  </data>
+  <data name="Deleted Page Revisions" xml:space="preserve">
+    <value>Silinen Sayfa Revizyonları</value>
+  </data>
+  <data name="Deleted Pages" xml:space="preserve">
+    <value>Silinen Sayfalar</value>
+  </data>
+  <data name="Deleted Revision Content" xml:space="preserve">
+    <value>Silinen Revizyon İçeriği</value>
+  </data>
+  <data name="Deleted Revisions" xml:space="preserve">
+    <value>Silinen Revizyonlar</value>
+  </data>
+  <data name="Deleting '{0}' will move the page, all {1} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
+    <value>'{0}' silmek, sayfayı, tüm {1} revizyonları ve ilişkili dosya eklerini silinme kuyruğuna taşıyacaktır. Bu işlem yalnızca bir yönetici veya moderatör tarafından geri alınabilir. Devam etmek istiyor musunuz?</value>
+  </data>
+  <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
+    <value>'{0}' silmek, sayfayı, tüm {1} revizyonları ve {2} dosya ekleriyle birlikte silinme kuyruğuna taşır.</value>
+  </data>
+  <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value>'{0}' hesabını kalıcı olarak kaldıracaktır. Bu kullanıcı tarafından oluşturulan veya değiştirilmiş tüm sayfalar yerine geçici bir hesap adına atanacak ve bu işlemi geri alamayacaksınız. Devam etmek istiyor musunuz?</value>
+  </data>
+  <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account. Continue?" xml:space="preserve">
+    <value>'{0}' hesabını kalıcı olarak kaldıracaktır. Bu kullanıcı tarafından oluşturulan veya değiştirilmiş tüm sayfalar yerine geçici bir hesap adına atanacak. Devam etmek istiyor musunuz?</value>
+  </data>
+  <data name="Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value>'{0}' silmek, menü öğesini kalıcı olarak kaldıracaktır ve bu işlemi geri alamayacaksınız. Devam etmek istiyor musunuz?</value>
+  </data>
+  <data name="Deleting revision {0} of &quot;{1}&quot; will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
+    <value>"{1}" sayfasının revizyonu {0} silmek, sayfa revizyonunu silinme kuyruğuna taşıyacaktır. Bu işlem yalnızca bir yönetici veya moderatör tarafından geri alınabilir. Devam etmek istiyor musunuz?</value>
+  </data>
+  <data name="Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?" xml:space="preserve">
+    <value>Emojiyi '{0}' silmek, resmi kalıcı olarak kaldıracak ve ona yapılan tüm referanslar bağımsız hale gelecektir. Bu işlemi geri alamayacaksınız. Devam edilsin mi?</value>
+  </data>
+  <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
+    <value>'{0}' rolünü silmek, o rol tarafından verilen veya reddedilen tüm izinleri iptal edecektir. Devam edilsin mi?</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Açıklama</value>
+  </data>
+  <data name="Detach" xml:space="preserve">
+    <value>Çıkar</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Detaylar</value>
+  </data>
+  <data name="Development Mode" xml:space="preserve">
+    <value>Geliştirme Modu</value>
+  </data>
+  <data name="Differences" xml:space="preserve">
+    <value>Farklar</value>
+  </data>
+  <data name="Disable 2FA" xml:space="preserve">
+    <value>İki Faktörlü Kimlik Doğrulama (2FA) Devre Dışı Bırak</value>
+  </data>
+  <data name="Disable two-factor authentication (2FA)" xml:space="preserve">
+    <value>İki faktörlü kimlik doğrulamasını (2FA) devre dışı bırak</value>
+  </data>
+  <data name="Disabling 2FA does not change the keys used in authenticator apps." xml:space="preserve">
+    <value>2FA'yı devre dışı bırakmak, kimlik doğrulama uygulamalarında kullanılan anahtarları değiştirmez.</value>
+  </data>
+  <data name="Discussion for this page." xml:space="preserve">
+    <value>Bu sayfa tartışması.</value>
+  </data>
+  <data name="Display Name" xml:space="preserve">
+    <value>Kullanıcı Adı Gösterimi</value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value>Durum</value>
+  </data>
+  <data name="Distinguished Name:" xml:space="preserve">
+    <value>Belirgin İsim:</value>
+  </data>
+  <data name="Don't have access to your authenticator device?" xml:space="preserve">
+    <value>Kimlik doğrulama cihazınıza erişiminiz mi yok?</value>
+  </data>
+  <data name="Download a two-factor authenticator app like Microsoft Authenticator for {0} and {1} or Google Authenticator for {2} and {3}." xml:space="preserve">
+    <value>{0} ve {1} için Microsoft Authenticator veya {2} ve {3} için Google Authenticator gibi iki faktörlü doğrulama uygulaması indiriniz.</value>
+  </data>
+  <data name="Drop file attachments here or click to upload manually." xml:space="preserve">
+    <value>Dosya eklerini buraya bırakın veya manuel yükleme yapmak için tıklayın.</value>
+  </data>
+  <data name="Drop files here..." xml:space="preserve">
+    <value>Buraya dosya bırakın...</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Süre</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Düzenle</value>
+  </data>
+  <data name="Editor Size" xml:space="preserve">
+    <value>Düzenleyici Boyutu</value>
+  </data>
+  <data name="Either the deleted pages queue is empty or your search criteria returned no results." xml:space="preserve">
+    <value>Silinen sayfa kuyruğu boş ya da arama kriterleriniz sonuç vermedi.</value>
+  </data>
+  <data name="Either there are no accounts configured or your search criteria returned no results." xml:space="preserve">
+    <value>Hiç hesap yapılandırılmamış ya da arama kriterleriniz sonuç vermedi.</value>
+  </data>
+  <data name="Either there are no emojis configured or your search criteria returned no results." xml:space="preserve">
+    <value>Hiç emoji yapılandırılmamış ya da arama kriterleriniz sonuç vermedi.</value>
+  </data>
+  <data name="Either there are no pages or your search criteria returned no results." xml:space="preserve">
+    <value>Hiç sayfa yok ya da arama kriterleriniz sonuç vermedi.</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>E-posta</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>E-posta Adresi</value>
+  </data>
+  <data name="Email Confirmed?" xml:space="preserve">
+    <value>E-posta Doğrulandı mı?</value>
+  </data>
+  <data name="Emoji" xml:space="preserve">
+    <value>Emoji</value>
+  </data>
+  <data name="Emoji Editor" xml:space="preserve">
+    <value>Emoji Düzenleyici</value>
+  </data>
+  <data name="Emoji Management" xml:space="preserve">
+    <value>Emoji Yönetimi</value>
+  </data>
+  <data name="Emojis" xml:space="preserve">
+    <value>Emojiler</value>
+  </data>
+  <data name="Enter a URL." xml:space="preserve">
+    <value>Bir URL girin.</value>
+  </data>
+  <data name="Enter an internal path or external URL." xml:space="preserve">
+    <value>Bir dahili yol veya harici URL girin.</value>
+  </data>
+  <data name="Enter your email." xml:space="preserve">
+    <value>E-postanızı girin.</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>Ortam</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Hata</value>
+  </data>
+  <data name="Error copying text" xml:space="preserve">
+    <value>Metin kopyalanırken hata</value>
+  </data>
+  <data name="Errors" xml:space="preserve">
+    <value>Hatalar</value>
+  </data>
+  <data name="Event Log" xml:space="preserve">
+    <value>Olay Günlüğü</value>
+  </data>
+  <data name="Event Log Entry" xml:space="preserve">
+    <value>Olay Günlüğü Girişi</value>
+  </data>
+  <data name="Exception" xml:space="preserve">
+    <value>İstisna</value>
+  </data>
+  <data name="Exceptions" xml:space="preserve">
+    <value>İstisnalar</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>İhraç</value>
+  </data>
+  <data name="External logins" xml:space="preserve">
+    <value>Harici girişler</value>
+  </data>
+  <data name="External URL" xml:space="preserve">
+    <value>Harici URL</value>
+  </data>
+  <data name="Extra Large" xml:space="preserve">
+    <value>Çok Büyük</value>
+  </data>
+  <data name="Extra Small" xml:space="preserve">
+    <value>Çok Küçük</value>
+  </data>
+  <data name="Failed to load preview." xml:space="preserve">
+    <value>Önizleme yüklenemedi.</value>
+  </data>
+  <data name="Feature Templates" xml:space="preserve">
+    <value>Özellik Şablonları</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>Dosya</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filtre</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>İlk İsim</value>
+  </data>
+  <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
+    <value>Hafıza önbelleğini temizlemek, önbelleğe alınmış öğelerin düşmesine ve sayfalar talep edilirken veritabanı isteklerinin yapılmasına neden olacaktır. Devam etsin mi?</value>
+  </data>
+  <data name="Forget this browser" xml:space="preserve">
+    <value>Bu tarayıcıyı unut</value>
+  </data>
+  <data name="Forgot password confirmation" xml:space="preserve">
+    <value>Şifre unuttum onayı</value>
+  </data>
+  <data name="Forgot your password?" xml:space="preserve">
+    <value>Şifrenizi mi Unuttunuz?</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>Çerçeve Sürümü</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Genel</value>
+  </data>
+  <data name="Generate Recovery Codes" xml:space="preserve">
+    <value>Kurtarma Kodları Oluştur</value>
+  </data>
+  <data name="Generate two-factor authentication (2FA) recovery codes" xml:space="preserve">
+    <value>İki faktörlü kimlik doğrulama (2FA) kurtarma kodları oluştur</value>
+  </data>
+  <data name="Generating new recovery codes does not change the keys used in authenticator apps." xml:space="preserve">
+    <value>Yeni kurtarma kodları oluşturmak, doğrulayıcı uygulamalarda kullanılan anahtarları değiştirmez.</value>
+  </data>
+  <data name="Gets" xml:space="preserve">
+    <value>Alır</value>
+  </data>
+  <data name="Global configuration for Emojis." xml:space="preserve">
+    <value>Emojiler için küresel yapılandırma.</value>
+  </data>
+  <data name="Global configuration for security roles and membership." xml:space="preserve">
+    <value>Güvenlik rolleri ve üyelik için küresel yapılandırma.</value>
+  </data>
+  <data name="Global configuration for the site menu item." xml:space="preserve">
+    <value>Site menü öğesi için küresel yapılandırma.</value>
+  </data>
+  <data name="Global configuration for the site menu." xml:space="preserve">
+    <value>Site menüsü için küresel yapılandırma.</value>
+  </data>
+  <data name="Global configuration for user accounts." xml:space="preserve">
+    <value>Kullanıcı hesapları için küresel yapılandırma.</value>
+  </data>
+  <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
+    <value>Viki, işlevselliği, davranışı, biçimlendirmesi ve markalaşması için küresel yapılandırma değerleri.</value>
+  </data>
+  <data name="Hello {0}!" xml:space="preserve">
+    <value>Merhaba {0}!</value>
+  </data>
+  <data name="Highlight" xml:space="preserve">
+    <value>Vurgula</value>
+  </data>
+  <data name="Hits" xml:space="preserve">
+    <value>İlkeler</value>
+  </data>
+  <data name="Huge" xml:space="preserve">
+    <value>Kocaman</value>
+  </data>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>Bağlantı</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Kimlik</value>
+  </data>
+  <data name="If it's here, you should be able to find it." xml:space="preserve">
+    <value>Eğer burada ise, bulabilmelisiniz.</value>
+  </data>
+  <data name="If you lose your device and don't have the recovery codes you will lose access to your account." xml:space="preserve">
+    <value>Cihazınızı kaybederseniz ve kurtarma kodlarınız yoksa hesabınıza erişiminizi kaybedersiniz.</value>
+  </data>
+  <data name="If you reset your authenticator key your authenticator app will not work until you reconfigure it." xml:space="preserve">
+    <value>Kimlik doğrulama anahtarınızı sıfırlarsanız, tekrar yapılandırana kadar kimlik doğrulama uygulamanız çalışmaz.</value>
+  </data>
+  <data name="If you wish to change the key used in an authenticator app you should reset your authenticator keys." xml:space="preserve">
+    <value>Bir kimlik doğrulama uygulamasında kullanılan anahtarı değiştirmek istiyorsanız, kimlik doğrulama anahtarlarınızı sıfırlamalısınız.</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Resim</value>
+  </data>
+  <data name="Include Pages" xml:space="preserve">
+    <value>Sayfaları Ekle</value>
+  </data>
+  <data name="Info1" xml:space="preserve">
+    <value>Bilgi1</value>
+  </data>
+  <data name="Info2" xml:space="preserve">
+    <value>Bilgi2</value>
+  </data>
+  <data name="Insert" xml:space="preserve">
+    <value>Ekle</value>
+  </data>
+  <data name="Insert Emoji" xml:space="preserve">
+    <value>Emoji Ekle</value>
+  </data>
+  <data name="Inter-Page Links" xml:space="preserve">
+    <value>Sayfalararası Bağlantılar</value>
+  </data>
+  <data name="It can result in displaying sensitive information from exceptions to end users." xml:space="preserve">
+    <value>Bu, son kullanıcılara hassas bilgilerin görüntülenmesine neden olabilir.</value>
+  </data>
+  <data name="Italic" xml:space="preserve">
+    <value>İtalik</value>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>Eşyalar</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Dil</value>
+  </data>
+  <data name="Languages" xml:space="preserve">
+    <value>Diller</value>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Büyük</value>
+  </data>
+  <data name="Last modified by" xml:space="preserve">
+    <value>Son değiştiren</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Soyadı</value>
+  </data>
+  <data name="Leave a Comment" xml:space="preserve">
+    <value>Yorum Bırak</value>
+  </data>
+  <data name="Limit(MB)" xml:space="preserve">
+    <value>Sınır (MB)</value>
+  </data>
+  <data name="Link Text (Optional)" xml:space="preserve">
+    <value>Bağlantı Metni (İsteğe bağlı)</value>
+  </data>
+  <data name="Link Type" xml:space="preserve">
+    <value>Bağlantı Türü</value>
+  </data>
+  <data name="Links" xml:space="preserve">
+    <value>Bağlantılar</value>
+  </data>
+  <data name="Loading preview..." xml:space="preserve">
+    <value>Önizleme yükleniyor...</value>
+  </data>
+  <data name="Locked out" xml:space="preserve">
+    <value>Kilidi Açık</value>
+  </data>
+  <data name="Log Entries" xml:space="preserve">
+    <value>Günlük Girişleri</value>
+  </data>
+  <data name="Log Entry Details" xml:space="preserve">
+    <value>Günlük Giriş Detayları</value>
+  </data>
+  <data name="Log in" xml:space="preserve">
+    <value>Giriş Yap</value>
+  </data>
+  <data name="Log in using your {0} account" xml:space="preserve">
+    <value>{0} hesabınızı kullanarak giriş yapın</value>
+  </data>
+  <data name="Logged out" xml:space="preserve">
+    <value>Çıkış Yapıldı</value>
+  </data>
+  <data name="Logging out will make sure that others can't use this session to make changes to the wiki. You'll need to log back in before making changes." xml:space="preserve">
+    <value>Çıkış yapmak, diğerlerinin bu oturumu kullanarak wiki üzerinde değişiklik yapmasını engelleyecektir. Değişiklik yapmadan önce tekrar giriş yapmanız gerekecek.</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Giriş</value>
+  </data>
+  <data name="Login to leave a comment" xml:space="preserve">
+    <value>Yorum bırakmak için giriş yapın</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Çıkış</value>
+  </data>
+  <data name="Lower numbers appear first." xml:space="preserve">
+    <value>Daha düşük numaralar önce görünür.</value>
+  </data>
+  <data name="Manage Email" xml:space="preserve">
+    <value>E-Posta Yönetimi</value>
+  </data>
+  <data name="Manage your account" xml:space="preserve">
+    <value>Hesabınızı yönetin</value>
+  </data>
+  <data name="Manage your external logins" xml:space="preserve">
+    <value>Dış girişlerinizi yönetin</value>
+  </data>
+  <data name="Matches" xml:space="preserve">
+    <value>Maçlar</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Orta</value>
+  </data>
+  <data name="Menu Configuration" xml:space="preserve">
+    <value>Menü Yapılandırması</value>
+  </data>
+  <data name="Menu Item Editor" xml:space="preserve">
+    <value>Menü Öğesi Düzenleyicisi</value>
+  </data>
+  <data name="Metrics" xml:space="preserve">
+    <value>Ölçümler</value>
+  </data>
+  <data name="Misses" xml:space="preserve">
+    <value>Kaçırılanlar</value>
+  </data>
+  <data name="Missing Pages" xml:space="preserve">
+    <value>Kayıp Sayfalar</value>
+  </data>
+  <data name="Moderate" xml:space="preserve">
+    <value>Orta Seviyede</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Değiştirildi</value>
+  </data>
+  <data name="Modified By" xml:space="preserve">
+    <value>Değiştiren</value>
+  </data>
+  <data name="Modified Date" xml:space="preserve">
+    <value>Değiştirilme Tarihi</value>
+  </data>
+  <data name="My" xml:space="preserve">
+    <value>Ben</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>İsim</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>Ad Alanı</value>
+  </data>
+  <data name="Namespaces" xml:space="preserve">
+    <value>Ad Alanları</value>
+  </data>
+  <data name="New Account" xml:space="preserve">
+    <value>Yeni Hesap</value>
+  </data>
+  <data name="New Emoji" xml:space="preserve">
+    <value>Yeni Emoji</value>
+  </data>
+  <data name="New Role" xml:space="preserve">
+    <value>Yeni Rol</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Sıradaki</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Hayır</value>
+  </data>
+  <data name="No avatar uploaded." xml:space="preserve">
+    <value>Hiç avatar yüklenmedi.</value>
+  </data>
+  <data name="No database information is available." xml:space="preserve">
+    <value>Veritabanı bilgisi bulunmamaktadır.</value>
+  </data>
+  <data name="No image selected." xml:space="preserve">
+    <value>Hiç görüntü seçilmedi.</value>
+  </data>
+  <data name="No image uploaded." xml:space="preserve">
+    <value>Hiç görüntü yüklenmedi.</value>
+  </data>
+  <data name="Not a member?" xml:space="preserve">
+    <value>Üye değil misiniz?</value>
+  </data>
+  <data name="not required" xml:space="preserve">
+    <value>gerekli değil</value>
+  </data>
+  <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
+    <value>QR kodunu taradıktan veya yukarıdaki anahtarı girdikten sonra, iki faktörlü kimlik doğrulama uygulamanız size benzersiz bir kod sağlayacaktır. Aşağıdaki onay kutusuna kodu girin.</value>
+  </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>İşletim Sistemi</value>
+  </data>
+  <data name="Optimize" xml:space="preserve">
+    <value>Optimize Et</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>İsteğe bağlı</value>
+  </data>
+  <data name="Ordinal" xml:space="preserve">
+    <value>Sıralı</value>
+  </data>
+  <data name="Orphaned Attachments" xml:space="preserve">
+    <value>Yetim Ekler</value>
+  </data>
+  <data name="Orphaned Page Attachments" xml:space="preserve">
+    <value>Yetim Sayfa Ekleri</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>İşletim Sistemi Mimarisi</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Sayfa</value>
+  </data>
+  <data name="Page Administration" xml:space="preserve">
+    <value>Sayfa Yöneticisi</value>
+  </data>
+  <data name="Page Attachment Revisions" xml:space="preserve">
+    <value>Sayfa Eki Revizyonları</value>
+  </data>
+  <data name="Page Attachments" xml:space="preserve">
+    <value>Sayfa Ekleri</value>
+  </data>
+  <data name="Page File Revisions" xml:space="preserve">
+    <value>Sayfa Dosya Revizyonları</value>
+  </data>
+  <data name="Page Moderate" xml:space="preserve">
+    <value>Sayfa Orta</value>
+  </data>
+  <data name="Page Revisions" xml:space="preserve">
+    <value>Sayfa Revizyonları</value>
+  </data>
+  <data name="Page revisions that have been deleted for the given page. These can be purged or restored." xml:space="preserve">
+    <value>Verilen sayfa için silinen sayfa revizyonları. Bunlar temizlenebilir veya geri alınabilir.</value>
+  </data>
+  <data name="Page Search" xml:space="preserve">
+    <value>Sayfa Arama</value>
+  </data>
+  <data name="Page Search Tokens" xml:space="preserve">
+    <value>Sayfa Arama Tokenleri</value>
+  </data>
+  <data name="Page Tags" xml:space="preserve">
+    <value>Sayfa Etiketleri</value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>Sayfalar</value>
+  </data>
+  <data name="Pages that have been deleted. Can be purged or restored." xml:space="preserve">
+    <value>Silinen sayfalar. Temizlenebilir veya geri alınabilir.</value>
+  </data>
+  <data name="Pages that have been linked to, but do not exist." xml:space="preserve">
+    <value>Bağlantı kurulan ancak mevcut olmayan sayfalar.</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Şifre</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>İzin</value>
+  </data>
+  <data name="Permissions and Roles" xml:space="preserve">
+    <value>İzinler ve Roller</value>
+  </data>
+  <data name="Please check your email to confirm your account." xml:space="preserve">
+    <value>Hesabınızı doğrulamak için lütfen e-postanızı kontrol edin.</value>
+  </data>
+  <data name="Please check your email to reset your password." xml:space="preserve">
+    <value>Şifrenizi sıfırlamak için lütfen e-postanızı kontrol edin.</value>
+  </data>
+  <data name="Please click here to log in" xml:space="preserve">
+    <value>Giriş yapmak için buraya tıklayın</value>
+  </data>
+  <data name="Please confirm your new password." xml:space="preserve">
+    <value>Yeni şifrenizi onaylayın</value>
+  </data>
+  <data name="Please confirm your password." xml:space="preserve">
+    <value>Şifrenizi onaylayın</value>
+  </data>
+  <data name="Please enter both username and password." xml:space="preserve">
+    <value>Kullanıcı adı ve şifreyi giriniz lütfen.</value>
+  </data>
+  <data name="Please enter new email." xml:space="preserve">
+    <value>Yeni e-posta girin lütfen.</value>
+  </data>
+  <data name="Please enter the code." xml:space="preserve">
+    <value>Kodu girin.</value>
+  </data>
+  <data name="Please enter your email." xml:space="preserve">
+    <value>E-posta adresinizi girin.</value>
+  </data>
+  <data name="Please enter your new password." xml:space="preserve">
+    <value>Yeni şifrenizi girin.</value>
+  </data>
+  <data name="Please enter your old password." xml:space="preserve">
+    <value>Lütfen eski şifrenizi girin.</value>
+  </data>
+  <data name="Please enter your password." xml:space="preserve">
+    <value>Lütfen şifrenizi girin.</value>
+  </data>
+  <data name="Please wait, loading preview..." xml:space="preserve">
+    <value>Bekleyin, önizleme yükleniyor...</value>
+  </data>
+  <data name="Post" xml:space="preserve">
+    <value>Gönderi</value>
+  </data>
+  <data name="Pre-Cache All Pages" xml:space="preserve">
+    <value>Tüm Sayfaları Ön-Önbelleğe Al</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Önizleme</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Önceki</value>
+  </data>
+  <data name="Privacy and cookie policy have not been accepted." xml:space="preserve">
+    <value>Gizlilik ve çerez politikası kabul edilmedi.</value>
+  </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>İşlem Mimarisİ</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="Profile Details" xml:space="preserve">
+    <value>Profil Detayları</value>
+  </data>
+  <data name="Profile Settings" xml:space="preserve">
+    <value>Profil Ayarları</value>
+  </data>
+  <data name="Profiles" xml:space="preserve">
+    <value>Profiller</value>
+  </data>
+  <data name="Public profile information." xml:space="preserve">
+    <value>Herkese açık profil bilgisi.</value>
+  </data>
+  <data name="Purge" xml:space="preserve">
+    <value>Temizle</value>
+  </data>
+  <data name="Purge Compilation Statistics" xml:space="preserve">
+    <value>Derleme İstatistiklerini Temizle</value>
+  </data>
+  <data name="Purge Deleted Pages" xml:space="preserve">
+    <value>Silinen Sayfaları Temizle</value>
+  </data>
+  <data name="Purge Deleted Revisions" xml:space="preserve">
+    <value>Silinen Revizyonları Temizle</value>
+  </data>
+  <data name="Purge Event Log" xml:space="preserve">
+    <value>Olay Günlüğünü Temizle</value>
+  </data>
+  <data name="Purge Memory Cache" xml:space="preserve">
+    <value>Bellek Önbelleğini Temizle</value>
+  </data>
+  <data name="Purge Orphaned Attachments" xml:space="preserve">
+    <value>Yetim Ekleri Temizle</value>
+  </data>
+  <data name="Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?" xml:space="preserve">
+    <value>Sayfa derleme istatistiklerinin temizlenmesi, tüm sayfalar için tüm derleme istatistiklerini silecektir. Devam etmek istiyor musunuz?</value>
+  </data>
+  <data name="Put these codes in a safe place." xml:space="preserve">
+    <value>Bu kodları güvendiğiniz bir yere koyun.</value>
+  </data>
+  <data name="Puts" xml:space="preserve">
+    <value>Yerleştirmeler</value>
+  </data>
+  <data name="Raw Size" xml:space="preserve">
+    <value>Hassas Boyut</value>
+  </data>
+  <data name="Rebuild All Pages" xml:space="preserve">
+    <value>Tüm Sayfaları Yeniden Oluştur</value>
+  </data>
+  <data name="Recently Modified" xml:space="preserve">
+    <value>Son Değişiklikler</value>
+  </data>
+  <data name="Recovery code" xml:space="preserve">
+    <value>Geri Yükleme Kodu</value>
+  </data>
+  <data name="Recovery code verification" xml:space="preserve">
+    <value>Geri Yükleme kodu doğrulaması</value>
+  </data>
+  <data name="Recovery codes" xml:space="preserve">
+    <value>Geri Yükleme kodları</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Yenile</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Kayıt Ol</value>
+  </data>
+  <data name="Register as a new user" xml:space="preserve">
+    <value>Yeni kullanıcı olarak kaydol</value>
+  </data>
+  <data name="Register confirmation" xml:space="preserve">
+    <value>Kayıt onayı</value>
+  </data>
+  <data name="Registered Logins" xml:space="preserve">
+    <value>Kayıtlı Girişler</value>
+  </data>
+  <data name="Registration is not allowed" xml:space="preserve">
+    <value>Kayıt yapılmasına izin verilemiyor</value>
+  </data>
+  <data name="Registration is not allowed." xml:space="preserve">
+    <value>Kayıt yapılmasına izin verilmiyor.</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Sil</value>
+  </data>
+  <data name="Remove this {0} login from your account" xml:space="preserve">
+    <value>Bu {0} girişini hesabınızdan kaldır</value>
+  </data>
+  <data name="Request failed:" xml:space="preserve">
+    <value>İstek başarısız oldu:</value>
+  </data>
+  <data name="Request ID" xml:space="preserve">
+    <value>İstek Kimliği</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Gerekli</value>
+  </data>
+  <data name="Resend" xml:space="preserve">
+    <value>Yeniden Gönder</value>
+  </data>
+  <data name="Resend email confirmation" xml:space="preserve">
+    <value>E-posta onayını yeniden gönder</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Sıfırla</value>
+  </data>
+  <data name="Reset authenticator app" xml:space="preserve">
+    <value>Kimlik doğrulama uygulamasını sıfırla</value>
+  </data>
+  <data name="Reset authenticator key" xml:space="preserve">
+    <value>Kimlik doğrulama anahtarını sıfırla</value>
+  </data>
+  <data name="Reset it" xml:space="preserve">
+    <value>Bunu sıfırla</value>
+  </data>
+  <data name="Reset Password" xml:space="preserve">
+    <value>Şifreyi Sıfırla</value>
+  </data>
+  <data name="Reset password confirmation" xml:space="preserve">
+    <value>Şifre sıfırlama onayı</value>
+  </data>
+  <data name="Reset recovery codes" xml:space="preserve">
+    <value>Sıfırla kurtarma kodları</value>
+  </data>
+  <data name="Reset your password." xml:space="preserve">
+    <value>Şifrenizi sıfırlayın.</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>Kaynak</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Geri yükle</value>
+  </data>
+  <data name="Restore This Page" xml:space="preserve">
+    <value>Bu Sayfayı Geri Yükle</value>
+  </data>
+  <data name="Restore This Revision" xml:space="preserve">
+    <value>Bu Versiyonu Geri Yükle</value>
+  </data>
+  <data name="Revert" xml:space="preserve">
+    <value>Geri Al</value>
+  </data>
+  <data name="Revert to revision" xml:space="preserve">
+    <value>Revizyonu eski haline getir</value>
+  </data>
+  <data name="Revert to revision {0}?" xml:space="preserve">
+    <value>revizyon {0}’a geri dönülsün mü?</value>
+  </data>
+  <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
+    <value>"{0}"'ı revizyon {1}’den {2}’ye geri almak {3} değişikliği geri alacaktır.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
+    <value>{0}'ı revizyon {1}’den {2}’ye geri almak {3} değişikliği geri alacaktır.&lt;br /&gt;Geri almak, değişikliklerin kaybolacağı anlamına gelmez; geri alma işlemi, geri alınan değişikliklerle yeni bir revizyon oluşturacaktır.&lt;br /&gt;&lt;br /&gt;Devam etmek istediğinizden emin misiniz?&lt;br /&gt;&lt;br /&gt;</value>
+  </data>
+  <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
+    <value>Geri almak, değişikliklerin kaybolacağı anlamına gelmez; geri alma işlemi, geri alınan değişikliklerle yeni bir revizyon oluşturacaktır.</value>
+  </data>
+  <data name="Review the differences between revisions of this page." xml:space="preserve">
+    <value>Bu sayfanın revizyonları arasındaki farkları inceleyin.</value>
+  </data>
+  <data name="Revision" xml:space="preserve">
+    <value>Revizyon</value>
+  </data>
+  <data name="Revision Comparison" xml:space="preserve">
+    <value>Revizyon Karşılaştırması</value>
+  </data>
+  <data name="Revision not found" xml:space="preserve">
+    <value>Revizyon bulunamadı</value>
+  </data>
+  <data name="revisions" xml:space="preserve">
+    <value>revizyonlar</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Rol</value>
+  </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>Rol Üyeleri</value>
+  </data>
+  <data name="Role membership and permissions." xml:space="preserve">
+    <value>Rol üyeliği ve izinleri.</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>Rol İzinleri</value>
+  </data>
+  <data name="Role: {0}" xml:space="preserve">
+    <value>Rol: {0}</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Roller</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Kaydet</value>
+  </data>
+  <data name="Save the page before uploading files." xml:space="preserve">
+    <value>Dosya yüklemeden önce sayfayı kaydedin.</value>
+  </data>
+  <data name="Scan the QR Code or enter this key &lt;kbd&gt;{0}&lt;/kbd&gt; into your two factor authenticator app. Spaces and casing do not matter." xml:space="preserve">
+    <value>QR Kodunu Tara veya bu anahtarı &lt;kbd&gt;{0}&lt;/kbd&gt; iki faktörlü doğrulama uygulamana gir. Boşluklar ve büyük/küçük harf önemli değildir.</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Ara</value>
+  </data>
+  <data name="Search accounts..." xml:space="preserve">
+    <value>Hesapları ara...</value>
+  </data>
+  <data name="Search deleted pages..." xml:space="preserve">
+    <value>Silinen sayfaları ara...</value>
+  </data>
+  <data name="Search emojis..." xml:space="preserve">
+    <value>Emojileri ara...</value>
+  </data>
+  <data name="Search for more emojis." xml:space="preserve">
+    <value>Daha fazla emoji ara.</value>
+  </data>
+  <data name="Search pages..." xml:space="preserve">
+    <value>Sayfaları ara...</value>
+  </data>
+  <data name="Search text" xml:space="preserve">
+    <value>Metni ara</value>
+  </data>
+  <data name="Security Roles" xml:space="preserve">
+    <value>Güvenlik Rolleri</value>
+  </data>
+  <data name="Select a country" xml:space="preserve">
+    <value>Bir ülke seçin</value>
+  </data>
+  <data name="Select a language" xml:space="preserve">
+    <value>Bir dil seçin</value>
+  </data>
+  <data name="Select a role" xml:space="preserve">
+    <value>Bir rol seçin</value>
+  </data>
+  <data name="Select a theme" xml:space="preserve">
+    <value>Bir tema seçin</value>
+  </data>
+  <data name="Select a time-zone" xml:space="preserve">
+    <value>Bir saat dilimi seçin</value>
+  </data>
+  <data name="Select a wiki page." xml:space="preserve">
+    <value>Bir wiki sayfası seçin.</value>
+  </data>
+  <data name="Select an instruction" xml:space="preserve">
+    <value>Bir talimat seçin</value>
+  </data>
+  <data name="Send verification email" xml:space="preserve">
+    <value>Doğrulama e-postası gönder</value>
+  </data>
+  <data name="Server and page event logs" xml:space="preserve">
+    <value>Sistem ve sayfa olay günlükleri</value>
+  </data>
+  <data name="Set password" xml:space="preserve">
+    <value>Şifre ayarla</value>
+  </data>
+  <data name="Set up authenticator app" xml:space="preserve">
+    <value>Doğrulama uygulaması kur</value>
+  </data>
+  <data name="Set your password" xml:space="preserve">
+    <value>Şifrenizi ayarlayın</value>
+  </data>
+  <data name="Severity" xml:space="preserve">
+    <value>Şiddet</value>
+  </data>
+  <data name="Shortcut" xml:space="preserve">
+    <value>Kısayol</value>
+  </data>
+  <data name="Sign in with {0}" xml:space="preserve">
+    <value>{0} ile giriş yap</value>
+  </data>
+  <data name="Signup" xml:space="preserve">
+    <value>Kayıt ol</value>
+  </data>
+  <data name="Signup. Almost there..." xml:space="preserve">
+    <value>Kayıt Ol. Neredeyse orada...</value>
+  </data>
+  <data name="Site Menu" xml:space="preserve">
+    <value>Site Menüsü</value>
+  </data>
+  <data name="Site Menu Item" xml:space="preserve">
+    <value>Site Menüsü Öğesi</value>
+  </data>
+  <data name="Site Menu Items" xml:space="preserve">
+    <value>Site Menüsü Öğeleri</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Boyut</value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Küçük</value>
+  </data>
+  <data name="Source Page" xml:space="preserve">
+    <value>Kaynak Sayfası</value>
+  </data>
+  <data name="Stack Trace" xml:space="preserve">
+    <value>Yığın İzleme</value>
+  </data>
+  <data name="Strikethrough" xml:space="preserve">
+    <value>Çizgi Üzerinden</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Özet</value>
+  </data>
+  <data name="Swapping to the &lt;strong&gt;Development&lt;/strong&gt; environment displays detailed information about the error that occurred." xml:space="preserve">
+    <value>Geliştirme ortamına geçmek, meydana gelen hata hakkında ayrıntılı bilgiler gösterir.</value>
+  </data>
+  <data name="System Default" xml:space="preserve">
+    <value>Sistem Varsayılanı</value>
+  </data>
+  <data name="System Metrics" xml:space="preserve">
+    <value>Sistem Ölçümleri</value>
+  </data>
+  <data name="Tag Copied" xml:space="preserve">
+    <value>Etiket Kopyalandı</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Etiketler</value>
+  </data>
+  <data name="Target Page" xml:space="preserve">
+    <value>Hedef Sayfa</value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="Test LDAP Authentication" xml:space="preserve">
+    <value>LDAP Kimlik Doğrulamasını Test Et</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Metin</value>
+  </data>
+  <data name="The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile." xml:space="preserve">
+    <value>Hesap silindi ve bu hesap tarafından oluşturulan veya değiştirilmiş tüm içerikler anonimleştirilmiş bir profile atandı.</value>
+  </data>
+  <data name="The compilation statistics for all wiki page operations." xml:space="preserve">
+    <value>Tüm wiki sayfa işlemleri için derleme istatistikleri.</value>
+  </data>
+  <data name="The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code." xml:space="preserve">
+    <value>Mevcut tarayıcı unutuldu. Bu tarayıcıdan tekrar giriş yaptığınızda 2fa kodunuz istenecek.</value>
+  </data>
+  <data name="The Development environment shouldn't be enabled for deployed applications." xml:space="preserve">
+    <value>Geliştirme ortamı dağıtılmış uygulamalar için etkinleştirilmemelidir.</value>
+  </data>
+  <data name="The event log is empty." xml:space="preserve">
+    <value>Olay günlüğü boş.</value>
+  </data>
+  <data name="The external login was added." xml:space="preserve">
+    <value>Harici giriş eklendi.</value>
+  </data>
+  <data name="The external login was not added. External logins can only be associated with one account." xml:space="preserve">
+    <value>Dış giriş eklenmedi. Dış girişler yalnızca bir hesapla ilişkilendirilebilir.</value>
+  </data>
+  <data name="The external login was not removed." xml:space="preserve">
+    <value>Dış giriş kaldırılmadı.</value>
+  </data>
+  <data name="The external login was removed." xml:space="preserve">
+    <value>Dış giriş kaldırıldı.</value>
+  </data>
+  <data name="The page does not have any comments, why don't you add one?" xml:space="preserve">
+    <value>Sayfada yorum yok, neden bir tane eklemiyorsun?</value>
+  </data>
+  <data name="The requested page or revision does not exist." xml:space="preserve">
+    <value>İstenen sayfa veya revizyon mevcut değil.</value>
+  </data>
+  <data name="The selected page does not have any revisions." xml:space="preserve">
+    <value>Seçilen sayfada herhangi bir revizyon bulunmamaktadır.</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="Themes" xml:space="preserve">
+    <value>Temalar</value>
+  </data>
+  <data name="There are currently no missing pages being referenced by other wiki pages." xml:space="preserve">
+    <value>Şu anda diğer vikis sayfaları tarafından referans verilen eksik sayfa bulunmamaktadır.</value>
+  </data>
+  <data name="There are currently no pages which exist within namespaces." xml:space="preserve">
+    <value>Mevcut olan isim alanlarında herhangi bir sayfa bulunmamaktadır.</value>
+  </data>
+  <data name="There are no compilation statistics available." xml:space="preserve">
+    <value>Derleme istatistikleri mevcut değildir.</value>
+  </data>
+  <data name="There are no deleted revisions for this page." xml:space="preserve">
+    <value>Bu sayfa için silinmiş revizyon bulunmamaktadır.</value>
+  </data>
+  <data name="There are no menu items configured." xml:space="preserve">
+    <value>Yapılandırılmış menü öğeleri yok.</value>
+  </data>
+  <data name="There are no orphaned page attachments." xml:space="preserve">
+    <value>Yalnızca sayfa eki olmayan sayfa bağlılığı yok.</value>
+  </data>
+  <data name="There are no pages which contain the selected processing instruction." xml:space="preserve">
+    <value>Seçilen işleme talimatını içeren sayfa yok.</value>
+  </data>
+  <data name="There are no security roles configured." xml:space="preserve">
+    <value>Yapılandırılmış güvenlik rolleri yok.</value>
+  </data>
+  <data name="These are all of the page attachments that are no longer attached to any page revision." xml:space="preserve">
+    <value>Bunlar artık herhangi bir sayfa revizyonuna bağlı olmayan tüm sayfa eki dosyalarıdır.</value>
+  </data>
+  <data name="This account has been locked out, please try again later." xml:space="preserve">
+    <value>Hesabınız kilitlendi, lütfen daha sonra tekrar deneyin.</value>
+  </data>
+  <data name="This action can only be undone by a moderator or administrator." xml:space="preserve">
+    <value>Bu işlem yalnızca bir denetleyici veya yönetici tarafından geri alınabilir.</value>
+  </data>
+  <data name="This action only disables 2FA." xml:space="preserve">
+    <value>Bu işlem yalnızca 2FA'yı devre dışı bırakır.</value>
+  </data>
+  <data name="This display name will be visible publicly." xml:space="preserve">
+    <value>Bu görüntüleme adı herkese açık olarak görünecektir.</value>
+  </data>
+  <data name="This file does not have any revisions." xml:space="preserve">
+    <value>Bu dosyanın revizyonu yok.</value>
+  </data>
+  <data name="This is your profile, do with it what you may." xml:space="preserve">
+    <value>Bu sizin profiliniz, dilediğiniz gibi kullanabilirsiniz.</value>
+  </data>
+  <data name="This process disables 2FA until you verify your authenticator app. If you do not complete your authenticator app configuration you may lose access to your account." xml:space="preserve">
+    <value>Bu işlem, doğrulayıcı uygulamanızı doğrulayana kadar 2FA'yı devre dışı bırakır. Doğrulayıcı uygulama yapılandırmanızı tamamlamazsanız hesabınıza erişiminizi kaybedebilirsiniz.</value>
+  </data>
+  <data name="This will check the database integrity and validate all foreign keys. Continue?" xml:space="preserve">
+    <value>Veritabanı bütünlüğünü kontrol edecek ve tüm yabancı anahtarları doğrulayacak. Devam edilsin mi?</value>
+  </data>
+  <data name="This will compile all pages in the wiki and store them in cache. This could take some time! Continue?" xml:space="preserve">
+    <value>Bu, viki içindeki tüm sayfaları derleyecek ve önbellekte saklayacaktır. Biraz zaman alabilir! Devam ediyor musunuz?</value>
+  </data>
+  <data name="This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?" xml:space="preserve">
+    <value>Bu, varsayılan tüm yapılandırmaları birleştirecek, ancak şu anda yapılandırılmış ayarlarınıza üzerine yazmayacaktır. Devam ediyor musunuz?</value>
+  </data>
+  <data name="This will optimize the database indexes and structure. Continue?" xml:space="preserve">
+    <value>Bu, veritabanı dizinlerini ve yapısını optimize edecektir. Devam ediyor musunuz?</value>
+  </data>
+  <data name="This will permanently delete the specified attachment. Continue?" xml:space="preserve">
+    <value>Bu, belirtilen ekleri kalıcı olarak silecektir. Devam ediyor musunuz?</value>
+  </data>
+  <data name="This will permanently delete the specified deleted revision. Continue?" xml:space="preserve">
+    <value>Bu, belirtilen silinmiş revizyonu kalıcı olarak silecektir. Devam ediyor musunuz?</value>
+  </data>
+  <data name="This will permanently delete the specified page, all revisions and attachments. Continue?" xml:space="preserve">
+    <value>Bu, belirtilen sayfayı, tüm revizyonları ve ekleri ile birlikte kalıcı olarak silecektir. Devam ediyor musunuz?</value>
+  </data>
+  <data name="This will permanently purge all deleted page revisions for &quot;{0}&quot;. Continue?" xml:space="preserve">
+    <value>Bu, "{0}" için tüm silinmiş sayfa revizyonlarını kalıcı olarak temizleyecektir. Devam ediyor musunuz?</value>
+  </data>
+  <data name="This will permanently purge all deleted pages. Continue?" xml:space="preserve">
+    <value>Bu, tüm silinmiş sayfaları kalıcı olarak temizleyecektir. Devam ediyor musunuz?</value>
+  </data>
+  <data name="This will permanently purge all event logs. Continue?" xml:space="preserve">
+    <value>Bu, tüm olay günlüklerini kalıcı olarak temizleyecektir. Devam ediyor musunuz?</value>
+  </data>
+  <data name="This will permanently purge all orphaned page attachments. Continue?" xml:space="preserve">
+    <value>Bu, tüm yetim kalmış sayfa eklerini kalıcı olarak temizleyecektir. Devam ediyor musunuz?</value>
+  </data>
+  <data name="This will rebuild all pages in the wiki. This could take some time! Continue?" xml:space="preserve">
+    <value>Bu, viki içindeki tüm sayfaları yeniden oluşturacaktır. Biraz zaman alabilir! Devam ediyor musunuz?</value>
+  </data>
+  <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
+    <value>Veritabanındaki boş alanı kaldıracaktır, bu da çok veri silinmişse alan açabilir. Devam ediyor musunuz?</value>
+  </data>
+  <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>Bu, tüm yerel alan adları sayfalarını geri yükleyecek, yaptığınız özelleştirmeleri üzerine yazacaktır. Devam ediyor musunuz?</value>
+  </data>
+  <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
+    <value>Bu, tüm varsayılan temaları geri yükleyecek, veritabanındaki herhangi bir özelleştirmeyi üzerine yazacaktır. Devam ediyor musunuz?</value>
+  </data>
+  <data name="This will restore all Feature Templates, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>Bu, Tüm Özellik Şablonlarını geri yükleyecek, yaptığınız herhangi bir özelleştirmeyi üzerine yazacaktır. Devam ediyor musunuz?</value>
+  </data>
+  <data name="This will restore all Include namespace pages. Continue?" xml:space="preserve">
+    <value>Bu, Tüm Include alan adı sayfalarını geri yükleyecek. Devam ediyor musunuz?</value>
+  </data>
+  <data name="This will restore all Wiki Help namespace pages. Continue?" xml:space="preserve">
+    <value>Bu, Tüm Viki Yardım alan adı sayfalarını geri yükleyecek. Devam ediyor musunuz?</value>
+  </data>
+  <data name="This will restore the deleted page and all of its history. Continue?" xml:space="preserve">
+    <value>Bu, silinmiş sayfayı ve tüm geçmişini geri yükleyecektir. Devam ediyor musunuz?</value>
+  </data>
+  <data name="This will restore the deleted revision. Continue?" xml:space="preserve">
+    <value>Bu, silinmiş revizyonu geri yükleyecektir. Devam ediyor musunuz?</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>Saat dilimi</value>
+  </data>
+  <data name="To use an authenticator app go through the following steps:" xml:space="preserve">
+    <value>Doğrulama uygulaması kullanmak için aşağıdaki adımları takip edin:</value>
+  </data>
+  <data name="Truncate Page Revisions" xml:space="preserve">
+    <value>Sayfa Revizyonlarını Kırp</value>
+  </data>
+  <data name="Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?" xml:space="preserve">
+    <value>Sayfa revizyonlarını kırpmak, tüm sayfaların ve sayfa eklerinin revizyon geçmişini silecektir. Bu, sadece en güncel revizyonu bırakır. Bu genellikle büyük bir işlem olarak kabul edilir! Devam ediyor musunuz?</value>
+  </data>
+  <data name="Two-factor authentication" xml:space="preserve">
+    <value>İki Faktörlü Kimlik Doğrulama</value>
+  </data>
+  <data name="Two-factor authentication (2FA)" xml:space="preserve">
+    <value>İki faktörlü kimlik doğrulama (2FA)</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Tür</value>
+  </data>
+  <data name="Type comment..." xml:space="preserve">
+    <value>Açıklama yaz...</value>
+  </data>
+  <data name="Unable to delete page" xml:space="preserve">
+    <value>Sayfa silinemiyor</value>
+  </data>
+  <data name="Unauthorized" xml:space="preserve">
+    <value>Yetkisiz</value>
+  </data>
+  <data name="Unconfirmed" xml:space="preserve">
+    <value>Onaylanmadı</value>
+  </data>
+  <data name="Underline" xml:space="preserve">
+    <value>Altını çiz</value>
+  </data>
+  <data name="Unexpected Error" xml:space="preserve">
+    <value>Beklenmedik Hata</value>
+  </data>
+  <data name="Unexpected error:" xml:space="preserve">
+    <value>Beklenmedik hata:</value>
+  </data>
+  <data name="Update password" xml:space="preserve">
+    <value>Şifreyi güncelle</value>
+  </data>
+  <data name="Upload successful" xml:space="preserve">
+    <value>Yükleme başarılı</value>
+  </data>
+  <data name="URL must start with" xml:space="preserve">
+    <value>URL şu şekilde başlamalı</value>
+  </data>
+  <data name="Use another service to register" xml:space="preserve">
+    <value>Kayıt için başka bir hizmet kullanın</value>
+  </data>
+  <data name="Use commas to separate categories." xml:space="preserve">
+    <value>Kategorileri ayırmak için virgül kullanın.</value>
+  </data>
+  <data name="Use the Templates namespace to add a page to the list of templates, e.g. Templates :: My First Template." xml:space="preserve">
+    <value>Şablonlar listesine bir sayfa eklemek için Templates isim alanını kullanın, örn. Templates :: İlk Şablonum.</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Kullanıcı Adı</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Kullanıcılar</value>
+  </data>
+  <data name="Vacuum" xml:space="preserve">
+    <value>Vakum</value>
+  </data>
+  <data name="Various utilities to assist in management of the SQLite database." xml:space="preserve">
+    <value>SQLite veritabanı yönetiminde yardımcı çeşitli araçlar.</value>
+  </data>
+  <data name="Verification Code" xml:space="preserve">
+    <value>Doğrulama Kodu</value>
+  </data>
+  <data name="Verification code is invalid." xml:space="preserve">
+    <value>Doğrulama kodu geçersiz.</value>
+  </data>
+  <data name="Verification email sent. Please check your email." xml:space="preserve">
+    <value>Doğrulama e-postası gönderildi. Lütfen e-postanızı kontrol edin.</value>
+  </data>
+  <data name="Verify" xml:space="preserve">
+    <value>Doğrula</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Sürüm</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Görüntüle</value>
+  </data>
+  <data name="View all comments" xml:space="preserve">
+    <value>Tüm yorumları gör</value>
+  </data>
+  <data name="View all revisions" xml:space="preserve">
+    <value>Tüm revizyonları görüntüle</value>
+  </data>
+  <data name="View latest revision" xml:space="preserve">
+    <value>En son revizyonu görüntüle</value>
+  </data>
+  <data name="Viewing a deleted page" xml:space="preserve">
+    <value>Silinen bir sayfayı görüntülüyorsunuz</value>
+  </data>
+  <data name="Viewing a deleted page revision" xml:space="preserve">
+    <value>Silinen bir sayfa revizyonunu görüntülüyorsunuz</value>
+  </data>
+  <data name="Viewing a historical version" xml:space="preserve">
+    <value>Tarihi bir sürümü görüntüleme</value>
+  </data>
+  <data name="What did you change and why?" xml:space="preserve">
+    <value>Ne değiştirdiniz ve neden?</value>
+  </data>
+  <data name="Wiki Help Pages" xml:space="preserve">
+    <value>Viki Yardım Sayfaları</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>Viki Sayfası</value>
+  </data>
+  <data name="Wikified Size" xml:space="preserve">
+    <value>Vikileştirilmiş Boyut</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Evet</value>
+  </data>
+  <data name="You are viewing a page revision which was deleted on {0} by {1}." xml:space="preserve">
+    <value>{1} tarafından {0} tarihinde silinen bir sayfa revizyonunu görüntülüyorsunuz.</value>
+  </data>
+  <data name="You are viewing a page which was deleted on {0} by {1}." xml:space="preserve">
+    <value>{1} tarafından {0} tarihinde silinen bir sayfayı görüntülüyorsunuz.</value>
+  </data>
+  <data name="You are viewing revision {0} of &quot;{1}&quot; modified by {2} on {3}." xml:space="preserve">
+    <value>{3} tarihinde {2} tarafından değiştirilen "{1}" başlıklı {0} revizyonunu görüntülüyorsunuz.</value>
+  </data>
+  <data name="You can generate a new set of recovery codes." xml:space="preserve">
+    <value>Yeni bir kurtarma kodları seti oluşturabilirsiniz.</value>
+  </data>
+  <data name="You can log in with a recovery code" xml:space="preserve">
+    <value>Bir kurtarma kodu ile giriş yapabilirsiniz</value>
+  </data>
+  <data name="You do not have a local username/password for this site. Add a local account so you can log in without an external login." xml:space="preserve">
+    <value>Bu site için yerel bir kullanıcı adı/şifreye sahip değilsiniz. Dış giriş olmadan giriş yapabilmek için bir yerel hesap ekleyin.</value>
+  </data>
+  <data name="You do not have access to this resource." xml:space="preserve">
+    <value>Bu kaynağa erişiminiz yok.</value>
+  </data>
+  <data name="You have {0} recovery codes left." xml:space="preserve">
+    <value>{0} kurtarma kodunuz kaldı.</value>
+  </data>
+  <data name="You have 1 recovery code left." xml:space="preserve">
+    <value>1 kurtarma kodunuz kaldı.</value>
+  </data>
+  <data name="You have generated new recovery codes." xml:space="preserve">
+    <value>Yeni kurtarma kodları oluşturdunuz.</value>
+  </data>
+  <data name="You have no recovery codes left." xml:space="preserve">
+    <value>Hiç kurtarma kodu kalmadı.</value>
+  </data>
+  <data name="You have requested to log in with a recovery code. This login will not be remembered until you provide an authenticator app code at log in or disable 2FA and log in again." xml:space="preserve">
+    <value>Bir kurtarma kodu ile giriş yapmak istediğinizi belirttiniz. Bu giriş, bir doğrulama uygulaması kodu sağlanana kadar veya 2FA devre dışı bırakılıp tekrar giriş yapılana kadar hatırlanmayacak.</value>
+  </data>
+  <data name="You have successfully logged out of the application." xml:space="preserve">
+    <value>Uygulamadan başarıyla çıkış yaptınız.</value>
+  </data>
+  <data name="You have successfully signed in with LDAP but we still need a bit of information." xml:space="preserve">
+    <value>LDAP ile başarıyla giriş yaptınız, ancak hala biraz bilgiye ihtiyacımız var.</value>
+  </data>
+  <data name="You have successfully signed in with the external provider but we still need a bit of information." xml:space="preserve">
+    <value>Harici sağlayıcı ile başarıyla giriş yaptınız, ancak hala biraz bilgiye ihtiyacımız var.</value>
+  </data>
+  <data name="You must accept the policy before you can enable two factor authentication." xml:space="preserve">
+    <value>İki faktörlü kimlik doğrulamayı etkinleştirmeden önce politikayı kabul etmelisiniz.</value>
+  </data>
+  <data name="You must generate a new set of recovery codes before you can log in with a recovery code." xml:space="preserve">
+    <value>Bir kurtarma kodu ile giriş yapmadan önce yeni bir kurtarma kodları seti oluşturmalısınız.</value>
+  </data>
+  <data name="You should generate a new set of recovery codes." xml:space="preserve">
+    <value>Yeni bir kurtarma kodları seti oluşturmalısınız.</value>
+  </data>
+  <data name="You've successfully authenticated with {0}. Please enter an email address for this site below and click the Register button to finish logging in." xml:space="preserve">
+    <value>Başarıyla {0} ile doğrulandınız. Lütfen aşağıya bu site için bir e-posta adresi girin ve giriş işlemini tamamlamak için Kayıt ol düğmesine tıklayın.</value>
+  </data>
+  <data name="Your authenticator app has been verified." xml:space="preserve">
+    <value>Doğrulayıcı uygulamanız doğrulandı.</value>
+  </data>
+  <data name="Your authenticator app key has been reset, you will need to configure your authenticator app using the new key." xml:space="preserve">
+    <value>Doğrulayıcı uygulama anahtarınız sıfırlandı, yeni anahtar ile doğrulayıcı uygulamanızı yapılandırmanız gerekecek.</value>
+  </data>
+  <data name="Your email is unchanged." xml:space="preserve">
+    <value>E-posta adresiniz değiştirilmedi.</value>
+  </data>
+  <data name="Your login is protected with an authenticator app. Enter your authenticator code below." xml:space="preserve">
+    <value>Girişiniz doğrulayıcı uygulamasıyla korunuyor. Lütfen aşağıya doğrulayıcı kodunuzu girin.</value>
+  </data>
+  <data name="Your password has been changed." xml:space="preserve">
+    <value>Şifreniz değiştirildi.</value>
+  </data>
+  <data name="Your password has been reset." xml:space="preserve">
+    <value>Şifreniz sıfırlandı.</value>
+  </data>
+  <data name="Your password has been set." xml:space="preserve">
+    <value>Şifreniz ayarlandı.</value>
+  </data>
+  <data name="Your search criteria resulted in no pages, simplify your search text." xml:space="preserve">
+    <value>Arama kriterleriniz hiçbir sayfa ile eşleşmedi, arama metninizi basitleştirin.</value>
+  </data>
+  <data name="An error occurred retrieving user information from the external provider." xml:space="preserve">
+    <value>Dış sağlayıcıdan kullanıcı bilgisi alınırken hata oluştu.</value>
+  </data>
+  <data name="An error occurred while adding the login." xml:space="preserve">
+    <value>Giriş eklenirken hata oluştu.</value>
+  </data>
+  <data name="An error occurred while creating the user." xml:space="preserve">
+    <value>Kullanıcı oluşturulurken hata oluştu.</value>
+  </data>
+  <data name="Display Name is already in use." xml:space="preserve">
+    <value>Görünen ad zaten kullanılıyor.</value>
+  </data>
+  <data name="Display Name is required." xml:space="preserve">
+    <value>Görünen ad gereklidir.</value>
+  </data>
+  <data name="Error changing email." xml:space="preserve">
+    <value>E-posta değiştirilirken hata oluştu.</value>
+  </data>
+  <data name="Error changing user name." xml:space="preserve">
+    <value>kullanıcı adı değiştirilirken hata oluştu.</value>
+  </data>
+  <data name="Error confirming your email." xml:space="preserve">
+    <value>E-posta onayınız sırasında hata oluştu.</value>
+  </data>
+  <data name="Error from external provider: {0}" xml:space="preserve">
+    <value>Dış sağlayıcıdan hata: {0}</value>
+  </data>
+  <data name="Error loading external login information during confirmation." xml:space="preserve">
+    <value>Onay sırasında dış giriş bilgileri yüklenirken hata oluştu.</value>
+  </data>
+  <data name="Error loading external login information." xml:space="preserve">
+    <value>Dış giriş bilgileri yüklenirken hata oluştu.</value>
+  </data>
+  <data name="Failed to add login info for LDAP stub account: {0}." xml:space="preserve">
+    <value>LDAP stub hesabı için giriş bilgileri eklenemedi: {0}.</value>
+  </data>
+  <data name="Failed to create stub account for the LDAP credential: {0}." xml:space="preserve">
+    <value>LDAP kimlik bilgisi için stub hesabı oluşturulamadı: {0}.</value>
+  </data>
+  <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
+    <value>LDAP kimliği için kullanıcı hesabı bulunamadı.</value>
+  </data>
+  <data name="Invalid login attempt." xml:space="preserve">
+    <value>Geçersiz giriş denemesi.</value>
+  </data>
+  <data name="Thank you for confirming your email change." xml:space="preserve">
+    <value>Mail adresinizi değiştirdiğinizi onayladığınız için teşekkür ederiz.</value>
+  </data>
+  <data name="Thank you for confirming your email." xml:space="preserve">
+    <value>Mail adresinizi onayladığınız için teşekkür ederiz.</value>
+  </data>
+  <data name="The email address was not supplied by the external provider." xml:space="preserve">
+    <value>Harici sağlayıcı tarafından e-posta adresi sağlanmadı.</value>
+  </data>
+  <data name="The specified user could not be found." xml:space="preserve">
+    <value>Belirtilen kullanıcı bulunamadı.</value>
+  </data>
+  <data name="User created a new account with LDAP." xml:space="preserve">
+    <value>Kullanıcı LDAP ile yeni bir hesap oluşturdu.</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Adres</value>
+  </data>
+  <data name="Allow Fuzzy Matching" xml:space="preserve">
+    <value>Belirsiz Eşleşmeye İzin Ver</value>
+  </data>
+  <data name="Allow Signup" xml:space="preserve">
+    <value>Kayıt Olmaya İzin Ver</value>
+  </data>
+  <data name="Authentication and Cookies." xml:space="preserve">
+    <value>Kimlik Doğrulama ve Çerezler.</value>
+  </data>
+  <data name="Basic" xml:space="preserve">
+    <value>Temel</value>
+  </data>
+  <data name="Basic wiki settings such as formatting." xml:space="preserve">
+    <value>Biçimlendirme gibi temel wiki ayarları.</value>
+  </data>
+  <data name="Brand Image (Small)" xml:space="preserve">
+    <value>Marka Resmi (Küçük)</value>
+  </data>
+  <data name="Cache Memory Limit MB" xml:space="preserve">
+    <value>Önbellek Bellek Limiti MB</value>
+  </data>
+  <data name="Configuration for Active Directory authentication using LDAP" xml:space="preserve">
+    <value>LDAP kullanarak Active Directory kimlik doğrulama yapılandırması</value>
+  </data>
+  <data name="Configuration related to searching and indexing." xml:space="preserve">
+    <value>Arama ve indeksleme ile ilgili yapılandırma.</value>
+  </data>
+  <data name="Cookies" xml:space="preserve">
+    <value>Çerezler</value>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>Telif Hakkı</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Özelleştirme</value>
+  </data>
+  <data name="Default Country" xml:space="preserve">
+    <value>Varsayılan Ülke</value>
+  </data>
+  <data name="Default Emoji Height" xml:space="preserve">
+    <value>Varsayılan Emoji Yüksekliği</value>
+  </data>
+  <data name="Default Language" xml:space="preserve">
+    <value>Varsayılan Dil</value>
+  </data>
+  <data name="Default Profile Recently Modified Count" xml:space="preserve">
+    <value>Varsayılan Profil Son Düzenleme Sayısı</value>
+  </data>
+  <data name="Default Signup Role" xml:space="preserve">
+    <value>Varsayılan Kayıt Olma Rolü</value>
+  </data>
+  <data name="Default TimeZone" xml:space="preserve">
+    <value>Varsayılan Saat Dilimi</value>
+  </data>
+  <data name="EMail and SMTP setting." xml:space="preserve">
+    <value>İletişim ve SMTP ayarları.</value>
+  </data>
+  <data name="Enable Page Comments" xml:space="preserve">
+    <value>Sayfa Yorumlarını Etkinleştir</value>
+  </data>
+  <data name="Enable Public Profiles" xml:space="preserve">
+    <value>Halka Açık Profilleri Etkinleştir</value>
+  </data>
+  <data name="Expiraion Hours" xml:space="preserve">
+    <value>Süre Uzunluğu Saatleri</value>
+  </data>
+  <data name="External Authentication" xml:space="preserve">
+    <value>Harici Kimlik Doğrulama</value>
+  </data>
+  <data name="External Authentication Providers" xml:space="preserve">
+    <value>Harici Kimlik Doğrulama Sağlayıcıları</value>
+  </data>
+  <data name="File and Attachment settings." xml:space="preserve">
+    <value>Dosya ve Ek ayarları.</value>
+  </data>
+  <data name="Files and Attachments" xml:space="preserve">
+    <value>Dosyalar ve Ekler</value>
+  </data>
+  <data name="Filesystem location where persistent cookies are stored for saved session logins." xml:space="preserve">
+    <value>Sürekli çerezlerin saklandığı dosya sistemi konumu.</value>
+  </data>
+  <data name="Fixed Header Menu Position" xml:space="preserve">
+    <value>Sabit Başlık Menüsü Pozisyonu</value>
+  </data>
+  <data name="Footer" xml:space="preserve">
+    <value>Altbilgi</value>
+  </data>
+  <data name="FooterBlurb" xml:space="preserve">
+    <value>Altbilgi Açıklaması</value>
+  </data>
+  <data name="From Display Name" xml:space="preserve">
+    <value>Görüntüleme Adından</value>
+  </data>
+  <data name="Functionality" xml:space="preserve">
+    <value>İşlevsellik</value>
+  </data>
+  <data name="General wiki functionality." xml:space="preserve">
+    <value>Genel wiki işlevselliği.</value>
+  </data>
+  <data name="Google : ClientId" xml:space="preserve">
+    <value>Google : İstemciKimliği</value>
+  </data>
+  <data name="Google : ClientSecret" xml:space="preserve">
+    <value>Google : İstemciGizliAnahtarı</value>
+  </data>
+  <data name="Google : Use Google Authentication" xml:space="preserve">
+    <value>Google : Google Kimlik Doğrulamasını Kullan</value>
+  </data>
+  <data name="Header" xml:space="preserve">
+    <value>Başlık</value>
+  </data>
+  <data name="HTML email template for new account verification" xml:space="preserve">
+    <value>Yeni hesap doğrulaması için HTML e-posta şablonu</value>
+  </data>
+  <data name="HTML email template to use when sending a password reset email." xml:space="preserve">
+    <value>Şifre sıfırlama e-postası gönderirken kullanılacak HTML e-posta şablonu.</value>
+  </data>
+  <data name="HTML Layout" xml:space="preserve">
+    <value>HTML Düzeni</value>
+  </data>
+  <data name="HTML layout." xml:space="preserve">
+    <value>HTML düzeni.</value>
+  </data>
+  <data name="HTML placed inside the body tag but directly after the other body content." xml:space="preserve">
+    <value>Body etiketi içinde ama diğer gövde içeriğinin hemen ardından yerleştirilen HTML.</value>
+  </data>
+  <data name="HTML placed inside the body tag but just before the other content of the page." xml:space="preserve">
+    <value>Gövde etiketi içinde, ancak sayfanın diğer içeriğinden hemen önce yerleştirilen HTML.</value>
+  </data>
+  <data name="HTML placed into the footer section of the page." xml:space="preserve">
+    <value>Sayfanın footer bölümüne yerleştirilen HTML.</value>
+  </data>
+  <data name="HTML placed into the header section of the HTML. A useful place to put scripts and CSS." xml:space="preserve">
+    <value>HTML'nin header bölümüne yerleştirilmiş. Betiklerin ve CSS'nin konulacağı kullanışlı bir yer.</value>
+  </data>
+  <data name="If set, users can not login until their email addresses are verified. If changed, the website will need to be restarted. Default: Enabled." xml:space="preserve">
+    <value>Ayarlanırsa, kullanıcılar e-posta adresleri doğrulanana kadar giriş yapamazlar. Değiştirildiğinde, sitenin yeniden başlatılması gerekir. Varsayılan: Etkin.</value>
+  </data>
+  <data name="If set, users will be allowed to sing up and create their own account. Default: Enabled." xml:space="preserve">
+    <value>Ayarlanırsa, kullanıcıların kayıt olmelerine ve kendi hesaplarını oluşturmalarına izin verilir. Varsayılan: Etkin.</value>
+  </data>
+  <data name="Include Search on Navbar" xml:space="preserve">
+    <value>Navigasyon çubuğuna Arama ekle</value>
+  </data>
+  <data name="Include wiki Description in Meta" xml:space="preserve">
+    <value>Meta içinde Wiki Açıklaması ekle</value>
+  </data>
+  <data name="Include wiki Tags in Meta" xml:space="preserve">
+    <value>Meta içinde Wiki Etiketleri ekle</value>
+  </data>
+  <data name="LDAP : Default Sign-in Domain" xml:space="preserve">
+    <value>LDAP : Varsayılan Giriş Alanı</value>
+  </data>
+  <data name="LDAP : Enable LDAP Authentication" xml:space="preserve">
+    <value>LDAP : LDAP Kimlik Doğrulamasını Etkinleştir</value>
+  </data>
+  <data name="LDAP : Fully-Qualified Domain" xml:space="preserve">
+    <value>LDAP : Tam Nitelikli Alan Adı</value>
+  </data>
+  <data name="LDAP : Use Secure Socket Layer" xml:space="preserve">
+    <value>LDAP : Güvenli Yuva Katmanı kullan</value>
+  </data>
+  <data name="LDAP Authentication" xml:space="preserve">
+    <value>LDAP Kimlik Doğrulaması</value>
+  </data>
+  <data name="Look &amp; Feel customizations." xml:space="preserve">
+    <value>Görünüm ve his ayarları.</value>
+  </data>
+  <data name="Max Attachment File Size" xml:space="preserve">
+    <value>Max Ek Dosya Boyutu</value>
+  </data>
+  <data name="Max Avatar File Size" xml:space="preserve">
+    <value>Max Avatar Dosya Boyutu</value>
+  </data>
+  <data name="Max Emoji File Size" xml:space="preserve">
+    <value>Max Emoji Dosya Boyutu</value>
+  </data>
+  <data name="Maximum size in bytes for a user any page attachment." xml:space="preserve">
+    <value>Bir kullanıcının herhangi bir sayfa eklentisi için maksimum boyut (bayt cinsinden).</value>
+  </data>
+  <data name="Maximum size in bytes for a user avatar image." xml:space="preserve">
+    <value>Bir kullanıcının avatar resmi için maksimum boyut (bayt cinsinden).</value>
+  </data>
+  <data name="Maximum size in bytes for an emoji image." xml:space="preserve">
+    <value>Bir emoji resmi için maksimum boyut (bayt cinsinden).</value>
+  </data>
+  <data name="Membership" xml:space="preserve">
+    <value>Üyelik</value>
+  </data>
+  <data name="Membership settings such as defaults for new members and permissions." xml:space="preserve">
+    <value>Yeni üyeler için varsayılanlar ve izinler gibi üyelik ayarları.</value>
+  </data>
+  <data name="Microsoft : ClientId" xml:space="preserve">
+    <value>Microsoft : İstemciId</value>
+  </data>
+  <data name="Microsoft : ClientSecret" xml:space="preserve">
+    <value>Microsoft : İstemciGizli</value>
+  </data>
+  <data name="Microsoft : Use Microsoft Authentication" xml:space="preserve">
+    <value>Microsoft : Microsoft Kimlik Doğrulamasını Kullan</value>
+  </data>
+  <data name="Minimum Match Score" xml:space="preserve">
+    <value>Minimum Eşleşme Skoru</value>
+  </data>
+  <data name="New Page Template" xml:space="preserve">
+    <value>Yeni Sayfa Şablonu</value>
+  </data>
+  <data name="Number of hours before cookies expire." xml:space="preserve">
+    <value>Kurabiyelerin sona ermesine kaç saat kaldı.</value>
+  </data>
+  <data name="OIDC : Authority" xml:space="preserve">
+    <value>OIDC : Yetki</value>
+  </data>
+  <data name="OIDC : ClientId" xml:space="preserve">
+    <value>OIDC : İstemci Kimliği</value>
+  </data>
+  <data name="OIDC : ClientSecret" xml:space="preserve">
+    <value>OIDC : İstemci Sırrı</value>
+  </data>
+  <data name="OIDC : Use OIDC Authentication" xml:space="preserve">
+    <value>OIDC : OIDC Kimlik Doğrulamasını Kullan</value>
+  </data>
+  <data name="Page Cache Time (Seconds)" xml:space="preserve">
+    <value>Sayfa Önbellek Süresi (Saniye)</value>
+  </data>
+  <data name="Page Not Exists Page" xml:space="preserve">
+    <value>Sayfa Bulunmuyor</value>
+  </data>
+  <data name="Pagination Size" xml:space="preserve">
+    <value>Sayfalama Boyutu</value>
+  </data>
+  <data name="Performance" xml:space="preserve">
+    <value>Performans</value>
+  </data>
+  <data name="Performance related settings." xml:space="preserve">
+    <value>Performansa İlişkin Ayarlar.</value>
+  </data>
+  <data name="Persist Keys Path" xml:space="preserve">
+    <value>Öznitelik Anahtarları Yolu</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="Post-Body" xml:space="preserve">
+    <value>Post-Body</value>
+  </data>
+  <data name="Pre-Body" xml:space="preserve">
+    <value>Pre-Body</value>
+  </data>
+  <data name="Pre-Load Animated Emojis" xml:space="preserve">
+    <value>Ön Yükleme Animasyonlu Emojiler</value>
+  </data>
+  <data name="Record Compilation Metrics" xml:space="preserve">
+    <value>Kaydetme Toplama Metriklerini Kaydet</value>
+  </data>
+  <data name="Require Change Summary when Editing" xml:space="preserve">
+    <value>Düzenleme Sırasında Değişiklik Özeti Gerektirir</value>
+  </data>
+  <data name="Require Email Verification" xml:space="preserve">
+    <value>E-posta Doğrulaması Gerektirir</value>
+  </data>
+  <data name="Revision Does Not Exists Page" xml:space="preserve">
+    <value>Revizyon Mevcut Değil Sayfası</value>
+  </data>
+  <data name="Show Change Summary when Editing" xml:space="preserve">
+    <value>Düzenlerken Değişiklik Özeti Göster</value>
+  </data>
+  <data name="Show Comments on Page Footer" xml:space="preserve">
+    <value>Sayfa Altbilgisinde Yorumları Göster</value>
+  </data>
+  <data name="Show Last Modified on Page Footer" xml:space="preserve">
+    <value>Sayfa Altbilgisinde Son Değişiklikleri Göster</value>
+  </data>
+  <data name="Split Camel Case" xml:space="preserve">
+    <value>Büyük Küçük Harf Ayrımı</value>
+  </data>
+  <data name="Template: Account Verification Email" xml:space="preserve">
+    <value>Şablon: Hesap Doğrulama E-postası</value>
+  </data>
+  <data name="Template: Reset Password Email" xml:space="preserve">
+    <value>Şablon: Şifre Sıfırlama E-postası</value>
+  </data>
+  <data name="The account name to use for all email communications." xml:space="preserve">
+    <value>Tüm e-posta iletişimlerinde kullanılacak hesap adı.</value>
+  </data>
+  <data name="The base theme to use for all site styling." xml:space="preserve">
+    <value>Tüm site stilinde kullanılacak temel tema.</value>
+  </data>
+  <data name="The brand image of the wiki, this is displayed on the top of all wiki pages." xml:space="preserve">
+    <value>Viki'nin marka imajı, bu tüm viki sayfalarının üst kısmında görüntülenir.</value>
+  </data>
+  <data name="The copyright of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
+    <value>Viki'nin telif hakkı bilgisi, bu tüm sayfaların altında gösterilir.</value>
+  </data>
+  <data name="The country to use for the site culture for guests." xml:space="preserve">
+    <value>Misafirler için site kültürü amacıyla kullanılacak ülke.</value>
+  </data>
+  <data name="The default country to use for new accounts." xml:space="preserve">
+    <value>Yeni hesaplar için kullanılacak varsayılan ülke.</value>
+  </data>
+  <data name="The default domain to use when the user does not specify a UPN or a fully qualified domain\\Username when signing in." xml:space="preserve">
+    <value>Kullanıcı giriş yaparken UPN veya tam nitelikli alan adı\\Kullanıcı adı belirtilmediğinde kullanılacak varsayılan alan adı.</value>
+  </data>
+  <data name="The default height to scale emojis to. The width will be scaled to the same ratio.  Default: 24." xml:space="preserve">
+    <value>Emojilerin varsayılan yükseklikte ölçekleneceği değer. Genişlik aynı oranda ölçeklenecektir. Varsayılan: 24.</value>
+  </data>
+  <data name="The default language to use for new accounts." xml:space="preserve">
+    <value>Yeni hesaplar için kullanılacak varsayılan dil.</value>
+  </data>
+  <data name="The default role to assign accounts when they sing up. Default: Contributor." xml:space="preserve">
+    <value>Kayıt olurken hesaplara atanacak varsayılan rol. Varsayılan: Katkıda Bulunan.</value>
+  </data>
+  <data name="The default time zone to use for new accounts." xml:space="preserve">
+    <value>Yeni hesaplar için kullanılacak varsayılan saat dilimi.</value>
+  </data>
+  <data name="The display name to show for all email communications." xml:space="preserve">
+    <value>Tüm e-posta iletişimleri için gösterilecek görüntü adını.</value>
+  </data>
+  <data name="The footer of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
+    <value>Viki'nin altbilgisi, bu tüm sayfaların altında gösterilir.</value>
+  </data>
+  <data name="The fully qualified domain name to use when performing LDAP authentication." xml:space="preserve">
+    <value>LDAP doğrulaması yaparken kullanılacak tam nitelikli alan adı.</value>
+  </data>
+  <data name="The internet address of your wiki." xml:space="preserve">
+    <value>Viki'nizin internet adresi.</value>
+  </data>
+  <data name="The language to use for the site culture for guests." xml:space="preserve">
+    <value>Misafirler için site kültürü amacıyla kullanılacak dil.</value>
+  </data>
+  <data name="The memory limit (in megabytes) for the cache. Oldest items will be ejected when limit is reached. Default: 1024." xml:space="preserve">
+    <value>Önbelleğin hafıza sınırı (megabayt cinsinden). Limit aşıldığında en eski öğeler atılır. Varsayılan: 1024.</value>
+  </data>
+  <data name="The name of the wiki page to display when a non existing page is requested." xml:space="preserve">
+    <value>Mevcut olmayan bir sayfa istendiğinde gösterilecek viki sayfasının adı.</value>
+  </data>
+  <data name="The name of the wiki page to display when a non existing page revision is requested." xml:space="preserve">
+    <value>Mevcut olmayan bir sayfa revizyonu istendiğinde gösterilecek viki sayfasının adı.</value>
+  </data>
+  <data name="The name of the wiki page to use as the default content when new wiki pages are created." xml:space="preserve">
+    <value>Yeni viki sayfaları oluşturulduğunda varsayılan içerik olarak kullanılacak viki sayfası adı.</value>
+  </data>
+  <data name="The name of the wiki, this is displayed everywhere." xml:space="preserve">
+    <value>Viki'nin adı, bu her yerde görüntülenir.</value>
+  </data>
+  <data name="The number of items to return when pagination is used. Default: 20." xml:space="preserve">
+    <value>Sayfalama kullanıldığında döndürülecek öğe sayısı. Varsayılan: 20.</value>
+  </data>
+  <data name="The number of recently modified pages to show on users public profiles. Default: 10." xml:space="preserve">
+    <value>Kullanıcıların açık profilinde gösterilecek en son değiştirilen sayfa sayısı. Varsayılan: 10.</value>
+  </data>
+  <data name="The number of seconds to cache pages in memory (0 = disabled). Default: 300." xml:space="preserve">
+    <value>Sayfaları bellekte önbelleğe alma süresi (0 = devre dışı). Varsayılan: 300.</value>
+  </data>
+  <data name="The SMTP password to use when sending email." xml:space="preserve">
+    <value>İşlem sırasında kullanılacak SMTP şifresi.</value>
+  </data>
+  <data name="The SMTP port to use when sending email. Default: 587." xml:space="preserve">
+    <value>İşlem sırasında kullanılacak SMTP bağlantı noktası. Varsayılan: 587.</value>
+  </data>
+  <data name="The SMTP server ip/host to use when sending email." xml:space="preserve">
+    <value>İşlem sırasında kullanılacak SMTP sunucu ip/host.</value>
+  </data>
+  <data name="The time zone to use for the site culture for guests." xml:space="preserve">
+    <value>Misafirler için site kültürü zaman dilimi.</value>
+  </data>
+  <data name="Use SSL" xml:space="preserve">
+    <value>SSL Kullan</value>
+  </data>
+  <data name="Value between 0.0 and 1.0 that determines how strong of a match a page search needs to be before it it returned in search results. Default: 0.6." xml:space="preserve">
+    <value>0.0 ile 1.0 arasında bir değer, bir sayfa aramasının sonuçlarda gösterilmeden önce ne kadar güçlü eşleşmeye ihtiyacı olduğunu belirler. Varsayılan: 0.6.</value>
+  </data>
+  <data name="When building a search index, these words will be excluded from indexing. (Comma separated)" xml:space="preserve">
+    <value>Arama dizini oluşturulurken, bu kelimeler indekslenmekten çıkarılır. (Virgül ile ayrılmış)</value>
+  </data>
+  <data name="When comments are enabled, this option causes comments to be shown at the bottom of each page. Default: Enabled." xml:space="preserve">
+    <value>Yorumlar etkinleştirildiğinde, bu seçenek her sayfanın altında yorumların gösterilmesine neden olur. Varsayılan: Etkin.</value>
+  </data>
+  <data name="Whether a search box will be shown on the navigation bar. Default: Enabled." xml:space="preserve">
+    <value>Gezinti çubuğunda bir arama kutusu gösterilecek mi? Varsayılan: Etkin.</value>
+  </data>
+  <data name="Whether or not OpenID Connect is enabled." xml:space="preserve">
+    <value>OpenID Connect etkin mi?</value>
+  </data>
+  <data name="Whether or not the engine should perform a lazy pre-load of all animated emojis on startup." xml:space="preserve">
+    <value>Başlangıçta tüm animasyonlu emojilerin tembel ön yüklemesini yapıp yapmaması gerektiği.</value>
+  </data>
+  <data name="Whether or not to authenticate with LDAP when attempting to login users." xml:space="preserve">
+    <value>Kullanıcı girişimleri sırasında LDAP ile kimlik doğrulaması yapılmalı mı?</value>
+  </data>
+  <data name="Whether or not to use a secure connection to LDAP. This is not always supported by domains." xml:space="preserve">
+    <value>LDAP ile güvenli bağlantı kullanılmalı mı? Bu her alan adı tarafından desteklenmiyor.</value>
+  </data>
+  <data name="Whether page comments will be enabled. Authentication is required for comment, but all can read. Default: Enabled." xml:space="preserve">
+    <value>Sayfa yorumları etkinleştirilecek mi? Kimlik doğrulama gereklidir, ancak herkes okuyabilir. Varsayılan: Etkin.</value>
+  </data>
+  <data name="Whether SMTP should connect using SSL or not." xml:space="preserve">
+    <value>SMTP SSL kullanarak mı bağlanmalı?</value>
+  </data>
+  <data name="Whether the description of the page should be included in the HTML head meta. Default: Enabled." xml:space="preserve">
+    <value>Sayfanın açıklamasını HTML head meta içinde dahil edilmeli mi? Varsayılan: Etkin.</value>
+  </data>
+  <data name="Whether the top menu should stay in place when scrolling vertically." xml:space="preserve">
+    <value>Yukarı kaydırırken üst menü yerinde kalmalı mı?</value>
+  </data>
+  <data name="Whether the wiki tags attached to the page should be included in the HTML head meta keywords. Default: Enabled." xml:space="preserve">
+    <value>Sayfaya bağlı wiki etiketleri HTML head meta anahtar kelimelerine dahil edilmeli mi? Varsayılan: Etkin.</value>
+  </data>
+  <data name="Whether to allow non-exact matches when searching. Default: Enabled." xml:space="preserve">
+    <value>Arama sırasında tam eşleşme olmayanlar da kabul edilmeli mi? Varsayılan: Etkin.</value>
+  </data>
+  <data name="Whether to record page wiki Record compilation metrics to the database. This can be used for performance turning, but can itself cause slowness. Default: Disabled." xml:space="preserve">
+    <value>Sayfa wiki kayıtlarını derleme metriğini veritabanına kaydetmek. Bu, performans ayarlaması için kullanılabilir, ancak kendisi de yavaşlamaya neden olabilir. Varsayılan: Devre Dışı.</value>
+  </data>
+  <data name="Whether to show the last user and date that a page was modified with a link to the public user profile. Default: Enabled." xml:space="preserve">
+    <value>Bir sayfa en son hangi kullanıcı tarafından ve ne tarihte değiştirildiğini gösterir, kullanıcı profil sayfasına bağlantı içerir. Varsayılan: Etkin.</value>
+  </data>
+  <data name="Whether to show the textbox to allow the user to enter a change summary when editing pages." xml:space="preserve">
+    <value>Yazarken kullanıcıların değişiklik özetini girmesine izin veren metin kutusunu göster.</value>
+  </data>
+  <data name="Whether to split CamelCasedStrings when parsing pages for search tokens. This can be helpful when pages contain a lot of programming/code content. Default: Enabled." xml:space="preserve">
+    <value>Arama sırasında CamelCaseString'leri ayırmak için ayrıştırırken kullanılmalı mı? Bu, sayfaların çok fazla programlama/kod içermesi durumunda faydalı olabilir. Varsayılan: Etkin.</value>
+  </data>
+  <data name="Whether users are required to enter a change summary when editing pages. Note that &quot;Show Change Summary when Editing&quot; must also be enabled." xml:space="preserve">
+    <value>Sayfa düzenlerken kullanıcıların değişiklik özeti girmesi zorunlu mu? Not: "Düzenlerken Değişiklik Özeti Göster" da etkin olmalıdır.</value>
+  </data>
+  <data name="Whether visitors can view members and their public profiles." xml:space="preserve">
+    <value>Ziyaretçiler üyeleri ve onların genel profillerini görebilir mi?</value>
+  </data>
+  <data name="Word Exclusions" xml:space="preserve">
+    <value>Kelime Hariç Tutmalar</value>
+  </data>
+  <data name="You must select a role." xml:space="preserve">
+    <value>Bir rol seçmelisiniz.</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>Hesap zaten belirtilen role sahiptir.</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value>Kaynak türü</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Ekle</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
+    <value>Bu hesabından izni kaldırmak istediğinizden emin misiniz?</value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value>Silme başarısız oldu</value>
+  </data>
+  <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
+    <value>Bu hesabından role izin kaldırmak istediğinizden emin misiniz?</value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value>Bir durumu seçin</value>
+  </data>
+  <data name="Select a permission" xml:space="preserve">
+    <value>Bir izin seçin</value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value>Bir sayfa seçin</value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value>Bir isim alanı seçin</value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value>Bir izin durumu seçmelisiniz.</value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value>Bir izin seçmelisiniz.</value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value>Bir sayfa seçmelisiniz.</value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value>Bir isim alanı seçmelisiniz.</value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value>Sayfa veya isim alanı seçmelisiniz.</value>
+  </data>
+  <data name="The account already has the specified permission." xml:space="preserve">
+    <value>Hesap zaten belirtilen izne sahiptir.</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
+    <value>Bu role izin kaldırmak istediğinizden emin misiniz?</value>
+  </data>
+  <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
+    <value>Bu üyeyi bu rolden kaldırmak istediğinizden emin misiniz?</value>
+  </data>
+  <data name="The role already has the specified permission." xml:space="preserve">
+    <value>Role zaten belirtilen izne sahiptir.</value>
+  </data>
+  <data name="Select an account" xml:space="preserve">
+    <value>Bir hesap seçin</value>
+  </data>
+  <data name="You must select an account." xml:space="preserve">
+    <value>Bir hesap seçmelisiniz.</value>
+  </data>
+  <data name="the address of your wiki." xml:space="preserve">
+    <value>Vikinizin adresi.</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>İngilizce</value>
+  </data>
+  <data name="Arabic" xml:space="preserve">
+    <value>Arapça</value>
+  </data>
+  <data name="Azerbaijani" xml:space="preserve">
+    <value>Azerice</value>
+  </data>
+  <data name="Belarusian" xml:space="preserve">
+    <value>Beyaz Rusça</value>
+  </data>
+  <data name="Bulgarian" xml:space="preserve">
+    <value>Bulgarca</value>
+  </data>
+  <data name="Czech" xml:space="preserve">
+    <value>Çekçe</value>
+  </data>
+  <data name="Danish" xml:space="preserve">
+    <value>Danca</value>
+  </data>
+  <data name="German" xml:space="preserve">
+    <value>Almanca</value>
+  </data>
+  <data name="Greek" xml:space="preserve">
+    <value>Yunanca</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>İspanyolca</value>
+  </data>
+  <data name="Estonian" xml:space="preserve">
+    <value>İngilizce</value>
+  </data>
+  <data name="Persian" xml:space="preserve">
+    <value>Farsça</value>
+  </data>
+  <data name="Finnish" xml:space="preserve">
+    <value>Fince</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>Fransızca</value>
+  </data>
+  <data name="Hebrew" xml:space="preserve">
+    <value>İbranice</value>
+  </data>
+  <data name="Croatian" xml:space="preserve">
+    <value>Hırvatça</value>
+  </data>
+  <data name="Hungarian" xml:space="preserve">
+    <value>Macarca</value>
+  </data>
+  <data name="Indonesian" xml:space="preserve">
+    <value>Endonezce</value>
+  </data>
+  <data name="Icelandic" xml:space="preserve">
+    <value>İzlandaca</value>
+  </data>
+  <data name="Italian" xml:space="preserve">
+    <value>İtalyanca</value>
+  </data>
+  <data name="Japanese" xml:space="preserve">
+    <value>Japonca</value>
+  </data>
+  <data name="Georgian" xml:space="preserve">
+    <value>Gürcüce</value>
+  </data>
+  <data name="Kazakh" xml:space="preserve">
+    <value>Kazakça</value>
+  </data>
+  <data name="Korean" xml:space="preserve">
+    <value>Korece</value>
+  </data>
+  <data name="Lithuanian" xml:space="preserve">
+    <value>Litvanyaca</value>
+  </data>
+  <data name="Latvian" xml:space="preserve">
+    <value>Letonca</value>
+  </data>
+  <data name="Malay" xml:space="preserve">
+    <value>Malayca</value>
+  </data>
+  <data name="Dutch" xml:space="preserve">
+    <value>Hollandaca</value>
+  </data>
+  <data name="Norwegian" xml:space="preserve">
+    <value>Norveççe</value>
+  </data>
+  <data name="Bokmål" xml:space="preserve">
+    <value>Bokmål</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>Lehçe</value>
+  </data>
+  <data name="Portuguese" xml:space="preserve">
+    <value>Portekizce</value>
+  </data>
+  <data name="Romanian" xml:space="preserve">
+    <value>Rumençe</value>
+  </data>
+  <data name="Russian" xml:space="preserve">
+    <value>Rusça</value>
+  </data>
+  <data name="Slovak" xml:space="preserve">
+    <value>İkinci Slovakça</value>
+  </data>
+  <data name="Slovenian" xml:space="preserve">
+    <value>Slovencice</value>
+  </data>
+  <data name="Serbian" xml:space="preserve">
+    <value>Sırpça</value>
+  </data>
+  <data name="Swedish" xml:space="preserve">
+    <value>İsveççe</value>
+  </data>
+  <data name="Thai" xml:space="preserve">
+    <value>Tayca</value>
+  </data>
+  <data name="Turkish" xml:space="preserve">
+    <value>Türkçe</value>
+  </data>
+  <data name="Ukrainian" xml:space="preserve">
+    <value>Ukraynaca</value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>Vietnamçaca</value>
+  </data>
+  <data name="Chinese simplified" xml:space="preserve">
+    <value>Çince basitleştirilmiş</value>
+  </data>
+  <data name="Chinese traditional" xml:space="preserve">
+    <value>Çince geleneksel</value>
+  </data>
+  <data name="Bengali" xml:space="preserve">
+    <value>Bengalli</value>
+  </data>
+  <data name="Hindi" xml:space="preserve">
+    <value>Hintçe</value>
+  </data>
+  <data name="Urdu" xml:space="preserve">
+    <value>Urduca</value>
+  </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>Harici sağlayıcıdan bilgi alınamadı</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>Geri yükleme tamamlandı.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>Derleme istatistikleri silindi.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>Hafıza önbelleği temizlendi.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>Derleme İstatistikleri</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>Sayfa Moderasyonu</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>Mevcut sayfa revizyonuna geri dönemezsin.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>Sayfa geri alındı.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>Belirtilen sayfa bulunamadı.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>Sayfa bulunamadı.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>Bir sayfanın sadece mevcut revizyonunu silmeniz mümkün değil, bunun yerine tüm sayfayı silmeniz gerekir.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>Sayfa revizyonu silinme kuyruğuna taşındı.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>Tüm sayfalar yeniden oluşturuldu.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>Tüm sayfalar önbelleğe alındı.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>Tüm sayfa revizyonları kısaltıldı.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>Sayfa silme kuyruğu temizlendi.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>Sayfa revizyonu silme kuyruğundan temizlendi.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>Sayfa revizyonu geri yüklendi.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>Sayfa silme kuyruğundan temizlendi.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>Sayfa silme kuyruğuna taşındı.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>Sayfa geri yüklendi.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>Tüm yetim sayfa ekleri temizlendi.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>Yetim sayfa ekleri temizlendi.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>Menü Öğesi</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>Menü öğesi oluşturuldu.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>Menü öğesi kaydedildi.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>Belirtilen menü öğesi silindi.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>Ayar başarıyla kaydedildi!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>Emoji adı zaten kullanılıyor.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Eklenen resmi kaydedemedik, çok büyük.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Eklenen resmi kaydedemedik.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>Emoji başarıyla kaydedildi!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>Emoji kaydedildi.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>Emoji oluşturuldu.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>Belirtilen emoji silindi.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>Tüm etkinlik günlükleri temizlendi.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>LDAP doğrulaması etkin değil.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>LDAP doğrulaması başarılı, ancak kullanıcıda objectGUID özniteliği yok.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAP doğrulaması başarılı (kullanıcı hesabı oluşturulmamış).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>LDAP doğrulaması başarılı (tamamıyla sağlanan hesap).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>LDAP doğrulaması başarılı (kısmen sağlanan hesap).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>LDAP doğrulaması başarısız.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>Belirtilen rol silindi.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>Rol adı gerekli.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>Rol adı zaten kullanılıyor.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>Hesap adı zaten kullanımda.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>E-posta adresi zaten kullanımda.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Eklenen resmi kaydedemedik, türü izin verilmiyor.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>Profil başarıyla kaydedildi!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>Hesap adı gerekli.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>Hesap oluşturuldu.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Kullanıcı bulunamadı.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Hesabınız silindi.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Hesap silindi.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>Ekteki dosya kaydedilemedi, çok büyük</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Başarı</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Başarısızlık</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>Sayfa koruma altında ve silinemez. Bir moderatör veya yönetici korumayı kaldırmadan önce silinemez.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>Sayfa silindi.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>Sayfa koruma altında olup, koruma kaldırılmadıkça bir moderatör veya yönetici dışında değiştirilemez.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>Sayfa düzenlemeleri için bir değişiklik özeti gereklidir.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>'::' karakterleri bir isim alanını belirtmek için kullanılır. Bir sayfa adı bu karakter setinden birden fazla içermemelidir.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>Girdiğiniz sayfa adı zaten mevcut.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>Sayfa oluşturuldu.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>Sayfa kaydedildi.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>Kamu Profili</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>Kamu profilleri devre dışı bırakıldı.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>Belirtilen kullanıcı bulunamadı.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>Benim Profilim</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>Profiliniz kaydedildi.</value>
+  </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>En son derleme istatistikleri tüm wiki sayfaları için.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Son Derleme</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>İnşa Süresi</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Wiki Eşleşmeleri</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Dış Linkler</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Ham Gövde</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>İşlenmiş Gövde</value>
+  </data>
+</root>

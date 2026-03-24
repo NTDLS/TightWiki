@@ -1,4 +1,6 @@
-﻿@inject IViewLocalizer Localizer
+﻿@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
+
 @{
     if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout !=  null)
     {

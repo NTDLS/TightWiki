@@ -10,7 +10,7 @@ SELECT
 	@PageSize as PaginationPageSize,
 	(
 		SELECT
-			(Round(Count(0) / (@PageSize + 0.0) + 0.999))
+			(Count(0) + (@PageSize - 1)) / @PageSize
 		FROM
 			PageFileRevision as PFR
 		INNER JOIN PageFile as PF

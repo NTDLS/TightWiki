@@ -5,9 +5,7 @@ REM -------------------Generate seed data.
 rd .\Publish /q /s
 md Publish
 dotnet publish .\GenerateSeedData -c Release -o publish\GenerateSeedData --runtime win-x64 --self-contained false
-del .\TightWiki.Repository\Scripts\Initialization\PostInitialization\000-Seed\*.sql /q
 publish\GenerateSeedData\GenerateSeedData.exe ".\Data" ".\TightWiki.Repository\Defaults"
-
 
 REM -------------------Build
 rd .\Publish /q /s

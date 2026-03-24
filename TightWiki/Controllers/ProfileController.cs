@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Security.Claims;
 using TightWiki.Caching;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation.Utility;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
@@ -20,9 +20,9 @@ using static TightWiki.Library.Images;
 namespace TightWiki.Controllers
 {
     [Route("[controller]")]
-    public class ProfileController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager,
-        IWebHostEnvironment environment, IStringLocalizer<ProfileController> localizer)
-        : WikiControllerBase<ProfileController>(signInManager, userManager, localizer)
+    public class ProfileController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager, IWebHostEnvironment environment, ISharedLocalizationText localizer)
+        : WikiControllerBase<ProfileController>(logger, signInManager, userManager, localizer)
     {
         private readonly IWebHostEnvironment _environment = environment;
 
@@ -363,6 +363,9 @@ namespace TightWiki.Controllers
 
             //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
             SessionState.UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? GlobalConfiguration.SystemTheme;
+
+            model.AccountProfile = AccountProfileAccountViewModel.FromDataModel(
+                    UsersRepository.GetAccountProfileByUserId(userId));
 
             return View(model);
         }

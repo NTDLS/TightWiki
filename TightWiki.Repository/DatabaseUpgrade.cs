@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NTDLS.Helpers;
 using System.Reflection;
@@ -6,7 +7,6 @@ using System.Security.Claims;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models.DataModels.Defaults;
-using static TightWiki.Library.Constants;
 
 namespace TightWiki.Repository
 {
@@ -33,7 +33,7 @@ namespace TightWiki.Repository
         /// See @Initialization.Versions.md
         /// Returns true if an upgrade was performed, false if the database was already at the latest version.
         /// </summary>
-        public static bool ApplyDatabaseUpgradeScripts()
+        public static bool ApplyDatabaseUpgradeScripts(ILogger logger)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace TightWiki.Repository
                     return false; //The database version is already at the latest version.
                 }
 
-                Console.WriteLine($"Starting database initialization.");
+                logger.LogInformation("Starting database upgrade.");
 
                 var manifestResources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
 
@@ -71,7 +71,7 @@ namespace TightWiki.Repository
                     {
                         int endIndex = fullPreInitScriptPath.IndexOf(endVersionTag, startPreTagIndex, StringComparison.InvariantCultureIgnoreCase);
                         var scriptName = fullPreInitScriptPath.Substring(endIndex + endVersionTag.Length).Trim().Replace("_", "");
-                        ProcessInitializationScript(assembly, fullPreInitScriptPath, scriptName);
+                        ProcessInitializationScript(logger, assembly, fullPreInitScriptPath, scriptName);
                     }
                 }
 
@@ -96,7 +96,7 @@ namespace TightWiki.Repository
                             int filesFolderVersion = Utility.PadVersionString(fullVersionedInitScriptPath.Substring(startVersionTagIndex, endIndex - startVersionTagIndex).Trim().Replace("_", ""));
                             if (filesFolderVersion > storedPaddedVersion)
                             {
-                                ProcessInitializationScript(assembly, fullVersionedInitScriptPath, scriptName);
+                                ProcessInitializationScript(logger, assembly, fullVersionedInitScriptPath, scriptName);
                             }
                         }
                     }
@@ -114,7 +114,7 @@ namespace TightWiki.Repository
                     {
                         int endIndex = fullPostInitScriptPath.IndexOf(endVersionTag, startPostTagIndex, StringComparison.InvariantCultureIgnoreCase);
                         var scriptName = fullPostInitScriptPath.Substring(endIndex + endVersionTag.Length).Trim().Replace("_", "");
-                        ProcessInitializationScript(assembly, fullPostInitScriptPath, scriptName);
+                        ProcessInitializationScript(logger, assembly, fullPostInitScriptPath, scriptName);
                     }
                 }
 
@@ -123,9 +123,7 @@ namespace TightWiki.Repository
             }
             catch (Exception ex)
             {
-                ExceptionRepository.InsertException(ex, "Database upgrade failed.");
-                //Yea, we want to write this to the console so that it can be seen when running manually.
-                Console.WriteLine($"Database upgrade failed: {ex.Message}");
+                logger.LogError(ex, "Database upgrade failed.");
                 return false;
             }
         }
@@ -139,21 +137,28 @@ namespace TightWiki.Repository
         /// <param name="overwrite">true to overwrite the existing defaults database if it exists; otherwise, false to leave the existing file
         /// unchanged.</param>
         /// <returns>The full path to the created or existing defaults database file, or null if the operation fails.</returns>
-        public static string? CreateDefaultsDatabase(bool overwrite)
+        public static string? CreateDefaultsDatabase(ILogger logger, ConfigurationManager configuration, bool overwrite)
         {
             try
             {
-                var configDatabase = ManagedDataStorage.Config.Ephemeral(o => o.NativeConnection.DataSource);
-                var configDatabaseDirectory = Path.GetDirectoryName(configDatabase);
-                if (configDatabaseDirectory == null)
+                //We have to have a "DatabasePath" or a valid config database path.
+                var databasePath = configuration.GetConnectionString("DatabasePath");
+                if (string.IsNullOrEmpty(databasePath))
                 {
-                    ExceptionRepository.InsertException("Could not determine the directory for the config database.");
-                    return null;
+                    var configDatabase = ManagedDataStorage.Config.Ephemeral(o => o.NativeConnection.DataSource);
+                    databasePath = Path.GetDirectoryName(configDatabase);
+                    if (databasePath == null)
+                    {
+                        LoggingRepository.WriteException("Could not determine the directory for the config database.");
+                        return null;
+                    }
                 }
-                var defaultsDatabasePath = Path.Combine(configDatabaseDirectory, "defaults.db");
+
+                var defaultsDatabasePath = Path.Combine(databasePath, "defaults.db");
 
                 if (!File.Exists(defaultsDatabasePath) || overwrite)
                 {
+                    logger.LogInformation("Creating defaults database.");
                     var defaultDatabaseBytes = EmbeddedResourceReader.LoadBytes(@"Defaults\defaults.db");
                     File.WriteAllBytes(defaultsDatabasePath, defaultDatabaseBytes);
                 }
@@ -161,12 +166,12 @@ namespace TightWiki.Repository
             }
             catch (Exception ex)
             {
-                ExceptionRepository.InsertException(ex, "An error occurred while extracting the default data database.");
+                logger.LogError(ex, "An error occurred while extracting the default data database.");
             }
             return null;
         }
 
-        public static async Task ApplyAllSeedData(ILogger logger, UserManager<IdentityUser> userManager, ITightEngine tightEngine, DefaultDataType[] defaultDataTypes)
+        public static async Task ApplyAllSeedData(ILogger logger, UserManager<IdentityUser> userManager, ITightEngine tightEngine, WikiDefaultDataType[] defaultDataTypes)
         {
             #region Seed: AdminUser.
 
@@ -177,7 +182,7 @@ namespace TightWiki.Repository
             {
                 if (adminUserId == null)
                 {
-                    logger.LogWarning("Admin user with ID {AdminUserId} was not found in the identity database. A new admin user will be created.", adminUserId);
+                    logger.LogWarning($"Admin user with ID {adminUserId} was not found in the identity database. A new admin user will be created.");
 
                     //We couldn't find an admin user, so we will create a new one with a random password.
                     var user = new IdentityUser()
@@ -224,8 +229,10 @@ namespace TightWiki.Repository
 
             #region Seed: Configurations.
 
-            if (defaultDataTypes.Contains(DefaultDataType.Configurations))
+            if (defaultDataTypes.Contains(WikiDefaultDataType.Configurations))
             {
+                logger.LogInformation("Seeding default configurations.");
+
                 try
                 {
                     var defaultConfigurationGroups = ManagedDataStorage.Defaults.Query<DefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurationGroups.sql");
@@ -272,8 +279,9 @@ namespace TightWiki.Repository
 
             #region Seed: Themes.
 
-            if (defaultDataTypes.Contains(DefaultDataType.Themes))
+            if (defaultDataTypes.Contains(WikiDefaultDataType.Themes))
             {
+                logger.LogInformation("Seeding default themes.");
                 try
                 {
                     var defaultThemes = ManagedDataStorage.Defaults.Query<DefaultTheme>(@"Scripts\Defaults\GetDefaultThemes.sql");
@@ -302,27 +310,29 @@ namespace TightWiki.Repository
 
             #region Seed: WikiPages.
 
-            if (defaultDataTypes.Contains(DefaultDataType.WikiHelpPages)
-                || defaultDataTypes.Contains(DefaultDataType.WikiIncludePages)
-                || defaultDataTypes.Contains(DefaultDataType.WikiBuiltinPages))
+            if (defaultDataTypes.Contains(WikiDefaultDataType.WikiHelpPages)
+                || defaultDataTypes.Contains(WikiDefaultDataType.WikiIncludePages)
+                || defaultDataTypes.Contains(WikiDefaultDataType.WikiBuiltinPages))
             {
+                logger.LogInformation("Seeding default wiki pages.");
+
                 try
                 {
                     var dummySessionState = new DummySessionState();
 
                     List<DefaultWikiPage> defaultWikiPages = new();
 
-                    if (defaultDataTypes.Contains(DefaultDataType.WikiHelpPages))
+                    if (defaultDataTypes.Contains(WikiDefaultDataType.WikiHelpPages))
                     {
                         defaultWikiPages.AddRange(ManagedDataStorage.Defaults.Query<DefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
                             new { Namespace = "Wiki Help" }));
                     }
-                    if (defaultDataTypes.Contains(DefaultDataType.WikiIncludePages))
+                    if (defaultDataTypes.Contains(WikiDefaultDataType.WikiIncludePages))
                     {
                         defaultWikiPages.AddRange(ManagedDataStorage.Defaults.Query<DefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
                             new { Namespace = "Include" }));
                     }
-                    if (defaultDataTypes.Contains(DefaultDataType.WikiBuiltinPages))
+                    if (defaultDataTypes.Contains(WikiDefaultDataType.WikiBuiltinPages))
                     {
                         defaultWikiPages.AddRange(ManagedDataStorage.Defaults.Query<DefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
                             new { Namespace = "Builtin" }));
@@ -363,7 +373,7 @@ namespace TightWiki.Repository
 
             #region Seed: FeatureTemplates.
 
-            if (defaultDataTypes.Contains(DefaultDataType.FeatureTemplates))
+            if (defaultDataTypes.Contains(WikiDefaultDataType.FeatureTemplates))
             {
                 try
                 {
@@ -390,9 +400,9 @@ namespace TightWiki.Repository
             #endregion
         }
 
-        private static void ProcessInitializationScript(Assembly assembly, string fullUpdateScriptPath, string scriptName)
+        private static void ProcessInitializationScript(ILogger logger, Assembly assembly, string fullUpdateScriptPath, string scriptName)
         {
-            Console.WriteLine($"Executing initialization script: \"{fullUpdateScriptPath}\"");
+            logger.LogInformation($"Executing initialization script: \"{fullUpdateScriptPath}\"");
 
             //Get the script text.
             using var stream = assembly.GetManifestResourceStream(fullUpdateScriptPath);

@@ -1,15 +1,18 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
+using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 using TightWiki.Models;
 
 namespace TightWiki.Controllers
 {
-    public class WikiControllerBase<T>(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<T> localizer)
+    public class WikiControllerBase<T>(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer)
         : Controller
     {
+        public ISharedLocalizationText Localizer { get; private set; } = localizer;
         public SessionState SessionState { get; private set; } = new();
 
         public readonly SignInManager<IdentityUser> SignInManager = signInManager;
@@ -17,7 +20,7 @@ namespace TightWiki.Controllers
 
         [NonAction]
         public override void OnActionExecuting(ActionExecutingContext filterContext)
-            => ViewData["SessionState"] = SessionState.Hydrate(SignInManager, this);
+            => ViewData["SessionState"] = SessionState.Hydrate(logger, SignInManager, this);
 
         [NonAction]
         public override RedirectResult Redirect(string? url)
@@ -57,11 +60,11 @@ namespace TightWiki.Controllers
 
         [NonAction]
         protected string Localize(string key)
-            => localizer[key].Value;
+            => Localizer[key].Value;
 
         [NonAction]
-        protected string Localize(string key, params object[] objs)
-            => string.Format(localizer[key].Value, objs);
+        protected string Localize(string key, params object?[] objs)
+            => string.Format(Localizer[key].Value, objs);
 
         /// <summary>
         /// Displays the successMessage unless the errorMessage is present.

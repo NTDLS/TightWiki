@@ -1,90 +1,143 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.DeletedPagesViewModel
 @using TightWiki.Library
 @using TightWiki.Models
-@inject IViewLocalizer Localizer
+@inject ISharedLocalizationText Localizer
+
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<h3>
-    @Localizer["Deleted Pages"]
-</h3>
-
-<p>
-    @Localizer["Pages that have been deleted. Can be purged or restored."]
-</p>
-
-<div id="toolbar" class="d-flex justify-content-between align-items-center mb-3 p-2 border rounded bg-light shadow-sm">
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
-        @*Left-aligned "toolbar" controls*@
-        @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
-        Localizer["This will permanently purge all deleted pages. Continue?"].Value,
-                Localizer["Purge Deleted Pages"].Value, "/Admin/PurgeDeletedPages", Context.Request.Path.Value)
-    </div>
-
-    <div>
-        @*Right-aligned "toolbar" controls*@
+        <h3 class="mb-1">
+            @Localizer["Deleted Pages"]
+        </h3>
+        <div class="text-muted">
+            @Localizer["Pages that have been deleted. Can be purged or restored."]
+        </div>
     </div>
 </div>
 
-@using (Html.BeginForm(FormMethod.Get))
-{
-    <div class="d-flex justify-content-end mb-4">
-        <div class="flex-grow-1 me-2">
-            @Html.TextBoxFor(x => x.SearchString, new { @class = "form-control" })
-        </div>
-        <button type="submit" class="btn btn-primary">@Localizer["Search"]</button>
+<div class="card shadow-sm mb-3">
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <span class="fw-semibold">
+            <i class="bi bi-trash me-2"></i>@Localizer["Deleted Page Queue"]
+        </span>
+
+        @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(
+            GlobalConfiguration.BasePath,
+            Localizer["This will permanently purge all deleted pages. Continue?"].Value,
+            Localizer["Purge Deleted Pages"].Value,
+            "/Admin/PurgeDeletedPages",
+            Context.Request.Path.Value)
     </div>
-}
+
+    <div class="card-body">
+        @using (Html.BeginForm(FormMethod.Get))
+        {
+            <div class="row g-2 align-items-center">
+                <div class="col-12 col-md">
+                    @Html.TextBoxFor(x => x.SearchString, new
+                    {
+                        @class = "form-control",
+                        placeholder= Localizer["Search deleted pages..."].Value
+                    })
+                </div>
+                <div class="col-12 col-md-auto">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-search me-1"></i>@Localizer["Search"]
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
 
 @if (Model.Pages.Count > 0)
 {
-    @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
-    <br />
+    <div class="card shadow-sm">
+        <div class="card-body pb-0">
+            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
+        </div>
 
-    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-        <thead>
-            <tr>
-                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Page")">@Localizer["Page"]</a></strong></td>
-                <td><strong>@Localizer["Action"]</strong></td>
-            </tr>
-        </thead>
-        @foreach (var p in Model.Pages)
-        {
-            <tr>
-                <td>
-                    @if (string.IsNullOrEmpty(@p.Namespace) == false)
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">
+                            <a class="link-dark text-decoration-none"
+                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Page")">
+                                @Localizer["Page"]
+                            </a>
+                        </th>
+                        <th scope="col" class="text-nowrap" style="width: 1%;">
+                            @Localizer["Action"]
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var p in Model.Pages)
                     {
-                        <text><a href="@GlobalConfiguration.BasePath/Admin/Namespace/@p.Namespace">@p.Namespace</a> :: </text>
-                    } <a href="@GlobalConfiguration.BasePath/Admin/DeletedPage/@p.Id">@p.Title</a>
-                </td>
-                <td>
-                    @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(GlobalConfiguration.BasePath,
-                        Localizer["This will restore the deleted page and all of its history. Continue?"].Value,
-                        Localizer["Restore"].Value, "/Admin/RestoreDeletedPage/" + @p.Id, Context.Request.Path.Value, @class: "btn-thin rounded-0")
-                    @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
-                        Localizer["This will permanently delete the specified page, all revisions and attachments. Continue?"].Value,
-                        Localizer["Purge"].Value, "/Admin/PurgeDeletedPage/" + @p.Id, Context.Request.Path.Value, @class: "btn-thin rounded-0")
-                </td>
-            </tr>
-        }
-    </table>
+                        <tr>
+                            <td>
+                                @if (!string.IsNullOrEmpty(p.Namespace))
+                                {
+                                    <a class="text-decoration-none text-muted"
+                                           href="@GlobalConfiguration.BasePath/Admin/Namespace/@p.Namespace">
+                                        @p.Namespace
+                                    </a>
+                                    <span class="text-muted"> :: </span>
+                                }
 
-    @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
+                                <a class="text-decoration-none fw-semibold"
+                                       href="@GlobalConfiguration.BasePath/Admin/DeletedPage/@p.Id">
+                                    @p.Title
+                                </a>
+                            </td>
+
+                            <td class="text-nowrap">
+                                <div class="d-flex gap-2">
+                                    @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(
+                                        GlobalConfiguration.BasePath,
+                                        Localizer["This will restore the deleted page and all of its history. Continue?"].Value,
+                                        Localizer["Restore"].Value,
+                                        "/Admin/RestoreDeletedPage/" + p.Id,
+                                        Context.Request.Path.Value,
+                                        @class: "btn btn-sm btn-outline-primary d-inline-flex align-items-center")
+
+                                    @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(
+                                        GlobalConfiguration.BasePath,
+                                        Localizer["This will permanently delete the specified page, all revisions and attachments. Continue?"].Value,
+                                        Localizer["Purge"].Value,
+                                        "/Admin/PurgeDeletedPage/" + p.Id,
+                                        Context.Request.Path.Value,
+                                        @class: "btn btn-sm btn-outline-danger d-inline-flex align-items-center")
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card-body pt-3">
+            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
+        </div>
+    </div>
 }
 else
 {
-    <div class="d-flex small text-muted mb-0">
-        <strong>
+    <div class="card shadow-sm">
+        <div class="card-body text-muted">
+            <i class="bi bi-inbox me-2"></i>
             @Localizer["Either the deleted pages queue is empty or your search criteria returned no results."]
-        </strong>
+        </div>
     </div>
 }
 
-
 <script>
     window.onload = function () {
-        document.getElementById("SearchString").focus();
+        document.getElementById("SearchString")?.focus();
     }
 </script>
