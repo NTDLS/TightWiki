@@ -55,6 +55,9 @@ namespace TightWiki
 
         #endregion
 
+        /// <summary>
+        /// This method is used to hydrate the session state from PageModelBase.
+        /// </summary>
         public SessionState Hydrate(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, PageModel pageModel)
         {
             Logger = logger;
@@ -64,6 +67,9 @@ namespace TightWiki
             return this;
         }
 
+        /// <summary>
+        /// This method is used to hydrate the session state from WikiControllerBase.
+        /// </summary>
         public SessionState Hydrate(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, Controller controller)
         {
             Logger = logger;

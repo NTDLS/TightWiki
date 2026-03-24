@@ -20,18 +20,19 @@ namespace TightWiki
         public string WarningMessage { get; set; } = string.Empty;
         public string ErrorMessage { get; set; } = string.Empty;
 
-        private readonly ILogger<ITightEngine> _logger;
+        public ILogger<ITightEngine> Logger { get; private set; }
 
         public PageModelBase(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, ISharedLocalizationText localizer)
         {
             Localizer = localizer;
-            _logger = logger;
+            Logger = logger;
             SignInManager = signInManager;
         }
 
         public override void OnPageHandlerExecuting(PageHandlerExecutingContext context)
         {
-            ViewData["SessionState"] = SessionState.Hydrate(_logger, SignInManager, this);
+            var sessionState = SessionState.Hydrate(Logger, SignInManager, this);
+            ViewData["SessionState"] = sessionState;
         }
 
         [NonAction]

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
-using TightWiki.Models;
+﻿using TightWiki.Models;
 using TightWiki.Models.DataModels;
 
 namespace TightWiki.Repository

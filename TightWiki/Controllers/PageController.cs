@@ -290,14 +290,13 @@ namespace TightWiki.Controllers
                 UsersRepository.UpdateProfile(profile);
             }
 
-            Response.Cookies.Append(
-                CookieRequestCultureProvider.DefaultCookieName,
+            Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
                     CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
                 new CookieOptions
                 {
                     Expires = DateTimeOffset.UtcNow.AddYears(1),
                     IsEssential = true,
-                    SameSite = SameSiteMode.Strict,
+                    SameSite = SameSiteMode.Lax,
                     Secure = true,
                     HttpOnly = false
                 }
@@ -305,7 +304,6 @@ namespace TightWiki.Controllers
 
             return Redirect(returnUrl);
         }
-
 
         #endregion
 

@@ -4,9 +4,11 @@
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using System.Security.Claims;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Extensions;
 using TightWiki.Library;
@@ -29,17 +31,20 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public bool RememberMe { get; set; }
     }
 
-    public class LoginModel : PageModelBase
+    public class LoginModel
+        : PageModelBase
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<ITightEngine> _logger;
         private readonly ISharedLocalizationText _localizer;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public LoginModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, ISharedLocalizationText localizer)
+            UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, IHttpContextAccessor httpContextAccessor)
             : base(logger, signInManager, localizer)
         {
+            _httpContextAccessor = httpContextAccessor;
             _localizer = localizer;
             _signInManager = signInManager;
             _userManager = userManager;
@@ -95,11 +100,11 @@ namespace TightWiki.Areas.Identity.Pages.Account
                         _logger.LogDebug("User logged in.");
                         return Redirect(ReturnUrl);
                     }
-                    if (result.RequiresTwoFactor)
+                    else if (result.RequiresTwoFactor)
                     {
                         return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/LoginWith2fa?ReturnUrl={WebUtility.UrlEncode(ReturnUrl)}&RememberMe={Input.RememberMe}");
                     }
-                    if (result.IsLockedOut)
+                    else if (result.IsLockedOut)
                     {
                         _logger.LogWarning("User account locked out.");
                         return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Lockout");
@@ -192,9 +197,48 @@ namespace TightWiki.Areas.Identity.Pages.Account
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
             }
+            finally
+            {
+                UpdateUserCultureCookie();
+            }
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        private void UpdateUserCultureCookie()
+        {
+            try
+            {
+                var userIdString = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                if (_httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated != true)
+                {
+                    return;
+                }
+
+                if (Guid.TryParse(userIdString, out var userId))
+                {
+                    if (UsersRepository.TryGetBasicProfileByUserId(userId, out var profile))
+                    {
+                        Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
+                                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(profile.Language)),
+                            new CookieOptions
+                            {
+                                Expires = DateTimeOffset.UtcNow.AddYears(1),
+                                IsEssential = true,
+                                SameSite = SameSiteMode.Lax,
+                                Secure = true,
+                                HttpOnly = false
+                            }
+                        );
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Error updating user culture cookie: {Message}", ex.Message);
+            }
         }
     }
 }

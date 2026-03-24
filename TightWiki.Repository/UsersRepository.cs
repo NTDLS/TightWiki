@@ -381,7 +381,6 @@ namespace TightWiki.Repository
         public static AccountProfile? GetBasicProfileByUserId(Guid userId)
         {
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
-
             return WikiCache.AddOrGet(cacheKey, () =>
             {
                 var param = new
@@ -487,9 +486,8 @@ namespace TightWiki.Repository
                 ModifiedDate = item.ModifiedDate
             };
 
-
-
             ManagedDataStorage.Users.Execute("UpdateProfile.sql", param);
+            WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [item.UserId]));
         }
 
         public static void UpdateProfileAvatar(Guid userId, byte[] imageData, string contentType)
@@ -502,6 +500,7 @@ namespace TightWiki.Repository
             };
 
             ManagedDataStorage.Users.Execute("UpdateProfileAvatar.sql", param);
+            WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [userId]));
         }
 
         public static WikiAdminPasswordChangeState AdminPasswordStatus()

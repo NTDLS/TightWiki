@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
@@ -359,15 +360,10 @@ namespace TightWiki.Controllers
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.Navigation]));
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.UserId]));
 
-            model.SuccessMessage = Localize("Your profile has been saved.");
+            UpdateUserCultureCookie(userId);
 
-            //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
-            SessionState.UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? GlobalConfiguration.SystemTheme;
-
-            model.AccountProfile = AccountProfileAccountViewModel.FromDataModel(
-                    UsersRepository.GetAccountProfileByUserId(userId));
-
-            return View(model);
+            //Redirect so that the language and theme are applied immediately.
+            return LocalRedirect($"{GlobalConfiguration.BasePath}/Profile/My?SuccessMessage={Localize("Your profile has been saved.")}");
         }
 
         #endregion
@@ -431,5 +427,32 @@ namespace TightWiki.Controllers
         }
 
         #endregion
+
+        [NonAction]
+        private void UpdateUserCultureCookie(Guid userId)
+        {
+            try
+            {
+                if (UsersRepository.TryGetBasicProfileByUserId(userId, out var profile))
+                {
+                    Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
+                            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(profile.Language)),
+                        new CookieOptions
+                        {
+                            Expires = DateTimeOffset.UtcNow.AddYears(1),
+                            IsEssential = true,
+                            SameSite = SameSiteMode.Lax,
+                            Secure = true,
+                            HttpOnly = false
+                        }
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Error updating user culture cookie: {Message}", ex.Message);
+            }
+        }
+
     }
 }

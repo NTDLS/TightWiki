@@ -12,6 +12,8 @@ namespace TightWiki.Controllers
         UserManager<IdentityUser> userManager, ISharedLocalizationText localizer)
         : Controller
     {
+        public ILogger<ITightEngine> Logger { get; private set; } = logger;
+
         public ISharedLocalizationText Localizer { get; private set; } = localizer;
         public SessionState SessionState { get; private set; } = new();
 
@@ -20,7 +22,10 @@ namespace TightWiki.Controllers
 
         [NonAction]
         public override void OnActionExecuting(ActionExecutingContext filterContext)
-            => ViewData["SessionState"] = SessionState.Hydrate(logger, SignInManager, this);
+        {
+            var sessionState = SessionState.Hydrate(Logger, SignInManager, this);
+            ViewData["SessionState"] = sessionState;
+        }
 
         [NonAction]
         public override RedirectResult Redirect(string? url)

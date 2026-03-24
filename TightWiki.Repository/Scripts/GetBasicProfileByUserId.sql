@@ -3,7 +3,8 @@ SELECT
 	U.AccountName,
 	U.Navigation,
 	U.Biography,
-	(select UC.ClaimValue from AspNetUserClaims as UC WHERE UC.UserId = U.UserId AND UC.ClaimType = 'theme') as Theme
+	(select UC.ClaimValue from AspNetUserClaims as UC WHERE UC.UserId = U.UserId AND UC.ClaimType = 'theme') as Theme,
+	(select UC.ClaimValue from AspNetUserClaims as UC WHERE UC.UserId = U.UserId AND UC.ClaimType = 'language') as Language
 FROM
 	Profile as U
 INNER JOIN AspNetUsers as ANU

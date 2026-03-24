@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using NTDLS.Helpers;
 using System.Net;
 using System.Security.Claims;
 using TightWiki.Engine.Library.Interfaces;
@@ -18,14 +18,17 @@ namespace TightWiki.Controllers
     {
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public AccountController(
+            IHttpContextAccessor httpContextAccessor,
             ILogger<ITightEngine> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore, ISharedLocalizationText localizer)
             : base(logger, signInManager, userManager, localizer)
         {
+            _httpContextAccessor = httpContextAccessor;
             _userStore = userStore;
             _emailStore = (IUserEmailStore<IdentityUser>)_userStore;
         }
@@ -54,74 +57,129 @@ namespace TightWiki.Controllers
 
         public async Task<IActionResult> ExternalLoginCallback(string? returnUrl = null, string? remoteError = null)
         {
-            returnUrl = WebUtility.UrlDecode(returnUrl ?? Url.Content("~/"));
-
-            //We use this model to display any errors that occur.
-            var model = new ExternalLoginCallbackViewModel();
-
-            if (remoteError != null)
+            try
             {
-                return NotifyOfError(Localize("Error from external provider: {0}", remoteError));
-            }
+                returnUrl = WebUtility.UrlDecode(returnUrl ?? Url.Content("~/"));
 
-            var info = await SignInManager.GetExternalLoginInfoAsync();
-            if (info == null)
-            {
-                return NotifyOfError(Localize("Failed to get information from external provider"));
-            }
+                //We use this model to display any errors that occur.
+                var model = new ExternalLoginCallbackViewModel();
 
-            var user = await UserManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
-            if (user != null)
-            {
-                // User exists, sign them in:
-                await SignInManager.SignInAsync(user, isPersistent: false);
-
-                if (UsersRepository.TryGetBasicProfileByUserId(Guid.Parse(user.Id), out _) == false)
+                if (remoteError != null)
                 {
-                    if (GlobalConfiguration.AllowSignup != true)
-                    {
-                        return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
-                    }
-
-                    //User exits but does not have a profile.
-                    //This means that the user has authenticated externally, but has yet to complete the signup process.
-                    return RedirectToPage($"{GlobalConfiguration.BasePath}/Account/ExternalLoginSupplemental", new { ReturnUrl = returnUrl });
+                    return NotifyOfError(Localize("Error from external provider: {0}", remoteError));
                 }
 
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                // If the user does not exist, check by email
-                var email = info.Principal.FindFirstValue(ClaimTypes.Email).EnsureNotNull();
-                if (string.IsNullOrEmpty(email))
+                var info = await SignInManager.GetExternalLoginInfoAsync();
+                if (info == null)
                 {
-                    return NotifyOfError(Localize("The email address was not supplied by the external provider."));
+                    return NotifyOfError(Localize("Failed to get information from external provider"));
                 }
 
-                user = await UserManager.FindByEmailAsync(email);
+                var user = await UserManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
                 if (user != null)
                 {
-                    // User with this email exists but not linked with this external login, link them:
-                    var result = await UserManager.AddLoginAsync(user, info);
-                    if (!result.Succeeded)
-                    {
-                        return NotifyOfError(string.Join("<br />\r\n", result.Errors.Select(o => o.Description)));
-                    }
+                    // User exists, sign them in:
                     await SignInManager.SignInAsync(user, isPersistent: false);
+
+                    if (UsersRepository.TryGetBasicProfileByUserId(Guid.Parse(user.Id), out _) == false)
+                    {
+                        if (GlobalConfiguration.AllowSignup != true)
+                        {
+                            return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                        }
+
+                        //User exists but does not have a profile.
+                        //This means that the user has authenticated externally, but has yet to complete the signup process.
+                        return RedirectToPage($"{GlobalConfiguration.BasePath}/Account/ExternalLoginSupplemental", new { ReturnUrl = returnUrl });
+                    }
+
                     return Redirect(returnUrl);
                 }
                 else
                 {
-                    // If user with this email does not exist, then we need to create the user and profile.
-
-                    if (GlobalConfiguration.AllowSignup != true)
+                    // If the user does not exist, check by email
+                    var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                    if (string.IsNullOrEmpty(email))
                     {
-                        return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                        return NotifyOfError(Localize("The email address was not supplied by the external provider."));
                     }
 
-                    return RedirectToPage($"{GlobalConfiguration.BasePath}/Account/ExternalLoginSupplemental", new { ReturnUrl = returnUrl });
+                    user = await UserManager.FindByEmailAsync(email);
+                    if (user != null)
+                    {
+                        // User with this email exists but not linked with this external login, link them:
+                        var result = await UserManager.AddLoginAsync(user, info);
+                        if (!result.Succeeded)
+                        {
+                            return NotifyOfError(string.Join("<br />\r\n", result.Errors.Select(o => o.Description)));
+                        }
+                        await SignInManager.SignInAsync(user, isPersistent: false);
+
+                        if (UsersRepository.TryGetBasicProfileByUserId(Guid.Parse(user.Id), out _) == false)
+                        {
+                            if (GlobalConfiguration.AllowSignup != true)
+                            {
+                                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                            }
+
+                            //User exists but does not have a profile.
+                            //This means that the user has authenticated externally, but has yet to complete the signup process.
+                            return RedirectToPage($"{GlobalConfiguration.BasePath}/Account/ExternalLoginSupplemental", new { ReturnUrl = returnUrl });
+                        }
+
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        // If user with this email does not exist, then we need to create the user and profile.
+
+                        if (GlobalConfiguration.AllowSignup != true)
+                        {
+                            return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                        }
+
+                        return RedirectToPage($"{GlobalConfiguration.BasePath}/Account/ExternalLoginSupplemental", new { ReturnUrl = returnUrl });
+                    }
                 }
+            }
+            finally
+            {
+                UpdateUserCultureCookie();
+            }
+        }
+
+        private void UpdateUserCultureCookie()
+        {
+            try
+            {
+                var userIdString = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                if (_httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated != true)
+                {
+                    return;
+                }
+
+                if (Guid.TryParse(userIdString, out var userId))
+                {
+                    if (UsersRepository.TryGetBasicProfileByUserId(userId, out var profile))
+                    {
+                        Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
+                                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(profile.Language)),
+                            new CookieOptions
+                            {
+                                Expires = DateTimeOffset.UtcNow.AddYears(1),
+                                IsEssential = true,
+                                SameSite = SameSiteMode.Lax,
+                                Secure = true,
+                                HttpOnly = false
+                            }
+                        );
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Error updating user culture cookie: {Message}", ex.Message);
             }
         }
     }
