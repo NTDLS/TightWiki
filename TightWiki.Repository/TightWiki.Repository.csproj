@@ -121,7 +121,6 @@
 		<None Remove="Scripts\Initialization\PostInitialization\^002^Config^UpsertTheme.sql" />
 		<None Remove="Scripts\Initialization\PostInitialization\^003^Pages^FeatureTemplate.sql" />
 		<None Remove="Scripts\Initialization\PostInitialization\^003^Pages^UpsertTheme.sql" />
-		<None Remove="Scripts\InsertCompilationStatistics.sql" />
 		<None Remove="Scripts\InsertEmoji.sql" />
 		<None Remove="Scripts\InsertMenuItem.sql" />
 		<None Remove="Scripts\InsertPageComment.sql" />
@@ -208,6 +207,7 @@
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.27.8\^001^DeletedPages^AddChangeSummary.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.31.0\^000^Config^FixLanguageCodes.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.31.0\^001^Users^FixLanguageCodes.sql" />
+		<EmbeddedResource Include="Scripts\Initialization\Versions\2.31.1\^001^Statistics^NewStatsStructure.sql" />
 		<EmbeddedResource Include="Scripts\InsertRole.sql" />
 		<EmbeddedResource Include="Scripts\DoesRoleExist.sql" />
 		<EmbeddedResource Include="Scripts\InsertAccountPermission.sql" />
@@ -341,7 +341,7 @@
 		<EmbeddedResource Include="Scripts\GetWikiDatabaseStatistics.sql" />
 		<EmbeddedResource Include="Scripts\GetWikiMetrics.sql" />
 		<EmbeddedResource Include="Scripts\GetWordsCount.sql" />
-		<EmbeddedResource Include="Scripts\InsertCompilationStatistics.sql" />
+		<EmbeddedResource Include="Scripts\MergeCompilationStatistics.sql" />
 		<EmbeddedResource Include="Scripts\InsertEmoji.sql" />
 		<EmbeddedResource Include="Scripts\InsertLog.sql" />
 		<EmbeddedResource Include="Scripts\InsertMenuItem.sql" />

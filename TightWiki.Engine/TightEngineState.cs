@@ -197,7 +197,7 @@ namespace TightWiki.Engine
             }
             catch (Exception ex)
             {
-                StoreCriticalError(ex);
+                StoreCriticalWikiError(ex);
             }
 
             ProcessingTime = DateTime.UtcNow - startTime;
@@ -454,7 +454,7 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreWikiError(pageContent, match.Value, ex.Message);
                     continue;
                 }
 
@@ -466,7 +466,7 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreWikiError(pageContent, match.Value, ex.Message);
                 }
             }
         }
@@ -701,7 +701,7 @@ namespace TightWiki.Engine
                 }
                 else
                 {
-                    StoreError(pageContent, match.Value, "The external link contains no page name.");
+                    StoreWikiError(pageContent, match.Value, "The external link contains no page name.");
                     continue;
                 }
 
@@ -752,7 +752,7 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreWikiError(pageContent, match.Value, ex.Message);
                     continue;
                 }
 
@@ -763,7 +763,7 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreWikiError(pageContent, match.Value, ex.Message);
                 }
             }
         }
@@ -796,12 +796,12 @@ namespace TightWiki.Engine
                     {
                         continue; //This IS a function, but it is meant to be parsed at the end of processing.
                     }
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreWikiError(pageContent, match.Value, ex.Message);
                     continue;
                 }
                 catch (Exception ex)
                 {
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreWikiError(pageContent, match.Value, ex.Message);
                     continue;
                 }
 
@@ -816,7 +816,7 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreWikiError(pageContent, match.Value, ex.Message);
                     continue;
                 }
 
@@ -827,7 +827,7 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreWikiError(pageContent, match.Value, ex.Message);
                 }
             }
         }
@@ -854,7 +854,7 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreWikiError(pageContent, match.Value, ex.Message);
                     continue;
                 }
 
@@ -865,7 +865,7 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreWikiError(pageContent, match.Value, ex.Message);
                 }
             }
         }
@@ -920,17 +920,22 @@ namespace TightWiki.Engine
             }
         }
 
-        private void StoreCriticalError(Exception ex)
+        /// <summary>
+        /// Used to store errors that halt the wiki processing and display a warning card with the error message on the page.
+        /// This is still just a wiki error, not a serious server error.
+        /// </summary>
+        /// <param name="ex"></param>
+        private void StoreCriticalWikiError(Exception ex)
         {
-            Engine.ExceptionHandler.Log(this, ex, $"Page: {Page.Navigation}, Error: {ex.Message}");
+            Engine.ExceptionHandler.Log(this, LogLevel.Warning, $"Page: [{Page.Navigation}], Revision: [{Page.Revision}]", ex);
 
             ErrorCount++;
             HtmlResult = WikiUtility.WarningCard("Wiki Parser Exception", ex.Message);
         }
 
-        private string StoreError(WikiString pageContent, string match, string value)
+        private string StoreWikiError(WikiString pageContent, string match, string value)
         {
-            Engine.ExceptionHandler.Log(this, null, $"Page: {Page.Navigation}, Error: {value}");
+            Engine.ExceptionHandler.Log(this, LogLevel.Debug, $"Page: [{Page.Navigation}], Revision: [{Page.Revision}], Error: [{value}]");
 
             ErrorCount++;
             _matchesStoredPerIteration++;

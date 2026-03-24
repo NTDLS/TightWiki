@@ -267,7 +267,7 @@ namespace TightWiki.Controllers
 
             model.Statistics.ForEach(o =>
             {
-                o.LatestBuild = SessionState.LocalizeDateTime(o.LatestBuild);
+                o.LastCompileDateTime = SessionState.LocalizeDateTime(o.LastCompileDateTime);
             });
 
             return View(model);

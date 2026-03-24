@@ -1,28 +1,29 @@
-﻿using TightWiki.Models;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using TightWiki.Models;
 using TightWiki.Models.DataModels;
 
 namespace TightWiki.Repository
 {
     public static class StatisticsRepository
     {
-        public static void InsertCompilationStatistics(int pageId,
+        public static void MergeCompilationStatistics(int pageId,
             double wikifyTimeMs, int matchCount, int errorCount, int outgoingLinkCount,
             int tagCount, int processedBodySize, int bodySize)
         {
             var param = new
             {
-                CreatedDate = DateTime.UtcNow,
                 PageId = pageId,
-                WikifyTimeMs = wikifyTimeMs,
-                MatchCount = matchCount,
-                ErrorCount = errorCount,
-                OutgoingLinkCount = outgoingLinkCount,
-                TagCount = tagCount,
-                ProcessedBodySize = processedBodySize,
-                BodySize = bodySize
+                LastCompileDateTime = DateTime.UtcNow,
+                LastWikifyTimeMs = wikifyTimeMs,
+                LastMatchCount = matchCount,
+                LastErrorCount = errorCount,
+                LastOutgoingLinkCount = outgoingLinkCount,
+                LastTagCount = tagCount,
+                LastProcessedBodySize = processedBodySize,
+                LastBodySize = bodySize
             };
 
-            ManagedDataStorage.Statistics.Execute("InsertCompilationStatistics.sql", param);
+            ManagedDataStorage.Statistics.Execute("MergeCompilationStatistics.sql", param);
         }
 
         public static void PurgeCompilationStatistics()

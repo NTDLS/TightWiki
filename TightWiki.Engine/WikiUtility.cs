@@ -21,13 +21,14 @@ namespace TightWiki.Engine
         internal static string WarningCard(string header, string exceptionText)
         {
             var html = new StringBuilder();
-            html.Append("<div class=\"card bg-warning mb-3\">");
-            html.Append($"<div class=\"card-header\"><strong>{header}</strong></div>");
-            html.Append("<div class=\"card-body\">");
-            html.Append($"<p class=\"card-text\">{exceptionText}");
-            html.Append("</p>");
-            html.Append("</div>");
-            html.Append("</div>");
+
+            html.AppendLine("<div class=\"card bg-warning mb-3\">");
+            html.AppendLine($"  <div class=\"card-header\"><strong>{header}</strong></div>");
+            html.AppendLine("  <div class=\"card-body\">");
+            html.AppendLine($"    <p class=\"card-text mb-0\">{exceptionText}</p>");
+            html.AppendLine("  </div>");
+            html.AppendLine("</div>");
+
             return html.ToString();
         }
 
