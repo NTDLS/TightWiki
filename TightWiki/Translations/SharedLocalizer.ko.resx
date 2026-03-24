@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>프로필이 저장되었습니다.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>모든 위키 페이지에 대한 최신 통합 통계입니다.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>마지막 컴파일</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>빌드 소요 시간</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>위키 일치 항목</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>외부 링크</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>원본 본문</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>처리된 본문</value>
+  </data>
 </root>

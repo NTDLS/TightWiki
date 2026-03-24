@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Tu perfil ha sido guardado.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>Las estadísticas de compilación más recientes para todas las páginas wiki.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Última compilación</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Duración de la construcción</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Coincidencias de wiki</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Enlaces salientes</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Cuerpo en bruto</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>Cuerpo procesado</value>
+  </data>
 </root>

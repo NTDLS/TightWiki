@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Sinu profiil on salvestatud.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>Kõigi vikilehtede uusimate koostamisstatistika.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Viimane koostamine</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Ehitusperiood</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Viki vastavused</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Väljaminevad lingid</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Raa\ụ Boby</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>Töödeldud keha</value>
+  </data>
 </root>

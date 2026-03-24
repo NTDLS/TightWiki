@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>โปรไฟล์ของคุณได้รับการบันทึกแล้ว</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>สถิติการรวบรวมล่าสุดสำหรับหน้าวิกิทั้งหมด</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>การรวบรวมล่าสุด</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>ระยะเวลาในการสร้าง</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>การจับคู่ในวิกิ</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>ลิงก์ออกไป</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>ร่างโครงสร้างดิบ</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>ร่างโครงสร้างที่ประมวลผลแล้ว</value>
+  </data>
 </root>

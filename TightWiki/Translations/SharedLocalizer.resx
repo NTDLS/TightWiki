@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Your profile has been saved.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>The latest compilation statistics for all wiki pages.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Last Compile</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Build Duration</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Wiki Matches</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Outgoing Links</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Raw Boby</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>Processed Body</value>
+  </data>
 </root>

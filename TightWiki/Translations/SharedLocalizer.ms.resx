@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Profil anda telah disimpan.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>Adda statistik kompilasi terkini untuk semua halaman wiki.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Kompilasi Terakhir</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Durasi Bangunan</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Padanan Wiki</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Pautan Keluar</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Badak Mentah</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>Badan yang Diproses</value>
+  </data>
 </root>

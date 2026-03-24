@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Jūsų profilis išsaugotas.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>Visa wiki puslapių naujausių kompilacijos statistika.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Paskutinė kompiliacija</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Kūrimo trukmė</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Wiki atitikmenys</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Išeinantys nuorodos</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Raundinis kūnas</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>Apdorotas kūnas</value>
+  </data>
 </root>

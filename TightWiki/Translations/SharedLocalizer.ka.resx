@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>თქვენი პროფილი შეინახა.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>ყველა ვიკის გვერდის უახლესი ანკეტზე სტატისტიკა.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>ბოლოს განახლება</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>მშენებლობის ხანგრძლივობა</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>ვიკის მატჩები</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>გამომავალი ლინკები</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Raw Boby</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>მუშავებული ბატონი</value>
+  </data>
 </root>

@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Hồ sơ của bạn đã được lưu.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>Thống kê biên dịch mới nhất cho tất cả các trang wiki.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Lần biên dịch cuối</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Thời gian xây dựng</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Các trận đấu của wiki</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Liên kết ngoài</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Thân bài thô</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>Thân bài đã xử lý</value>
+  </data>
 </root>

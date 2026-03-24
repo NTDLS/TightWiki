@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Jūsu profils ir saglabāts.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>Visu viku lapu jaunākās kompilācijas statistika.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Pēdējā kompilācija</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Veidošanas ilgums</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Vēlmju sakritības</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Iecejošās saites</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Neapstrādāts teksts</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>Apstrādātais teksts</value>
+  </data>
 </root>

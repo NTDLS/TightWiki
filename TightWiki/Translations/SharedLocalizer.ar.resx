@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>تم حفظ ملفك الشخصي.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>إحصائيات التجميع الأخيرة لجميع صفحات الويكي.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>آخر تجميع</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>مدة البناء</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>مطابقات الويكي</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>روابط صادرة</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>الجسم الخام</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>الجسم المعالج</value>
+  </data>
 </root>

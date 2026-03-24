@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Profiilisi on tallennettu.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>Kaikkien wiki-sivujen viimeisimmät kokoonpanotiedot.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Viimeinen käännös</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Rakenneajan kesto</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Wiki-ottelut</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Lähtevät linkit</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Raaka Boby</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>Käsitelty Body</value>
+  </data>
 </root>

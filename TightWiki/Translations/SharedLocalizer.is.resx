@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Persónuuppfærslan þín hefur verið vistað.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>Nýjustu tölfræði um samsetningar fyrir allar Wikipedia síður.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Síðasta samsetning</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Byrjunar tími</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Wikipedia samræmi</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Útgangs tenglar</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Ósamið líkami</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>Unnið líkami</value>
+  </data>
 </root>

@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Din profil har sparats.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>De senaste sammanställningsstatistiken för alla wiki-sidor.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Sista kompilering</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Byggertid</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Wiki-matchningar</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Utgående länkar</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Rå Kropp</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>Bearbetad kropp</value>
+  </data>
 </root>

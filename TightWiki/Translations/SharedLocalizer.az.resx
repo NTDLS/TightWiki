@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Sizin profiliniz saxlanıldı.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>Bütün viki səhifələri üçün ən son tərtib statistikasları.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Son Tərtib</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Yığma Müddəti</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Vikilərdə Uyğunluqlar</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>GələnXəttlər</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Əsasanız Raw</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>İşlənmiş Bədən</value>
+  </data>
 </root>

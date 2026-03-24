@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Din profil er blevet gemt.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>De nyeste compilationsstatistikker for alle wiki-sider.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Siste Kompilering</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Opbygningstid</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Wiki-kampe</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Udgående links</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Uforarbejdet indhold</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>Behandlet indhold</value>
+  </data>
 </root>

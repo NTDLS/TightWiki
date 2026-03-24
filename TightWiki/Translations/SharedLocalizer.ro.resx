@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Profilul tău a fost salvat.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>Ultimele statistici de compilare pentru toate paginile wiki.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Ultima Compilare</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Durata Construirii</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Potriviri Wiki</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Link-uri Outgoing</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Corp brut</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>Corp procesat</value>
+  </data>
 </root>

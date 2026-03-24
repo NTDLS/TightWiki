@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>הפרופיל שלך נשמר.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>סטטיסטיקות ההרכב האחרונות לכל עמודי הוויקי.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>ההרכב האחרון</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>משך הבנייה</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>התאמות וויקי</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>קישורים יוצאים</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>גוף גולמי</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>גוף מעובד</value>
+  </data>
 </root>

@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Сіздің профиліңіз сақталды.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>Барлық вики беттерінің соңғы жинақтау статистикасы.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Соңғы жинақтау</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Жинақтау ұзақтығы</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Вики сәйкестігі</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Шығыс сілтемелері</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Қатты тұлға</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>Өңделген мәтін</value>
+  </data>
 </root>

@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>A profilod mentve lett.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>A legújabb összes wiki oldalra vonatkozó összegzési statisztikák.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Utolsó fordítás</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Build idő</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Wiki összevetések</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Kimenő hivatkozások</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Nyers szöveg</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>Feldolgozott szöveg</value>
+  </data>
 </root>

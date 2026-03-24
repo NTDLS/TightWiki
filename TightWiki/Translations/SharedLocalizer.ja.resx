@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>あなたのプロフィールは保存されました。</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>すべてのウィキページの最新のコンパイル統計情報。</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>最終コンパイル</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>ビルド時間</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>ウィキマッチ</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>外部リンク</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>生のボディ</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>処理済みの本文</value>
+  </data>
 </root>

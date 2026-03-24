@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Váš profil byl uložen.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>Nejnovější statistiky kompilací všech stránek wiki.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Poslední kompilace</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Doba sestavení</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Porovnání wiki</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Odlévající odkazy</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Raw Boby</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>Zpracované tělo</value>
+  </data>
 </root>

@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Το προφίλ σας έχει αποθηκευτεί.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>Τελευταία στατιστικά συλλογής για όλες τις σελίδες wiki.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Τελευταία Συγκέντρωση</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Διάρκεια Κατασκευής</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>ΣυνMatches wiki</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Εξερχόμενοι Σύνδεσμοι</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Ακατέργαστο Σώμα</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>Επεξεργασμένο Σώμα</value>
+  </data>
 </root>

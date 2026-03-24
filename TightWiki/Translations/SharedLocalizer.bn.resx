@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>আপনার প্রোফাইল সংরক্ষণ করা হয়েছে।</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>সব উইকি পৃষ্ঠার সাম্প্রতিক সংকলন পরিসংখ্যান।</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>শেষ সংকলন</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>নির্মাণের সময়কাল</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>উইকি ম্যাচ</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>বেরিয়ে যাওয়া লিঙ্কগুলি</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>কাঁচা বডি</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>প্রক্রিয়াজাত বডি</value>
+  </data>
 </root>

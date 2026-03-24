@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Вашият профил беше запазен.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>Последните статистики за компилации за всички страници във Wiki.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Последна компилация</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Продължителност на изграждането</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Съвпадения във Wiki</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Изходящи връзки</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Груб текст</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>Обработен текст</value>
+  </data>
 </root>

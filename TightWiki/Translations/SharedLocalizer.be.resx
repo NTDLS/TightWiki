@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Ваш профіль быў захаваны.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>Апошняя статыстыка збору для ўсіх старонак вікі.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Апошняе зборка</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Трывалісць зборкі</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Матчы вікі</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Зходныя спасылкі</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Сырый тэкст</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>Апрацаваны тэкст</value>
+  </data>
 </root>

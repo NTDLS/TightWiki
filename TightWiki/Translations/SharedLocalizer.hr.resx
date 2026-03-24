@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Vaš profil je spremljen.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>Najnovije statistike kompilacije za sve wiki stranice.</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>Posljednja kompilacija</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>Trajanje izrade</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>Wiki podudaranja</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>Izlazne poveznice</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>Sirovo tijelo</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>Obrađeni sadržaj</value>
+  </data>
 </root>

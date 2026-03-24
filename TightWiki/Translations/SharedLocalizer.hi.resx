@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>आपकी प्रोफ़ाइल सहेजी गई है।</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>सभी विकी पेजों के लिए नवीनतम संकलन आंकड़े।</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>अंतिम संकलन</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>निर्माण अवधि</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>विकी मिलान</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>बाहरी लिंक</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>कच्चा बॉडी</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>संसोधित बॉडी</value>
+  </data>
 </root>

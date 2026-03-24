@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>پروفایل شما ذخیره شد.</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>آخرین آمار تجمیع برای تمام صفحات ویکی</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>آخرین تجمیع</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>مدت زمان ساخت</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>مطابقت‌های ویکی</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>پیوندهای خروجی</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>بدنه خام</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>بدنه پردازش‌شده</value>
+  </data>
 </root>

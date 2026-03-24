@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>您的档案已保存。</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>所有维基页面的最新编译统计数据。</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>最后编译</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>构建持续时间</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>维基匹配</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>外向链接</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>原始内容</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>处理过的内容</value>
+  </data>
 </root>

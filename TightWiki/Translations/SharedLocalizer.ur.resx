@@ -2584,4 +2584,25 @@
   <data name="Your profile has been saved." xml:space="preserve">
     <value>آپ کا پروفائل محفوظ کر لیا گیا ہے۔</value>
   </data>
+  <data name="The latest compilation statistics for all wiki pages." xml:space="preserve">
+    <value>تمام وکی پیجز کے لیے جدید تجمیعی اعداد و شمار۔</value>
+  </data>
+  <data name="Last Compile" xml:space="preserve">
+    <value>آخری مرتبہ</value>
+  </data>
+  <data name="Build Duration" xml:space="preserve">
+    <value>تعمیر کی مدت</value>
+  </data>
+  <data name="Wiki Matches" xml:space="preserve">
+    <value>وکی میچز</value>
+  </data>
+  <data name="Outgoing Links" xml:space="preserve">
+    <value>آؤٹ گوئنگ لنکس</value>
+  </data>
+  <data name="Raw Boby" xml:space="preserve">
+    <value>مادرہ خام</value>
+  </data>
+  <data name="Processed Body" xml:space="preserve">
+    <value>عملدرآمد شدہ جسم</value>
+  </data>
 </root>
