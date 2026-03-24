@@ -2605,4 +2605,10 @@
   <data name="Processed Body" xml:space="preserve">
     <value>Corps traité</value>
   </data>
+  <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
+    <value>Notez que chaque bouton d'enregistrement sauvegarde toutes les sections, plusieurs sont fournis pour plus de commodité.</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>Contenu</value>
+  </data>
 </root>

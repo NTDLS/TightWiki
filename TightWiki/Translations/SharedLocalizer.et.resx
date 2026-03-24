@@ -2605,4 +2605,10 @@
   <data name="Processed Body" xml:space="preserve">
     <value>Töödeldud keha</value>
   </data>
+  <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
+    <value>Pange tähele, et iga salvestusnupp salvestab kõik sektsioonid, mitmeid on mugavuse jaoks ette nähtud.</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>Sisu</value>
+  </data>
 </root>

@@ -2605,4 +2605,10 @@
   <data name="Processed Body" xml:space="preserve">
     <value>প্রক্রিয়াজাত বডি</value>
   </data>
+  <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
+    <value>দয়া করে লক্ষ্য করুন যে প্রতিটি সংরক্ষণ বোতাম সমস্ত বিভাগ সেভ করে, সুবিধার জন্য একাধিক দেওয়া হয়।</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>বিষয়বস্তু</value>
+  </data>
 </root>

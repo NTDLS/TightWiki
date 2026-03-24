@@ -2605,4 +2605,10 @@
   <data name="Processed Body" xml:space="preserve">
     <value>處理後的內容</value>
   </data>
+  <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
+    <value>請注意，每個保存按鈕都可以保存所有部分，為方便起見提供多個按鈕。</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>內容</value>
+  </data>
 </root>

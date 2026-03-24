@@ -2605,4 +2605,10 @@
   <data name="Processed Body" xml:space="preserve">
     <value>İşlenmiş Gövde</value>
   </data>
+  <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
+    <value>Her kaydet düğmesinin tüm bölümleri kaydettiğine dikkat edin, kolaylık olması için birden fazla sağlanmıştır.</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>İçerik</value>
+  </data>
 </root>

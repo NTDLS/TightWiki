@@ -6,9 +6,30 @@
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+
+    string ToAnchorId(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return "group";
+        }
+
+        var chars = value
+            .ToLowerInvariant()
+            .Select(c => char.IsLetterOrDigit(c) ? c : '-')
+            .ToArray();
+
+        var id = new string(chars);
+
+        while (id.Contains("--"))
+        {
+            id = id.Replace("--", "-");
+        }
+
+        return $"group-{id.Trim('-')}";
+    }
 }
-
-
+<div id="top"></div>
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
@@ -16,23 +37,51 @@
         </h3>
         <div class="text-muted">
             @Localizer["Global configuration values for the wiki, its functionality, behavior, formatting and branding."]
+            <br />
+            <i class="bi bi-info-square text-primary me-2"></i>@Localizer["Note that each save button saves all sections, multiple are provided for convenience."]
         </div>
     </div>
 </div>
+
+@if (Model.Nest.Any() == true)
+{
+    <div class="card shadow-sm mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">@Localizer["Contents"]</h5>
+        </div>
+        <div class="card-body">
+            <div class="d-flex flex-wrap gap-2">
+                @foreach (var group in Model.Nest)
+                {
+                    var groupAnchorId = ToAnchorId(group.Name);
+
+                    <a href="#@groupAnchorId" class="btn btn-outline-secondary btn-sm">
+                        @Localizer[group.Name]
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+}
 
 @using (Html.BeginForm(FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-group"><button type="submit" class="btn btn-primary mb-4">@Localizer["Save"]</button></div>
-
     @foreach (var group in Model.Nest)
     {
-        <div class="row mb-4">
+        var groupAnchorId = ToAnchorId(group.Name);
+
+        <div class="row mb-4" id="@groupAnchorId">
             <div class="col-12">
                 <div class="card shadow-lg">
+                    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+                            <h4>@Localizer[group.Name]</h4>
+                        <a href="#top" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-arrow-up-circle"></i> Top
+                        </a>
+                    </div>
                     <div class="card-header">
-                        <h4>@Localizer[group.Name]</h4>
                         <p>@Localizer[group.Description]</p>
                     </div>
                     <div class="card-body">
@@ -155,12 +204,14 @@
                             </div>
                         }
                     </div>
+
+                    <div class="card-footer d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <button type="submit" class="btn btn-success"><i class="bi bi-floppy me-1"></i>@Localizer["Save"]</button>
+                    </div>
                 </div>
             </div>
         </div>
     }
-
-    <div class="form-group"><button type="submit" class="btn btn-primary mt-2">@Localizer["Save"]</button></div>
 }
 
 <script>

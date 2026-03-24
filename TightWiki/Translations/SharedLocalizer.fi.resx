@@ -2605,4 +2605,10 @@
   <data name="Processed Body" xml:space="preserve">
     <value>Käsitelty Body</value>
   </data>
+  <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
+    <value>Huomaa, että jokainen tallennuspainike tallentaa kaikki osiot, useita on tarjolla mukavuuden vuoksi.</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>Sisältö</value>
+  </data>
 </root>

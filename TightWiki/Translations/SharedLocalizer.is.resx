@@ -2605,4 +2605,10 @@
   <data name="Processed Body" xml:space="preserve">
     <value>Unnið líkami</value>
   </data>
+  <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
+    <value>Athugasemd að hver 'vista' takkinn geymir allar hluta, margir eru veittir til þæginda.</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>Innihald</value>
+  </data>
 </root>

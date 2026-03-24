@@ -2605,4 +2605,10 @@
   <data name="Processed Body" xml:space="preserve">
     <value>Feldolgozott szöveg</value>
   </data>
+  <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
+    <value>Vedd figyelembe, hogy minden mentési gomb minden szakaszt ment, többet kínálnak a kényelem érdekében.</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>Tartalom</value>
+  </data>
 </root>

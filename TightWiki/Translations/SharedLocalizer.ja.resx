@@ -2605,4 +2605,10 @@
   <data name="Processed Body" xml:space="preserve">
     <value>処理済みの本文</value>
   </data>
+  <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
+    <value>各保存ボタンはすべてのセクションを保存します。利便性のために複数用意されています。</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>内容</value>
+  </data>
 </root>

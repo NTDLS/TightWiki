@@ -2605,4 +2605,10 @@
   <data name="Processed Body" xml:space="preserve">
     <value>Zpracované tělo</value>
   </data>
+  <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
+    <value>Všimněte si, že každé tlačítko Uložit uloží všechny sekce, pro větší pohodlí je jich k dispozici více.</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>Obsah</value>
+  </data>
 </root>

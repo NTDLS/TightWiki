@@ -2605,4 +2605,10 @@
   <data name="Processed Body" xml:space="preserve">
     <value>처리된 본문</value>
   </data>
+  <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
+    <value>각 저장 버튼은 모든 섹션을 저장하며, 편의를 위해 여러 개가 제공됩니다.</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>내용</value>
+  </data>
 </root>

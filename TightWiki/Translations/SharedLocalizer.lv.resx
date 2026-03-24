@@ -2605,4 +2605,10 @@
   <data name="Processed Body" xml:space="preserve">
     <value>Apstrādātais teksts</value>
   </data>
+  <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
+    <value>Ņemiet vērā, ka katrs saglabāšanas poga saglabā visas sekcijas, vairākas ir nodrošinātas ērtības nolūkā.</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>Satura rādītājs</value>
+  </data>
 </root>

@@ -2605,4 +2605,10 @@
   <data name="Processed Body" xml:space="preserve">
     <value>Isi yang Diproses</value>
   </data>
+  <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
+    <value>Perhatikan bahwa setiap tombol simpan menyimpan semua bagian, beberapa disediakan untuk kenyamanan.</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>Isi</value>
+  </data>
 </root>

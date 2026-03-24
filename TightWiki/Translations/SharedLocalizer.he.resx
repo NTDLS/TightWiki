@@ -2605,4 +2605,10 @@
   <data name="Processed Body" xml:space="preserve">
     <value>גוף מעובד</value>
   </data>
+  <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
+    <value>שימו לב שכל כפתור שמירה משמר את כל الأقسام, מספר רב של אפשרויות ניתנו לנוחות.</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>תכנים</value>
+  </data>
 </root>

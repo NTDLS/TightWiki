@@ -2605,4 +2605,10 @@
   <data name="Processed Body" xml:space="preserve">
     <value>მუშავებული ბატონი</value>
   </data>
+  <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
+    <value>გთხოვთ გაითვალისწინოთ, რომ ყოველ სეივის ღილაკს ინახავს ყველა განყოფილებას, რაც ხშირად გამოყენებისთვისა და მოსახერხებელი გარემოსთვის არის მითითებული.</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>შინაართვები</value>
+  </data>
 </root>

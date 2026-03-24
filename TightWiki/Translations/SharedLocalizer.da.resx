@@ -2605,4 +2605,10 @@
   <data name="Processed Body" xml:space="preserve">
     <value>Behandlet indhold</value>
   </data>
+  <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
+    <value>Bemærk, at hver gem-knap gemmer alle sektioner, flere er tilgængelige for bekvemmelighed.</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>Indhold</value>
+  </data>
 </root>

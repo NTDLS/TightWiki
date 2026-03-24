@@ -2605,4 +2605,10 @@
   <data name="Processed Body" xml:space="preserve">
     <value>Thân bài đã xử lý</value>
   </data>
+  <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
+    <value>Lưu ý rằng mỗi nút lưu sẽ lưu tất cả các phần, nhiều nút được cung cấp để tiện lợi.</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>Nội dung</value>
+  </data>
 </root>

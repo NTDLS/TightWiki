@@ -2605,4 +2605,10 @@
   <data name="Processed Body" xml:space="preserve">
     <value>संसोधित बॉडी</value>
   </data>
+  <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
+    <value>ध्यान दें कि प्रत्येक सहेजें बटन सभी सेक्शन को सहेजता है, सुविधा के लिए कई प्रदान किए गए हैं।</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>सामग्री</value>
+  </data>
 </root>

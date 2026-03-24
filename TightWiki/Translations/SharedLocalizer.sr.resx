@@ -2605,4 +2605,10 @@
   <data name="Processed Body" xml:space="preserve">
     <value>Обрађени Боди</value>
   </data>
+  <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
+    <value>Обратите пажњу да свака дугме за чување сачува све секције, многа су обезбеђена ради удобности.</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>Sадржај</value>
+  </data>
 </root>

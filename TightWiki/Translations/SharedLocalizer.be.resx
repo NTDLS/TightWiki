@@ -2605,4 +2605,10 @@
   <data name="Processed Body" xml:space="preserve">
     <value>Апрацаваны тэкст</value>
   </data>
+  <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
+    <value>Звярніце ўвагу, што кожная кнопка захавання захоўвае ўсе раздзелы, некалькі з якіх прадастаўлены для зручнасці.</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>Змесціва</value>
+  </data>
 </root>
