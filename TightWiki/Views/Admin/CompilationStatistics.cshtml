@@ -15,7 +15,7 @@
             @Localizer["Compilations"]
         </h3>
         <div class="text-muted">
-            @Localizer["The compilation statistics for all wiki page operations."]
+            @Localizer["The latest compilation statistics for all wiki pages."]
         </div>
     </div>
 </div>
@@ -72,7 +72,7 @@
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "LastWikifyTimeMs")">
-                                @Localizer["Build Duration"] <span class="text-muted">(<span class="text-muted">ms</span>)</span>
+                                @Localizer["Build Duration"]
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap">
@@ -96,13 +96,13 @@
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "LastBodySize")">
-                                @Localizer["Raw Doby"]<span class="text-muted">@Localizer["bytes"]</span>
+                                @Localizer["Raw Boby"] <span class="text-muted">
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "LastProcessedBodySize")">
-                                @Localizer["Processed Body"]<span class="text-muted">@Localizer["bytes"]</span>
+                                @Localizer["Processed Body"] <span class="text-muted">
                             </a>
                         </th>
                     </tr>
@@ -134,9 +134,7 @@
                             <td class="text-end text-nowrap">
                                 @if (stat.LastErrorCount > 0)
                                 {
-                                    <span class="badge border border-danger text-danger bg-light rounded-pill px-3 py-2">
-                                        <i class="bi bi-exclamation-triangle me-1"></i>@stat.LastErrorCount.ToString("N0")
-                                    </span>
+                                        <i class="bi bi-exclamation-triangle text-danger me-1"></i>@stat.LastErrorCount.ToString("N0")
                                 }
                                 else
                                 {
@@ -149,7 +147,7 @@
                             </td>
 
                             <td class="text-end text-nowrap">
-                                @stat.LastWikifyTimeMs.ToString("N0")
+                                @stat.LastWikifyTimeMs.ToString("N0")<span class="text-muted">ms</span>
                             </td>
 
                             <td class="text-end text-nowrap">
