@@ -4,7 +4,7 @@ FROM
 	Emoji as E
 WHERE
 	Name LIKE '%' || @Term || '%'
-	AND EXISTS (	
+	OR EXISTS (	
 		SELECT
 			EmojiId FROM EmojiCategory as EC
 		WHERE

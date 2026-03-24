@@ -468,9 +468,9 @@ namespace TightWiki.Controllers
         [HttpGet("AutoCompleteEmoji")]
         public ActionResult AutoCompleteEmoji([FromQuery] string? q = null)
         {
-            var roles = EmojiRepository.AutoCompleteEmoji(q ?? string.Empty).ToList();
+            var emojis = EmojiRepository.AutoCompleteEmoji(q ?? string.Empty).ToList();
 
-            return Json(roles.Select(o => new
+            return Json(emojis.Select(o => new
             {
                 text = o
             }));

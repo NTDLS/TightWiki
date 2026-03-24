@@ -61,6 +61,241 @@
         }
 </style>
 
+<style>
+    .emoji-autocomplete {
+    position: absolute;
+    z-index: 2000;
+    min-width: 260px;
+    max-width: 360px;
+    max-height: 260px;
+    overflow-y: auto;
+    background: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    border: 1px solid var(--bs-border-color, #ccc);
+    border-radius: .5rem;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+    padding: .25rem 0;
+    }
+
+    .emoji-autocomplete-item {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .4rem .75rem;
+    cursor: pointer;
+    }
+
+    .emoji-autocomplete-item:hover,
+    .emoji-autocomplete-item.active {
+    background: rgba(0,0,0,.08);
+    }
+
+    .emoji-autocomplete-item img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    flex: 0 0 24px;
+    }
+
+    .emoji-autocomplete-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    }
+</style>
+
+<!-- Emoji Auto-complete: BEGIN -->
+
+<script>
+    let emojiAutocomplete = null;
+
+    function debounce(fn, ms = 350) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
+
+    function closeEmojiAutocomplete() {
+        if (emojiAutocomplete?.element) {
+            emojiAutocomplete.element.remove();
+        }
+        emojiAutocomplete = null;
+    }
+
+    function getEmojiTokenAtCursor(cm) {
+        const doc = cm.getDoc();
+        const cursor = doc.getCursor();
+        const line = doc.getLine(cursor.line);
+        const left = line.slice(0, cursor.ch);
+
+        const start = left.lastIndexOf('%%');
+        if (start < 0) return null;
+
+        const afterStart = line.slice(start + 2);
+
+        // If another %% was already closed before the cursor,
+        // we're no longer inside the active token.
+        const nextCloseBeforeCursor = afterStart.indexOf('%%');
+        if (nextCloseBeforeCursor >= 0 && (start + 2 + nextCloseBeforeCursor) < cursor.ch) {
+            return null;
+        }
+
+        const query = line.slice(start + 2, cursor.ch);
+
+        // Allow letters, numbers, dash, underscore.
+        // Reject whitespace or other punctuation that should end the token.
+        if (query.length > 0 && !/^[a-zA-Z0-9_-]*$/.test(query)) {
+            console.log('ended');
+            return null;
+        }
+
+        return {
+            from: { line: cursor.line, ch: start },
+            to: { line: cursor.line, ch: cursor.ch },
+            query
+        };
+    }
+
+    async function fetchEmojiSuggestions(q) {
+        const url = `${emojiApi}?q=${encodeURIComponent(q || '')}`;
+        const resp = await fetch(url, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+        });
+
+        if (!resp.ok) {
+            throw new Error(`Emoji search failed: ${resp.status}`);
+        }
+
+        return await resp.json();
+    }
+
+    function replaceEmojiToken(cm, range, item) {
+        const doc = cm.getDoc();
+        const replacement = `%%${item.text}%%`;
+        doc.replaceRange(replacement, range.from, range.to);
+
+        const end = {
+            line: range.from.line,
+            ch: range.from.ch + replacement.length
+        };
+
+        doc.setCursor(end);
+        cm.focus();
+    }
+
+    function renderEmojiAutocomplete(cm, range, items) {
+        const previousIndex = emojiAutocomplete?.activeIndex ?? 0;
+        closeEmojiAutocomplete();
+
+        if (!items || items.length === 0) {
+            return;
+        }
+
+        const cursor = cm.getDoc().getCursor();
+        const coords = cm.cursorCoords(cursor, "page");
+
+        const popup = document.createElement('div');
+        popup.className = 'emoji-autocomplete';
+
+        const state = {
+            element: popup,
+            items,
+            activeIndex: Math.min(previousIndex, items.length - 1),
+            range,
+            render: null
+        };
+
+        function renderItems() {
+            popup.innerHTML = '';
+
+            state.items.forEach((item, index) => {
+                const row = document.createElement('div');
+                row.className = 'emoji-autocomplete-item' + (index === state.activeIndex ? ' active' : '');
+
+                row.innerHTML = `<img src="@GlobalConfiguration.BasePath/File/Emoji/${encodeURIComponent(item.text)}" alt=""><div class="emoji-autocomplete-name">${item.text}</div>`;
+
+                row.addEventListener('mousedown', function (e) {
+                    e.preventDefault();
+                    replaceEmojiToken(cm, state.range, item);
+                    closeEmojiAutocomplete();
+                });
+
+                popup.appendChild(row);
+            });
+
+            const active = popup.querySelector('.emoji-autocomplete-item.active');
+            if (active) {
+                active.scrollIntoView({ block: 'nearest' });
+            }
+        }
+
+        state.render = renderItems;
+
+        renderItems();
+
+        popup.style.left = `${coords.left}px`;
+        popup.style.top = `${coords.bottom + 4}px`;
+
+        document.body.appendChild(popup);
+        emojiAutocomplete = state;
+    }
+    const debouncedEmojiPopupSearch = debounce(async function (cm) {
+        const token = getEmojiTokenAtCursor(cm);
+
+        if (!token) {
+            closeEmojiAutocomplete();
+            return;
+        }
+
+        try {
+            const items = await fetchEmojiSuggestions(token.query);
+            renderEmojiAutocomplete(cm, token, items);
+        } catch (e) {
+            closeEmojiAutocomplete();
+            console.error(e);
+        }
+    }, 200);
+
+    function handleEmojiAutocompleteKeydown(cm, e) {
+        if (!emojiAutocomplete) return false;
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            emojiAutocomplete.activeIndex = Math.min(
+                emojiAutocomplete.activeIndex + 1,
+                emojiAutocomplete.items.length - 1
+            );
+            emojiAutocomplete.render();
+            return true;
+        }
+
+        if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            emojiAutocomplete.activeIndex = Math.max(
+                emojiAutocomplete.activeIndex - 1,
+                0
+            );
+            emojiAutocomplete.render();
+            return true;
+        }
+
+        if (e.key === 'Enter' || e.key === 'Tab') {
+            e.preventDefault();
+            const item = emojiAutocomplete.items[emojiAutocomplete.activeIndex];
+            replaceEmojiToken(cm, emojiAutocomplete.range, item);
+            closeEmojiAutocomplete();
+            return true;
+        }
+
+        if (e.key === 'Escape') {
+            e.preventDefault();
+            closeEmojiAutocomplete();
+            return true;
+        }
+
+        return false;
+    }
+</script>
+<!-- Emoji Auto-complete: END -->
+
+<!-- Clipboard image pasting: BEGIN -->
 <script>
     function addClipboardImagePasteUpload(editor) {
         const inputEl = editor.getInputField();
@@ -145,6 +380,7 @@
        return isImage ? `##Image("${name}")` : `##File(${name})`;
      }
 </script>
+<!-- Clipboard image pasting: END -->
 
 <script>
     const emojiApi = '@(GlobalConfiguration.BasePath)/File/AutoCompleteEmoji';
@@ -417,6 +653,66 @@
             autocorrect: true              // Enables autocorrect
         });
 
+        editor.addKeyMap({
+            Up: function (cm) {
+                if (!emojiAutocomplete) return CodeMirror.Pass;
+
+                emojiAutocomplete.activeIndex = Math.max(emojiAutocomplete.activeIndex - 1, 0);
+                emojiAutocomplete.render();
+            },
+
+            Down: function (cm) {
+                if (!emojiAutocomplete) return CodeMirror.Pass;
+
+                emojiAutocomplete.activeIndex = Math.min(
+                    emojiAutocomplete.activeIndex + 1,
+                    emojiAutocomplete.items.length - 1
+                );
+                emojiAutocomplete.render();
+            },
+
+            Enter: function (cm) {
+                if (!emojiAutocomplete) return CodeMirror.Pass;
+
+                const item = emojiAutocomplete.items[emojiAutocomplete.activeIndex];
+                replaceEmojiToken(cm, emojiAutocomplete.range, item);
+                closeEmojiAutocomplete();
+            },
+
+            Tab: function (cm) {
+                if (!emojiAutocomplete) return CodeMirror.Pass;
+
+                const item = emojiAutocomplete.items[emojiAutocomplete.activeIndex];
+                replaceEmojiToken(cm, emojiAutocomplete.range, item);
+                closeEmojiAutocomplete();
+            },
+
+            Backspace: function (cm) {
+                cm.execCommand("delCharBefore");
+                setTimeout(() => debouncedEmojiPopupSearch(cm), 0);
+            },
+
+            Esc: function (cm) {
+                if (!emojiAutocomplete) return CodeMirror.Pass;
+                closeEmojiAutocomplete();
+            }
+        });
+
+        editor.on('inputRead', function (cm, change) {
+            debouncedEmojiPopupSearch(cm);
+        });
+
+        editor.on('cursorActivity', function (cm) {
+            const token = getEmojiTokenAtCursor(cm);
+            if (!token) {
+                closeEmojiAutocomplete();
+            }
+        });
+
+        editor.on('blur', function () {
+            setTimeout(() => closeEmojiAutocomplete(), 150);
+        });
+
         const editorHeightSelect = document.getElementById('editorHeightSelect');
         const savedEditorHeight = localStorage.getItem('tightwiki.editorHeight') || '50em';
 
@@ -552,8 +848,6 @@
            insertEmojiModal.hide();
            editor.focus();
        }
-
-        function debounce(fn, ms=350){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; }
 
         const imagesTable = new Tabulator("#emojiResultsTable", {
             layout: "fitColumns",
