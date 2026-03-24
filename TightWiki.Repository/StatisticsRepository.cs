@@ -44,7 +44,7 @@ namespace TightWiki.Repository
                 using var users_db = o.Attach("pages.db", "pages_db");
 
                 var query = RepositoryHelper.TransposeOrderby("GetCompilationStatisticsPaged.sql", orderBy, orderByDirection);
-                return o.Query<PageCompilationStatistics>(query, param).ToList();
+                return o.Query<PageCompilationStatistics>(query, param);
             });
         }
     }

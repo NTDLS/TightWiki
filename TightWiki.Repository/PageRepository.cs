@@ -58,7 +58,7 @@ namespace TightWiki.Repository
                     PageId = pageId
                 };
 
-                return ManagedDataStorage.Pages.Query<PageTag>("GetPageTagsById.sql", param).ToList();
+                return ManagedDataStorage.Pages.Query<PageTag>("GetPageTagsById.sql", param);
             }).EnsureNotNull();
         }
 
@@ -79,7 +79,7 @@ namespace TightWiki.Repository
                 using var users_db = o.Attach("users.db", "users_db");
 
                 var query = RepositoryHelper.TransposeOrderby("GetPageRevisionsInfoByNavigationPaged.sql", orderBy, orderByDirection);
-                return o.Query<PageRevision>(query, param).ToList();
+                return o.Query<PageRevision>(query, param);
             });
         }
 
@@ -91,7 +91,7 @@ namespace TightWiki.Repository
                 TopCount = topCount
             };
 
-            return ManagedDataStorage.Pages.Query<PageRevision>("GetTopRecentlyModifiedPagesInfoByUserId.sql", param).ToList();
+            return ManagedDataStorage.Pages.Query<PageRevision>("GetTopRecentlyModifiedPagesInfoByUserId.sql", param);
         }
 
         public static string? GetPageNavigationByPageId(int pageId)
@@ -111,7 +111,7 @@ namespace TightWiki.Repository
                 TopCount = topCount
             };
 
-            return ManagedDataStorage.Pages.Query<Page>("GetTopRecentlyModifiedPagesInfo.sql", param).ToList();
+            return ManagedDataStorage.Pages.Query<Page>("GetTopRecentlyModifiedPagesInfo.sql", param);
         }
 
         private static List<PageSearchToken> GetFuzzyPageSearchTokens(List<PageToken> tokens, double minimumMatchScore)
@@ -125,7 +125,7 @@ namespace TightWiki.Repository
                 };
 
                 using var tempTable = o.CreateTempTableFrom("TempSearchTerms", tokens.Distinct());
-                return o.Query<PageSearchToken>("GetFuzzyPageSearchTokens.sql", param).ToList();
+                return o.Query<PageSearchToken>("GetFuzzyPageSearchTokens.sql", param);
             });
         }
 
@@ -140,7 +140,7 @@ namespace TightWiki.Repository
                 };
 
                 using var tempTable = o.CreateTempTableFrom("TempSearchTerms", tokens.Distinct());
-                return o.Query<PageSearchToken>("GetExactPageSearchTokens.sql", param).ToList();
+                return o.Query<PageSearchToken>("GetExactPageSearchTokens.sql", param);
             });
         }
 
@@ -150,10 +150,10 @@ namespace TightWiki.Repository
 
             return WikiCache.AddOrGet(cacheKey, () =>
             {
-                var minimumMatchScore = ConfigurationRepository.Get<float>("Search", "Minimum Match Score");
+                var minimumMatchScore = ConfigurationRepository.Get<float>("Search", "Minimum Match Score")
 
-                var searchTokens = (from o in searchTerms
-                                    select new PageToken
+                var searchTokens = searchTerms.Select(o =>
+                                    new PageToken
                                     {
                                         Token = o,
                                         DoubleMetaphone = o.ToDoubleMetaphone()
@@ -175,7 +175,7 @@ namespace TightWiki.Repository
                                 Match = group.Max(g => g.Match),
                                 Weight = group.Max(g => g.Weight),
                                 Score = group.Max(g => g.Score)
-                            }).ToList();
+                            });
                 }
                 else
                 {
@@ -207,7 +207,7 @@ namespace TightWiki.Repository
 
                 using var users_db = o.Attach("users.db", "users_db");
                 using var tempTable = o.CreateTempTableFrom("TempSearchTerms", meteredSearchTokens);
-                return o.Query<Page>("PageSearch.sql", param).ToList();
+                return o.Query<Page>("PageSearch.sql", param);
             });
         }
 
@@ -238,7 +238,7 @@ namespace TightWiki.Repository
 
                 using var users_db = o.Attach("users.db", "users_db");
                 using var tempTable = o.CreateTempTableFrom("TempSearchTerms", meteredSearchTokens);
-                var results = o.Query<Page>("PageSearchPaged.sql", param).ToList();
+                var results = o.Query<Page>("PageSearchPaged.sql", param);
                 return results;
             });
         }
@@ -255,7 +255,7 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return ManagedDataStorage.Pages.Query<RelatedPage>("GetSimilarPagesPaged.sql", param).ToList();
+            return ManagedDataStorage.Pages.Query<RelatedPage>("GetSimilarPagesPaged.sql", param);
         }
 
         public static List<RelatedPage> GetRelatedPagesPaged(int pageId, int pageNumber, int? pageSize = null)
@@ -269,7 +269,7 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return ManagedDataStorage.Pages.Query<RelatedPage>("GetRelatedPagesPaged.sql", param).ToList();
+            return ManagedDataStorage.Pages.Query<RelatedPage>("GetRelatedPagesPaged.sql", param);
         }
 
         public static void FlushPageCache(int pageId)
@@ -337,7 +337,7 @@ namespace TightWiki.Repository
                 return ManagedDataStorage.Pages.Ephemeral(o =>
                 {
                     using var users_db = o.Attach("users.db", "users_db");
-                    return o.Query<PageComment>("GetPageCommentsPaged.sql", param).ToList();
+                    return o.Query<PageComment>("GetPageCommentsPaged.sql", param);
                 });
             }).EnsureNotNull();
         }
@@ -351,7 +351,7 @@ namespace TightWiki.Repository
             };
 
             var query = RepositoryHelper.TransposeOrderby("GetMissingPagesPaged.sql", orderBy, orderByDirection);
-            return ManagedDataStorage.Pages.Query<NonexistentPage>(query, param).ToList();
+            return ManagedDataStorage.Pages.Query<NonexistentPage>(query, param);
         }
 
         public static void UpdateSinglePageReference(string pageNavigation, int pageId)
@@ -377,7 +377,7 @@ namespace TightWiki.Repository
                 };
 
                 using var tempTable = o.CreateTempTableFrom("TempReferences", referencesPageNavigations.Distinct());
-                return o.Query<Page>("UpdatePageReferences.sql", param).ToList();
+                return o.Query<Page>("UpdatePageReferences.sql", param);
             });
 
             FlushPageCache(pageId);
@@ -395,7 +395,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
-                return o.Query<Page>("GetAllPagesByInstructionPaged.sql", param).ToList();
+                return o.Query<Page>("GetAllPagesByInstructionPaged.sql", param);
             });
         }
 
@@ -414,7 +414,7 @@ namespace TightWiki.Repository
                 };
 
                 using var tempTable = o.CreateTempTableFrom("TempTokens", tokens);
-                return o.Query<int>("GetDeletedPageIdsByTokens.sql", param).ToList();
+                return o.Query<int>("GetDeletedPageIdsByTokens.sql", param);
             });
         }
 
@@ -433,7 +433,7 @@ namespace TightWiki.Repository
                 };
 
                 using var tempTable = o.CreateTempTableFrom("TempTokens", tokens);
-                return o.Query<int>("GetPageIdsByTokens.sql", param).ToList();
+                return o.Query<int>("GetPageIdsByTokens.sql", param);
             });
         }
 
@@ -451,7 +451,7 @@ namespace TightWiki.Repository
             {
                 using var users_db = o.Attach("users.db", "users_db");
                 var query = RepositoryHelper.TransposeOrderby("GetAllNamespacePagesPaged.sql", orderBy, orderByDirection);
-                return o.Query<Page>(query, param).ToList();
+                return o.Query<Page>(query, param);
             });
         }
 
@@ -479,7 +479,7 @@ namespace TightWiki.Repository
                     using var tempTable = o.CreateTempTableFrom("TempPageIds", pageIds);
 
                     var query = RepositoryHelper.TransposeOrderby("GetAllPagesByPageIdPaged.sql", orderBy, orderByDirection);
-                    return o.Query<Page>(query, param).ToList();
+                    return o.Query<Page>(query, param);
                 });
             }
 
@@ -489,7 +489,7 @@ namespace TightWiki.Repository
                 using var deletedpagerevisions_db = o.Attach("deletedpagerevisions.db", "deletedpagerevisions_db");
 
                 var query = RepositoryHelper.TransposeOrderby("GetAllPagesPaged.sql", orderBy, orderByDirection);
-                return o.Query<Page>(query, param).ToList();
+                return o.Query<Page>(query, param);
             });
         }
 
@@ -515,7 +515,7 @@ namespace TightWiki.Repository
                     using var tempTable = o.CreateTempTableFrom("TempPageIds", pageIds);
 
                     var query = RepositoryHelper.TransposeOrderby("GetAllDeletedPagesByPageIdPaged.sql", orderBy, orderByDirection);
-                    return o.Query<Page>(query, param).ToList();
+                    return o.Query<Page>(query, param);
                 });
             }
 
@@ -523,7 +523,7 @@ namespace TightWiki.Repository
             {
                 using var users_db = o.Attach("users.db", "users_db");
                 var query = RepositoryHelper.TransposeOrderby("GetAllDeletedPagesPaged.sql", orderBy, orderByDirection);
-                return o.Query<Page>(query, param).ToList();
+                return o.Query<Page>(query, param);
             });
         }
 
@@ -537,17 +537,17 @@ namespace TightWiki.Repository
 
             var query = RepositoryHelper.TransposeOrderby("GetAllNamespacesPaged.sql", orderBy, orderByDirection);
 
-            return ManagedDataStorage.Pages.Query<NamespaceStat>(query, param).ToList();
+            return ManagedDataStorage.Pages.Query<NamespaceStat>(query, param);
         }
 
         public static List<string> GetAllNamespaces()
-            => ManagedDataStorage.Pages.Query<string>("GetAllNamespaces.sql").ToList();
+            => ManagedDataStorage.Pages.Query<string>("GetAllNamespaces.sql");
 
         public static List<Page> GetAllPages()
-            => ManagedDataStorage.Pages.Query<Page>("GetAllPages.sql").ToList();
+            => ManagedDataStorage.Pages.Query<Page>("GetAllPages.sql");
 
         public static List<Page> GetAllTemplatePages()
-            => ManagedDataStorage.Pages.Query<Page>("GetAllTemplatePages.sql").ToList();
+            => ManagedDataStorage.Pages.Query<Page>("GetAllTemplatePages.sql");
 
         public static List<FeatureTemplate> GetAllFeatureTemplates()
             => WikiCache.AddOrGet(WikiCacheKeyFunction.Build(WikiCache.Category.Configuration), () =>
@@ -565,7 +565,7 @@ namespace TightWiki.Repository
                 instructions = instructions.Select(o => o.ToLowerInvariant()).Distinct().ToList();
 
                 using var tempTable = o.CreateTempTableFrom("TempInstructions", instructions);
-                return o.Query<Page>("UpdatePageProcessingInstructions.sql", param).ToList();
+                return o.Query<Page>("UpdatePageProcessingInstructions.sql", param);
             });
 
             FlushPageCache(pageId);
@@ -590,7 +590,7 @@ namespace TightWiki.Repository
             ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var tempTable = o.CreateTempTableFrom("TempTokens", items.Distinct());
-                return o.Query<Page>("SavePageSearchTokens.sql").ToList();
+                return o.Query<Page>("SavePageSearchTokens.sql");
             });
         }
 
@@ -983,7 +983,7 @@ namespace TightWiki.Repository
                 using var users_db = o.Attach("users.db", "users_db");
 
                 var query = RepositoryHelper.TransposeOrderby("GetDeletedPageRevisionsByIdPaged.sql", orderBy, orderByDirection);
-                return o.Query<DeletedPageRevision>(query, param).ToList();
+                return o.Query<DeletedPageRevision>(query, param);
             });
         }
 
@@ -1101,7 +1101,7 @@ namespace TightWiki.Repository
                 @Tag = tag
             };
 
-            return ManagedDataStorage.Pages.Query<TagAssociation>("GetAssociatedTags.sql", param).ToList();
+            return ManagedDataStorage.Pages.Query<TagAssociation>("GetAssociatedTags.sql", param);
         }
 
         public static List<Page> GetPageInfoByNamespaces(List<string> namespaces)
@@ -1109,7 +1109,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var tempTable = o.CreateTempTableFrom("TempNamespaces", namespaces);
-                return o.Query<Page>("GetPageInfoByNamespaces.sql").ToList();
+                return o.Query<Page>("GetPageInfoByNamespaces.sql");
             });
         }
 
@@ -1120,7 +1120,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var tempTable = o.CreateTempTableFrom("TempTags", cleanedTags);
-                return o.Query<Page>("GetPageInfoByTags.sql").ToList();
+                return o.Query<Page>("GetPageInfoByTags.sql");
             });
         }
 
@@ -1129,7 +1129,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var tempTable = o.CreateTempTableFrom("TempTags", new List<string> { Navigation.Clean(tag) });
-                return o.Query<Page>("GetPageInfoByTags.sql").ToList();
+                return o.Query<Page>("GetPageInfoByTags.sql");
             });
         }
 
@@ -1151,7 +1151,7 @@ namespace TightWiki.Repository
                     PageId = pageId
                 };
 
-                return o.Query<Page>("UpdatePageTags.sql", param).ToList();
+                return o.Query<Page>("UpdatePageTags.sql", param);
             });
         }
 

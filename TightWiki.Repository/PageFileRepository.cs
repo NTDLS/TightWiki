@@ -29,7 +29,7 @@ namespace TightWiki.Repository
             };
 
             var query = RepositoryHelper.TransposeOrderby("GetOrphanedPageAttachments.sql", orderBy, orderByDirection);
-            return ManagedDataStorage.Pages.Query<OrphanedPageAttachment>(query, param).ToList();
+            return ManagedDataStorage.Pages.Query<OrphanedPageAttachment>(query, param);
         }
 
         public static void PurgeOrphanedPageAttachments()
@@ -56,7 +56,7 @@ namespace TightWiki.Repository
                 PageNavigation = pageNavigation,
                 PageRevision = pageRevision
             };
-            return ManagedDataStorage.Pages.Query<PageFileAttachmentInfo>("GetPageFilesInfoByPageNavigationAndPageRevisionPaged.sql", param).ToList();
+            return ManagedDataStorage.Pages.Query<PageFileAttachmentInfo>("GetPageFilesInfoByPageNavigationAndPageRevisionPaged.sql", param);
         }
 
         public static PageFileAttachmentInfo? GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null)
@@ -116,7 +116,7 @@ namespace TightWiki.Repository
                 using var users_db = o.Attach("users.db", "users_db");
 
                 var result = o.Query<PageFileAttachmentInfo>(
-                    "GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged.sql", param).ToList();
+                    "GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged.sql", param);
 
                 return result;
             });
@@ -129,7 +129,7 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            return ManagedDataStorage.Pages.Query<PageFileAttachmentInfo>("GetPageFilesInfoByPageId.sql", param).ToList();
+            return ManagedDataStorage.Pages.Query<PageFileAttachmentInfo>("GetPageFilesInfoByPageId.sql", param);
         }
 
         public static PageFileRevisionAttachmentInfo? GetPageFileInfoByFileNavigation(SqliteManagedInstance connection, int pageId, string fileNavigation)

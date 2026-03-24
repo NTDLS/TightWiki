@@ -76,7 +76,7 @@ namespace TightWiki.Repository
             };
 
             var query = RepositoryHelper.TransposeOrderby("GetLogEntriesPaged.sql", orderBy, orderByDirection);
-            return ManagedDataStorage.Logging.Query<WikiLogEntry>(query, param).ToList();
+            return ManagedDataStorage.Logging.Query<WikiLogEntry>(query, param);
         }
 
         public static WikiLogEntry GetLogEntryById(int id)

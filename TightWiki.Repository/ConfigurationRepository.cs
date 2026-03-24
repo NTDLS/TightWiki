@@ -19,7 +19,7 @@ namespace TightWiki.Repository
             return WikiCache.AddOrGet(cacheKey, () =>
             {
                 var entries = ManagedDataStorage.Config.Query<ConfigurationEntry>("GetConfigurationEntryValuesByGroupName.sql",
-                    new { GroupName = groupName }).ToList();
+                    new { GroupName = groupName });
 
                 foreach (var entry in entries)
                 {
@@ -46,7 +46,7 @@ namespace TightWiki.Repository
 
             return WikiCache.AddOrGet(cacheKey, () =>
             {
-                var themes = ManagedDataStorage.Config.Query<Theme>("GetAllThemes.sql").ToList();
+                var themes = ManagedDataStorage.Config.Query<Theme>("GetAllThemes.sql");
 
                 foreach (var theme in themes)
                 {
@@ -142,7 +142,7 @@ namespace TightWiki.Repository
             var result = new List<ConfigurationNest>();
             var flatConfig = GetFlatConfiguration();
 
-            var groups = flatConfig.GroupBy(o => o.GroupId).ToList();
+            var groups = flatConfig.GroupBy(o => o.GroupId);
             foreach (var group in groups)
             {
                 var nest = new ConfigurationNest
@@ -189,7 +189,7 @@ namespace TightWiki.Repository
         }
 
         public static List<ConfigurationFlat> GetFlatConfiguration()
-            => ManagedDataStorage.Config.Query<ConfigurationFlat>("GetFlatConfiguration.sql").ToList();
+            => ManagedDataStorage.Config.Query<ConfigurationFlat>("GetFlatConfiguration.sql");
 
         public static string? GetConfigurationEntryValuesByGroupNameAndEntryName(string groupName, string entryName)
         {
@@ -243,7 +243,7 @@ namespace TightWiki.Repository
         public static List<MenuItem> GetAllMenuItems(string? orderBy = null, string? orderByDirection = null)
         {
             var query = RepositoryHelper.TransposeOrderby("GetAllMenuItems.sql", orderBy, orderByDirection);
-            return ManagedDataStorage.Config.Query<MenuItem>(query).ToList();
+            return ManagedDataStorage.Config.Query<MenuItem>(query);
         }
 
         public static MenuItem GetMenuItemById(int id)
