@@ -8,14 +8,16 @@ WHERE
 INSERT INTO PageTag
 (
 	PageId,
-	[Tag]
+	[Tag],
+	[Navigation]
 )
 SELECT
 	@PageId,
-	T.[Value]
+	T.[Tag],
+	T.[Navigation]
 FROM
 	TempTags as T
 WHERE
-	Coalesce(T.value, '') <> '';
+	Coalesce(T.[Tag], '') <> '';
 
 COMMIT TRANSACTION;

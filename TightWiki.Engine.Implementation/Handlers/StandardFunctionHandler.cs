@@ -611,12 +611,13 @@ namespace TightWiki.Engine.Implementation.Handlers
 
                         if (pages.Count > 0)
                         {
-                            html.Append("<center>");
+                            html.Append("<div class=\"text-center mb-2\">");
                             foreach (var alpha in alphabet)
                             {
-                                html.Append("<a href=\"#" + glossaryName + "_" + alpha + "\">" + alpha + "</a>&nbsp;");
+                                html.Append(
+                                    $"<a href=\"#{glossaryName}_{alpha}\" class=\"mx-1 text-decoration-none\">{alpha}</a>");
                             }
-                            html.Append("</center>");
+                            html.Append("</div>");
 
                             html.Append("<ul>");
                             foreach (var alpha in alphabet)

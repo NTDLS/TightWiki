@@ -12,6 +12,7 @@ namespace DummyPageGenerator
 {
     internal class PageGenerator
     {
+        private readonly ISharedLocalizationText _localizer;
         private readonly object _lockObject = new();
         private List<Page> _pagePool;
         private readonly Random _random;
@@ -25,8 +26,9 @@ namespace DummyPageGenerator
         public List<AccountProfile> Users => _users;
         public Random Random => _random;
 
-        public PageGenerator(UserManager<IdentityUser> userManager)
+        public PageGenerator(ISharedLocalizationText localizer, UserManager<IdentityUser> userManager)
         {
+            _localizer = localizer;
             _userManager = userManager;
             _random = new Random();
 
@@ -247,7 +249,10 @@ namespace DummyPageGenerator
                     ModifiedDate = DateTime.UtcNow,
                     Description = string.Join(' ', WordsRepository.GetRandomWords(_random.Next(3, 5))),
                 };
-                int newPageId = RepositoryHelpers.UpsertPage(tightEngine, page);
+
+                var localizer = new DummyLocalizationText();
+
+                int newPageId = RepositoryHelpers.UpsertPage(tightEngine, localizer, page);
 
                 if (_random.Next(100) >= 70)
                 {
@@ -309,7 +314,7 @@ namespace DummyPageGenerator
                     + "\r\n" + bottomText.Trim();
                 pageToModify.ModifiedByUserId = userId;
                 pageToModify.ModifiedByUserId = userId;
-                RepositoryHelpers.UpsertPage(engine, pageToModify);
+                RepositoryHelpers.UpsertPage(engine, _localizer, pageToModify);
 
                 if (_random.Next(100) >= 90)
                 {

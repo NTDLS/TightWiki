@@ -378,7 +378,7 @@ namespace TightWiki
                 {
                     try
                     {
-                        await DatabaseUpgrade.ApplyAllSeedData(logger, userManager, tightEngine,
+                        await DatabaseUpgrade.ApplyAllSeedData(logger, new DummyLocalizationText(), userManager, tightEngine,
                             [WikiDefaultDataType.Themes,
                             WikiDefaultDataType.Configurations,
                             WikiDefaultDataType.FeatureTemplates,

@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using TightWiki.Library;
 using TightWiki.Models;
-using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 
 namespace TightWiki.Engine.Implementation.Utility
@@ -10,46 +9,62 @@ namespace TightWiki.Engine.Implementation.Utility
     {
         public static string Build(string seedTag, int? maxCount)
         {
-            var tags = PageRepository.GetAssociatedTags(seedTag).OrderByDescending(o => o.PageCount).ToList();
+            var tags = PageRepository.GetAssociatedTags(seedTag)
+                .OrderByDescending(o => o.PageCount)
+                .ToList();
 
             if (maxCount > 0)
             {
-                tags = tags.Take((int)maxCount).ToList();
+                tags = tags.Take(maxCount.Value).ToList();
             }
 
-            int tagCount = tags.Count;
-            int fontSize = 7;
-            int sizeStep = (tagCount > fontSize ? tagCount : (fontSize * 2)) / fontSize;
-            int tagIndex = 0;
+            if (tags.Count == 0)
+            {
+                return string.Empty;
+            }
 
-            var tagList = new List<TagCloudItem>();
+            int maxPageCount = tags.Max(o => o.PageCount);
+            int minPageCount = tags.Min(o => o.PageCount);
+
+            tags = tags.OrderBy(o => o.Tag).ToList();
+
+            var html = new StringBuilder();
+
+            html.Append("<div class=\"text-center lh-sm\">");
 
             foreach (var tag in tags)
             {
-                tagList.Add(new TagCloudItem(tag.Tag, tagIndex, "<font size=\"" + fontSize + $"\"><a href=\"{GlobalConfiguration.BasePath}/Tag/Browse/" + NamespaceNavigation.CleanAndValidate(tag.Tag) + "\">" + tag.Tag + "</a></font>"));
+                var encodedTag = System.Net.WebUtility.HtmlEncode(tag.Tag);
+                var url = $"{GlobalConfiguration.BasePath}/Tags/Browse/{NamespaceNavigation.CleanAndValidate(tag.Tag)}";
 
-                if ((tagIndex % sizeStep) == 0)
-                {
-                    fontSize--;
-                }
+                string tierClass = GetTierClass(tag.PageCount, minPageCount, maxPageCount);
 
-                tagIndex++;
+                html.Append(
+                    $"<a href=\"{url}\" class=\"badge rounded-pill  border text-decoration-none text-reset me-1 mb-1 {tierClass}\">{encodedTag}</a>");
             }
 
-            var cloudHtml = new StringBuilder();
+            html.Append("</div>");
 
-            tagList.Sort(TagCloudItem.CompareItem);
+            return html.ToString();
+        }
 
-            cloudHtml.Append("<table align=\"center\" border=\"0\" width=\"100%\"><tr><td><p align=\"justify\">");
-
-            foreach (TagCloudItem tag in tagList)
+        private static string GetTierClass(int pageCount, int minPageCount, int maxPageCount)
+        {
+            if (maxPageCount <= minPageCount)
             {
-                cloudHtml.Append(tag.HTML + "&nbsp; ");
+                return "fs-6";
             }
 
-            cloudHtml.Append("</p></td></tr></table>");
+            double normalized = (double)(pageCount - minPageCount) / (maxPageCount - minPageCount);
 
-            return cloudHtml.ToString();
+            return normalized switch
+            {
+                >= 0.85 => "fs-4 fw-semibold px-3 py-2",
+                >= 0.65 => "fs-5 fw-semibold px-3 py-2",
+                >= 0.45 => "fs-6 fw-semibold px-2 py-1",
+                >= 0.25 => "fs-6 px-2 py-1",
+                _ => "small px-2 py-1"
+            };
         }
     }
 }

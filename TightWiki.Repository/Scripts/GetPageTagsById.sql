@@ -1,5 +1,6 @@
 SELECT
-	PT.Tag
+	PT.Tag,
+	PT.Navigation
 FROM
 	[PageTag] as PT
 WHERE

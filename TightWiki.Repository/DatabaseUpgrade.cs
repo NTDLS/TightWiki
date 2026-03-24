@@ -171,7 +171,7 @@ namespace TightWiki.Repository
             return null;
         }
 
-        public static async Task ApplyAllSeedData(ILogger logger, UserManager<IdentityUser> userManager, ITightEngine tightEngine, WikiDefaultDataType[] defaultDataTypes)
+        public static async Task ApplyAllSeedData(ILogger logger, ISharedLocalizationText localizer, UserManager<IdentityUser> userManager, ITightEngine tightEngine, WikiDefaultDataType[] defaultDataTypes)
         {
             #region Seed: AdminUser.
 
@@ -318,6 +318,7 @@ namespace TightWiki.Repository
 
                 try
                 {
+
                     var dummySessionState = new DummySessionState();
 
                     List<DefaultWikiPage> defaultWikiPages = new();
@@ -359,7 +360,7 @@ namespace TightWiki.Repository
                                 ModifiedDate = DateTime.UtcNow
                             };
 
-                            RepositoryHelpers.UpsertPage(tightEngine, wikiPage, dummySessionState);
+                            RepositoryHelpers.UpsertPage(tightEngine, localizer, wikiPage, dummySessionState);
                         }
                     }
                 }

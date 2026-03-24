@@ -14,13 +14,13 @@ namespace TightWiki.Repository
         /// <summary>
         /// Inserts a new page if Page.Id == 0, other wise updates the page. All metadata is written to the database.
         /// </summary>
-        public static int UpsertPage(ITightEngine wikifier, Page page, ISessionState? sessionState = null)
+        public static int UpsertPage(ITightEngine wikifier, ISharedLocalizationText localizer, Page page, ISessionState? sessionState = null)
         {
             bool isNewlyCreated = page.Id == 0;
 
             page.Id = PageRepository.SavePage(page);
 
-            RefreshPageMetadata(wikifier, page, sessionState);
+            RefreshPageMetadata(wikifier, localizer, page, sessionState);
 
             if (isNewlyCreated)
             {
@@ -37,10 +37,10 @@ namespace TightWiki.Repository
         /// <param name="sessionState"></param>
         /// <param name="query"></param>
         /// <param name="page"></param>
-        public static void RefreshPageMetadata(ITightEngine wikifier, Page page, ISessionState? sessionState = null)
+        public static void RefreshPageMetadata(ITightEngine wikifier, ISharedLocalizationText localizer, Page page, ISessionState? sessionState = null)
         {
             //We omit function calls from the tokenization process because they are too dynamic for static searching.
-            var state = wikifier.Transform(sessionState, page, null, [WikiMatchType.StandardFunction]);
+            var state = wikifier.Transform(localizer, sessionState, page, null, [WikiMatchType.StandardFunction]);
 
             PageRepository.UpdatePageTags(page.Id, state.Tags);
             PageRepository.UpdatePageProcessingInstructions(page.Id, state.ProcessingInstructions);

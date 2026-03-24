@@ -79,7 +79,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                                 html.Append("<ul>");
                                 foreach (var tag in state.Tags)
                                 {
-                                    html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/Tag/Browse/{tag}\">{tag}</a>");
+                                    html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/Tags/Browse/{tag}\">{tag}</a>");
                                 }
                                 html.Append("</ul>");
                                 break;
@@ -87,7 +87,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                                 foreach (var tag in state.Tags)
                                 {
                                     if (html.Length > 0) html.Append(" | ");
-                                    html.Append($"<a href=\"{GlobalConfiguration.BasePath}/Tag/Browse/{tag}\">{tag}</a>");
+                                    html.Append($"<a href=\"{GlobalConfiguration.BasePath}/Tags/Browse/{tag}\">{tag}</a>");
                                 }
                                 break;
                         }

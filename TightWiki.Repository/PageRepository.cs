@@ -1115,9 +1115,11 @@ namespace TightWiki.Repository
 
         public static List<Page> GetPageInfoByTags(List<string> tags)
         {
+            var cleanedTags = tags.Select(o => Navigation.Clean(o));
+
             return ManagedDataStorage.Pages.Ephemeral(o =>
             {
-                using var tempTable = o.CreateTempTableFrom("TempTags", tags);
+                using var tempTable = o.CreateTempTableFrom("TempTags", cleanedTags);
                 return o.Query<Page>("GetPageInfoByTags.sql").ToList();
             });
         }
@@ -1126,7 +1128,7 @@ namespace TightWiki.Repository
         {
             return ManagedDataStorage.Pages.Ephemeral(o =>
             {
-                using var tempTable = o.CreateTempTableFrom("TempTags", new List<string> { tag });
+                using var tempTable = o.CreateTempTableFrom("TempTags", new List<string> { Navigation.Clean(tag) });
                 return o.Query<Page>("GetPageInfoByTags.sql").ToList();
             });
         }
@@ -1135,10 +1137,15 @@ namespace TightWiki.Repository
         {
             ManagedDataStorage.Pages.Ephemeral(o =>
             {
-                tags = tags.Select(o => o.ToLowerInvariant()).Distinct().ToList();
+                var paramTags = tags
+                    .Select(o => new
+                    {
+                        Tag = o,
+                        Navigation = Navigation.Clean(o)
+                    })
+                    .DistinctBy(o => o.Navigation);
 
-                using var tempTable = o.CreateTempTableFrom("TempTags", tags);
-
+                using var tempTable = o.CreateTempTableFrom("TempTags", paramTags);
                 var param = new
                 {
                     PageId = pageId

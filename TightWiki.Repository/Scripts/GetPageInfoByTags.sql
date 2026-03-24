@@ -10,6 +10,6 @@ SELECT DISTINCT
 FROM
 	PageTag as PT
 INNER JOIN TempTags AS T
-	ON T.Value = PT.Tag
+	ON T.Value = PT.Navigation
 INNER JOIN [Page] as P
 	ON P.Id = PT.PageId

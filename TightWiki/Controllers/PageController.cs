@@ -105,7 +105,7 @@ namespace TightWiki.Controllers
                     }
                     else
                     {
-                        var state = tightEngine.Transform(SessionState, page, pageRevision);
+                        var state = tightEngine.Transform(Localizer, SessionState, page, pageRevision);
                         SessionState.PageTitle = state.PageTitle;
 
                         model.Body = state.HtmlResult;
@@ -122,7 +122,7 @@ namespace TightWiki.Controllers
                 }
                 else
                 {
-                    var state = tightEngine.Transform(SessionState, page, pageRevision);
+                    var state = tightEngine.Transform(Localizer, SessionState, page, pageRevision);
 
                     model.Body = state.HtmlResult;
                 }
@@ -154,7 +154,7 @@ namespace TightWiki.Controllers
 
                 SessionState.SetPageId(null, pageRevision);
 
-                var state = tightEngine.Transform(SessionState, notExistsPage);
+                var state = tightEngine.Transform(Localizer, SessionState, notExistsPage);
 
                 SessionState.Page.Name = notExistsPage.Name;
                 model.Body = state.HtmlResult;
@@ -174,7 +174,7 @@ namespace TightWiki.Controllers
 
                 SessionState.SetPageId(null, null);
 
-                var state = tightEngine.Transform(SessionState, notExistsPage);
+                var state = tightEngine.Transform(Localizer, SessionState, notExistsPage);
 
                 SessionState.Page.Name = notExistsPage.Name;
                 model.Body = state.HtmlResult;
@@ -440,7 +440,7 @@ namespace TightWiki.Controllers
 
             if (page != null)
             {
-                RepositoryHelpers.RefreshPageMetadata(tightEngine, page, SessionState);
+                RepositoryHelpers.RefreshPageMetadata(tightEngine, Localizer, page, SessionState);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}/{pageNavigation}");
@@ -631,7 +631,7 @@ namespace TightWiki.Controllers
             if (confirmAction == true)
             {
                 var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision).EnsureNotNull();
-                RepositoryHelpers.UpsertPage(tightEngine, page, SessionState);
+                RepositoryHelpers.UpsertPage(tightEngine, Localizer, page, SessionState);
                 return NotifyOfSuccess(Localize("The page has been reverted."), $"/{pageNavigation}");
             }
 
@@ -719,7 +719,7 @@ namespace TightWiki.Controllers
                     Navigation = request.PageNavigation,
                 };
 
-                var state = tightEngine.Transform(SessionState, page);
+                var state = tightEngine.Transform(Localizer, SessionState, page);
 
                 return Json(new
                 {
@@ -867,7 +867,7 @@ namespace TightWiki.Controllers
                     return View(model);
                 }
 
-                page.Id = RepositoryHelpers.UpsertPage(tightEngine, page, SessionState);
+                page.Id = RepositoryHelpers.UpsertPage(tightEngine, Localizer, page, SessionState);
 
                 SessionState.SetPageId(page.Id);
 
@@ -915,7 +915,7 @@ namespace TightWiki.Controllers
                 page.Navigation = NamespaceNavigation.CleanAndValidate(model.Name);
                 page.Description = model.Description ?? "";
 
-                RepositoryHelpers.UpsertPage(tightEngine, page, SessionState);
+                RepositoryHelpers.UpsertPage(tightEngine, Localizer, page, SessionState);
 
                 SessionState.SetPageId(page.Id);
 

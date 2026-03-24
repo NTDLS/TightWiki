@@ -1,15 +1,16 @@
 SELECT
-	[Extent].[Tag],
+	MAX([Extent].Tag) as Tag,
+	[Extent].Navigation,
 	Count(DISTINCT [Extent].PageId) as [PageCount]
 FROM
 	PageTag as [Root]
 INNER JOIN PageTag as [Interm]
-	ON [Interm].[Tag] = [Root].[Tag]
+	ON [Interm].Navigation = [Root].Navigation
 	AND [Interm].[PageId] = [Root].[PageId]
 INNER JOIN PageTag as [Extent]
 	ON [Extent].[PageId] = [Interm].[PageId]
 WHERE
-	[Root].[Tag] = @Tag
+	[Root].Navigation = @Tag
 GROUP BY
-	[Extent].[Tag]
+	[Extent].Navigation
 LIMIT 100;

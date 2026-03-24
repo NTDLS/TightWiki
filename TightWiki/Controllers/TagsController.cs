@@ -11,11 +11,13 @@ using TightWiki.Repository;
 namespace TightWiki.Controllers
 {
     [Authorize]
+    [Route("[controller]")]
     public class TagsController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager, ISharedLocalizationText localizer)
         : WikiControllerBase<TagsController>(logger, signInManager, userManager, localizer)
     {
         [AllowAnonymous]
+        [HttpGet("Browse/{givenCanonical}")]
         public ActionResult Browse(string givenCanonical)
         {
             try
@@ -37,12 +39,13 @@ namespace TightWiki.Controllers
 
             if (pages.Count > 0)
             {
-                glossaryHtml.Append("<center>");
+                // Alphabet jump bar.
+                glossaryHtml.Append("<div class=\"text-center mb-2\">");
                 foreach (var alpha in alphabet)
                 {
-                    glossaryHtml.Append("<a href=\"#" + glossaryName + "_" + alpha + "\">" + alpha + "</a>&nbsp;");
+                    glossaryHtml.Append($"<a href=\"#{glossaryName}_{alpha}\" class=\"mx-1 text-decoration-none\">{alpha}</a>");
                 }
-                glossaryHtml.Append("</center>");
+                glossaryHtml.Append("</div>");
 
                 glossaryHtml.Append("<ul>");
                 foreach (var alpha in alphabet)

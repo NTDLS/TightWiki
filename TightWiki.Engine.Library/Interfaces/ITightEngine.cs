@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using static TightWiki.Engine.Library.Constants;
 
@@ -19,7 +20,7 @@ namespace TightWiki.Engine.Library.Interfaces
         IInternalLinkHandler InternalLinkHandler { get; }
         IExceptionHandler ExceptionHandler { get; }
         ICompletionHandler CompletionHandler { get; }
-        ITightEngineState Transform(ISessionState? sessionState, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null);
+        ITightEngineState Transform(ISharedLocalizationText localizer, ISessionState? sessionState, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null);
         //ITightEngineState TransformChild(ITightEngineState parent, IPage page, int? revision = null);
     }
 }

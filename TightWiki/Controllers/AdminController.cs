@@ -102,7 +102,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await DatabaseUpgrade.ApplyAllSeedData(_logger, _userManager, _tightEngine, [defaultDataType]);
+                    await DatabaseUpgrade.ApplyAllSeedData(_logger, Localizer, _userManager, _tightEngine, [defaultDataType]);
 
                     return NotifyOfSuccess(Localize("Restore complete."), model.YesRedirectURL);
 
@@ -497,7 +497,7 @@ namespace TightWiki.Controllers
                     return NotifyOfError(Localize("You cannot revert to the current page revision."));
                 }
 
-                Repository.RepositoryHelpers.UpsertPage(_tightEngine, page, SessionState);
+                Repository.RepositoryHelpers.UpsertPage(_tightEngine, Localizer, page, SessionState);
 
                 return NotifyOfSuccess(Localize("The page has been reverted."), model.YesRedirectURL);
             }
@@ -564,7 +564,7 @@ namespace TightWiki.Controllers
 
             if (page != null)
             {
-                var state = _tightEngine.Transform(SessionState, page);
+                var state = _tightEngine.Transform(Localizer, SessionState, page);
                 model.PageId = pageId;
                 model.Revision = pageId;
                 model.Body = state.HtmlResult;
@@ -655,7 +655,7 @@ namespace TightWiki.Controllers
                 {
                     int previousRevision = PageRepository.GetPagePreviousRevision(page.Id, revision);
                     var previousPageRevision = PageRepository.GetPageRevisionByNavigation(pageNavigation, previousRevision).EnsureNotNull();
-                    Repository.RepositoryHelpers.UpsertPage(_tightEngine, previousPageRevision, SessionState);
+                    Repository.RepositoryHelpers.UpsertPage(_tightEngine, Localizer, previousPageRevision, SessionState);
                 }
 
                 PageRepository.MovePageRevisionToDeletedById(page.Id, revision, SessionState.Profile.EnsureNotNull().UserId);
@@ -688,7 +688,7 @@ namespace TightWiki.Controllers
 
             if (page != null)
             {
-                var state = _tightEngine.Transform(SessionState, page);
+                var state = _tightEngine.Transform(Localizer, SessionState, page);
                 model.PageId = pageId;
                 model.Body = state.HtmlResult;
                 model.DeletedDate = SessionState.LocalizeDateTime(page.ModifiedDate);
@@ -742,7 +742,7 @@ namespace TightWiki.Controllers
             {
                 foreach (var page in PageRepository.GetAllPages())
                 {
-                    Repository.RepositoryHelpers.RefreshPageMetadata(_tightEngine, page, SessionState);
+                    Repository.RepositoryHelpers.RefreshPageMetadata(_tightEngine, Localizer, page, SessionState);
                 }
                 return NotifyOfSuccess(Localize("All pages have been rebuilt."), model.YesRedirectURL);
             }
@@ -781,7 +781,7 @@ namespace TightWiki.Controllers
                         var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
                         if (WikiCache.Contains(cacheKey) == false)
                         {
-                            var state = _tightEngine.Transform(SessionState, page, page.Revision);
+                            var state = _tightEngine.Transform(Localizer, SessionState, page, page.Revision);
                             page.Body = state.HtmlResult;
 
                             if (state.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
@@ -966,7 +966,7 @@ namespace TightWiki.Controllers
                 var page = PageRepository.GetLatestPageRevisionById(pageId);
                 if (page != null)
                 {
-                    Repository.RepositoryHelpers.RefreshPageMetadata(_tightEngine, page, SessionState);
+                    Repository.RepositoryHelpers.RefreshPageMetadata(_tightEngine, Localizer, page, SessionState);
                 }
                 return NotifyOfSuccess(Localize("The page has restored."), model.YesRedirectURL);
             }

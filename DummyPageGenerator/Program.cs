@@ -89,7 +89,7 @@ namespace DummyPageGenerator
 
             ConfigurationRepository.ReloadEverything();
 
-            var pg = new PageGenerator(userManager);
+            var pg = new PageGenerator(new DummyLocalizationText(), userManager);
 
             var pool = new DelegateThreadPool();
 

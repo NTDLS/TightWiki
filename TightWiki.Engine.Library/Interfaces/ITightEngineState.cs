@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
+using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using static TightWiki.Engine.Library.Constants;
 
@@ -10,6 +11,7 @@ namespace TightWiki.Engine.Library.Interfaces
     {
         #region Parameters.
 
+        ISharedLocalizationText Localizer { get; }
         ISessionState? Session { get; }
         IQueryCollection QueryString { get; }
 

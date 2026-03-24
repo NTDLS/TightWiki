@@ -18,6 +18,7 @@ namespace TightWiki.Engine
         : ITightEngineState
     {
         public ITightEngine Engine { get; private set; }
+        public ISharedLocalizationText Localizer { get; private set; }
 
         private string _queryTokenHash = "c03a1c9e-da83-479b-87e8-21d7906bd866";
         private int _matchesStoredPerIteration = 0;
@@ -106,9 +107,10 @@ namespace TightWiki.Engine
         /// <param name="revision">The revision of the page that is being processed.</param>
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
         /// <param name="nestDepth">The current depth of recursion.</param>
-        internal TightEngineState(ILogger<ITightEngine> logger, ITightEngine engine, ISessionState? session,
+        internal TightEngineState(ILogger<ITightEngine> logger, ITightEngine engine, ISharedLocalizationText localizer, ISessionState? session,
             IPage page, int? revision = null, WikiMatchType[]? omitMatches = null, int nestDepth = 0)
         {
+            Localizer = localizer;
             Logger = logger;
             QueryString = session?.QueryString ?? new QueryCollection();
             Page = page;
@@ -133,7 +135,7 @@ namespace TightWiki.Engine
         /// <param name="revision">The optional revision of the child page to process.</param>
         public ITightEngineState TransformChild(IPage page, int? revision = null)
         {
-            return new TightEngineState(Logger, Engine, Session, page, revision, OmitMatches.ToArray(), NestDepth + 1).Transform();
+            return new TightEngineState(Logger, Engine, Localizer, Session, page, revision, OmitMatches.ToArray(), NestDepth + 1).Transform();
         }
 
         internal ITightEngineState Transform()

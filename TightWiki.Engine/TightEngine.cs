@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using static TightWiki.Engine.Library.Constants;
 
@@ -57,11 +58,12 @@ namespace TightWiki.Engine
         /// <summary>
         /// Transforms the content for the given page.
         /// </summary>
+        /// <param name="localizer">The localization text provider.</param>
         /// <param name="session">The users current state, used for localization.</param>
         /// <param name="page">The page that is being processed.</param>
         /// <param name="revision">The revision of the page that is being processed.</param>
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
-        public ITightEngineState Transform(ISessionState? session, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null)
-            => new TightEngineState(Logger, this, session, page, revision, omitMatches).Transform();
+        public ITightEngineState Transform(ISharedLocalizationText localizer, ISessionState? session, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null)
+            => new TightEngineState(Logger, this, localizer, session, page, revision, omitMatches).Transform();
     }
 }
