@@ -1,1 +1,1 @@
-DELETE FROM [CompilationStatistics] WHERE PageId = @PageId;
+DELETE FROM [PageStatistics] WHERE PageId = @PageId;

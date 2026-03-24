@@ -1,6 +1,6 @@
 ﻿namespace TightWiki.Models.DataModels
 {
-    public class PageCompilationStatistics
+    public class PageStatistics
     {
         public string Title
         {
@@ -22,6 +22,7 @@
         public int TotalCompilationCount { get; set; }
         public decimal LastWikifyTimeMs { get; set; }
         public decimal TotalWikifyTimeMs { get; set; }
+        public int TotalViewCount { get; set; }
         public int LastMatchCount { get; set; }
         public int LastErrorCount { get; set; }
         public int LastOutgoingLinkCount { get; set; }

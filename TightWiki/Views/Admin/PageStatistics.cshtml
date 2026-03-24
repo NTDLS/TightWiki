@@ -1,4 +1,4 @@
-﻿@model TightWiki.Models.ViewModels.Admin.PageCompilationStatisticsViewModel
+﻿@model TightWiki.Models.ViewModels.Admin.PageStatisticsViewModel
 @using NTDLS.Helpers
 @using TightWiki.Library
 @using TightWiki.Models
@@ -12,10 +12,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Compilations"]
+            @Localizer["Page Statistics"]
         </h3>
         <div class="text-muted">
-            @Localizer["The latest compilation statistics for all wiki pages."]
+            @Localizer["The latest page statistics for all wiki pages."]
         </div>
     </div>
 </div>
@@ -23,14 +23,14 @@
 <div class="card shadow-sm">
     <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <span class="fw-semibold">
-            <i class="bi bi-bar-chart-line me-2"></i>@Localizer["Compilation Statistics"]
+            <i class="bi bi-bar-chart-line me-2"></i>@Localizer["Page Statistics"]
         </span>
 
         @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
             GlobalConfiguration.BasePath,
-            Localizer["Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?"].Value,
-            Localizer["Purge Compilation Statistics"].Value,
-            "/Admin/PurgeCompilationStatistics",
+            Localizer["Purging the page statistics will delete all of the stored statistics for all pages. Continue?"].Value,
+            Localizer["Purge Page Statistics"].Value,
+            "/Admin/PurgePageStatistics",
             Context.Request.Path.Value)
     </div>
 
@@ -71,8 +71,22 @@
                         </th>
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
+                                   href="?@QueryStringConverter.OrderHelper(sessionState, "TotalViewCount")">
+                                @Localizer["Views"]
+                            </a>
+                        </th>
+         
+                        <th scope="col" class="text-end text-nowrap">
+                            <a class="link-dark text-decoration-none"
+                                   href="?@QueryStringConverter.OrderHelper(sessionState, "TotalCompilationCount")">
+                                @Localizer["Compilations"]
+                            </a>
+                        </th>
+
+                        <th scope="col" class="text-end text-nowrap">
+                            <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "LastWikifyTimeMs")">
-                                @Localizer["Build Duration"]
+                                @Localizer["Build Time"]
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap">
@@ -95,14 +109,8 @@
                         </th>
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "LastBodySize")">
-                                @Localizer["Raw Boby"] <span class="text-muted">
-                            </a>
-                        </th>
-                        <th scope="col" class="text-end text-nowrap">
-                            <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "LastProcessedBodySize")">
-                                @Localizer["Processed Body"] <span class="text-muted">
+                                @Localizer["Size"] <span class="text-muted">
                             </a>
                         </th>
                     </tr>
@@ -144,6 +152,10 @@
 
                             <td class="text-end text-nowrap">
                                 @stat.TotalCompilationCount.ToString("N0")
+                            </td>
+
+                            <td class="text-end text-nowrap">
+                                @stat.TotalViewCount.ToString("N0")
                             </td>
 
                             <td class="text-end text-nowrap">

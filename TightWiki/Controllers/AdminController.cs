@@ -195,8 +195,8 @@ namespace TightWiki.Controllers
         }
 
         [Authorize]
-        [HttpPost("PurgeCompilationStatistics")]
-        public ActionResult PurgeCompilationStatistics(ConfirmActionViewModel model)
+        [HttpPost("PurgePageStatistics")]
+        public ActionResult PurgePageStatistics(ConfirmActionViewModel model)
         {
             try
             {
@@ -208,8 +208,8 @@ namespace TightWiki.Controllers
             }
             if (model.UserSelection == true)
             {
-                StatisticsRepository.PurgeCompilationStatistics();
-                return NotifyOfSuccess(Localize("Compilation statistics purged."), model.YesRedirectURL);
+                StatisticsRepository.PurgePageStatistics();
+                return NotifyOfSuccess(Localize("Page statistics purged."), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
@@ -238,11 +238,11 @@ namespace TightWiki.Controllers
 
         #endregion
 
-        #region Compilation Statistics.
+        #region Page Statistics.
 
         [Authorize]
-        [HttpGet("CompilationStatistics")]
-        public ActionResult CompilationStatistics()
+        [HttpGet("PageStatistics")]
+        public ActionResult PageStatistics()
         {
             try
             {
@@ -252,15 +252,15 @@ namespace TightWiki.Controllers
             {
                 return NotifyOfError(ex.GetBaseException().Message, "/");
             }
-            SessionState.Page.Name = Localize("Compilations Statistics");
+            SessionState.Page.Name = Localize("Page Statistics");
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue<string>("OrderBy");
             var orderByDirection = GetQueryValue<string>("OrderByDirection");
 
-            var model = new PageCompilationStatisticsViewModel()
+            var model = new PageStatisticsViewModel()
             {
-                Statistics = StatisticsRepository.GetCompilationStatisticsPaged(pageNumber, orderBy, orderByDirection),
+                Statistics = StatisticsRepository.GetPageStatisticsPaged(pageNumber, orderBy, orderByDirection),
             };
 
             model.PaginationPageCount = (model.Statistics.FirstOrDefault()?.PaginationPageCount ?? 0);

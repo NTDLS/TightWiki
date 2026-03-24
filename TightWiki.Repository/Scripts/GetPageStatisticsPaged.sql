@@ -3,6 +3,7 @@ SELECT
 	MAX(P.Namespace) as Namespace,
 	MAX(P.Navigation) as Navigation,
     Stats.PageId,
+	Stats.TotalViewCount,
     Stats.LastCompileDateTime,
     Stats.TotalCompilationCount,
     Stats.LastWikifyTimeMs,
@@ -18,12 +19,12 @@ SELECT
 		SELECT
 			(Count(DISTINCT P.Id) + (@PageSize - 1)) / @PageSize
 		FROM
-			CompilationStatistics as Stats
+			PageStatistics as Stats
 		INNER JOIN pages_db.[Page] as P
 			ON P.Id = Stats.PageId
 	) as PaginationPageCount
 FROM
-	CompilationStatistics as Stats
+	PageStatistics as Stats
 INNER JOIN pages_db.[Page] as P
 	ON P.Id = Stats.PageId
 GROUP BY
@@ -36,6 +37,7 @@ Navigation=MAX(P.Navigation)
 PageId=Stats.PageId
 LastCompileDateTime=Stats.LastCompileDateTime
 TotalCompilationCount=Stats.TotalCompilationCount
+TotalViewCount=Stats.TotalViewCount
 LastWikifyTimeMs=Stats.LastWikifyTimeMs
 TotalWikifyTimeMs=Stats.TotalWikifyTimeMs
 LastMatchCount=Stats.LastMatchCount

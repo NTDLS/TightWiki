@@ -18,7 +18,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         {
             if (GlobalConfiguration.RecordCompilationMetrics)
             {
-                StatisticsRepository.MergeCompilationStatistics(state.Page.Id,
+                StatisticsRepository.MergePageCompilationStatistics(state.Page.Id,
                     state.ProcessingTime.TotalMilliseconds,
                     state.MatchCount,
                     state.ErrorCount,

@@ -1,4 +1,4 @@
-INSERT INTO CompilationStatistics
+INSERT INTO PageStatistics
 (
     PageId,
     LastCompileDateTime,
@@ -28,9 +28,9 @@ VALUES
 )
 ON CONFLICT(PageId) DO UPDATE SET
     LastCompileDateTime = @LastCompileDateTime,
-    TotalCompilationCount = CompilationStatistics.TotalCompilationCount + 1,
+    TotalCompilationCount = PageStatistics.TotalCompilationCount + 1,
     LastWikifyTimeMs = @LastWikifyTimeMs,
-    TotalWikifyTimeMs = CompilationStatistics.TotalWikifyTimeMs + @LastWikifyTimeMs,
+    TotalWikifyTimeMs = PageStatistics.TotalWikifyTimeMs + @LastWikifyTimeMs,
     LastMatchCount = @LastMatchCount,
     LastErrorCount = @LastErrorCount,
     LastOutgoingLinkCount = @LastOutgoingLinkCount,

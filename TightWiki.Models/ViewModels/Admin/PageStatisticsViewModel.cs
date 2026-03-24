@@ -2,10 +2,10 @@
 
 namespace TightWiki.Models.ViewModels.Admin
 {
-    public class PageCompilationStatisticsViewModel
+    public class PageStatisticsViewModel
         : ViewModelBase
     {
-        public List<PageCompilationStatistics> Statistics { get; set; } = new();
+        public List<PageStatistics> Statistics { get; set; } = new();
         public int PaginationPageCount { get; set; }
     }
 }

@@ -5,7 +5,7 @@ namespace TightWiki.Repository
 {
     public static class StatisticsRepository
     {
-        public static void MergeCompilationStatistics(int pageId,
+        public static void MergePageCompilationStatistics(int pageId,
             double wikifyTimeMs, int matchCount, int errorCount, int outgoingLinkCount,
             int tagCount, int processedBodySize, int bodySize)
         {
@@ -22,13 +22,13 @@ namespace TightWiki.Repository
                 LastBodySize = bodySize
             };
 
-            ManagedDataStorage.Statistics.Execute("MergeCompilationStatistics.sql", param);
+            ManagedDataStorage.Statistics.Execute("MergePageCompilationStatistics.sql", param);
         }
 
-        public static void PurgeCompilationStatistics()
-            => ManagedDataStorage.Statistics.Execute("PurgeCompilationStatistics.sql");
+        public static void PurgePageStatistics()
+            => ManagedDataStorage.Statistics.Execute("PurgePageStatistics.sql");
 
-        public static List<PageCompilationStatistics> GetCompilationStatisticsPaged(
+        public static List<PageStatistics> GetPageStatisticsPaged(
             int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
             pageSize ??= GlobalConfiguration.PaginationSize;
@@ -43,8 +43,8 @@ namespace TightWiki.Repository
             {
                 using var users_db = o.Attach("pages.db", "pages_db");
 
-                var query = RepositoryHelper.TransposeOrderby("GetCompilationStatisticsPaged.sql", orderBy, orderByDirection);
-                return o.Query<PageCompilationStatistics>(query, param);
+                var query = RepositoryHelper.TransposeOrderby("GetPageStatisticsPaged.sql", orderBy, orderByDirection);
+                return o.Query<PageStatistics>(query, param);
             });
         }
     }

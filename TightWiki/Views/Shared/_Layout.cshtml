@@ -3,10 +3,12 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.Extensions.Options
 @using TightWiki
+@using TightWiki.Engine.Library.Interfaces
 @using TightWiki.Library
 @using TightWiki.Models
 @using static TightWiki.Library.Constants
 @inject ISharedLocalizationText Localizer
+@inject ITightEngine TightEngine
 
 @{
     var sessionState = ViewData["SessionState"] as SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -73,27 +75,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.3.1/js/tabulator.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
-        $(function () {
+    $(function () {
         localStorage.setItem('theme', '@sessionState.UserTheme.EditorTheme');
 
         $('nav')
-        .removeClass('navbar-light bg-white')
-        .addClass('@sessionState.UserTheme.ClassNavBar');
+            .removeClass('navbar-light bg-white')
+            .addClass('@sessionState.UserTheme.ClassNavBar');
 
         $('a.nav-link')
-        .removeClass('text-dark')
-        .addClass('@sessionState.UserTheme.ClassNavLink');
+            .removeClass('text-dark')
+            .addClass('@sessionState.UserTheme.ClassNavLink');
 
         $('a.dropdown-item')
-        .removeClass('text-dark')
-        .addClass('@sessionState.UserTheme.ClassDropdown');
+            .removeClass('text-dark')
+            .addClass('@sessionState.UserTheme.ClassDropdown');
 
         $('.site-branding')
-        .removeClass('text-dark')
-        .addClass('@sessionState.UserTheme.ClassBranding');
+            .removeClass('text-dark')
+            .addClass('@sessionState.UserTheme.ClassBranding');
 
-        @if (TightWiki.Models.GlobalConfiguration.FixedMenuPosition)
-        {
+        @if (TightWiki.Models.GlobalConfiguration.FixedMenuPosition) {
             <text>
                 const navHeight = $('nav').outerHeight() + 20;
                 $('#mainContainer').css('margin-top', navHeight + 'px');
@@ -101,14 +102,14 @@
         }
 
         setTimeout(function () {
-        document.querySelectorAll('.auto-dismiss-alert').forEach(function (alertElement) {
-        if (alertElement) {
-        alertElement.classList.remove('show');
-        setTimeout(() => alertElement.remove(), 300);
-        }
-        });
+            document.querySelectorAll('.auto-dismiss-alert').forEach(function (alertElement) {
+                if (alertElement) {
+                    alertElement.classList.remove('show');
+                    setTimeout(() => alertElement.remove(), 300);
+                }
+            });
         }, 5000);
-        });
+    });
     </script>
 
     @RenderSection("Scripts", required: false)
@@ -162,8 +163,8 @@
                         }
 
                         @if (sessionState.HoldsPermission(WikiPermission.Create)
-                                                                            || (sessionState.ShouldCreatePage && sessionState.HoldsPermission(WikiPermission.Create))
-                                                                            || (sessionState.Page.Exists && sessionState.HoldsPermission([WikiPermission.Edit, WikiPermission.Moderate, WikiPermission.Delete])))
+                            || (sessionState.ShouldCreatePage && sessionState.HoldsPermission(WikiPermission.Create))
+                            || (sessionState.Page.Exists && sessionState.HoldsPermission([WikiPermission.Edit, WikiPermission.Moderate, WikiPermission.Delete])))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="pageMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -247,7 +248,7 @@
                                         <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Emojis">@Localizer["Emojis"]</a></li>
                                         <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/MenuItems">@Localizer["Site Menu"]</a></li>
                                         <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/CompilationStatistics">@Localizer["Compilations"]</a></li>
+                                        <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/PageStatistics">@Localizer["Page Statistics"]</a></li>
                                         <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Database">@Localizer["Database"]</a></li>
                                         <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/EventLog">@Localizer["Event Log"]</a></li>
                                         <li><a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Metrics">@Localizer["Metrics"]</a></li>

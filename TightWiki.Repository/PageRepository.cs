@@ -150,7 +150,7 @@ namespace TightWiki.Repository
 
             return WikiCache.AddOrGet(cacheKey, () =>
             {
-                var minimumMatchScore = ConfigurationRepository.Get<float>("Search", "Minimum Match Score")
+                var minimumMatchScore = ConfigurationRepository.Get<float>("Search", "Minimum Match Score");
 
                 var searchTokens = searchTerms.Select(o =>
                                     new PageToken
@@ -175,7 +175,7 @@ namespace TightWiki.Repository
                                 Match = group.Max(g => g.Match),
                                 Weight = group.Max(g => g.Weight),
                                 Score = group.Max(g => g.Score)
-                            });
+                            }).ToList();
                 }
                 else
                 {
