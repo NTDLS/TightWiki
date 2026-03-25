@@ -103,7 +103,7 @@ namespace TightWiki.Controllers
                             using var ms = new MemoryStream();
                             file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
                             var cacheItem = new ImageCacheItem(ms.ToArray(), file.ContentType);
-                            WikiCache.Put(cacheKey, cacheItem);
+                            WikiCache.Set(cacheKey, cacheItem);
                             return File(cacheItem.Bytes, cacheItem.ContentType);
                         }
                     }
@@ -119,7 +119,7 @@ namespace TightWiki.Controllers
                         using var ms = new MemoryStream();
                         file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
                         var cacheItem = new ImageCacheItem(ms.ToArray(), file.ContentType);
-                        WikiCache.Put(cacheKey, cacheItem);
+                        WikiCache.Set(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
                     else
@@ -208,7 +208,7 @@ namespace TightWiki.Controllers
                         image.SaveAsPng(ms);
 
                         var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
-                        WikiCache.Put(cacheKey, cacheItem);
+                        WikiCache.Set(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
                     //Enforce max width if specified.
@@ -224,7 +224,7 @@ namespace TightWiki.Controllers
                         image.SaveAsPng(ms);
 
                         var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
-                        WikiCache.Put(cacheKey, cacheItem);
+                        WikiCache.Set(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
                     else
@@ -233,7 +233,7 @@ namespace TightWiki.Controllers
                         img.SaveAsPng(ms);
 
                         var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
-                        WikiCache.Put(cacheKey, cacheItem);
+                        WikiCache.Set(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
                 }
@@ -588,7 +588,7 @@ namespace TightWiki.Controllers
                                 return NotFound(Localize("Emoji {0} was not found", emojiNavigation));
                             }
 
-                            WikiCache.Put(imageCacheKey, emoji.ImageData);
+                            WikiCache.Set(imageCacheKey, emoji.ImageData);
                         }
 
                         if (emoji.ImageData != null)
@@ -626,7 +626,7 @@ namespace TightWiki.Controllers
                             {
                                 var resized = ResizeGifImage(decompressedImageBytes, Width, Height);
                                 var itemCache = new ImageCacheItem(resized, "image/gif");
-                                WikiCache.Put(scaledImageCacheKey, itemCache);
+                                WikiCache.Set(scaledImageCacheKey, itemCache);
                                 return File(itemCache.Bytes, itemCache.ContentType);
                             }
                             else
@@ -636,7 +636,7 @@ namespace TightWiki.Controllers
                                 image.SaveAsPng(ms);
 
                                 var itemCache = new ImageCacheItem(ms.ToArray(), "image/png");
-                                WikiCache.Put(scaledImageCacheKey, itemCache);
+                                WikiCache.Set(scaledImageCacheKey, itemCache);
 
                                 return File(itemCache.Bytes, itemCache.ContentType);
                             }

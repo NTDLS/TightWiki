@@ -358,7 +358,7 @@ namespace TightWiki.Repository
                                 //These are hard to generate, so just keep it forever.
                                 var resized = Images.ResizeGifImage(decompressedImageBytes, Width, Height);
                                 var itemCache = new ImageCacheItem(resized, "image/gif");
-                                WikiCache.Put(scaledImageCacheKey, itemCache, new CacheItemPolicy());
+                                WikiCache.Set(scaledImageCacheKey, itemCache, new CacheItemPolicy());
                             }
                         }
                     });
@@ -377,7 +377,7 @@ namespace TightWiki.Repository
             GlobalConfiguration.RecordCompilationMetrics = performanceConfig.Value<bool>("Record Compilation Metrics");
             GlobalConfiguration.CacheMemoryLimitMB = performanceConfig.Value<int>("Cache Memory Limit MB");
 
-            WikiCache.Initialize(GlobalConfiguration.CacheMemoryLimitMB, GlobalConfiguration.PageCacheSeconds);
+            WikiCache.Initialize(GlobalConfiguration.CacheMemoryLimitMB, TimeSpan.FromSeconds(GlobalConfiguration.PageCacheSeconds));
 
             var basicConfig = GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Basic);
             var customizationConfig = GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Customization);

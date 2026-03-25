@@ -18,6 +18,7 @@
         public string Namespace { get; set; } = string.Empty;
         public string Navigation { get; set; } = string.Empty;
         public int PageId { get; set; }
+        public int Revisions { get; set; }
         public DateTime LastCompileDateTime { get; set; }
         public int TotalCompilationCount { get; set; }
         public decimal LastWikifyTimeMs { get; set; }

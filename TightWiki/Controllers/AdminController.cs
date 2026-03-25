@@ -948,7 +948,7 @@ namespace TightWiki.Controllers
 
                                 if (state.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
                                 {
-                                    WikiCache.Put(cacheKey, state.HtmlResult); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
+                                    WikiCache.Set(cacheKey, state.HtmlResult); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
                                 }
                             }
                         });

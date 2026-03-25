@@ -13,4 +13,4 @@ VALUES
     1
 )
 ON CONFLICT(PageId) DO UPDATE SET
-    TotalViewCount = PageStatistics.TotalViewCount + 1,
+    TotalViewCount = PageStatistics.TotalViewCount + 1

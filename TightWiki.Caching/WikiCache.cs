@@ -15,13 +15,14 @@ namespace TightWiki.Caching
             Security,
             Search,
             Emoji,
-            Configuration
+            Configuration,
+            Session
         }
 
-        public static int DefaultCacheSeconds { get; set; }
+        public static TimeSpan DefaultCacheExpiration { get; set; }
         private static MemoryCache? _memCache;
 
-        public static ulong CachePuts { get; set; }
+        public static ulong CacheSets { get; set; }
         public static ulong CacheGets { get; set; }
         public static ulong CacheHits { get; set; }
         public static ulong CacheMisses { get; set; }
@@ -30,9 +31,9 @@ namespace TightWiki.Caching
 
         public static MemoryCache MemCache => _memCache ?? throw new Exception("Cache has not been initialized.");
 
-        public static void Initialize(int cacheMemoryLimitMB, int defaultCacheSeconds)
+        public static void Initialize(int cacheMemoryLimitMB, TimeSpan defaultCacheExpiration)
         {
-            DefaultCacheSeconds = defaultCacheSeconds;
+            DefaultCacheExpiration = defaultCacheExpiration;
             var config = new NameValueCollection
             {
                 //config.Add("pollingInterval", "00:05:00");
@@ -101,7 +102,7 @@ namespace TightWiki.Caching
         /// <summary>
         /// Tries to get a value from cache, if it does not exist then a delegate is called to get the value and it is then cached.
         /// </summary>
-        public static T? AddOrGet<T>(IWikiCacheKey cacheKey, bool forceReCache, GetValueDelegate<T?> getValueDelegate, int? seconds = null)
+        public static T? AddOrGet<T>(IWikiCacheKey cacheKey, bool forceReCache, GetValueDelegate<T?> getValueDelegate, TimeSpan? cacheExpiration = null)
         {
             if (_memCache == null)
             {
@@ -122,9 +123,15 @@ namespace TightWiki.Caching
 
             if (result != null)
             {
+                cacheExpiration ??= DefaultCacheExpiration;
+                if (cacheExpiration.Value.TotalSeconds <= 0)
+                {
+                    return result;
+                }
+
                 var policy = new CacheItemPolicy()
                 {
-                    AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(seconds ?? DefaultCacheSeconds)
+                    AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(cacheExpiration.Value.TotalSeconds)
                 };
                 MemCache.Add(cacheKey.Key, result, policy);
             }
@@ -135,7 +142,7 @@ namespace TightWiki.Caching
         /// <summary>
         /// Tries to get a value from cache, if it does not exist then a delegate is called to get the value and it is then cached.
         /// </summary>
-        public static T? AddOrGet<T>(IWikiCacheKey cacheKey, GetValueDelegate<T?> getValueDelegate, int? seconds = null)
+        public static T? AddOrGet<T>(IWikiCacheKey cacheKey, GetValueDelegate<T?> getValueDelegate, TimeSpan? cacheExpiration = null)
         {
             if (_memCache == null)
             {
@@ -151,11 +158,18 @@ namespace TightWiki.Caching
 
             if (result != null)
             {
+                cacheExpiration ??= DefaultCacheExpiration;
+                if (cacheExpiration.Value.TotalSeconds <= 0)
+                {
+                    return result;
+                }
+
                 var policy = new CacheItemPolicy()
                 {
-                    AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(seconds ?? DefaultCacheSeconds)
+                    AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(cacheExpiration.Value.TotalSeconds)
                 };
-                MemCache.Add(cacheKey.Key, result, policy);
+                CacheSets++;
+                Set(cacheKey, result, policy);
             }
 
             return result;
@@ -167,26 +181,24 @@ namespace TightWiki.Caching
         /// <param name="cacheKey"></param>
         /// <param name="value"></param>
         /// <param name="seconds"></param>
-        public static void Put(IWikiCacheKey cacheKey, object value, int? seconds = null)
+        public static void Set(IWikiCacheKey cacheKey, object value, TimeSpan? cacheExpiration = null)
         {
-            CachePuts++;
-
-            seconds ??= DefaultCacheSeconds;
-            if (seconds <= 0)
+            cacheExpiration ??= DefaultCacheExpiration;
+            if (cacheExpiration.Value.TotalSeconds <= 0)
             {
                 return;
             }
 
             var policy = new CacheItemPolicy()
             {
-                AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(seconds ?? DefaultCacheSeconds)
+                AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(cacheExpiration.Value.TotalSeconds)
             };
-            MemCache.Add(cacheKey.Key, value, policy);
+            Set(cacheKey, value, policy);
         }
 
-        public static void Put(IWikiCacheKey cacheKey, object value, CacheItemPolicy policy)
+        public static void Set(IWikiCacheKey cacheKey, object value, CacheItemPolicy policy)
         {
-            CachePuts++;
+            CacheSets++;
             MemCache.Add(cacheKey.Key, value, policy);
         }
 

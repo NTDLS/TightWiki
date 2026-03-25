@@ -221,7 +221,7 @@ namespace TightWiki
                     }
                 }
                 return false;
-            }, WikiCache.DefaultCacheSeconds);
+            });
         }
 
         private bool? EvaluatePermission(WikiPermission permission, Models.DataModels.Page? page)

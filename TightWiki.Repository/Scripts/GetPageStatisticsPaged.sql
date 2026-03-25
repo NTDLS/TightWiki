@@ -2,6 +2,7 @@ SELECT
 	MAX(P.Name) as PageName,
 	MAX(P.Namespace) as Namespace,
 	MAX(P.Navigation) as Navigation,
+	MAX(P.Revision) as Revisions,
     Stats.PageId,
 	Stats.TotalViewCount,
     Stats.LastCompileDateTime,
@@ -34,6 +35,7 @@ GROUP BY
 /*
 Name=MAX(P.Name)
 Navigation=MAX(P.Navigation)
+Revisions=MAX(P.Revision)
 PageId=Stats.PageId
 LastCompileDateTime=Stats.LastCompileDateTime
 TotalCompilationCount=Stats.TotalCompilationCount

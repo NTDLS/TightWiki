@@ -51,12 +51,60 @@ namespace TightWiki.Controllers
         #region Display.
 
         /// <summary>
-        /// Default controller for root requests. e.g. http://127.0.0.1/
+        /// Default controller for root requests.
         /// </summary>
         [HttpGet]
         public IActionResult Display()
             => Display("home", null);
 
+        [NonAction]
+        private void TryIncrementPageView(int pageId)
+        {
+            try
+            {
+                var hitCounterThrottle = ConfigurationRepository.Get(WikiConfigurationGroup.Performance, "Hit Counter Throttle (Seconds)", 0);
+                var cacheKey = WikiCacheKey.Build(WikiCache.Category.Session, [pageId, "PageView", GetPageViewViewerKey()]);
+                if (WikiCache.Contains(cacheKey))
+                {
+                    return;
+                }
+
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        StatisticsRepository.IncrementPageViewCount(pageId);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError(ex, "Failed to increment page view count for page id {PageId} in background task.", pageId);
+                    }
+                });
+
+                //Just store a value (in this case a DateTime) so that we can test for it later.
+                WikiCache.Set(cacheKey, DateTime.UtcNow, TimeSpan.FromSeconds(hitCounterThrottle));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Failed to increment page view count for page id {PageId}", pageId);
+            }
+        }
+
+        [NonAction]
+        private string GetPageViewViewerKey()
+        {
+            if (User.Identity?.IsAuthenticated == true && SessionState.Profile != null)
+            {
+                return Security.Helpers.Sha1($"user:{SessionState.Profile.UserId}");
+            }
+
+            var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+            //IP could be a load balancer or somehting like cloudflare,
+            //  so lets bake in the user agent as well to help differentiate viewers.
+            var userAgent = Request.Headers.UserAgent.ToString();
+
+            return Security.Helpers.Sha1($"anon:{ip}:{userAgent}");
+        }
 
         [HttpGet("{givenCanonical}/{pageRevision:int?}")]
         public IActionResult Display(string givenCanonical, int? pageRevision)
@@ -78,17 +126,7 @@ namespace TightWiki.Controllers
                 var page = PageRepository.GetPageRevisionByNavigation(navigation.Canonical, pageRevision);
                 if (page != null)
                 {
-                    Task.Run(() =>
-                    {
-                        try
-                        {
-                            StatisticsRepository.IncrementPageViewCount(page.Id);
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.LogError(ex, "Failed to increment page view count for page id {PageId}", page.Id);
-                        }
-                    });
+                    TryIncrementPageView(page.Id);
 
                     var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
                     model.Revision = page.Revision;
@@ -116,7 +154,7 @@ namespace TightWiki.Controllers
                         {
                             model.Body = cached.Body;
                             SessionState.PageTitle = cached.PageTitle;
-                            WikiCache.Put(cacheKey, cached); //Update the cache expiration.
+                            WikiCache.Set(cacheKey, cached); //Update the cache expiration.
                         }
                         else
                         {
@@ -131,7 +169,7 @@ namespace TightWiki.Controllers
                                     PageTitle = state.PageTitle
                                 };
 
-                                WikiCache.Put(cacheKey, toBeCached); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
+                                WikiCache.Set(cacheKey, toBeCached); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
                             }
                         }
                     }
@@ -1179,7 +1217,7 @@ namespace TightWiki.Controllers
                             using var ms = new MemoryStream();
                             file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
                             var cacheItem = new ImageCacheItem(ms.ToArray(), file.ContentType);
-                            WikiCache.Put(cacheKey, cacheItem);
+                            WikiCache.Set(cacheKey, cacheItem);
                             return File(cacheItem.Bytes, cacheItem.ContentType);
                         }
                     }
@@ -1196,7 +1234,7 @@ namespace TightWiki.Controllers
                         image.SaveAsPng(ms);
 
                         var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
-                        WikiCache.Put(cacheKey, cacheItem);
+                        WikiCache.Set(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
                     else

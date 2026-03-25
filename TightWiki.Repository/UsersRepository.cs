@@ -515,7 +515,7 @@ namespace TightWiki.Repository
             var result = ManagedDataStorage.Users.ExecuteScalar<bool?>("IsAdminPasswordChanged.sql");
             if (result == true)
             {
-                WikiCache.Put(cacheKey, true);
+                WikiCache.Set(cacheKey, true);
                 return WikiAdminPasswordChangeState.HasBeenChanged;
             }
             if (result == null)

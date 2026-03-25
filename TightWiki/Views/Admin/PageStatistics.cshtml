@@ -75,11 +75,10 @@
                                 @Localizer["Views"]
                             </a>
                         </th>
-         
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "TotalCompilationCount")">
-                                @Localizer["Compilations"]
+                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Revisions")">
+                                @Localizer["Revisions"]
                             </a>
                         </th>
 
@@ -159,6 +158,10 @@
                             </td>
 
                             <td class="text-end text-nowrap">
+                                @stat.Revisions.ToString("N0")
+                            </td>
+
+                            <td class="text-end text-nowrap">
                                 @stat.LastWikifyTimeMs.ToString("N0")<span class="text-muted">ms</span>
                             </td>
 
@@ -172,10 +175,6 @@
 
                             <td class="text-end text-nowrap">
                                 @stat.LastTagCount.ToString("N0")
-                            </td>
-
-                            <td class="text-end text-nowrap">
-                                @Formatters.FileSize((long)stat.LastBodySize)
                             </td>
 
                             <td class="text-end text-nowrap">
