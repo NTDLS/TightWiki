@@ -11,6 +11,7 @@ using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 using static TightWiki.Engine.Function.FunctionConstants;
 using static TightWiki.Engine.Library.Constants;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Engine.Implementation.Handlers
 {
@@ -88,7 +89,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                     _collection.Add("PageViewCount ()");
                     _collection.Add("CreatedBy ()");
                     _collection.Add("LastModifiedBy ()");
-                    _collection.Add("PageURL ()");
+                    _collection.Add("PageURL (String styleName['Text','Link','LinkName']='Link')");
                     _collection.Add("PageId ()");
                     _collection.Add("PageCommentCount ()");
 
@@ -1023,21 +1024,30 @@ namespace TightWiki.Engine.Implementation.Handlers
                 //Displays the name of the person last modified the current page.
                 case "lastmodifiedby":
                     {
-                        return new HandlerResult(state.Page.ModifiedByUserName);
+                        return new HandlerResult(state.Page.ModifiedByUserName)
+                        {
+                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                        };
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
                 //Displays the total number of revisions for the current page.
                 case "pagerevisioncount":
                     {
-                        return new HandlerResult($"{state.Page.MostCurrentRevision:n0}");
+                        return new HandlerResult($"{state.Page.MostCurrentRevision:n0}")
+                        {
+                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                        };
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
                 //Displays the name of the person who created the current page.
                 case "createdby":
                     {
-                        return new HandlerResult(state.Page.CreatedByUserName);
+                        return new HandlerResult(state.Page.CreatedByUserName)
+                        {
+                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                        };
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
@@ -1045,22 +1055,51 @@ namespace TightWiki.Engine.Implementation.Handlers
                 case "pageviewcount":
                     {
                         int totalPageCount = StatisticsRepository.GetPageTotalViewCount(state.Page.Id);
-                        return new HandlerResult($"{totalPageCount:n0}");
+                        return new HandlerResult($"{totalPageCount:n0}")
+                        {
+                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                        };
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
                 //Displays the URL for the current page.
                 case "pageurl":
                     {
-                        throw new NotImplementedException("PageURL is not implemented");
-                        //return new HandlerResult($"");
+                        string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
+
+                        var siteAddress = ConfigurationRepository.Get(WikiConfigurationGroup.Basic, "Address", "http://localhost").TrimEnd('/');
+                        var link = $"{siteAddress}/{state.Page.Navigation}";
+
+                        switch (styleName)
+                        {
+                            case "text":
+                                return new HandlerResult(link)
+                                {
+                                    Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                                };
+                            case "link":
+                                return new HandlerResult($"<a href='{link}'>{siteAddress}/{state.Page.Name}</a>")
+                                {
+                                    Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                                };
+                            case "linkname":
+                                return new HandlerResult($"<a href='{link}'>{state.Page.Name}</a>")
+                                {
+                                    Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                                };
+                        }
+
+                        return new HandlerResult();
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
                 //Displays the URL for the current page.
                 case "pageid":
                     {
-                        return new HandlerResult($"{state.Page.Id}");
+                        return new HandlerResult($"{state.Page.Id}")
+                        {
+                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                        };
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
@@ -1068,7 +1107,10 @@ namespace TightWiki.Engine.Implementation.Handlers
                 case "pagecommentcount":
                     {
                         int totalCommentCount = PageRepository.GetTotalPageCommentCount(state.Page.Id);
-                        return new HandlerResult($"{totalCommentCount:n0}");
+                        return new HandlerResult($"{totalCommentCount:n0}")
+                        {
+                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                        };
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
@@ -1083,7 +1125,10 @@ namespace TightWiki.Engine.Implementation.Handlers
                         if (state.Page.ModifiedDate != DateTime.MinValue)
                         {
                             var localized = state.Session.LocalizeDateTime(state.Page.ModifiedDate);
-                            return new HandlerResult($"{localized.ToShortDateString()} {localized.ToShortTimeString()}");
+                            return new HandlerResult($"{localized.ToShortDateString()} {localized.ToShortTimeString()}")
+                            {
+                                Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                            };
                         }
 
                         return new HandlerResult(string.Empty);
@@ -1101,7 +1146,10 @@ namespace TightWiki.Engine.Implementation.Handlers
                         if (state.Page.CreatedDate != DateTime.MinValue)
                         {
                             var localized = state.Session.LocalizeDateTime(state.Page.CreatedDate);
-                            return new HandlerResult($"{localized.ToShortDateString()} {localized.ToShortTimeString()}");
+                            return new HandlerResult($"{localized.ToShortDateString()} {localized.ToShortTimeString()}")
+                            {
+                                Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                            };
                         }
 
                         return new HandlerResult(string.Empty);
@@ -1111,7 +1159,10 @@ namespace TightWiki.Engine.Implementation.Handlers
                 //Displays the version of .net that the wiki is running on.
                 case "dotnetversion":
                     {
-                        return new HandlerResult(System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription);
+                        return new HandlerResult(System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription)
+                        {
+                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                        };
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
@@ -1121,42 +1172,60 @@ namespace TightWiki.Engine.Implementation.Handlers
                         var version = string.Join('.', (Assembly.GetExecutingAssembly()
                             .GetName().Version?.ToString() ?? "0.0.0.0").Split('.').Take(3)); //Major.Minor.Patch
 
-                        return new HandlerResult(version);
+                        return new HandlerResult(version)
+                        {
+                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                        };
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
                 //Displays the title of the current page.
                 case "name":
                     {
-                        return new HandlerResult(state.Page.Title);
+                        return new HandlerResult(state.Page.Title)
+                        {
+                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                        };
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
                 //Displays the title of the site.
                 case "sitename":
                     {
-                        return new HandlerResult(GlobalConfiguration.Name);
+                        return new HandlerResult(GlobalConfiguration.Name)
+                        {
+                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                        };
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
                 //Displays the title of the current page in title form.
                 case "title":
                     {
-                        return new HandlerResult($"<h1>{state.Page.Title}</h1>");
+                        return new HandlerResult($"<h1>{state.Page.Title}</h1>")
+                        {
+                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                        };
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
                 //Displays the description of the current page.
                 case "description":
                     {
-                        return new HandlerResult($"{state.Page.Description}");
+                        return new HandlerResult($"{state.Page.Description}")
+                        {
+                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                        };
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
                 //Displays the namespace of the current page.
                 case "namespace":
                     {
-                        return new HandlerResult(state.Page.Namespace ?? string.Empty);
+                        return new HandlerResult(state.Page.Namespace ?? string.Empty)
+                        {
+                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                        };
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
