@@ -6,21 +6,20 @@ namespace TightWiki.Repository
 {
     public static partial class EmojiRepository
     {
-        public static List<Emoji> GetAllEmojis()
-            => ManagedDataStorage.Emoji.Query<Emoji>("GetAllEmojis.sql");
+        public static async Task< List<Emoji>> GetAllEmojis()
+            => await ManagedDataStorage.Emoji.QueryAsync<Emoji>("GetAllEmojis.sql");
 
-        public static IEnumerable<string> AutoCompleteEmoji(string term)
-            => ManagedDataStorage.Emoji.Query<string>("AutoCompleteEmoji.sql", new { Term = term });
+        public static async Task<IEnumerable<string>> AutoCompleteEmoji(string term)
+            => await ManagedDataStorage.Emoji.QueryAsync<string>("AutoCompleteEmoji.sql", new { Term = term });
+        public static async Task<IEnumerable<Emoji>> GetEmojisByCategory(string category)
+            => await ManagedDataStorage.Emoji.QueryAsync<Emoji>("GetEmojisByCategory.sql", new { Category = category });
 
-        public static IEnumerable<Emoji> GetEmojisByCategory(string category)
-            => ManagedDataStorage.Emoji.Query<Emoji>("GetEmojisByCategory.sql", new { Category = category });
+        public static async Task<IEnumerable<EmojiCategory>> GetEmojiCategoriesGrouped()
+            => await ManagedDataStorage.Emoji.QueryAsync<EmojiCategory>("GetEmojiCategoriesGrouped.sql");
 
-        public static IEnumerable<EmojiCategory> GetEmojiCategoriesGrouped()
-            => ManagedDataStorage.Emoji.Query<EmojiCategory>("GetEmojiCategoriesGrouped.sql");
-
-        public static IEnumerable<int> SearchEmojiCategoryIds(List<string> categories)
+        public static async Task<IEnumerable<int>> SearchEmojiCategoryIds(List<string> categories)
         {
-            return ManagedDataStorage.Emoji.Ephemeral(o =>
+            return await ManagedDataStorage.Emoji.EphemeralAsync(async o =>
             {
                 var param = new
                 {
@@ -28,45 +27,45 @@ namespace TightWiki.Repository
                 };
 
                 using var tempTable = o.CreateTempTableFrom("TempCategories", categories);
-                return o.Query<int>("SearchEmojiCategoryIds.sql", param);
+                return await o.QueryAsync<int>("SearchEmojiCategoryIds.sql", param);
             });
         }
 
-        public static List<EmojiCategory> GetEmojiCategoriesByName(string name)
+        public static async Task<List<EmojiCategory>> GetEmojiCategoriesByName(string name)
         {
             var param = new
             {
                 Name = name
             };
 
-            return ManagedDataStorage.Emoji.Query<EmojiCategory>("GetEmojiCategoriesByName.sql", param);
+            return await ManagedDataStorage.Emoji.QueryAsync<EmojiCategory>("GetEmojiCategoriesByName.sql", param);
         }
 
-        public static void DeleteById(int id)
+        public static async Task DeleteById(int id)
         {
             var param = new
             {
                 Id = id
             };
 
-            ManagedDataStorage.Emoji.Execute("DeleteEmojiById.sql", param);
+            await ManagedDataStorage.Emoji.ExecuteAsync("DeleteEmojiById.sql", param);
 
-            ConfigurationRepository.ReloadEmojis();
+            await ConfigurationRepository.ReloadEmojis();
         }
 
-        public static Emoji? GetEmojiByName(string name)
+        public static async Task<Emoji?> GetEmojiByName(string name)
         {
             var param = new
             {
                 Name = name
             };
 
-            return ManagedDataStorage.Emoji.QuerySingleOrDefault<Emoji>("GetEmojiByName.sql", param);
+            return await ManagedDataStorage.Emoji.QuerySingleOrDefaultAsync<Emoji>("GetEmojiByName.sql", param);
         }
 
-        public static int UpsertEmoji(UpsertEmoji emoji)
+        public static async Task<int> UpsertEmoji(UpsertEmoji emoji)
         {
-            int emojiId = ManagedDataStorage.Emoji.Ephemeral(o =>
+            int emojiId = await ManagedDataStorage.Emoji.EphemeralAsync(async o =>
             {
                 var transaction = o.BeginTransaction();
 
@@ -80,7 +79,7 @@ namespace TightWiki.Repository
                             ImageData = emoji.ImageData == null ? null : Utility.Compress(emoji.ImageData),
                             MimeType = emoji.MimeType
                         };
-                        emoji.Id = o.ExecuteScalar<int>("InsertEmoji.sql", param);
+                        emoji.Id = await o.ExecuteScalarAsync<int>("InsertEmoji.sql", param);
                     }
                     else
                     {
@@ -91,7 +90,7 @@ namespace TightWiki.Repository
                             ImageData = emoji.ImageData == null ? null : Utility.Compress(emoji.ImageData),
                             MimeType = emoji.MimeType
                         };
-                        o.ExecuteScalar<int>("UpdateEmoji.sql", param);
+                        await o.ExecuteScalarAsync<int>("UpdateEmoji.sql", param);
                     }
 
                     var upsertEmojiCategoriesParam = new
@@ -100,7 +99,7 @@ namespace TightWiki.Repository
                     };
 
                     using var tempTable = o.CreateTempTableFrom("TempEmojiCategories", emoji.Categories, transaction);
-                    o.Execute("UpsertEmojiCategories.sql", upsertEmojiCategoriesParam);
+                    await o.ExecuteAsync("UpsertEmojiCategories.sql", upsertEmojiCategoriesParam);
 
                     transaction.Commit();
 
@@ -113,12 +112,12 @@ namespace TightWiki.Repository
                 }
             });
 
-            ConfigurationRepository.ReloadEmojis();
+            await ConfigurationRepository.ReloadEmojis();
 
             return emojiId;
         }
 
-        public static List<Emoji> GetAllEmojisPaged(int pageNumber,
+        public static async Task<List<Emoji>> GetAllEmojisPaged(int pageNumber,
             string? orderBy = null, string? orderByDirection = null, List<string>? categories = null)
         {
             if (categories == null || categories.Count == 0)
@@ -130,19 +129,18 @@ namespace TightWiki.Repository
                 };
 
                 var query = RepositoryHelper.TransposeOrderby("GetAllEmojisPaged.sql", orderBy, orderByDirection);
-                return ManagedDataStorage.Emoji.Query<Emoji>(query, param);
+                return await ManagedDataStorage.Emoji.QueryAsync<Emoji>(query, param);
             }
             else
             {
-                var emojiCategoryIds = SearchEmojiCategoryIds(categories);
-
+                var emojiCategoryIds = await SearchEmojiCategoryIds(categories);
                 var param = new
                 {
                     PageNumber = pageNumber,
                     PageSize = GlobalConfiguration.PaginationSize
                 };
 
-                return ManagedDataStorage.Emoji.Ephemeral(o =>
+                return await ManagedDataStorage.Emoji.EphemeralAsync(async o =>
                 {
                     var getAllEmojisPagedByCategoriesParam = new
                     {
@@ -154,7 +152,7 @@ namespace TightWiki.Repository
                     using var tempTable = o.CreateTempTableFrom("TempEmojiCategoryIds", emojiCategoryIds);
 
                     var query = RepositoryHelper.TransposeOrderby("GetAllEmojisPagedByCategories.sql", orderBy, orderByDirection);
-                    return o.Query<Emoji>(query, getAllEmojisPagedByCategoriesParam);
+                    return await o.QueryAsync<Emoji>(query, getAllEmojisPagedByCategoriesParam);
                 });
             }
         }

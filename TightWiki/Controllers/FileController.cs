@@ -39,7 +39,7 @@ namespace TightWiki.Controllers
         /// <param name="givenFileNavigation">The navigation link of the file.</param>
         /// <param name="fileRevision">The revision of the the file (NOT THE PAGE REVISION).</param>
         [HttpGet("Image/{givenPageNavigation}/{givenFileNavigation}/{fileRevision:int?}")]
-        public ActionResult Image(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
+        public async Task<ActionResult> Image(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
         {
             try
             {
@@ -147,7 +147,7 @@ namespace TightWiki.Controllers
         /// <param name="fileRevision">The revision of the the FILE (NOT THE PAGE REVISION)</param>
         [AllowAnonymous]
         [HttpGet("Png/{givenPageNavigation}/{givenFileNavigation}/{fileRevision:int?}")]
-        public ActionResult Png(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
+        public async Task<ActionResult> Png(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
         {
             try
             {
@@ -258,7 +258,7 @@ namespace TightWiki.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpGet("Binary/{givenPageNavigation}/{givenFileNavigation}/{fileRevision:int?}")]
-        public ActionResult Binary(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
+        public async Task<ActionResult> Binary(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
         {
             try
             {
@@ -297,7 +297,7 @@ namespace TightWiki.Controllers
         /// </summary>
         [Authorize]
         [HttpGet("Revisions/{givenPageNavigation}/{givenFileNavigation}")]
-        public ActionResult Revisions(string givenPageNavigation, string givenFileNavigation)
+        public async Task<ActionResult> Revisions(string givenPageNavigation, string givenFileNavigation)
         {
             try
             {
@@ -336,7 +336,7 @@ namespace TightWiki.Controllers
         /// </summary>
         [Authorize]
         [HttpGet("PageAttachments/{givenPageNavigation}")]
-        public ActionResult PageAttachments(string givenPageNavigation)
+        public async Task<ActionResult> PageAttachments(string givenPageNavigation)
         {
             try
             {
@@ -501,7 +501,7 @@ namespace TightWiki.Controllers
         /// Allows a user to delete a page attachment from a page.
         /// </summary>
         [HttpPost("Detach/{givenPageNavigation}/{givenFileNavigation}/{pageRevision}")]
-        public ActionResult Detach(string givenPageNavigation, string givenFileNavigation, int pageRevision)
+        public async Task<ActionResult> Detach(string givenPageNavigation, string givenFileNavigation, int pageRevision)
         {
             try
             {
@@ -530,7 +530,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpGet("AutoCompleteEmoji")]
-        public ActionResult AutoCompleteEmoji([FromQuery] string? q = null)
+        public async Task<ActionResult> AutoCompleteEmoji([FromQuery] string? q = null)
         {
             try
             {
@@ -555,7 +555,7 @@ namespace TightWiki.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpGet("Emoji/{givenEmojiNavigation}")]
-        public ActionResult Emoji(string givenEmojiNavigation)
+        public async Task<ActionResult> Emoji(string givenEmojiNavigation)
         {
             try
             {

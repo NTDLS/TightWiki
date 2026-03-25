@@ -6,28 +6,28 @@ namespace TightWiki.Repository
 {
     public static class LoggingRepository
     {
-        public static void PurgeLogs()
+        public static async Task PurgeLogs()
         {
-            ManagedDataStorage.Logging.Execute("PurgeLogs.sql");
+            await ManagedDataStorage.Logging.ExecuteAsync("PurgeLogs.sql");
         }
 
-        public static void CreateTablesIfNotExist()
+        public static async Task CreateTablesIfNotExist()
         {
             if (!ManagedDataStorage.Logging.DoesTableExist("Severity"))
             {
-                ManagedDataStorage.Logging.Execute(@"Scripts\CreateSeverityTable.sql");
+                await ManagedDataStorage.Logging.ExecuteAsync(@"Scripts\CreateSeverityTable.sql");
             }
 
             if (!ManagedDataStorage.Logging.DoesTableExist("Log"))
             {
-                ManagedDataStorage.Logging.Execute(@"Scripts\CreateLogTable.sql");
+                await ManagedDataStorage.Logging.ExecuteAsync(@"Scripts\CreateLogTable.sql");
             }
         }
 
-        public static void WriteException(string? text = null, string? exceptionText = null, string? stackTrace = null)
-            => WriteLog(LogLevel.Error, text, exceptionText, stackTrace);
+        public static async Task WriteException(string? text = null, string? exceptionText = null, string? stackTrace = null)
+            => await WriteLog(LogLevel.Error, text, exceptionText, stackTrace);
 
-        public static void WriteLog(LogLevel severity, string? text = null, string? exceptionText = null, string? stackTrace = null)
+        public static async Task WriteLog(LogLevel severity, string? text = null, string? exceptionText = null, string? stackTrace = null)
         {
             if (severity >= LogLevel.Warning)
             {
@@ -43,7 +43,7 @@ namespace TightWiki.Repository
                 CreatedDate = DateTime.UtcNow,
             };
 
-            ManagedDataStorage.Logging.Execute("InsertLog.sql", param);
+            await ManagedDataStorage.Logging.ExecuteAsync("InsertLog.sql", param);
         }
 
         /*
@@ -61,12 +61,12 @@ namespace TightWiki.Repository
         }
         */
 
-        public static int GetExceptionCount()
+        public static async Task<int> GetExceptionCount()
         {
-            return ManagedDataStorage.Logging.ExecuteScalar<int>("GetExceptionCount.sql");
+            return await ManagedDataStorage.Logging.ExecuteScalarAsync<int>("GetExceptionCount.sql");
         }
 
-        public static List<WikiLogEntry> GetLogEntriesPaged(int pageNumber,
+        public static async Task<List<WikiLogEntry>> GetLogEntriesPaged(int pageNumber,
             string? orderBy = null, string? orderByDirection = null)
         {
             var param = new
@@ -76,17 +76,17 @@ namespace TightWiki.Repository
             };
 
             var query = RepositoryHelper.TransposeOrderby("GetLogEntriesPaged.sql", orderBy, orderByDirection);
-            return ManagedDataStorage.Logging.Query<WikiLogEntry>(query, param);
+            return await ManagedDataStorage.Logging.QueryAsync<WikiLogEntry>(query, param);
         }
 
-        public static WikiLogEntry GetLogEntryById(int id)
+        public static async Task<WikiLogEntry> GetLogEntryById(int id)
         {
             var param = new
             {
                 Id = id
             };
 
-            return ManagedDataStorage.Logging.QuerySingle<WikiLogEntry>("GetLogEntryById.sql", param);
+            return await ManagedDataStorage.Logging.QuerySingleAsync<WikiLogEntry>("GetLogEntryById.sql", param);
         }
     }
 }

@@ -52,7 +52,7 @@ namespace TightWiki
 
             var independentLogger = new DatabaseLogger("", LogLevel.Information);
 
-            var userConnectionString = ManagedDataStorage.Users.Ephemeral(o => o.NativeConnection.ConnectionString);
+            var userConnectionString = ManagedDataStorage.Users.EphemeralAsync(o => o.NativeConnection.ConnectionString);
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(userConnectionString));
 
             LoggingRepository.CreateTablesIfNotExist();

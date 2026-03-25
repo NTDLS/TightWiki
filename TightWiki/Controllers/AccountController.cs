@@ -97,7 +97,7 @@ namespace TightWiki.Controllers
                     // User exists, sign them in:
                     await SignInManager.SignInAsync(user, isPersistent: false);
 
-                    if (UsersRepository.TryGetBasicProfileByUserId(Guid.Parse(user.Id), out _) == false)
+                    if (await UsersRepository.GetBasicProfileByUserId(Guid.Parse(user.Id)) == null)
                     {
                         if (GlobalConfiguration.AllowSignup != true)
                         {
@@ -131,7 +131,7 @@ namespace TightWiki.Controllers
                         }
                         await SignInManager.SignInAsync(user, isPersistent: false);
 
-                        if (UsersRepository.TryGetBasicProfileByUserId(Guid.Parse(user.Id), out _) == false)
+                        if (await UsersRepository.GetBasicProfileByUserId(Guid.Parse(user.Id)) == null)
                         {
                             if (GlobalConfiguration.AllowSignup != true)
                             {
@@ -165,11 +165,11 @@ namespace TightWiki.Controllers
             }
             finally
             {
-                UpdateUserCultureCookie();
+                await UpdateUserCultureCookie();
             }
         }
 
-        private void UpdateUserCultureCookie()
+        private async Task UpdateUserCultureCookie()
         {
             try
             {
@@ -182,7 +182,8 @@ namespace TightWiki.Controllers
 
                 if (Guid.TryParse(userIdString, out var userId))
                 {
-                    if (UsersRepository.TryGetBasicProfileByUserId(userId, out var profile))
+                    var profile = await UsersRepository.GetBasicProfileByUserId(userId);
+                    if (profile != null)
                     {
                         Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
                                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(profile.Language)),

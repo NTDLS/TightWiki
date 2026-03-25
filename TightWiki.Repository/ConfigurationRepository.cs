@@ -12,13 +12,13 @@ namespace TightWiki.Repository
 {
     public static class ConfigurationRepository
     {
-        public static ConfigurationEntries GetConfigurationEntryValuesByGroupName(string groupName)
+        public static async Task<ConfigurationEntries> GetConfigurationEntryValuesByGroupName(string groupName)
         {
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Configuration, [groupName]);
 
-            return WikiCache.AddOrGet(cacheKey, () =>
+            return await WikiCache.AddOrGet(cacheKey, async () =>
             {
-                var entries = ManagedDataStorage.Config.Query<ConfigurationEntry>("GetConfigurationEntryValuesByGroupName.sql",
+                var entries = await ManagedDataStorage.Config.QueryAsync<ConfigurationEntry>("GetConfigurationEntryValuesByGroupName.sql",
                     new { GroupName = groupName });
 
                 foreach (var entry in entries)
@@ -40,13 +40,13 @@ namespace TightWiki.Repository
             }).EnsureNotNull();
         }
 
-        public static List<Theme> GetAllThemes()
+        public static async Task<List<Theme>> GetAllThemes()
         {
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Configuration);
 
-            return WikiCache.AddOrGet(cacheKey, () =>
+            return await WikiCache.AddOrGet(cacheKey, async () =>
             {
-                var themes = ManagedDataStorage.Config.Query<Theme>("GetAllThemes.sql");
+                var themes = await ManagedDataStorage.Config.QueryAsync<Theme>("GetAllThemes.sql");
 
                 foreach (var theme in themes)
                 {
@@ -57,15 +57,15 @@ namespace TightWiki.Repository
             }).EnsureNotNull();
         }
 
-        public static WikiDatabaseStatistics GetWikiDatabaseMetrics()
+        public static async Task<WikiDatabaseStatistics> GetWikiDatabaseMetrics()
         {
-            return ManagedDataStorage.Config.Ephemeral(o =>
+            return await ManagedDataStorage.Config.EphemeralAsync(async o => 
             {
                 using var users_db = o.Attach("users.db", "users_db");
                 using var pages_db = o.Attach("pages.db", "pages_db");
 
-                var result = o.QuerySingle<WikiDatabaseStatistics>("GetWikiDatabaseStatistics.sql");
-                result.Exceptions = LoggingRepository.GetExceptionCount();
+                var result = await o.QuerySingleAsync<WikiDatabaseStatistics>("GetWikiDatabaseStatistics.sql");
+                result.Exceptions = await LoggingRepository.GetExceptionCount();
 
                 return result;
             });
@@ -74,12 +74,12 @@ namespace TightWiki.Repository
         /// <summary>
         /// Determines if this is the first time the wiki has run. Returns true if it is the first time.
         /// </summary>
-        public static bool IsFirstRun()
+        public static async Task<bool> IsFirstRun()
         {
-            bool isEncryptionValid = GetCryptoCheck();
+            bool isEncryptionValid = await GetCryptoCheck();
             if (isEncryptionValid == false)
             {
-                SetCryptoCheck();
+                await SetCryptoCheck();
                 return true;
             }
             return false;
@@ -91,9 +91,9 @@ namespace TightWiki.Repository
         /// If the value is present but we cant decrypt it, then we are NOT setup.
         /// If the value is present and we can decrypt it, then we are setup and good to go!
         /// </summary>
-        public static bool GetCryptoCheck()
+        public static async Task<bool> GetCryptoCheck()
         {
-            var value = ManagedDataStorage.Config.QueryFirstOrDefault<string>("GetCryptoCheck.sql") ?? string.Empty;
+            var value = await ManagedDataStorage.Config.QueryFirstOrDefaultAsync<string>("GetCryptoCheck.sql") ?? string.Empty;
 
             try
             {
@@ -113,17 +113,17 @@ namespace TightWiki.Repository
         /// <summary>
         /// Writes an encrypted value to the database so we can test at a later time to ensure that encryption is setup.
         /// </summary>
-        public static void SetCryptoCheck()
+        public static async Task SetCryptoCheck()
         {
             var param = new
             {
                 Content = Security.Helpers.EncryptString(Security.Helpers.MachineKey, Constants.CRYPTOCHECK)
             };
 
-            ManagedDataStorage.Config.QueryFirstOrDefault<string>("SetCryptoCheck.sql", param);
+            await ManagedDataStorage.Config.QueryFirstOrDefaultAsync<string>("SetCryptoCheck.sql", param);
         }
 
-        public static void SaveConfigurationEntryValueByGroupAndEntry(string groupName, string entryName, string value)
+        public static async Task SaveConfigurationEntryValueByGroupAndEntry(string groupName, string entryName, string value)
         {
             var param = new
             {
@@ -132,15 +132,15 @@ namespace TightWiki.Repository
                 Value = value
             };
 
-            ManagedDataStorage.Config.Execute("SaveConfigurationEntryValueByGroupAndEntry.sql", param);
+            await ManagedDataStorage.Config.ExecuteAsync("SaveConfigurationEntryValueByGroupAndEntry.sql", param);
 
-            ReloadEverything();
+            await ReloadEverything();
         }
 
-        public static List<ConfigurationNest> GetConfigurationNest()
+        public static async Task<List<ConfigurationNest>> GetConfigurationNest()
         {
             var result = new List<ConfigurationNest>();
-            var flatConfig = GetFlatConfiguration();
+            var flatConfig = await GetFlatConfiguration();
 
             var groups = flatConfig.GroupBy(o => o.GroupId);
             foreach (var group in groups)
@@ -188,16 +188,16 @@ namespace TightWiki.Repository
             return result;
         }
 
-        public static List<ConfigurationFlat> GetFlatConfiguration()
-            => ManagedDataStorage.Config.Query<ConfigurationFlat>("GetFlatConfiguration.sql");
+        public static async Task<List<ConfigurationFlat>> GetFlatConfiguration()
+            => await ManagedDataStorage.Config.QueryAsync<ConfigurationFlat>("GetFlatConfiguration.sql");
 
-        public static string? GetConfigurationEntryValuesByGroupNameAndEntryName(string groupName, string entryName)
+        public static async Task<string?> GetConfigurationEntryValuesByGroupNameAndEntryName(string groupName, string entryName)
         {
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Configuration, [groupName, entryName]);
 
-            return WikiCache.AddOrGet(cacheKey, () =>
+            return await WikiCache.AddOrGetAsync(cacheKey, async () =>
             {
-                var configEntry = ManagedDataStorage.Config.QuerySingle<ConfigurationEntry>("GetConfigurationEntryValuesByGroupNameAndEntryName.sql",
+                var configEntry = await ManagedDataStorage.Config.QuerySingleAsync<ConfigurationEntry>("GetConfigurationEntryValuesByGroupNameAndEntryName.sql",
                     new
                     {
                         GroupName = groupName,
@@ -220,15 +220,15 @@ namespace TightWiki.Repository
             });
         }
 
-        public static T? Get<T>(string groupName, string entryName)
+        public static async Task<T?> Get<T>(string groupName, string entryName)
         {
-            var value = GetConfigurationEntryValuesByGroupNameAndEntryName(groupName, entryName);
+            var value = await GetConfigurationEntryValuesByGroupNameAndEntryName(groupName, entryName);
             return Converters.ConvertTo<T>(value.EnsureNotNull());
         }
 
-        public static T Get<T>(string groupName, string entryName, T defaultValue)
+        public static async Task<T> Get<T>(string groupName, string entryName, T defaultValue)
         {
-            var value = GetConfigurationEntryValuesByGroupNameAndEntryName(groupName, entryName);
+            var value = await GetConfigurationEntryValuesByGroupNameAndEntryName(groupName, entryName);
 
             if (value == null)
             {
@@ -240,36 +240,36 @@ namespace TightWiki.Repository
 
         #region Menu Items.
 
-        public static List<MenuItem> GetAllMenuItems(string? orderBy = null, string? orderByDirection = null)
+        public static async Task<List<MenuItem>> GetAllMenuItems(string? orderBy = null, string? orderByDirection = null)
         {
             var query = RepositoryHelper.TransposeOrderby("GetAllMenuItems.sql", orderBy, orderByDirection);
-            return ManagedDataStorage.Config.Query<MenuItem>(query);
+            return await ManagedDataStorage.Config.QueryAsync<MenuItem>(query);
         }
 
-        public static MenuItem GetMenuItemById(int id)
+        public static async Task<MenuItem> GetMenuItemById(int id)
         {
             var param = new
             {
                 Id = id
             };
 
-            return ManagedDataStorage.Config.QuerySingle<MenuItem>("GetMenuItemById.sql", param);
+            return await  ManagedDataStorage.Config.QuerySingleAsync<MenuItem>("GetMenuItemById.sql", param);
         }
 
-        public static void DeleteMenuItemById(int id)
+        public static async Task DeleteMenuItemById(int id)
         {
             var param = new
             {
                 Id = id
             };
 
-            ManagedDataStorage.Config.Execute("DeleteMenuItemById.sql", param);
+            await ManagedDataStorage.Config.ExecuteAsync("DeleteMenuItemById.sql", param);
 
             WikiCache.ClearCategory(WikiCache.Category.Configuration);
-            GlobalConfiguration.MenuItems = GetAllMenuItems();
+            GlobalConfiguration.MenuItems = await GetAllMenuItems();
         }
 
-        public static int UpdateMenuItemById(MenuItem menuItem)
+        public static async Task<int> UpdateMenuItemById(MenuItem menuItem)
         {
             var param = new
             {
@@ -279,15 +279,15 @@ namespace TightWiki.Repository
                 menuItem.Ordinal
             };
 
-            var menuItemId = ManagedDataStorage.Config.ExecuteScalar<int>("UpdateMenuItemById.sql", param);
+            var menuItemId = await ManagedDataStorage.Config.ExecuteScalarAsync<int>("UpdateMenuItemById.sql", param);
 
             WikiCache.ClearCategory(WikiCache.Category.Configuration);
-            GlobalConfiguration.MenuItems = GetAllMenuItems();
+            GlobalConfiguration.MenuItems = await GetAllMenuItems();
 
             return menuItemId;
         }
 
-        public static int InsertMenuItem(MenuItem menuItem)
+        public static async Task<int> InsertMenuItem(MenuItem menuItem)
         {
             var param = new
             {
@@ -296,36 +296,36 @@ namespace TightWiki.Repository
                 menuItem.Ordinal
             };
 
-            var menuItemId = ManagedDataStorage.Config.ExecuteScalar<int>("InsertMenuItem.sql", param);
+            var menuItemId = await ManagedDataStorage.Config.ExecuteScalarAsync<int>("InsertMenuItem.sql", param);
 
             WikiCache.ClearCategory(WikiCache.Category.Configuration);
-            GlobalConfiguration.MenuItems = GetAllMenuItems();
+            GlobalConfiguration.MenuItems = await GetAllMenuItems();
 
             return menuItemId;
         }
 
         #endregion
 
-        public static void ReloadEmojis()
+        public static async Task ReloadEmojis()
         {
             WikiCache.ClearCategory(WikiCache.Category.Emoji);
-            GlobalConfiguration.Emojis = EmojiRepository.GetAllEmojis();
+            GlobalConfiguration.Emojis = await EmojiRepository.GetAllEmojis();
 
             if (GlobalConfiguration.PreLoadAnimatedEmojis)
             {
-                new Thread(() =>
+                new Thread(async () =>
                 {
                     var parallelOptions = new ParallelOptions
                     {
                         MaxDegreeOfParallelism = Environment.ProcessorCount / 2 < 2 ? 2 : Environment.ProcessorCount / 2
                     };
 
-                    Parallel.ForEach(GlobalConfiguration.Emojis, parallelOptions, emoji =>
+                    await Parallel.ForEachAsync(GlobalConfiguration.Emojis, parallelOptions, async (emoji, cancellationToken) =>
                     {
                         if (emoji.MimeType.Equals("image/gif", StringComparison.InvariantCultureIgnoreCase))
                         {
                             var imageCacheKey = WikiCacheKey.Build(WikiCache.Category.Emoji, [emoji.Shortcut]);
-                            emoji.ImageData = EmojiRepository.GetEmojiByName(emoji.Name)?.ImageData;
+                            emoji.ImageData = (await EmojiRepository.GetEmojiByName(emoji.Name))?.ImageData;
 
                             if (emoji.ImageData != null)
                             {
@@ -366,28 +366,27 @@ namespace TightWiki.Repository
             }
         }
 
-        public static void ReloadEverything()
+        public static async Task ReloadEverything()
         {
             WikiCache.Clear();
 
             GlobalConfiguration.IsDebug = Debugger.IsAttached;
 
-            var performanceConfig = GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Performance);
+            var performanceConfig = await GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Performance);
             GlobalConfiguration.PageCacheSeconds = performanceConfig.Value<int>("Page Cache Time (Seconds)");
             GlobalConfiguration.RecordCompilationMetrics = performanceConfig.Value<bool>("Record Compilation Metrics");
             GlobalConfiguration.CacheMemoryLimitMB = performanceConfig.Value<int>("Cache Memory Limit MB");
 
             WikiCache.Initialize(GlobalConfiguration.CacheMemoryLimitMB, TimeSpan.FromSeconds(GlobalConfiguration.PageCacheSeconds));
 
-            var basicConfig = GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Basic);
-            var customizationConfig = GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Customization);
-            var htmlConfig = GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.HTMLLayout);
-            var functionalityConfig = GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Functionality);
-            var membershipConfig = GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
-            var searchConfig = GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Search);
-            var filesAndAttachmentsConfig = GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.FilesAndAttachments);
-            var ldapAuthentication = GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.LDAPAuthentication);
-
+            var basicConfig = await GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Basic);
+            var customizationConfig = await GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Customization);
+            var htmlConfig = await GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.HTMLLayout);
+            var functionalityConfig = await GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Functionality);
+            var membershipConfig = await GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
+            var searchConfig = await GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Search);
+            var filesAndAttachmentsConfig = await GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.FilesAndAttachments);
+            var ldapAuthentication = await GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.LDAPAuthentication);
             GlobalConfiguration.EnableLDAPAuthentication = ldapAuthentication.Value("LDAP : Enable LDAP Authentication", false);
 
             GlobalConfiguration.Address = basicConfig?.Value<string>("Address") ?? string.Empty;
@@ -400,7 +399,7 @@ namespace TightWiki.Repository
             GlobalConfiguration.AllowSignup = membershipConfig.Value("Allow Signup", false);
             GlobalConfiguration.DefaultProfileRecentlyModifiedCount = performanceConfig.Value<int>("Default Profile Recently Modified Count");
             GlobalConfiguration.PreLoadAnimatedEmojis = performanceConfig.Value<bool>("Pre-Load Animated Emojis");
-            GlobalConfiguration.SystemTheme = GetAllThemes().Single(o => o.Name == themeName);
+            GlobalConfiguration.SystemTheme = (await GetAllThemes()).Single(o => o.Name == themeName);
             GlobalConfiguration.DefaultEmojiHeight = customizationConfig.Value<int>("Default Emoji Height");
             GlobalConfiguration.PaginationSize = customizationConfig.Value<int>("Pagination Size");
 
@@ -424,9 +423,9 @@ namespace TightWiki.Repository
             GlobalConfiguration.MaxAttachmentFileSize = filesAndAttachmentsConfig.Value<int>("Max Attachment File Size");
             GlobalConfiguration.MaxEmojiFileSize = filesAndAttachmentsConfig.Value<int>("Max Emoji File Size");
 
-            GlobalConfiguration.MenuItems = GetAllMenuItems();
+            GlobalConfiguration.MenuItems = await GetAllMenuItems();
 
-            ReloadEmojis();
+            await ReloadEmojis();
         }
     }
 }

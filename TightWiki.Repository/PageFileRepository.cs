@@ -7,7 +7,7 @@ namespace TightWiki.Repository
 {
     public static class PageFileRepository
     {
-        public static void DetachPageRevisionAttachment(string pageNavigation, string fileNavigation, int pageRevision)
+        public static async Task DetachPageRevisionAttachment(string pageNavigation, string fileNavigation, int pageRevision)
         {
             var param = new
             {
@@ -16,10 +16,10 @@ namespace TightWiki.Repository
                 PageRevision = pageRevision
             };
 
-            ManagedDataStorage.Pages.Execute("DetachPageRevisionAttachment.sql", param);
+            await ManagedDataStorage.Pages.ExecuteAsync("DetachPageRevisionAttachment.sql", param);
         }
 
-        public static List<OrphanedPageAttachment> GetOrphanedPageAttachmentsPaged(
+        public static async Task<List<OrphanedPageAttachment>> GetOrphanedPageAttachmentsPaged(
             int pageNumber, string? orderBy = null, string? orderByDirection = null)
         {
             var param = new
@@ -29,23 +29,23 @@ namespace TightWiki.Repository
             };
 
             var query = RepositoryHelper.TransposeOrderby("GetOrphanedPageAttachments.sql", orderBy, orderByDirection);
-            return ManagedDataStorage.Pages.Query<OrphanedPageAttachment>(query, param);
+            return await ManagedDataStorage.Pages.QueryAsync<OrphanedPageAttachment>(query, param);
         }
 
-        public static void PurgeOrphanedPageAttachments()
-            => ManagedDataStorage.Pages.Execute("PurgeOrphanedPageAttachments.sql");
+        public static async Task PurgeOrphanedPageAttachments()
+            => await ManagedDataStorage.Pages.ExecuteAsync("PurgeOrphanedPageAttachments.sql");
 
-        public static void PurgeOrphanedPageAttachment(int pageFileId, int revision)
+        public static async Task PurgeOrphanedPageAttachment(int pageFileId, int revision)
         {
             var param = new
             {
                 PageFileId = pageFileId,
                 Revision = revision
             };
-            ManagedDataStorage.Pages.Execute("PurgeOrphanedPageAttachment.sql", param);
+            await ManagedDataStorage.Pages.ExecuteAsync("PurgeOrphanedPageAttachment.sql", param);
         }
 
-        public static List<PageFileAttachmentInfo> GetPageFilesInfoByPageNavigationAndPageRevisionPaged(string pageNavigation, int pageNumber, int? pageSize = null, int? pageRevision = null)
+        public static async Task<List<PageFileAttachmentInfo>> GetPageFilesInfoByPageNavigationAndPageRevisionPaged(string pageNavigation, int pageNumber, int? pageSize = null, int? pageRevision = null)
         {
             pageSize ??= GlobalConfiguration.PaginationSize;
 
@@ -56,10 +56,10 @@ namespace TightWiki.Repository
                 PageNavigation = pageNavigation,
                 PageRevision = pageRevision
             };
-            return ManagedDataStorage.Pages.Query<PageFileAttachmentInfo>("GetPageFilesInfoByPageNavigationAndPageRevisionPaged.sql", param);
+            return await ManagedDataStorage.Pages.QueryAsync<PageFileAttachmentInfo>("GetPageFilesInfoByPageNavigationAndPageRevisionPaged.sql", param);
         }
 
-        public static PageFileAttachmentInfo? GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null)
+        public static async Task<PageFileAttachmentInfo?> GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null)
         {
             var param = new
             {
@@ -68,10 +68,10 @@ namespace TightWiki.Repository
                 PageRevision = pageRevision
             };
 
-            return ManagedDataStorage.Pages.QuerySingleOrDefault<PageFileAttachmentInfo>("GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation.sql", param);
+            return await ManagedDataStorage.Pages.QuerySingleOrDefaultAsync<PageFileAttachmentInfo>("GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation.sql", param);
         }
 
-        public static PageFileAttachment? GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? fileRevision = null)
+        public static async Task<PageFileAttachment?> GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? fileRevision = null)
         {
             var param = new
             {
@@ -80,14 +80,14 @@ namespace TightWiki.Repository
                 FileRevision = fileRevision
             };
 
-            return ManagedDataStorage.Pages.QuerySingleOrDefault<PageFileAttachment>("GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql", param);
+            return await ManagedDataStorage.Pages.QuerySingleOrDefaultAsync<PageFileAttachment>("GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql", param);
         }
 
-        public static PageFileAttachment? GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null)
+        public static async Task<PageFileAttachment?> GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null)
         {
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageNavigation, fileNavigation, pageRevision]);
 
-            return WikiCache.AddOrGet(cacheKey, () =>
+            return await WikiCache.AddOrGetAsync(cacheKey, async     () =>
             {
                 var param = new
                 {
@@ -96,12 +96,12 @@ namespace TightWiki.Repository
                     PageRevision = pageRevision
                 };
 
-                return ManagedDataStorage.Pages.QuerySingleOrDefault<PageFileAttachment>(
+                return await ManagedDataStorage.Pages.QuerySingleOrDefaultAsync<PageFileAttachment>(
                     "GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation.sql", param);
             });
         }
 
-        public static List<PageFileAttachmentInfo> GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged(string pageNavigation, string fileNavigation, int pageNumber)
+        public static async Task<List<PageFileAttachmentInfo>> GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged(string pageNavigation, string fileNavigation, int pageNumber)
         {
             var param = new
             {
@@ -111,28 +111,28 @@ namespace TightWiki.Repository
                 PageSize = GlobalConfiguration.PaginationSize
             };
 
-            return ManagedDataStorage.Pages.Ephemeral(o =>
+            return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
 
-                var result = o.Query<PageFileAttachmentInfo>(
+                var result = await o.QueryAsync<PageFileAttachmentInfo>(
                     "GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged.sql", param);
 
                 return result;
             });
         }
 
-        public static List<PageFileAttachmentInfo> GetPageFilesInfoByPageId(int pageId)
+        public static async Task<List<PageFileAttachmentInfo>> GetPageFilesInfoByPageId(int pageId)
         {
             var param = new
             {
                 PageId = pageId
             };
 
-            return ManagedDataStorage.Pages.Query<PageFileAttachmentInfo>("GetPageFilesInfoByPageId.sql", param);
+            return await ManagedDataStorage.Pages.QueryAsync<PageFileAttachmentInfo>("GetPageFilesInfoByPageId.sql", param);
         }
 
-        public static PageFileRevisionAttachmentInfo? GetPageFileInfoByFileNavigation(SqliteManagedInstance connection, int pageId, string fileNavigation)
+        public static async Task<PageFileRevisionAttachmentInfo?> GetPageFileInfoByFileNavigation(SqliteManagedInstance connection, int pageId, string fileNavigation)
         {
             var param = new
             {
@@ -140,10 +140,10 @@ namespace TightWiki.Repository
                 Navigation = fileNavigation,
             };
 
-            return connection.QuerySingleOrDefault<PageFileRevisionAttachmentInfo>("GetPageFileInfoByFileNavigation.sql", param);
+            return await connection.QuerySingleOrDefaultAsync<PageFileRevisionAttachmentInfo>("GetPageFileInfoByFileNavigation.sql", param);
         }
 
-        public static PageFileRevisionAttachmentInfo? GetPageCurrentRevisionAttachmentByFileNavigation(SqliteManagedInstance connection, int pageId, string fileNavigation)
+        public static async Task<PageFileRevisionAttachmentInfo?> GetPageCurrentRevisionAttachmentByFileNavigation(SqliteManagedInstance connection, int pageId, string fileNavigation)
         {
             var param = new
             {
@@ -151,20 +151,20 @@ namespace TightWiki.Repository
                 Navigation = fileNavigation,
             };
 
-            return connection.QuerySingleOrDefault<PageFileRevisionAttachmentInfo>("GetPageCurrentRevisionAttachmentByFileNavigation.sql", param);
+            return await connection.QuerySingleOrDefaultAsync<PageFileRevisionAttachmentInfo>("GetPageCurrentRevisionAttachmentByFileNavigation.sql", param);
         }
 
-        public static void UpsertPageFile(PageFileAttachment item, Guid userId)
+        public static async Task UpsertPageFile(PageFileAttachment item, Guid userId)
         {
             bool hasFileChanged = false;
 
-            ManagedDataStorage.Pages.Ephemeral(o =>
+            await ManagedDataStorage.Pages.EphemeralAsync(async o =>
             {
                 var transaction = o.BeginTransaction();
 
                 try
                 {
-                    var pageFileInfo = GetPageFileInfoByFileNavigation(o, item.PageId, item.FileNavigation);
+                    var pageFileInfo = await GetPageFileInfoByFileNavigation(o, item.PageId, item.FileNavigation);
                     if (pageFileInfo == null)
                     {
                         //If the page file does not exist, then insert it.
@@ -183,7 +183,7 @@ namespace TightWiki.Repository
                         o.Execute("InsertPageFile.sql", InsertPageFileParam);
 
                         //Get the id of the newly inserted page file.
-                        pageFileInfo = GetPageFileInfoByFileNavigation(o, item.PageId, item.FileNavigation)
+                        pageFileInfo = await GetPageFileInfoByFileNavigation(o, item.PageId, item.FileNavigation)
                                         ?? throw new Exception("Failed find newly inserted page attachment.");
 
                         hasFileChanged = true;
@@ -193,7 +193,7 @@ namespace TightWiki.Repository
                     int currentFileRevision = 0;
                     var newDataHash = Security.Helpers.Crc32(item.Data);
 
-                    var currentlyAttachedFile = GetPageCurrentRevisionAttachmentByFileNavigation(o, item.PageId, item.FileNavigation);
+                    var currentlyAttachedFile = await GetPageCurrentRevisionAttachmentByFileNavigation(o, item.PageId, item.FileNavigation);
                     if (currentlyAttachedFile != null)
                     {
                         //The PageFile exists and a revision of it is attached to this page revision.
@@ -216,15 +216,16 @@ namespace TightWiki.Repository
                         currentFileRevision++;
 
                         //Get the current page revision so that we can associate the page file attachment with the current page revision.
-                        int currentPageRevision = PageRepository.GetCurrentPageRevision(o, item.PageId);
+                        int currentPageRevision = await PageRepository.GetCurrentPageRevision(o, item.PageId);
 
                         var updatePageFileRevisionParam = new
                         {
                             PageFileId = pageFileInfo.PageFileId,
                             FileRevision = currentFileRevision
                         };
+
                         //The file has changed (or is newly inserted), bump the file revision.
-                        o.Execute("UpdatePageFileRevision.sql", updatePageFileRevisionParam);
+                        await o.ExecuteAsync("UpdatePageFileRevision.sql", updatePageFileRevisionParam);
 
                         var insertPageFileRevisionParam = new
                         {
@@ -239,7 +240,7 @@ namespace TightWiki.Repository
                         };
 
                         //Insert the actual file data.
-                        o.Execute("InsertPageFileRevision.sql", insertPageFileRevisionParam);
+                        await o.ExecuteAsync("InsertPageFileRevision.sql", insertPageFileRevisionParam);
 
                         var associatePageFileAttachmentWithPageRevisionParam = new
                         {
@@ -251,7 +252,7 @@ namespace TightWiki.Repository
                         };
 
                         //Associate the latest version of the file with the latest version of the page.
-                        o.Execute("AssociatePageFileAttachmentWithPageRevision.sql", associatePageFileAttachmentWithPageRevisionParam);
+                        await o.ExecuteAsync("AssociatePageFileAttachmentWithPageRevision.sql", associatePageFileAttachmentWithPageRevisionParam);
                     }
 
                     transaction.Commit();

@@ -18,7 +18,7 @@ namespace TightWiki.Controllers
     {
         [AllowAnonymous]
         [HttpGet("Browse/{givenCanonical}")]
-        public ActionResult Browse(string givenCanonical)
+        public async Task<ActionResult> Browse(string givenCanonical)
         {
             try
             {

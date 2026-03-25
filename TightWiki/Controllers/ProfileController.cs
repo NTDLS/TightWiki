@@ -35,7 +35,7 @@ namespace TightWiki.Controllers
         [AllowAnonymous]
         [HttpGet]
         [HttpGet("{userAccountName}/Avatar")]
-        public ActionResult Avatar(string userAccountName)
+        public async Task<ActionResult> Avatar(string userAccountName)
         {
             try
             {
@@ -195,7 +195,7 @@ namespace TightWiki.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpGet("{userAccountName}/Public")]
-        public ActionResult Public(string userAccountName)
+        public async Task<ActionResult> Public(string userAccountName)
         {
             try
             {
@@ -256,7 +256,7 @@ namespace TightWiki.Controllers
         [Authorize]
         [HttpGet]
         [HttpGet("My")]
-        public ActionResult My()
+        public async Task<ActionResult> My()
         {
             try
             {
@@ -298,7 +298,7 @@ namespace TightWiki.Controllers
         /// </summary>
         [Authorize]
         [HttpPost("My")]
-        public ActionResult My(AccountProfileViewModel model)
+        public async Task<ActionResult> My(AccountProfileViewModel model)
         {
             try
             {
@@ -407,7 +407,7 @@ namespace TightWiki.Controllers
         /// </summary>
         [Authorize]
         [HttpPost("Delete")]
-        public ActionResult DeleteAccount(ConfirmActionViewModel model)
+        public async Task<ActionResult> DeleteAccount(ConfirmActionViewModel model)
         {
             try
             {
@@ -450,7 +450,7 @@ namespace TightWiki.Controllers
         /// </summary>
         [Authorize]
         [HttpGet("Deleted")]
-        public ActionResult Deleted()
+        public async Task<ActionResult> Deleted()
         {
             var model = new DeletedAccountViewModel()
             {

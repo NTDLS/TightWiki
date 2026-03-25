@@ -5,17 +5,17 @@ namespace TightWiki.Repository
 {
     public static class StatisticsRepository
     {
-        public static void IncrementPageViewCount(int pageId)
+        public static async Task IncrementPageViewCount(int pageId)
         {
             var param = new
             {
                 PageId = pageId,
                 LastCompileDateTime = DateTime.UtcNow //Because the file is not nullable.
             };
-            ManagedDataStorage.Statistics.Execute("IncrementPageViewCount.sql", param);
+            await ManagedDataStorage.Statistics.ExecuteAsync("IncrementPageViewCount.sql", param);
         }
 
-        public static void MergePageCompilationStatistics(int pageId,
+        public static async Task MergePageCompilationStatistics(int pageId,
             double wikifyTimeMs, int matchCount, int errorCount, int outgoingLinkCount,
             int tagCount, int processedBodySize, int bodySize)
         {
@@ -32,16 +32,16 @@ namespace TightWiki.Repository
                 LastBodySize = bodySize
             };
 
-            ManagedDataStorage.Statistics.Execute("MergePageCompilationStatistics.sql", param);
+            await ManagedDataStorage.Statistics.ExecuteAsync("MergePageCompilationStatistics.sql", param);
         }
 
-        public static int GetPageTotalViewCount(int pageId)
-            => ManagedDataStorage.Statistics.ExecuteScalar<int>("GetPageTotalViewCount.sql", new { PageId = pageId });
+        public static async Task<int> GetPageTotalViewCount(int pageId)
+            => await ManagedDataStorage.Statistics.ExecuteScalarAsync<int>("GetPageTotalViewCount.sql", new { PageId = pageId });
 
-        public static void PurgePageStatistics()
-            => ManagedDataStorage.Statistics.Execute("PurgePageStatistics.sql");
+        public static async Task PurgePageStatistics()
+            => await ManagedDataStorage.Statistics.ExecuteAsync("PurgePageStatistics.sql");
 
-        public static List<PageStatistics> GetPageStatisticsPaged(
+        public static async Task<List<PageStatistics>> GetPageStatisticsPaged(
             int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
             pageSize ??= GlobalConfiguration.PaginationSize;
@@ -52,12 +52,12 @@ namespace TightWiki.Repository
                 PageNumber = pageNumber
             };
 
-            return ManagedDataStorage.Statistics.Ephemeral(o =>
+            return await ManagedDataStorage.Statistics.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("pages.db", "pages_db");
 
                 var query = RepositoryHelper.TransposeOrderby("GetPageStatisticsPaged.sql", orderBy, orderByDirection);
-                return o.Query<PageStatistics>(query, param);
+                return await o.QueryAsync<PageStatistics>(query, param);
             });
         }
     }

@@ -255,7 +255,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpGet("Page/AutoCompletePage")]
-        public ActionResult AutoCompletePage([FromQuery] string? q = null)
+        public async Task<ActionResult> AutoCompletePage([FromQuery] string? q = null)
         {
             try
             {
@@ -276,7 +276,7 @@ namespace TightWiki.Controllers
 
         [AllowAnonymous]
         [HttpGet("Page/Search")]
-        public ActionResult Search()
+        public async Task<ActionResult> Search()
         {
             try
             {
@@ -309,7 +309,7 @@ namespace TightWiki.Controllers
 
         [AllowAnonymous]
         [HttpPost("Page/Search")]
-        public ActionResult Search(PageSearchViewModel model)
+        public async Task<ActionResult> Search(PageSearchViewModel model)
         {
             try
             {
@@ -346,7 +346,7 @@ namespace TightWiki.Controllers
 
         [AllowAnonymous]
         [HttpGet("Page/Localization")]
-        public ActionResult Localization([FromServices] IOptions<RequestLocalizationOptions> localizationOptions)
+        public async Task<ActionResult> Localization([FromServices] IOptions<RequestLocalizationOptions> localizationOptions)
         {
             try
             {
@@ -369,7 +369,7 @@ namespace TightWiki.Controllers
 
         [AllowAnonymous]
         [HttpGet("Page/SetLocalization")]
-        public ActionResult SetLocalization([FromServices] IOptions<RequestLocalizationOptions> localizationOptions, string culture, string returnUrl)
+        public async Task<ActionResult> SetLocalization([FromServices] IOptions<RequestLocalizationOptions> localizationOptions, string culture, string returnUrl)
         {
             try
             {
@@ -412,7 +412,7 @@ namespace TightWiki.Controllers
 
         [AllowAnonymous]
         [HttpGet("{givenCanonical}/Comments")]
-        public ActionResult Comments(string givenCanonical)
+        public async Task<ActionResult> Comments(string givenCanonical)
         {
             try
             {
@@ -482,7 +482,7 @@ namespace TightWiki.Controllers
         /// </summary>
         [Authorize]
         [HttpPost("{givenCanonical}/Comments")]
-        public ActionResult Comments(PageCommentsViewModel model, string givenCanonical)
+        public async Task<ActionResult> Comments(PageCommentsViewModel model, string givenCanonical)
         {
             try
             {
@@ -551,7 +551,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpGet("{givenCanonical}/Refresh")]
-        public ActionResult Refresh(string givenCanonical)
+        public async Task<ActionResult> Refresh(string givenCanonical)
         {
             try
             {
@@ -580,7 +580,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpGet("{givenCanonical}/Compare/{pageRevision:int}")]
-        public ActionResult Compare(string givenCanonical, int pageRevision)
+        public async Task<ActionResult> Compare(string givenCanonical, int pageRevision)
         {
             try
             {
@@ -629,7 +629,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpGet("{givenCanonical}/Revisions")]
-        public ActionResult Revisions(string givenCanonical)
+        public async Task<ActionResult> Revisions(string givenCanonical)
         {
             try
             {
@@ -687,7 +687,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpPost("{givenCanonical}/Delete")]
-        public ActionResult Delete(string givenCanonical, PageDeleteViewModel model)
+        public async Task<ActionResult> Delete(string givenCanonical, PageDeleteViewModel model)
         {
             try
             {
@@ -728,7 +728,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpGet("{givenCanonical}/Delete")]
-        public ActionResult Delete(string givenCanonical)
+        public async Task<ActionResult> Delete(string givenCanonical)
         {
             try
             {
@@ -774,7 +774,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpPost("{givenCanonical}/Revert/{pageRevision:int}")]
-        public ActionResult Revert(string givenCanonical, int pageRevision, PageRevertViewModel model)
+        public async Task<ActionResult> Revert(string givenCanonical, int pageRevision, PageRevertViewModel model)
         {
             try
             {
@@ -807,7 +807,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpGet("{givenCanonical}/Revert/{pageRevision:int}")]
-        public ActionResult Revert(string givenCanonical, int pageRevision)
+        public async Task<ActionResult> Revert(string givenCanonical, int pageRevision)
         {
             try
             {
@@ -918,7 +918,7 @@ namespace TightWiki.Controllers
         [HttpGet("{givenCanonical}/Create")]
         [HttpGet("{givenCanonical}/Edit")]
         [HttpGet("Page/Create")]
-        public ActionResult Edit(string givenCanonical)
+        public async Task<ActionResult> Edit(string givenCanonical)
         {
             try
             {
@@ -991,7 +991,7 @@ namespace TightWiki.Controllers
         [HttpPost("{givenCanonical}/Create")]
         [HttpPost("{givenCanonical}/Edit")]
         [HttpPost("Page/Create")]
-        public ActionResult Edit(PageEditViewModel model)
+        public async Task<ActionResult> Edit(PageEditViewModel model)
         {
             try
             {
@@ -1154,7 +1154,7 @@ namespace TightWiki.Controllers
         /// <param name="givenFileNavigation">The navigation link of the file.</param>
         /// <param name="pageRevision">The revision of the the PAGE that the file is attached to (NOT THE FILE REVISION)</param>
         [HttpGet("Page/Image/{givenPageNavigation}/{givenFileNavigation}/{pageRevision:int?}")]
-        public ActionResult Image(string givenPageNavigation, string givenFileNavigation, int? pageRevision = null)
+        public async Task<ActionResult> Image(string givenPageNavigation, string givenFileNavigation, int? pageRevision = null)
         {
             try
             {
@@ -1262,7 +1262,7 @@ namespace TightWiki.Controllers
         /// <param name="pageRevision">The revision of the the PAGE that the file is attached to (NOT THE FILE REVISION)</param>
         [AllowAnonymous]
         [HttpGet("Page/Png/{givenPageNavigation}/{givenFileNavigation}/{pageRevision:int?}")]
-        public ActionResult Png(string givenPageNavigation, string givenFileNavigation, int? pageRevision = null)
+        public async Task<ActionResult> Png(string givenPageNavigation, string givenFileNavigation, int? pageRevision = null)
         {
             try
             {
@@ -1341,7 +1341,7 @@ namespace TightWiki.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpGet("Page/Binary/{givenPageNavigation}/{givenFileNavigation}/{pageRevision:int?}")]
-        public ActionResult Binary(string givenPageNavigation, string givenFileNavigation, int? pageRevision = null)
+        public async Task<ActionResult> Binary(string givenPageNavigation, string givenFileNavigation, int? pageRevision = null)
         {
             try
             {

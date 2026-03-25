@@ -27,7 +27,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpPost("DeleteRole/{roleId:int}")]
-        public ActionResult DeleteRole(ConfirmActionViewModel model, int roleId)
+        public async Task<ActionResult> DeleteRole(ConfirmActionViewModel model, int roleId)
         {
             try
             {
@@ -190,7 +190,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpGet("AddRole")]
-        public ActionResult AddRole()
+        public async Task<ActionResult> AddRole()
         {
             try
             {
@@ -215,7 +215,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpPost("AddRole")]
-        public ActionResult AddRole(AddRoleViewModel model)
+        public async Task<ActionResult> AddRole(AddRoleViewModel model)
         {
             try
             {
@@ -253,7 +253,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpGet("Role/{navigation}")]
-        public ActionResult Role(string navigation)
+        public async Task<ActionResult> Role(string navigation)
         {
             try
             {
@@ -301,7 +301,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpGet("Roles")]
-        public ActionResult Roles()
+        public async Task<ActionResult> Roles()
         {
             try
             {
@@ -389,7 +389,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpGet("AccountRoles/{navigation}")]
-        public ActionResult AccountRoles(string navigation)
+        public async Task<ActionResult> AccountRoles(string navigation)
         {
             try
             {
@@ -440,7 +440,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpGet("Account/{navigation}")]
-        public ActionResult Account(string navigation)
+        public async Task<ActionResult> Account(string navigation)
         {
             try
             {
@@ -482,7 +482,7 @@ namespace TightWiki.Controllers
         /// </summary>
         [Authorize]
         [HttpPost("Account/{navigation}")]
-        public ActionResult Account(string navigation, Models.ViewModels.AdminSecurity.AccountProfileViewModel model)
+        public async Task<ActionResult> Account(string navigation, Models.ViewModels.AdminSecurity.AccountProfileViewModel model)
         {
             try
             {
@@ -659,7 +659,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpGet("AddAccount")]
-        public ActionResult AddAccount()
+        public async Task<ActionResult> AddAccount()
         {
             try
             {
@@ -707,7 +707,7 @@ namespace TightWiki.Controllers
         /// </summary>
         [Authorize]
         [HttpPost("AddAccount")]
-        public ActionResult AddAccount(Models.ViewModels.AdminSecurity.AccountProfileViewModel model)
+        public async Task<ActionResult> AddAccount(Models.ViewModels.AdminSecurity.AccountProfileViewModel model)
         {
             try
             {
@@ -837,7 +837,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpGet("Accounts")]
-        public ActionResult Accounts()
+        public async Task<ActionResult> Accounts()
         {
             try
             {
@@ -882,7 +882,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpPost("DeleteAccount/{navigation}")]
-        public ActionResult DeleteAccount(ConfirmActionViewModel model, string navigation)
+        public async Task<ActionResult> DeleteAccount(ConfirmActionViewModel model, string navigation)
         {
             try
             {
@@ -941,7 +941,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpGet("AutoCompleteRole")]
-        public ActionResult AutoCompleteRole([FromQuery] string? q = null)
+        public async Task<ActionResult> AutoCompleteRole([FromQuery] string? q = null)
         {
             try
             {
@@ -962,7 +962,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpGet("AutoCompleteAccount")]
-        public ActionResult AutoCompleteAccount([FromQuery] string? q = null)
+        public async Task<ActionResult> AutoCompleteAccount([FromQuery] string? q = null)
         {
             try
             {
@@ -983,7 +983,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpGet("AutoCompletePage")]
-        public ActionResult AutoCompletePage([FromQuery] string? q = null, [FromQuery] bool? showCatchAll = false)
+        public async Task<ActionResult> AutoCompletePage([FromQuery] string? q = null, [FromQuery] bool? showCatchAll = false)
         {
             try
             {
@@ -1016,7 +1016,7 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpGet("AutoCompleteNamespace")]
-        public ActionResult AutoCompleteNamespace([FromQuery] string? q = null, [FromQuery] bool? showCatchAll = false)
+        public async Task<ActionResult> AutoCompleteNamespace([FromQuery] string? q = null, [FromQuery] bool? showCatchAll = false)
         {
             try
             {
