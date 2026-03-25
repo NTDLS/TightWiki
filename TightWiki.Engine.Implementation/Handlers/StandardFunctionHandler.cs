@@ -83,6 +83,15 @@ namespace TightWiki.Engine.Implementation.Handlers
                     _collection.Add("Name ()");
                     _collection.Add("SiteName ()");
                     _collection.Add("Namespace ()");
+
+                    _collection.Add("PageRevisionCount ()");
+                    _collection.Add("PageViewCount ()");
+                    _collection.Add("CreatedBy ()");
+                    _collection.Add("LastModifiedBy ()");
+                    _collection.Add("PageURL ()");
+                    _collection.Add("PageId ()");
+                    _collection.Add("PageCommentCount ()");
+
                     _collection.Add("Created ()");
                     _collection.Add("LastModified ()");
                     _collection.Add("AppVersion ()");
@@ -1008,6 +1017,58 @@ namespace TightWiki.Engine.Implementation.Handlers
                         }
 
                         return new HandlerResult(html.ToString());
+                    }
+
+                //------------------------------------------------------------------------------------------------------------------------------
+                //Displays the name of the person last modified the current page.
+                case "lastmodifiedby":
+                    {
+                        return new HandlerResult(state.Page.ModifiedByUserName);
+                    }
+
+                //------------------------------------------------------------------------------------------------------------------------------
+                //Displays the total number of revisions for the current page.
+                case "pagerevisioncount":
+                    {
+                        return new HandlerResult($"{state.Page.MostCurrentRevision:n0}");
+                    }
+
+                //------------------------------------------------------------------------------------------------------------------------------
+                //Displays the name of the person who created the current page.
+                case "createdby":
+                    {
+                        return new HandlerResult(state.Page.CreatedByUserName);
+                    }
+
+                //------------------------------------------------------------------------------------------------------------------------------
+                //Displays the total number views for the current page.
+                case "pageviewcount":
+                    {
+                        int totalPageCount = StatisticsRepository.GetPageTotalViewCount(state.Page.Id);
+                        return new HandlerResult($"{totalPageCount:n0}");
+                    }
+
+                //------------------------------------------------------------------------------------------------------------------------------
+                //Displays the URL for the current page.
+                case "pageurl":
+                    {
+                        throw new NotImplementedException("PageURL is not implemented");
+                        //return new HandlerResult($"");
+                    }
+
+                //------------------------------------------------------------------------------------------------------------------------------
+                //Displays the URL for the current page.
+                case "pageid":
+                    {
+                        return new HandlerResult($"{state.Page.Id}");
+                    }
+
+                //------------------------------------------------------------------------------------------------------------------------------
+                //Displays the URL for the current page.
+                case "pagecommentcount":
+                    {
+                        int totalCommentCount = PageRepository.GetTotalPageCommentCount(state.Page.Id);
+                        return new HandlerResult($"{totalCommentCount:n0}");
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------

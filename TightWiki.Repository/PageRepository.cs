@@ -321,6 +321,9 @@ namespace TightWiki.Repository
             FlushPageCache(pageId);
         }
 
+        public static int GetTotalPageCommentCount(int pageId)
+            => ManagedDataStorage.Pages.ExecuteScalar<int>("GetTotalPageCommentCount.sql", new  { PageId = pageId });
+
         public static List<PageComment> GetPageCommentsPaged(string navigation, int pageNumber)
         {
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [navigation, pageNumber, GlobalConfiguration.PaginationSize]);

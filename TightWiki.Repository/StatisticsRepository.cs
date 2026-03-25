@@ -35,6 +35,9 @@ namespace TightWiki.Repository
             ManagedDataStorage.Statistics.Execute("MergePageCompilationStatistics.sql", param);
         }
 
+        public static int GetPageTotalViewCount(int pageId)
+            => ManagedDataStorage.Statistics.ExecuteScalar<int>("GetPageTotalViewCount.sql", new { PageId = pageId });
+
         public static void PurgePageStatistics()
             => ManagedDataStorage.Statistics.Execute("PurgePageStatistics.sql");
 

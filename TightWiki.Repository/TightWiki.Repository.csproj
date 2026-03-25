@@ -186,9 +186,11 @@
 		<EmbeddedResource Include="Scripts\Defaults\Merge\MergeFeatureTemplate.sql" />
 		<EmbeddedResource Include="Scripts\Defaults\Merge\MergeTheme.sql" />
 		<EmbeddedResource Include="Scripts\Defaults\Merge\MergeConfigurationGroup.sql" />
+		<EmbeddedResource Include="Scripts\GetTotalPageCommentCount.sql" />
 		<EmbeddedResource Include="Scripts\DeleteRole.sql" />
 		<EmbeddedResource Include="Scripts\GetAccountRoleMembershipPaged.sql" />
 		<EmbeddedResource Include="Scripts\GetAccountPermissionsPaged.sql" />
+		<EmbeddedResource Include="Scripts\GetPageTotalViewCount.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^007^Users^CreatePermissionDefaults.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^006^Users^RolePermission.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^005^Users^AccountPermission.sql" />
