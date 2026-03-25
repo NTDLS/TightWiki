@@ -41,62 +41,80 @@ namespace TightWiki.Controllers
         [HttpGet("Image/{givenPageNavigation}/{givenFileNavigation}/{fileRevision:int?}")]
         public ActionResult Image(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
         {
-            var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-            var fileNavigation = new NamespaceNavigation(givenFileNavigation);
-
-            var scale = GetQueryValue<int?>("Scale");
-            var maxWidth = GetQueryValue<int?>("MaxWidth");
-
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, scale, maxWidth]);
-            if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
+            try
             {
-                return File(cached.Bytes, cached.ContentType);
-            }
+                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+                var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
-            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
-            if (file != null)
-            {
-                if (file.ContentType == "image/x-icon")
+                var scale = GetQueryValue<int?>("Scale");
+                var maxWidth = GetQueryValue<int?>("MaxWidth");
+
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, scale, maxWidth]);
+                if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
                 {
-                    //We do not handle the resizing of icon file. Maybe later....
-                    return File(file.Data, file.ContentType);
+                    return File(cached.Bytes, cached.ContentType);
                 }
 
-                var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(file.Data));
-
-                if (scale > 500)
+                var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
+                if (file != null)
                 {
-                    scale = 500;
-                }
-                //Enforce scale if specified.
-                if (scale != null && scale != 100)
-                {
-                    int width = (int)(img.Width * (scale / 100.0));
-                    int height = (int)(img.Height * (scale / 100.0));
-
-                    //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
-                    //  dimension to become very small (or even negative). So here we will check the height and width
-                    //  to ensure they are both at least n pixels and adjust both dimensions.
-                    if (height < 16)
+                    if (file.ContentType == "image/x-icon")
                     {
-                        int difference = 16 - height;
-                        height += difference;
-                        width += difference;
-                    }
-                    if (width < 16)
-                    {
-                        int difference = 16 - width;
-                        height += difference;
-                        width += difference;
+                        //We do not handle the resizing of icon file. Maybe later....
+                        return File(file.Data, file.ContentType);
                     }
 
-                    if (file.ContentType.Equals("image/gif", StringComparison.InvariantCultureIgnoreCase))
+                    var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(file.Data));
+
+                    if (scale > 500)
                     {
-                        var resized = ResizeGifImage(file.Data, width, height);
-                        return File(resized, "image/gif");
+                        scale = 500;
                     }
-                    else
+                    //Enforce scale if specified.
+                    if (scale != null && scale != 100)
                     {
+                        int width = (int)(img.Width * (scale / 100.0));
+                        int height = (int)(img.Height * (scale / 100.0));
+
+                        //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
+                        //  dimension to become very small (or even negative). So here we will check the height and width
+                        //  to ensure they are both at least n pixels and adjust both dimensions.
+                        if (height < 16)
+                        {
+                            int difference = 16 - height;
+                            height += difference;
+                            width += difference;
+                        }
+                        if (width < 16)
+                        {
+                            int difference = 16 - width;
+                            height += difference;
+                            width += difference;
+                        }
+
+                        if (file.ContentType.Equals("image/gif", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            var resized = ResizeGifImage(file.Data, width, height);
+                            return File(resized, "image/gif");
+                        }
+                        else
+                        {
+                            using var image = ResizeImage(img, width, height);
+                            using var ms = new MemoryStream();
+                            file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
+                            var cacheItem = new ImageCacheItem(ms.ToArray(), file.ContentType);
+                            WikiCache.Put(cacheKey, cacheItem);
+                            return File(cacheItem.Bytes, cacheItem.ContentType);
+                        }
+                    }
+                    //Enforce max width if specified.
+                    else if (maxWidth > 0 && img.Width > maxWidth)
+                    {
+                        double widthScale = (double)maxWidth / img.Width;
+
+                        int width = Math.Max(1, (int)Math.Round(img.Width * widthScale));
+                        int height = Math.Max(1, (int)Math.Round(img.Height * widthScale));
+
                         using var image = ResizeImage(img, width, height);
                         using var ms = new MemoryStream();
                         file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
@@ -104,30 +122,20 @@ namespace TightWiki.Controllers
                         WikiCache.Put(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
-                }
-                //Enforce max width if specified.
-                else if (maxWidth > 0 && img.Width > maxWidth)
-                {
-                    double widthScale = (double)maxWidth / img.Width;
-
-                    int width = Math.Max(1, (int)Math.Round(img.Width * widthScale));
-                    int height = Math.Max(1, (int)Math.Round(img.Height * widthScale));
-
-                    using var image = ResizeImage(img, width, height);
-                    using var ms = new MemoryStream();
-                    file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
-                    var cacheItem = new ImageCacheItem(ms.ToArray(), file.ContentType);
-                    WikiCache.Put(cacheKey, cacheItem);
-                    return File(cacheItem.Bytes, cacheItem.ContentType);
+                    else
+                    {
+                        return File(file.Data, file.ContentType);
+                    }
                 }
                 else
                 {
-                    return File(file.Data, file.ContentType);
+                    return NotFound(Localize("[{0}] was not found on the page [{1}].", fileNavigation, pageNavigation));
                 }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound(Localize("[{0}] was not found on the page [{1}].", fileNavigation, pageNavigation));
+                Logger.LogError(ex, "Failed to get image");
+                throw;
             }
         }
 
@@ -143,93 +151,101 @@ namespace TightWiki.Controllers
         {
             try
             {
-                SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
-            }
-            catch (Exception ex)
-            {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
-            }
-            var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-            var fileNavigation = new NamespaceNavigation(givenFileNavigation);
-
-            var scale = GetQueryValue<int?>("Scale");
-            var maxWidth = GetQueryValue<int?>("MaxWidth");
-
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, scale, maxWidth]);
-            if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
-            {
-                return File(cached.Bytes, cached.ContentType);
-            }
-
-            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
-            if (file != null)
-            {
-                var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(file.Data)));
-
-                if (scale > 500)
+                try
                 {
-                    scale = 500;
+                    SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+                var fileNavigation = new NamespaceNavigation(givenFileNavigation);
+
+                var scale = GetQueryValue<int?>("Scale");
+                var maxWidth = GetQueryValue<int?>("MaxWidth");
+
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, scale, maxWidth]);
+                if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
+                {
+                    return File(cached.Bytes, cached.ContentType);
                 }
 
-                //Enforce scale if specified.
-                if (scale != null && scale != 100)
+                var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
+                if (file != null)
                 {
-                    int width = (int)(img.Width * (scale / 100.0));
-                    int height = (int)(img.Height * (scale / 100.0));
+                    var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(file.Data)));
 
-                    //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
-                    //  dimension to become very small (or even negative). So here we will check the height and width
-                    //  to ensure they are both at least n pixels and adjust both dimensions.
-                    if (height < 16)
+                    if (scale > 500)
                     {
-                        int difference = 16 - height;
-                        height += difference;
-                        width += difference;
-                    }
-                    if (width < 16)
-                    {
-                        int difference = 16 - width;
-                        height += difference;
-                        width += difference;
+                        scale = 500;
                     }
 
-                    using var image = Images.ResizeImage(img, width, height);
-                    using var ms = new MemoryStream();
-                    image.SaveAsPng(ms);
+                    //Enforce scale if specified.
+                    if (scale != null && scale != 100)
+                    {
+                        int width = (int)(img.Width * (scale / 100.0));
+                        int height = (int)(img.Height * (scale / 100.0));
 
-                    var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
-                    WikiCache.Put(cacheKey, cacheItem);
-                    return File(cacheItem.Bytes, cacheItem.ContentType);
-                }
-                //Enforce max width if specified.
-                else if (maxWidth > 0 && img.Width > maxWidth)
-                {
-                    double widthScale = (double)maxWidth / img.Width;
+                        //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
+                        //  dimension to become very small (or even negative). So here we will check the height and width
+                        //  to ensure they are both at least n pixels and adjust both dimensions.
+                        if (height < 16)
+                        {
+                            int difference = 16 - height;
+                            height += difference;
+                            width += difference;
+                        }
+                        if (width < 16)
+                        {
+                            int difference = 16 - width;
+                            height += difference;
+                            width += difference;
+                        }
 
-                    int width = Math.Max(1, (int)Math.Round(img.Width * widthScale));
-                    int height = Math.Max(1, (int)Math.Round(img.Height * widthScale));
+                        using var image = Images.ResizeImage(img, width, height);
+                        using var ms = new MemoryStream();
+                        image.SaveAsPng(ms);
 
-                    using var image = Images.ResizeImage(img, width, height);
-                    using var ms = new MemoryStream();
-                    image.SaveAsPng(ms);
+                        var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
+                        WikiCache.Put(cacheKey, cacheItem);
+                        return File(cacheItem.Bytes, cacheItem.ContentType);
+                    }
+                    //Enforce max width if specified.
+                    else if (maxWidth > 0 && img.Width > maxWidth)
+                    {
+                        double widthScale = (double)maxWidth / img.Width;
 
-                    var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
-                    WikiCache.Put(cacheKey, cacheItem);
-                    return File(cacheItem.Bytes, cacheItem.ContentType);
+                        int width = Math.Max(1, (int)Math.Round(img.Width * widthScale));
+                        int height = Math.Max(1, (int)Math.Round(img.Height * widthScale));
+
+                        using var image = Images.ResizeImage(img, width, height);
+                        using var ms = new MemoryStream();
+                        image.SaveAsPng(ms);
+
+                        var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
+                        WikiCache.Put(cacheKey, cacheItem);
+                        return File(cacheItem.Bytes, cacheItem.ContentType);
+                    }
+                    else
+                    {
+                        using var ms = new MemoryStream();
+                        img.SaveAsPng(ms);
+
+                        var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
+                        WikiCache.Put(cacheKey, cacheItem);
+                        return File(cacheItem.Bytes, cacheItem.ContentType);
+                    }
                 }
                 else
                 {
-                    using var ms = new MemoryStream();
-                    img.SaveAsPng(ms);
-
-                    var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
-                    WikiCache.Put(cacheKey, cacheItem);
-                    return File(cacheItem.Bytes, cacheItem.ContentType);
+                    return NotFound(Localize("[{0}] was not found on the page [{1}].", fileNavigation, pageNavigation));
                 }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound(Localize("[{0}] was not found on the page [{1}].", fileNavigation, pageNavigation));
+                Logger.LogError(ex, "Failed to get PNG image");
+                throw;
             }
         }
 
@@ -246,25 +262,33 @@ namespace TightWiki.Controllers
         {
             try
             {
-                SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+                try
+                {
+                    SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+                var fileNavigation = new NamespaceNavigation(givenFileNavigation);
+
+                var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
+
+                if (file != null)
+                {
+                    return File(file.Data.ToArray(), file.ContentType);
+                }
+                else
+                {
+                    HttpContext.Response.StatusCode = 404;
+                    return NotFound(Localize("[{0}] was not found on the page [{1}].", fileNavigation, pageNavigation));
+                }
             }
             catch (Exception ex)
             {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
-            }
-            var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-            var fileNavigation = new NamespaceNavigation(givenFileNavigation);
-
-            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
-
-            if (file != null)
-            {
-                return File(file.Data.ToArray(), file.ContentType);
-            }
-            else
-            {
-                HttpContext.Response.StatusCode = 404;
-                return NotFound(Localize("[{0}] was not found on the page [{1}].", fileNavigation, pageNavigation));
+                Logger.LogError(ex, "Failed to get binary file");
+                throw;
             }
         }
 
@@ -277,26 +301,34 @@ namespace TightWiki.Controllers
         {
             try
             {
-                SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+                try
+                {
+                    SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+                var fileNavigation = new NamespaceNavigation(givenFileNavigation);
+
+                var model = new PageFileRevisionsViewModel()
+                {
+                    PageNavigation = pageNavigation.Canonical,
+                    FileNavigation = fileNavigation.Canonical,
+                    Revisions = PageFileRepository.GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged
+                        (pageNavigation.Canonical, fileNavigation.Canonical, GetQueryValue("page", 1))
+                };
+
+                model.PaginationPageCount = (model.Revisions.FirstOrDefault()?.PaginationPageCount ?? 0);
+
+                return View(model);
             }
             catch (Exception ex)
             {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
+                Logger.LogError(ex, "Failed to get page file revisions");
+                throw;
             }
-            var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-            var fileNavigation = new NamespaceNavigation(givenFileNavigation);
-
-            var model = new PageFileRevisionsViewModel()
-            {
-                PageNavigation = pageNavigation.Canonical,
-                FileNavigation = fileNavigation.Canonical,
-                Revisions = PageFileRepository.GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged
-                    (pageNavigation.Canonical, fileNavigation.Canonical, GetQueryValue("page", 1))
-            };
-
-            model.PaginationPageCount = (model.Revisions.FirstOrDefault()?.PaginationPageCount ?? 0);
-
-            return View(model);
         }
 
         /// <summary>
@@ -308,31 +340,39 @@ namespace TightWiki.Controllers
         {
             try
             {
-                SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
-            }
-            catch (Exception ex)
-            {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
-            }
-            var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+                try
+                {
+                    SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
 
-            var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
-            if (page != null)
-            {
-                var pageFiles = PageFileRepository.GetPageFilesInfoByPageId(page.Id);
+                var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
+                if (page != null)
+                {
+                    var pageFiles = PageFileRepository.GetPageFilesInfoByPageId(page.Id);
+
+                    return View(new FileAttachmentViewModel
+                    {
+                        PageNavigation = page.Navigation,
+                        PageRevision = page.Revision,
+                        Files = pageFiles
+                    });
+                }
 
                 return View(new FileAttachmentViewModel
                 {
-                    PageNavigation = page.Navigation,
-                    PageRevision = page.Revision,
-                    Files = pageFiles
+                    Files = new()
                 });
             }
-
-            return View(new FileAttachmentViewModel
+            catch (Exception ex)
             {
-                Files = new()
-            });
+                Logger.LogError(ex, "Failed to get page attachments");
+                throw;
+            }
         }
 
         /// <summary>
@@ -344,51 +384,59 @@ namespace TightWiki.Controllers
         {
             try
             {
-                SessionState.RequirePermission(givenPageNavigation, [WikiPermission.Create, WikiPermission.Edit]);
-            }
-            catch (Exception ex)
-            {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
-            }
-            try
-            {
-                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-
-                var page = PageRepository.GetPageInfoByNavigation(pageNavigation.Canonical).EnsureNotNull();
-
-                foreach (IFormFile file in postedFiles)
+                try
                 {
-                    if (file != null)
+                    SessionState.RequirePermission(givenPageNavigation, [WikiPermission.Create, WikiPermission.Edit]);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                try
+                {
+                    var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+
+                    var page = PageRepository.GetPageInfoByNavigation(pageNavigation.Canonical).EnsureNotNull();
+
+                    foreach (IFormFile file in postedFiles)
                     {
-                        var fileSize = file.Length;
-                        if (fileSize > 0)
+                        if (file != null)
                         {
-                            if (fileSize > GlobalConfiguration.MaxAttachmentFileSize)
+                            var fileSize = file.Length;
+                            if (fileSize > 0)
                             {
-                                return Json(new { message = Localize("Could not attach file: [{0}], too large.", file.FileName) });
+                                if (fileSize > GlobalConfiguration.MaxAttachmentFileSize)
+                                {
+                                    return Json(new { message = Localize("Could not attach file: [{0}], too large.", file.FileName) });
+                                }
+
+                                var fileName = HttpUtility.UrlDecode(file.FileName);
+
+                                PageFileRepository.UpsertPageFile(new PageFileAttachment()
+                                {
+                                    Data = Utility.ConvertHttpFileToBytes(file),
+                                    CreatedDate = DateTime.UtcNow,
+                                    PageId = page.Id,
+                                    Name = fileName,
+                                    FileNavigation = Navigation.Clean(fileName),
+                                    Size = fileSize,
+                                    ContentType = Utility.GetMimeType(fileName)
+                                }, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
                             }
-
-                            var fileName = HttpUtility.UrlDecode(file.FileName);
-
-                            PageFileRepository.UpsertPageFile(new PageFileAttachment()
-                            {
-                                Data = Utility.ConvertHttpFileToBytes(file),
-                                CreatedDate = DateTime.UtcNow,
-                                PageId = page.Id,
-                                Name = fileName,
-                                FileNavigation = Navigation.Clean(fileName),
-                                Size = fileSize,
-                                ContentType = Utility.GetMimeType(fileName)
-                            }, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
                         }
                     }
+                    return Json(new { success = true, message = Localize("files: {0:n0}", postedFiles.Count) });
                 }
-                return Json(new { success = true, message = Localize("files: {0:n0}", postedFiles.Count) });
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to upload file");
+                    return StatusCode(500, new { success = false, message = Localize("An error occurred: {0}", ex.Message) });
+                }
             }
             catch (Exception ex)
             {
-                _logger.LogError("Failed to upload file: {Message}", ex.Message);
-                return StatusCode(500, new { success = false, message = Localize("An error occurred: {0}", ex.Message) });
+                Logger.LogError(ex, "Failed to upload file via drag and drop");
+                throw;
             }
         }
 
@@ -401,44 +449,52 @@ namespace TightWiki.Controllers
         {
             try
             {
-                SessionState.RequirePermission(givenPageNavigation, [WikiPermission.Create, WikiPermission.Edit]);
+                try
+                {
+                    SessionState.RequirePermission(givenPageNavigation, [WikiPermission.Create, WikiPermission.Edit]);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+
+                var page = PageRepository.GetPageInfoByNavigation(pageNavigation.Canonical).EnsureNotNull();
+
+                if (fileData != null)
+                {
+                    var fileSize = fileData.Length;
+                    if (fileSize > 0)
+                    {
+                        if (fileSize > GlobalConfiguration.MaxAttachmentFileSize)
+                        {
+                            return Content(Localize("Could not save the attached file, too large"));
+                        }
+
+                        var fileName = HttpUtility.UrlDecode(fileData.FileName);
+
+                        PageFileRepository.UpsertPageFile(new PageFileAttachment()
+                        {
+                            Data = Utility.ConvertHttpFileToBytes(fileData),
+                            CreatedDate = DateTime.UtcNow,
+                            PageId = page.Id,
+                            Name = fileName,
+                            FileNavigation = Navigation.Clean(fileName),
+                            Size = fileSize,
+                            ContentType = Utility.GetMimeType(fileName)
+                        }, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
+
+                        return Content(Localize("Success"));
+                    }
+                }
+
+                return Content(Localize("Failure"));
             }
             catch (Exception ex)
             {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
+                Logger.LogError(ex, "Failed to manually upload file");
+                throw;
             }
-            var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-
-            var page = PageRepository.GetPageInfoByNavigation(pageNavigation.Canonical).EnsureNotNull();
-
-            if (fileData != null)
-            {
-                var fileSize = fileData.Length;
-                if (fileSize > 0)
-                {
-                    if (fileSize > GlobalConfiguration.MaxAttachmentFileSize)
-                    {
-                        return Content(Localize("Could not save the attached file, too large"));
-                    }
-
-                    var fileName = HttpUtility.UrlDecode(fileData.FileName);
-
-                    PageFileRepository.UpsertPageFile(new PageFileAttachment()
-                    {
-                        Data = Utility.ConvertHttpFileToBytes(fileData),
-                        CreatedDate = DateTime.UtcNow,
-                        PageId = page.Id,
-                        Name = fileName,
-                        FileNavigation = Navigation.Clean(fileName),
-                        Size = fileSize,
-                        ContentType = Utility.GetMimeType(fileName)
-                    }, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
-
-                    return Content(Localize("Success"));
-                }
-            }
-
-            return Content(Localize("Failure"));
         }
 
         /// <summary>
@@ -449,17 +505,25 @@ namespace TightWiki.Controllers
         {
             try
             {
-                SessionState.RequirePermission(givenPageNavigation, WikiPermission.Delete);
+                try
+                {
+                    SessionState.RequirePermission(givenPageNavigation, WikiPermission.Delete);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                PageFileRepository.DetachPageRevisionAttachment(
+                    new NamespaceNavigation(givenPageNavigation).Canonical,
+                    new NamespaceNavigation(givenFileNavigation).Canonical, pageRevision);
+
+                return Content(Localize("Success"));
             }
             catch (Exception ex)
             {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
+                Logger.LogError(ex, "Failed to detach page attachment");
+                throw;
             }
-            PageFileRepository.DetachPageRevisionAttachment(
-                new NamespaceNavigation(givenPageNavigation).Canonical,
-                new NamespaceNavigation(givenFileNavigation).Canonical, pageRevision);
-
-            return Content(Localize("Success"));
         }
 
         #region AutoComplete.
@@ -468,12 +532,20 @@ namespace TightWiki.Controllers
         [HttpGet("AutoCompleteEmoji")]
         public ActionResult AutoCompleteEmoji([FromQuery] string? q = null)
         {
-            var emojis = EmojiRepository.AutoCompleteEmoji(q ?? string.Empty).ToList();
-
-            return Json(emojis.Select(o => new
+            try
             {
-                text = o
-            }));
+                var emojis = EmojiRepository.AutoCompleteEmoji(q ?? string.Empty).ToList();
+
+                return Json(emojis.Select(o => new
+                {
+                    text = o
+                }));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Failed to autocomplete emoji");
+                throw;
+            }
         }
 
         #endregion
@@ -485,92 +557,100 @@ namespace TightWiki.Controllers
         [HttpGet("Emoji/{givenEmojiNavigation}")]
         public ActionResult Emoji(string givenEmojiNavigation)
         {
-            var emojiNavigation = Navigation.Clean(givenEmojiNavigation);
-
-            if (string.IsNullOrEmpty(emojiNavigation) == false)
+            try
             {
-                var givenScale = GetQueryValue("Scale", 100);
+                var emojiNavigation = Navigation.Clean(givenEmojiNavigation);
 
-                string shortcut = $"%%{emojiNavigation.ToLowerInvariant()}%%";
-                var emoji = GlobalConfiguration.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
-                if (emoji != null)
+                if (string.IsNullOrEmpty(emojiNavigation) == false)
                 {
-                    //Do we have this scale cached already?
-                    var scaledImageCacheKey = WikiCacheKey.Build(WikiCache.Category.Emoji, [shortcut, givenScale]);
-                    if (WikiCache.TryGet<ImageCacheItem>(scaledImageCacheKey, out var cachedEmoji))
-                    {
-                        return File(cachedEmoji.Bytes, cachedEmoji.ContentType);
-                    }
+                    var givenScale = GetQueryValue("Scale", 100);
 
-                    var imageCacheKey = WikiCacheKey.Build(WikiCache.Category.Emoji, [shortcut]);
-                    emoji.ImageData = WikiCache.Get<byte[]>(imageCacheKey);
-                    if (emoji.ImageData == null)
+                    string shortcut = $"%%{emojiNavigation.ToLowerInvariant()}%%";
+                    var emoji = GlobalConfiguration.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
+                    if (emoji != null)
                     {
-                        //We don't get the bytes by default, that would be a lot of RAM for all the thousands of images.
-                        emoji.ImageData = EmojiRepository.GetEmojiByName(emoji.Name)?.ImageData;
+                        //Do we have this scale cached already?
+                        var scaledImageCacheKey = WikiCacheKey.Build(WikiCache.Category.Emoji, [shortcut, givenScale]);
+                        if (WikiCache.TryGet<ImageCacheItem>(scaledImageCacheKey, out var cachedEmoji))
+                        {
+                            return File(cachedEmoji.Bytes, cachedEmoji.ContentType);
+                        }
 
+                        var imageCacheKey = WikiCacheKey.Build(WikiCache.Category.Emoji, [shortcut]);
+                        emoji.ImageData = WikiCache.Get<byte[]>(imageCacheKey);
                         if (emoji.ImageData == null)
                         {
-                            return NotFound(Localize("Emoji {0} was not found", emojiNavigation));
+                            //We don't get the bytes by default, that would be a lot of RAM for all the thousands of images.
+                            emoji.ImageData = EmojiRepository.GetEmojiByName(emoji.Name)?.ImageData;
+
+                            if (emoji.ImageData == null)
+                            {
+                                return NotFound(Localize("Emoji {0} was not found", emojiNavigation));
+                            }
+
+                            WikiCache.Put(imageCacheKey, emoji.ImageData);
                         }
 
-                        WikiCache.Put(imageCacheKey, emoji.ImageData);
-                    }
-
-                    if (emoji.ImageData != null)
-                    {
-                        var decompressedImageBytes = Utility.Decompress(emoji.ImageData);
-
-                        var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(decompressedImageBytes));
-
-                        if (givenScale > 500)
+                        if (emoji.ImageData != null)
                         {
-                            givenScale = 500;
-                        }
+                            var decompressedImageBytes = Utility.Decompress(emoji.ImageData);
 
-                        var (Width, Height) = Utility.ScaleToMaxOf(img.Width, img.Height, GlobalConfiguration.DefaultEmojiHeight);
+                            var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(decompressedImageBytes));
 
-                        //Adjust to any specified scaling.
-                        Height = (int)(Height * (givenScale / 100.0));
-                        Width = (int)(Width * (givenScale / 100.0));
+                            if (givenScale > 500)
+                            {
+                                givenScale = 500;
+                            }
 
-                        //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
-                        //  dimension to become very small (or even negative). So here we will check the height and width
-                        //  to ensure they are both at least n pixels and adjust both dimensions.
-                        if (Height < 16)
-                        {
-                            Height += 16 - Height;
-                            Width += 16 - Height;
-                        }
-                        if (Width < 16)
-                        {
-                            Height += 16 - Width;
-                            Width += 16 - Width;
-                        }
+                            var (Width, Height) = Utility.ScaleToMaxOf(img.Width, img.Height, GlobalConfiguration.DefaultEmojiHeight);
 
-                        if (emoji.MimeType?.ToLowerInvariant() == "image/gif")
-                        {
-                            var resized = ResizeGifImage(decompressedImageBytes, Width, Height);
-                            var itemCache = new ImageCacheItem(resized, "image/gif");
-                            WikiCache.Put(scaledImageCacheKey, itemCache);
-                            return File(itemCache.Bytes, itemCache.ContentType);
-                        }
-                        else
-                        {
-                            using var image = Images.ResizeImage(img, Width, Height);
-                            using var ms = new MemoryStream();
-                            image.SaveAsPng(ms);
+                            //Adjust to any specified scaling.
+                            Height = (int)(Height * (givenScale / 100.0));
+                            Width = (int)(Width * (givenScale / 100.0));
 
-                            var itemCache = new ImageCacheItem(ms.ToArray(), "image/png");
-                            WikiCache.Put(scaledImageCacheKey, itemCache);
+                            //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
+                            //  dimension to become very small (or even negative). So here we will check the height and width
+                            //  to ensure they are both at least n pixels and adjust both dimensions.
+                            if (Height < 16)
+                            {
+                                Height += 16 - Height;
+                                Width += 16 - Height;
+                            }
+                            if (Width < 16)
+                            {
+                                Height += 16 - Width;
+                                Width += 16 - Width;
+                            }
 
-                            return File(itemCache.Bytes, itemCache.ContentType);
+                            if (emoji.MimeType?.ToLowerInvariant() == "image/gif")
+                            {
+                                var resized = ResizeGifImage(decompressedImageBytes, Width, Height);
+                                var itemCache = new ImageCacheItem(resized, "image/gif");
+                                WikiCache.Put(scaledImageCacheKey, itemCache);
+                                return File(itemCache.Bytes, itemCache.ContentType);
+                            }
+                            else
+                            {
+                                using var image = Images.ResizeImage(img, Width, Height);
+                                using var ms = new MemoryStream();
+                                image.SaveAsPng(ms);
+
+                                var itemCache = new ImageCacheItem(ms.ToArray(), "image/png");
+                                WikiCache.Put(scaledImageCacheKey, itemCache);
+
+                                return File(itemCache.Bytes, itemCache.ContentType);
+                            }
                         }
                     }
                 }
-            }
 
-            return NotFound(Localize("Emoji {0} was not found", emojiNavigation));
+                return NotFound(Localize("Emoji {0} was not found", emojiNavigation));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Failed to get emoji image");
+                throw;
+            }
         }
     }
 }

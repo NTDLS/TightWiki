@@ -18,39 +18,63 @@ namespace TightWiki.Controllers
         [HttpGet("Notify")]
         public ActionResult Notify()
         {
-            var model = new NotifyViewModel()
+            try
             {
-                NotifySuccessMessage = GetQueryValue("NotifySuccessMessage", string.Empty),
-                NotifyErrorMessage = GetQueryValue("NotifyErrorMessage", string.Empty),
-                NotifyWarningMessage = GetQueryValue("NotifyWarningMessage", string.Empty),
-                RedirectURL = GetQueryValue("RedirectURL", string.Empty),
-                RedirectTimeout = GetQueryValue("RedirectTimeout", 0)
-            };
+                var model = new NotifyViewModel()
+                {
+                    NotifySuccessMessage = GetQueryValue("NotifySuccessMessage", string.Empty),
+                    NotifyErrorMessage = GetQueryValue("NotifyErrorMessage", string.Empty),
+                    NotifyWarningMessage = GetQueryValue("NotifyWarningMessage", string.Empty),
+                    RedirectURL = GetQueryValue("RedirectURL", string.Empty),
+                    RedirectTimeout = GetQueryValue("RedirectTimeout", 0)
+                };
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error in Notify action");
+                throw;
+            }
         }
 
         [AllowAnonymous]
         [HttpPost("ConfirmAction")]
         public ActionResult ConfirmAction(ConfirmActionViewModel model)
         {
-            return View(model);
+            try
+            {
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error in ConfirmAction POST action");
+                throw;
+            }
         }
 
         [AllowAnonymous]
         [HttpGet("ConfirmAction")]
         public ActionResult ConfirmAction()
         {
-            var model = new ConfirmActionViewModel
+            try
             {
-                ControllerURL = GetQueryValue<string>("controllerURL").EnsureNotNull(),
-                YesRedirectURL = GetQueryValue<string>("yesRedirectURL").EnsureNotNull(),
-                NoRedirectURL = GetQueryValue<string>("noRedirectURL").EnsureNotNull(),
-                Message = GetQueryValue<string>("message").EnsureNotNull(),
-                Style = GetQueryValue<string>("Style").EnsureNotNull()
-            };
+                var model = new ConfirmActionViewModel
+                {
+                    ControllerURL = GetQueryValue<string>("controllerURL").EnsureNotNull(),
+                    YesRedirectURL = GetQueryValue<string>("yesRedirectURL").EnsureNotNull(),
+                    NoRedirectURL = GetQueryValue<string>("noRedirectURL").EnsureNotNull(),
+                    Message = GetQueryValue<string>("message").EnsureNotNull(),
+                    Style = GetQueryValue<string>("Style").EnsureNotNull()
+                };
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error in ConfirmAction GET action");
+                throw;
+            }
         }
     }
 }

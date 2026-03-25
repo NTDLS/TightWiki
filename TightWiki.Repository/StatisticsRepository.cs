@@ -5,6 +5,16 @@ namespace TightWiki.Repository
 {
     public static class StatisticsRepository
     {
+        public static void IncrementPageViewCount(int pageId)
+        {
+            var param = new
+            {
+                PageId = pageId,
+                LastCompileDateTime = DateTime.UtcNow //Because the file is not nullable.
+            };
+            ManagedDataStorage.Statistics.Execute("IncrementPageViewCount.sql", param);
+        }
+
         public static void MergePageCompilationStatistics(int pageId,
             double wikifyTimeMs, int matchCount, int errorCount, int outgoingLinkCount,
             int tagCount, int processedBodySize, int bodySize)

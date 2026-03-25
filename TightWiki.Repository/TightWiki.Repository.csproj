@@ -212,6 +212,7 @@
 		<EmbeddedResource Include="Scripts\DoesRoleExist.sql" />
 		<EmbeddedResource Include="Scripts\InsertAccountPermission.sql" />
 		<EmbeddedResource Include="Scripts\IsAccountPermissionDefined.sql" />
+		<EmbeddedResource Include="Scripts\IncrementPageViewCount.sql" />
 		<EmbeddedResource Include="Scripts\RemoveRoleMember.sql" />
 		<EmbeddedResource Include="Scripts\RemoveAccountPermission.sql" />
 		<EmbeddedResource Include="Scripts\RemoveRolePermission.sql" />

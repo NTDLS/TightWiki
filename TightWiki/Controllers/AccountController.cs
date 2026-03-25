@@ -37,22 +37,38 @@ namespace TightWiki.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ExternalLoginHttpGet(string provider, string? returnUrl = null)
         {
-            returnUrl = WebUtility.UrlDecode(returnUrl ?? Url.Content("~/"));
+            try
+            {
+                returnUrl = WebUtility.UrlDecode(returnUrl ?? Url.Content("~/"));
 
-            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { area = "Identity", ReturnUrl = returnUrl });
-            var properties = SignInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
-            return Challenge(properties, provider);
+                var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { area = "Identity", ReturnUrl = returnUrl });
+                var properties = SignInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+                return Challenge(properties, provider);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error initiating external login");
+                throw;
+            }
         }
 
         [HttpPost("ExternalLogin")]
         [ValidateAntiForgeryToken]
         public IActionResult ExternalLoginHttpPost(string provider, string? returnUrl = null)
         {
-            returnUrl = WebUtility.UrlDecode(returnUrl ?? Url.Content("~/"));
+            try
+            {
+                returnUrl = WebUtility.UrlDecode(returnUrl ?? Url.Content("~/"));
 
-            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { area = "Identity", ReturnUrl = returnUrl });
-            var properties = SignInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
-            return Challenge(properties, provider);
+                var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { area = "Identity", ReturnUrl = returnUrl });
+                var properties = SignInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+                return Challenge(properties, provider);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error initiating external login");
+                throw;
+            }
         }
 
         public async Task<IActionResult> ExternalLoginCallback(string? returnUrl = null, string? remoteError = null)
@@ -142,6 +158,11 @@ namespace TightWiki.Controllers
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error during external login callback");
+                throw;
+            }
             finally
             {
                 UpdateUserCultureCookie();
@@ -179,7 +200,8 @@ namespace TightWiki.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError("Error updating user culture cookie: {Message}", ex.Message);
+                Logger.LogError(ex, "Error updating user culture cookie");
+                //throw; // We catch and log the error but do not rethrow it, as this is not critical and we don't want to disrupt the user experience.
             }
         }
     }

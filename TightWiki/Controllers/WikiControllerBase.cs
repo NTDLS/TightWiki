@@ -29,70 +29,216 @@ namespace TightWiki.Controllers
 
         [NonAction]
         public override RedirectResult Redirect(string? url)
-            => base.Redirect(url.EnsureNotNull());
+        {
+            try
+            {
+                return base.Redirect(url.EnsureNotNull());
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error in Redirect to {Url}", url);
+                throw;
+            }
+        }
 
         [NonAction]
         protected V? GetQueryValue<V>(string key)
         {
-            if (Request.Query.TryGetValue(key, out var value) && !string.IsNullOrEmpty(value))
+            try
             {
-                return Converters.ConvertToNullable<V>(value);
+                if (Request.Query.TryGetValue(key, out var value) && !string.IsNullOrEmpty(value))
+                {
+                    return Converters.ConvertToNullable<V>(value);
+                }
+                return default;
             }
-            return default;
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error getting query value for key {Key}", key);
+                throw;
+            }
         }
 
         [NonAction]
         protected V GetQueryValue<V>(string key, V defaultValue)
         {
-            if (Request.Query.TryGetValue(key, out var value) && !string.IsNullOrEmpty(value))
+            try
             {
-                return Converters.ConvertToNullable<V>(value) ?? defaultValue;
+                if (Request.Query.TryGetValue(key, out var value) && !string.IsNullOrEmpty(value))
+                {
+                    return Converters.ConvertToNullable<V>(value) ?? defaultValue;
+                }
+                return defaultValue;
             }
-            return defaultValue;
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error getting query value for key {Key} with default value {DefaultValue}", key, defaultValue);
+                throw;
+            }
         }
 
         [NonAction]
         protected string? GetFormValue(string key)
-            => Request.Form[key];
+        {
+            try
+            {
+                return Request.Form[key];
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error getting form value for key {Key}", key);
+                throw;
+            }
+        }
 
         [NonAction]
         protected string GetFormValue(string key, string defaultValue)
-            => (string?)Request.Form[key] ?? defaultValue;
+        {
+            try
+            {
+                return (string?)Request.Form[key] ?? defaultValue;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error getting form value for key {Key} with default value {DefaultValue}", key, defaultValue);
+                throw;
+            }
+        }
 
         [NonAction]
         protected int GetFormValue(string key, int defaultValue)
-            => int.Parse(GetFormValue(key, defaultValue.ToString()));
+        {
+            try
+            {
+                return int.Parse(GetFormValue(key, defaultValue.ToString()));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error getting form value for key {Key} with default int value {DefaultValue}", key, defaultValue);
+                throw;
+            }
+        }
 
         [NonAction]
         protected string Localize(string key)
-            => Localizer[key].Value;
+        {
+            try
+            {
+                return Localizer[key].Value;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error localizing key {Key}", key);
+                throw;
+            }
+        }
 
         [NonAction]
         protected string Localize(string key, params object?[] objs)
-            => string.Format(Localizer[key].Value, objs);
+        {
+            try
+            {
+                return string.Format(Localizer[key].Value, objs);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error localizing key {Key} with parameters {Parameters}", key, objs);
+                throw;
+            }
+        }
 
         /// <summary>
         /// Displays the successMessage unless the errorMessage is present.
         /// </summary>
         protected RedirectResult NotifyOf(string successMessage, string errorMessage, string redirectUrl)
-            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(successMessage)}&NotifyErrorMessage={Uri.EscapeDataString(errorMessage)}&RedirectUrl={Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}")}&RedirectTimeout=5");
+        {
+            try
+            {
+                return Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(successMessage)}&NotifyErrorMessage={Uri.EscapeDataString(errorMessage)}&RedirectUrl={Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}")}&RedirectTimeout=5");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error notifying of success message {SuccessMessage} and error message {ErrorMessage} with redirect URL {RedirectUrl}", successMessage, errorMessage, redirectUrl);
+                throw;
+            }
+        }
 
         protected RedirectResult NotifyOfSuccess(string message, string redirectUrl)
-            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}")}&RedirectTimeout=5");
+        {
+            try
+            {
+                return Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}")}&RedirectTimeout=5");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error notifying of success message {Message} with redirect URL {RedirectUrl}", message, redirectUrl);
+                throw;
+            }
+        }
 
         protected RedirectResult NotifyOfWarning(string message, string redirectUrl)
-            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyWarningMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}")}");
+        {
+            try
+            {
+                return Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyWarningMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}")}");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error notifying of warning message {Message} with redirect URL {RedirectUrl}", message, redirectUrl);
+                throw;
+            }
+        }
 
         protected RedirectResult NotifyOfError(string message, string redirectUrl)
-            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}")}");
+        {
+            try
+            {
+                return Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}")}");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error notifying of error message {Message} with redirect URL {RedirectUrl}", message, redirectUrl);
+                throw;
+            }
+        }
 
         protected RedirectResult NotifyOfSuccess(string message)
-            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(message)}");
+        {
+            try
+            {
+                return Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(message)}");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error notifying of success message {Message}", message);
+                throw;
+            }
+        }
 
         protected RedirectResult NotifyOfWarning(string message)
-            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyWarningMessage={Uri.EscapeDataString(message)}");
+        {
+            try
+            {
+                return Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyWarningMessage={Uri.EscapeDataString(message)}");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error notifying of warning message {Message}", message);
+                throw;
+            }
+        }
 
         protected RedirectResult NotifyOfError(string message)
-            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString(message)}");
+        {
+            try
+            {
+                return Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString(message)}");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error notifying of error message {Message}", message);
+                throw;
+            }
+        }
     }
 }

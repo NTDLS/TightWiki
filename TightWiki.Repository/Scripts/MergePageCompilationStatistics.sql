@@ -3,6 +3,7 @@ INSERT INTO PageStatistics
     PageId,
     LastCompileDateTime,
     TotalCompilationCount,
+    TotalViewCount,
     LastWikifyTimeMs,
     TotalWikifyTimeMs,
     LastMatchCount,
@@ -16,6 +17,7 @@ VALUES
 (
     @PageId,
     @LastCompileDateTime,
+    1,
     1,
     @LastWikifyTimeMs,
     @LastWikifyTimeMs,

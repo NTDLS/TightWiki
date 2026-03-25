@@ -22,60 +22,68 @@ namespace TightWiki.Controllers
         {
             try
             {
-                SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
-            }
-            catch (Exception ex)
-            {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
-            }
-            SessionState.Page.Name = Localize("Tags");
-
-            givenCanonical = NamespaceNavigation.CleanAndValidate(givenCanonical);
-
-            string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
-            var pages = PageRepository.GetPageInfoByTag(givenCanonical).OrderBy(o => o.Name).ToList();
-            var glossaryHtml = new StringBuilder();
-            var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpperInvariant()).Distinct();
-
-            if (pages.Count > 0)
-            {
-                // Alphabet jump bar.
-                glossaryHtml.Append("<div class=\"text-center mb-2\">");
-                foreach (var alpha in alphabet)
+                try
                 {
-                    glossaryHtml.Append($"<a href=\"#{glossaryName}_{alpha}\" class=\"mx-1 text-decoration-none\">{alpha}</a>");
+                    SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
                 }
-                glossaryHtml.Append("</div>");
-
-                glossaryHtml.Append("<ul>");
-                foreach (var alpha in alphabet)
+                catch (Exception ex)
                 {
-                    glossaryHtml.Append("<li><a name=\"" + glossaryName + "_" + alpha + "\">" + alpha + "</a></li>");
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                SessionState.Page.Name = Localize("Tags");
+
+                givenCanonical = NamespaceNavigation.CleanAndValidate(givenCanonical);
+
+                string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
+                var pages = PageRepository.GetPageInfoByTag(givenCanonical).OrderBy(o => o.Name).ToList();
+                var glossaryHtml = new StringBuilder();
+                var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpperInvariant()).Distinct();
+
+                if (pages.Count > 0)
+                {
+                    // Alphabet jump bar.
+                    glossaryHtml.Append("<div class=\"text-center mb-2\">");
+                    foreach (var alpha in alphabet)
+                    {
+                        glossaryHtml.Append($"<a href=\"#{glossaryName}_{alpha}\" class=\"mx-1 text-decoration-none\">{alpha}</a>");
+                    }
+                    glossaryHtml.Append("</div>");
 
                     glossaryHtml.Append("<ul>");
-                    foreach (var page in pages.Where(p => p.Name.StartsWith(alpha, StringComparison.InvariantCultureIgnoreCase)))
+                    foreach (var alpha in alphabet)
                     {
-                        glossaryHtml.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Name + "</a>");
+                        glossaryHtml.Append("<li><a name=\"" + glossaryName + "_" + alpha + "\">" + alpha + "</a></li>");
 
-                        if (page.Description.Length > 0)
+                        glossaryHtml.Append("<ul>");
+                        foreach (var page in pages.Where(p => p.Name.StartsWith(alpha, StringComparison.InvariantCultureIgnoreCase)))
                         {
-                            glossaryHtml.Append(" - " + page.Description);
+                            glossaryHtml.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Name + "</a>");
+
+                            if (page.Description.Length > 0)
+                            {
+                                glossaryHtml.Append(" - " + page.Description);
+                            }
+                            glossaryHtml.Append("</li>");
                         }
-                        glossaryHtml.Append("</li>");
+                        glossaryHtml.Append("</ul>");
                     }
+
                     glossaryHtml.Append("</ul>");
                 }
 
-                glossaryHtml.Append("</ul>");
+                var model = new BrowseViewModel
+                {
+                    AssociatedPages = glossaryHtml.ToString(),
+                    TagCloud = TagCloud.Build(givenCanonical, 100)
+                };
+
+                return View(model);
             }
-
-            var model = new BrowseViewModel
+            catch (Exception ex)
             {
-                AssociatedPages = glossaryHtml.ToString(),
-                TagCloud = TagCloud.Build(givenCanonical, 100)
-            };
-
-            return View(model);
+                Logger.LogError(ex, "Error in TagsController.Browse for tag {Tag}", givenCanonical);
+                throw;
+            }
         }
     }
 }

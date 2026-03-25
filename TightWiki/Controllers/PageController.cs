@@ -69,125 +69,146 @@ namespace TightWiki.Controllers
             {
                 return NotifyOfError(ex.GetBaseException().Message, "/");
             }
-            var model = new PageDisplayViewModel();
-            var navigation = new NamespaceNavigation(givenCanonical);
 
-            var page = PageRepository.GetPageRevisionByNavigation(navigation.Canonical, pageRevision);
-            if (page != null)
+            try
             {
-                var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
-                model.Revision = page.Revision;
-                model.MostCurrentRevision = page.MostCurrentRevision;
-                model.Name = page.Name;
-                model.Namespace = page.Namespace;
-                model.Navigation = page.Navigation;
-                model.HideFooterComments = instructions.Contains(WikiInstruction.HideFooterComments);
-                model.HideFooterLastModified = instructions.Contains(WikiInstruction.HideFooterLastModified);
-                model.ModifiedByUserName = page.ModifiedByUserName;
-                model.ModifiedDate = SessionState.LocalizeDateTime(page.ModifiedDate);
+                var model = new PageDisplayViewModel();
+                var navigation = new NamespaceNavigation(givenCanonical);
 
-                SessionState.SetPageId(page.Id, pageRevision);
-
-                if (GlobalConfiguration.PageCacheSeconds > 0)
+                var page = PageRepository.GetPageRevisionByNavigation(navigation.Canonical, pageRevision);
+                if (page != null)
                 {
-                    string queryKey = string.Empty;
-                    foreach (var query in Request.Query)
+                    Task.Run(() =>
                     {
-                        queryKey += $"{query.Key}:{query.Value}";
-                    }
+                        try
+                        {
+                            StatisticsRepository.IncrementPageViewCount(page.Id);
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.LogError(ex, "Failed to increment page view count for page id {PageId}", page.Id);
+                        }
+                    });
 
-                    var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
-                    if (WikiCache.TryGet<PageCache>(cacheKey, out var cached))
+                    var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
+                    model.Revision = page.Revision;
+                    model.MostCurrentRevision = page.MostCurrentRevision;
+                    model.Name = page.Name;
+                    model.Namespace = page.Namespace;
+                    model.Navigation = page.Navigation;
+                    model.HideFooterComments = instructions.Contains(WikiInstruction.HideFooterComments);
+                    model.HideFooterLastModified = instructions.Contains(WikiInstruction.HideFooterLastModified);
+                    model.ModifiedByUserName = page.ModifiedByUserName;
+                    model.ModifiedDate = SessionState.LocalizeDateTime(page.ModifiedDate);
+
+                    SessionState.SetPageId(page.Id, pageRevision);
+
+                    if (GlobalConfiguration.PageCacheSeconds > 0)
                     {
-                        model.Body = cached.Body;
-                        SessionState.PageTitle = cached.PageTitle;
-                        WikiCache.Put(cacheKey, cached); //Update the cache expiration.
+                        string queryKey = string.Empty;
+                        foreach (var query in Request.Query)
+                        {
+                            queryKey += $"{query.Key}:{query.Value}";
+                        }
+
+                        var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
+                        if (WikiCache.TryGet<PageCache>(cacheKey, out var cached))
+                        {
+                            model.Body = cached.Body;
+                            SessionState.PageTitle = cached.PageTitle;
+                            WikiCache.Put(cacheKey, cached); //Update the cache expiration.
+                        }
+                        else
+                        {
+                            var state = tightEngine.Transform(Localizer, SessionState, page, pageRevision);
+                            SessionState.PageTitle = state.PageTitle;
+
+                            model.Body = state.HtmlResult;
+                            if (state.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
+                            {
+                                var toBeCached = new PageCache(state.HtmlResult)
+                                {
+                                    PageTitle = state.PageTitle
+                                };
+
+                                WikiCache.Put(cacheKey, toBeCached); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
+                            }
+                        }
                     }
                     else
                     {
                         var state = tightEngine.Transform(Localizer, SessionState, page, pageRevision);
-                        SessionState.PageTitle = state.PageTitle;
 
                         model.Body = state.HtmlResult;
-                        if (state.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
-                        {
-                            var toBeCached = new PageCache(state.HtmlResult)
-                            {
-                                PageTitle = state.PageTitle
-                            };
+                    }
 
-                            WikiCache.Put(cacheKey, toBeCached); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
+                    if (GlobalConfiguration.EnablePageComments && GlobalConfiguration.ShowCommentsOnPageFooter && model.HideFooterComments == false)
+                    {
+                        var comments = PageRepository.GetPageCommentsPaged(navigation.Canonical, 1);
+
+                        foreach (var comment in comments)
+                        {
+                            model.Comments.Add(new PageComment
+                            {
+                                PaginationPageCount = comment.PaginationPageCount,
+                                UserNavigation = comment.UserNavigation,
+                                Id = comment.Id,
+                                UserName = comment.UserName,
+                                UserId = comment.UserId,
+                                Body = WikifierLite.Process(comment.Body),
+                                CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
+                            });
                         }
+                    }
+                }
+                else if (pageRevision != null)
+                {
+                    var notExistPageName = ConfigurationRepository.Get<string>(Constants.WikiConfigurationGroup.Customization, "Revision Does Not Exists Page");
+                    string notExistPageNavigation = NamespaceNavigation.CleanAndValidate(notExistPageName);
+                    var notExistsPage = PageRepository.GetPageRevisionByNavigation(notExistPageNavigation).EnsureNotNull();
+
+                    SessionState.SetPageId(null, pageRevision);
+
+                    var state = tightEngine.Transform(Localizer, SessionState, notExistsPage);
+
+                    SessionState.Page.Name = notExistsPage.Name;
+                    model.Body = state.HtmlResult;
+
+                    model.HideFooterComments = true;
+
+                    if (SessionState.IsAuthenticated && SessionState.HoldsPermission(givenCanonical, WikiPermission.Create))
+                    {
+                        SessionState.ShouldCreatePage = false;
                     }
                 }
                 else
                 {
-                    var state = tightEngine.Transform(Localizer, SessionState, page, pageRevision);
+                    var notExistPageName = ConfigurationRepository.Get<string>(Constants.WikiConfigurationGroup.Customization, "Page Not Exists Page");
+                    string notExistPageNavigation = NamespaceNavigation.CleanAndValidate(notExistPageName);
+                    var notExistsPage = PageRepository.GetPageRevisionByNavigation(notExistPageNavigation).EnsureNotNull();
 
+                    SessionState.SetPageId(null, null);
+
+                    var state = tightEngine.Transform(Localizer, SessionState, notExistsPage);
+
+                    SessionState.Page.Name = notExistsPage.Name;
                     model.Body = state.HtmlResult;
-                }
 
-                if (GlobalConfiguration.EnablePageComments && GlobalConfiguration.ShowCommentsOnPageFooter && model.HideFooterComments == false)
-                {
-                    var comments = PageRepository.GetPageCommentsPaged(navigation.Canonical, 1);
+                    model.HideFooterComments = true;
 
-                    foreach (var comment in comments)
+                    if (SessionState.IsAuthenticated && SessionState.HoldsPermission(givenCanonical, WikiPermission.Create))
                     {
-                        model.Comments.Add(new PageComment
-                        {
-                            PaginationPageCount = comment.PaginationPageCount,
-                            UserNavigation = comment.UserNavigation,
-                            Id = comment.Id,
-                            UserName = comment.UserName,
-                            UserId = comment.UserId,
-                            Body = WikifierLite.Process(comment.Body),
-                            CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
-                        });
+                        SessionState.ShouldCreatePage = true;
                     }
                 }
+
+                return View(model);
             }
-            else if (pageRevision != null)
+            catch (Exception ex)
             {
-                var notExistPageName = ConfigurationRepository.Get<string>(Constants.WikiConfigurationGroup.Customization, "Revision Does Not Exists Page");
-                string notExistPageNavigation = NamespaceNavigation.CleanAndValidate(notExistPageName);
-                var notExistsPage = PageRepository.GetPageRevisionByNavigation(notExistPageNavigation).EnsureNotNull();
-
-                SessionState.SetPageId(null, pageRevision);
-
-                var state = tightEngine.Transform(Localizer, SessionState, notExistsPage);
-
-                SessionState.Page.Name = notExistsPage.Name;
-                model.Body = state.HtmlResult;
-
-                model.HideFooterComments = true;
-
-                if (SessionState.IsAuthenticated && SessionState.HoldsPermission(givenCanonical, WikiPermission.Create))
-                {
-                    SessionState.ShouldCreatePage = false;
-                }
+                Logger.LogError(ex, "An error occurred while displaying page with navigation {Navigation} and revision {Revision}.", givenCanonical, pageRevision);
+                throw;
             }
-            else
-            {
-                var notExistPageName = ConfigurationRepository.Get<string>(Constants.WikiConfigurationGroup.Customization, "Page Not Exists Page");
-                string notExistPageNavigation = NamespaceNavigation.CleanAndValidate(notExistPageName);
-                var notExistsPage = PageRepository.GetPageRevisionByNavigation(notExistPageNavigation).EnsureNotNull();
-
-                SessionState.SetPageId(null, null);
-
-                var state = tightEngine.Transform(Localizer, SessionState, notExistsPage);
-
-                SessionState.Page.Name = notExistsPage.Name;
-                model.Body = state.HtmlResult;
-
-                model.HideFooterComments = true;
-
-                if (SessionState.IsAuthenticated && SessionState.HoldsPermission(givenCanonical, WikiPermission.Create))
-                {
-                    SessionState.ShouldCreatePage = true;
-                }
-            }
-
-            return View(model);
         }
 
         #endregion
@@ -198,63 +219,87 @@ namespace TightWiki.Controllers
         [HttpGet("Page/AutoCompletePage")]
         public ActionResult AutoCompletePage([FromQuery] string? q = null)
         {
-            var pages = PageRepository.AutoCompletePage(q);
-
-            return Json(pages.Select(o => new
+            try
             {
-                text = o.Name,
-                id = o.Navigation
-            }));
+                var pages = PageRepository.AutoCompletePage(q);
+
+                return Json(pages.Select(o => new
+                {
+                    text = o.Name,
+                    id = o.Navigation
+                }));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An error occurred while auto-completing page names for query {Query}.", q);
+                throw;
+            }
         }
 
         [AllowAnonymous]
         [HttpGet("Page/Search")]
         public ActionResult Search()
         {
-            string searchString = GetQueryValue("SearchString", string.Empty);
-            if (string.IsNullOrEmpty(searchString) == false)
+            try
             {
-                var model = new PageSearchViewModel()
+                string searchString = GetQueryValue("SearchString", string.Empty);
+                if (string.IsNullOrEmpty(searchString) == false)
                 {
-                    Pages = PageRepository.PageSearchPaged(Utility.SplitToTokens(searchString), GetQueryValue("page", 1)),
+                    var model = new PageSearchViewModel()
+                    {
+                        Pages = PageRepository.PageSearchPaged(Utility.SplitToTokens(searchString), GetQueryValue("page", 1)),
+                        SearchString = searchString
+                    };
+
+                    model.PaginationPageCount = (model.Pages.FirstOrDefault()?.PaginationPageCount ?? 0);
+
+                    return View(model);
+                }
+
+                return View(new PageSearchViewModel()
+                {
+                    Pages = new(),
                     SearchString = searchString
-                };
-
-                model.PaginationPageCount = (model.Pages.FirstOrDefault()?.PaginationPageCount ?? 0);
-
-                return View(model);
+                });
             }
-
-            return View(new PageSearchViewModel()
+            catch (Exception ex)
             {
-                Pages = new(),
-                SearchString = searchString
-            });
+                Logger.LogError(ex, "An error occurred while searching pages");
+                throw;
+            }
         }
 
         [AllowAnonymous]
         [HttpPost("Page/Search")]
         public ActionResult Search(PageSearchViewModel model)
         {
-            string searchString = GetQueryValue("SearchString", string.Empty);
-            if (string.IsNullOrEmpty(searchString) == false)
+            try
             {
-                model = new PageSearchViewModel()
+                string searchString = GetQueryValue("SearchString", string.Empty);
+                if (string.IsNullOrEmpty(searchString) == false)
                 {
-                    Pages = PageRepository.PageSearchPaged(Utility.SplitToTokens(searchString), GetQueryValue("page", 1)),
+                    model = new PageSearchViewModel()
+                    {
+                        Pages = PageRepository.PageSearchPaged(Utility.SplitToTokens(searchString), GetQueryValue("page", 1)),
+                        SearchString = searchString
+                    };
+
+                    model.PaginationPageCount = (model.Pages.FirstOrDefault()?.PaginationPageCount ?? 0);
+
+                    return View(model);
+                }
+
+                return View(new PageSearchViewModel()
+                {
+                    Pages = new(),
                     SearchString = searchString
-                };
-
-                model.PaginationPageCount = (model.Pages.FirstOrDefault()?.PaginationPageCount ?? 0);
-
-                return View(model);
+                });
             }
-
-            return View(new PageSearchViewModel()
+            catch (Exception ex)
             {
-                Pages = new(),
-                SearchString = searchString
-            });
+                Logger.LogError(ex, "An error occurred while searching pages with search string {SearchString}.", model.SearchString);
+                throw;
+            }
         }
 
         #endregion
@@ -265,13 +310,22 @@ namespace TightWiki.Controllers
         [HttpGet("Page/Localization")]
         public ActionResult Localization([FromServices] IOptions<RequestLocalizationOptions> localizationOptions)
         {
-            var referrer = Request.Headers.Referer.ToString();
-            ViewBag.ReturnUrl = string.IsNullOrEmpty(referrer) ? "" : referrer;
+            try
+            {
+                var referrer = Request.Headers.Referer.ToString();
+                ViewBag.ReturnUrl = string.IsNullOrEmpty(referrer) ? "" : referrer;
 
-            var languages = localizationOptions.Value.SupportedUICultures.EnsureNotNull()
-                .OrderBy(x => x.EnglishName, StringComparer.Create(CultureInfo.CurrentUICulture, ignoreCase: true)).ToList();
+                var languages = localizationOptions.Value.SupportedUICultures.EnsureNotNull()
+                    .OrderBy(x => x.EnglishName, StringComparer.Create(CultureInfo.CurrentUICulture, ignoreCase: true)).ToList();
 
-            return View(new PageLocalizationViewModel { Languages = languages });
+                return View(new PageLocalizationViewModel { Languages = languages });
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An error occurred while loading the localization settings page.");
+                throw;
+            }
+
         }
 
 
@@ -279,30 +333,39 @@ namespace TightWiki.Controllers
         [HttpGet("Page/SetLocalization")]
         public ActionResult SetLocalization([FromServices] IOptions<RequestLocalizationOptions> localizationOptions, string culture, string returnUrl)
         {
-            if (String.IsNullOrWhiteSpace(culture) || string.IsNullOrWhiteSpace(returnUrl))
-                return BadRequest();
-
-            if (SessionState.IsAuthenticated)
+            try
             {
-                var userId = SessionState.Profile.EnsureNotNull().UserId;
-                var profile = UsersRepository.GetAccountProfileByUserId(userId);
-                profile.Language = culture;
-                UsersRepository.UpdateProfile(profile);
+                if (string.IsNullOrWhiteSpace(culture) || string.IsNullOrWhiteSpace(returnUrl))
+                    return BadRequest();
+
+                if (SessionState.IsAuthenticated)
+                {
+                    var userId = SessionState.Profile.EnsureNotNull().UserId;
+                    var profile = UsersRepository.GetAccountProfileByUserId(userId);
+                    profile.Language = culture;
+                    UsersRepository.UpdateProfile(profile);
+                }
+
+                Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
+                        CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                    new CookieOptions
+                    {
+                        Expires = DateTimeOffset.UtcNow.AddYears(1),
+                        IsEssential = true,
+                        SameSite = SameSiteMode.Lax,
+                        Secure = true,
+                        HttpOnly = false
+                    }
+                );
+
+                return Redirect(returnUrl);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An error occurred while setting localization with culture {Culture} and return URL {ReturnUrl}.", culture, returnUrl);
+                throw;
             }
 
-            Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
-                    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                new CookieOptions
-                {
-                    Expires = DateTimeOffset.UtcNow.AddYears(1),
-                    IsEssential = true,
-                    SameSite = SameSiteMode.Lax,
-                    Secure = true,
-                    HttpOnly = false
-                }
-            );
-
-            return Redirect(returnUrl);
         }
 
         #endregion
@@ -315,56 +378,65 @@ namespace TightWiki.Controllers
         {
             try
             {
-                SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
+                try
+                {
+                    SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+
+                var pageInfo = PageRepository.GetPageInfoByNavigation(pageNavigation);
+                if (pageInfo == null)
+                {
+                    return NotFound();
+                }
+
+                var deleteAction = GetQueryValue<string>("Delete");
+                if (string.IsNullOrEmpty(deleteAction) == false && SessionState.IsAuthenticated)
+                {
+                    if (SessionState.HoldsPermission(givenCanonical, WikiPermission.Moderate))
+                    {
+                        //Moderators and administrators can delete comments that they do not own.
+                        PageRepository.DeletePageCommentById(pageInfo.Id, int.Parse(deleteAction));
+                    }
+                    else
+                    {
+                        PageRepository.DeletePageCommentByUserAndId(pageInfo.Id, SessionState.Profile.EnsureNotNull().UserId, int.Parse(deleteAction));
+                    }
+                }
+
+                var model = new PageCommentsViewModel();
+
+                var comments = PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryValue("page", 1));
+                foreach (var comment in comments)
+                {
+                    model.Comments.Add(new PageComment
+                    {
+                        PaginationPageCount = comment.PaginationPageCount,
+                        UserNavigation = comment.UserNavigation,
+                        Id = comment.Id,
+                        UserName = comment.UserName,
+                        UserId = comment.UserId,
+                        Body = WikifierLite.Process(comment.Body),
+                        CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
+                    });
+                }
+
+                model.PaginationPageCount = (model.Comments.FirstOrDefault()?.PaginationPageCount ?? 0);
+
+                SessionState.SetPageId(pageInfo.Id);
+
+                return View(model);
             }
             catch (Exception ex)
             {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
-            }
-            var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
-
-            var pageInfo = PageRepository.GetPageInfoByNavigation(pageNavigation);
-            if (pageInfo == null)
-            {
-                return NotFound();
+                Logger.LogError(ex, "An error occurred while loading comments for page with navigation {Navigation}.", givenCanonical);
+                throw;
             }
 
-            var deleteAction = GetQueryValue<string>("Delete");
-            if (string.IsNullOrEmpty(deleteAction) == false && SessionState.IsAuthenticated)
-            {
-                if (SessionState.HoldsPermission(givenCanonical, WikiPermission.Moderate))
-                {
-                    //Moderators and administrators can delete comments that they do not own.
-                    PageRepository.DeletePageCommentById(pageInfo.Id, int.Parse(deleteAction));
-                }
-                else
-                {
-                    PageRepository.DeletePageCommentByUserAndId(pageInfo.Id, SessionState.Profile.EnsureNotNull().UserId, int.Parse(deleteAction));
-                }
-            }
-
-            var model = new PageCommentsViewModel();
-
-            var comments = PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryValue("page", 1));
-            foreach (var comment in comments)
-            {
-                model.Comments.Add(new PageComment
-                {
-                    PaginationPageCount = comment.PaginationPageCount,
-                    UserNavigation = comment.UserNavigation,
-                    Id = comment.Id,
-                    UserName = comment.UserName,
-                    UserId = comment.UserId,
-                    Body = WikifierLite.Process(comment.Body),
-                    CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
-                });
-            }
-
-            model.PaginationPageCount = (model.Comments.FirstOrDefault()?.PaginationPageCount ?? 0);
-
-            SessionState.SetPageId(pageInfo.Id);
-
-            return View(model);
         }
 
         /// <summary>
@@ -376,54 +448,63 @@ namespace TightWiki.Controllers
         {
             try
             {
-                SessionState.RequirePermission(givenCanonical, WikiPermission.Edit);
+                try
+                {
+                    SessionState.RequirePermission(givenCanonical, WikiPermission.Edit);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
+                string? errorMessage = null;
+
+                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+
+                var pageInfo = PageRepository.GetPageInfoByNavigation(pageNavigation);
+                if (pageInfo == null)
+                {
+                    return NotFound();
+                }
+
+                PageRepository.InsertPageComment(pageInfo.Id, SessionState.Profile.EnsureNotNull().UserId, model.Comment);
+
+                model = new PageCommentsViewModel()
+                {
+                    ErrorMessage = errorMessage.DefaultWhenNull(string.Empty)
+                };
+
+                var comments = PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryValue("page", 1));
+                foreach (var comment in comments)
+                {
+                    model.Comments.Add(new PageComment
+                    {
+                        PaginationPageCount = comment.PaginationPageCount,
+                        UserNavigation = comment.UserNavigation,
+                        Id = comment.Id,
+                        UserName = comment.UserName,
+                        UserId = comment.UserId,
+                        Body = WikifierLite.Process(comment.Body),
+                        CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
+                    });
+                }
+
+                model.PaginationPageCount = (model.Comments.FirstOrDefault()?.PaginationPageCount ?? 0);
+
+                SessionState.SetPageId(pageInfo.Id);
+
+                return View(model);
             }
             catch (Exception ex)
             {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
-            }
-            if (!ModelState.IsValid)
-            {
-                return View(model);
+                Logger.LogError(ex, "An error occurred while posting a comment for page with navigation {Navigation}.", givenCanonical);
+                throw;
             }
 
-            string? errorMessage = null;
-
-            var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
-
-            var pageInfo = PageRepository.GetPageInfoByNavigation(pageNavigation);
-            if (pageInfo == null)
-            {
-                return NotFound();
-            }
-
-            PageRepository.InsertPageComment(pageInfo.Id, SessionState.Profile.EnsureNotNull().UserId, model.Comment);
-
-            model = new PageCommentsViewModel()
-            {
-                ErrorMessage = errorMessage.DefaultWhenNull(string.Empty)
-            };
-
-            var comments = PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryValue("page", 1));
-            foreach (var comment in comments)
-            {
-                model.Comments.Add(new PageComment
-                {
-                    PaginationPageCount = comment.PaginationPageCount,
-                    UserNavigation = comment.UserNavigation,
-                    Id = comment.Id,
-                    UserName = comment.UserName,
-                    UserId = comment.UserId,
-                    Body = WikifierLite.Process(comment.Body),
-                    CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
-                });
-            }
-
-            model.PaginationPageCount = (model.Comments.FirstOrDefault()?.PaginationPageCount ?? 0);
-
-            SessionState.SetPageId(pageInfo.Id);
-
-            return View(model);
         }
 
         #endregion
@@ -434,16 +515,25 @@ namespace TightWiki.Controllers
         [HttpGet("{givenCanonical}/Refresh")]
         public ActionResult Refresh(string givenCanonical)
         {
-            var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
-
-            var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, null, true);
-
-            if (page != null)
+            try
             {
-                RepositoryHelpers.RefreshPageMetadata(tightEngine, Localizer, page, SessionState);
+                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+
+                var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, null, true);
+
+                if (page != null)
+                {
+                    RepositoryHelpers.RefreshPageMetadata(tightEngine, Localizer, page, SessionState);
+                }
+
+                return Redirect($"{GlobalConfiguration.BasePath}/{pageNavigation}");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An error occurred while refreshing page metadata for page with navigation {Navigation}.", givenCanonical);
+                throw;
             }
 
-            return Redirect($"{GlobalConfiguration.BasePath}/{pageNavigation}");
         }
 
         #endregion
@@ -456,35 +546,43 @@ namespace TightWiki.Controllers
         {
             try
             {
-                SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
+                try
+                {
+                    SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+
+                var thisRev = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision);
+                var prevRev = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision - 1);
+
+                if (thisRev != null)
+                {
+                    SessionState.SetPageId(thisRev.Id, pageRevision);
+                }
+
+                var model = new PageCompareViewModel()
+                {
+                    MostCurrentRevision = thisRev?.MostCurrentRevision,
+                    ModifiedByUserName = thisRev?.ModifiedByUserName ?? string.Empty,
+                    ThisRevision = thisRev?.Revision,
+                    PreviousRevision = prevRev?.Revision,
+                    DiffModel = diffBuilder.BuildDiffModel(prevRev?.Body ?? string.Empty, thisRev?.Body ?? string.Empty),
+                    ModifiedDate = SessionState.LocalizeDateTime(thisRev?.ModifiedDate ?? DateTime.MinValue),
+                    ChangeSummary = thisRev?.ChangeSummary ?? string.Empty,
+                    ChangeAnalysis = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "")
+                };
+
+                return View(model);
             }
             catch (Exception ex)
             {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
+                Logger.LogError(ex, "An error occurred while comparing revisions for page with navigation {Navigation} and revision {Revision}.", givenCanonical, pageRevision);
+                throw;
             }
-            var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
-
-            var thisRev = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision);
-            var prevRev = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision - 1);
-
-            if (thisRev != null)
-            {
-                SessionState.SetPageId(thisRev.Id, pageRevision);
-            }
-
-            var model = new PageCompareViewModel()
-            {
-                MostCurrentRevision = thisRev?.MostCurrentRevision,
-                ModifiedByUserName = thisRev?.ModifiedByUserName ?? string.Empty,
-                ThisRevision = thisRev?.Revision,
-                PreviousRevision = prevRev?.Revision,
-                DiffModel = diffBuilder.BuildDiffModel(prevRev?.Body ?? string.Empty, thisRev?.Body ?? string.Empty),
-                ModifiedDate = SessionState.LocalizeDateTime(thisRev?.ModifiedDate ?? DateTime.MinValue),
-                ChangeSummary = thisRev?.ChangeSummary ?? string.Empty,
-                ChangeAnalysis = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "")
-            };
-
-            return View(model);
         }
 
         #endregion
@@ -497,44 +595,52 @@ namespace TightWiki.Controllers
         {
             try
             {
-                SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
+                try
+                {
+                    SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+
+                var pageNumber = GetQueryValue("page", 1);
+                var orderBy = GetQueryValue<string>("OrderBy");
+                var orderByDirection = GetQueryValue<string>("OrderByDirection");
+
+                var model = new RevisionsViewModel()
+                {
+                    Revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(pageNavigation, pageNumber, orderBy, orderByDirection)
+                };
+
+                model.PaginationPageCount = (model.Revisions.FirstOrDefault()?.PaginationPageCount ?? 0);
+
+                model.Revisions.ForEach(o =>
+                {
+                    o.CreatedDate = SessionState.LocalizeDateTime(o.CreatedDate);
+                    o.ModifiedDate = SessionState.LocalizeDateTime(o.ModifiedDate);
+                });
+
+                foreach (var p in model.Revisions)
+                {
+                    var thisRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision);
+                    var prevRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision - 1);
+                    p.ChangeAnalysis = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
+                }
+
+                if (model.Revisions != null && model.Revisions.Count > 0)
+                {
+                    SessionState.SetPageId(model.Revisions.First().PageId);
+                }
+
+                return View(model);
             }
             catch (Exception ex)
             {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
+                Logger.LogError(ex, "An error occurred while loading revisions for page with navigation {Navigation}.", givenCanonical);
+                throw;
             }
-            var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
-
-            var pageNumber = GetQueryValue("page", 1);
-            var orderBy = GetQueryValue<string>("OrderBy");
-            var orderByDirection = GetQueryValue<string>("OrderByDirection");
-
-            var model = new RevisionsViewModel()
-            {
-                Revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(pageNavigation, pageNumber, orderBy, orderByDirection)
-            };
-
-            model.PaginationPageCount = (model.Revisions.FirstOrDefault()?.PaginationPageCount ?? 0);
-
-            model.Revisions.ForEach(o =>
-            {
-                o.CreatedDate = SessionState.LocalizeDateTime(o.CreatedDate);
-                o.ModifiedDate = SessionState.LocalizeDateTime(o.ModifiedDate);
-            });
-
-            foreach (var p in model.Revisions)
-            {
-                var thisRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision);
-                var prevRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision - 1);
-                p.ChangeAnalysis = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
-            }
-
-            if (model.Revisions != null && model.Revisions.Count > 0)
-            {
-                SessionState.SetPageId(model.Revisions.First().PageId);
-            }
-
-            return View(model);
         }
 
         #endregion
@@ -547,31 +653,39 @@ namespace TightWiki.Controllers
         {
             try
             {
-                SessionState.RequirePermission(givenCanonical, WikiPermission.Delete);
+                try
+                {
+                    SessionState.RequirePermission(givenCanonical, WikiPermission.Delete);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+
+                var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
+                var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.EnsureNotNull().Id);
+                if (instructions.Contains(WikiInstruction.Protect))
+                {
+                    return NotifyOfError(Localize("The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion."));
+                }
+
+                bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNull());
+                if (confirmAction == true && page != null)
+                {
+                    PageRepository.MovePageToDeletedById(page.Id, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
+                    WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
+                    WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Id]));
+                    return NotifyOfSuccess(Localize("The page has been deleted."), $"/Home");
+                }
+
+                return Redirect($"{GlobalConfiguration.BasePath}/{pageNavigation}");
             }
             catch (Exception ex)
             {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
+                Logger.LogError(ex, "An error occurred while deleting page with navigation {Navigation}.", givenCanonical);
+                throw;
             }
-            var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
-
-            var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
-            var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.EnsureNotNull().Id);
-            if (instructions.Contains(WikiInstruction.Protect))
-            {
-                return NotifyOfError(Localize("The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion."));
-            }
-
-            bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNull());
-            if (confirmAction == true && page != null)
-            {
-                PageRepository.MovePageToDeletedById(page.Id, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
-                WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
-                WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Id]));
-                return NotifyOfSuccess(Localize("The page has been deleted."), $"/Home");
-            }
-
-            return Redirect($"{GlobalConfiguration.BasePath}/{pageNavigation}");
         }
 
         [Authorize]
@@ -580,33 +694,40 @@ namespace TightWiki.Controllers
         {
             try
             {
-                SessionState.RequirePermission(givenCanonical, WikiPermission.Delete);
+                try
+                {
+                    SessionState.RequirePermission(givenCanonical, WikiPermission.Delete);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+                var page = PageRepository.GetPageRevisionByNavigation(pageNavigation).EnsureNotNull();
+
+                var model = new PageDeleteViewModel()
+                {
+                    CountOfAttachments = PageRepository.GetCountOfPageAttachmentsById(page.Id),
+                    PageName = page.Name,
+                    MostCurrentRevision = page.Revision,
+                    PageRevision = page.Revision
+                };
+
+                SessionState.SetPageId(page.Id);
+
+                var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
+                if (instructions.Contains(WikiInstruction.Protect))
+                {
+                    return NotifyOfError(Localize("The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion."));
+                }
+
+                return View(model);
             }
             catch (Exception ex)
             {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
+                Logger.LogError(ex, "An error occurred while loading the delete confirmation page for page with navigation {Navigation}.", givenCanonical);
+                throw;
             }
-            var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
-
-            var page = PageRepository.GetPageRevisionByNavigation(pageNavigation).EnsureNotNull();
-
-            var model = new PageDeleteViewModel()
-            {
-                CountOfAttachments = PageRepository.GetCountOfPageAttachmentsById(page.Id),
-                PageName = page.Name,
-                MostCurrentRevision = page.Revision,
-                PageRevision = page.Revision
-            };
-
-            SessionState.SetPageId(page.Id);
-
-            var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
-            if (instructions.Contains(WikiInstruction.Protect))
-            {
-                return NotifyOfError(Localize("The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion."));
-            }
-
-            return View(model);
         }
 
         #endregion
@@ -619,23 +740,31 @@ namespace TightWiki.Controllers
         {
             try
             {
-                SessionState.RequirePermission(givenCanonical, WikiPermission.Moderate);
+                try
+                {
+                    SessionState.RequirePermission(givenCanonical, WikiPermission.Moderate);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+
+                bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNullOrEmpty());
+                if (confirmAction == true)
+                {
+                    var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision).EnsureNotNull();
+                    RepositoryHelpers.UpsertPage(tightEngine, Localizer, page, SessionState);
+                    return NotifyOfSuccess(Localize("The page has been reverted."), $"/{pageNavigation}");
+                }
+
+                return Redirect($"{GlobalConfiguration.BasePath}/{pageNavigation}");
             }
             catch (Exception ex)
             {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
+                Logger.LogError(ex, "An error occurred while reverting page with navigation {Navigation} to revision {Revision}.", givenCanonical, pageRevision);
+                throw;
             }
-            var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
-
-            bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNullOrEmpty());
-            if (confirmAction == true)
-            {
-                var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision).EnsureNotNull();
-                RepositoryHelpers.UpsertPage(tightEngine, Localizer, page, SessionState);
-                return NotifyOfSuccess(Localize("The page has been reverted."), $"/{pageNavigation}");
-            }
-
-            return Redirect($"{GlobalConfiguration.BasePath}/{pageNavigation}");
         }
 
         [Authorize]
@@ -644,35 +773,43 @@ namespace TightWiki.Controllers
         {
             try
             {
-                SessionState.RequirePermission(givenCanonical, WikiPermission.Moderate);
+                try
+                {
+                    SessionState.RequirePermission(givenCanonical, WikiPermission.Moderate);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+
+                var mostCurrentPage = PageRepository.GetPageRevisionByNavigation(pageNavigation).EnsureNotNull();
+                mostCurrentPage.CreatedDate = SessionState.LocalizeDateTime(mostCurrentPage.CreatedDate);
+                mostCurrentPage.ModifiedDate = SessionState.LocalizeDateTime(mostCurrentPage.ModifiedDate);
+
+                var revisionPage = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision).EnsureNotNull();
+                revisionPage.CreatedDate = SessionState.LocalizeDateTime(revisionPage.CreatedDate);
+                revisionPage.ModifiedDate = SessionState.LocalizeDateTime(revisionPage.ModifiedDate);
+
+                var model = new PageRevertViewModel()
+                {
+                    PageName = revisionPage.Name,
+                    HighestRevision = mostCurrentPage.Revision,
+                    HigherRevisionCount = revisionPage.HigherRevisionCount,
+                };
+
+                if (revisionPage != null)
+                {
+                    SessionState.SetPageId(revisionPage.Id, pageRevision);
+                }
+
+                return View(model);
             }
             catch (Exception ex)
             {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
+                Logger.LogError(ex, "An error occurred while loading the revert confirmation page for page with navigation {Navigation} and revision {Revision}.", givenCanonical, pageRevision);
+                throw;
             }
-            var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
-
-            var mostCurrentPage = PageRepository.GetPageRevisionByNavigation(pageNavigation).EnsureNotNull();
-            mostCurrentPage.CreatedDate = SessionState.LocalizeDateTime(mostCurrentPage.CreatedDate);
-            mostCurrentPage.ModifiedDate = SessionState.LocalizeDateTime(mostCurrentPage.ModifiedDate);
-
-            var revisionPage = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision).EnsureNotNull();
-            revisionPage.CreatedDate = SessionState.LocalizeDateTime(revisionPage.CreatedDate);
-            revisionPage.ModifiedDate = SessionState.LocalizeDateTime(revisionPage.ModifiedDate);
-
-            var model = new PageRevertViewModel()
-            {
-                PageName = revisionPage.Name,
-                HighestRevision = mostCurrentPage.Revision,
-                HigherRevisionCount = revisionPage.HigherRevisionCount,
-            };
-
-            if (revisionPage != null)
-            {
-                SessionState.SetPageId(revisionPage.Id, pageRevision);
-            }
-
-            return View(model);
         }
 
         #endregion
@@ -684,17 +821,17 @@ namespace TightWiki.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Preview([FromBody] PagePreviewRequest request)
         {
-            if (request == null || string.IsNullOrWhiteSpace(request.Body))
-            {
-                return Json(new
-                {
-                    success = true,
-                    html = "<em>No content to preview.</em>"
-                });
-            }
-
             try
             {
+                if (request == null || string.IsNullOrWhiteSpace(request.Body))
+                {
+                    return Json(new
+                    {
+                        success = true,
+                        html = "<em>No content to preview.</em>"
+                    });
+                }
+
                 //We're really only showing the text that was passed in, so this check is wholly unnecessary.
                 /*
                 try
@@ -729,6 +866,8 @@ namespace TightWiki.Controllers
             }
             catch (Exception ex)
             {
+                Logger.LogError(ex, "An error occurred while previewing page content for page with navigation {Navigation}.", request.PageNavigation);
+
                 return Json(new
                 {
                     success = false,
@@ -745,60 +884,68 @@ namespace TightWiki.Controllers
         {
             try
             {
-                SessionState.RequirePermission(givenCanonical, WikiPermission.Edit);
+                try
+                {
+                    SessionState.RequirePermission(givenCanonical, WikiPermission.Edit);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+
+                var featureTemplates = PageRepository.GetAllFeatureTemplates();
+
+                var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
+                if (page != null)
+                {
+                    var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.EnsureNotNull().Id);
+                    if (instructions.Contains(WikiInstruction.Protect) && !SessionState.HoldsPermission(givenCanonical, WikiPermission.Moderate))
+                    {
+                        return NotifyOfError(Localize("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed."));
+                    }
+
+                    SessionState.SetPageId(page.Id);
+
+                    return View(new PageEditViewModel()
+                    {
+                        Id = page.Id,
+                        Body = page.Body,
+                        Name = page.Name,
+                        Navigation = NamespaceNavigation.CleanAndValidate(page.Navigation),
+                        Description = page.Description,
+                        FeatureTemplates = featureTemplates
+                    });
+                }
+                else
+                {
+                    var pageName = GetQueryValue<string>("Name").DefaultWhenNullOrEmpty(pageNavigation);
+
+                    string templateName = ConfigurationRepository.Get<string>(Constants.WikiConfigurationGroup.Customization, "New Page Template").EnsureNotNull();
+                    string templateNavigation = NamespaceNavigation.CleanAndValidate(templateName);
+                    var templatePage = PageRepository.GetPageRevisionByNavigation(templateNavigation);
+
+                    var templates = PageRepository.GetAllTemplatePages();
+
+                    if (templatePage == null)
+                        templatePage = new Page();
+                    else
+                        templates.Insert(0, templatePage);
+
+                    return View(new PageEditViewModel()
+                    {
+                        Body = templatePage.Body,
+                        Name = pageName?.Replace('_', ' ') ?? string.Empty,
+                        Navigation = NamespaceNavigation.CleanAndValidate(pageNavigation),
+                        Templates = templates,
+                        FeatureTemplates = featureTemplates
+                    });
+                }
             }
             catch (Exception ex)
             {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
-            }
-            var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
-
-            var featureTemplates = PageRepository.GetAllFeatureTemplates();
-
-            var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
-            if (page != null)
-            {
-                var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.EnsureNotNull().Id);
-                if (instructions.Contains(WikiInstruction.Protect) && !SessionState.HoldsPermission(givenCanonical, WikiPermission.Moderate))
-                {
-                    return NotifyOfError(Localize("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed."));
-                }
-
-                SessionState.SetPageId(page.Id);
-
-                return View(new PageEditViewModel()
-                {
-                    Id = page.Id,
-                    Body = page.Body,
-                    Name = page.Name,
-                    Navigation = NamespaceNavigation.CleanAndValidate(page.Navigation),
-                    Description = page.Description,
-                    FeatureTemplates = featureTemplates
-                });
-            }
-            else
-            {
-                var pageName = GetQueryValue<string>("Name").DefaultWhenNullOrEmpty(pageNavigation);
-
-                string templateName = ConfigurationRepository.Get<string>(Constants.WikiConfigurationGroup.Customization, "New Page Template").EnsureNotNull();
-                string templateNavigation = NamespaceNavigation.CleanAndValidate(templateName);
-                var templatePage = PageRepository.GetPageRevisionByNavigation(templateNavigation);
-
-                var templates = PageRepository.GetAllTemplatePages();
-
-                if (templatePage == null)
-                    templatePage = new Page();
-                else
-                    templates.Insert(0, templatePage);
-
-                return View(new PageEditViewModel()
-                {
-                    Body = templatePage.Body,
-                    Name = pageName?.Replace('_', ' ') ?? string.Empty,
-                    Navigation = NamespaceNavigation.CleanAndValidate(pageNavigation),
-                    Templates = templates,
-                    FeatureTemplates = featureTemplates
-                });
+                Logger.LogError(ex, "An error occurred while loading the edit page for page with navigation {Navigation}.", givenCanonical);
+                throw;
             }
         }
 
@@ -808,127 +955,135 @@ namespace TightWiki.Controllers
         [HttpPost("Page/Create")]
         public ActionResult Edit(PageEditViewModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return View(model);
-            }
-
-            model.FeatureTemplates = PageRepository.GetAllFeatureTemplates();
-
-            if (GlobalConfiguration.ShowChangeSummaryWhenEditing
-                && GlobalConfiguration.RequireChangeSummaryWhenEditing
-                && string.IsNullOrEmpty(model.ChangeSummary))
-            {
-                ModelState.AddModelError("ChangeSummary", Localize("A change summary is required for page edits."));
-                return View(model);
-            }
-
-            if (Utility.PageNameContainsUnsafeCharacters(model.Name))
-            {
-                ModelState.AddModelError("Name", Localize("The page name contains characters which are disallowed: {0}.",
-                    string.Join(' ', Utility.UnsafePageNameCharacters)));
-                return View(model);
-            }
-
-            if (Utility.CountOccurrencesOf(model.Name, "::") > 1)
-            {
-                ModelState.AddModelError("Name", Localize("The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters."));
-                return View(model);
-            }
-
-            if (model.Id == 0) //Saving a new page.
-            {
-                var navigation = NamespaceNavigation.CleanAndValidate(model.Name);
-
-                try
+                if (!ModelState.IsValid)
                 {
-                    SessionState.RequirePermission(navigation, WikiPermission.Create);
-                }
-                catch (Exception ex)
-                {
-                    return NotifyOfError(ex.GetBaseException().Message, "/");
-                }
-                var page = new Page()
-                {
-                    CreatedDate = DateTime.UtcNow,
-                    CreatedByUserId = SessionState.Profile.EnsureNotNull().UserId,
-                    ModifiedDate = DateTime.UtcNow,
-                    ModifiedByUserId = SessionState.Profile.UserId,
-                    Body = model.Body ?? "",
-                    Name = model.Name,
-                    ChangeSummary = model.ChangeSummary ?? string.Empty,
-                    Navigation = navigation,
-                    Description = model.Description ?? ""
-                };
-
-                if (PageRepository.GetPageInfoByNavigation(page.Navigation) != null)
-                {
-                    ModelState.AddModelError("Name", Localize("The page name you entered already exists."));
                     return View(model);
                 }
 
-                page.Id = RepositoryHelpers.UpsertPage(tightEngine, Localizer, page, SessionState);
+                model.FeatureTemplates = PageRepository.GetAllFeatureTemplates();
 
-                SessionState.SetPageId(page.Id);
-
-                return NotifyOfSuccess(Localize("The page has been created."), $"/{page.Navigation}/Edit");
-            }
-            else
-            {
-                var navigation = NamespaceNavigation.CleanAndValidate(model.Name);
-
-                try
+                if (GlobalConfiguration.ShowChangeSummaryWhenEditing
+                    && GlobalConfiguration.RequireChangeSummaryWhenEditing
+                    && string.IsNullOrEmpty(model.ChangeSummary))
                 {
-                    SessionState.RequirePermission(navigation, WikiPermission.Edit);
-                }
-                catch (Exception ex)
-                {
-                    return NotifyOfError(ex.GetBaseException().Message, "/");
-                }
-                var page = PageRepository.GetPageRevisionById(model.Id).EnsureNotNull();
-                var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
-                if (instructions.Contains(WikiInstruction.Protect) && !SessionState.HoldsPermission(navigation, WikiPermission.Moderate))
-                {
-                    return NotifyOfError(Localize("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed."));
+                    ModelState.AddModelError("ChangeSummary", Localize("A change summary is required for page edits."));
+                    return View(model);
                 }
 
-                string originalNavigation = string.Empty;
-
-                model.Navigation = navigation;
-
-                if (!page.Navigation.Equals(model.Navigation, StringComparison.InvariantCultureIgnoreCase))
+                if (Utility.PageNameContainsUnsafeCharacters(model.Name))
                 {
-                    if (PageRepository.GetPageInfoByNavigation(model.Navigation) != null)
+                    ModelState.AddModelError("Name", Localize("The page name contains characters which are disallowed: {0}.",
+                        string.Join(' ', Utility.UnsafePageNameCharacters)));
+                    return View(model);
+                }
+
+                if (Utility.CountOccurrencesOf(model.Name, "::") > 1)
+                {
+                    ModelState.AddModelError("Name", Localize("The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters."));
+                    return View(model);
+                }
+
+                if (model.Id == 0) //Saving a new page.
+                {
+                    var navigation = NamespaceNavigation.CleanAndValidate(model.Name);
+
+                    try
+                    {
+                        SessionState.RequirePermission(navigation, WikiPermission.Create);
+                    }
+                    catch (Exception ex)
+                    {
+                        return NotifyOfError(ex.GetBaseException().Message, "/");
+                    }
+                    var page = new Page()
+                    {
+                        CreatedDate = DateTime.UtcNow,
+                        CreatedByUserId = SessionState.Profile.EnsureNotNull().UserId,
+                        ModifiedDate = DateTime.UtcNow,
+                        ModifiedByUserId = SessionState.Profile.UserId,
+                        Body = model.Body ?? "",
+                        Name = model.Name,
+                        ChangeSummary = model.ChangeSummary ?? string.Empty,
+                        Navigation = navigation,
+                        Description = model.Description ?? ""
+                    };
+
+                    if (PageRepository.GetPageInfoByNavigation(page.Navigation) != null)
                     {
                         ModelState.AddModelError("Name", Localize("The page name you entered already exists."));
                         return View(model);
                     }
 
-                    originalNavigation = page.Navigation; //So we can clear cache and this also indicates that we need to redirect to the new name.
+                    page.Id = RepositoryHelpers.UpsertPage(tightEngine, Localizer, page, SessionState);
+
+                    SessionState.SetPageId(page.Id);
+
+                    return NotifyOfSuccess(Localize("The page has been created."), $"/{page.Navigation}/Edit");
                 }
-
-                page.ModifiedDate = DateTime.UtcNow;
-                page.ModifiedByUserId = SessionState.Profile.EnsureNotNull().UserId;
-                page.Body = model.Body ?? "";
-                page.Name = model.Name;
-                page.ChangeSummary = model.ChangeSummary ?? string.Empty;
-                page.Navigation = NamespaceNavigation.CleanAndValidate(model.Name);
-                page.Description = model.Description ?? "";
-
-                RepositoryHelpers.UpsertPage(tightEngine, Localizer, page, SessionState);
-
-                SessionState.SetPageId(page.Id);
-
-                model.SuccessMessage = Localize("The page was saved.");
-
-                if (string.IsNullOrWhiteSpace(originalNavigation) == false)
+                else
                 {
-                    WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [originalNavigation]));
-                    WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Id]));
-                    return Redirect($"{GlobalConfiguration.BasePath}/{page.Navigation}/Edit");
-                }
+                    var navigation = NamespaceNavigation.CleanAndValidate(model.Name);
 
-                return View(model);
+                    try
+                    {
+                        SessionState.RequirePermission(navigation, WikiPermission.Edit);
+                    }
+                    catch (Exception ex)
+                    {
+                        return NotifyOfError(ex.GetBaseException().Message, "/");
+                    }
+                    var page = PageRepository.GetPageRevisionById(model.Id).EnsureNotNull();
+                    var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
+                    if (instructions.Contains(WikiInstruction.Protect) && !SessionState.HoldsPermission(navigation, WikiPermission.Moderate))
+                    {
+                        return NotifyOfError(Localize("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed."));
+                    }
+
+                    string originalNavigation = string.Empty;
+
+                    model.Navigation = navigation;
+
+                    if (!page.Navigation.Equals(model.Navigation, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        if (PageRepository.GetPageInfoByNavigation(model.Navigation) != null)
+                        {
+                            ModelState.AddModelError("Name", Localize("The page name you entered already exists."));
+                            return View(model);
+                        }
+
+                        originalNavigation = page.Navigation; //So we can clear cache and this also indicates that we need to redirect to the new name.
+                    }
+
+                    page.ModifiedDate = DateTime.UtcNow;
+                    page.ModifiedByUserId = SessionState.Profile.EnsureNotNull().UserId;
+                    page.Body = model.Body ?? "";
+                    page.Name = model.Name;
+                    page.ChangeSummary = model.ChangeSummary ?? string.Empty;
+                    page.Navigation = NamespaceNavigation.CleanAndValidate(model.Name);
+                    page.Description = model.Description ?? "";
+
+                    RepositoryHelpers.UpsertPage(tightEngine, Localizer, page, SessionState);
+
+                    SessionState.SetPageId(page.Id);
+
+                    model.SuccessMessage = Localize("The page was saved.");
+
+                    if (string.IsNullOrWhiteSpace(originalNavigation) == false)
+                    {
+                        WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [originalNavigation]));
+                        WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Id]));
+                        return Redirect($"{GlobalConfiguration.BasePath}/{page.Navigation}/Edit");
+                    }
+
+                    return View(model);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An error occurred while saving page with name {Name} and navigation {Navigation}.", model.Name, model.Navigation);
+                throw;
             }
         }
 
@@ -936,10 +1091,18 @@ namespace TightWiki.Controllers
         [HttpGet("Page/Template/{id:int}")]
         public IActionResult Template(int id)
         {
-            var template = PageRepository.GetPageRevisionById(id);
-            if (template == null)
-                return Json(new { body = "" });
-            return Json(new { body = template.Body });
+            try
+            {
+                var template = PageRepository.GetPageRevisionById(id);
+                if (template == null)
+                    return Json(new { body = "" });
+                return Json(new { body = template.Body });
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An error occurred while loading page template with id {Id}.", id);
+                throw;
+            }
         }
 
         #endregion
@@ -955,93 +1118,101 @@ namespace TightWiki.Controllers
         [HttpGet("Page/Image/{givenPageNavigation}/{givenFileNavigation}/{pageRevision:int?}")]
         public ActionResult Image(string givenPageNavigation, string givenFileNavigation, int? pageRevision = null)
         {
-            var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-            var fileNavigation = new NamespaceNavigation(givenFileNavigation);
-
-            var scale = GetQueryValue<int?>("Scale");
-            var maxWidth = GetQueryValue<int?>("MaxWidth");
-
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, pageRevision, scale, maxWidth]);
-            if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
+            try
             {
-                return File(cached.Bytes, cached.ContentType);
-            }
+                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+                var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
-            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
+                var scale = GetQueryValue<int?>("Scale");
+                var maxWidth = GetQueryValue<int?>("MaxWidth");
 
-            if (file != null)
-            {
-                if (file.ContentType == "image/x-icon")
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, pageRevision, scale, maxWidth]);
+                if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
                 {
-                    //We do not handle the resizing of icon file. Maybe later....
-                    return File(file.Data, file.ContentType);
+                    return File(cached.Bytes, cached.ContentType);
                 }
 
-                var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(file.Data));
+                var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
 
-                if (scale > 500)
+                if (file != null)
                 {
-                    scale = 500;
-                }
-                //Enforce scale if specified.
-                if (scale != null && scale != 100)
-                {
-                    int width = (int)(img.Width * (scale / 100.0));
-                    int height = (int)(img.Height * (scale / 100.0));
-
-                    //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
-                    //  dimension to become very small (or even negative). So here we will check the height and width
-                    //  to ensure they are both at least n pixels and adjust both dimensions.
-                    if (height < 16)
+                    if (file.ContentType == "image/x-icon")
                     {
-                        height += 16 - height;
-                        width += 16 - height;
-                    }
-                    if (width < 16)
-                    {
-                        height += 16 - width;
-                        width += 16 - width;
+                        //We do not handle the resizing of icon file. Maybe later....
+                        return File(file.Data, file.ContentType);
                     }
 
-                    if (file.ContentType.Equals("image/gif", StringComparison.InvariantCultureIgnoreCase))
+                    var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(file.Data));
+
+                    if (scale > 500)
                     {
-                        var resized = ResizeGifImage(file.Data, width, height);
-                        return File(resized, "image/gif");
+                        scale = 500;
                     }
-                    else
+                    //Enforce scale if specified.
+                    if (scale != null && scale != 100)
                     {
-                        using var image = ResizeImage(img, width, height);
+                        int width = (int)(img.Width * (scale / 100.0));
+                        int height = (int)(img.Height * (scale / 100.0));
+
+                        //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
+                        //  dimension to become very small (or even negative). So here we will check the height and width
+                        //  to ensure they are both at least n pixels and adjust both dimensions.
+                        if (height < 16)
+                        {
+                            height += 16 - height;
+                            width += 16 - height;
+                        }
+                        if (width < 16)
+                        {
+                            height += 16 - width;
+                            width += 16 - width;
+                        }
+
+                        if (file.ContentType.Equals("image/gif", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            var resized = ResizeGifImage(file.Data, width, height);
+                            return File(resized, "image/gif");
+                        }
+                        else
+                        {
+                            using var image = ResizeImage(img, width, height);
+                            using var ms = new MemoryStream();
+                            file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
+                            var cacheItem = new ImageCacheItem(ms.ToArray(), file.ContentType);
+                            WikiCache.Put(cacheKey, cacheItem);
+                            return File(cacheItem.Bytes, cacheItem.ContentType);
+                        }
+                    }
+                    //Enforce max width if specified.
+                    else if (maxWidth > 0 && img.Width > maxWidth)
+                    {
+                        double widthScale = (double)maxWidth / img.Width;
+
+                        int width = Math.Max(1, (int)Math.Round(img.Width * widthScale));
+                        int height = Math.Max(1, (int)Math.Round(img.Height * widthScale));
+
+                        using var image = Images.ResizeImage(img, width, height);
                         using var ms = new MemoryStream();
-                        file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
-                        var cacheItem = new ImageCacheItem(ms.ToArray(), file.ContentType);
+                        image.SaveAsPng(ms);
+
+                        var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
                         WikiCache.Put(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
-                }
-                //Enforce max width if specified.
-                else if (maxWidth > 0 && img.Width > maxWidth)
-                {
-                    double widthScale = (double)maxWidth / img.Width;
-
-                    int width = Math.Max(1, (int)Math.Round(img.Width * widthScale));
-                    int height = Math.Max(1, (int)Math.Round(img.Height * widthScale));
-
-                    using var image = Images.ResizeImage(img, width, height);
-                    using var ms = new MemoryStream();
-                    image.SaveAsPng(ms);
-
-                    var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
-                    WikiCache.Put(cacheKey, cacheItem);
-                    return File(cacheItem.Bytes, cacheItem.ContentType);
+                    else
+                    {
+                        return File(file.Data, file.ContentType);
+                    }
                 }
                 else
                 {
-                    return File(file.Data, file.ContentType);
+                    return NotFound(Localize("[{0}] was not found on the page [{1}].", fileNavigation, pageNavigation));
                 }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound(Localize("[{0}] was not found on the page [{1}].", fileNavigation, pageNavigation));
+                Logger.LogError(ex, "An error occurred while loading an image with file navigation {FileNavigation} attached to page with navigation {PageNavigation} and page revision {PageRevision}.", givenFileNavigation, givenPageNavigation, pageRevision);
+                throw;
             }
         }
 
@@ -1057,62 +1228,70 @@ namespace TightWiki.Controllers
         {
             try
             {
-                SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
-            }
-            catch (Exception ex)
-            {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
-            }
-            var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-            var fileNavigation = new NamespaceNavigation(givenFileNavigation);
-
-            string givenScale = GetQueryValue("Scale", "100");
-
-            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
-            if (file != null)
-            {
-                var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(file.Data)));
-
-                int parsedScale = int.Parse(givenScale);
-                if (parsedScale > 500)
+                try
                 {
-                    parsedScale = 500;
+                    SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
                 }
-
-                if (parsedScale != 100)
+                catch (Exception ex)
                 {
-                    int width = (int)(img.Width * (parsedScale / 100.0));
-                    int height = (int)(img.Height * (parsedScale / 100.0));
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+                var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
-                    //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
-                    //  dimension to become very small (or even negative). So here we will check the height and width
-                    //  to ensure they are both at least n pixels and adjust both dimensions.
-                    if (height < 16)
+                string givenScale = GetQueryValue("Scale", "100");
+
+                var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
+                if (file != null)
+                {
+                    var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(file.Data)));
+
+                    int parsedScale = int.Parse(givenScale);
+                    if (parsedScale > 500)
                     {
-                        height += 16 - height;
-                        width += 16 - height;
-                    }
-                    if (width < 16)
-                    {
-                        height += 16 - width;
-                        width += 16 - width;
+                        parsedScale = 500;
                     }
 
-                    using var image = Images.ResizeImage(img, width, height);
-                    using var ms = new MemoryStream();
-                    image.SaveAsPng(ms);
-                    return File(ms.ToArray(), "image/png");
+                    if (parsedScale != 100)
+                    {
+                        int width = (int)(img.Width * (parsedScale / 100.0));
+                        int height = (int)(img.Height * (parsedScale / 100.0));
+
+                        //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
+                        //  dimension to become very small (or even negative). So here we will check the height and width
+                        //  to ensure they are both at least n pixels and adjust both dimensions.
+                        if (height < 16)
+                        {
+                            height += 16 - height;
+                            width += 16 - height;
+                        }
+                        if (width < 16)
+                        {
+                            height += 16 - width;
+                            width += 16 - width;
+                        }
+
+                        using var image = Images.ResizeImage(img, width, height);
+                        using var ms = new MemoryStream();
+                        image.SaveAsPng(ms);
+                        return File(ms.ToArray(), "image/png");
+                    }
+                    else
+                    {
+                        using var ms = new MemoryStream();
+                        img.SaveAsPng(ms);
+                        return File(ms.ToArray(), "image/png");
+                    }
                 }
                 else
                 {
-                    using var ms = new MemoryStream();
-                    img.SaveAsPng(ms);
-                    return File(ms.ToArray(), "image/png");
+                    return NotFound(Localize("[{0}] was not found on the page [{1}].", fileNavigation, pageNavigation));
                 }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound(Localize("[{0}] was not found on the page [{1}].", fileNavigation, pageNavigation));
+                Logger.LogError(ex, "An error occurred while loading an image as PNG with file navigation {FileNavigation} attached to page with navigation {PageNavigation} and page revision {PageRevision}.", givenFileNavigation, givenPageNavigation, pageRevision);
+                throw;
             }
         }
 
@@ -1128,25 +1307,33 @@ namespace TightWiki.Controllers
         {
             try
             {
-                SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+                try
+                {
+                    SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+                var fileNavigation = new NamespaceNavigation(givenFileNavigation);
+
+                var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
+
+                if (file != null)
+                {
+                    return File(file.Data.ToArray(), file.ContentType);
+                }
+                else
+                {
+                    HttpContext.Response.StatusCode = 404;
+                    return NotFound(Localize("[{0}] was not found on the page [{1}].", fileNavigation, pageNavigation));
+                }
             }
             catch (Exception ex)
             {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
-            }
-            var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-            var fileNavigation = new NamespaceNavigation(givenFileNavigation);
-
-            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
-
-            if (file != null)
-            {
-                return File(file.Data.ToArray(), file.ContentType);
-            }
-            else
-            {
-                HttpContext.Response.StatusCode = 404;
-                return NotFound(Localize("[{0}] was not found on the page [{1}].", fileNavigation, pageNavigation));
+                Logger.LogError(ex, "An error occurred while loading a binary file with file navigation {FileNavigation} attached to page with navigation {PageNavigation} and page revision {PageRevision}.", givenFileNavigation, givenPageNavigation, pageRevision);
+                throw;
             }
         }
 
@@ -1160,24 +1347,32 @@ namespace TightWiki.Controllers
         {
             try
             {
-                SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
+                try
+                {
+                    SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                var navigation = new NamespaceNavigation(givenCanonical);
+
+                var page = PageRepository.GetPageRevisionByNavigation(navigation.Canonical);
+                if (page == null)
+                    return NotFound();
+
+                var sr = new StringWriter();
+                var writer = new System.Xml.XmlTextWriter(sr);
+                var serializer = new XmlSerializer(typeof(Page));
+                serializer.Serialize(writer, page);
+
+                return File(Encoding.UTF8.GetBytes(sr.ToString()), "text/xml", $"{givenCanonical}.xml");
             }
             catch (Exception ex)
             {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
+                Logger.LogError(ex, "An error occurred while exporting page with navigation {Navigation}.", givenCanonical);
+                throw;
             }
-            var navigation = new NamespaceNavigation(givenCanonical);
-
-            var page = PageRepository.GetPageRevisionByNavigation(navigation.Canonical);
-            if (page == null)
-                return NotFound();
-
-            var sr = new StringWriter();
-            var writer = new System.Xml.XmlTextWriter(sr);
-            var serializer = new XmlSerializer(typeof(Page));
-            serializer.Serialize(writer, page);
-
-            return File(Encoding.UTF8.GetBytes(sr.ToString()), "text/xml", $"{givenCanonical}.xml");
         }
 
         #endregion
