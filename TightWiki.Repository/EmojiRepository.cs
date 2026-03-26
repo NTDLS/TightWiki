@@ -6,18 +6,18 @@ namespace TightWiki.Repository
 {
     public static partial class EmojiRepository
     {
-        public static async Task< List<Emoji>> GetAllEmojis()
+        public static async Task<List<Emoji>> GetAllEmojis()
             => await ManagedDataStorage.Emoji.QueryAsync<Emoji>("GetAllEmojis.sql");
 
-        public static async Task<IEnumerable<string>> AutoCompleteEmoji(string term)
+        public static async Task<List<string>> AutoCompleteEmoji(string term)
             => await ManagedDataStorage.Emoji.QueryAsync<string>("AutoCompleteEmoji.sql", new { Term = term });
-        public static async Task<IEnumerable<Emoji>> GetEmojisByCategory(string category)
+        public static async Task<List<Emoji>> GetEmojisByCategory(string category)
             => await ManagedDataStorage.Emoji.QueryAsync<Emoji>("GetEmojisByCategory.sql", new { Category = category });
 
-        public static async Task<IEnumerable<EmojiCategory>> GetEmojiCategoriesGrouped()
+        public static async Task<List<EmojiCategory>> GetEmojiCategoriesGrouped()
             => await ManagedDataStorage.Emoji.QueryAsync<EmojiCategory>("GetEmojiCategoriesGrouped.sql");
 
-        public static async Task<IEnumerable<int>> SearchEmojiCategoryIds(List<string> categories)
+        public static async Task<List<int>> SearchEmojiCategoryIds(List<string> categories)
         {
             return await ManagedDataStorage.Emoji.EphemeralAsync(async o =>
             {

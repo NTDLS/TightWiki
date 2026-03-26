@@ -12,10 +12,10 @@ namespace TightWiki.Repository
 {
     public static class PageRepository
     {
-        public static async Task<IEnumerable<Page>> AutoCompletePage(string? searchText)
+        public static async Task<List<Page>> AutoCompletePage(string? searchText)
             => await ManagedDataStorage.Pages.QueryAsync<Page>("AutoCompletePage.sql", new { SearchText = searchText ?? string.Empty });
 
-        public static async Task<IEnumerable<string>> AutoCompleteNamespace(string? searchText)
+        public static async Task<List<string>> AutoCompleteNamespace(string? searchText)
             => await ManagedDataStorage.Pages.QueryAsync<string>("AutoCompleteNamespace.sql", new { SearchText = searchText ?? string.Empty });
 
         public static async Task<Page?> GetPageRevisionInfoById(int pageId, int? revision = null)
@@ -33,7 +33,7 @@ namespace TightWiki.Repository
         {
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId]);
 
-            return await WikiCache.AddOrGetAsync(cacheKey, async () =>
+            return (await WikiCache.AddOrGetAsync(cacheKey, async () =>
             {
                 var param = new
                 {
@@ -44,7 +44,7 @@ namespace TightWiki.Repository
                 {
                     Collection = (await ManagedDataStorage.Pages.QueryAsync<ProcessingInstruction>("GetPageProcessingInstructionsByPageId.sql", param)).ToList()
                 };
-            }).EnsureNotNull();
+            })).EnsureNotNull();
         }
 
         public static async Task<List<PageTag>> GetPageTagsById(int pageId)

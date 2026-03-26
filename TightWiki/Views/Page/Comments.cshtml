@@ -106,7 +106,7 @@
                                 <span>@Html.DisplayTextFor(x => h.CreatedDate)</span>
                             </div>
 
-                            @if (sessionState.HoldsPermission(WikiPermission.Moderate) || h.UserId == sessionState.Profile?.UserId)
+                            @if (await sessionState.HoldsPermission(WikiPermission.Moderate) || h.UserId == sessionState.Profile?.UserId)
                             {
                                 <a href="?Delete=@h.Id"
                                        class="small text-danger text-decoration-none"

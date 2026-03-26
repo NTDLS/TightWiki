@@ -40,7 +40,7 @@ namespace TightWiki.Repository
         public static async Task RefreshPageMetadata(ITightEngine wikifier, ISharedLocalizationText localizer, Page page, ISessionState? sessionState = null)
         {
             //We omit function calls from the tokenization process because they are too dynamic for static searching.
-            var state = wikifier.Transform(localizer, sessionState, page, null, [WikiMatchType.StandardFunction]);
+            var state = await wikifier.Transform(localizer, sessionState, page, null, [WikiMatchType.StandardFunction]);
 
             await PageRepository.UpdatePageTags(page.Id, state.Tags);
             await PageRepository.UpdatePageProcessingInstructions(page.Id, state.ProcessingInstructions);

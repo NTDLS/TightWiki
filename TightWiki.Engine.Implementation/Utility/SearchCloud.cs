@@ -7,9 +7,11 @@ namespace TightWiki.Engine.Implementation.Utility
 {
     public class SearchCloud
     {
-        public static string Build(List<string> searchTokens, int? maxCount = null)
+        public static async Task<string> Build(List<string> searchTokens, int? maxCount = null)
         {
-            var pages = PageRepository.PageSearch(searchTokens).OrderByDescending(o => o.Score).ToList();
+            var pages = (await PageRepository.PageSearch(searchTokens))
+                .OrderByDescending(o => o.Score)
+                .ToList();
 
             if (maxCount > 0)
             {

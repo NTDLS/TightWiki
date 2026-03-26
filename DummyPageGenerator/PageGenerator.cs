@@ -32,36 +32,36 @@ namespace DummyPageGenerator
             _userManager = userManager;
             _random = new Random();
 
-            _namespaces = PageRepository.GetAllNamespaces();
+            _namespaces = PageRepository.GetAllNamespaces().Result;
             _tags = WordsRepository.GetRandomWords(250);
             _fileNames = WordsRepository.GetRandomWords(50);
-            _pagePool = PageRepository.GetAllPages();
+            _pagePool = PageRepository.GetAllPages().Result;
 
             if (_namespaces.Count < 250)
             {
                 _namespaces.AddRange(WordsRepository.GetRandomWords(250));
             }
 
-            _users = UsersRepository.GetAllUsers();
+            _users = UsersRepository.GetAllUsers().Result;
 
             if (_users.Count < 1124)
             {
                 for (int i = 0; i < 1124 - _users.Count; i++)
                 {
                     string emailAddress = WordsRepository.GetRandomWords(1).First() + "@" + WordsRepository.GetRandomWords(1).First() + ".com";
-                    CreateUserAndProfile(emailAddress);
+                    CreateUserAndProfile(emailAddress).Wait();
                 }
 
-                _users = UsersRepository.GetAllUsers();
+                _users = UsersRepository.GetAllUsers().Result;
             }
         }
 
-        public static string GetRandomUnusedAccountName()
+        public static async Task<string> GetRandomUnusedAccountName()
         {
             while (true)
             {
                 var randomAccountName = string.Join(" ", WordsRepository.GetRandomWords(2));
-                if (UsersRepository.DoesProfileAccountExist(Navigation.Clean(randomAccountName)) == false)
+                if (!await UsersRepository.DoesProfileAccountExist(Navigation.Clean(randomAccountName)))
                 {
                     return randomAccountName;
                 }
@@ -71,7 +71,7 @@ namespace DummyPageGenerator
         /// <summary>
         /// Creates a user and the associated profile with claims and such.
         /// </summary>
-        public void CreateUserAndProfile(string emailAddress)
+        public async Task CreateUserAndProfile(string emailAddress)
         {
             var user = new IdentityUser()
             {
@@ -86,9 +86,9 @@ namespace DummyPageGenerator
             }
 
             var userId = _userManager.GetUserIdAsync(user).Result;
-            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
+            var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
 
-            UsersRepository.CreateProfile(Guid.Parse(userId), GetRandomUnusedAccountName());
+            await UsersRepository.CreateProfile(Guid.Parse(userId), await GetRandomUnusedAccountName());
 
             var claimsToAdd = new List<Claim>
                     {
@@ -98,7 +98,7 @@ namespace DummyPageGenerator
                         new ("language", membershipConfig.Value<string>("Default Language").EnsureNotNull()),
                     };
 
-            SecurityRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
+            await SecurityRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace DummyPageGenerator
         /// Creates a random page on the wiki.
         /// </summary>
         /// <param name="userId"></param>
-        public void GeneratePage(ITightEngine tightEngine, Guid userId)
+        public async Task GeneratePage(ITightEngine tightEngine, Guid userId)
         {
             try
             {
@@ -252,13 +252,13 @@ namespace DummyPageGenerator
 
                 var localizer = new DummyLocalizationText();
 
-                int newPageId = RepositoryHelpers.UpsertPage(tightEngine, localizer, page);
+                int newPageId = await RepositoryHelpers.UpsertPage(tightEngine, localizer, page);
 
                 if (_random.Next(100) >= 70)
                 {
                     var fileName = _fileNames[_random.Next(_fileNames.Count)] + ".txt"; ;
                     var fileData = Encoding.UTF8.GetBytes(page.Body);
-                    AttachFile(newPageId, userId, fileName, fileData);
+                    await AttachFile(newPageId, userId, fileName, fileData);
                 }
 
                 InsertPagePool(page);
@@ -289,7 +289,7 @@ namespace DummyPageGenerator
         /// Modifies a random page on the wiki.
         /// </summary>
         /// <param name="userId"></param>
-        public void ModifyRandomPages(ITightEngine engine, Guid userId)
+        public async Task ModifyRandomPages(ITightEngine engine, Guid userId)
         {
             var pageToModify = GetRandomPage();
 
@@ -314,13 +314,13 @@ namespace DummyPageGenerator
                     + "\r\n" + bottomText.Trim();
                 pageToModify.ModifiedByUserId = userId;
                 pageToModify.ModifiedByUserId = userId;
-                RepositoryHelpers.UpsertPage(engine, _localizer, pageToModify);
+                await RepositoryHelpers.UpsertPage(engine, _localizer, pageToModify);
 
                 if (_random.Next(100) >= 90)
                 {
                     var fileName = _fileNames[_random.Next(_fileNames.Count)] + ".txt";
                     var fileData = Encoding.UTF8.GetBytes(pageToModify.Body);
-                    AttachFile(pageToModify.Id, userId, fileName, fileData);
+                    await AttachFile(pageToModify.Id, userId, fileName, fileData);
                 }
             }
         }
@@ -332,14 +332,14 @@ namespace DummyPageGenerator
         /// <param name="userId"></param>
         /// <param name="fileName"></param>
         /// <param name="fileData"></param>
-        private void AttachFile(int pageId, Guid userId, string fileName, byte[] fileData)
+        private async Task AttachFile(int pageId, Guid userId, string fileName, byte[] fileData)
         {
             if (fileData.Length > GlobalConfiguration.MaxAttachmentFileSize)
             {
                 throw new Exception("Could not save the attached file, too large");
             }
 
-            PageFileRepository.UpsertPageFile(new PageFileAttachment()
+            await PageFileRepository.UpsertPageFile(new PageFileAttachment()
             {
                 Data = fileData,
                 CreatedDate = DateTime.UtcNow,

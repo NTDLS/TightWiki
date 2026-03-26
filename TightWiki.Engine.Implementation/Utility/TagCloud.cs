@@ -7,9 +7,9 @@ namespace TightWiki.Engine.Implementation.Utility
 {
     public static class TagCloud
     {
-        public static string Build(string seedTag, int? maxCount)
+        public static async Task<string> Build(string seedTag, int? maxCount)
         {
-            var tags = PageRepository.GetAssociatedTags(seedTag)
+            var tags = (await PageRepository.GetAssociatedTags(seedTag))
                 .OrderByDescending(o => o.PageCount)
                 .ToList();
 

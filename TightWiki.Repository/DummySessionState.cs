@@ -12,21 +12,21 @@ namespace TightWiki.Repository
 
         public IAccountProfile? Profile { get; set; }
 
-        public bool HoldsPermission(WikiPermission[] permissions) => true;
+        public Task<bool> HoldsPermission(WikiPermission[] permissions) => Task.FromResult(true);
 
-        public bool HoldsPermission(WikiPermission permission) => true;
+        public Task<bool> HoldsPermission(WikiPermission permission) => Task.FromResult(true);
 
-        public bool HoldsPermission(string? givenCanonical, WikiPermission permission) => true;
+        public Task<bool> HoldsPermission(string? givenCanonical, WikiPermission permission) => Task.FromResult(true);
 
-        public bool HoldsPermission(string? givenCanonical, WikiPermission[] permissions) => true;
+        public Task<bool> HoldsPermission(string? givenCanonical, WikiPermission[] permissions) => Task.FromResult(true);
 
-        public void RequireAuthorizedPermission() { }
+        public Task RequireAuthorizedPermission() => Task.CompletedTask;
 
-        public void RequirePermission(string? givenCanonical, WikiPermission[] permissions) { }
+        public Task RequirePermission(string? givenCanonical, WikiPermission[] permissions) => Task.CompletedTask;
 
-        public void RequirePermission(string? givenCanonical, WikiPermission permission) { }
+        public Task RequirePermission(string? givenCanonical, WikiPermission permission) => Task.CompletedTask;
 
-        public void RequireAdminPermission() { }
+        public Task RequireAdminPermission() => Task.CompletedTask;
 
         public DateTime LocalizeDateTime(DateTime datetime)
             => TimeZoneInfo.ConvertTimeFromUtc(datetime, GetPreferredTimeZone());

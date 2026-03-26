@@ -108,10 +108,10 @@ namespace TightWiki.Engine.Implementation.Handlers
             }
         }
 
-        private static Page? GetPageFromPathInfo(string routeData)
+        private static async Task<Page?> GetPageFromNavigation(string routeData)
         {
             routeData = NamespaceNavigation.CleanAndValidate(routeData);
-            var page = PageRepository.GetPageRevisionByNavigation(routeData);
+            var page = await PageRepository.GetPageRevisionByNavigation(routeData);
             return page;
         }
 
@@ -137,7 +137,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="function">The parsed function call and all its parameters and their values.</param>
         /// <param name="scopeBody">This is not a scope function, this should always be null</param>
-        public HandlerResult Handle(ITightEngineState state, FunctionCall function, string? scopeBody = null)
+        public async Task<HandlerResult> Handle(ITightEngineState state, FunctionCall function, string? scopeBody = null)
         {
             switch (function.Name.ToLowerInvariant())
             {
@@ -156,7 +156,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var searchToken = function.Parameters.GetNullable<string>("searchToken");
                         var topCount = function.Parameters.Get<int>("top");
-                        var profiles = UsersRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
+                        var profiles = await UsersRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
 
                         string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
                         var alphabet = profiles.Select(p => p.AccountName.Substring(0, 1).ToUpperInvariant()).Distinct();
@@ -203,7 +203,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var searchToken = function.Parameters.GetNullable<string>("searchToken");
-                        var profiles = UsersRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
+                        var profiles = await UsersRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
 
                         if (profiles.Count > 0)
                         {
@@ -237,7 +237,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var pageSelector = function.Parameters.Get<bool>("pageSelector");
-                        var attachments = PageFileRepository.GetPageFilesInfoByPageNavigationAndPageRevisionPaged(navigation, pageNumber, pageSize, state.Revision);
+                        var attachments = await PageFileRepository.GetPageFilesInfoByPageNavigationAndPageRevisionPaged(navigation, pageNumber, pageSize, state.Revision);
                         var html = new StringBuilder();
 
                         if (attachments.Count > 0)
@@ -288,7 +288,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var pageSelector = function.Parameters.Get<bool>("pageSelector");
-                        var revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(navigation, pageNumber, null, null, pageSize);
+                        var revisions = await PageRepository.GetPageRevisionsInfoByNavigationPaged(navigation, pageNumber, null, null, pageSize);
                         var html = new StringBuilder();
 
                         if (revisions.Count > 0)
@@ -300,8 +300,8 @@ namespace TightWiki.Engine.Implementation.Handlers
 
                                 if (styleName.Equals("full", StringComparison.InvariantCultureIgnoreCase))
                                 {
-                                    var thisRev = PageRepository.GetPageRevisionByNavigation(state.Page.Navigation, item.Revision);
-                                    var prevRev = PageRepository.GetPageRevisionByNavigation(state.Page.Navigation, item.Revision - 1);
+                                    var thisRev = await PageRepository.GetPageRevisionByNavigation(state.Page.Navigation, item.Revision);
+                                    var prevRev = await PageRepository.GetPageRevisionByNavigation(state.Page.Navigation, item.Revision - 1);
 
                                     var summaryText = Differentiator.GetComparisonSummary(thisRev?.Body ?? string.Empty, prevRev?.Body ?? string.Empty);
 
@@ -356,7 +356,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                     {
                         var navigation = function.Parameters.Get<string>("pageName");
 
-                        var page = GetPageFromPathInfo(navigation);
+                        var page = await GetPageFromNavigation(navigation);
                         if (page != null)
                         {
                             return new HandlerResult(page.Body)
@@ -374,10 +374,10 @@ namespace TightWiki.Engine.Implementation.Handlers
                     {
                         var navigation = function.Parameters.Get<string>("pageName");
 
-                        var page = GetPageFromPathInfo(navigation);
+                        var page = await GetPageFromNavigation(navigation);
                         if (page != null)
                         {
-                            var childState = state.TransformChild(page);
+                            var childState = await state.TransformChild(page);
 
                             MergeUserVariables(ref state, childState.Variables);
                             MergeSnippets(ref state, childState.Snippets);
@@ -536,7 +536,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                             }
                         }
 
-                        var attachment = PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, NamespaceNavigation.CleanAndValidate(fileName), state.Revision);
+                        var attachment = await PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, NamespaceNavigation.CleanAndValidate(fileName), state.Revision);
                         if (attachment != null)
                         {
                             string alt = function.Parameters.Get("linkText", fileName);
@@ -571,7 +571,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         var takeCount = function.Parameters.Get<int>("top");
                         var showNamespace = function.Parameters.Get<bool>("showNamespace");
 
-                        var pages = PageRepository.GetTopRecentlyModifiedPagesInfo(takeCount)
+                        var pages = (await PageRepository.GetTopRecentlyModifiedPagesInfo(takeCount))
                             .OrderByDescending(o => o.ModifiedDate).ThenBy(o => o.Title).ToList();
 
                         var html = new StringBuilder();
@@ -614,7 +614,7 @@ namespace TightWiki.Engine.Implementation.Handlers
 
                         string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         var topCount = function.Parameters.Get<int>("top");
-                        var pages = PageRepository.GetPageInfoByNamespaces(namespaces).Take(topCount).OrderBy(o => o.Name).ToList();
+                        var pages = (await PageRepository.GetPageInfoByNamespaces(namespaces)).Take(topCount).OrderBy(o => o.Name).ToList();
                         var html = new StringBuilder();
                         var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpperInvariant()).Distinct();
                         var showNamespace = function.Parameters.Get<bool>("showNamespace");
@@ -673,7 +673,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         var namespaces = function.Parameters.GetList<string>("namespaces");
                         var showNamespace = function.Parameters.Get<bool>("showNamespace");
 
-                        var pages = PageRepository.GetPageInfoByNamespaces(namespaces).Take(topCount).OrderBy(o => o.Name).ToList();
+                        var pages = (await PageRepository.GetPageInfoByNamespaces(namespaces)).Take(topCount).OrderBy(o => o.Name).ToList();
                         var html = new StringBuilder();
 
                         if (pages.Count > 0)
@@ -717,7 +717,7 @@ namespace TightWiki.Engine.Implementation.Handlers
 
                         string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         var topCount = function.Parameters.Get<int>("top");
-                        var pages = PageRepository.GetPageInfoByTags(tags).Take(topCount).OrderBy(o => o.Name).ToList();
+                        var pages = (await PageRepository.GetPageInfoByTags(tags)).Take(topCount).OrderBy(o => o.Name).ToList();
                         var html = new StringBuilder();
                         var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpperInvariant()).Distinct();
                         var showNamespace = function.Parameters.Get<bool>("showNamespace");
@@ -775,7 +775,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         var topCount = function.Parameters.Get<int>("top");
                         var showNamespace = function.Parameters.Get<bool>("showNamespace");
 
-                        var pages = PageRepository.PageSearch(searchTokens).Take(topCount).OrderBy(o => o.Name).ToList();
+                        var pages = (await PageRepository.PageSearch(searchTokens)).Take(topCount).OrderBy(o => o.Name).ToList();
                         var html = new StringBuilder();
                         var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpperInvariant()).Distinct();
                         string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
@@ -837,7 +837,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         var searchTokens = function.Parameters.Get<string>("searchPhrase").Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
                         var showNamespace = function.Parameters.Get<bool>("showNamespace");
 
-                        var pages = PageRepository.PageSearchPaged(searchTokens, pageNumber, pageSize, allowFuzzyMatching);
+                        var pages = await PageRepository.PageSearchPaged(searchTokens, pageNumber, pageSize, allowFuzzyMatching);
                         var html = new StringBuilder();
 
                         if (pages.Count > 0)
@@ -886,7 +886,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         var tags = function.Parameters.GetList<string>("pageTags");
                         var showNamespace = function.Parameters.Get<bool>("showNamespace");
 
-                        var pages = PageRepository.GetPageInfoByTags(tags).Take(topCount).OrderBy(o => o.Name).ToList();
+                        var pages = (await PageRepository.GetPageInfoByTags(tags)).Take(topCount).OrderBy(o => o.Name).ToList();
                         var html = new StringBuilder();
 
                         if (pages.Count > 0)
@@ -934,7 +934,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         var html = new StringBuilder();
 
-                        var pages = PageRepository.GetSimilarPagesPaged(state.Page.Id, similarity, pageNumber, pageSize);
+                        var pages = await PageRepository.GetSimilarPagesPaged(state.Page.Id, similarity, pageNumber, pageSize);
 
                         switch (styleName.ToLowerInvariant())
                         {
@@ -983,7 +983,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         var html = new StringBuilder();
 
-                        var pages = PageRepository.GetRelatedPagesPaged(state.Page.Id, pageNumber, pageSize);
+                        var pages = await PageRepository.GetRelatedPagesPaged(state.Page.Id, pageNumber, pageSize);
 
                         switch (styleName.ToLowerInvariant())
                         {
@@ -1054,7 +1054,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                 //Displays the total number views for the current page.
                 case "pageviewcount":
                     {
-                        int totalPageCount = StatisticsRepository.GetPageTotalViewCount(state.Page.Id);
+                        int totalPageCount = await StatisticsRepository.GetPageTotalViewCount(state.Page.Id);
                         return new HandlerResult($"{totalPageCount:n0}")
                         {
                             Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
@@ -1067,7 +1067,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                     {
                         string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
 
-                        var siteAddress = ConfigurationRepository.Get(WikiConfigurationGroup.Basic, "Address", "http://localhost").TrimEnd('/');
+                        var siteAddress = (await ConfigurationRepository.Get(WikiConfigurationGroup.Basic, "Address", "http://localhost")).TrimEnd('/');
                         var link = $"{siteAddress}/{state.Page.Navigation}";
 
                         switch (styleName)
@@ -1106,7 +1106,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                 //Displays the URL for the current page.
                 case "pagecommentcount":
                     {
-                        int totalCommentCount = PageRepository.GetTotalPageCommentCount(state.Page.Id);
+                        int totalCommentCount = await PageRepository.GetTotalPageCommentCount(state.Page.Id);
                         return new HandlerResult($"{totalCommentCount:n0}")
                         {
                             Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
@@ -1294,7 +1294,7 @@ namespace TightWiki.Engine.Implementation.Handlers
 
                         if (string.IsNullOrWhiteSpace(category) == false)
                         {
-                            var emojis = EmojiRepository.GetEmojisByCategory(category);
+                            var emojis = await EmojiRepository.GetEmojisByCategory(category);
 
                             foreach (var emoji in emojis)
                             {
@@ -1319,7 +1319,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "systememojicategorylist":
                     {
-                        var categories = EmojiRepository.GetEmojiCategoriesGrouped();
+                        var categories = await EmojiRepository.GetEmojiCategoriesGrouped();
 
                         StringBuilder html = new();
 

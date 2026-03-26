@@ -87,7 +87,7 @@ namespace TightWiki.Repository
         {
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageNavigation, fileNavigation, pageRevision]);
 
-            return await WikiCache.AddOrGetAsync(cacheKey, async     () =>
+            return await WikiCache.AddOrGetAsync(cacheKey, async () =>
             {
                 var param = new
                 {

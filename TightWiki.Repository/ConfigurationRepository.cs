@@ -59,7 +59,7 @@ namespace TightWiki.Repository
 
         public static async Task<WikiDatabaseStatistics> GetWikiDatabaseMetrics()
         {
-            return await ManagedDataStorage.Config.EphemeralAsync(async o => 
+            return await ManagedDataStorage.Config.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
                 using var pages_db = o.Attach("pages.db", "pages_db");
@@ -253,7 +253,7 @@ namespace TightWiki.Repository
                 Id = id
             };
 
-            return await  ManagedDataStorage.Config.QuerySingleAsync<MenuItem>("GetMenuItemById.sql", param);
+            return await ManagedDataStorage.Config.QuerySingleAsync<MenuItem>("GetMenuItemById.sql", param);
         }
 
         public static async Task DeleteMenuItemById(int id)

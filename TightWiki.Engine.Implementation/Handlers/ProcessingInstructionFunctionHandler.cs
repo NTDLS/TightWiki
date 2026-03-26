@@ -68,7 +68,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="function">The parsed function call and all its parameters and their values.</param>
         /// <param name="scopeBody">This is not a scope function, this should always be null</param>
-        public HandlerResult Handle(ITightEngineState state, FunctionCall function, string? scopeBody = null)
+        public async Task<HandlerResult> Handle(ITightEngineState state, FunctionCall function, string? scopeBody = null)
         {
             switch (function.Name.ToLowerInvariant())
             {

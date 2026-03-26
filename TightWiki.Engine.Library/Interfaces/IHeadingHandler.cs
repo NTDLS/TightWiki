@@ -12,6 +12,6 @@
         /// <param name="depth">The size of the header, also used for table of table of contents indentation.</param>
         /// <param name="link">The self link reference.</param>
         /// <param name="text">The text for the self link.</param>
-        public HandlerResult Handle(ITightEngineState state, int depth, string link, string text);
+        public Task<HandlerResult> Handle(ITightEngineState state, int depth, string link, string text);
     }
 }

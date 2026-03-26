@@ -52,32 +52,32 @@ namespace TightWiki
 
             var independentLogger = new DatabaseLogger("", LogLevel.Information);
 
-            var userConnectionString = ManagedDataStorage.Users.EphemeralAsync(o => o.NativeConnection.ConnectionString);
+            var userConnectionString = ManagedDataStorage.Users.Ephemeral(o => o.NativeConnection.ConnectionString);
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(userConnectionString));
 
-            LoggingRepository.CreateTablesIfNotExist();
+            await LoggingRepository.CreateTablesIfNotExist();
 
             //Upgrade database if needed and create defaults database if needed. This is done at the very beginning before
             //  almost anything else to ensure the database is in the correct state for the rest of the application to work with.
             //
             // Default data is seeded further down after the injection of ILogger, UserManager, and ITightEngine,
             //  via a call to DatabaseUpgrade.ApplyAllSeedData()
-            var wasDatabaseUpgraded = DatabaseUpgrade.ApplyDatabaseUpgradeScripts(independentLogger);
+            var wasDatabaseUpgraded = await DatabaseUpgrade.ApplyDatabaseUpgradeScripts(independentLogger);
 
-            var defaultsDatabasePath = DatabaseUpgrade.CreateDefaultsDatabase(independentLogger, builder.Configuration, wasDatabaseUpgraded);
+            var defaultsDatabasePath = await DatabaseUpgrade.CreateDefaultsDatabase(independentLogger, builder.Configuration, wasDatabaseUpgraded);
             if (defaultsDatabasePath != null)
             {
                 ManagedDataStorage.Defaults.SetConnectionString(defaultsDatabasePath);
             }
 
-            ConfigurationRepository.ReloadEverything();
+            await ConfigurationRepository.ReloadEverything();
 
             // Add DiffPlex services.
             builder.Services.AddScoped<IDiffer, Differ>();
             builder.Services.AddScoped<ISideBySideDiffBuilder>(sp =>
                 new SideBySideDiffBuilder(sp.GetRequiredService<IDiffer>()));
 
-            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
+            var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
             var requireConfirmedAccount = membershipConfig.Value<bool>("Require Email Verification");
 
             // Add services to the container.
@@ -128,9 +128,9 @@ namespace TightWiki
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = requireConfirmedAccount)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            var externalAuthenticationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.ExternalAuthentication);
-            var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Basic);
-            var cookiesConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Cookies);
+            var externalAuthenticationConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.ExternalAuthentication);
+            var basicConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Basic);
+            var cookiesConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Cookies);
 
             var authentication = builder.Services.AddAuthentication()
                 .AddCookie("CookieAuth", options =>
@@ -157,7 +157,7 @@ namespace TightWiki
                 }
                 else
                 {
-                    LoggingRepository.WriteException($"Cannot read/write to the specified path for persistent keys: {persistKeysPath}. Check the configuration and path permission.");
+                    await LoggingRepository.WriteException($"Cannot read/write to the specified path for persistent keys: {persistKeysPath}. Check the configuration and path permission.");
                 }
             }
 

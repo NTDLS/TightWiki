@@ -22,7 +22,7 @@ namespace TightWiki.Extensions
 
             //...or we have to have a valid configuration database path that we can derive the database paths from.
             //This is all in an effort to support "legacy" appsettings.json configurations.
-            var configDatabase = ManagedDataStorage.Config.EphemeralAsync(o => o.NativeConnection.DataSource);
+            var configDatabase = ManagedDataStorage.Config.Ephemeral(o => o.NativeConnection.DataSource);
             var configDatabasePath = Path.GetDirectoryName(configDatabase)
                 ?? throw new Exception("Could not determine the directory for the config database.");
 

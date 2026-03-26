@@ -84,7 +84,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-                var ldapAuthenticationConfiguration = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.LDAPAuthentication);
+                var ldapAuthenticationConfiguration = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.LDAPAuthentication);
 
                 ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
 
@@ -124,7 +124,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                                 var foundUser = await _userManager.FindByLoginAsync(loginInfo.LoginProvider, loginInfo.ProviderKey);
 
-                                if (foundUser != null && UsersRepository.TryGetBasicProfileByUserId(Guid.Parse(foundUser.Id), out _))
+                                if (foundUser != null && await UsersRepository.GetBasicProfileByUserId(Guid.Parse(foundUser.Id)) != null)
                                 {
                                     await SignInManager.SignInAsync(foundUser, Input.RememberMe);
                                     return Redirect(returnUrl);
@@ -169,7 +169,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                                     }
 
                                     // Check if the user has a profile, if not, redirect to the supplemental info page.
-                                    if (UsersRepository.TryGetBasicProfileByUserId(Guid.Parse(foundUser.Id), out _) == false)
+                                    if (await UsersRepository.GetBasicProfileByUserId(Guid.Parse(foundUser.Id)) == null)
                                     {
                                         if (GlobalConfiguration.AllowSignup != true)
                                         {
@@ -199,14 +199,14 @@ namespace TightWiki.Areas.Identity.Pages.Account
             }
             finally
             {
-                UpdateUserCultureCookie();
+                await UpdateUserCultureCookie();
             }
 
             // If we got this far, something failed, redisplay form
             return Page();
         }
 
-        private void UpdateUserCultureCookie()
+        private async Task UpdateUserCultureCookie()
         {
             try
             {
@@ -219,7 +219,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                 if (Guid.TryParse(userIdString, out var userId))
                 {
-                    if (UsersRepository.TryGetBasicProfileByUserId(userId, out var profile))
+                    var profile = await UsersRepository.GetBasicProfileByUserId(userId);
+                    if (profile != null)
                     {
                         Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
                                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(profile.Language)),

@@ -10,6 +10,6 @@
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="text">The comment text</param>
-        public HandlerResult Handle(ITightEngineState state, string text);
+        public Task<HandlerResult> Handle(ITightEngineState state, string text);
     }
 }

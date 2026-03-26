@@ -14,11 +14,11 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// Handles wiki completion events. Is called when the wiki processing completes for a given page.
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
-        public void Complete(ITightEngineState state)
+        public async Task Complete(ITightEngineState state)
         {
             if (GlobalConfiguration.RecordCompilationMetrics)
             {
-                StatisticsRepository.MergePageCompilationStatistics(state.Page.Id,
+                await StatisticsRepository.MergePageCompilationStatistics(state.Page.Id,
                     state.ProcessingTime.TotalMilliseconds,
                     state.MatchCount,
                     state.ErrorCount,

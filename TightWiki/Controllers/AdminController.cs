@@ -47,7 +47,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -100,7 +100,7 @@ namespace TightWiki.Controllers
 
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -140,7 +140,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -200,7 +200,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -234,7 +234,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -263,7 +263,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -296,7 +296,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -341,7 +341,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -400,7 +400,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -440,7 +440,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -476,7 +476,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -526,7 +526,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -581,7 +581,7 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                SessionState.RequirePermission(null, WikiPermission.Moderate);
+                await SessionState.RequirePermission(null, WikiPermission.Moderate);
 
                 var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -617,7 +617,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -666,7 +666,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -678,7 +678,7 @@ namespace TightWiki.Controllers
 
                 if (page != null)
                 {
-                    var state = _tightEngine.Transform(Localizer, SessionState, page);
+                    var state = await _tightEngine.Transform(Localizer, SessionState, page);
                     model.PageId = pageId;
                     model.Revision = pageId;
                     model.Body = state.HtmlResult;
@@ -703,7 +703,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -737,7 +737,7 @@ namespace TightWiki.Controllers
 
                 if (model.Revisions != null && model.Revisions.Count > 0)
                 {
-                    SessionState.SetPageId(model.Revisions.First().PageId);
+                    await SessionState.SetPageId(model.Revisions.First().PageId);
                 }
 
                 return View(model);
@@ -757,7 +757,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -784,8 +784,8 @@ namespace TightWiki.Controllers
                     if (revision >= page.Revision)
                     {
                         int previousRevision = await PageRepository.GetPagePreviousRevision(page.Id, revision);
-                        var previousPageRevision = await PageRepository.GetPageRevisionByNavigation(pageNavigation, previousRevision).EnsureNotNull();
-                        await RepositoryHelpers.UpsertPage(_tightEngine, Localizer, previousPageRevision, SessionState);
+                        var previousPageRevision = await PageRepository.GetPageRevisionByNavigation(pageNavigation, previousRevision);
+                        await RepositoryHelpers.UpsertPage(_tightEngine, Localizer, previousPageRevision.EnsureNotNull(), SessionState);
                     }
 
                     await PageRepository.MovePageRevisionToDeletedById(page.Id, revision, SessionState.Profile.EnsureNotNull().UserId);
@@ -814,7 +814,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -826,7 +826,7 @@ namespace TightWiki.Controllers
 
                 if (page != null)
                 {
-                    var state = _tightEngine.Transform(Localizer, SessionState, page);
+                    var state = await _tightEngine.Transform(Localizer, SessionState, page);
                     model.PageId = pageId;
                     model.Body = state.HtmlResult;
                     model.DeletedDate = SessionState.LocalizeDateTime(page.ModifiedDate);
@@ -850,7 +850,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -886,7 +886,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -918,7 +918,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -930,9 +930,10 @@ namespace TightWiki.Controllers
                 {
                     var workload = pool.CreateChildPool();
 
+                    //TODO: Should probably be a Paralell.ForEach().
                     foreach (var page in await PageRepository.GetAllPages())
                     {
-                        workload.Enqueue(() =>
+                        workload.Enqueue(async () =>
                         {
                             string queryKey = string.Empty;
                             foreach (var query in Request.Query)
@@ -943,7 +944,7 @@ namespace TightWiki.Controllers
                             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
                             if (WikiCache.Contains(cacheKey) == false)
                             {
-                                var state = _tightEngine.Transform(Localizer, SessionState, page, page.Revision);
+                                var state = await _tightEngine.Transform(Localizer, SessionState, page, page.Revision);
                                 page.Body = state.HtmlResult;
 
                                 if (state.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
@@ -976,7 +977,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -1006,7 +1007,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -1035,7 +1036,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -1064,7 +1065,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -1093,7 +1094,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -1122,7 +1123,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -1151,7 +1152,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -1180,7 +1181,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -1218,7 +1219,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -1265,7 +1266,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -1294,7 +1295,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -1327,7 +1328,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -1359,7 +1360,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -1399,7 +1400,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -1446,7 +1447,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -1479,7 +1480,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -1511,7 +1512,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -1600,7 +1601,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -1638,7 +1639,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -1673,7 +1674,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -1756,7 +1757,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -1789,7 +1790,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -1858,7 +1859,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -1893,7 +1894,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -1929,7 +1930,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {
@@ -1959,7 +1960,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    SessionState.RequireAdminPermission();
+                    await SessionState.RequireAdminPermission();
                 }
                 catch (Exception ex)
                 {

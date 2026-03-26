@@ -1,5 +1,4 @@
 ﻿using NTDLS.Helpers;
-using System.Diagnostics.CodeAnalysis;
 using TightWiki.Caching;
 using TightWiki.Library;
 using TightWiki.Models;
@@ -88,10 +87,10 @@ namespace TightWiki.Repository
             );
         }
 
-        public static async Task<IEnumerable<Role>> AutoCompleteRole(string? searchText)
+        public static async Task<List<Role>> AutoCompleteRole(string? searchText)
             => await ManagedDataStorage.Users.QueryAsync<Role>("AutoCompleteRole.sql", new { SearchText = searchText ?? string.Empty });
 
-        public static async Task<IEnumerable<AccountProfile>> AutoCompleteAccount(string? searchText)
+        public static async Task<List<AccountProfile>> AutoCompleteAccount(string? searchText)
             => await ManagedDataStorage.Users.QueryAsync<AccountProfile>("AutoCompleteAccount.sql", new { SearchText = searchText ?? string.Empty });
 
         public static async Task<AddRoleMemberResult?> AddRoleMemberByname(Guid userId, string roleName)

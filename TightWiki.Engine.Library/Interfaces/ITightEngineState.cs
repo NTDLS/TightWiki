@@ -74,7 +74,7 @@ namespace TightWiki.Engine.Library.Interfaces
         /// </summary>
         /// <param name="page">The child page to process</param>
         /// <param name="revision">The optional revision of the child page to process</param>
-        ITightEngineState TransformChild(IPage page, int? revision = null);
+        Task<ITightEngineState> TransformChild(IPage page, int? revision = null);
 
         /// <summary>
         /// Replaces placeholders in the specified page content with previously stored match values.

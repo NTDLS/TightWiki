@@ -145,7 +145,7 @@ namespace TightWiki.Repository
                 var databasePath = configuration.GetConnectionString("DatabasePath");
                 if (string.IsNullOrEmpty(databasePath))
                 {
-                    var configDatabase = ManagedDataStorage.Config.EphemeralAsync(o => o.NativeConnection.DataSource);
+                    var configDatabase = ManagedDataStorage.Config.Ephemeral(o => o.NativeConnection.DataSource);
                     databasePath = Path.GetDirectoryName(configDatabase);
                     if (databasePath == null)
                     {
