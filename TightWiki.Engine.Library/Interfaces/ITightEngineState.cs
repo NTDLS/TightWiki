@@ -16,7 +16,7 @@ namespace TightWiki.Engine.Library.Interfaces
         IQueryCollection QueryString { get; }
 
         ITightEngine Engine { get; }
-        IPage Page { get; }
+        IWikiPage Page { get; }
         int? Revision { get; }
         public HashSet<WikiMatchType> OmitMatches { get; }
         public int NestDepth { get; } //Used for recursion.
@@ -74,7 +74,7 @@ namespace TightWiki.Engine.Library.Interfaces
         /// </summary>
         /// <param name="page">The child page to process</param>
         /// <param name="revision">The optional revision of the child page to process</param>
-        Task<ITightEngineState> TransformChild(IPage page, int? revision = null);
+        Task<ITightEngineState> TransformChild(IWikiPage page, int? revision = null);
 
         /// <summary>
         /// Replaces placeholders in the specified page content with previously stored match values.

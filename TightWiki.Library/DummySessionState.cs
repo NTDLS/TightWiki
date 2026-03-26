@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
-using TightWiki.Library;
+using System.Globalization;
 using TightWiki.Library.Interfaces;
-using TightWiki.Models;
 
-namespace TightWiki.Repository
+namespace TightWiki.Library
 {
     public class DummySessionState
         : ISessionState
@@ -32,6 +31,6 @@ namespace TightWiki.Repository
             => TimeZoneInfo.ConvertTimeFromUtc(datetime, GetPreferredTimeZone());
 
         public TimeZoneInfo GetPreferredTimeZone()
-            => TimeZoneInfo.FindSystemTimeZoneById(GlobalConfiguration.DefaultTimeZone);
+            => TimeZoneInfo.FindSystemTimeZoneById(CultureInfo.CurrentUICulture.Name);
     }
 }

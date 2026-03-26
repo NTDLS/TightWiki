@@ -1,6 +1,6 @@
 ﻿namespace TightWiki.Library.Interfaces
 {
-    public interface IPage
+    public interface IWikiPage
     {
         int Id { get; }
         int Revision { get; }

@@ -17,11 +17,11 @@ using TightWiki.Engine;
 using TightWiki.Engine.Implementation;
 using TightWiki.Engine.Implementation.Handlers;
 using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Extensions;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Repository;
+using TightWiki.Repository.Extensions;
 using TightWiki.Translations;
 
 namespace TightWiki
@@ -91,7 +91,6 @@ namespace TightWiki
                 .AddDataAnnotationsLocalization()
                 .AddXmlSerializerFormatters()
                 .AddXmlDataContractSerializerFormatters();
-
 
             builder.Services.AddLocalization(options =>
             {
@@ -378,7 +377,7 @@ namespace TightWiki
                 {
                     try
                     {
-                        await DatabaseUpgrade.ApplyAllSeedData(logger, new DummyLocalizationText(), userManager, tightEngine,
+                        await DatabaseUpgrade.ApplyAllSeedData(logger, new VerbatimLocalizationText(), userManager, tightEngine,
                             [WikiDefaultDataType.Themes,
                             WikiDefaultDataType.Configurations,
                             WikiDefaultDataType.FeatureTemplates,

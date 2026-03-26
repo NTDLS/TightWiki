@@ -2,7 +2,8 @@
 
 namespace TightWiki.Models.DataModels
 {
-    public class Page : IPage
+    public class WikiPage
+        : IWikiPage
     {
         public int Id { get; set; } = 0;
 

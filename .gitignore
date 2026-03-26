@@ -120,3 +120,15 @@ LocalizerScan/obj/
 LocalizerScan/Properties/launchSettings.json
 
 TightWiki/Properties/launchSettings.json
+
+TightWiki.Test.CaseGenerator/bin/
+
+TightWiki.Test.CaseGenerator/obj/
+
+TightWiki.Test.Library/bin/
+
+TightWiki.Test.Library/obj/
+
+TightWiki.Tests/bin/
+
+TightWiki.Tests/obj/

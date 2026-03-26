@@ -53,7 +53,7 @@ namespace DummyPageGenerator
                            containerBuilder.RegisterType<ExceptionHandler>().As<IExceptionHandler>().SingleInstance();
                            containerBuilder.RegisterType<NoOpCompletionHandler>().As<ICompletionHandler>().SingleInstance();
 
-                           containerBuilder.RegisterType<TightEngine>();
+                           containerBuilder.RegisterType<TightEngine>().As<ITightEngine>().SingleInstance();
                        }).Build();
 
 
@@ -89,7 +89,7 @@ namespace DummyPageGenerator
 
             await ConfigurationRepository.ReloadEverything();
 
-            var pg = new PageGenerator(new DummyLocalizationText(), userManager);
+            var pg = new PageGenerator(new VerbatimLocalizationText(), userManager);
 
             var pool = new DelegateThreadPool();
 

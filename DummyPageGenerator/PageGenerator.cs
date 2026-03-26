@@ -14,7 +14,7 @@ namespace DummyPageGenerator
     {
         private readonly ISharedLocalizationText _localizer;
         private readonly object _lockObject = new();
-        private List<Page> _pagePool;
+        private List<WikiPage> _pagePool;
         private readonly Random _random;
         private readonly List<string> _namespaces;
         private readonly List<string> _tags;
@@ -239,7 +239,7 @@ namespace DummyPageGenerator
                 body.AppendLine($"##related");
                 body.AppendLine("\r\n");
 
-                var page = new Page()
+                var page = new WikiPage()
                 {
                     Name = pageName,
                     Body = body.ToString(),
@@ -250,7 +250,7 @@ namespace DummyPageGenerator
                     Description = string.Join(' ', WordsRepository.GetRandomWords(_random.Next(3, 5))),
                 };
 
-                var localizer = new DummyLocalizationText();
+                var localizer = new VerbatimLocalizationText();
 
                 int newPageId = await RepositoryHelpers.UpsertPage(tightEngine, localizer, page);
 
@@ -269,7 +269,7 @@ namespace DummyPageGenerator
             }
         }
 
-        private Page GetRandomPage()
+        private WikiPage GetRandomPage()
         {
             lock (_pagePool)
             {
@@ -277,7 +277,7 @@ namespace DummyPageGenerator
             }
         }
 
-        private void InsertPagePool(Page page)
+        private void InsertPagePool(WikiPage page)
         {
             lock (_pagePool)
             {

@@ -51,7 +51,7 @@ namespace TightWiki
         /// <summary>
         /// The "page" here is more of a "mock page", we use the name for various stuff.
         /// </summary>
-        public IPage Page { get; set; } = new Models.DataModels.Page() { Name = GlobalConfiguration.Name };
+        public IWikiPage Page { get; set; } = new Models.DataModels.WikiPage() { Name = GlobalConfiguration.Name };
 
         #endregion
 
@@ -145,7 +145,7 @@ namespace TightWiki
         /// </summary>
         public async Task SetPageId(int? pageId, int? revision = null)
         {
-            Page = new Models.DataModels.Page();
+            Page = new Models.DataModels.WikiPage();
             PageInstructions = new();
             PageTags = string.Empty;
 
@@ -200,7 +200,7 @@ namespace TightWiki
 
             return await WikiCache.AddOrGetAsync(cacheKey, async () =>
             {
-                Models.DataModels.Page? page = null;
+                Models.DataModels.WikiPage? page = null;
 
                 if (givenCanonical != null)
                 {
@@ -226,7 +226,7 @@ namespace TightWiki
             });
         }
 
-        private bool? EvaluatePermission(WikiPermission permission, Models.DataModels.Page? page)
+        private bool? EvaluatePermission(WikiPermission permission, Models.DataModels.WikiPage? page)
         {
             string permissionString = permission.ToString();
 

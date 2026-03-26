@@ -1,10 +1,10 @@
-﻿using TightWiki.Repository;
+﻿using Microsoft.Extensions.Configuration;
 
-namespace TightWiki.Extensions
+namespace TightWiki.Repository.Extensions
 {
     public static class ConfigurationManagerExtensions
     {
-        public static string GetDatabaseConnectionString(this ConfigurationManager configuration, string sectionName, string databaseName)
+        public static string GetDatabaseConnectionString(this IConfiguration configuration, string sectionName, string databaseName)
         {
             //We either have to have a connection string for the database...
             var connectionString = configuration.GetConnectionString(sectionName);

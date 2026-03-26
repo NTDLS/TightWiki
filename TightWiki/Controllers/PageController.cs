@@ -887,7 +887,7 @@ namespace TightWiki.Controllers
                 }
                 */
 
-                var page = new Page()
+                var page = new WikiPage()
                 {
                     Body = request.Body,
                     Name = request.Name,
@@ -966,7 +966,7 @@ namespace TightWiki.Controllers
                     var templates = await PageRepository.GetAllTemplatePages();
 
                     if (templatePage == null)
-                        templatePage = new Page();
+                        templatePage = new WikiPage();
                     else
                         templates.Insert(0, templatePage);
 
@@ -1035,7 +1035,7 @@ namespace TightWiki.Controllers
                     {
                         return NotifyOfError(ex.GetBaseException().Message, "/");
                     }
-                    var page = new Page()
+                    var page = new WikiPage()
                     {
                         CreatedDate = DateTime.UtcNow,
                         CreatedByUserId = SessionState.Profile.EnsureNotNull().UserId,
@@ -1403,7 +1403,7 @@ namespace TightWiki.Controllers
 
                 var sr = new StringWriter();
                 var writer = new System.Xml.XmlTextWriter(sr);
-                var serializer = new XmlSerializer(typeof(Page));
+                var serializer = new XmlSerializer(typeof(WikiPage));
                 serializer.Serialize(writer, page);
 
                 return File(Encoding.UTF8.GetBytes(sr.ToString()), "text/xml", $"{givenCanonical}.xml");

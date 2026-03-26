@@ -49,7 +49,7 @@ namespace TightWiki.Engine
 
         #region Input parameters.
 
-        public IPage Page { get; }
+        public IWikiPage Page { get; }
         public int? Revision { get; }
         public IQueryCollection QueryString { get; }
         public ISessionState? Session { get; }
@@ -108,7 +108,7 @@ namespace TightWiki.Engine
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
         /// <param name="nestDepth">The current depth of recursion.</param>
         internal TightEngineState(ILogger<ITightEngine> logger, ITightEngine engine, ISharedLocalizationText localizer, ISessionState? session,
-            IPage page, int? revision = null, WikiMatchType[]? omitMatches = null, int nestDepth = 0)
+            IWikiPage page, int? revision = null, WikiMatchType[]? omitMatches = null, int nestDepth = 0)
         {
             Localizer = localizer;
             Logger = logger;
@@ -133,7 +133,7 @@ namespace TightWiki.Engine
         /// </summary>
         /// <param name="page">The child page to process.</param>
         /// <param name="revision">The optional revision of the child page to process.</param>
-        public async Task<ITightEngineState> TransformChild(IPage page, int? revision = null)
+        public async Task<ITightEngineState> TransformChild(IWikiPage page, int? revision = null)
         {
             var childState = new TightEngineState(Logger, Engine, Localizer, Session, page, revision, OmitMatches.ToArray(), NestDepth + 1);
 

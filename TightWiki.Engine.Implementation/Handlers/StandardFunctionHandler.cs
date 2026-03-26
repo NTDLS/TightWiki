@@ -108,7 +108,7 @@ namespace TightWiki.Engine.Implementation.Handlers
             }
         }
 
-        private static async Task<Page?> GetPageFromNavigation(string routeData)
+        private static async Task<WikiPage?> GetPageFromNavigation(string routeData)
         {
             routeData = NamespaceNavigation.CleanAndValidate(routeData);
             var page = await PageRepository.GetPageRevisionByNavigation(routeData);

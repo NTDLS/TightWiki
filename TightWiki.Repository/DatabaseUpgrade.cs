@@ -341,12 +341,12 @@ namespace TightWiki.Repository
 
                     foreach (var defaultWikiPage in defaultWikiPages)
                     {
-                        var existingPage = await ManagedDataStorage.Pages.QueryFirstOrDefaultAsync<Models.DataModels.Page>(@"Scripts\Defaults\GetPageByNavigation.sql",
+                        var existingPage = await ManagedDataStorage.Pages.QueryFirstOrDefaultAsync<Models.DataModels.WikiPage>(@"Scripts\Defaults\GetPageByNavigation.sql",
                             new { Navigation = defaultWikiPage.Navigation });
 
                         //if (existingPage == null || existingPage.DataHash != defaultWikiPage.DataHash)
                         {
-                            var wikiPage = new Models.DataModels.Page()
+                            var wikiPage = new Models.DataModels.WikiPage()
                             {
                                 Id = existingPage?.Id ?? 0,
                                 Name = defaultWikiPage.Name,

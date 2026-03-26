@@ -20,7 +20,7 @@ namespace TightWiki.Engine.Library.Interfaces
         IInternalLinkHandler InternalLinkHandler { get; }
         IExceptionHandler ExceptionHandler { get; }
         ICompletionHandler CompletionHandler { get; }
-        Task<ITightEngineState> Transform(ISharedLocalizationText localizer, ISessionState? sessionState, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null);
+        Task<ITightEngineState> Transform(ISharedLocalizationText localizer, ISessionState? sessionState, IWikiPage page, int? revision = null, WikiMatchType[]? omitMatches = null);
         //ITightEngineState TransformChild(ITightEngineState parent, IPage page, int? revision = null);
     }
 }

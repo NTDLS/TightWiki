@@ -63,7 +63,7 @@ namespace TightWiki.Engine
         /// <param name="page">The page that is being processed.</param>
         /// <param name="revision">The revision of the page that is being processed.</param>
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
-        public async Task<ITightEngineState> Transform(ISharedLocalizationText localizer, ISessionState? session, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null)
+        public async Task<ITightEngineState> Transform(ISharedLocalizationText localizer, ISessionState? session, IWikiPage page, int? revision = null, WikiMatchType[]? omitMatches = null)
         {
             var childState = new TightEngineState(Logger, this, localizer, session, page, revision, omitMatches);
             return await childState.Transform();

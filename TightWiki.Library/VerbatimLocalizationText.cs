@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.Localization;
-using TightWiki.Library;
 
-namespace TightWiki.Translations
+namespace TightWiki.Library
 {
-    public class DummyLocalizationText
+    public class VerbatimLocalizationText
         : ISharedLocalizationText
     {
         public LocalizedString this[string key]
