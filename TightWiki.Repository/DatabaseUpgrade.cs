@@ -15,25 +15,25 @@ namespace TightWiki.Repository
         /// <summary>
         /// Gets the current version stored in the VersionState table.
         /// </summary>
-        public static string GetVersionStateVersion()
-            => ManagedDataStorage.Config.ExecuteScalar<string>(@"Scripts\Initialization\GetVersionStateVersion.sql") ?? "0.0.0";
+        public static async Task<string> GetVersionStateVersion()
+            => await ManagedDataStorage.Config.ExecuteScalarAsync<string>(@"Scripts\Initialization\GetVersionStateVersion.sql") ?? "0.0.0";
 
         /// <summary>
         /// Stores the current assembly version into the VersionState table.
         /// </summary>
-        public static void SetVersionStateVersion()
+        public static async Task SetVersionStateVersion()
         {
             var version = string.Join('.', //Note that we only care about major.minor.patch hence the Take(3).
                 (Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0.0").Split('.').Take(3));
 
-            ManagedDataStorage.Config.Execute(@"Scripts\Initialization\SetVersionStateVersion.sql", new { Version = version });
+            await ManagedDataStorage.Config.ExecuteAsync(@"Scripts\Initialization\SetVersionStateVersion.sql", new { Version = version });
         }
 
         /// <summary>
         /// See @Initialization.Versions.md
         /// Returns true if an upgrade was performed, false if the database was already at the latest version.
         /// </summary>
-        public static bool ApplyDatabaseUpgradeScripts(ILogger logger)
+        public static async Task<bool> ApplyDatabaseUpgradeScripts(ILogger logger)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace TightWiki.Repository
                 string startVersionTag = ".Initialization.Versions.";
                 string endVersionTag = ".^";
 
-                var versionString = GetVersionStateVersion();
+                var versionString = await GetVersionStateVersion();
                 int storedPaddedVersion = Utility.PadVersionString(versionString);
 
                 var assembly = Assembly.GetExecutingAssembly();
@@ -71,7 +71,7 @@ namespace TightWiki.Repository
                     {
                         int endIndex = fullPreInitScriptPath.IndexOf(endVersionTag, startPreTagIndex, StringComparison.InvariantCultureIgnoreCase);
                         var scriptName = fullPreInitScriptPath.Substring(endIndex + endVersionTag.Length).Trim().Replace("_", "");
-                        ProcessInitializationScript(logger, assembly, fullPreInitScriptPath, scriptName);
+                        await ProcessInitializationScript(logger, assembly, fullPreInitScriptPath, scriptName);
                     }
                 }
 
@@ -96,7 +96,7 @@ namespace TightWiki.Repository
                             int filesFolderVersion = Utility.PadVersionString(fullVersionedInitScriptPath.Substring(startVersionTagIndex, endIndex - startVersionTagIndex).Trim().Replace("_", ""));
                             if (filesFolderVersion > storedPaddedVersion)
                             {
-                                ProcessInitializationScript(logger, assembly, fullVersionedInitScriptPath, scriptName);
+                                await ProcessInitializationScript(logger, assembly, fullVersionedInitScriptPath, scriptName);
                             }
                         }
                     }
@@ -114,11 +114,11 @@ namespace TightWiki.Repository
                     {
                         int endIndex = fullPostInitScriptPath.IndexOf(endVersionTag, startPostTagIndex, StringComparison.InvariantCultureIgnoreCase);
                         var scriptName = fullPostInitScriptPath.Substring(endIndex + endVersionTag.Length).Trim().Replace("_", "");
-                        ProcessInitializationScript(logger, assembly, fullPostInitScriptPath, scriptName);
+                        await ProcessInitializationScript(logger, assembly, fullPostInitScriptPath, scriptName);
                     }
                 }
 
-                SetVersionStateVersion();
+                await SetVersionStateVersion();
                 return true;
             }
             catch (Exception ex)
@@ -137,7 +137,7 @@ namespace TightWiki.Repository
         /// <param name="overwrite">true to overwrite the existing defaults database if it exists; otherwise, false to leave the existing file
         /// unchanged.</param>
         /// <returns>The full path to the created or existing defaults database file, or null if the operation fails.</returns>
-        public static string? CreateDefaultsDatabase(ILogger logger, ConfigurationManager configuration, bool overwrite)
+        public static async Task<string?> CreateDefaultsDatabase(ILogger logger, ConfigurationManager configuration, bool overwrite)
         {
             try
             {
@@ -149,7 +149,7 @@ namespace TightWiki.Repository
                     databasePath = Path.GetDirectoryName(configDatabase);
                     if (databasePath == null)
                     {
-                        LoggingRepository.WriteException("Could not determine the directory for the config database.");
+                        await LoggingRepository.WriteException("Could not determine the directory for the config database.");
                         return null;
                     }
                 }
@@ -160,7 +160,7 @@ namespace TightWiki.Repository
                 {
                     logger.LogInformation("Creating defaults database.");
                     var defaultDatabaseBytes = EmbeddedResourceReader.LoadBytes(@"Defaults\defaults.db");
-                    File.WriteAllBytes(defaultsDatabasePath, defaultDatabaseBytes);
+                    await File.WriteAllBytesAsync(defaultsDatabasePath, defaultDatabaseBytes);
                 }
                 return defaultsDatabasePath;
             }
@@ -175,7 +175,7 @@ namespace TightWiki.Repository
         {
             #region Seed: AdminUser.
 
-            var adminUserId = ManagedDataStorage.Users.QueryFirstOrDefault<Guid?>(@"Scripts\Defaults\GetAdminUserId.sql");
+            var adminUserId = await ManagedDataStorage.Users.QueryFirstOrDefaultAsync<Guid?>(@"Scripts\Defaults\GetAdminUserId.sql");
 
             //Check to see if we already have an admin user. If not, we will create one with a random password.
             try
@@ -205,11 +205,11 @@ namespace TightWiki.Repository
 
                             adminUserId = Guid.Parse(await userManager.GetUserIdAsync(user));
 
-                            UsersRepository.CreateProfile(adminUserId.Value, user.UserName);
+                            await UsersRepository.CreateProfile(adminUserId.Value, user.UserName);
 
                             var claimsToAdd = new List<Claim> { new("firstname", "Database"), new("lastname", "Upgrade") };
 
-                            SecurityRepository.UpsertUserClaims(userManager, user, claimsToAdd);
+                            await SecurityRepository.UpsertUserClaims(userManager, user, claimsToAdd);
                         }
                     }
                 }
@@ -238,7 +238,7 @@ namespace TightWiki.Repository
                     var defaultConfigurationGroups = ManagedDataStorage.Defaults.Query<DefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurationGroups.sql");
                     foreach (var defaultConfigurationGroup in defaultConfigurationGroups)
                     {
-                        ManagedDataStorage.Config.Execute(@"Scripts\Defaults\Merge\MergeConfigurationGroup.sql",
+                        await ManagedDataStorage.Config.ExecuteAsync(@"Scripts\Defaults\Merge\MergeConfigurationGroup.sql",
                             new
                             {
                                 Name = defaultConfigurationGroup.ConfigurationGroupName,
@@ -256,7 +256,7 @@ namespace TightWiki.Repository
                     var defaultConfigurations = ManagedDataStorage.Defaults.Query<DefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurations.sql");
                     foreach (var defaultConfiguration in defaultConfigurations)
                     {
-                        ManagedDataStorage.Config.Execute(@"Scripts\Defaults\Merge\MergeConfigurationEntry.sql",
+                        await ManagedDataStorage.Config.ExecuteAsync(@"Scripts\Defaults\Merge\MergeConfigurationEntry.sql",
                             new
                             {
                                 Name = defaultConfiguration.ConfigurationEntryName,
@@ -287,7 +287,7 @@ namespace TightWiki.Repository
                     var defaultThemes = ManagedDataStorage.Defaults.Query<DefaultTheme>(@"Scripts\Defaults\GetDefaultThemes.sql");
                     foreach (var defaultTheme in defaultThemes)
                     {
-                        ManagedDataStorage.Config.Execute(@"Scripts\Defaults\Merge\MergeTheme.sql",
+                        await ManagedDataStorage.Config.ExecuteAsync(@"Scripts\Defaults\Merge\MergeTheme.sql",
                             new
                             {
                                 Name = defaultTheme.Name,
@@ -341,7 +341,7 @@ namespace TightWiki.Repository
 
                     foreach (var defaultWikiPage in defaultWikiPages)
                     {
-                        var existingPage = ManagedDataStorage.Pages.QueryFirstOrDefault<Models.DataModels.Page>(@"Scripts\Defaults\GetPageByNavigation.sql",
+                        var existingPage = await ManagedDataStorage.Pages.QueryFirstOrDefaultAsync<Models.DataModels.Page>(@"Scripts\Defaults\GetPageByNavigation.sql",
                             new { Navigation = defaultWikiPage.Navigation });
 
                         //if (existingPage == null || existingPage.DataHash != defaultWikiPage.DataHash)
@@ -360,7 +360,7 @@ namespace TightWiki.Repository
                                 ModifiedDate = DateTime.UtcNow
                             };
 
-                            RepositoryHelpers.UpsertPage(tightEngine, localizer, wikiPage, dummySessionState);
+                            await RepositoryHelpers.UpsertPage(tightEngine, localizer, wikiPage, dummySessionState);
                         }
                     }
                 }
@@ -381,7 +381,7 @@ namespace TightWiki.Repository
                     var defaultFeatureTemplates = ManagedDataStorage.Defaults.Query<DefaultFeatureTemplate>(@"Scripts\Defaults\GetDefaultFeatureTemplates.sql");
                     foreach (var defaultFeatureTemplate in defaultFeatureTemplates)
                     {
-                        ManagedDataStorage.Pages.Execute(@"Scripts\Defaults\Merge\MergeFeatureTemplate.sql",
+                        await ManagedDataStorage.Pages.ExecuteAsync(@"Scripts\Defaults\Merge\MergeFeatureTemplate.sql",
                             new
                             {
                                 Name = defaultFeatureTemplate.Name,
@@ -401,7 +401,7 @@ namespace TightWiki.Repository
             #endregion
         }
 
-        private static void ProcessInitializationScript(ILogger logger, Assembly assembly, string fullUpdateScriptPath, string scriptName)
+        private static async Task ProcessInitializationScript(ILogger logger, Assembly assembly, string fullUpdateScriptPath, string scriptName)
         {
             logger.LogInformation($"Executing initialization script: \"{fullUpdateScriptPath}\"");
 
@@ -500,7 +500,7 @@ namespace TightWiki.Repository
 
             if (shouldExecute)
             {
-                databaseFactory.Execute(scriptText);
+                await databaseFactory.ExecuteAsync(scriptText);
             }
         }
     }

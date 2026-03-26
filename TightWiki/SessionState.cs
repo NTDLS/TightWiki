@@ -58,19 +58,19 @@ namespace TightWiki
         /// <summary>
         /// This method is used to hydrate the session state from PageModelBase.
         /// </summary>
-        public SessionState Hydrate(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, PageModel pageModel)
+        public async Task<SessionState> Hydrate(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, PageModel pageModel)
         {
             Logger = logger;
             QueryString = pageModel.Request.Query;
 
-            HydrateSecurityContext(pageModel.HttpContext, signInManager, pageModel.User);
+            await HydrateSecurityContext(pageModel.HttpContext, signInManager, pageModel.User);
             return this;
         }
 
         /// <summary>
         /// This method is used to hydrate the session state from WikiControllerBase.
         /// </summary>
-        public SessionState Hydrate(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, Controller controller)
+        public async Task<SessionState> Hydrate(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, Controller controller)
         {
             Logger = logger;
 
@@ -78,7 +78,7 @@ namespace TightWiki
             PageNavigation = RouteValue("givenCanonical", "Home");
             PageNavigationEscaped = Uri.EscapeDataString(PageNavigation);
 
-            HydrateSecurityContext(controller.HttpContext, signInManager, controller.User);
+            await HydrateSecurityContext(controller.HttpContext, signInManager, controller.User);
 
             string RouteValue(string key, string defaultValue = "")
             {
@@ -92,7 +92,7 @@ namespace TightWiki
             return this;
         }
 
-        private void HydrateSecurityContext(HttpContext httpContext, SignInManager<IdentityUser> signInManager, ClaimsPrincipal user)
+        private async Task HydrateSecurityContext(HttpContext httpContext, SignInManager<IdentityUser> signInManager, ClaimsPrincipal user)
         {
             IsAuthenticated = false;
 
@@ -108,12 +108,13 @@ namespace TightWiki
                     {
                         var userId = Guid.Parse((user.Claims.First(x => x.Type == ClaimTypes.NameIdentifier)?.Value).EnsureNotNull());
 
-                        if (UsersRepository.TryGetBasicProfileByUserId(userId, out var profile))
+                        var profile = await UsersRepository.GetBasicProfileByUserId(userId);
+                        if (profile != null)
                         {
                             Profile = profile;
-                            IsAdministrator = UsersRepository.IsUserMemberOfAdministrators(userId);
-                            Permissions = UsersRepository.GetApparentAccountPermissions(userId).ToList();
-                            UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == Profile.Theme) ?? GlobalConfiguration.SystemTheme;
+                            IsAdministrator = await UsersRepository.IsUserMemberOfAdministrators(userId);
+                            Permissions = await UsersRepository.GetApparentAccountPermissions(userId);
+                            UserTheme = (await ConfigurationRepository.GetAllThemes()).SingleOrDefault(o => o.Name == Profile.Theme) ?? GlobalConfiguration.SystemTheme;
                             IsAuthenticated = true;
                             return;
                         }
@@ -126,23 +127,23 @@ namespace TightWiki
                 }
                 catch (Exception ex)
                 {
-                    httpContext.SignOutAsync();
+                    await httpContext.SignOutAsync();
                     if (user.Identity != null)
                     {
-                        httpContext.SignOutAsync(user.Identity.AuthenticationType);
+                        await httpContext.SignOutAsync(user.Identity.AuthenticationType);
                     }
 
                     Logger?.LogError(ex, "An error occurred while hydrating the security context.");
                 }
             }
 
-            Permissions = UsersRepository.GetApparentRolePermissions(WikiRoles.Anonymous).ToList();
+            Permissions = await UsersRepository.GetApparentRolePermissions(WikiRoles.Anonymous);
         }
 
         /// <summary>
         /// Sets the current context pageId and optionally the revision.
         /// </summary>
-        public void SetPageId(int? pageId, int? revision = null)
+        public async Task SetPageId(int? pageId, int? revision = null)
         {
             Page = new Models.DataModels.Page();
             PageInstructions = new();
@@ -150,14 +151,15 @@ namespace TightWiki
 
             if (pageId != null)
             {
-                Page = PageRepository.GetLimitedPageInfoByIdAndRevision((int)pageId, revision)
+                Page = await PageRepository.GetLimitedPageInfoByIdAndRevision((int)pageId, revision)
                     ?? throw new Exception("Page not found");
 
-                PageInstructions = PageRepository.GetPageProcessingInstructionsByPageId(Page.Id);
+                PageInstructions = await PageRepository.GetPageProcessingInstructionsByPageId(Page.Id);
 
                 if (GlobalConfiguration.IncludeWikiTagsInMeta)
                 {
-                    PageTags = string.Join(",", PageRepository.GetPageTagsById(Page.Id)?.Select(o => o.Tag) ?? []);
+                    PageTags = string.Join(",", (await PageRepository.GetPageTagsById(Page.Id))
+                        ?.Select(o => o.Tag) ?? []);
                 }
             }
         }
@@ -168,26 +170,26 @@ namespace TightWiki
         /// Returns true if the user holds any of the the given permissions for the current page.
         /// This is only applicable after SetPageId() has been called, to this is intended to be used in views NOT controllers.
         /// </summary>
-        public bool HoldsPermission(WikiPermission[] permissions)
-            => HoldsPermission(Page.Navigation, permissions);
+        public async Task<bool> HoldsPermission(WikiPermission[] permissions)
+            => await HoldsPermission(Page.Navigation, permissions);
 
         /// <summary>
         /// Returns true if the user holds the given permission for the current page.
         /// This is only applicable after SetPageId() has been called, to this is intended to be used in views NOT controllers.
         /// </summary>
-        public bool HoldsPermission(WikiPermission permission)
-            => HoldsPermission(Page.Navigation, permission);
+        public async Task<bool> HoldsPermission(WikiPermission permission)
+            => await HoldsPermission(Page.Navigation, permission);
 
         /// <summary>
         /// Returns true if the user holds the given permission for given page.
         /// </summary>
-        public bool HoldsPermission(string? givenCanonical, WikiPermission permission)
-            => HoldsPermission(givenCanonical, [permission]);
+        public async Task<bool> HoldsPermission(string? givenCanonical, WikiPermission permission)
+            => await HoldsPermission(givenCanonical, [permission]);
 
         /// <summary>
         /// Returns true if the user holds any of the given permission for given page.
         /// </summary>
-        public bool HoldsPermission(string? givenCanonical, WikiPermission[] permissions)
+        public async Task<bool> HoldsPermission(string? givenCanonical, WikiPermission[] permissions)
         {
             if (IsAdministrator)
             {
@@ -196,14 +198,14 @@ namespace TightWiki
 
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [givenCanonical, Profile?.UserId, string.Join("|", permissions).ToLowerInvariant()]);
 
-            return WikiCache.AddOrGet(cacheKey, () =>
+            return await WikiCache.AddOrGetAsync(cacheKey, async () =>
             {
                 Models.DataModels.Page? page = null;
 
                 if (givenCanonical != null)
                 {
                     var navigation = new NamespaceNavigation(givenCanonical);
-                    page = PageRepository.GetPageInfoByNavigation(navigation.Canonical);
+                    page = await PageRepository.GetPageInfoByNavigation(navigation.Canonical);
                 }
 
                 foreach (var permission in permissions)
@@ -299,7 +301,7 @@ namespace TightWiki
             return null;
         }
 
-        public void RequireAuthorizedPermission()
+        public async Task RequireAuthorizedPermission()
         {
             if (!IsAuthenticated)
             {
@@ -311,9 +313,9 @@ namespace TightWiki
         /// <summary>
         /// Throws an exception if the user does not hold any of the given permission for given page.
         /// </summary>
-        public void RequirePermission(string? givenCanonical, WikiPermission[] permissions)
+        public async Task RequirePermission(string? givenCanonical, WikiPermission[] permissions)
         {
-            if (!HoldsPermission(givenCanonical, permissions))
+            if (!await HoldsPermission(givenCanonical, permissions))
             {
                 var localizer = LocalizerFactory.Create();
                 throw new UnauthorizedException(localizer["You do not have permission to perform the action: {0}"]
@@ -324,9 +326,9 @@ namespace TightWiki
         /// <summary>
         /// Throws an exception if the user does not hold the given permission for given page.
         /// </summary>
-        public void RequirePermission(string? givenCanonical, WikiPermission permission)
+        public async Task RequirePermission(string? givenCanonical, WikiPermission permission)
         {
-            if (!HoldsPermission(givenCanonical, permission))
+            if (!await HoldsPermission(givenCanonical, permission))
             {
                 var localizer = LocalizerFactory.Create();
                 throw new UnauthorizedException(localizer["You do not have permission to perform the action: {0}"]
@@ -337,7 +339,7 @@ namespace TightWiki
         /// <summary>
         /// Throws an exception if the user is not an administrator.
         /// </summary>
-        public void RequireAdminPermission()
+        public async Task RequireAdminPermission()
         {
             if (!IsAdministrator)
             {

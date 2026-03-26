@@ -3,7 +3,8 @@
     /// <summary>
     /// Handles standard function calls.
     /// </summary>
-    public interface IStandardFunctionHandler : IFunctionHandler
+    public interface IStandardFunctionHandler
+        : IFunctionHandler
     {
     }
 }

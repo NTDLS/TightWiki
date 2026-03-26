@@ -19,7 +19,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NTDLS.SqliteDapperWrapper" Version="1.4.0" />
+		<PackageReference Include="NTDLS.SqliteDapperWrapper" Version="1.4.2" />
 	</ItemGroup>
 
 	<ItemGroup>

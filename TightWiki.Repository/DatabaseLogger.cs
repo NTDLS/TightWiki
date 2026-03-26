@@ -23,15 +23,25 @@ namespace TightWiki.Repository
             Exception? exception,
             Func<TState, Exception?, string> formatter)
         {
+            if (!IsEnabled(logLevel)) return;
+
             var message = formatter(state, exception);
-            try
+
+            _ = Task.Run(async () =>
             {
-                LoggingRepository.WriteLog(logLevel, message, exception?.GetBaseException()?.Message, exception?.StackTrace);
-            }
-            catch
-            {
-                Console.WriteLine($"{message} {exception}");
-            }
+                try
+                {
+                    await LoggingRepository.WriteLog(
+                        logLevel,
+                        message,
+                        exception?.GetBaseException()?.Message,
+                        exception?.StackTrace);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Logging failed: {ex}");
+                }
+            });
         }
 
         IDisposable? ILogger.BeginScope<TState>(TState state)

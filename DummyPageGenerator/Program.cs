@@ -22,12 +22,12 @@ namespace DummyPageGenerator
         public class NoOpCompletionHandler
             : ICompletionHandler
         {
-            public void Complete(ITightEngineState state)
+            public async Task Complete(ITightEngineState state)
             {
             }
         }
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             SqlMapper.AddTypeHandler(new GuidTypeHandler());
 
@@ -87,7 +87,7 @@ namespace DummyPageGenerator
             var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
             var userStore = serviceProvider.GetRequiredService<IUserStore<IdentityUser>>();
 
-            ConfigurationRepository.ReloadEverything();
+            await ConfigurationRepository.ReloadEverything();
 
             var pg = new PageGenerator(new DummyLocalizationText(), userManager);
 
@@ -99,19 +99,19 @@ namespace DummyPageGenerator
 
                 foreach (var user in pg.Users)
                 {
-                    workload.Enqueue(() =>
+                    workload.Enqueue(async () =>
                     {
                         using var scope = host.Services.CreateScope();
                         var engine = scope.ServiceProvider.GetRequiredService<TightEngine>();
 
                         //Create a new page:
-                        pg.GeneratePage(engine, user.UserId);
+                        await pg.GeneratePage(engine, user.UserId);
 
                         //Modify existing pages:
                         int modifications = pg.Random.Next(0, 10);
                         for (int i = 0; i < modifications; i++)
                         {
-                            pg.ModifyRandomPages(engine, user.UserId);
+                            await pg.ModifyRandomPages(engine, user.UserId);
                         }
                     });
                 }

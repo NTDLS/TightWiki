@@ -29,10 +29,11 @@ namespace TightWiki
             SignInManager = signInManager;
         }
 
-        public override void OnPageHandlerExecuting(PageHandlerExecutingContext context)
+        public override async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
         {
-            var sessionState = SessionState.Hydrate(Logger, SignInManager, this);
+            var sessionState = await SessionState.Hydrate(Logger, SignInManager, this);
             ViewData["SessionState"] = sessionState;
+            await next();
         }
 
         [NonAction]

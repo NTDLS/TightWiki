@@ -40,7 +40,7 @@
                     <i class="bi bi-arrow-clockwise me-1"></i>@Localizer["View latest revision"]
                 </a>
 
-                @if (sessionState.HoldsPermission(WikiPermission.Moderate))
+                @if (await sessionState.HoldsPermission(WikiPermission.Moderate))
                 {
                     <a class="btn btn-warning btn-sm"
                            href="@GlobalConfiguration.BasePath/@Model.Navigation/revert/@Model.Revision">
@@ -154,7 +154,7 @@
                                 <span>@Html.DisplayTextFor(x => h.CreatedDate)</span>
                             </div>
 
-                            @if (sessionState.HoldsPermission(WikiPermission.Moderate) == true || h.UserId == sessionState.Profile?.UserId)
+                            @if (await sessionState.HoldsPermission(WikiPermission.Moderate) || h.UserId == sessionState.Profile?.UserId)
                             {
                                 <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Comments?Delete=@h.Id"
                                        class="small text-danger text-decoration-none"

@@ -7,6 +7,7 @@ namespace TightWiki.Caching
     public class WikiCache
     {
         public delegate T? GetValueDelegate<T>();
+        public delegate Task<T?> GetValueDelegateAsync<T>();
 
         public enum Category
         {
@@ -142,6 +143,46 @@ namespace TightWiki.Caching
         /// <summary>
         /// Tries to get a value from cache, if it does not exist then a delegate is called to get the value and it is then cached.
         /// </summary>
+        public static async Task<T?> AddOrGetAsync<T>(IWikiCacheKey cacheKey, bool forceReCache, GetValueDelegateAsync<T?> getValueDelegate, TimeSpan? cacheExpiration = null)
+        {
+            if (_memCache == null)
+            {
+                return await getValueDelegate();
+            }
+
+            T? result;
+
+            if (!forceReCache)
+            {
+                if (TryGet<T>(cacheKey, out result))
+                {
+                    return result;
+                }
+            }
+
+            result = await getValueDelegate();
+
+            if (result != null)
+            {
+                cacheExpiration ??= DefaultCacheExpiration;
+                if (cacheExpiration.Value.TotalSeconds <= 0)
+                {
+                    return result;
+                }
+
+                var policy = new CacheItemPolicy()
+                {
+                    AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(cacheExpiration.Value.TotalSeconds)
+                };
+                MemCache.Add(cacheKey.Key, result, policy);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Tries to get a value from cache, if it does not exist then a delegate is called to get the value and it is then cached.
+        /// </summary>
         public static T? AddOrGet<T>(IWikiCacheKey cacheKey, GetValueDelegate<T?> getValueDelegate, TimeSpan? cacheExpiration = null)
         {
             if (_memCache == null)
@@ -155,6 +196,42 @@ namespace TightWiki.Caching
             }
 
             result = getValueDelegate();
+
+            if (result != null)
+            {
+                cacheExpiration ??= DefaultCacheExpiration;
+                if (cacheExpiration.Value.TotalSeconds <= 0)
+                {
+                    return result;
+                }
+
+                var policy = new CacheItemPolicy()
+                {
+                    AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(cacheExpiration.Value.TotalSeconds)
+                };
+                CacheSets++;
+                Set(cacheKey, result, policy);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Tries to get a value from cache, if it does not exist then a delegate is called to get the value and it is then cached.
+        /// </summary>
+        public static async Task<T?> AddOrGetAsync<T>(IWikiCacheKey cacheKey, GetValueDelegateAsync<T?> getValueDelegate, TimeSpan? cacheExpiration = null)
+        {
+            if (_memCache == null)
+            {
+                return await getValueDelegate();
+            }
+
+            if (TryGet<T>(cacheKey, out var result))
+            {
+                return result;
+            }
+
+            result = await getValueDelegate();
 
             if (result != null)
             {

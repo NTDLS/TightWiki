@@ -21,10 +21,11 @@ namespace TightWiki.Controllers
         public readonly UserManager<IdentityUser> UserManager = userManager;
 
         [NonAction]
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var sessionState = SessionState.Hydrate(Logger, SignInManager, this);
+            var sessionState = await SessionState.Hydrate(Logger, SignInManager, this);
             ViewData["SessionState"] = sessionState;
+            await next();
         }
 
         [NonAction]

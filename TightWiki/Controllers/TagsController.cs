@@ -18,13 +18,13 @@ namespace TightWiki.Controllers
     {
         [AllowAnonymous]
         [HttpGet("Browse/{givenCanonical}")]
-        public ActionResult Browse(string givenCanonical)
+        public async Task<ActionResult> Browse(string givenCanonical)
         {
             try
             {
                 try
                 {
-                    SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
+                    await SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
                 }
                 catch (Exception ex)
                 {
@@ -35,7 +35,7 @@ namespace TightWiki.Controllers
                 givenCanonical = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
                 string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
-                var pages = PageRepository.GetPageInfoByTag(givenCanonical).OrderBy(o => o.Name).ToList();
+                var pages = (await PageRepository.GetPageInfoByTag(givenCanonical)).OrderBy(o => o.Name).ToList();
                 var glossaryHtml = new StringBuilder();
                 var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpperInvariant()).Distinct();
 
@@ -74,7 +74,7 @@ namespace TightWiki.Controllers
                 var model = new BrowseViewModel
                 {
                     AssociatedPages = glossaryHtml.ToString(),
-                    TagCloud = TagCloud.Build(givenCanonical, 100)
+                    TagCloud = await TagCloud.Build(givenCanonical, 100)
                 };
 
                 return View(model);

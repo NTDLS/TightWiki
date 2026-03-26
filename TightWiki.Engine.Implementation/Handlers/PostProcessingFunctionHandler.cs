@@ -63,7 +63,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="function">The parsed function call and all its parameters and their values.</param>
         /// <param name="scopeBody">This is not a scope function, this should always be null</param>
-        public HandlerResult Handle(ITightEngineState state, FunctionCall function, string? scopeBody = null)
+        public async Task<HandlerResult> Handle(ITightEngineState state, FunctionCall function, string? scopeBody = null)
         {
             switch (function.Name.ToLowerInvariant())
             {
@@ -101,7 +101,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         var top = function.Parameters.Get<int>("Top");
                         string seedTag = function.Parameters.Get<string>("pageTag");
 
-                        string html = TagCloud.Build(seedTag, top);
+                        string html = await TagCloud.Build(seedTag, top);
                         return new HandlerResult(html);
                     }
 
@@ -111,7 +111,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         var top = function.Parameters.Get<int>("Top");
                         var tokens = function.Parameters.Get<string>("searchPhrase").Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
 
-                        string html = SearchCloud.Build(tokens, top);
+                        string html = await SearchCloud.Build(tokens, top);
                         return new HandlerResult(html);
                     }
 

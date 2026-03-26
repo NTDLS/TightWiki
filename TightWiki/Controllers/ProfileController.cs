@@ -35,7 +35,7 @@ namespace TightWiki.Controllers
         [AllowAnonymous]
         [HttpGet]
         [HttpGet("{userAccountName}/Avatar")]
-        public ActionResult Avatar(string userAccountName)
+        public async Task<ActionResult> Avatar(string userAccountName)
         {
             try
             {
@@ -50,8 +50,7 @@ namespace TightWiki.Controllers
                 ProfileAvatar? avatar;
                 if (GlobalConfiguration.EnablePublicProfiles)
                 {
-                    avatar = UsersRepository.GetProfileAvatarByNavigation(NamespaceNavigation.CleanAndValidate(userAccountName))
-                        ?? new ProfileAvatar();
+                    avatar = await UsersRepository.GetProfileAvatarByNavigation(NamespaceNavigation.CleanAndValidate(userAccountName)) ?? new ProfileAvatar();
                 }
                 else
                 {
@@ -195,7 +194,7 @@ namespace TightWiki.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpGet("{userAccountName}/Public")]
-        public ActionResult Public(string userAccountName)
+        public async Task<ActionResult> Public(string userAccountName)
         {
             try
             {
@@ -211,7 +210,8 @@ namespace TightWiki.Controllers
                     });
                 }
 
-                if (UsersRepository.TryGetAccountProfileByNavigation(userAccountName, out var accountProfile) == false)
+                var accountProfile = await UsersRepository.GetAccountProfileByNavigation(userAccountName);
+                if (accountProfile == null)
                 {
                     return View(new PublicViewModel
                     {
@@ -231,13 +231,13 @@ namespace TightWiki.Controllers
                     Avatar = accountProfile.Avatar
                 };
 
-                model.RecentlyModified = PageRepository.GetTopRecentlyModifiedPagesInfoByUserId(accountProfile.UserId, GlobalConfiguration.DefaultProfileRecentlyModifiedCount)
+                model.RecentlyModified = (await PageRepository.GetTopRecentlyModifiedPagesInfoByUserId(accountProfile.UserId, GlobalConfiguration.DefaultProfileRecentlyModifiedCount))
                     .OrderByDescending(o => o.ModifiedDate).ThenBy(o => o.Name).ToList();
 
                 foreach (var item in model.RecentlyModified)
                 {
-                    var thisRev = PageRepository.GetPageRevisionByNavigation(item.Navigation, item.Revision);
-                    var prevRev = PageRepository.GetPageRevisionByNavigation(item.Navigation, item.Revision - 1);
+                    var thisRev = await PageRepository.GetPageRevisionByNavigation(item.Navigation, item.Revision);
+                    var prevRev = await PageRepository.GetPageRevisionByNavigation(item.Navigation, item.Revision - 1);
                     item.ChangeAnalysis = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
                 }
 
@@ -256,13 +256,13 @@ namespace TightWiki.Controllers
         [Authorize]
         [HttpGet]
         [HttpGet("My")]
-        public ActionResult My()
+        public async Task<ActionResult> My()
         {
             try
             {
                 try
                 {
-                    SessionState.RequireAuthorizedPermission();
+                    await SessionState.RequireAuthorizedPermission();
                 }
                 catch (Exception ex)
                 {
@@ -273,9 +273,9 @@ namespace TightWiki.Controllers
                 var model = new AccountProfileViewModel()
                 {
                     AccountProfile = AccountProfileAccountViewModel.FromDataModel(
-                        UsersRepository.GetAccountProfileByUserId(SessionState.Profile.EnsureNotNull().UserId)),
+                         await UsersRepository.GetAccountProfileByUserId(SessionState.Profile.EnsureNotNull().UserId)),
 
-                    Themes = ConfigurationRepository.GetAllThemes(),
+                    Themes = await ConfigurationRepository.GetAllThemes(),
                     TimeZones = TimeZoneItem.GetAll(),
                     Countries = CountryItem.GetAll(),
                     Languages = LanguageItem.GetAll()
@@ -298,13 +298,13 @@ namespace TightWiki.Controllers
         /// </summary>
         [Authorize]
         [HttpPost("My")]
-        public ActionResult My(AccountProfileViewModel model)
+        public async Task<ActionResult> My(AccountProfileViewModel model)
         {
             try
             {
                 try
                 {
-                    SessionState.RequireAuthorizedPermission();
+                    await SessionState.RequireAuthorizedPermission();
                 }
                 catch (Exception ex)
                 {
@@ -315,7 +315,7 @@ namespace TightWiki.Controllers
                 model.TimeZones = TimeZoneItem.GetAll();
                 model.Countries = CountryItem.GetAll();
                 model.Languages = LanguageItem.GetAll();
-                model.Themes = ConfigurationRepository.GetAllThemes();
+                model.Themes = await ConfigurationRepository.GetAllThemes();
 
                 //Get the UserId from the logged in context because we do not trust anything from the model.
                 var userId = SessionState.Profile.EnsureNotNull().UserId;
@@ -327,10 +327,10 @@ namespace TightWiki.Controllers
 
                 var user = UserManager.FindByIdAsync(userId.ToString()).Result.EnsureNotNull();
 
-                var profile = UsersRepository.GetAccountProfileByUserId(userId);
+                var profile = await UsersRepository.GetAccountProfileByUserId(userId);
                 if (!profile.Navigation.Equals(model.AccountProfile.Navigation, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    if (UsersRepository.DoesProfileAccountExist(model.AccountProfile.AccountName))
+                    if (await UsersRepository.DoesProfileAccountExist(model.AccountProfile.AccountName))
                     {
                         ModelState.AddModelError("Account.AccountName", Localize("Account name is already in use."));
                         return View(model);
@@ -356,7 +356,7 @@ namespace TightWiki.Controllers
                         {
                             var imageBytes = Utility.ConvertHttpFileToBytes(file);
                             var image = Utility.CropImageToCenteredSquare(new MemoryStream(imageBytes));
-                            UsersRepository.UpdateProfileAvatar(profile.UserId, image, "image/webp");
+                            await UsersRepository.UpdateProfileAvatar(profile.UserId, image, "image/webp");
                         }
                         catch
                         {
@@ -369,7 +369,7 @@ namespace TightWiki.Controllers
                 profile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName);
                 profile.Biography = model.AccountProfile.Biography;
                 profile.ModifiedDate = DateTime.UtcNow;
-                UsersRepository.UpdateProfile(profile);
+                await UsersRepository.UpdateProfile(profile);
 
                 var claims = new List<Claim>
                     {
@@ -380,13 +380,13 @@ namespace TightWiki.Controllers
                         new ("lastname", model.AccountProfile.LastName ?? ""),
                         new ("theme", model.AccountProfile.Theme ?? ""),
                     };
-                SecurityRepository.UpsertUserClaims(UserManager, user, claims);
+                await SecurityRepository.UpsertUserClaims(UserManager, user, claims);
 
-                SignInManager.RefreshSignInAsync(user);
+                await SignInManager.RefreshSignInAsync(user);
                 WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.Navigation]));
                 WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.UserId]));
 
-                UpdateUserCultureCookie(userId);
+                await UpdateUserCultureCookie(userId);
 
                 //Redirect so that the language and theme are applied immediately.
                 return LocalRedirect($"{GlobalConfiguration.BasePath}/Profile/My?SuccessMessage={Localize("Your profile has been saved.")}");
@@ -407,17 +407,17 @@ namespace TightWiki.Controllers
         /// </summary>
         [Authorize]
         [HttpPost("Delete")]
-        public ActionResult DeleteAccount(ConfirmActionViewModel model)
+        public async Task<ActionResult> DeleteAccount(ConfirmActionViewModel model)
         {
             try
             {
-                SessionState.RequireAuthorizedPermission();
+                await SessionState.RequireAuthorizedPermission();
             }
             catch (Exception ex)
             {
                 return NotifyOfError(ex.GetBaseException().Message, "/");
             }
-            var profile = UsersRepository.GetBasicProfileByUserId(SessionState.Profile.EnsureNotNull().UserId);
+            var profile = await UsersRepository.GetBasicProfileByUserId(SessionState.Profile.EnsureNotNull().UserId);
 
             if (model.UserSelection == true && profile != null)
             {
@@ -433,12 +433,12 @@ namespace TightWiki.Controllers
                     throw new Exception(string.Join("<br />\r\n", result.Errors.Select(o => o.Description)));
                 }
 
-                SignInManager.SignOutAsync();
+                await SignInManager.SignOutAsync();
 
-                UsersRepository.AnonymizeProfile(profile.UserId);
+                await UsersRepository.AnonymizeProfile(profile.UserId);
                 WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.Navigation]));
 
-                HttpContext.SignOutAsync(); //Do we still need this??
+                await HttpContext.SignOutAsync(); //Do we still need this??
                 return NotifyOfSuccess(Localize("Your account has been deleted."), $"/Profile/Deleted");
             }
 
@@ -450,7 +450,7 @@ namespace TightWiki.Controllers
         /// </summary>
         [Authorize]
         [HttpGet("Deleted")]
-        public ActionResult Deleted()
+        public async Task<ActionResult> Deleted()
         {
             var model = new DeletedAccountViewModel()
             {
@@ -461,12 +461,13 @@ namespace TightWiki.Controllers
         #endregion
 
         [NonAction]
-        private void UpdateUserCultureCookie(Guid userId)
+        private async Task UpdateUserCultureCookie(Guid userId)
         {
 
             try
             {
-                if (UsersRepository.TryGetBasicProfileByUserId(userId, out var profile))
+                var profile = await UsersRepository.GetBasicProfileByUserId(userId);
+                if (profile != null)
                 {
                     Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
                             CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(profile.Language)),

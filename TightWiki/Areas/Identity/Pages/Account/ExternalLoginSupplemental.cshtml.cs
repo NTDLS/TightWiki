@@ -66,7 +66,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         [BindProperty]
         public ExternalLoginSupplementalInputModel Input { get; set; } = new ExternalLoginSupplementalInputModel();
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
             try
             {
@@ -77,7 +77,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
                 }
 
-                PopulateDefaults();
+                await PopulateDefaults();
             }
             catch (Exception ex)
             {
@@ -86,13 +86,13 @@ namespace TightWiki.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private void PopulateDefaults()
+        private async Task PopulateDefaults()
         {
             Input.TimeZones = TimeZoneItem.GetAll();
             Input.Countries = CountryItem.GetAll();
             Input.Languages = LanguageItem.GetAll();
 
-            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
+            var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
 
             if (string.IsNullOrEmpty(Input.TimeZone))
                 Input.TimeZone = membershipConfig.Value<string>("Default TimeZone").EnsureNotNull();
@@ -115,7 +115,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
                 }
 
-                PopulateDefaults();
+                await PopulateDefaults();
 
                 if (!ModelState.IsValid)
                 {
@@ -127,7 +127,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     ModelState.AddModelError("Input.AccountName", _localizer["Display Name is required."]);
                     return Page();
                 }
-                else if (UsersRepository.DoesProfileAccountExist(Input.AccountName))
+                else if (await UsersRepository.DoesProfileAccountExist(Input.AccountName))
                 {
                     ModelState.AddModelError("Input.AccountName", _localizer["Display Name is already in use."]);
                     return Page();
@@ -158,20 +158,20 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     return NotifyOfError(_localizer["An error occurred while adding the login."]);
                 }
 
-                var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
-                UsersRepository.CreateProfile(Guid.Parse(user.Id), Input.AccountName);
-                UsersRepository.AddRoleMemberByname(Guid.Parse(user.Id), membershipConfig.Value<string>("Default Signup Role").EnsureNotNull());
+                var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
+                await UsersRepository.CreateProfile(Guid.Parse(user.Id), Input.AccountName);
+                await UsersRepository.AddRoleMemberByname(Guid.Parse(user.Id), membershipConfig.Value<string>("Default Signup Role").EnsureNotNull());
 
                 var claimsToAdd = new List<Claim>
-            {
-                new ("timezone", Input.TimeZone),
-                new (ClaimTypes.Country, Input.Country),
-                new ("language", Input.Language),
-                new ("firstname", Input.FirstName ?? ""),
-                new ("lastname", Input.LastName ?? ""),
-            };
+                {
+                    new ("timezone", Input.TimeZone),
+                    new (ClaimTypes.Country, Input.Country),
+                    new ("language", Input.Language),
+                    new ("firstname", Input.FirstName ?? ""),
+                    new ("lastname", Input.LastName ?? ""),
+                };
 
-                SecurityRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
+                await SecurityRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
 
                 await SignInManager.SignInAsync(user, isPersistent: false);
             }

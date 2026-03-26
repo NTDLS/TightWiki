@@ -18,6 +18,6 @@ namespace TightWiki.Engine.Library.Interfaces
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="function">The parsed function call and all its parameters and their values.</param>
         /// <param name="scopeBody">For scope functions, this is the text that the function is designed to affect.</param>
-        public HandlerResult Handle(ITightEngineState state, FunctionCall function, string? scopeBody = null);
+        public Task<HandlerResult> Handle(ITightEngineState state, FunctionCall function, string? scopeBody = null);
     }
 }

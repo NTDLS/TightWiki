@@ -39,7 +39,7 @@ namespace TightWiki.Controllers
         /// <param name="givenFileNavigation">The navigation link of the file.</param>
         /// <param name="fileRevision">The revision of the the file (NOT THE PAGE REVISION).</param>
         [HttpGet("Image/{givenPageNavigation}/{givenFileNavigation}/{fileRevision:int?}")]
-        public ActionResult Image(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
+        public async Task<ActionResult> Image(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace TightWiki.Controllers
                     return File(cached.Bytes, cached.ContentType);
                 }
 
-                var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
+                var file = await PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
                 if (file != null)
                 {
                     if (file.ContentType == "image/x-icon")
@@ -147,13 +147,13 @@ namespace TightWiki.Controllers
         /// <param name="fileRevision">The revision of the the FILE (NOT THE PAGE REVISION)</param>
         [AllowAnonymous]
         [HttpGet("Png/{givenPageNavigation}/{givenFileNavigation}/{fileRevision:int?}")]
-        public ActionResult Png(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
+        public async Task<ActionResult> Png(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
         {
             try
             {
                 try
                 {
-                    SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+                    await SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
                 }
                 catch (Exception ex)
                 {
@@ -171,7 +171,7 @@ namespace TightWiki.Controllers
                     return File(cached.Bytes, cached.ContentType);
                 }
 
-                var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
+                var file = await PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
                 if (file != null)
                 {
                     var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(file.Data)));
@@ -258,13 +258,13 @@ namespace TightWiki.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpGet("Binary/{givenPageNavigation}/{givenFileNavigation}/{fileRevision:int?}")]
-        public ActionResult Binary(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
+        public async Task<ActionResult> Binary(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
         {
             try
             {
                 try
                 {
-                    SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+                    await SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
                 }
                 catch (Exception ex)
                 {
@@ -273,7 +273,7 @@ namespace TightWiki.Controllers
                 var pageNavigation = new NamespaceNavigation(givenPageNavigation);
                 var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
-                var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
+                var file = await PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
 
                 if (file != null)
                 {
@@ -297,13 +297,13 @@ namespace TightWiki.Controllers
         /// </summary>
         [Authorize]
         [HttpGet("Revisions/{givenPageNavigation}/{givenFileNavigation}")]
-        public ActionResult Revisions(string givenPageNavigation, string givenFileNavigation)
+        public async Task<ActionResult> Revisions(string givenPageNavigation, string givenFileNavigation)
         {
             try
             {
                 try
                 {
-                    SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+                    await SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
                 }
                 catch (Exception ex)
                 {
@@ -316,7 +316,7 @@ namespace TightWiki.Controllers
                 {
                     PageNavigation = pageNavigation.Canonical,
                     FileNavigation = fileNavigation.Canonical,
-                    Revisions = PageFileRepository.GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged
+                    Revisions = await PageFileRepository.GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged
                         (pageNavigation.Canonical, fileNavigation.Canonical, GetQueryValue("page", 1))
                 };
 
@@ -336,13 +336,13 @@ namespace TightWiki.Controllers
         /// </summary>
         [Authorize]
         [HttpGet("PageAttachments/{givenPageNavigation}")]
-        public ActionResult PageAttachments(string givenPageNavigation)
+        public async Task<ActionResult> PageAttachments(string givenPageNavigation)
         {
             try
             {
                 try
                 {
-                    SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+                    await SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
                 }
                 catch (Exception ex)
                 {
@@ -350,10 +350,10 @@ namespace TightWiki.Controllers
                 }
                 var pageNavigation = new NamespaceNavigation(givenPageNavigation);
 
-                var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
+                var page = await PageRepository.GetPageRevisionByNavigation(pageNavigation);
                 if (page != null)
                 {
-                    var pageFiles = PageFileRepository.GetPageFilesInfoByPageId(page.Id);
+                    var pageFiles = await PageFileRepository.GetPageFilesInfoByPageId(page.Id);
 
                     return View(new FileAttachmentViewModel
                     {
@@ -380,13 +380,13 @@ namespace TightWiki.Controllers
         /// </summary>
         [Authorize]
         [HttpPost("UploadDragDrop/{givenPageNavigation}")]
-        public IActionResult UploadDragDrop(string givenPageNavigation, List<IFormFile> postedFiles)
+        public async Task<ActionResult> UploadDragDrop(string givenPageNavigation, List<IFormFile> postedFiles)
         {
             try
             {
                 try
                 {
-                    SessionState.RequirePermission(givenPageNavigation, [WikiPermission.Create, WikiPermission.Edit]);
+                    await SessionState.RequirePermission(givenPageNavigation, [WikiPermission.Create, WikiPermission.Edit]);
                 }
                 catch (Exception ex)
                 {
@@ -396,7 +396,7 @@ namespace TightWiki.Controllers
                 {
                     var pageNavigation = new NamespaceNavigation(givenPageNavigation);
 
-                    var page = PageRepository.GetPageInfoByNavigation(pageNavigation.Canonical).EnsureNotNull();
+                    var page = (await PageRepository.GetPageInfoByNavigation(pageNavigation.Canonical)).EnsureNotNull();
 
                     foreach (IFormFile file in postedFiles)
                     {
@@ -412,7 +412,7 @@ namespace TightWiki.Controllers
 
                                 var fileName = HttpUtility.UrlDecode(file.FileName);
 
-                                PageFileRepository.UpsertPageFile(new PageFileAttachment()
+                                await PageFileRepository.UpsertPageFile(new PageFileAttachment()
                                 {
                                     Data = Utility.ConvertHttpFileToBytes(file),
                                     CreatedDate = DateTime.UtcNow,
@@ -445,13 +445,13 @@ namespace TightWiki.Controllers
         /// </summary>
         [Authorize]
         [HttpPost("ManualUpload/{givenPageNavigation}")]
-        public IActionResult ManualUpload(string givenPageNavigation, IFormFile fileData)
+        public async Task<ActionResult> ManualUpload(string givenPageNavigation, IFormFile fileData)
         {
             try
             {
                 try
                 {
-                    SessionState.RequirePermission(givenPageNavigation, [WikiPermission.Create, WikiPermission.Edit]);
+                    await SessionState.RequirePermission(givenPageNavigation, [WikiPermission.Create, WikiPermission.Edit]);
                 }
                 catch (Exception ex)
                 {
@@ -459,7 +459,7 @@ namespace TightWiki.Controllers
                 }
                 var pageNavigation = new NamespaceNavigation(givenPageNavigation);
 
-                var page = PageRepository.GetPageInfoByNavigation(pageNavigation.Canonical).EnsureNotNull();
+                var page = (await PageRepository.GetPageInfoByNavigation(pageNavigation.Canonical)).EnsureNotNull();
 
                 if (fileData != null)
                 {
@@ -473,7 +473,7 @@ namespace TightWiki.Controllers
 
                         var fileName = HttpUtility.UrlDecode(fileData.FileName);
 
-                        PageFileRepository.UpsertPageFile(new PageFileAttachment()
+                        await PageFileRepository.UpsertPageFile(new PageFileAttachment()
                         {
                             Data = Utility.ConvertHttpFileToBytes(fileData),
                             CreatedDate = DateTime.UtcNow,
@@ -501,19 +501,20 @@ namespace TightWiki.Controllers
         /// Allows a user to delete a page attachment from a page.
         /// </summary>
         [HttpPost("Detach/{givenPageNavigation}/{givenFileNavigation}/{pageRevision}")]
-        public ActionResult Detach(string givenPageNavigation, string givenFileNavigation, int pageRevision)
+        public async Task<ActionResult> Detach(string givenPageNavigation, string givenFileNavigation, int pageRevision)
         {
             try
             {
                 try
                 {
-                    SessionState.RequirePermission(givenPageNavigation, WikiPermission.Delete);
+                    await SessionState.RequirePermission(givenPageNavigation, WikiPermission.Delete);
                 }
                 catch (Exception ex)
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                PageFileRepository.DetachPageRevisionAttachment(
+
+                await PageFileRepository.DetachPageRevisionAttachment(
                     new NamespaceNavigation(givenPageNavigation).Canonical,
                     new NamespaceNavigation(givenFileNavigation).Canonical, pageRevision);
 
@@ -530,11 +531,11 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpGet("AutoCompleteEmoji")]
-        public ActionResult AutoCompleteEmoji([FromQuery] string? q = null)
+        public async Task<ActionResult> AutoCompleteEmoji([FromQuery] string? q = null)
         {
             try
             {
-                var emojis = EmojiRepository.AutoCompleteEmoji(q ?? string.Empty).ToList();
+                var emojis = await EmojiRepository.AutoCompleteEmoji(q ?? string.Empty);
 
                 return Json(emojis.Select(o => new
                 {
@@ -555,7 +556,7 @@ namespace TightWiki.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpGet("Emoji/{givenEmojiNavigation}")]
-        public ActionResult Emoji(string givenEmojiNavigation)
+        public async Task<ActionResult> Emoji(string givenEmojiNavigation)
         {
             try
             {
@@ -581,7 +582,7 @@ namespace TightWiki.Controllers
                         if (emoji.ImageData == null)
                         {
                             //We don't get the bytes by default, that would be a lot of RAM for all the thousands of images.
-                            emoji.ImageData = EmojiRepository.GetEmojiByName(emoji.Name)?.ImageData;
+                            emoji.ImageData = (await EmojiRepository.GetEmojiByName(emoji.Name))?.ImageData;
 
                             if (emoji.ImageData == null)
                             {

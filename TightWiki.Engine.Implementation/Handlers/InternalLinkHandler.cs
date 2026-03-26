@@ -22,14 +22,14 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// <param name="linkText">The text which should be show in the absence of an image.</param>
         /// <param name="image">The image that should be shown.</param>
         /// <param name="imageScale">The 0-100 image scale factor for the given image.</param>
-        public HandlerResult Handle(ITightEngineState state, NamespaceNavigation pageNavigation,
+        public async Task<HandlerResult> Handle(ITightEngineState state, NamespaceNavigation pageNavigation,
             string pageName, string linkText, string? image, int imageScale)
         {
-            var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
+            var page = await PageRepository.GetPageRevisionByNavigation(pageNavigation);
 
             if (page == null)
             {
-                if (state.Session?.HoldsPermission(pageNavigation.Canonical, WikiPermission.Create) == true)
+                if (state.Session != null && await state.Session.HoldsPermission(pageNavigation.Canonical, WikiPermission.Create))
                 {
                     if (image != null)
                     {

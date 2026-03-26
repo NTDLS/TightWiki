@@ -76,7 +76,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="function">The parsed function call and all its parameters and their values.</param>
         /// <param name="scopeBody">The the text that the function is designed to affect.</param>
-        public HandlerResult Handle(ITightEngineState state, FunctionCall function, string? scopeBody = null)
+        public async Task<HandlerResult> Handle(ITightEngineState state, FunctionCall function, string? scopeBody = null)
         {
             scopeBody.EnsureNotNull($"The function '{function.Name}' scope body can not be null");
 
