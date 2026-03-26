@@ -27,6 +27,7 @@ LEFT OUTER JOIN users_db.Profile as Createduser
 --CUSTOM_ORDER_BEGIN::
 --CONFIG::
 /*
+DeletedRevisions=(SELECT COUNT(0) FROM deletedpagerevisions_db.[PageRevision] WHERE PageId = P.Id)
 Name=p.Name
 Revision=P.Revision
 ModifiedBy=ModifiedUser.AccountName

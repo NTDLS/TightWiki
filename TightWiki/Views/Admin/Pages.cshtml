@@ -96,8 +96,11 @@
                                 @Localizer["Revision"]
                             </a>
                         </th>
-                        <th scope="col" class="text-nowrap text-center" style="width: 1%;">
-                            @Localizer["Deleted Revisions"]
+                        <th scope="col" class="text-nowrap" style="width: 1%;">
+                            <a class="link-dark text-decoration-none"
+                                   href="?@QueryStringConverter.OrderHelper(sessionState, "DeletedRevisions")">
+                                @Localizer["Deleted Revisions"]
+                            </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
