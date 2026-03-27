@@ -1,6 +1,6 @@
-﻿using static TightWiki.Engine.Function.FunctionConstants;
+﻿using static TightWiki.Engine.Library.Function.FunctionConstants;
 
-namespace TightWiki.Engine.Function
+namespace TightWiki.Engine.Library.Function
 {
     /// <summary>
     /// Contains information about an actual function call, its supplied parameters, and is matched with a defined function.

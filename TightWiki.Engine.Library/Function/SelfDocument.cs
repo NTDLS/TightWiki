@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Engine.Function
+﻿namespace TightWiki.Engine.Library.Function
 {
     public static class SelfDocument
     {

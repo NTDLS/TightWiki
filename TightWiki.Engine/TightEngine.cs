@@ -1,4 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using NTDLS.Helpers;
+using System.Reflection;
+using TightWiki.Engine.Library;
+using TightWiki.Engine.Library.Ae.Engine.Metadata;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
@@ -10,10 +14,6 @@ namespace TightWiki.Engine
         : ITightEngine
     {
         public ILogger<ITightEngine> Logger { get; set; }
-        public IScopeFunctionHandler ScopeFunctionHandler { get; private set; }
-        public IStandardFunctionHandler StandardFunctionHandler { get; private set; }
-        public IProcessingInstructionFunctionHandler ProcessingInstructionFunctionHandler { get; private set; }
-        public IPostProcessingFunctionHandler PostProcessingFunctionHandler { get; private set; }
         public IMarkupHandler MarkupHandler { get; private set; }
         public IHeadingHandler HeadingHandler { get; private set; }
         public ICommentHandler CommentHandler { get; private set; }
@@ -23,12 +23,13 @@ namespace TightWiki.Engine
         public IExceptionHandler ExceptionHandler { get; private set; }
         public ICompletionHandler CompletionHandler { get; private set; }
 
+        public List<TightEnginFunctionEnvelope> StandardFunctions { get; private set; }
+        public List<TightEnginFunctionEnvelope> ScopeFunctions { get; private set; }
+        public List<TightEnginFunctionEnvelope> ProcessingFunctions { get; private set; }
+        public List<TightEnginFunctionEnvelope> PostProcessingFunctions { get; private set; }
+
         public TightEngine(
             ILogger<ITightEngine> logger,
-            IStandardFunctionHandler standardFunctionHandler,
-            IScopeFunctionHandler scopeFunctionHandler,
-            IProcessingInstructionFunctionHandler processingInstructionFunctionHandler,
-            IPostProcessingFunctionHandler postProcessingFunctionHandler,
             IMarkupHandler markupHandler,
             IHeadingHandler headingHandler,
             ICommentHandler commentHandler,
@@ -39,12 +40,6 @@ namespace TightWiki.Engine
             ICompletionHandler completionHandler)
         {
             Logger = logger;
-            StandardFunctionHandler = standardFunctionHandler;
-
-            StandardFunctionHandler = standardFunctionHandler;
-            ScopeFunctionHandler = scopeFunctionHandler;
-            ProcessingInstructionFunctionHandler = processingInstructionFunctionHandler;
-            PostProcessingFunctionHandler = postProcessingFunctionHandler;
             MarkupHandler = markupHandler;
             HeadingHandler = headingHandler;
             CommentHandler = commentHandler;
@@ -53,6 +48,56 @@ namespace TightWiki.Engine
             InternalLinkHandler = internalLinkHandler;
             ExceptionHandler = exceptionHandler;
             CompletionHandler = completionHandler;
+
+            //Enum the various types of functions based on their attributes.
+
+            StandardFunctions = Assembly.GetExecutingAssembly()
+                .GetTypes()
+                .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+                .Select(m => new
+                {
+                    Method = m,
+                    Attribute = m.GetCustomAttribute<TightWikiStandardFunctionAttribute>()
+                })
+                .Where(x => x.Attribute != null)
+                .Select(m => new TightEnginFunctionEnvelope(m.Method, m.Attribute.EnsureNotNull()))
+                .ToList();
+
+            ScopeFunctions = Assembly.GetExecutingAssembly()
+                .GetTypes()
+                .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+                .Select(m => new
+                {
+                    Method = m,
+                    Attribute = m.GetCustomAttribute<TightWikiScopeFunctionAttribute>()
+                })
+                .Where(x => x.Attribute != null)
+                .Select(m => new TightEnginFunctionEnvelope(m.Method, m.Attribute.EnsureNotNull()))
+                .ToList();
+
+            ProcessingFunctions = Assembly.GetExecutingAssembly()
+                .GetTypes()
+                .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+                .Select(m => new
+                {
+                    Method = m,
+                    Attribute = m.GetCustomAttribute<TightWikiProcessingFunctionAttribute>()
+                })
+                .Where(x => x.Attribute != null)
+                .Select(m => new TightEnginFunctionEnvelope(m.Method, m.Attribute.EnsureNotNull()))
+                .ToList();
+
+            PostProcessingFunctions = Assembly.GetExecutingAssembly()
+                .GetTypes()
+                .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+                .Select(m => new
+                {
+                    Method = m,
+                    Attribute = m.GetCustomAttribute<TightWikiPostProcessingFunctionAttribute>()
+                })
+                .Where(x => x.Attribute != null)
+                .Select(m => new TightEnginFunctionEnvelope(m.Method, m.Attribute.EnsureNotNull()))
+                .ToList();
         }
 
         /// <summary>

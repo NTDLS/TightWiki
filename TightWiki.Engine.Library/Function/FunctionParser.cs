@@ -1,8 +1,8 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
-using TightWiki.Engine.Function.Exceptions;
+using TightWiki.Engine.Library.Function.Exceptions;
 
-namespace TightWiki.Engine.Function
+namespace TightWiki.Engine.Library.Function
 {
     public static partial class FunctionParser
     {
@@ -12,7 +12,7 @@ namespace TightWiki.Engine.Function
         /// <summary>
         /// Parsed a function call, its parameters and matches it to a defined function and its prototype.
         /// </summary>
-        public static FunctionCall ParseAndGetFunctionCall(FunctionPrototypeCollection prototypes, string functionCall, out int parseEndIndex)
+        public static FunctionCall ParseAndGetFunctionCall(List<TightEnginFunctionEnvelope> prototypes, string functionCall, out int parseEndIndex)
         {
             var parsed = ParseFunctionCall(functionCall);
 

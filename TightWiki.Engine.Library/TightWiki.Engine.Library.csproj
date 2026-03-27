@@ -12,7 +12,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\TightWiki.Engine.Function\TightWiki.Engine.Function.csproj" />
 		<ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />
 	</ItemGroup>
 </Project>

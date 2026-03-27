@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Engine.Function.Exceptions
+﻿namespace TightWiki.Engine.Library.Function.Exceptions
 {
     public class WikiFunctionPrototypeNotDefinedException : Exception
     {

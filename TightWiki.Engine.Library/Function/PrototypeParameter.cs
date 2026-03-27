@@ -1,6 +1,6 @@
-﻿using static TightWiki.Engine.Function.FunctionConstants;
+﻿using static TightWiki.Engine.Library.Function.FunctionConstants;
 
-namespace TightWiki.Engine.Function
+namespace TightWiki.Engine.Library.Function
 {
     public class PrototypeParameter
     {

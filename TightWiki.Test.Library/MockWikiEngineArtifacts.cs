@@ -47,10 +47,6 @@ namespace TightWiki.Test.Library
                        .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                        .ConfigureContainer<ContainerBuilder>(containerBuilder =>
                        {
-                           containerBuilder.RegisterType<StandardFunctionHandler>().As<IStandardFunctionHandler>().SingleInstance();
-                           containerBuilder.RegisterType<ScopeFunctionHandler>().As<IScopeFunctionHandler>().SingleInstance();
-                           containerBuilder.RegisterType<ProcessingInstructionFunctionHandler>().As<IProcessingInstructionFunctionHandler>().SingleInstance();
-                           containerBuilder.RegisterType<PostProcessingFunctionHandler>().As<IPostProcessingFunctionHandler>().SingleInstance();
                            containerBuilder.RegisterType<MarkupHandler>().As<IMarkupHandler>().SingleInstance();
                            containerBuilder.RegisterType<HeadingHandler>().As<IHeadingHandler>().SingleInstance();
                            containerBuilder.RegisterType<CommentHandler>().As<ICommentHandler>().SingleInstance();

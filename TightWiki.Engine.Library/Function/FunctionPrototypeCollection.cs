@@ -1,9 +1,9 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text;
-using TightWiki.Engine.Function.Exceptions;
-using static TightWiki.Engine.Function.FunctionConstants;
+using TightWiki.Engine.Library.Function.Exceptions;
+using static TightWiki.Engine.Library.Function.FunctionConstants;
 
-namespace TightWiki.Engine.Function
+namespace TightWiki.Engine.Library.Function
 {
     public class FunctionPrototypeCollection
     {
