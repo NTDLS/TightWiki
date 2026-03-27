@@ -7,9 +7,9 @@ using TightWiki.Models;
 
 namespace TightWiki.Engine.Implementation
 {
-    internal class PostProcessingFunctions
+    internal class PostProcessingInstructionFunctions
     {
-        [TightWikiPostProcessingFunction("Tags", "Displays list of tag links for the tags that are included on the current page.")]
+        [TightWikiPostProcessingInstructionFunction("Tags", "Displays list of tag links for the tags that are included on the current page.")]
         public async Task<HandlerResult> Tags(ITightEngineState state,
             TightWikiTabularStyle styleName)
         {
@@ -38,7 +38,7 @@ namespace TightWiki.Engine.Implementation
             return new HandlerResult(html.ToString());
         }
 
-        [TightWikiPostProcessingFunction("TagCloud", "Displays a tag cloud for the specified page tag.")]
+        [TightWikiPostProcessingInstructionFunction("TagCloud", "Displays a tag cloud for the specified page tag.")]
         public async Task<HandlerResult> TagCloud(ITightEngineState state,
             string pageTag, int top = 1000)
         {
@@ -46,7 +46,7 @@ namespace TightWiki.Engine.Implementation
             return new HandlerResult(html);
         }
 
-        [TightWikiPostProcessingFunction("SearchCloud", "Displays a search cloud for the specified search phrase.")]
+        [TightWikiPostProcessingInstructionFunction("SearchCloud", "Displays a search cloud for the specified search phrase.")]
         public async Task<HandlerResult> SearchCloud(ITightEngineState state,
             string searchPhrase, int top = 1000)
         {
@@ -56,7 +56,7 @@ namespace TightWiki.Engine.Implementation
             return new HandlerResult(html);
         }
 
-        [TightWikiPostProcessingFunction("Toc", "Displays a table of contents for the page based on the header tags.")]
+        [TightWikiPostProcessingInstructionFunction("Toc", "Displays a table of contents for the page based on the header tags.")]
         public async Task<HandlerResult> Toc(ITightEngineState state,
             bool alphabetized = false)
         {

@@ -1,4 +1,4 @@
-﻿using static TightWiki.Engine.Library.Function.FunctionConstants;
+﻿using System.Reflection;
 
 namespace TightWiki.Engine.Library.Function
 {
@@ -12,18 +12,18 @@ namespace TightWiki.Engine.Library.Function
         /// </summary>
         public string Name { get; private set; }
 
-        public FunctionPrototype Prototype { get; set; }
+        public TightEnginFunctionEnvelope Prototype { get; set; }
 
         /// <summary>
         /// The arguments supplied by the caller.
         /// </summary>
         public FunctionParameters Parameters { get; private set; }
 
-        public FunctionCall(FunctionPrototype prototype, List<string> args)
+        public FunctionCall(TightEnginFunctionEnvelope prototype, List<string> args)
         {
             Prototype = prototype;
             Parameters = new FunctionParameters(this);
-            Name = prototype.Key;
+            Name = prototype.Method.Name;
 
             foreach (var arg in args)
             {
@@ -48,35 +48,100 @@ namespace TightWiki.Engine.Library.Function
         /// <summary>
         /// Checks the passed value against the function prototype to ensure that the variable is the correct type, value, etc.
         /// </summary>
-        private void EnforcePrototypeParamValue(PrototypeParameter param, string value)
+        private void EnforcePrototypeParamValue(ParameterInfo param, string value)
         {
-            if (param.Type == WikiFunctionParamType.Boolean)
+            var parameterType = param.ParameterType;
+
+            if (parameterType.IsPrimitive)
             {
-                if (bool.TryParse(value, out bool _) == false)
+                switch (parameterType)
                 {
-                    throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to boolean.");
-                }
-            }
-            if (param.Type == WikiFunctionParamType.Integer)
-            {
-                if (int.TryParse(value, out int _) == false)
-                {
-                    throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
-                }
-            }
-            else if (param.Type == WikiFunctionParamType.Double)
-            {
-                if (double.TryParse(value, out double _) == false)
-                {
-                    throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to float.");
+                    #region Type value parsers.
+
+                    case Type t when t == typeof(bool):
+                        if (bool.TryParse(value, out bool _) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to boolean.");
+                        }
+                        break;
+                    case Type t when t == typeof(int):
+                        if (int.TryParse(value, out int _) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
+                        }
+                        break;
+                    case Type t when t == typeof(long):
+                        if (long.TryParse(value, out long _) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
+                        }
+                        break;
+                    case Type t when t == typeof(short):
+                        if (short.TryParse(value, out short _) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
+                        }
+                        break;
+                    case Type t when t == typeof(byte):
+                        if (byte.TryParse(value, out byte _) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
+                        }
+                        break;
+                    case Type t when t == typeof(ulong):
+                        if (ulong.TryParse(value, out ulong _) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
+                        }
+                        break;
+                    case Type t when t == typeof(ushort):
+                        if (ushort.TryParse(value, out ushort _) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
+                        }
+                        break;
+                    case Type t when t == typeof(sbyte):
+                        if (sbyte.TryParse(value, out sbyte _) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
+                        }
+                        break;
+                    case Type t when t == typeof(uint):
+                        if (uint.TryParse(value, out uint _) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
+                        }
+                        break;
+                    case Type t when t == typeof(double):
+                        if (double.TryParse(value, out double _) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to float.");
+                        }
+                        break;
+                    case Type t when t == typeof(decimal):
+                        if (decimal.TryParse(value, out decimal _) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to float.");
+                        }
+                        break;
+                    case Type t when t == typeof(float):
+                        if (float.TryParse(value, out float _) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to float.");
+                        }
+                        break;
+
+                    #endregion
                 }
             }
 
-            if (param.AllowedValues != null && param.AllowedValues.Count > 0)
+            if (parameterType.IsEnum)
             {
-                if (param.AllowedValues.Contains(value, StringComparer.InvariantCultureIgnoreCase) == false)
+                var allowedValues = Enum.GetNames(parameterType);
+
+                if (allowedValues.Contains(value, StringComparer.InvariantCultureIgnoreCase) == false)
                 {
-                    throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] is not allowed. Allowed values are [{string.Join(",", param.AllowedValues)}].");
+                    throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] is not allowed. Allowed values are [{string.Join(",", allowedValues)}].");
                 }
             }
         }
@@ -97,11 +162,12 @@ namespace TightWiki.Engine.Library.Function
             {
                 var param = Prototype.Parameters[index];
 
-                if (param.IsRequired == false)
+                if (param.DefaultValue != null)
                 {
                     break;
                 }
-                if (param.IsInfinite == true)
+                if (param.ParameterType.IsArray //It the parameter an array or List<>?
+                    || (param.ParameterType.IsGenericType && param.ParameterType.GetGenericTypeDefinition() == typeof(List<>)))
                 {
                     break;
                 }
@@ -128,9 +194,9 @@ namespace TightWiki.Engine.Library.Function
             {
                 var param = Prototype.Parameters[index];
 
-                if (param.IsInfinite == true)
+                if (param.IsInfinite()) //Is the parameter an array or List<>?
                 {
-                    if (param.IsRequired == true)
+                    if (param.DefaultValue != null)
                     {
                         //Make sure we have at least one of these required infinite parameters passed.
                         if (Parameters.Ordinals.Count > index)
@@ -158,16 +224,16 @@ namespace TightWiki.Engine.Library.Function
                     break;
                 }
 
-                if (param.IsRequired == false)
+                if (param.DefaultValue != null)
                 {
                     hasEncounteredOptionalParameter = true;
                 }
 
-                if (param.IsRequired == true && hasEncounteredOptionalParameter)
+                if (param.DefaultValue == null && hasEncounteredOptionalParameter)
                 {
                     throw new Exception($"Function [{Name}], the required parameter [{param.Name}] was found after other optional parameters.");
                 }
-                else if (param.IsInfinite == true)
+                else if (param.IsInfinite()) //Is the parameter an array or List<>?
                 {
                     throw new Exception($"Function [{Name}], encountered an unexpected number of infinite parameters in prototype for [{param.Name}].");
                 }
@@ -197,7 +263,7 @@ namespace TightWiki.Engine.Library.Function
                 throw new Exception($"Function [{Name}], unmatched parameter value [{unmatchedParams.First().Value}].");
             }
 
-            var nonInfiniteParams = Prototype.Parameters.Where(o => o.IsInfinite == false).Select(o => o.Name.ToLowerInvariant());
+            var nonInfiniteParams = Prototype.Parameters.Where(o => o.IsInfinite() == false).Select(o => o.Name.ToLowerInvariant());
             var groups = Parameters.Named.Where(o => nonInfiniteParams.Contains(o.Name.ToLowerInvariant())).GroupBy(o => o.Name.ToLowerInvariant()).Where(o => o.Count() > 1);
 
             if (groups.Any())

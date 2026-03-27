@@ -81,7 +81,7 @@ namespace TightWiki.Engine
                 .Select(m => new
                 {
                     Method = m,
-                    Attribute = m.GetCustomAttribute<TightWikiProcessingFunctionAttribute>()
+                    Attribute = m.GetCustomAttribute<TightWikiProcessingInstructionFunctionAttribute>()
                 })
                 .Where(x => x.Attribute != null)
                 .Select(m => new TightEnginFunctionEnvelope(m.Method, m.Attribute.EnsureNotNull()))
@@ -93,7 +93,7 @@ namespace TightWiki.Engine
                 .Select(m => new
                 {
                     Method = m,
-                    Attribute = m.GetCustomAttribute<TightWikiPostProcessingFunctionAttribute>()
+                    Attribute = m.GetCustomAttribute<TightWikiPostProcessingInstructionFunctionAttribute>()
                 })
                 .Where(x => x.Attribute != null)
                 .Select(m => new TightEnginFunctionEnvelope(m.Method, m.Attribute.EnsureNotNull()))

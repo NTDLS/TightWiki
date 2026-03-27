@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-using TightWiki.Engine.Function;
 using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Function;
 using TightWiki.Engine.Library.Function.Exceptions;
@@ -785,7 +783,7 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformFunctions().Matches(pageContent.ToString()));
 
-            var result = methodInfo.Invoke(obj, new object[] { param1, param2 });
+            //var result = methodInfo.Invoke(obj, new object[] { param1, param2 });
 
 
             //WIP

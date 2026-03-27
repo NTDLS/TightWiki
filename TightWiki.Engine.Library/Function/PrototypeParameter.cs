@@ -2,6 +2,7 @@
 
 namespace TightWiki.Engine.Library.Function
 {
+    //TODO: DeleteMe
     public class PrototypeParameter
     {
         public WikiFunctionParamType Type { get; set; } = WikiFunctionParamType.Undefined;

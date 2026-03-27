@@ -9,6 +9,7 @@
             Instruction
         }
 
+        //TODO: DeleteMe
         public enum WikiFunctionParamType
         {
             Undefined,

@@ -2,16 +2,12 @@
 
 namespace TightWiki.Engine.Library.Interfaces
 {
+    //TODO: Deleteme
     /// <summary>
     /// Base function handler for standard, post-processing, scoped and processing-instruction functions.
     /// </summary>
     public interface IFunctionHandler
     {
-        /// <summary>
-        /// Returns a collection of function prototypes.
-        /// </summary>
-        public FunctionPrototypeCollection Prototypes { get; }
-
         /// <summary>
         /// Called to handle function calls when proper prototypes are matched.
         /// </summary>

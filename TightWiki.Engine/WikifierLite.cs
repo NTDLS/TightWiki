@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using TightWiki.Engine.Function;
 using TightWiki.Engine.Library;
 using TightWiki.Models;
 
@@ -138,6 +137,8 @@ namespace TightWiki.Engine
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
+                //WIP
+                /*
                 var args = FunctionParser.ParseArgumentsAddParenthesis(keyword);
 
                 if (args.Count > 1)
@@ -148,6 +149,7 @@ namespace TightWiki.Engine
                 {
                     pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{args[0]}\">{args[0]}</a>"));
                 }
+                */
             }
 
             //Parse external explicit links. eg. [[https://test.net]].
@@ -156,16 +158,19 @@ namespace TightWiki.Engine
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                var args = FunctionParser.ParseArgumentsAddParenthesis(keyword);
+                //WIP
+                /*
+                                var args = FunctionParser.ParseArgumentsAddParenthesis(keyword);
 
-                if (args.Count == 1)
-                {
-                    pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{args[0]}\">{args[1]}</a>"));
-                }
-                else if (args.Count > 1)
-                {
-                    pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{args[0]}\">{args[0]}</a>"));
-                }
+                                if (args.Count == 1)
+                                {
+                                    pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{args[0]}\">{args[1]}</a>"));
+                                }
+                                else if (args.Count > 1)
+                                {
+                                    pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{args[0]}\">{args[0]}</a>"));
+                                }
+                */
             }
 
             //Parse internal dynamic links. eg [[AboutUs|About Us]].
@@ -174,6 +179,8 @@ namespace TightWiki.Engine
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
+                //WIP
+                /*
                 var args = FunctionParser.ParseArgumentsAddParenthesis(keyword);
 
                 if (args.Count == 1)
@@ -184,6 +191,7 @@ namespace TightWiki.Engine
                 {
                     pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{GlobalConfiguration.BasePath}/{args[0]}\">{args[1]}</a>"));
                 }
+                */
             }
         }
     }

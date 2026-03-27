@@ -6,11 +6,13 @@ namespace TightWiki.Engine.Library
     {
         public MethodInfo Method { get; set; }
         public Attribute Attribute { get; set; }
+        public List<ParameterInfo> Parameters { get; set; }
 
         public TightEnginFunctionEnvelope(MethodInfo method, Attribute attribute)
         {
             Method = method;
             Attribute = attribute;
+            Parameters = method.GetParameters().ToList();
         }
     }
 }

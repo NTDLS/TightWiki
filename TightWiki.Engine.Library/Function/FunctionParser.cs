@@ -17,13 +17,12 @@ namespace TightWiki.Engine.Library.Function
         {
             var parsed = ParseFunctionCall(functionCall);
 
+            var prototype = prototypes.SingleOrDefault(o => o.Method.Name.ToLowerInvariant() == parsed.Name
+                && o.Attribute is ITightWikiFunctionPrototypeAttribute attr
+                && attr.Demarcation == parsed.Demarcation);
 
-            prototypes.Where(o=>o.Method.Name.ToLowerInvariant() == parsed.Name
-            && o.Attribute is ITightWikiFunctionPrototypeAttribute attr
-            && attr.Demarcation == parsed.Demarcation).ToList();
-
-            var prototype = prototypes.Get(parsed.Demarcation, parsed.Name)
-                ?? throw new WikiFunctionPrototypeNotDefinedException($"Function ({parsed.Name}) does not have a defined prototype.");
+            //var prototype = prototypes.Get(parsed.Demarcation, parsed.Name)
+            //?? throw new WikiFunctionPrototypeNotDefinedException($"Function ({parsed.Name}) does not have a defined prototype.");
 
             parseEndIndex = parsed.EndIndex;
 

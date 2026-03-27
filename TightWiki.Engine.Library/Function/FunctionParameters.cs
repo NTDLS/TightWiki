@@ -24,11 +24,11 @@ namespace TightWiki.Engine.Library.Function
         {
             try
             {
-                var value = Named.Where(o => o.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault()?.Value;
+                var value = Named.FirstOrDefault(o => o.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase))?.Value;
                 if (value == null)
                 {
-                    var prototype = _owner.Prototype.Parameters.Where(o => o.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)).First();
-                    return Converters.ConvertToNullable<T>(prototype.DefaultValue);
+                    var prototype = _owner.Prototype.Parameters.First(o => o.Name?.Equals(name, StringComparison.InvariantCultureIgnoreCase) == true);
+                    return (T?)prototype.DefaultValue;
                 }
 
                 return Converters.ConvertToNullable<T>(value);
@@ -43,12 +43,13 @@ namespace TightWiki.Engine.Library.Function
         {
             try
             {
-                var value = Named.Where(o => o.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault()?.Value;
+                var value = Named.FirstOrDefault(o => o.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase))?.Value;
                 if (value == null)
                 {
-                    var prototype = _owner.Prototype.Parameters.Where(o => o.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)).First();
-                    return Converters.ConvertTo<T>(prototype.DefaultValue ?? throw new Exception("Default value cannot be null"))
-                        ?? throw new Exception("Value cannot be null");
+                    var prototype = _owner.Prototype.Parameters.First(o => o.Name?.Equals(name, StringComparison.InvariantCultureIgnoreCase) == true);
+
+                    return ((T?)prototype.DefaultValue)
+                        ?? throw new Exception("Default value cannot be null");
                 }
 
                 return Converters.ConvertTo<T>(value)

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TightWiki.Engine.Library.Attributes
+﻿namespace TightWiki.Engine.Library.Attributes
 {
     public interface ITightWikiFunctionPrototypeAttribute
     {

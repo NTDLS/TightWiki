@@ -9,9 +9,9 @@ namespace TightWiki.Engine.Library
             : Attribute, ITightWikiFunctionPrototypeAttribute
         {
             public string FriendlyName { get; }
-            public string? Description { get;  }
+            public string? Description { get; }
             public bool IsFirstChance { get; }
-            public string Demarcation { get; } = "";
+            public string Demarcation { get; } = "##";
 
             public TightWikiStandardFunctionAttribute(string friendlyName, string? description = null, bool isFirstChance = false)
             {
