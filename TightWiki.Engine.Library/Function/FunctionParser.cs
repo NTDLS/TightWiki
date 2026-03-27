@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using TightWiki.Engine.Library.Attributes;
 using TightWiki.Engine.Library.Function.Exceptions;
 
 namespace TightWiki.Engine.Library.Function
@@ -15,6 +16,11 @@ namespace TightWiki.Engine.Library.Function
         public static FunctionCall ParseAndGetFunctionCall(List<TightEnginFunctionEnvelope> prototypes, string functionCall, out int parseEndIndex)
         {
             var parsed = ParseFunctionCall(functionCall);
+
+
+            prototypes.Where(o=>o.Method.Name.ToLowerInvariant() == parsed.Name
+            && o.Attribute is ITightWikiFunctionPrototypeAttribute attr
+            && attr.Demarcation == parsed.Demarcation).ToList();
 
             var prototype = prototypes.Get(parsed.Demarcation, parsed.Name)
                 ?? throw new WikiFunctionPrototypeNotDefinedException($"Function ({parsed.Name}) does not have a defined prototype.");

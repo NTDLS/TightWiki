@@ -1,14 +1,17 @@
-﻿namespace TightWiki.Engine.Library
+﻿using TightWiki.Engine.Library.Attributes;
+
+namespace TightWiki.Engine.Library
 {
     namespace Ae.Engine.Metadata
     {
         [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
         public class TightWikiStandardFunctionAttribute
-            : Attribute
+            : Attribute, ITightWikiFunctionPrototypeAttribute
         {
             public string FriendlyName { get; }
-            public string? Description { get; set; }
+            public string? Description { get;  }
             public bool IsFirstChance { get; }
+            public string Demarcation { get; } = "";
 
             public TightWikiStandardFunctionAttribute(string friendlyName, string? description = null, bool isFirstChance = false)
             {
