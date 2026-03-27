@@ -1,18 +1,18 @@
 ﻿namespace TightWiki.Engine.Implementation
 {
-    public enum TwListStyle
+    public enum TightWikiListStyle
     {
         Full,
         List
     }
 
-    public enum TwTabularStyle
+    public enum TightWikiTabularStyle
     {
         Full,
         List,
         Flat
     }
-    public enum TwLinkStyle
+    public enum TightWikiLinkStyle
     {
         Text,
         Link,
