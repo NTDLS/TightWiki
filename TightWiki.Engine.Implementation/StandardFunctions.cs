@@ -240,7 +240,7 @@ namespace TightWiki.Engine.Implementation
                 + NamespaceNavigation.CleanAndValidate($"/{state.Page.Navigation}/Edit") + $"\">{linkText}</a>");
         }
 
-        [TightWikiStandardFunction("Inject", "Injects an un-processed wiki body into the calling page.")]
+        [TightWikiStandardFunction("Inject", "Injects an un-processed wiki body into the calling page.", true)]
         public async Task<HandlerResult> Inject(ITightEngineState state, string pageName)
         {
 
@@ -256,7 +256,7 @@ namespace TightWiki.Engine.Implementation
 
         }
 
-        [TightWikiStandardFunction("Include", "Includes a processed wiki body into the calling page.")]
+        [TightWikiStandardFunction("Include", "Includes a processed wiki body into the calling page.", true)]
         public async Task<HandlerResult> include(ITightEngineState state, string pageName)
         {
             var page = await GetPageFromNavigation(pageName);
@@ -288,7 +288,7 @@ namespace TightWiki.Engine.Implementation
                 Instructions = [HandlerResultInstruction.TruncateTrailingLine]
             };
         }
-        
+
         [TightWikiStandardFunction("Get", "Gets a wiki variable.")]
         public async Task<HandlerResult> Get(ITightEngineState state, string key)
         {

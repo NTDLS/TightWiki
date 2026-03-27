@@ -5,7 +5,7 @@ using TightWiki.Repository;
 
 namespace TightWiki.Engine.Implementation.Utility
 {
-    public class SearchCloud
+    public class SearchCloudBuilder
     {
         public static async Task<string> Build(List<string> searchTokens, int? maxCount = null)
         {

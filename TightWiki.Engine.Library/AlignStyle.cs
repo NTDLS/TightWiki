@@ -13,15 +13,15 @@
         {
         }
 
-        public static readonly Dictionary<string, AlignStyle> AlignStyles = new(StringComparer.InvariantCultureIgnoreCase)
+        public static readonly Dictionary<TightWikiAlignStyle, AlignStyle> AlignStyles = new()
         {
-            { "start", new AlignStyle("text-start") },
-            { "center", new AlignStyle("text-center") },
-            { "end", new AlignStyle("text-end") },
+            { TightWikiAlignStyle.Default, new AlignStyle("") },
+            { TightWikiAlignStyle.Start, new AlignStyle("text-start") },
+            { TightWikiAlignStyle.Center, new AlignStyle("text-center") },
+            { TightWikiAlignStyle.End, new AlignStyle("text-end") },
         };
 
-
-        public static AlignStyle GetStyle(string style)
+        public static AlignStyle GetStyle(TightWikiAlignStyle style)
         {
             if (AlignStyles.TryGetValue(style, out var html))
             {

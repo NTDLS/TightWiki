@@ -5,7 +5,7 @@ using TightWiki.Repository;
 
 namespace TightWiki.Engine.Implementation.Utility
 {
-    public static class TagCloud
+    public static class TagCloudBuilder
     {
         public static async Task<string> Build(string seedTag, int? maxCount)
         {
