@@ -1119,7 +1119,7 @@ namespace TightWiki.Repository
             });
         }
 
-        public static async Task<List<WikiPage>> GetPageInfoByTags(List<string> tags)
+        public static async Task<List<WikiPage>> GetPageInfoByTags(IEnumerable<string> tags)
         {
             var cleanedTags = tags.Select(o => Navigation.Clean(o));
 
