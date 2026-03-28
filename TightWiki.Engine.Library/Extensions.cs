@@ -6,7 +6,7 @@ namespace TightWiki.Engine.Library
     public static class Extensions
     {
         public static bool TryGetFunctionDescriptor(this List<TightEngineFunctionDescriptor> list,
-            ParsedFunctionCall parsed, [NotNullWhen(true)] out TightEngineFunctionDescriptor? found)
+            ParsedFunction parsed, [NotNullWhen(true)] out TightEngineFunctionDescriptor? found)
         {
             found = list.FirstOrDefault(o => o.Attribute.Demarcation == parsed.Demarcation
                 && o.Method.Name.Equals(parsed.Name, StringComparison.InvariantCultureIgnoreCase));

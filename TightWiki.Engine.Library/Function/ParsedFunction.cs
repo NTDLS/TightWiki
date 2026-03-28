@@ -1,33 +1,43 @@
 ﻿using System.Text;
-using System.Text.RegularExpressions;
-using TightWiki.Engine.Library.Function.Attributes;
 using TightWiki.Engine.Library.Function.Exceptions;
-using TightWiki.Engine.Library.Interfaces;
-using static TightWiki.Engine.Library.Function.FunctionConstants;
 
 namespace TightWiki.Engine.Library.Function
 {
-    public static partial class FunctionParser
+    /// <summary>
+    /// Represnets a function call that has been parsed of its name, type and arguments.
+    /// </summary>
+    public class ParsedFunction
     {
-        [GeneratedRegex(@"(##|{{|@@)([a-zA-Z_\s{][a-zA-Z0-9_\s{]*)\(((?<BR>\()|(?<-BR>\))|[^()]*)+\)")]
-        private static partial Regex FunctionCallParser();
+        public string Demarcation { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public int EndIndex { get; set; }
+        public List<string> Arguments { get; set; } = new List<string>();
+        public string? BodyText { get; }
 
-        /// <summary>
-        /// Parsed a function call, its parameters and matches it to a defined function and its descriptor.
-        /// </summary>
-        public static PreparedFunction PrepareFuncionCall(ITightEngineState state,
-            List<TightEngineFunctionDescriptor> descriptors, ParsedFunctionCall preparsedFunctionCall)
+        public ParsedFunction(string demarcation, string name, int endIndex, List<string> arguments, string? bodyText)
         {
-            var descriptor = descriptors.SingleOrDefault(o =>
-                o.Method.Name.Equals(preparsedFunctionCall.Name, StringComparison.InvariantCultureIgnoreCase)
-                && o.Attribute is ITightWikiFunctionDescriptorAttribute attr
-                && attr.Demarcation == preparsedFunctionCall.Demarcation)
-                ?? throw new Exception($"Function ({preparsedFunctionCall.Name}) does not have a defined descriptor.");
-
-            return new PreparedFunction(state, descriptor, preparsedFunctionCall);
+            Demarcation = demarcation;
+            Name = name;
+            EndIndex = endIndex;
+            Arguments = arguments;
+            BodyText = bodyText;
         }
 
-        public static ParsedFunctionCall ParseFunctionCall(string functionCall)
+        /// <summary>
+        /// Parses function parameters into a list of arguments based on comma separation.
+        /// String do not need to be enclosed in double-quotes unless they contain commas.
+        /// </summary>
+        public static List<string> ParseArgumentsAddParenthesis(string paramString)
+        {
+            if (paramString.StartsWith('(') || paramString.EndsWith(')'))
+            {
+                throw new WikiFunctionParserError($"Unexpected '(' or ')'.");
+            }
+
+            return ParseArguments($"({paramString})");
+        }
+
+        public static ParsedFunction Create(string functionCall)
         {
             string functionName = string.Empty;
             int parseEndIndex = 0;
@@ -43,7 +53,7 @@ namespace TightWiki.Engine.Library.Function
 
             string functionDemarcation = functionCall.Substring(0, 2);
 
-            var parameterMatches = FunctionCallParser().Matches(firstLine);
+            var parameterMatches = PrecompiledRegex.FunctionCallParser().Matches(firstLine);
             if (parameterMatches.Count > 0)
             {
                 var match = parameterMatches[0];
@@ -55,7 +65,7 @@ namespace TightWiki.Engine.Library.Function
                 var trimmedArguments = match.ToString().Substring(argumentStartIndex);
                 arguments = ParseArguments(trimmedArguments);
 
-                if (Constants.ParseDemarcation(functionDemarcation) == WikiFunctionType.Scoped)
+                if (ParseDemarcation(functionDemarcation) == WikiFunctionType.Scoped)
                 {
                     bodyText = functionCall.Substring(parseEndIndex, (functionCall.Length - parseEndIndex) - 2).Trim();
                 }
@@ -66,27 +76,24 @@ namespace TightWiki.Engine.Library.Function
                 functionName = functionCall.Substring(2, endOfLine).ToLowerInvariant().TrimStart(['{', '#', '@']).Trim();
                 parseEndIndex = endOfLine + 2;
 
-                if (Constants.ParseDemarcation(functionDemarcation) == WikiFunctionType.Scoped)
+                if (ParseDemarcation(functionDemarcation) == WikiFunctionType.Scoped)
                 {
                     bodyText = functionCall.Substring(parseEndIndex, (functionCall.Length - parseEndIndex) - 2).Trim();
                 }
             }
 
-            return new ParsedFunctionCall(functionDemarcation, functionName, parseEndIndex, arguments, bodyText);
+            return new ParsedFunction(functionDemarcation, functionName, parseEndIndex, arguments, bodyText);
         }
 
-        /// <summary>
-        /// Parses function parameters into a list of arguments based on comma separation.
-        /// String do not need to be enclosed in double-quotes unless they contain commas.
-        /// </summary>
-        public static List<string> ParseArgumentsAddParenthesis(string paramString)
+        private static WikiFunctionType ParseDemarcation(string demarcation)
         {
-            if (paramString.StartsWith('(') || paramString.EndsWith(')'))
+            return demarcation switch
             {
-                throw new WikiFunctionParserError($"Unexpected '(' or ')'.");
-            }
-
-            return ParseArguments($"({paramString})");
+                "##" => WikiFunctionType.Standard,
+                "{{" => WikiFunctionType.Scoped,
+                "@@" => WikiFunctionType.Instruction,
+                _ => throw new Exception("Invalid demarcation string."),
+            };
         }
 
         /// <summary>
@@ -215,5 +222,6 @@ namespace TightWiki.Engine.Library.Function
 
             return ps;
         }
+
     }
 }

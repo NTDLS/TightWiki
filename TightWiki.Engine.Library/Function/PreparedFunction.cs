@@ -24,31 +24,53 @@ namespace TightWiki.Engine.Library.Function
         /// </summary>
         public List<NamedParameter> Parameters { get; private set; } = new();
 
-        public PreparedFunction(ITightEngineState state, TightEngineFunctionDescriptor descriptor, ParsedFunctionCall parsedFunction)
+        public PreparedFunction(TightEngineFunctionDescriptor descriptor, ParsedFunction parsedFunction)
         {
             Descriptor = descriptor;
             Name = descriptor.Method.Name;
+        }
+
+        public async Task<HandlerResult> Execute()
+        {
+            var parameters = Parameters.Select(o => o.Value).ToArray();
+            var result = ((Task<HandlerResult>?)Descriptor.Method.Invoke(Descriptor.EngineModule.Instance, parameters)).EnsureNotNull();
+            return await result;
+        }
+
+        /// <summary>
+        /// Parsed a function call, its parameters and matches it to a defined function and its descriptor.
+        /// </summary>
+        public static PreparedFunction Create(ITightEngineState state,
+            List<TightEngineFunctionDescriptor> descriptors, ParsedFunction parsedFunction)
+        {
+            var descriptor = descriptors.SingleOrDefault(o =>
+                o.Method.Name.Equals(parsedFunction.Name, StringComparison.InvariantCultureIgnoreCase)
+                && o.Attribute is ITightWikiFunctionDescriptorAttribute attr
+                && attr.Demarcation == parsedFunction.Demarcation)
+                ?? throw new Exception($"Function ({parsedFunction.Name}) does not have a defined descriptor.");
 
             int givenArgIndex = 0;
             int descriptorArgIndex = 0;
 
+            var preparedFunction = new PreparedFunction(descriptor, parsedFunction);
+
             if (descriptor.Parameters.Count == 0)
             {
-                throw new Exception($"Function [{Name}] was called with arguments, but the function does not accept any parameters.");
+                throw new Exception($"Function [{descriptor.Method.Name}] was called with arguments, but the function does not accept any parameters.");
             }
 
             //The first parameter must always be the state, so we add it to the parameters list before processing the caller supplied arguments.
             if (descriptor.Parameters[descriptorArgIndex].ParameterType != typeof(ITightEngineState))
             {
-                throw new Exception($"Function [{Name}] must have the first parameter of type ITightEngineState.");
+                throw new Exception($"Function [{descriptor.Method.Name}] must have the first parameter of type ITightEngineState.");
             }
-            Parameters.Add(new NamedParameter(descriptor.Parameters[descriptorArgIndex].Name.EnsureNotNull(), state));
+            preparedFunction.Parameters.Add(new NamedParameter(descriptor.Parameters[descriptorArgIndex].Name.EnsureNotNull(), state));
             descriptorArgIndex++;
 
             if (descriptor.Attribute is TightWikiScopeFunctionAttribute)
             {
                 //For scope functions, the second parameter must be the bodyText.
-                Parameters.Add(new NamedParameter(descriptor.Parameters[descriptorArgIndex].Name.EnsureNotNull(), parsedFunction.BodyText ?? string.Empty));
+                preparedFunction.Parameters.Add(new NamedParameter(descriptor.Parameters[descriptorArgIndex].Name.EnsureNotNull(), parsedFunction.BodyText ?? string.Empty));
                 descriptorArgIndex++;
             }
 
@@ -65,7 +87,7 @@ namespace TightWiki.Engine.Library.Function
                 var type = Nullable.GetUnderlyingType(param.ParameterType) ?? param.ParameterType;
                 if (type.IsPrimitive || type.IsEnum || type == typeof(string))
                 {
-                    Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), ConvertArgumentValue(param, parsedFunction.Arguments[givenArgIndex])));
+                    preparedFunction.Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), preparedFunction.ConvertArgumentValue(param, parsedFunction.Arguments[givenArgIndex])));
                     descriptorArgIndex++;
                     givenArgIndex++;
                 }
@@ -79,7 +101,7 @@ namespace TightWiki.Engine.Library.Function
 
                     for (; givenArgIndex < parsedFunction.Arguments.Count; givenArgIndex++)
                     {
-                        arrayValues.Add(ConvertArgumentValue(param, parsedFunction.Arguments[givenArgIndex]));
+                        arrayValues.Add(preparedFunction.ConvertArgumentValue(param, parsedFunction.Arguments[givenArgIndex]));
                     }
 
                     var typedArray = Array.CreateInstance(elementType, arrayValues.Count);
@@ -88,7 +110,7 @@ namespace TightWiki.Engine.Library.Function
                         typedArray.SetValue(arrayValues[i], i);
                     }
 
-                    Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), typedArray));
+                    preparedFunction.Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), typedArray));
                     descriptorArgIndex++;
                 }
             }
@@ -103,13 +125,13 @@ namespace TightWiki.Engine.Library.Function
                     if (TryGetArgPassedByName(parsedFunction.Arguments[givenArgIndex], out var name, out var value))
                     {
                         if (!descriptor.Parameters.Any(o => string.Equals(o.Name, name, StringComparison.InvariantCultureIgnoreCase)))
-                            throw new Exception($"Function [{Name}] does not have a parameter named [{name}].");
+                            throw new Exception($"Function [{descriptor.Method.Name}] does not have a parameter named [{name}].");
 
                         if (string.Equals(name, param.Name, StringComparison.InvariantCultureIgnoreCase))
                         {
                             //We have a named parameter and we are currently processing the correct
                             //  parameter in the function, so we can add it to the parameters list.
-                            Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), parsedFunction.Arguments[givenArgIndex]));
+                            preparedFunction.Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), parsedFunction.Arguments[givenArgIndex]));
                             givenArgIndex++;
                             descriptorArgIndex++;
                             continue;
@@ -123,13 +145,13 @@ namespace TightWiki.Engine.Library.Function
 
                             if (param.HasDefaultValue)
                             {
-                                Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), param.DefaultValue));
+                                preparedFunction.Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), param.DefaultValue));
                                 descriptorArgIndex++;
                                 continue;
                             }
                             else
                             {
-                                throw new Exception($"Function [{Name}], the required argument [{param.Name}] was not supplied.");
+                                throw new Exception($"Function [{descriptor.Method.Name}], the required argument [{param.Name}] was not supplied.");
                             }
                         }
 
@@ -144,7 +166,7 @@ namespace TightWiki.Engine.Library.Function
 
                         for (; givenArgIndex < parsedFunction.Arguments.Count; givenArgIndex++)
                         {
-                            arrayValues.Add(ConvertArgumentValue(param, parsedFunction.Arguments[givenArgIndex]));
+                            arrayValues.Add(preparedFunction.ConvertArgumentValue(param, parsedFunction.Arguments[givenArgIndex]));
                         }
 
                         var typedArray = Array.CreateInstance(elementType, arrayValues.Count);
@@ -153,7 +175,7 @@ namespace TightWiki.Engine.Library.Function
                             typedArray.SetValue(arrayValues[i], i);
                         }
 
-                        Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), typedArray));
+                        preparedFunction.Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), typedArray));
                     }
                 }
             }
@@ -165,23 +187,25 @@ namespace TightWiki.Engine.Library.Function
 
                 if (param.HasDefaultValue)
                 {
-                    Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), param.DefaultValue));
+                    preparedFunction.Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), param.DefaultValue));
                     descriptorArgIndex++;
                     continue;
                 }
                 else
                 {
-                    throw new Exception($"Function [{Name}], the required argument [{param.Name}] was not supplied.");
+                    throw new Exception($"Function [{descriptor.Method.Name}], the required argument [{param.Name}] was not supplied.");
                 }
             }
 
-            if (Parameters.Count != descriptor.Parameters.Count)
+            if (preparedFunction.Parameters.Count != descriptor.Parameters.Count)
             {
-                throw new Exception($"Function [{Name}] was called with an incorrect number of arguments. Expected [{descriptor.Parameters.Count}] but received [{Parameters.Count}].");
+                throw new Exception($"Function [{descriptor.Method.Name}] was called with an incorrect number of arguments. Expected [{descriptor.Parameters.Count}] but received [{descriptor.Parameters.Count}].");
             }
+
+            return new PreparedFunction(descriptor, parsedFunction);
         }
 
-        private bool TryGetArgPassedByName(string arg, [NotNullWhen(true)] out string? name, [NotNullWhen(true)] out string? value)
+        private static bool TryGetArgPassedByName(string arg, [NotNullWhen(true)] out string? name, [NotNullWhen(true)] out string? value)
         {
             if (arg.StartsWith(':') && arg.Contains('='))
             {
@@ -195,13 +219,6 @@ namespace TightWiki.Engine.Library.Function
             name = null;
             value = null;
             return false;
-        }
-
-        public async Task<HandlerResult> Execute(ITightEngineState state)
-        {
-            var parameters = Parameters.Select(o => o.Value).ToArray();
-            var result = ((Task<HandlerResult>?)Descriptor.Method.Invoke(Descriptor.EngineModule.Instance, parameters)).EnsureNotNull();
-            return await result;
         }
 
         /// <summary>

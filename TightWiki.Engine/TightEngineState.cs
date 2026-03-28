@@ -438,20 +438,20 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                var parsedFunctionCall = FunctionParser.ParseFunctionCall(match.Value);
+                var parsedFunction = ParsedFunction.Create(match.Value);
 
                 try
                 {
                     if (onlyProcessFirstChanceFunctions
-                        && Engine.ScopeFunctions.TryGetFunctionDescriptor(parsedFunctionCall, out var function)
+                        && Engine.ScopeFunctions.TryGetFunctionDescriptor(parsedFunction, out var function)
                         && function.Attribute.IsFirstChance == false)
                     {
                         //We are only processing "first chance" functions, so skip processing this function.
                         continue;
                     }
 
-                    var preparedFunction = FunctionParser.PrepareFuncionCall(this, Engine.ScopeFunctions, parsedFunctionCall);
-                    var result = await preparedFunction.Execute(this);
+                    var preparedFunction = PreparedFunction.Create(this, Engine.ScopeFunctions, parsedFunction);
+                    var result = await preparedFunction.Execute();
                     StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
                 }
                 catch (Exception ex)
@@ -585,7 +585,7 @@ namespace TightWiki.Engine
             foreach (var match in orderedMatches)
             {
                 string link = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                var args = FunctionParser.ParseArgumentsAddParenthesis(link);
+                var args = ParsedFunction.ParseArgumentsAddParenthesis(link);
 
                 if (args.Count > 1)
                 {
@@ -618,7 +618,7 @@ namespace TightWiki.Engine
             foreach (var match in orderedMatches)
             {
                 string link = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                var args = FunctionParser.ParseArgumentsAddParenthesis(link);
+                var args = ParsedFunction.ParseArgumentsAddParenthesis(link);
 
                 if (args.Count > 1)
                 {
@@ -652,7 +652,7 @@ namespace TightWiki.Engine
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
 
-                var args = FunctionParser.ParseArgumentsAddParenthesis(keyword);
+                var args = ParsedFunction.ParseArgumentsAddParenthesis(keyword);
 
                 string pageName;
                 string text;
@@ -733,12 +733,12 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                var parsedFunctionCall = FunctionParser.ParseFunctionCall(match.Value);
+                var parsedFunction = ParsedFunction.Create(match.Value);
 
                 try
                 {
-                    var preparedFunction = FunctionParser.PrepareFuncionCall(this, Engine.ProcessingFunctions, parsedFunctionCall);
-                    var result = await preparedFunction.Execute(this);
+                    var preparedFunction = PreparedFunction.Create(this, Engine.ProcessingFunctions, parsedFunction);
+                    var result = await preparedFunction.Execute();
                     StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
                 }
                 catch (Exception ex)
@@ -760,26 +760,26 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                var parsedFunctionCall = FunctionParser.ParseFunctionCall(match.Value);
+                var parsedFunction = ParsedFunction.Create(match.Value);
 
                 try
                 {
-                    if (Engine.PostProcessingFunctions.TryGetFunctionDescriptor(parsedFunctionCall, out _))
+                    if (Engine.PostProcessingFunctions.TryGetFunctionDescriptor(parsedFunction, out _))
                     {
                         //This IS a function, but it is meant to be parsed at the end of processing.
                         continue;
                     }
 
                     if (onlyProcessFirstChanceFunctions
-                        && Engine.StandardFunctions.TryGetFunctionDescriptor(parsedFunctionCall, out var function)
+                        && Engine.StandardFunctions.TryGetFunctionDescriptor(parsedFunction, out var function)
                         && function.Attribute.IsFirstChance == false)
                     {
                         //We are only processing "first chance" functions, so skip processing this function.
                         continue;
                     }
 
-                    var preparedFunction = FunctionParser.PrepareFuncionCall(this, Engine.StandardFunctions, parsedFunctionCall);
-                    var result = await preparedFunction.Execute(this);
+                    var preparedFunction = PreparedFunction.Create(this, Engine.StandardFunctions, parsedFunction);
+                    var result = await preparedFunction.Execute();
                     StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
                 }
                 catch (Exception ex)
@@ -802,12 +802,12 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                var parsedFunctionCall = FunctionParser.ParseFunctionCall(match.Value);
+                var parsedFunction = ParsedFunction.Create(match.Value);
 
                 try
                 {
-                    var preparedFunction = FunctionParser.PrepareFuncionCall(this, Engine.PostProcessingFunctions, parsedFunctionCall);
-                    var result = await preparedFunction.Execute(this);
+                    var preparedFunction = PreparedFunction.Create(this, Engine.PostProcessingFunctions, parsedFunction);
+                    var result = await preparedFunction.Execute();
                     StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
                 }
                 catch (Exception ex)

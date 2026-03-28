@@ -1,22 +1,16 @@
-﻿using static TightWiki.Engine.Library.Function.FunctionConstants;
-
-namespace TightWiki.Engine.Library
+﻿namespace TightWiki.Engine.Library
 {
     public static class Constants
     {
-        public static WikiFunctionType ParseDemarcation(string demarcation)
-        {
-            return demarcation switch
-            {
-                "##" => WikiFunctionType.Standard,
-                "{{" => WikiFunctionType.Scoped,
-                "@@" => WikiFunctionType.Instruction,
-                _ => throw new Exception("Invalid demarcation string."),
-            };
-        }
-
         public const string SoftBreak = "<!--SoftBreak-->"; //These will remain as \r\n in the final HTML.
         public const string HardBreak = "<!--HardBreak-->"; //These will remain as <br /> in the final HTML.
+    }
+
+    public enum WikiFunctionType
+    {
+        Standard,
+        Scoped,
+        Instruction
     }
 
     public enum WikiMatchType

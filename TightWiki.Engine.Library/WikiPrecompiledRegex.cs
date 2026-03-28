@@ -1,46 +1,49 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace TightWiki.Engine
+namespace TightWiki.Engine.Library
 {
-    internal static partial class PrecompiledRegex
+    public static partial class PrecompiledRegex
     {
+        [GeneratedRegex(@"(##|{{|@@)([a-zA-Z_\s{][a-zA-Z0-9_\s{]*)\(((?<BR>\()|(?<-BR>\))|[^()]*)+\)")]
+        public static partial Regex FunctionCallParser();
+
         [GeneratedRegex("\\#\\{([\\S\\s]*?)\\}\\#", RegexOptions.IgnoreCase)]
-        internal static partial Regex TransformLiterals();
+        public static partial Regex TransformLiterals();
 
         [GeneratedRegex("{{([\\S\\s]*)}}", RegexOptions.IgnoreCase)]
-        internal static partial Regex TransformBlock();
+        public static partial Regex TransformBlock();
 
         [GeneratedRegex("\\;\\;.*", RegexOptions.IgnoreCase)]
-        internal static partial Regex TransformComments();
+        public static partial Regex TransformComments();
 
         [GeneratedRegex("(\\%\\%.+?\\%\\%)", RegexOptions.IgnoreCase)]
-        internal static partial Regex TransformEmoji();
+        public static partial Regex TransformEmoji();
 
         [GeneratedRegex("(\\$\\{.+?\\})", RegexOptions.IgnoreCase)]
-        internal static partial Regex TransformVariables();
+        public static partial Regex TransformVariables();
 
         [GeneratedRegex("(\\[\\[http\\:\\/\\/.+?\\]\\])", RegexOptions.IgnoreCase)]
-        internal static partial Regex TransformExplicitHTTPLinks();
+        public static partial Regex TransformExplicitHTTPLinks();
 
         [GeneratedRegex("(\\[\\[https\\:\\/\\/.+?\\]\\])", RegexOptions.IgnoreCase)]
-        internal static partial Regex TransformExplicitHTTPsLinks();
+        public static partial Regex TransformExplicitHTTPsLinks();
 
         [GeneratedRegex("(\\[\\[.+?\\]\\])", RegexOptions.IgnoreCase)]
-        internal static partial Regex TransformInternalDynamicLinks();
+        public static partial Regex TransformInternalDynamicLinks();
 
         [GeneratedRegex("(\\#\\#[\\w-]+\\(\\))|(\\#\\#)([a-zA-Z_\\s{][a-zA-Z0-9_\\s{]*)\\(((?<BR>\\()|(?<-BR>\\))|[^()]*)+\\)|(\\#\\#[\\w-]+)", RegexOptions.IgnoreCase)]
-        internal static partial Regex TransformFunctions();
+        public static partial Regex TransformFunctions();
 
         [GeneratedRegex("(\\@\\@[\\w-]+\\(\\))|(\\@\\@[\\w-]+\\(.*?\\))|(\\@\\@[\\w-]+)", RegexOptions.IgnoreCase)]
-        internal static partial Regex TransformProcessingInstructions();
+        public static partial Regex TransformProcessingInstructions();
 
         [GeneratedRegex("(\\#\\#[\\w-]+\\(\\))|(##|{{|@@)([a-zA-Z_\\s{][a-zA-Z0-9_\\s{]*)\\(((?<BR>\\()|(?<-BR>\\))|[^()]*)+\\)|(\\#\\#[\\w-]+)", RegexOptions.IgnoreCase)]
-        internal static partial Regex TransformPostProcess();
+        public static partial Regex TransformPostProcess();
 
         [GeneratedRegex(@"^(={2,7}.*)", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
-        internal static partial Regex TransformSectionHeadings();
+        public static partial Regex TransformSectionHeadings();
 
         [GeneratedRegex(@"^(\^{2,7}.*)", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
-        internal static partial Regex TransformHeaderMarkup();
+        public static partial Regex TransformHeaderMarkup();
     }
 }
