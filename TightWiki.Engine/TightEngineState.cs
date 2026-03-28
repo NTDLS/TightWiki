@@ -444,7 +444,7 @@ namespace TightWiki.Engine
                 {
                     if (onlyProcessFirstChanceFunctions
                         && Engine.ScopeFunctions.TryGetFunctionEnvelope(parsedFunctionCall, out var function)
-                        && function.Attribute.IsFirstChance)
+                        && function.Attribute.IsFirstChance == false)
                     {
                         //We are only processing "first chance" functions, so skip processing this function.
                         continue;
@@ -733,13 +733,6 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-#if DEBUG
-                if (match.Value == "@@Tags(Home,Official)")
-                {
-
-                }
-#endif
-
                 var parsedFunctionCall = FunctionParser.ParseFunctionCall(match.Value);
 
                 try
@@ -779,7 +772,7 @@ namespace TightWiki.Engine
 
                     if (onlyProcessFirstChanceFunctions
                         && Engine.StandardFunctions.TryGetFunctionEnvelope(parsedFunctionCall, out var function)
-                        && function.Attribute.IsFirstChance)
+                        && function.Attribute.IsFirstChance == false)
                     {
                         //We are only processing "first chance" functions, so skip processing this function.
                         continue;
