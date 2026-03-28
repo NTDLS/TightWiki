@@ -12,7 +12,7 @@ namespace TightWiki.Engine.Implementation.Functions
     {
         [TightWikiScopeFunction("Code", "Renders a block of code with optional syntax highlighting.", true)]
         public async Task<HandlerResult> Code(ITightEngineState state, string scopeBody,
-            TightWikiCodeLanguage codeLanguage)
+            TightWikiCodeLanguage codeLanguage = TightWikiCodeLanguage.Auto)
         {
             var html = new StringBuilder();
 
