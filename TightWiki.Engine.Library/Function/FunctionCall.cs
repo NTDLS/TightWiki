@@ -1,4 +1,5 @@
 ﻿using NTDLS.Helpers;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using TightWiki.Engine.Library.Interfaces;
 
@@ -19,36 +20,118 @@ namespace TightWiki.Engine.Library.Function
         /// <summary>
         /// The arguments supplied by the caller.
         /// </summary>
-        public FunctionParameters Parameters { get; private set; }
+        public List<NamedParameter> Parameters { get; private set; } = new();
 
         public FunctionCall(TightEngineFunctionEnvelope prototype, List<string> args)
         {
             Prototype = prototype;
-            Parameters = new FunctionParameters(this);
             Name = prototype.Method.Name;
 
-            foreach (var arg in args)
-            {
-                if (arg.StartsWith(':') && arg.Contains('='))
-                {
-                    var parsed = arg.Substring(1); //Skip the colon.
-                    int index = parsed.IndexOf('=');
-                    var name = parsed.Substring(0, index).Trim().ToLowerInvariant();
-                    var value = parsed.Substring(index + 1).Trim();
+            int argIndex = 0;
 
-                    Parameters.Named.Add(new NamedParameter(name, value));
-                }
-                else
+            for (; argIndex < prototype.Parameters.Count && argIndex < args.Count; argIndex++)
+            {
+                var param = prototype.Parameters[argIndex];
+
+                if (TryGetArgPassedByName(args[argIndex], out var _, out var _))
                 {
-                    Parameters.Ordinals.Add(new OrdinalParameter(arg));
+                    //This argument was passed by name, so we now require all subsequent arguments to also be passed by name.
+                    break;
+                }
+
+                if (param.ParameterType.IsPrimitive || param.ParameterType.IsEnum)
+                {
+                    ConvertArgumentValue(param, args[argIndex]);
+                    Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), args[argIndex]));
+                }
+                else if (param.ParameterType.IsArray)
+                {
+                    //Swallow up all remaining arguments and pass them as an array.
+                    var arrayValues = new List<object?>();
+                    for (; argIndex < prototype.Parameters.Count; argIndex++)
+                    {
+                        arrayValues.Add(ConvertArgumentValue(param, args[argIndex]));
+                    }
+                    Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), arrayValues));
                 }
             }
 
-            ApplyPrototype();
+            if (argIndex < prototype.Parameters.Count && argIndex < args.Count)
+            {
+                int paramIndex = argIndex;
+
+                //We still have arguments left to process, this can only mean that they were passed by name, so we need to process them as such.
+                for (; argIndex < prototype.Parameters.Count && argIndex < args.Count;)
+                {
+                    var param = prototype.Parameters[paramIndex];
+
+                    if (TryGetArgPassedByName(args[argIndex], out var name, out var value))
+                    {
+                        if (string.Equals(name, param.Name, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), args[argIndex]));
+                            argIndex++;
+                            paramIndex++;
+                            continue;
+                        }
+                        else
+                        {
+                            if (param.HasDefaultValue)
+                            {
+                                Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), param.DefaultValue));
+                                paramIndex++;
+                                continue;
+                            }
+                            else
+                            {
+                                throw new Exception($"Function [{Name}], the argument [{name}] does not match any parameter of the function.");
+                            }
+                        }
+
+                        //This argument was passed by name, so we now require all subsequent arguments to also be passed by name.
+                    }
+                    else if (param.ParameterType.IsArray)
+                    {
+                        //Swallow up all remaining arguments and pass them as an array.
+                        var arrayValues = new List<object?>();
+                        for (; argIndex < prototype.Parameters.Count; argIndex++)
+                        {
+                            arrayValues.Add(ConvertArgumentValue(param, args[argIndex]));
+                        }
+                        Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), arrayValues));
+                    }
+                }
+            }
+
+            if (Parameters.Count != prototype.Parameters.Count)
+            {
+                throw new Exception($"Function [{Name}] was called with an incorrect number of arguments. Expected [{prototype.Parameters.Count}] but received [{Parameters.Count}].");
+            }
         }
+
+        private bool TryGetArgPassedByName(string arg, [NotNullWhen(true)] out string? name, [NotNullWhen(true)] out string? value)
+        {
+            if (arg.StartsWith(':') && arg.Contains('='))
+            {
+                var parsed = arg.Substring(1); //Skip the colon.
+                int index = parsed.IndexOf('=');
+                name = parsed.Substring(0, index).Trim().ToLowerInvariant();
+                value = parsed.Substring(index + 1).Trim();
+                return true;
+            }
+
+            name = null;
+            value = null;
+            return false;
+        }
+
         public async Task<HandlerResult> Execute(ITightEngineState state)
         {
             var parameters = new List<object>() { state };
+
+            //foreach (var arg in Parameters.Named)
+            //{
+            //}
 
             var result = ((Task<HandlerResult>?)Prototype.Method.Invoke(Prototype.EngineModule.Instance, parameters.ToArray())).EnsureNotNull();
             return await result;
@@ -57,229 +140,135 @@ namespace TightWiki.Engine.Library.Function
         /// <summary>
         /// Checks the passed value against the function prototype to ensure that the variable is the correct type, value, etc.
         /// </summary>
-        private void EnforcePrototypeParamValue(ParameterInfo param, string value)
+        private object? ConvertArgumentValue(ParameterInfo param, string value)
         {
             var parameterType = param.ParameterType;
 
             if (parameterType.IsPrimitive)
             {
-                switch (parameterType)
+                return ConvertPrimitave(param, value);
+            }
+            else if (parameterType.IsEnum)
+            {
+                if (Enum.TryParse(parameterType, value, ignoreCase: true, out var result))
                 {
-                    #region Type value parsers.
+                    return result;
+                }
+                var allowedValues = Enum.GetNames(parameterType);
+                throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] is not allowed. Allowed values are [{string.Join(",", allowedValues)}].");
+            }
 
-                    case Type t when t == typeof(bool):
-                        if (bool.TryParse(value, out bool _) == false)
+            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to type [{parameterType.Name}].");
+        }
+
+        private object ConvertPrimitave(ParameterInfo param, string value)
+        {
+            switch (param.ParameterType)
+            {
+                #region Type value parsers.
+
+                case Type t when t == typeof(bool):
+                    {
+                        if (bool.TryParse(value, out bool result) == false)
                         {
                             throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to boolean.");
                         }
-                        break;
-                    case Type t when t == typeof(int):
-                        if (int.TryParse(value, out int _) == false)
-                        {
-                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
-                        }
-                        break;
-                    case Type t when t == typeof(long):
-                        if (long.TryParse(value, out long _) == false)
-                        {
-                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
-                        }
-                        break;
-                    case Type t when t == typeof(short):
-                        if (short.TryParse(value, out short _) == false)
-                        {
-                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
-                        }
-                        break;
-                    case Type t when t == typeof(byte):
-                        if (byte.TryParse(value, out byte _) == false)
-                        {
-                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
-                        }
-                        break;
-                    case Type t when t == typeof(ulong):
-                        if (ulong.TryParse(value, out ulong _) == false)
-                        {
-                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
-                        }
-                        break;
-                    case Type t when t == typeof(ushort):
-                        if (ushort.TryParse(value, out ushort _) == false)
-                        {
-                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
-                        }
-                        break;
-                    case Type t when t == typeof(sbyte):
-                        if (sbyte.TryParse(value, out sbyte _) == false)
-                        {
-                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
-                        }
-                        break;
-                    case Type t when t == typeof(uint):
-                        if (uint.TryParse(value, out uint _) == false)
-                        {
-                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
-                        }
-                        break;
-                    case Type t when t == typeof(double):
-                        if (double.TryParse(value, out double _) == false)
-                        {
-                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to float.");
-                        }
-                        break;
-                    case Type t when t == typeof(decimal):
-                        if (decimal.TryParse(value, out decimal _) == false)
-                        {
-                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to float.");
-                        }
-                        break;
-                    case Type t when t == typeof(float):
-                        if (float.TryParse(value, out float _) == false)
-                        {
-                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to float.");
-                        }
-                        break;
-
-                    #endregion
-                }
-            }
-
-            if (parameterType.IsEnum)
-            {
-                var allowedValues = Enum.GetNames(parameterType);
-
-                if (allowedValues.Contains(value, StringComparer.InvariantCultureIgnoreCase) == false)
-                {
-                    throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] is not allowed. Allowed values are [{string.Join(",", allowedValues)}].");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Rolls through the supplied arguments and applies them to the prototype. Also identifies which supplied arguments are associated with each 
-        /// prototype argument and adds the ordinal based arguments to the name based collection. Ensures that each argument conforms with the prototype.
-        /// </summary>
-        private void ApplyPrototype()
-        {
-            int index = 0;
-
-            //Keep a list of the arguments as they are associated with the prototype so that we can later reference them by name.
-            var namedToAddLater = new List<NamedParameter>();
-
-            //Handle non-infinite ordinal based required parameters:
-            for (; index < Prototype.Parameters.Count; index++)
-            {
-                var param = Prototype.Parameters[index];
-
-                if (param.HasDefaultValue)
-                {
-                    break;
-                }
-                if (param.ParameterType.IsArray //It the parameter an array or List<>?
-                    || (param.ParameterType.IsGenericType && param.ParameterType.GetGenericTypeDefinition() == typeof(List<>)))
-                {
-                    break;
-                }
-
-                if (Parameters.Ordinals.Count > index)
-                {
-                    //Good, we have a value.
-                    string value = Parameters.Ordinals[index].Value;
-                    Parameters.Ordinals[index].AssociateWithPrototypeParam(param.Name);
-                    EnforcePrototypeParamValue(param, value.ToLowerInvariant());
-
-                    namedToAddLater.Add(new NamedParameter(param.Name, value));
-                }
-                else
-                {
-                    throw new Exception($"Function [{Name}], the required parameter [{param.Name}] was not specified.");
-                }
-            }
-
-            bool hasEncounteredOptionalParameter = false;
-
-            //Handle remaining optional parameters:
-            for (; index < Prototype.Parameters.Count; index++)
-            {
-                var param = Prototype.Parameters[index];
-
-                if (param.IsInfinite()) //Is the parameter an array or List<>?
-                {
-                    if (param.HasDefaultValue)
+                        return result;
+                    }
+                case Type t when t == typeof(int):
                     {
-                        //Make sure we have at least one of these required infinite parameters passed.
-                        if (Parameters.Ordinals.Count > index)
+                        if (int.TryParse(value, out int result) == false)
                         {
-                            //Good, we have a value.
-                            string value = Parameters.Ordinals[index].Value;
-                            Parameters.Ordinals[index].AssociateWithPrototypeParam(param.Name);
-                            EnforcePrototypeParamValue(param, value.ToLowerInvariant());
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
                         }
-                        else
+                        return result;
+                    }
+                case Type t when t == typeof(long):
+                    {
+                        if (long.TryParse(value, out long result) == false)
                         {
-                            throw new Exception($"Function [{Name}], the required infinite parameter [{param.Name}] was not passed.");
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
                         }
+                        return result;
+                    }
+                case Type t when t == typeof(short):
+                    {
+                        if (short.TryParse(value, out short result) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
+                        }
+                        return result;
                     }
 
-                    //Now that we have encountered an infinite parameter, it will swallow up all other ordinal based arguments. Might as well check the types and exit the loop.
-                    for (; index < Parameters.Ordinals.Count; index++)
+                case Type t when t == typeof(byte):
                     {
-                        string value = Parameters.Ordinals[index].Value;
-                        Parameters.Ordinals[index].AssociateWithPrototypeParam(param.Name);
-                        EnforcePrototypeParamValue(param, value.ToLowerInvariant());
-                        namedToAddLater.Add(new NamedParameter(param.Name, value));
+                        if (byte.TryParse(value, out byte result) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
+                        }
+                        return result;
+                    }
+                case Type t when t == typeof(ulong):
+                    {
+                        if (ulong.TryParse(value, out ulong result) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
+                        }
+                        return result;
+                    }
+                case Type t when t == typeof(ushort):
+                    {
+                        if (ushort.TryParse(value, out ushort result) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
+                        }
+                        return result;
+                    }
+                case Type t when t == typeof(sbyte):
+                    {
+                        if (sbyte.TryParse(value, out sbyte result) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
+                        }
+                        return result;
+                    }
+                case Type t when t == typeof(uint):
+                    {
+                        if (uint.TryParse(value, out uint result) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
+                        }
+                        return result;
+                    }
+                case Type t when t == typeof(double):
+                    {
+                        if (double.TryParse(value, out double result) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to float.");
+                        }
+                        return result;
+                    }
+                case Type t when t == typeof(decimal):
+                    {
+                        if (decimal.TryParse(value, out decimal result) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to float.");
+                        }
+                        return result;
+                    }
+                case Type t when t == typeof(float):
+                    {
+                        if (float.TryParse(value, out float result) == false)
+                        {
+                            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to float.");
+                        }
+                        return result;
                     }
 
-                    break;
-                }
-
-                if (param.HasDefaultValue)
-                {
-                    hasEncounteredOptionalParameter = true;
-                }
-
-                if (param.HasDefaultValue == false && hasEncounteredOptionalParameter)
-                {
-                    throw new Exception($"Function [{Name}], the required parameter [{param.Name}] was found after other optional parameters.");
-                }
-                else if (param.IsInfinite()) //Is the parameter an array or List<>?
-                {
-                    throw new Exception($"Function [{Name}], encountered an unexpected number of infinite parameters in prototype for [{param.Name}].");
-                }
-
-                if (Parameters.Ordinals.Count > index)
-                {
-                    string value = Parameters.Ordinals[index].Value;
-                    Parameters.Ordinals[index].AssociateWithPrototypeParam(param.Name);
-                    EnforcePrototypeParamValue(param, value.ToLowerInvariant());
-                    namedToAddLater.Add(new NamedParameter(param.Name, value));
-                }
+                #endregion
             }
 
-            foreach (var named in Parameters.Named)
-            {
-                var param = Prototype.Parameters.Where(o => o.Name.Equals(named.Name, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault()
-                    ?? throw new Exception($"Function [{Name}], the named parameter [{named.Name}] is not defined in the function prototype.");
-
-                EnforcePrototypeParamValue(param, named.Value);
-            }
-
-            Parameters.Named.AddRange(namedToAddLater);
-
-            var unmatchedParams = Parameters.Ordinals.Where(o => o.IsMatched == false).ToList();
-            if (unmatchedParams.Count != 0)
-            {
-                throw new Exception($"Function [{Name}], unmatched parameter value [{unmatchedParams.First().Value}].");
-            }
-
-            var nonInfiniteParams = Prototype.Parameters.Where(o => o.IsInfinite() == false).Select(o => o.Name.ToLowerInvariant());
-            var groups = Parameters.Named.Where(o => nonInfiniteParams.Contains(o.Name.ToLowerInvariant())).GroupBy(o => o.Name.ToLowerInvariant()).Where(o => o.Count() > 1);
-
-            if (groups.Any())
-            {
-                var group = groups.First();
-                throw new Exception($"Function [{Name}], non-infinite parameter specified more than once: [{group.Key}].");
-            }
+            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted [{param.ParameterType.Name}].");
         }
     }
 }
