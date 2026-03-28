@@ -23,7 +23,7 @@ namespace TightWiki.Engine.Library.Function
                 && attr.Demarcation == preparsedFunctionCall.Demarcation)
                 ?? throw new Exception($"Function ({preparsedFunctionCall.Name}) does not have a defined prototype.");
 
-            return new PreparedFunction(state, prototype, preparsedFunctionCall.Arguments);
+            return new PreparedFunction(state, prototype, preparsedFunctionCall);
         }
 
         public static ParsedFunctionCall ParseFunctionCall(string functionCall)
@@ -31,13 +31,14 @@ namespace TightWiki.Engine.Library.Function
             string functionName = string.Empty;
             int parseEndIndex = 0;
             var arguments = new List<string>();
-
             var firstLine = functionCall.Split('\n')?.FirstOrDefault();
 
             if (firstLine == null || firstLine.Where(x => x == '(').Count() != firstLine.Where(x => x == ')').Count())
             {
                 throw new WikiFunctionParserError($"Function parentheses mismatch.");
             }
+
+            string? bodyText = null;
 
             string functionDemarcation = functionCall.Substring(0, 2);
 
@@ -55,9 +56,7 @@ namespace TightWiki.Engine.Library.Function
 
                 if (Constants.ParseDemarcation(functionDemarcation) == WikiFunctionType.Scoped)
                 {
-                    var scopeBody = functionCall.Substring(parseEndIndex, (functionCall.Length - parseEndIndex) - 2).Trim();
-                    //Insert the scope body as the first argument for scope functions:
-                    arguments.Insert(0, scopeBody);
+                    bodyText = functionCall.Substring(parseEndIndex, (functionCall.Length - parseEndIndex) - 2).Trim();
                 }
             }
             else //The function call has no parameters.
@@ -68,13 +67,11 @@ namespace TightWiki.Engine.Library.Function
 
                 if (Constants.ParseDemarcation(functionDemarcation) == WikiFunctionType.Scoped)
                 {
-                    var scopeBody = functionCall.Substring(parseEndIndex, (functionCall.Length - parseEndIndex) - 2).Trim();
-                    //Insert the scope body as the first argument for scope functions:
-                    arguments.Insert(0, scopeBody);
+                    bodyText = functionCall.Substring(parseEndIndex, (functionCall.Length - parseEndIndex) - 2).Trim();
                 }
             }
 
-            return new ParsedFunctionCall(functionDemarcation, functionName, parseEndIndex, arguments);
+            return new ParsedFunctionCall(functionDemarcation, functionName, parseEndIndex, arguments, bodyText);
         }
 
         /// <summary>

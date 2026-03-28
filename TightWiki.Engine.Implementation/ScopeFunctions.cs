@@ -118,7 +118,7 @@ namespace TightWiki.Engine.Implementation
 
         [TightWikiScopeFunction("Bullets", "Renders a list of bullets with optional nesting.")]
         public async Task<HandlerResult> Bullets(ITightEngineState state, string scopeBody,
-            TightWikiBulletStyle type)
+            TightWikiBulletStyle type = TightWikiBulletStyle.Unordered)
         {
             var html = new StringBuilder();
 
