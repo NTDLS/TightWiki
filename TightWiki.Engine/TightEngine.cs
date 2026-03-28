@@ -2,7 +2,7 @@
 using NTDLS.Helpers;
 using System.Reflection;
 using TightWiki.Engine.Library;
-using TightWiki.Engine.Library.Ae.Engine.Metadata;
+using TightWiki.Engine.Library.Attributes;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
@@ -23,10 +23,11 @@ namespace TightWiki.Engine
         public IExceptionHandler ExceptionHandler { get; private set; }
         public ICompletionHandler CompletionHandler { get; private set; }
 
-        public List<TightEnginFunctionEnvelope> StandardFunctions { get; private set; }
-        public List<TightEnginFunctionEnvelope> ScopeFunctions { get; private set; }
-        public List<TightEnginFunctionEnvelope> ProcessingFunctions { get; private set; }
-        public List<TightEnginFunctionEnvelope> PostProcessingFunctions { get; private set; }
+        public List<TightEngineFunctionModule> EngineModules { get; private set; }
+        public List<TightEngineFunctionEnvelope> StandardFunctions { get; private set; }
+        public List<TightEngineFunctionEnvelope> ScopeFunctions { get; private set; }
+        public List<TightEngineFunctionEnvelope> ProcessingFunctions { get; private set; }
+        public List<TightEngineFunctionEnvelope> PostProcessingFunctions { get; private set; }
 
         public TightEngine(
             ILogger<ITightEngine> logger,
@@ -49,54 +50,98 @@ namespace TightWiki.Engine
             ExceptionHandler = exceptionHandler;
             CompletionHandler = completionHandler;
 
-            //Enum the various types of functions based on their attributes.
+            EngineModules = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a => a.GetTypes())
+                .Select(t => new
+                {
+                    Type = t,
+                    Attribute = t.GetCustomAttribute<TightWikiFunctionModuleAttribute>()
+                })
+                .Where(x => x.Attribute != null)
+                .Where(x => typeof(ITightWikiFunctionModule).IsAssignableFrom(x.Type))
+                //This is where we instantiate the function modules, so we can later
+                //  invoke their functions without needing to instantiate them again.
+                .Select(x => new TightEngineFunctionModule(x.Type, x.Attribute.EnsureNotNull()))
+                .ToList();
 
-            StandardFunctions = Assembly.GetExecutingAssembly()
-                .GetTypes()
-                .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+            StandardFunctions = EngineModules
+                .SelectMany(t => t.DeclaringType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
                 .Select(m => new
                 {
                     Method = m,
                     Attribute = m.GetCustomAttribute<TightWikiStandardFunctionAttribute>()
                 })
                 .Where(x => x.Attribute != null)
-                .Select(m => new TightEnginFunctionEnvelope(m.Method, m.Attribute.EnsureNotNull()))
+                .Select(x =>
+                {
+                    if (x.Method.ReturnType != typeof(Task<HandlerResult>))
+                        throw new InvalidOperationException(
+                            $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
+                    return x;
+                })
+                .Select(m => new TightEngineFunctionEnvelope(
+                    EngineModules.Single(t => t.DeclaringType == m.Method.DeclaringType),
+                    m.Method, m.Attribute.EnsureNotNull()))
                 .ToList();
 
-            ScopeFunctions = Assembly.GetExecutingAssembly()
-                .GetTypes()
-                .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+            ScopeFunctions = EngineModules
+                .SelectMany(t => t.DeclaringType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
                 .Select(m => new
                 {
                     Method = m,
                     Attribute = m.GetCustomAttribute<TightWikiScopeFunctionAttribute>()
                 })
                 .Where(x => x.Attribute != null)
-                .Select(m => new TightEnginFunctionEnvelope(m.Method, m.Attribute.EnsureNotNull()))
+                .Select(x =>
+                {
+                    if (x.Method.ReturnType != typeof(Task<HandlerResult>))
+                        throw new InvalidOperationException(
+                            $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
+                    return x;
+                })
+                .Select(m => new TightEngineFunctionEnvelope(
+                    EngineModules.Single(t => t.DeclaringType == m.Method.DeclaringType),
+                    m.Method, m.Attribute.EnsureNotNull()))
                 .ToList();
 
-            ProcessingFunctions = Assembly.GetExecutingAssembly()
-                .GetTypes()
-                .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+            ProcessingFunctions = EngineModules
+                .SelectMany(t => t.DeclaringType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
                 .Select(m => new
                 {
                     Method = m,
                     Attribute = m.GetCustomAttribute<TightWikiProcessingInstructionFunctionAttribute>()
                 })
                 .Where(x => x.Attribute != null)
-                .Select(m => new TightEnginFunctionEnvelope(m.Method, m.Attribute.EnsureNotNull()))
+                .Select(x =>
+                {
+                    if (x.Method.ReturnType != typeof(Task<HandlerResult>))
+                        throw new InvalidOperationException(
+                            $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
+                    return x;
+                })
+                .Select(m => new TightEngineFunctionEnvelope(
+                    EngineModules.Single(t => t.DeclaringType == m.Method.DeclaringType),
+                    m.Method, m.Attribute.EnsureNotNull()))
                 .ToList();
 
-            PostProcessingFunctions = Assembly.GetExecutingAssembly()
-                .GetTypes()
-                .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+            PostProcessingFunctions = EngineModules
+                .SelectMany(t => t.DeclaringType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
                 .Select(m => new
                 {
                     Method = m,
                     Attribute = m.GetCustomAttribute<TightWikiPostProcessingInstructionFunctionAttribute>()
                 })
                 .Where(x => x.Attribute != null)
-                .Select(m => new TightEnginFunctionEnvelope(m.Method, m.Attribute.EnsureNotNull()))
+                .Select(x =>
+                {
+                    if (x.Method.ReturnType != typeof(Task<HandlerResult>))
+                        throw new InvalidOperationException(
+                            $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
+                    return x;
+                })
+                .Select(m => new TightEngineFunctionEnvelope(
+                    EngineModules.Single(t => t.DeclaringType == m.Method.DeclaringType),
+                    m.Method, m.Attribute.EnsureNotNull()))
                 .ToList();
         }
 

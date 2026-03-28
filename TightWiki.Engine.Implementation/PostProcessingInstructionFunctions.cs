@@ -1,13 +1,15 @@
 ﻿using System.Text;
 using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Engine.Library;
-using TightWiki.Engine.Library.Ae.Engine.Metadata;
+using TightWiki.Engine.Library.Attributes;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Models;
 
 namespace TightWiki.Engine.Implementation
 {
-    internal class PostProcessingInstructionFunctions
+    [TightWikiFunctionModule("Post Processing Instruction Functions", "Built-in post processing instruction functions.")]
+    public class PostProcessingInstructionFunctions
+        : ITightWikiFunctionModule
     {
         [TightWikiPostProcessingInstructionFunction("Tags", "Displays list of tag links for the tags that are included on the current page.")]
         public async Task<HandlerResult> Tags(ITightEngineState state,

@@ -783,7 +783,6 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformFunctions().Matches(pageContent.ToString()));
 
-            //var result = methodInfo.Invoke(obj, new object[] { param1, param2 });
 
 
             //WIP
@@ -832,7 +831,7 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    //var result = await functionHandler.Handle(this, function, string.Empty);
+                    var result = await function.Execute(this);
                     //StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
                 }
                 catch (Exception ex)

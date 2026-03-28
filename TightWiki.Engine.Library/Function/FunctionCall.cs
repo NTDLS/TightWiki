@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using NTDLS.Helpers;
+using System.Reflection;
+using TightWiki.Engine.Library.Interfaces;
 
 namespace TightWiki.Engine.Library.Function
 {
@@ -12,14 +14,14 @@ namespace TightWiki.Engine.Library.Function
         /// </summary>
         public string Name { get; private set; }
 
-        public TightEnginFunctionEnvelope Prototype { get; set; }
+        public TightEngineFunctionEnvelope Prototype { get; set; }
 
         /// <summary>
         /// The arguments supplied by the caller.
         /// </summary>
         public FunctionParameters Parameters { get; private set; }
 
-        public FunctionCall(TightEnginFunctionEnvelope prototype, List<string> args)
+        public FunctionCall(TightEngineFunctionEnvelope prototype, List<string> args)
         {
             Prototype = prototype;
             Parameters = new FunctionParameters(this);
@@ -43,6 +45,13 @@ namespace TightWiki.Engine.Library.Function
             }
 
             ApplyPrototype();
+        }
+        public async Task<HandlerResult> Execute(ITightEngineState state)
+        {
+            var parameters = new List<object>() { state };
+
+            var result = ((Task<HandlerResult>?)Prototype.Method.Invoke(Prototype.EngineModule.Instance, parameters.ToArray())).EnsureNotNull();
+            return await result;
         }
 
         /// <summary>
@@ -162,7 +171,7 @@ namespace TightWiki.Engine.Library.Function
             {
                 var param = Prototype.Parameters[index];
 
-                if (param.DefaultValue != null)
+                if (param.HasDefaultValue)
                 {
                     break;
                 }
@@ -196,7 +205,7 @@ namespace TightWiki.Engine.Library.Function
 
                 if (param.IsInfinite()) //Is the parameter an array or List<>?
                 {
-                    if (param.DefaultValue != null)
+                    if (param.HasDefaultValue)
                     {
                         //Make sure we have at least one of these required infinite parameters passed.
                         if (Parameters.Ordinals.Count > index)
@@ -224,12 +233,12 @@ namespace TightWiki.Engine.Library.Function
                     break;
                 }
 
-                if (param.DefaultValue != null)
+                if (param.HasDefaultValue)
                 {
                     hasEncounteredOptionalParameter = true;
                 }
 
-                if (param.DefaultValue == null && hasEncounteredOptionalParameter)
+                if (param.HasDefaultValue == false && hasEncounteredOptionalParameter)
                 {
                     throw new Exception($"Function [{Name}], the required parameter [{param.Name}] was found after other optional parameters.");
                 }

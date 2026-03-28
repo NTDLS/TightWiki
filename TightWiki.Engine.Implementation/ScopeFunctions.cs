@@ -2,13 +2,15 @@
 using System.Text;
 using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Engine.Library;
-using TightWiki.Engine.Library.Ae.Engine.Metadata;
+using TightWiki.Engine.Library.Attributes;
 using TightWiki.Engine.Library.Interfaces;
 using static TightWiki.Engine.Library.Constants;
 
 namespace TightWiki.Engine.Implementation
 {
-    internal class ScopeFunctions
+    [TightWikiFunctionModule("Processing Instructions Functions", "Built-in scope functions.")]
+    public class ScopeFunctions
+        : ITightWikiFunctionModule
     {
         [TightWikiScopeFunction("Code", "Renders a block of code with optional syntax highlighting.", true)]
         public async Task<HandlerResult> Code(ITightEngineState state, string scopeBody,

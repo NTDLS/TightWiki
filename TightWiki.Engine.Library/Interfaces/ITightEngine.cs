@@ -17,10 +17,10 @@ namespace TightWiki.Engine.Library.Interfaces
         IExceptionHandler ExceptionHandler { get; }
         ICompletionHandler CompletionHandler { get; }
 
-        List<TightEnginFunctionEnvelope> StandardFunctions { get; }
-        List<TightEnginFunctionEnvelope> ScopeFunctions { get; }
-        List<TightEnginFunctionEnvelope> ProcessingFunctions { get; }
-        List<TightEnginFunctionEnvelope> PostProcessingFunctions { get; }
+        List<TightEngineFunctionEnvelope> StandardFunctions { get; }
+        List<TightEngineFunctionEnvelope> ScopeFunctions { get; }
+        List<TightEngineFunctionEnvelope> ProcessingFunctions { get; }
+        List<TightEngineFunctionEnvelope> PostProcessingFunctions { get; }
 
         Task<ITightEngineState> Transform(ISharedLocalizationText localizer, ISessionState? sessionState, IWikiPage page, int? revision = null, WikiMatchType[]? omitMatches = null);
     }

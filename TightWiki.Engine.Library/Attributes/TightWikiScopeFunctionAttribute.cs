@@ -1,24 +1,19 @@
-﻿using TightWiki.Engine.Library.Attributes;
-
-namespace TightWiki.Engine.Library
+﻿namespace TightWiki.Engine.Library.Attributes
 {
-    namespace Ae.Engine.Metadata
-    {
-        [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-        public class TightWikiScopeFunctionAttribute
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    public class TightWikiScopeFunctionAttribute
             : Attribute, ITightWikiFunctionPrototypeAttribute
-        {
-            public string FriendlyName { get; }
-            public string? Description { get; }
-            public bool IsFirstChance { get; }
-            public string Demarcation { get; } = "$$";
+    {
+        public string FriendlyName { get; }
+        public string? Description { get; }
+        public bool IsFirstChance { get; }
+        public string Demarcation { get; } = "$$";
 
-            public TightWikiScopeFunctionAttribute(string friendlyName, string? description = null, bool isFirstChance = false)
-            {
-                FriendlyName = friendlyName;
-                Description = description;
-                IsFirstChance = isFirstChance;
-            }
+        public TightWikiScopeFunctionAttribute(string friendlyName, string? description = null, bool isFirstChance = false)
+        {
+            FriendlyName = friendlyName;
+            Description = description;
+            IsFirstChance = isFirstChance;
         }
     }
 }

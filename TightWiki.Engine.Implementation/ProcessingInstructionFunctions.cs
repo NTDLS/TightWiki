@@ -1,12 +1,14 @@
 ﻿using TightWiki.Engine.Library;
-using TightWiki.Engine.Library.Ae.Engine.Metadata;
+using TightWiki.Engine.Library.Attributes;
 using TightWiki.Engine.Library.Interfaces;
 using static TightWiki.Engine.Library.Constants;
 using static TightWiki.Library.Constants;
 
 namespace TightWiki.Engine.Implementation
 {
-    internal class ProcessingInstructionFunctions
+    [TightWikiFunctionModule("Processing Instruction Functions", "Built-in processing instruction functions.")]
+    public class ProcessingInstructionFunctions
+        : ITightWikiFunctionModule
     {
         //Associates tags with a page. These are saved with the page and can also be displayed.
         [TightWikiProcessingInstructionFunction("Tags", "Associates tags with a page. These are saved with the page and can also be displayed.")]

@@ -13,7 +13,7 @@ namespace TightWiki.Engine.Library.Function
         /// <summary>
         /// Parsed a function call, its parameters and matches it to a defined function and its prototype.
         /// </summary>
-        public static FunctionCall ParseAndGetFunctionCall(List<TightEnginFunctionEnvelope> prototypes, string functionCall, out int parseEndIndex)
+        public static FunctionCall ParseAndGetFunctionCall(List<TightEngineFunctionEnvelope> prototypes, string functionCall, out int parseEndIndex)
         {
             var parsed = ParseFunctionCall(functionCall);
 

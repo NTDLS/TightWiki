@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Text;
 using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Engine.Library;
-using TightWiki.Engine.Library.Ae.Engine.Metadata;
+using TightWiki.Engine.Library.Attributes;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models;
@@ -14,7 +14,9 @@ using static TightWiki.Library.Constants;
 
 namespace TightWiki.Engine.Implementation
 {
-    internal class StandardFunctions
+    [TightWikiFunctionModule("Standard Functions", "Built-in standard functions.")]
+    public class StandardFunctions
+        : ITightWikiFunctionModule
     {
         #region Helpers.
 
