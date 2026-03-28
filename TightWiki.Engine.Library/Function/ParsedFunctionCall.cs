@@ -8,7 +8,7 @@
         public List<string> Arguments { get; set; } = new List<string>();
         public string? BodyText { get; }
 
-        public ParsedFunctionCall(string demarcation, string name, int endIndex, List<string> arguments, string ?bodyText)
+        public ParsedFunctionCall(string demarcation, string name, int endIndex, List<string> arguments, string? bodyText)
         {
             Demarcation = demarcation;
             Name = name;
