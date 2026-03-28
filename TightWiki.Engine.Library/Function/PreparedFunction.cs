@@ -17,44 +17,44 @@ namespace TightWiki.Engine.Library.Function
         /// </summary>
         public string Name { get; private set; }
 
-        public TightEngineFunctionEnvelope Prototype { get; set; }
+        public TightEngineFunctionDescriptor Descriptor { get; set; }
 
         /// <summary>
         /// The arguments supplied by the caller.
         /// </summary>
         public List<NamedParameter> Parameters { get; private set; } = new();
 
-        public PreparedFunction(ITightEngineState state, TightEngineFunctionEnvelope prototype, ParsedFunctionCall parsedFunction)
+        public PreparedFunction(ITightEngineState state, TightEngineFunctionDescriptor descriptor, ParsedFunctionCall parsedFunction)
         {
-            Prototype = prototype;
-            Name = prototype.Method.Name;
+            Descriptor = descriptor;
+            Name = descriptor.Method.Name;
 
             int givenArgIndex = 0;
-            int prototypeArgIndex = 0;
+            int descriptorArgIndex = 0;
 
-            if (prototype.Parameters.Count == 0)
+            if (descriptor.Parameters.Count == 0)
             {
                 throw new Exception($"Function [{Name}] was called with arguments, but the function does not accept any parameters.");
             }
 
             //The first parameter must always be the state, so we add it to the parameters list before processing the caller supplied arguments.
-            if (prototype.Parameters[prototypeArgIndex].ParameterType != typeof(ITightEngineState))
+            if (descriptor.Parameters[descriptorArgIndex].ParameterType != typeof(ITightEngineState))
             {
                 throw new Exception($"Function [{Name}] must have the first parameter of type ITightEngineState.");
             }
-            Parameters.Add(new NamedParameter(prototype.Parameters[prototypeArgIndex].Name.EnsureNotNull(), state));
-            prototypeArgIndex++;
+            Parameters.Add(new NamedParameter(descriptor.Parameters[descriptorArgIndex].Name.EnsureNotNull(), state));
+            descriptorArgIndex++;
 
-            if (prototype.Attribute is TightWikiScopeFunctionAttribute)
+            if (descriptor.Attribute is TightWikiScopeFunctionAttribute)
             {
                 //For scope functions, the second parameter must be the bodyText.
-                Parameters.Add(new NamedParameter(prototype.Parameters[prototypeArgIndex].Name.EnsureNotNull(), parsedFunction.BodyText ?? string.Empty));
-                prototypeArgIndex++;
+                Parameters.Add(new NamedParameter(descriptor.Parameters[descriptorArgIndex].Name.EnsureNotNull(), parsedFunction.BodyText ?? string.Empty));
+                descriptorArgIndex++;
             }
 
-            for (; prototypeArgIndex < prototype.Parameters.Count && givenArgIndex < parsedFunction.Arguments.Count;)
+            for (; descriptorArgIndex < descriptor.Parameters.Count && givenArgIndex < parsedFunction.Arguments.Count;)
             {
-                var param = prototype.Parameters[prototypeArgIndex];
+                var param = descriptor.Parameters[descriptorArgIndex];
 
                 if (TryGetArgPassedByName(parsedFunction.Arguments[givenArgIndex], out var _, out var _))
                 {
@@ -66,7 +66,7 @@ namespace TightWiki.Engine.Library.Function
                 if (type.IsPrimitive || type.IsEnum || type == typeof(string))
                 {
                     Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), ConvertArgumentValue(param, parsedFunction.Arguments[givenArgIndex])));
-                    prototypeArgIndex++;
+                    descriptorArgIndex++;
                     givenArgIndex++;
                 }
                 else if (type.IsArray)
@@ -89,42 +89,42 @@ namespace TightWiki.Engine.Library.Function
                     }
 
                     Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), typedArray));
-                    prototypeArgIndex++;
+                    descriptorArgIndex++;
                 }
             }
 
-            if (givenArgIndex < prototype.Parameters.Count && givenArgIndex < parsedFunction.Arguments.Count)
+            if (givenArgIndex < descriptor.Parameters.Count && givenArgIndex < parsedFunction.Arguments.Count)
             {
                 //We still have arguments left to process, this can only mean that they were passed by name, so we need to process them as such.
-                for (; prototypeArgIndex < prototype.Parameters.Count && givenArgIndex < parsedFunction.Arguments.Count;)
+                for (; descriptorArgIndex < descriptor.Parameters.Count && givenArgIndex < parsedFunction.Arguments.Count;)
                 {
-                    var param = prototype.Parameters[prototypeArgIndex];
+                    var param = descriptor.Parameters[descriptorArgIndex];
 
                     if (TryGetArgPassedByName(parsedFunction.Arguments[givenArgIndex], out var name, out var value))
                     {
-                        if (!prototype.Parameters.Any(o => string.Equals(o.Name, name, StringComparison.InvariantCultureIgnoreCase)))
+                        if (!descriptor.Parameters.Any(o => string.Equals(o.Name, name, StringComparison.InvariantCultureIgnoreCase)))
                             throw new Exception($"Function [{Name}] does not have a parameter named [{name}].");
 
                         if (string.Equals(name, param.Name, StringComparison.InvariantCultureIgnoreCase))
                         {
                             //We have a named parameter and we are currently processing the correct
-                            //  parameter in the prototype, so we can add it to the parameters list.
+                            //  parameter in the function, so we can add it to the parameters list.
                             Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), parsedFunction.Arguments[givenArgIndex]));
                             givenArgIndex++;
-                            prototypeArgIndex++;
+                            descriptorArgIndex++;
                             continue;
                         }
                         else
                         {
-                            //We have a named parameter but it does not match the current parameter in the prototype,
-                            //so we need to check if the current prototype parameter has a default value. If it does, we can
-                            //add it to the parameters list and move on to the next parameter in the prototype.
-                            //If it does not, we need to throw an error because we cannot skip required parameters in the prototype.
+                            //We have a named parameter but it does not match the current parameter for the function,
+                            //so we need to check if the current function's parameter has a default value. If it does, we can
+                            //add it to the parameters list and move on to the next parameter for the function.
+                            //If it does not, we need to throw an error because we cannot skip required parameters for the function.
 
                             if (param.HasDefaultValue)
                             {
                                 Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), param.DefaultValue));
-                                prototypeArgIndex++;
+                                descriptorArgIndex++;
                                 continue;
                             }
                             else
@@ -159,14 +159,14 @@ namespace TightWiki.Engine.Library.Function
             }
 
             //Add the remaining parameters that were not supplied by the caller, if they have default values.
-            for (; prototypeArgIndex < prototype.Parameters.Count;)
+            for (; descriptorArgIndex < descriptor.Parameters.Count;)
             {
-                var param = prototype.Parameters[prototypeArgIndex];
+                var param = descriptor.Parameters[descriptorArgIndex];
 
                 if (param.HasDefaultValue)
                 {
                     Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), param.DefaultValue));
-                    prototypeArgIndex++;
+                    descriptorArgIndex++;
                     continue;
                 }
                 else
@@ -175,9 +175,9 @@ namespace TightWiki.Engine.Library.Function
                 }
             }
 
-            if (Parameters.Count != prototype.Parameters.Count)
+            if (Parameters.Count != descriptor.Parameters.Count)
             {
-                throw new Exception($"Function [{Name}] was called with an incorrect number of arguments. Expected [{prototype.Parameters.Count}] but received [{Parameters.Count}].");
+                throw new Exception($"Function [{Name}] was called with an incorrect number of arguments. Expected [{descriptor.Parameters.Count}] but received [{Parameters.Count}].");
             }
         }
 
@@ -200,12 +200,12 @@ namespace TightWiki.Engine.Library.Function
         public async Task<HandlerResult> Execute(ITightEngineState state)
         {
             var parameters = Parameters.Select(o => o.Value).ToArray();
-            var result = ((Task<HandlerResult>?)Prototype.Method.Invoke(Prototype.EngineModule.Instance, parameters)).EnsureNotNull();
+            var result = ((Task<HandlerResult>?)Descriptor.Method.Invoke(Descriptor.EngineModule.Instance, parameters)).EnsureNotNull();
             return await result;
         }
 
         /// <summary>
-        /// Checks the passed value against the function prototype to ensure that the variable is the correct type, value, etc.
+        /// Checks the passed value against the function descriptor to ensure that the variable is the correct type, value, etc.
         /// </summary>
         private object? ConvertArgumentValue(ParameterInfo param, string value)
         {

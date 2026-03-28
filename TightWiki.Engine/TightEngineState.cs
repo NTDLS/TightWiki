@@ -443,7 +443,7 @@ namespace TightWiki.Engine
                 try
                 {
                     if (onlyProcessFirstChanceFunctions
-                        && Engine.ScopeFunctions.TryGetFunctionEnvelope(parsedFunctionCall, out var function)
+                        && Engine.ScopeFunctions.TryGetFunctionDescriptor(parsedFunctionCall, out var function)
                         && function.Attribute.IsFirstChance == false)
                     {
                         //We are only processing "first chance" functions, so skip processing this function.
@@ -764,14 +764,14 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    if (Engine.PostProcessingFunctions.TryGetFunctionEnvelope(parsedFunctionCall, out _))
+                    if (Engine.PostProcessingFunctions.TryGetFunctionDescriptor(parsedFunctionCall, out _))
                     {
                         //This IS a function, but it is meant to be parsed at the end of processing.
                         continue;
                     }
 
                     if (onlyProcessFirstChanceFunctions
-                        && Engine.StandardFunctions.TryGetFunctionEnvelope(parsedFunctionCall, out var function)
+                        && Engine.StandardFunctions.TryGetFunctionDescriptor(parsedFunctionCall, out var function)
                         && function.Attribute.IsFirstChance == false)
                     {
                         //We are only processing "first chance" functions, so skip processing this function.

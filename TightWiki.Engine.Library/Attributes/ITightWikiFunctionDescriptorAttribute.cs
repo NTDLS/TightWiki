@@ -1,6 +1,6 @@
 ﻿namespace TightWiki.Engine.Library.Attributes
 {
-    public interface ITightWikiFunctionPrototypeAttribute
+    public interface ITightWikiFunctionDescriptorAttribute
     {
         string FriendlyName { get; }
         string? Description { get; }

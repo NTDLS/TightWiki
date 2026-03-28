@@ -2,7 +2,7 @@
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class TightWikiPostProcessingInstructionFunctionAttribute
-            : Attribute, ITightWikiFunctionPrototypeAttribute
+            : Attribute, ITightWikiFunctionDescriptorAttribute
     {
         public string FriendlyName { get; }
         public string? Description { get; }

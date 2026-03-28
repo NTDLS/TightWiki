@@ -13,18 +13,18 @@ namespace TightWiki.Engine.Library.Function
         private static partial Regex FunctionCallParser();
 
         /// <summary>
-        /// Parsed a function call, its parameters and matches it to a defined function and its prototype.
+        /// Parsed a function call, its parameters and matches it to a defined function and its descriptor.
         /// </summary>
         public static PreparedFunction PrepareFuncionCall(ITightEngineState state,
-            List<TightEngineFunctionEnvelope> prototypes, ParsedFunctionCall preparsedFunctionCall)
+            List<TightEngineFunctionDescriptor> descriptors, ParsedFunctionCall preparsedFunctionCall)
         {
-            var prototype = prototypes.SingleOrDefault(o =>
+            var descriptor = descriptors.SingleOrDefault(o =>
                 o.Method.Name.Equals(preparsedFunctionCall.Name, StringComparison.InvariantCultureIgnoreCase)
-                && o.Attribute is ITightWikiFunctionPrototypeAttribute attr
+                && o.Attribute is ITightWikiFunctionDescriptorAttribute attr
                 && attr.Demarcation == preparsedFunctionCall.Demarcation)
-                ?? throw new Exception($"Function ({preparsedFunctionCall.Name}) does not have a defined prototype.");
+                ?? throw new Exception($"Function ({preparsedFunctionCall.Name}) does not have a defined descriptor.");
 
-            return new PreparedFunction(state, prototype, preparsedFunctionCall);
+            return new PreparedFunction(state, descriptor, preparsedFunctionCall);
         }
 
         public static ParsedFunctionCall ParseFunctionCall(string functionCall)

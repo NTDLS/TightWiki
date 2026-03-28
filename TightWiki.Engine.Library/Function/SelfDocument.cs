@@ -9,7 +9,7 @@
         {
             /*
             System.Threading.Thread.Sleep(500);
-            foreach (var item in FunctionPrototypeDefinitions.Collection.Items)
+            foreach (var item in FunctionDescriptorDefinitions.Collection.Items)
             {
                 string functionType = "Function";
                 string functionDemarcation = item.FunctionDemarcation;

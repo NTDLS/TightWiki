@@ -28,7 +28,7 @@ namespace TightWiki.Test.Library
                 foreach (var combo in combinations)
                 {
                     var fArgs = string.Join(", ", combo.Select(FormatValue));
-                    Console.WriteLine($"{prototype.Demarcation}{prototype.ProperName}({fArgs})");
+                    Console.WriteLine($"{Descriptor.Demarcation}{prototype.ProperName}({fArgs})");
                 }
             }
 

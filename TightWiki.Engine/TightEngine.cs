@@ -24,10 +24,10 @@ namespace TightWiki.Engine
         public ICompletionHandler CompletionHandler { get; private set; }
 
         public List<TightEngineFunctionModule> EngineModules { get; private set; }
-        public List<TightEngineFunctionEnvelope> StandardFunctions { get; private set; }
-        public List<TightEngineFunctionEnvelope> ScopeFunctions { get; private set; }
-        public List<TightEngineFunctionEnvelope> ProcessingFunctions { get; private set; }
-        public List<TightEngineFunctionEnvelope> PostProcessingFunctions { get; private set; }
+        public List<TightEngineFunctionDescriptor> StandardFunctions { get; private set; }
+        public List<TightEngineFunctionDescriptor> ScopeFunctions { get; private set; }
+        public List<TightEngineFunctionDescriptor> ProcessingFunctions { get; private set; }
+        public List<TightEngineFunctionDescriptor> PostProcessingFunctions { get; private set; }
 
         public TightEngine(
             ILogger<ITightEngine> logger,
@@ -79,7 +79,7 @@ namespace TightWiki.Engine
                             $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
                     return x;
                 })
-                .Select(m => new TightEngineFunctionEnvelope(
+                .Select(m => new TightEngineFunctionDescriptor(
                     EngineModules.Single(t => t.DeclaringType == m.Method.DeclaringType),
                     m.Method, m.Attribute.EnsureNotNull()))
                 .ToList();
@@ -99,7 +99,7 @@ namespace TightWiki.Engine
                             $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
                     return x;
                 })
-                .Select(m => new TightEngineFunctionEnvelope(
+                .Select(m => new TightEngineFunctionDescriptor(
                     EngineModules.Single(t => t.DeclaringType == m.Method.DeclaringType),
                     m.Method, m.Attribute.EnsureNotNull()))
                 .ToList();
@@ -119,7 +119,7 @@ namespace TightWiki.Engine
                             $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
                     return x;
                 })
-                .Select(m => new TightEngineFunctionEnvelope(
+                .Select(m => new TightEngineFunctionDescriptor(
                     EngineModules.Single(t => t.DeclaringType == m.Method.DeclaringType),
                     m.Method, m.Attribute.EnsureNotNull()))
                 .ToList();
@@ -139,7 +139,7 @@ namespace TightWiki.Engine
                             $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
                     return x;
                 })
-                .Select(m => new TightEngineFunctionEnvelope(
+                .Select(m => new TightEngineFunctionDescriptor(
                     EngineModules.Single(t => t.DeclaringType == m.Method.DeclaringType),
                     m.Method, m.Attribute.EnsureNotNull()))
                 .ToList();
