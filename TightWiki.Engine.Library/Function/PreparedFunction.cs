@@ -1,7 +1,6 @@
 ﻿using NTDLS.Helpers;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.Xml.Linq;
 using TightWiki.Engine.Library.Interfaces;
 
 namespace TightWiki.Engine.Library.Function
@@ -9,7 +8,7 @@ namespace TightWiki.Engine.Library.Function
     /// <summary>
     /// Contains information about an actual function call, its supplied parameters, and is matched with a defined function.
     /// </summary>
-    public class FunctionCall
+    public class PreparedFunction
     {
         /// <summary>
         /// The name of the function being called.
@@ -23,7 +22,7 @@ namespace TightWiki.Engine.Library.Function
         /// </summary>
         public List<NamedParameter> Parameters { get; private set; } = new();
 
-        public FunctionCall(ITightEngineState state, TightEngineFunctionEnvelope prototype, List<string> args)
+        public PreparedFunction(ITightEngineState state, TightEngineFunctionEnvelope prototype, List<string> args)
         {
             Prototype = prototype;
             Name = prototype.Method.Name;

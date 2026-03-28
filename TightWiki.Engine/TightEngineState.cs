@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using System.Web;
 using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Function;
-using TightWiki.Engine.Library.Function.Exceptions;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
@@ -444,7 +443,7 @@ namespace TightWiki.Engine
             {
                 int paramEndIndex;
 
-                FunctionCall function;
+                PreparedFunction function;
 
                 var mockFunctionCall = "##" + match.Value.Trim([' ', '\t', '{', '}']);
 
@@ -750,7 +749,7 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                FunctionCall function;
+                PreparedFunction function;
 
                 try
                 {
@@ -783,60 +782,35 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformFunctions().Matches(pageContent.ToString()));
 
-
-
-            //WIP
-            //var functionHandler = Engine.StandardFunctionHandler;
-
             foreach (var match in orderedMatches)
             {
-                FunctionCall function;
+                var parsedFunctionCall = FunctionParser.ParseFunctionCall(match.Value);
 
                 try
                 {
-                    function = FunctionParser.ParseAndGetFunctionCall(this, Engine.StandardFunctions, match.Value, out int matchEndIndex);
-                }
-                catch (WikiFunctionPrototypeNotDefinedException ex)
-                {
-                    //var postProcessPrototypes = Engine.PostProcessingFunctionHandler.Prototypes;
-                    //var parsed = FunctionParser.ParseFunctionCall(match.Value);
+                    if (Engine.PostProcessingFunctions.TryGetFunctionEnvelope(parsedFunctionCall, out _))
+                    {
+                        //This IS a function, but it is meant to be parsed at the end of processing.
+                        continue;
+                    }
 
-                    //if (parsed != default && postProcessPrototypes.Exists(parsed.Demarcation, parsed.Name))
-                    //{
-                    //    continue; //This IS a function, but it is meant to be parsed at the end of processing.
-                    //}
-                    //StoreWikiError(pageContent, match.Value, ex.Message);
-                    continue;
+                    if (onlyProcessFirstChanceFunctions
+                        && Engine.StandardFunctions.TryGetFunctionEnvelope(parsedFunctionCall, out var function)
+                        && function.Attribute.IsFirstChance)
+                    {
+                        //We are only processing "first chance" functions, so skip processing this function.
+                        continue;
+                    }
+
+                    var preparedFunction = FunctionParser.PrepareFuncionCall(this, Engine.StandardFunctions, parsedFunctionCall, out int matchEndIndex);
+                    var result = await preparedFunction.Execute(this);
+                    StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
+
                 }
                 catch (Exception ex)
                 {
                     StoreWikiError(pageContent, match.Value, ex.Message);
                     continue;
-                }
-
-                try
-                {
-                    //function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes, match.Value, out var paramEndIndex);
-                    //if (onlyProcessFirstChanceFunctions && !function.Prototype.IsFirstChance)
-                    //{
-                    //    //We are only processing "first chance" functions, so skip processing this function.
-                    //    continue;
-                    //}
-                }
-                catch (Exception ex)
-                {
-                    StoreWikiError(pageContent, match.Value, ex.Message);
-                    continue;
-                }
-
-                try
-                {
-                    var result = await function.Execute(this);
-                    //StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
-                }
-                catch (Exception ex)
-                {
-                    StoreWikiError(pageContent, match.Value, ex.Message);
                 }
             }
         }
@@ -855,7 +829,7 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                FunctionCall function;
+                PreparedFunction function;
 
                 try
                 {

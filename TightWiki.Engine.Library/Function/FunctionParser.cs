@@ -14,21 +14,17 @@ namespace TightWiki.Engine.Library.Function
         /// <summary>
         /// Parsed a function call, its parameters and matches it to a defined function and its prototype.
         /// </summary>
-        public static FunctionCall ParseAndGetFunctionCall(ITightEngineState state,
-            List<TightEngineFunctionEnvelope> prototypes, string functionCall, out int parseEndIndex)
+        public static PreparedFunction PrepareFuncionCall(ITightEngineState state,
+            List<TightEngineFunctionEnvelope> prototypes, ParsedFunctionCall preparsedFunctionCall, out int parseEndIndex)
         {
-            var parsed = ParseFunctionCall(functionCall);
-
-            var prototype = prototypes.SingleOrDefault(o => o.Method.Name.ToLowerInvariant() == parsed.Name
+            var prototype = prototypes.SingleOrDefault(o => o.Method.Name.ToLowerInvariant() == preparsedFunctionCall.Name
                 && o.Attribute is ITightWikiFunctionPrototypeAttribute attr
-                && attr.Demarcation == parsed.Demarcation);
+                && attr.Demarcation == preparsedFunctionCall.Demarcation)
+                ?? throw new Exception($"Function ({preparsedFunctionCall.Name}) does not have a defined prototype.");
 
-            //var prototype = prototypes.Get(parsed.Demarcation, parsed.Name)
-            //?? throw new WikiFunctionPrototypeNotDefinedException($"Function ({parsed.Name}) does not have a defined prototype.");
+            parseEndIndex = preparsedFunctionCall.EndIndex;
 
-            parseEndIndex = parsed.EndIndex;
-
-            return new FunctionCall(state, prototype, parsed.Arguments);
+            return new PreparedFunction(state, prototype, preparsedFunctionCall.Arguments);
         }
 
         public static ParsedFunctionCall ParseFunctionCall(string functionCall)
@@ -41,7 +37,7 @@ namespace TightWiki.Engine.Library.Function
 
             if (firstLine == null || firstLine.Where(x => x == '(').Count() != firstLine.Where(x => x == ')').Count())
             {
-                throw new WikiFunctionPrototypeSyntaxError($"Function parentheses mismatch.");
+                throw new WikiFunctionParserError($"Function parentheses mismatch.");
             }
 
             string functionDemarcation = functionCall.Substring(0, 2);
@@ -76,7 +72,7 @@ namespace TightWiki.Engine.Library.Function
         {
             if (paramString.StartsWith('(') || paramString.EndsWith(')'))
             {
-                throw new WikiFunctionPrototypeSyntaxError($"Unexpected '(' or ')'.");
+                throw new WikiFunctionParserError($"Unexpected '(' or ')'.");
             }
 
             return ParseArguments($"({paramString})");
@@ -96,7 +92,7 @@ namespace TightWiki.Engine.Library.Function
 
             if (paramString[readPos] != '(')
             {
-                throw new WikiFunctionPrototypeSyntaxError($"Expected '('.");
+                throw new WikiFunctionParserError($"Expected '('.");
             }
 
             int parenNest = 1;
@@ -118,7 +114,7 @@ namespace TightWiki.Engine.Library.Function
 
                 if (readPos == paramString.Length)
                 {
-                    throw new WikiFunctionPrototypeSyntaxError($"Expected ')'.");
+                    throw new WikiFunctionParserError($"Expected ')'.");
                 }
                 else if (paramString[readPos] == ')' && parenNest == 0)
                 {
@@ -126,7 +122,7 @@ namespace TightWiki.Engine.Library.Function
 
                     if (parenNest == 0 && readPos != paramString.Length)
                     {
-                        throw new WikiFunctionPrototypeSyntaxError($"Expected end of statement.");
+                        throw new WikiFunctionParserError($"Expected end of statement.");
                     }
 
                     if (singleParam.Length > 0)
@@ -149,7 +145,7 @@ namespace TightWiki.Engine.Library.Function
                     {
                         if (readPos == paramString.Length)
                         {
-                            throw new WikiFunctionPrototypeSyntaxError($"Expected end of string.");
+                            throw new WikiFunctionParserError($"Expected end of string.");
                         }
                         else if (paramString[readPos] == '\\')
                         {
