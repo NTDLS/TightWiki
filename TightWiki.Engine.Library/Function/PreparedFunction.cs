@@ -1,4 +1,5 @@
 ﻿using NTDLS.Helpers;
+using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using TightWiki.Engine.Library.Interfaces;
@@ -63,13 +64,22 @@ namespace TightWiki.Engine.Library.Function
                 else if (type.IsArray)
                 {
                     //Swallow up all remaining arguments and pass them as an array.
-                    var arrayValues = new List<object?>();
+
+                    var elementType = param.ParameterType.GetElementType().EnsureNotNull();
+                    var listType = typeof(List<>).MakeGenericType(elementType);
+                    var arrayValues = (IList)Activator.CreateInstance(listType)!;
+
                     for (; givenArgIndex < prototype.Parameters.Count;)
                     {
                         arrayValues.Add(ConvertArgumentValue(param, args[givenArgIndex]));
                         givenArgIndex++;
                     }
-                    Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), arrayValues));
+
+                    var typedArray = Array.CreateInstance(elementType, arrayValues.Count);
+                    for (int i = 0; i < arrayValues.Count; i++)
+                        typedArray.SetValue(arrayValues[i], i);
+
+                    Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), typedArray));
                     prototypeArgIndex++;
                 }
             }
@@ -109,12 +119,22 @@ namespace TightWiki.Engine.Library.Function
                     else if (param.ParameterType.IsArray)
                     {
                         //Swallow up all remaining arguments and pass them as an array.
-                        var arrayValues = new List<object?>();
-                        for (; givenArgIndex < prototype.Parameters.Count; givenArgIndex++)
+                        var elementType = param.ParameterType.GetElementType().EnsureNotNull();
+                        var listType = typeof(List<>).MakeGenericType(elementType);
+                        var arrayValues = (IList)Activator.CreateInstance(listType)!;
+
+                        for (; givenArgIndex < prototype.Parameters.Count;)
                         {
                             arrayValues.Add(ConvertArgumentValue(param, args[givenArgIndex]));
+                            givenArgIndex++;
                         }
-                        Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), arrayValues));
+
+
+                        var typedArray = Array.CreateInstance(elementType, arrayValues.Count);
+                        for (int i = 0; i < arrayValues.Count; i++)
+                            typedArray.SetValue(arrayValues[i], i);
+
+                        Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), typedArray));
                     }
                 }
             }
@@ -171,11 +191,7 @@ namespace TightWiki.Engine.Library.Function
         private object? ConvertArgumentValue(ParameterInfo param, string value)
         {
             var type = Nullable.GetUnderlyingType(param.ParameterType) ?? param.ParameterType;
-            if (type == typeof(string))
-            {
-                return value;
-            }
-            else if (type.IsPrimitive)
+            if (type.IsPrimitive || type.IsArray || type == typeof(string))
             {
                 return ConvertPrimitave(param, value);
             }
@@ -194,12 +210,25 @@ namespace TightWiki.Engine.Library.Function
 
         private object ConvertPrimitave(ParameterInfo param, string value)
         {
-            var type = Nullable.GetUnderlyingType(param.ParameterType) ?? param.ParameterType;
+            Type? type;
+
+            if (param.ParameterType.IsArray)
+            {
+                type = Nullable.GetUnderlyingType(param.ParameterType.GetElementType().EnsureNotNull()) ?? param.ParameterType.GetElementType();
+            }
+            else
+            {
+                type = Nullable.GetUnderlyingType(param.ParameterType) ?? param.ParameterType;
+            }
 
             switch (type)
             {
                 #region Type value parsers.
 
+                case Type t when t == typeof(string):
+                    {
+                        return value;
+                    }
                 case Type t when t == typeof(bool):
                     {
                         if (bool.TryParse(value, out bool result) == false)
