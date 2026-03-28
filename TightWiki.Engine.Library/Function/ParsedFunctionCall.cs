@@ -1,5 +1,8 @@
 ﻿namespace TightWiki.Engine.Library.Function
 {
+    /// <summary>
+    /// Represnets a function call that has been parsed of its name, type and arguments.
+    /// </summary>
     public class ParsedFunctionCall
     {
         public string Demarcation { get; set; } = string.Empty;

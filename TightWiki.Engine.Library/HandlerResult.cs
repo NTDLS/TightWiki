@@ -1,6 +1,4 @@
-﻿using static TightWiki.Engine.Library.Constants;
-
-namespace TightWiki.Engine.Library
+﻿namespace TightWiki.Engine.Library
 {
     public class HandlerResult
     {

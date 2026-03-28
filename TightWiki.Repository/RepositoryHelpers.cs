@@ -1,11 +1,12 @@
 ﻿using DuoVia.FuzzyStrings;
 using NTDLS.Helpers;
 using TightWiki.Caching;
+using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models.DataModels;
-using static TightWiki.Engine.Library.Constants;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Repository
 {
@@ -83,7 +84,7 @@ namespace TightWiki.Repository
 
         internal static async Task<List<WeightedSearchToken>> ComputeParsedPageTokens(string content, double weightMultiplier)
         {
-            var searchConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
+            var searchConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
 
             var exclusionWords = searchConfig?.Value<string>("Word Exclusions")?
                 .Split([',', ';'], StringSplitOptions.RemoveEmptyEntries).Distinct() ?? new List<string>();

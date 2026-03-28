@@ -1,5 +1,5 @@
 ﻿using NTDLS.Helpers;
-using TightWiki.Engine.Library.Attributes;
+using TightWiki.Engine.Library.Function.Attributes;
 
 namespace TightWiki.Engine.Library
 {

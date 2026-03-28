@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Engine.Library.Attributes
+﻿namespace TightWiki.Engine.Library.Function.Attributes
 {
     public interface ITightWikiFunctionDescriptorAttribute
     {

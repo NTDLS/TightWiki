@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
-using static TightWiki.Engine.Library.Constants;
 
 namespace TightWiki.Engine.Library.Interfaces
 {

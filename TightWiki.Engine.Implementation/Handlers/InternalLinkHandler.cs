@@ -3,7 +3,6 @@ using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Repository;
-using static TightWiki.Engine.Library.Constants;
 
 namespace TightWiki.Engine.Implementation.Handlers
 {

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
-using TightWiki.Engine.Library.Attributes;
+using TightWiki.Engine.Library.Function.Attributes;
 using TightWiki.Engine.Library.Function.Exceptions;
 using TightWiki.Engine.Library.Interfaces;
 using static TightWiki.Engine.Library.Function.FunctionConstants;

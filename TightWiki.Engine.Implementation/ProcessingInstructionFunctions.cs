@@ -1,7 +1,6 @@
 ﻿using TightWiki.Engine.Library;
-using TightWiki.Engine.Library.Attributes;
+using TightWiki.Engine.Library.Function.Attributes;
 using TightWiki.Engine.Library.Interfaces;
-using static TightWiki.Engine.Library.Constants;
 using static TightWiki.Library.Constants;
 
 namespace TightWiki.Engine.Implementation

@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Engine.Implementation.Utility
+﻿namespace TightWiki.Engine.Library
 {
     /// <summary>
     /// Border and Foreground style.

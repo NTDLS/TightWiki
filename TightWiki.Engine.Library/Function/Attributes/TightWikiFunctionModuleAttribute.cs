@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Engine.Library.Attributes
+﻿namespace TightWiki.Engine.Library.Function.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class TightWikiFunctionModuleAttribute

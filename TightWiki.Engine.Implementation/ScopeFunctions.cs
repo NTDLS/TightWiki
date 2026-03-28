@@ -1,10 +1,8 @@
 ﻿using System.Net;
 using System.Text;
-using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Engine.Library;
-using TightWiki.Engine.Library.Attributes;
+using TightWiki.Engine.Library.Function.Attributes;
 using TightWiki.Engine.Library.Interfaces;
-using static TightWiki.Engine.Library.Constants;
 
 namespace TightWiki.Engine.Implementation
 {
@@ -342,7 +340,7 @@ namespace TightWiki.Engine.Implementation
         {
             var html = new StringBuilder();
 
-            var style = AlignStyle.GetStyle(styleName);
+            var style = AlignStyler.GetStyle(styleName);
 
             html.Append($"<figure class=\"{style.Style}\">");
             html.Append($"<blockquote class=\"blockquote\">{scopeBody}</blockquote >");
@@ -363,7 +361,7 @@ namespace TightWiki.Engine.Implementation
         {
             var html = new StringBuilder();
 
-            var style = AlignStyle.GetStyle(styleName);
+            var style = AlignStyler.GetStyle(styleName);
 
             html.Append($"<figure class=\"figure\">");
             html.Append($"{scopeBody}");
