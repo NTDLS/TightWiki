@@ -1,6 +1,7 @@
 ﻿using NTDLS.Helpers;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Xml.Linq;
 using TightWiki.Engine.Library.Interfaces;
 
 namespace TightWiki.Engine.Library.Function
@@ -22,56 +23,72 @@ namespace TightWiki.Engine.Library.Function
         /// </summary>
         public List<NamedParameter> Parameters { get; private set; } = new();
 
-        public FunctionCall(TightEngineFunctionEnvelope prototype, List<string> args)
+        public FunctionCall(ITightEngineState state, TightEngineFunctionEnvelope prototype, List<string> args)
         {
             Prototype = prototype;
             Name = prototype.Method.Name;
 
-            int argIndex = 0;
+            int givenArgIndex = 0;
+            int prototypeArgIndex = 1; //We start at 1 because the first argument is always the state.
 
-            for (; argIndex < prototype.Parameters.Count && argIndex < args.Count; argIndex++)
+            if (prototype.Parameters.Count == 0)
             {
-                var param = prototype.Parameters[argIndex];
+                throw new Exception($"Function [{Name}] was called with arguments, but the function does not accept any parameters.");
+            }
 
-                if (TryGetArgPassedByName(args[argIndex], out var _, out var _))
+            //The first parameter must always be the state, so we add it to the parameters list before processing the caller supplied arguments.
+            var firstParam = prototype.Parameters.First();
+            if (firstParam.ParameterType != typeof(ITightEngineState))
+            {
+                throw new Exception($"Function [{Name}] must have the first parameter of type ITightEngineState.");
+            }
+            Parameters.Add(new NamedParameter(firstParam.Name.EnsureNotNull(), state));
+
+            for (; prototypeArgIndex < prototype.Parameters.Count && givenArgIndex < args.Count;)
+            {
+                var param = prototype.Parameters[prototypeArgIndex];
+
+                if (TryGetArgPassedByName(args[givenArgIndex], out var _, out var _))
                 {
                     //This argument was passed by name, so we now require all subsequent arguments to also be passed by name.
                     break;
                 }
 
-                if (param.ParameterType.IsPrimitive || param.ParameterType.IsEnum)
+                var type = Nullable.GetUnderlyingType(param.ParameterType) ?? param.ParameterType;
+                if (type.IsPrimitive || type.IsEnum || type == typeof(string))
                 {
-                    ConvertArgumentValue(param, args[argIndex]);
-                    Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), args[argIndex]));
+                    Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), ConvertArgumentValue(param, args[givenArgIndex])));
+                    prototypeArgIndex++;
+                    givenArgIndex++;
                 }
-                else if (param.ParameterType.IsArray)
+                else if (type.IsArray)
                 {
                     //Swallow up all remaining arguments and pass them as an array.
                     var arrayValues = new List<object?>();
-                    for (; argIndex < prototype.Parameters.Count; argIndex++)
+                    for (; givenArgIndex < prototype.Parameters.Count;)
                     {
-                        arrayValues.Add(ConvertArgumentValue(param, args[argIndex]));
+                        arrayValues.Add(ConvertArgumentValue(param, args[givenArgIndex]));
+                        givenArgIndex++;
                     }
                     Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), arrayValues));
+                    prototypeArgIndex++;
                 }
             }
 
-            if (argIndex < prototype.Parameters.Count && argIndex < args.Count)
+            if (givenArgIndex < prototype.Parameters.Count && givenArgIndex < args.Count)
             {
-                int paramIndex = argIndex;
-
                 //We still have arguments left to process, this can only mean that they were passed by name, so we need to process them as such.
-                for (; argIndex < prototype.Parameters.Count && argIndex < args.Count;)
+                for (; prototypeArgIndex < prototype.Parameters.Count && givenArgIndex < args.Count;)
                 {
-                    var param = prototype.Parameters[paramIndex];
+                    var param = prototype.Parameters[prototypeArgIndex];
 
-                    if (TryGetArgPassedByName(args[argIndex], out var name, out var value))
+                    if (TryGetArgPassedByName(args[givenArgIndex], out var name, out var value))
                     {
                         if (string.Equals(name, param.Name, StringComparison.InvariantCultureIgnoreCase))
                         {
-                            Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), args[argIndex]));
-                            argIndex++;
-                            paramIndex++;
+                            Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), args[givenArgIndex]));
+                            givenArgIndex++;
+                            prototypeArgIndex++;
                             continue;
                         }
                         else
@@ -79,7 +96,7 @@ namespace TightWiki.Engine.Library.Function
                             if (param.HasDefaultValue)
                             {
                                 Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), param.DefaultValue));
-                                paramIndex++;
+                                prototypeArgIndex++;
                                 continue;
                             }
                             else
@@ -94,12 +111,29 @@ namespace TightWiki.Engine.Library.Function
                     {
                         //Swallow up all remaining arguments and pass them as an array.
                         var arrayValues = new List<object?>();
-                        for (; argIndex < prototype.Parameters.Count; argIndex++)
+                        for (; givenArgIndex < prototype.Parameters.Count; givenArgIndex++)
                         {
-                            arrayValues.Add(ConvertArgumentValue(param, args[argIndex]));
+                            arrayValues.Add(ConvertArgumentValue(param, args[givenArgIndex]));
                         }
                         Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), arrayValues));
                     }
+                }
+            }
+
+            //Add the remaining parameters that were not supplied by the caller, if they have default values.
+            for (; prototypeArgIndex < prototype.Parameters.Count;)
+            {
+                var param = prototype.Parameters[prototypeArgIndex];
+
+                if (param.HasDefaultValue)
+                {
+                    Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), param.DefaultValue));
+                    prototypeArgIndex++;
+                    continue;
+                }
+                else
+                {
+                    throw new Exception($"Function [{Name}], the argument [{param.Name}] does not match any parameter of the function.");
                 }
             }
 
@@ -127,13 +161,8 @@ namespace TightWiki.Engine.Library.Function
 
         public async Task<HandlerResult> Execute(ITightEngineState state)
         {
-            var parameters = new List<object>() { state };
-
-            //foreach (var arg in Parameters.Named)
-            //{
-            //}
-
-            var result = ((Task<HandlerResult>?)Prototype.Method.Invoke(Prototype.EngineModule.Instance, parameters.ToArray())).EnsureNotNull();
+            var parameters = Parameters.Select(o => o.Value).ToArray();
+            var result = ((Task<HandlerResult>?)Prototype.Method.Invoke(Prototype.EngineModule.Instance, parameters)).EnsureNotNull();
             return await result;
         }
 
@@ -142,28 +171,33 @@ namespace TightWiki.Engine.Library.Function
         /// </summary>
         private object? ConvertArgumentValue(ParameterInfo param, string value)
         {
-            var parameterType = param.ParameterType;
-
-            if (parameterType.IsPrimitive)
+            var type = Nullable.GetUnderlyingType(param.ParameterType) ?? param.ParameterType;
+            if (type == typeof(string))
+            {
+                return value;
+            }
+            else if (type.IsPrimitive)
             {
                 return ConvertPrimitave(param, value);
             }
-            else if (parameterType.IsEnum)
+            else if (type.IsEnum)
             {
-                if (Enum.TryParse(parameterType, value, ignoreCase: true, out var result))
+                if (Enum.TryParse(param.ParameterType, value, ignoreCase: true, out var result))
                 {
                     return result;
                 }
-                var allowedValues = Enum.GetNames(parameterType);
+                var allowedValues = Enum.GetNames(param.ParameterType);
                 throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] is not allowed. Allowed values are [{string.Join(",", allowedValues)}].");
             }
 
-            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to type [{parameterType.Name}].");
+            throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to type [{param.ParameterType.Name}].");
         }
 
         private object ConvertPrimitave(ParameterInfo param, string value)
         {
-            switch (param.ParameterType)
+            var type = Nullable.GetUnderlyingType(param.ParameterType) ?? param.ParameterType;
+
+            switch (type)
             {
                 #region Type value parsers.
 

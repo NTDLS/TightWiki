@@ -321,45 +321,45 @@ namespace TightWiki.Engine.Implementation
         }
 
         [TightWikiStandardFunction("Image", "Displays an image that is attached to the page.")]
-        public async Task<HandlerResult> Image(ITightEngineState state, string imageName, string? alt = null,
-            string? imgClass = null, int? scale = null, int? maxWidth = null)
+        public async Task<HandlerResult> Image(ITightEngineState state,
+            string name, int? scale = null, string? altText = null, string? @class = null, int? maxWidth = null)
         {
-            alt ??= imageName;
-            imgClass ??= "img-fluid";
+            altText ??= name;
+            @class ??= "img-fluid";
 
-            bool explicitNamespace = imageName.Contains("::");
+            bool explicitNamespace = name.Contains("::");
             bool isPageForeignImage = false;
 
-            if (imgClass != null)
+            if (@class != null)
             {
-                imgClass = $"class=\"{imgClass}\"";
+                @class = $"class=\"{@class}\"";
             }
             else
             {
-                imgClass = "class=\"img-fluid\"";
+                @class = "class=\"img-fluid\"";
             }
 
             string navigation = state.Page.Navigation;
-            if (imageName.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
+            if (name.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
             {
-                string image = $"<a href=\"{imageName}\" target=\"_blank\"><img src=\"{imageName}\" border=\"0\" alt=\"{alt}\" {imgClass} /></a>";
+                string image = $"<a href=\"{name}\" target=\"_blank\"><img src=\"{name}\" border=\"0\" alt=\"{altText}\" {@class} /></a>";
                 return new HandlerResult(image);
             }
-            else if (imageName.Contains('/'))
+            else if (name.Contains('/'))
             {
                 //Allow loading attached images from other pages.
-                int slashIndex = imageName.IndexOf('/');
-                navigation = NamespaceNavigation.CleanAndValidate(imageName.Substring(0, slashIndex));
-                imageName = imageName.Substring(slashIndex + 1);
+                int slashIndex = name.IndexOf('/');
+                navigation = NamespaceNavigation.CleanAndValidate(name.Substring(0, slashIndex));
+                name = name.Substring(slashIndex + 1);
                 isPageForeignImage = true;
             }
 
             if (explicitNamespace == false && state.Page.Namespace != null)
             {
-                if (PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, NamespaceNavigation.CleanAndValidate(imageName), state.Revision) == null)
+                if (PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, NamespaceNavigation.CleanAndValidate(name), state.Revision) == null)
                 {
                     //If the image does not exist, and no namespace was specified, but the page has a namespace - then default to the pages namespace.
-                    navigation = NamespaceNavigation.CleanAndValidate($"{state.Page.Namespace}::{imageName}");
+                    navigation = NamespaceNavigation.CleanAndValidate($"{state.Page.Namespace}::{name}");
                 }
             }
 
@@ -370,14 +370,14 @@ namespace TightWiki.Engine.Implementation
             if (state.Revision != null && isPageForeignImage == false)
             {
                 //Check for isPageForeignImage because we don't version foreign page files.
-                string link = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(imageName)}/{state.Revision}";
-                string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{GlobalConfiguration.BasePath}{link}?{string.Join('&', queryParams)}\" border=\"0\" alt=\"{alt}\" {imgClass} /></a>";
+                string link = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(name)}/{state.Revision}";
+                string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{GlobalConfiguration.BasePath}{link}?{string.Join('&', queryParams)}\" border=\"0\" alt=\"{altText}\" {@class} /></a>";
                 return new HandlerResult(image);
             }
             else
             {
-                string link = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(imageName)}";
-                string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{GlobalConfiguration.BasePath}{link}?{string.Join('&', queryParams)}\" border=\"0\" alt=\"{alt}\" {imgClass} /></a>";
+                string link = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(name)}";
+                string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{GlobalConfiguration.BasePath}{link}?{string.Join('&', queryParams)}\" border=\"0\" alt=\"{altText}\" {@class} /></a>";
                 return new HandlerResult(image);
             }
         }

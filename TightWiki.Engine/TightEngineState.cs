@@ -794,7 +794,7 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    function = FunctionParser.ParseAndGetFunctionCall(Engine.StandardFunctions, match.Value, out int matchEndIndex);
+                    function = FunctionParser.ParseAndGetFunctionCall(this, Engine.StandardFunctions, match.Value, out int matchEndIndex);
                 }
                 catch (WikiFunctionPrototypeNotDefinedException ex)
                 {

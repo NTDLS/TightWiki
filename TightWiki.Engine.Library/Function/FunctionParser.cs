@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using TightWiki.Engine.Library.Attributes;
 using TightWiki.Engine.Library.Function.Exceptions;
+using TightWiki.Engine.Library.Interfaces;
 
 namespace TightWiki.Engine.Library.Function
 {
@@ -13,7 +14,8 @@ namespace TightWiki.Engine.Library.Function
         /// <summary>
         /// Parsed a function call, its parameters and matches it to a defined function and its prototype.
         /// </summary>
-        public static FunctionCall ParseAndGetFunctionCall(List<TightEngineFunctionEnvelope> prototypes, string functionCall, out int parseEndIndex)
+        public static FunctionCall ParseAndGetFunctionCall(ITightEngineState state,
+            List<TightEngineFunctionEnvelope> prototypes, string functionCall, out int parseEndIndex)
         {
             var parsed = ParseFunctionCall(functionCall);
 
@@ -26,7 +28,7 @@ namespace TightWiki.Engine.Library.Function
 
             parseEndIndex = parsed.EndIndex;
 
-            return new FunctionCall(prototype, parsed.Arguments);
+            return new FunctionCall(state, prototype, parsed.Arguments);
         }
 
         public static ParsedFunctionCall ParseFunctionCall(string functionCall)
