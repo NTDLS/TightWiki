@@ -31,6 +31,6 @@ namespace TightWiki.Library
             => TimeZoneInfo.ConvertTimeFromUtc(datetime, GetPreferredTimeZone());
 
         public TimeZoneInfo GetPreferredTimeZone()
-            => TimeZoneInfo.FindSystemTimeZoneById(CultureInfo.CurrentUICulture.Name);
+            => TimeZoneInfo.Local;
     }
 }
