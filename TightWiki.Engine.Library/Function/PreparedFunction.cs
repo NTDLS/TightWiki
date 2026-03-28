@@ -202,7 +202,7 @@ namespace TightWiki.Engine.Library.Function
                 throw new Exception($"Function [{descriptor.Method.Name}] was called with an incorrect number of arguments. Expected [{descriptor.Parameters.Count}] but received [{descriptor.Parameters.Count}].");
             }
 
-            return new PreparedFunction(descriptor, parsedFunction);
+            return preparedFunction;
         }
 
         private static bool TryGetArgPassedByName(string arg, [NotNullWhen(true)] out string? name, [NotNullWhen(true)] out string? value)
