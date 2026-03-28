@@ -8,16 +8,5 @@
             Scoped,
             Instruction
         }
-
-        //TODO: DeleteMe
-        public enum WikiFunctionParamType
-        {
-            Undefined,
-            String,
-            InfiniteString,
-            Integer,
-            Double,
-            Boolean
-        }
     }
 }

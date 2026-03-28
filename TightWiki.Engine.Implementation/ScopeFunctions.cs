@@ -308,7 +308,7 @@ namespace TightWiki.Engine.Implementation
         {
             var html = new StringBuilder();
 
-            html.Append($"<div class=\"bd-callout bd-callout-{styleName.ToString().ToLowerInvariant} shadow-lg\">");
+            html.Append($"<div class=\"bd-callout bd-callout-{styleName.ToString().ToLowerInvariant()} shadow-lg\">");
             if (!string.IsNullOrWhiteSpace(titleText)) html.Append($"<h4>{titleText}</h4>");
             html.Append($"{scopeBody}");
             html.Append($"</div>");

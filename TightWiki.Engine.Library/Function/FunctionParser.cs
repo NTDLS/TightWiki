@@ -18,7 +18,8 @@ namespace TightWiki.Engine.Library.Function
         public static PreparedFunction PrepareFuncionCall(ITightEngineState state,
             List<TightEngineFunctionEnvelope> prototypes, ParsedFunctionCall preparsedFunctionCall)
         {
-            var prototype = prototypes.SingleOrDefault(o => o.Method.Name.ToLowerInvariant() == preparsedFunctionCall.Name
+            var prototype = prototypes.SingleOrDefault(o =>
+                o.Method.Name.Equals(preparsedFunctionCall.Name, StringComparison.InvariantCultureIgnoreCase)
                 && o.Attribute is ITightWikiFunctionPrototypeAttribute attr
                 && attr.Demarcation == preparsedFunctionCall.Demarcation)
                 ?? throw new Exception($"Function ({preparsedFunctionCall.Name}) does not have a defined prototype.");

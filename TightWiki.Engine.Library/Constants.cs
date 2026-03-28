@@ -6,16 +6,13 @@ namespace TightWiki.Engine.Library
     {
         public static WikiFunctionType ParseDemarcation(string demarcation)
         {
-            switch (demarcation)
+            return demarcation switch
             {
-                case "##":
-                    return WikiFunctionType.Standard;
-                case "{{":
-                    return WikiFunctionType.Scoped;
-                case "@@":
-                    return WikiFunctionType.Instruction;
-            }
-            throw new Exception("Invalid demarcation string.");
+                "##" => WikiFunctionType.Standard,
+                "{{" => WikiFunctionType.Scoped,
+                "@@" => WikiFunctionType.Instruction,
+                _ => throw new Exception("Invalid demarcation string."),
+            };
         }
 
         public const string SoftBreak = "<!--SoftBreak-->"; //These will remain as \r\n in the final HTML.
