@@ -4,7 +4,7 @@ using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Function.Attributes;
 using TightWiki.Engine.Library.Interfaces;
 
-namespace TightWiki.Engine.Implementation
+namespace TightWiki.Engine.Implementation.Functions
 {
     [TightWikiFunctionModule("Processing Instructions Functions", "Built-in scope functions.")]
     public class ScopeFunctions

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using TightWiki.Engine.Library.Interfaces;
 
-namespace TightWiki.Engine.Implementation
+namespace TightWiki.Engine.Implementation.Handlers
 {
     /// <summary>
     /// Handles exceptions thrown by the wiki engine.

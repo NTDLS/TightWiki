@@ -11,7 +11,7 @@ using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 using static TightWiki.Library.Constants;
 
-namespace TightWiki.Engine.Implementation
+namespace TightWiki.Engine.Implementation.Functions
 {
     [TightWikiFunctionModule("Standard Functions", "Built-in standard functions.")]
     public class StandardFunctions

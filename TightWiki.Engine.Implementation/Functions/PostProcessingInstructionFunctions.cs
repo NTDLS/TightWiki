@@ -5,7 +5,7 @@ using TightWiki.Engine.Library.Function.Attributes;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Models;
 
-namespace TightWiki.Engine.Implementation
+namespace TightWiki.Engine.Implementation.Functions
 {
     [TightWikiFunctionModule("Post Processing Instruction Functions", "Built-in post processing instruction functions.")]
     public class PostProcessingInstructionFunctions
