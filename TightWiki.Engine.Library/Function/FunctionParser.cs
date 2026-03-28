@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using TightWiki.Engine.Library.Attributes;
 using TightWiki.Engine.Library.Function.Exceptions;
 using TightWiki.Engine.Library.Interfaces;
+using static TightWiki.Engine.Library.Function.FunctionConstants;
 
 namespace TightWiki.Engine.Library.Function
 {
@@ -15,14 +16,12 @@ namespace TightWiki.Engine.Library.Function
         /// Parsed a function call, its parameters and matches it to a defined function and its prototype.
         /// </summary>
         public static PreparedFunction PrepareFuncionCall(ITightEngineState state,
-            List<TightEngineFunctionEnvelope> prototypes, ParsedFunctionCall preparsedFunctionCall, out int parseEndIndex)
+            List<TightEngineFunctionEnvelope> prototypes, ParsedFunctionCall preparsedFunctionCall)
         {
             var prototype = prototypes.SingleOrDefault(o => o.Method.Name.ToLowerInvariant() == preparsedFunctionCall.Name
                 && o.Attribute is ITightWikiFunctionPrototypeAttribute attr
                 && attr.Demarcation == preparsedFunctionCall.Demarcation)
                 ?? throw new Exception($"Function ({preparsedFunctionCall.Name}) does not have a defined prototype.");
-
-            parseEndIndex = preparsedFunctionCall.EndIndex;
 
             return new PreparedFunction(state, prototype, preparsedFunctionCall.Arguments);
         }
@@ -53,12 +52,26 @@ namespace TightWiki.Engine.Library.Function
 
                 var trimmedArguments = match.ToString().Substring(argumentStartIndex);
                 arguments = ParseArguments(trimmedArguments);
+
+                if (Constants.ParseDemarcation(functionDemarcation) == WikiFunctionType.Scoped)
+                {
+                    var scopeBody = functionCall.Substring(parseEndIndex, (functionCall.Length - parseEndIndex) - 2).Trim();
+                    //Insert the scope body as the first argument for scope functions:
+                    arguments.Insert(0, scopeBody);
+                }
             }
             else //The function call has no parameters.
             {
                 int endOfLine = functionCall.Substring(2).TakeWhile(c => char.IsLetterOrDigit(c)).Count(); //Find the first non-alphanumeric after the function demarcation (##, @@, etc).
                 functionName = functionCall.Substring(2, endOfLine).ToLowerInvariant().TrimStart(['{', '#', '@']).Trim();
                 parseEndIndex = endOfLine + 2;
+
+                if (Constants.ParseDemarcation(functionDemarcation) == WikiFunctionType.Scoped)
+                {
+                    var scopeBody = functionCall.Substring(parseEndIndex, (functionCall.Length - parseEndIndex) - 2).Trim();
+                    //Insert the scope body as the first argument for scope functions:
+                    arguments.Insert(0, scopeBody);
+                }
             }
 
             return new ParsedFunctionCall(functionDemarcation, functionName, parseEndIndex, arguments);

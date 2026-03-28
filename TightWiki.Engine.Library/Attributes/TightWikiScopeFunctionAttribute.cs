@@ -7,7 +7,7 @@
         public string FriendlyName { get; }
         public string? Description { get; }
         public bool IsFirstChance { get; }
-        public string Demarcation { get; } = "$$";
+        public string Demarcation { get; } = "{{";
 
         public TightWikiScopeFunctionAttribute(string friendlyName, string? description = null, bool isFirstChance = false)
         {
