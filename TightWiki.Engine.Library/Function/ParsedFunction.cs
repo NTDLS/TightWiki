@@ -10,15 +10,13 @@ namespace TightWiki.Engine.Library.Function
     {
         public string Demarcation { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
-        public int EndIndex { get; set; }
         public List<string> Arguments { get; set; } = new List<string>();
         public string? BodyText { get; }
 
-        public ParsedFunction(string demarcation, string name, int endIndex, List<string> arguments, string? bodyText)
+        public ParsedFunction(string demarcation, string name,   List<string> arguments, string? bodyText)
         {
             Demarcation = demarcation;
             Name = name;
-            EndIndex = endIndex;
             Arguments = arguments;
             BodyText = bodyText;
         }
@@ -40,7 +38,6 @@ namespace TightWiki.Engine.Library.Function
         public static ParsedFunction Create(string functionCall)
         {
             string functionName = string.Empty;
-            int parseEndIndex = 0;
             var arguments = new List<string>();
             var firstLine = functionCall.Split('\n')?.FirstOrDefault();
 
@@ -51,7 +48,11 @@ namespace TightWiki.Engine.Library.Function
 
             string? bodyText = null;
 
-            string functionDemarcation = functionCall.Substring(0, 2);
+            var functionDemarcation = functionCall.Substring(0, 2);
+            if (string.IsNullOrEmpty(functionDemarcation))
+            {
+                throw new WikiFunctionParserError($"Function demarcation is missing.");
+            }
 
             var parameterMatches = PrecompiledRegex.FunctionCallParser().Matches(firstLine);
             if (parameterMatches.Count > 0)
@@ -60,29 +61,54 @@ namespace TightWiki.Engine.Library.Function
                 int argumentStartIndex = match.Value.IndexOf('(');
 
                 functionName = match.Value[..argumentStartIndex].ToLowerInvariant().TrimStart(['{', '#', '@']).Trim();
-                parseEndIndex = match.Index + match.Length;
+                int parseEndIndex = match.Index + match.Length;
 
                 var trimmedArguments = match.ToString().Substring(argumentStartIndex);
                 arguments = ParseArguments(trimmedArguments);
 
                 if (ParseDemarcation(functionDemarcation) == WikiFunctionType.Scoped)
                 {
-                    bodyText = functionCall.Substring(parseEndIndex, (functionCall.Length - parseEndIndex) - 2).Trim();
+                    bodyText = functionCall.Substring(parseEndIndex, (functionCall.Length - parseEndIndex) - functionDemarcation.Length).Trim();
                 }
             }
-            else //The function call has no parameters.
+            else //The function call has no parameters and no open/close parentheses.
             {
-                int endOfLine = functionCall.Substring(2).TakeWhile(c => char.IsLetterOrDigit(c)).Count(); //Find the first non-alphanumeric after the function demarcation (##, @@, etc).
-                functionName = functionCall.Substring(2, endOfLine).ToLowerInvariant().TrimStart(['{', '#', '@']).Trim();
-                parseEndIndex = endOfLine + 2;
+                //What we are tring to do here is find the name of the function and (for scoped functions) also parse
+                //  the body content after the function name - making sure to excluse the open and close demarcation.
+                int skippedCharsCount = functionDemarcation.Length;
+                for(; skippedCharsCount < functionCall.Length; skippedCharsCount++)
+                {
+                    //Skip whitespace between the demarcation and the start of the function name.
+                    if (functionCall[skippedCharsCount] != ' ' && functionCall[skippedCharsCount] != '\t')
+                    {
+                        break;
+                    }
+                }
+
+                for (; skippedCharsCount < functionCall.Length; skippedCharsCount++)
+                {
+                    //Skip characters until the first non-alphanumeric character after the function name.
+                    if (!char.IsLetterOrDigit(functionCall[skippedCharsCount]))
+                    {
+                        break;
+                    }
+                }
+
+                functionName = functionCall.Substring(functionDemarcation.Length, skippedCharsCount - functionDemarcation.Length).ToLowerInvariant().TrimStart(['{', '#', '@']).Trim();
 
                 if (ParseDemarcation(functionDemarcation) == WikiFunctionType.Scoped)
                 {
-                    bodyText = functionCall.Substring(parseEndIndex, (functionCall.Length - parseEndIndex) - 2).Trim();
+                    //From the end of the function name, to the end of the while string, less the length of the demarcation.
+                    bodyText = functionCall.Substring(skippedCharsCount, (functionCall.Length - skippedCharsCount) - functionDemarcation.Length).Trim();
                 }
             }
 
-            return new ParsedFunction(functionDemarcation, functionName, parseEndIndex, arguments, bodyText);
+            if (string.IsNullOrEmpty(functionName))
+            {
+                throw new WikiFunctionParserError($"Function name is missing.");
+            }
+
+            return new ParsedFunction(functionDemarcation, functionName, arguments, bodyText);
         }
 
         private static WikiFunctionType ParseDemarcation(string demarcation)
