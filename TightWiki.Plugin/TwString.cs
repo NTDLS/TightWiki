@@ -1,12 +1,12 @@
 ﻿namespace TightWiki.Plugin
 {
-    public class WikiString
+    public class TwString
     {
-        public WikiString()
+        public TwString()
         {
         }
 
-        public WikiString(string value)
+        public TwString(string value)
         {
             Value = value;
         }

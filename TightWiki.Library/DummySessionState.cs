@@ -5,11 +5,11 @@ using TightWiki.Plugin.Interfaces;
 namespace TightWiki.Library
 {
     public class DummySessionState
-        : ISessionState
+        : ITwSessionState
     {
         public IQueryCollection? QueryString { get; set; }
 
-        public IAccountProfile? Profile { get; set; }
+        public ITwAccountProfile? Profile { get; set; }
 
         public Task<bool> HoldsPermission(WikiPermission[] permissions) => Task.FromResult(true);
 

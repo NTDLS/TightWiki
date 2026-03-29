@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using TightWiki.Caching;
 using TightWiki.Plugin;
-using static TightWiki.Plugin.Constants;
+using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Repository
 {

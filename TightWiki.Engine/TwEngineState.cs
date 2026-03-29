@@ -16,7 +16,7 @@ namespace TightWiki.Engine
         : ITwEngineState
     {
         public ITwEngine Engine { get; private set; }
-        public ISharedLocalizationText Localizer { get; private set; }
+        public ITwSharedLocalizationText Localizer { get; private set; }
 
         private string _queryTokenHash = "c03a1c9e-da83-479b-87e8-21d7906bd866";
         private int _matchesStoredPerIteration = 0;
@@ -35,22 +35,22 @@ namespace TightWiki.Engine
         public TimeSpan ProcessingTime { get; private set; }
         public Dictionary<string, string> Variables { get; } = new();
         public Dictionary<string, string> Snippets { get; } = new();
-        public List<PageReference> OutgoingLinks { get; private set; } = new();
+        public List<TwPageReference> OutgoingLinks { get; private set; } = new();
         public List<string> ProcessingInstructions { get; private set; } = new();
         public string HtmlResult { get; private set; } = string.Empty;
         public List<string> Tags { get; set; } = new();
         public Dictionary<string, TwMatchSet> Matches { get; private set; } = new();
-        public List<TableOfContentsTag> TableOfContents { get; } = new();
+        public List<TwTableOfContentsTag> TableOfContents { get; } = new();
         public List<string> Headers { get; } = new();
 
         #endregion
 
         #region Input parameters.
 
-        public IWikiPage Page { get; }
+        public ITwPage Page { get; }
         public int? Revision { get; }
         public IQueryCollection QueryString { get; }
-        public ISessionState? Session { get; }
+        public ITwSessionState? Session { get; }
         public HashSet<WikiMatchType> OmitMatches { get; private set; } = new();
         public int NestDepth { get; private set; } //Used for recursion.
         public ILogger<ITwEngine> Logger { get; private set; }
@@ -105,8 +105,8 @@ namespace TightWiki.Engine
         /// <param name="revision">The revision of the page that is being processed.</param>
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
         /// <param name="nestDepth">The current depth of recursion.</param>
-        internal TwEngineState(ILogger<ITwEngine> logger, ITwEngine engine, ISharedLocalizationText localizer, ISessionState? session,
-            IWikiPage page, int? revision = null, WikiMatchType[]? omitMatches = null, int nestDepth = 0)
+        internal TwEngineState(ILogger<ITwEngine> logger, ITwEngine engine, ITwSharedLocalizationText localizer, ITwSessionState? session,
+            ITwPage page, int? revision = null, WikiMatchType[]? omitMatches = null, int nestDepth = 0)
         {
             Localizer = localizer;
             Logger = logger;
@@ -131,7 +131,7 @@ namespace TightWiki.Engine
         /// </summary>
         /// <param name="page">The child page to process.</param>
         /// <param name="revision">The optional revision of the child page to process.</param>
-        public async Task<ITwEngineState> TransformChild(IWikiPage page, int? revision = null)
+        public async Task<ITwEngineState> TransformChild(ITwPage page, int? revision = null)
         {
             var childState = new TwEngineState(Logger, Engine, Localizer, Session, page, revision, OmitMatches.ToArray(), NestDepth + 1);
 
@@ -144,7 +144,7 @@ namespace TightWiki.Engine
 
             try
             {
-                var pageContent = new WikiString(Page.Body);
+                var pageContent = new TwString(Page.Body);
 
                 pageContent.Replace("\r\n", "\n");
 
@@ -209,7 +209,7 @@ namespace TightWiki.Engine
             return this;
         }
 
-        private async Task<int> TransformAll(WikiString pageContent)
+        private async Task<int> TransformAll(TwString pageContent)
         {
             TransformIterations++;
 
@@ -252,7 +252,7 @@ namespace TightWiki.Engine
         /// <param name="forceNestedDecode">If true, matches are replaced even if they are set to not allow nested decode.
         /// ForceDecode is typically only executed at the end of all processing but is made available here for special use cases by custom functions.
         /// <see cref="TwMatchSet.AllowNestedDecode"/></param>
-        public void SwapInStoredMatches(WikiString pageContent, bool forceNestedDecode)
+        public void SwapInStoredMatches(TwString pageContent, bool forceNestedDecode)
         {
             //We have to replace a few times because we could have replace tags (guids) nested inside others.
             int length;
@@ -287,16 +287,16 @@ namespace TightWiki.Engine
         /// <param name="pageContent">The wiki page content in which line break markers will be replaced. Cannot be null.</param>
         /// <param name="overrideValue">The string to use as a replacement for both soft and hard line break markers. If null, uses "\r\n" for soft
         /// breaks and "<br />" for hard breaks.</param>
-        public void SwapInLineBreaks(WikiString pageContent, string? overrideValue = null)
+        public void SwapInLineBreaks(TwString pageContent, string? overrideValue = null)
         {
-            pageContent.Replace(Constants.SoftBreak, overrideValue ?? "\r\n");
-            pageContent.Replace(Constants.HardBreak, overrideValue ?? "<br />");
+            pageContent.Replace(TwConstants.SoftBreak, overrideValue ?? "\r\n");
+            pageContent.Replace(TwConstants.HardBreak, overrideValue ?? "<br />");
         }
 
         /// <summary>
         /// Transform basic markup such as bold, italics, underline, etc. for single and multi-line.
         /// </summary>
-        private async Task TransformMarkup(WikiString pageContent)
+        private async Task TransformMarkup(TwString pageContent)
         {
             var symbols = TwWikiUtility.GetApplicableSymbols(pageContent.Value);
 
@@ -345,7 +345,7 @@ namespace TightWiki.Engine
         /// Transform inline and multi-line literal blocks. These are blocks where the content
         /// will not be wikified and contain code that is encoded to display verbatim on the page.
         /// </summary>
-        private void TransformLiterals(WikiString pageContent)
+        private void TransformLiterals(TwString pageContent)
         {
             //TODO: May need to do the same thing we did with TransformBlocks() to match all these if they need to be nested.
 
@@ -357,14 +357,14 @@ namespace TightWiki.Engine
             {
                 string value = match.Value.Substring(2, match.Value.Length - 4);
                 value = HttpUtility.HtmlEncode(value);
-                StoreMatch(WikiMatchType.Literal, pageContent, match.Value, value.Replace("\r", "").Trim().Replace("\n", $"{Constants.HardBreak}"), false);
+                StoreMatch(WikiMatchType.Literal, pageContent, match.Value, value.Replace("\r", "").Trim().Replace("\n", $"{TwConstants.HardBreak}"), false);
             }
         }
 
         /// <summary>
         /// Matching nested blocks with regex was hell, I escaped with a loop. ¯\_(ツ)_/¯
         /// </summary>
-        private async Task TransformScopeFunctions(WikiString pageContent, bool onlyProcessFirstChanceFunctions)
+        private async Task TransformScopeFunctions(TwString pageContent, bool onlyProcessFirstChanceFunctions)
         {
             var content = pageContent.ToString();
 
@@ -415,7 +415,7 @@ namespace TightWiki.Engine
                     endScopeSearchIndex++;
                 } while (enterScope > exitScope);
 
-                var transformBlock = new WikiString(rawBlock);
+                var transformBlock = new TwString(rawBlock);
                 await TransformScopeFunctionBlock(transformBlock, onlyProcessFirstChanceFunctions);
                 content = content.Replace(rawBlock, transformBlock.ToString());
             }
@@ -429,7 +429,7 @@ namespace TightWiki.Engine
         /// </summary>
         /// <param name="pageContent"></param>
         /// <param name="onlyProcessFirstChanceFunctions">Only process early functions (like code blocks)</param>
-        private async Task TransformScopeFunctionBlock(WikiString pageContent, bool onlyProcessFirstChanceFunctions)
+        private async Task TransformScopeFunctionBlock(TwString pageContent, bool onlyProcessFirstChanceFunctions)
         {
             // {{([\\S\\s]*)}}
             var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
@@ -437,7 +437,7 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                var parsedFunction = ParsedFunction.Create(match.Value);
+                var parsedFunction = TwParsedFunction.Create(match.Value);
 
                 try
                 {
@@ -449,7 +449,7 @@ namespace TightWiki.Engine
                         continue;
                     }
 
-                    var preparedFunction = PreparedFunction.Create(this, Engine.ScopeFunctions, parsedFunction);
+                    var preparedFunction = TwPreparedFunction.Create(this, Engine.ScopeFunctions, parsedFunction);
                     var result = await preparedFunction.Execute();
                     StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
                 }
@@ -464,7 +464,7 @@ namespace TightWiki.Engine
         /// <summary>
         /// Transform headings. These are the basic HTML H1-H6 headings but they are saved for the building of the table of contents.
         /// </summary>
-        private async Task TransformHeadings(WikiString pageContent)
+        private async Task TransformHeadings(TwString pageContent)
         {
             var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformSectionHeadings().Matches(pageContent.ToString()));
@@ -489,7 +489,7 @@ namespace TightWiki.Engine
 
                     if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
                     {
-                        TableOfContents.Add(new TableOfContentsTag(headingMarkers - 1, match.Index, link, text));
+                        TableOfContents.Add(new TwTableOfContentsTag(headingMarkers - 1, match.Index, link, text));
                     }
 
                     StoreHandlerResult(result, WikiMatchType.Heading, pageContent, match.Value);
@@ -497,7 +497,7 @@ namespace TightWiki.Engine
             }
         }
 
-        private async Task TransformComments(WikiString pageContent)
+        private async Task TransformComments(TwString pageContent)
         {
             var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformComments().Matches(pageContent.ToString()));
@@ -509,7 +509,7 @@ namespace TightWiki.Engine
             }
         }
 
-        private async Task TransformEmoji(WikiString pageContent)
+        private async Task TransformEmoji(TwString pageContent)
         {
             var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformEmoji().Matches(pageContent.ToString()));
@@ -534,7 +534,7 @@ namespace TightWiki.Engine
         /// <summary>
         /// Transform variables.
         /// </summary>
-        private async Task TransformVariables(WikiString pageContent)
+        private async Task TransformVariables(TwString pageContent)
         {
             var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformVariables().Matches(pageContent.ToString()));
@@ -575,7 +575,7 @@ namespace TightWiki.Engine
         /// <summary>
         /// Transform links, these can be internal Wiki links or external links.
         /// </summary>
-        private async Task TransformLinks(WikiString pageContent)
+        private async Task TransformLinks(TwString pageContent)
         {
             //Parse external explicit links. eg. [[http://test.net]].
             var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
@@ -584,7 +584,7 @@ namespace TightWiki.Engine
             foreach (var match in orderedMatches)
             {
                 string link = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                var args = ParsedFunction.ParseArgumentsAddParenthesis(link);
+                var args = TwParsedFunction.ParseArgumentsAddParenthesis(link);
 
                 if (args.Count > 1)
                 {
@@ -617,7 +617,7 @@ namespace TightWiki.Engine
             foreach (var match in orderedMatches)
             {
                 string link = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                var args = ParsedFunction.ParseArgumentsAddParenthesis(link);
+                var args = TwParsedFunction.ParseArgumentsAddParenthesis(link);
 
                 if (args.Count > 1)
                 {
@@ -651,7 +651,7 @@ namespace TightWiki.Engine
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
 
-                var args = ParsedFunction.ParseArgumentsAddParenthesis(keyword);
+                var args = TwParsedFunction.ParseArgumentsAddParenthesis(keyword);
 
                 string pageName;
                 string text;
@@ -695,7 +695,7 @@ namespace TightWiki.Engine
                     continue;
                 }
 
-                var pageNavigation = new NamespaceNavigation(pageName);
+                var pageNavigation = new TwNamespaceNavigation(pageName);
 
                 if (pageName.Trim().StartsWith("::"))
                 {
@@ -714,7 +714,7 @@ namespace TightWiki.Engine
                 var result = await Engine.InternalLinkHandler.Handle(this, pageNavigation, pageName.Trim(':'), text, image, imageScale);
                 if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
                 {
-                    OutgoingLinks.Add(new PageReference(pageName, pageNavigation.Canonical));
+                    OutgoingLinks.Add(new TwPageReference(pageName, pageNavigation.Canonical));
                 }
 
                 StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value);
@@ -724,7 +724,7 @@ namespace TightWiki.Engine
         /// <summary>
         /// Transform processing instructions are used to flag pages for specific needs such as deletion, review, draft, etc.
         /// </summary>
-        private async Task TransformProcessingInstructionFunctions(WikiString pageContent)
+        private async Task TransformProcessingInstructionFunctions(TwString pageContent)
         {
             // <code>(\\@\\@[\\w-]+\\(\\))|(\\@\\@[\\w-]+\\(.*?\\))|(\\@\\@[\\w-]+)</code><br/>
             var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
@@ -732,11 +732,11 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                var parsedFunction = ParsedFunction.Create(match.Value);
+                var parsedFunction = TwParsedFunction.Create(match.Value);
 
                 try
                 {
-                    var preparedFunction = PreparedFunction.Create(this, Engine.ProcessingFunctions, parsedFunction);
+                    var preparedFunction = TwPreparedFunction.Create(this, Engine.ProcessingFunctions, parsedFunction);
                     var result = await preparedFunction.Execute();
                     StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
                 }
@@ -751,7 +751,7 @@ namespace TightWiki.Engine
         /// <summary>
         /// Transform functions is used to call wiki functions such as including template pages, setting tags and displaying images.
         /// </summary>
-        private async Task TransformStandardFunctions(WikiString pageContent, bool onlyProcessFirstChanceFunctions)
+        private async Task TransformStandardFunctions(TwString pageContent, bool onlyProcessFirstChanceFunctions)
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
             var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
@@ -759,7 +759,7 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                var parsedFunction = ParsedFunction.Create(match.Value);
+                var parsedFunction = TwParsedFunction.Create(match.Value);
 
                 try
                 {
@@ -777,7 +777,7 @@ namespace TightWiki.Engine
                         continue;
                     }
 
-                    var preparedFunction = PreparedFunction.Create(this, Engine.StandardFunctions, parsedFunction);
+                    var preparedFunction = TwPreparedFunction.Create(this, Engine.StandardFunctions, parsedFunction);
                     var result = await preparedFunction.Execute();
                     StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
                 }
@@ -793,7 +793,7 @@ namespace TightWiki.Engine
         /// Transform post-process are functions that must be called after all other transformations.
         /// For example, we can't build a table-of-contents until we have parsed the entire page.
         /// </summary>
-        private async Task TransformPostProcessingFunctions(WikiString pageContent)
+        private async Task TransformPostProcessingFunctions(TwString pageContent)
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
             var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
@@ -801,11 +801,11 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                var parsedFunction = ParsedFunction.Create(match.Value);
+                var parsedFunction = TwParsedFunction.Create(match.Value);
 
                 try
                 {
-                    var preparedFunction = PreparedFunction.Create(this, Engine.PostProcessingFunctions, parsedFunction);
+                    var preparedFunction = TwPreparedFunction.Create(this, Engine.PostProcessingFunctions, parsedFunction);
                     var result = await preparedFunction.Execute();
                     StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
                 }
@@ -817,7 +817,7 @@ namespace TightWiki.Engine
             }
         }
 
-        private static void TransformWhitespace(WikiString pageContent)
+        private static void TransformWhitespace(TwString pageContent)
         {
             string identifier = $"<!--{Guid.NewGuid()}-->";
 
@@ -836,7 +836,7 @@ namespace TightWiki.Engine
 
         #region Utility.
 
-        private void StoreHandlerResult(HandlerResult result, WikiMatchType matchType, WikiString pageContent, string matchValue)
+        private void StoreHandlerResult(TwHandlerResult result, WikiMatchType matchType, TwString pageContent, string matchValue)
         {
             if (result.Instructions.Contains(HandlerResultInstruction.Skip))
             {
@@ -880,7 +880,7 @@ namespace TightWiki.Engine
             HtmlResult = TwWikiUtility.WarningCard("Wiki Parser Exception", ex.Message);
         }
 
-        private string StoreWikiError(WikiString pageContent, string match, string value)
+        private string StoreWikiError(TwString pageContent, string match, string value)
         {
             Engine.ExceptionHandler.Log(this, LogLevel.Debug, $"Page: [{Page.Navigation}], Revision: [{Page.Revision}], Error: [{value}]");
 
@@ -902,7 +902,7 @@ namespace TightWiki.Engine
             return identifier;
         }
 
-        private string StoreMatch(WikiMatchType matchType, WikiString pageContent, string match, string value, bool allowNestedDecode = true)
+        private string StoreMatch(WikiMatchType matchType, TwString pageContent, string match, string value, bool allowNestedDecode = true)
         {
             MatchCount++;
             _matchesStoredPerIteration++;
@@ -922,7 +922,7 @@ namespace TightWiki.Engine
             return identifier;
         }
 
-        private string StoreFirstMatch(WikiMatchType matchType, WikiString pageContent, string match, string value, bool allowNestedDecode = true)
+        private string StoreFirstMatch(WikiMatchType matchType, TwString pageContent, string match, string value, bool allowNestedDecode = true)
         {
             MatchCount++;
             _matchesStoredPerIteration++;

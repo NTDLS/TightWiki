@@ -10,7 +10,7 @@ namespace TightWiki
     public class PageModelBase
         : PageModel
     {
-        public ISharedLocalizationText Localizer { get; private set; }
+        public ITwSharedLocalizationText Localizer { get; private set; }
 
         public SessionState SessionState { get; private set; } = new();
         public SignInManager<IdentityUser> SignInManager { get; private set; }
@@ -23,7 +23,7 @@ namespace TightWiki
         public TwConfiguration WikiConfiguration { get; private set; }
 
         public PageModelBase(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
-            ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
+            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
         {
             WikiConfiguration = wikiConfiguration;
             Localizer = localizer;

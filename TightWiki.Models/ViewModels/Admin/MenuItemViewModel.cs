@@ -10,9 +10,9 @@ namespace TightWiki.Models.ViewModels.Admin
         public string Link { get; set; } = string.Empty;
         public int Ordinal { get; set; }
 
-        public MenuItem ToDataModel()
+        public TwMenuItem ToDataModel()
         {
-            return new MenuItem
+            return new TwMenuItem
             {
                 Name = Name,
                 Id = Id,

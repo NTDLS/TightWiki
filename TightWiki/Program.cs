@@ -22,7 +22,7 @@ using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
 using TightWiki.Repository.Extensions;
 using TightWiki.Translations;
-using static TightWiki.Plugin.Constants;
+using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki
 {
@@ -131,7 +131,7 @@ namespace TightWiki
                 options.ResourcesPath = "";
             });
 
-            builder.Services.AddScoped<ISharedLocalizationText, SharedLocalizationText>();
+            builder.Services.AddScoped<ITwSharedLocalizationText, SharedLocalizationText>();
 
             builder.Services.AddRazorPages();
 
@@ -158,7 +158,7 @@ namespace TightWiki
             builder.Services.AddSingleton<ITwManagedDataStorage>(dataStuff);
             builder.Services.AddSingleton(wikiConfiguration);
 
-            builder.Services.AddSingleton<IWikiEmailSender, WikiEmailSender>();
+            builder.Services.AddSingleton<ITwEmailSender, WikiEmailSender>();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = requireConfirmedAccount)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -294,14 +294,14 @@ namespace TightWiki
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
             builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
             {
-                containerBuilder.RegisterType<MarkupHandler>().As<IMarkupHandler>().SingleInstance();
-                containerBuilder.RegisterType<HeadingHandler>().As<IHeadingHandler>().SingleInstance();
-                containerBuilder.RegisterType<CommentHandler>().As<ICommentHandler>().SingleInstance();
-                containerBuilder.RegisterType<EmojiHandler>().As<IEmojiHandler>().SingleInstance();
-                containerBuilder.RegisterType<ExternalLinkHandler>().As<IExternalLinkHandler>().SingleInstance();
-                containerBuilder.RegisterType<InternalLinkHandler>().As<IInternalLinkHandler>().SingleInstance();
-                containerBuilder.RegisterType<ExceptionHandler>().As<IExceptionHandler>().SingleInstance();
-                containerBuilder.RegisterType<CompletionHandler>().As<ICompletionHandler>().SingleInstance();
+                containerBuilder.RegisterType<MarkupHandler>().As<ITwMarkupHandler>().SingleInstance();
+                containerBuilder.RegisterType<HeadingHandler>().As<ITwHeadingHandler>().SingleInstance();
+                containerBuilder.RegisterType<CommentHandler>().As<ITwCommentHandler>().SingleInstance();
+                containerBuilder.RegisterType<EmojiHandler>().As<ITwEmojiHandler>().SingleInstance();
+                containerBuilder.RegisterType<ExternalLinkHandler>().As<ITwExternalLinkHandler>().SingleInstance();
+                containerBuilder.RegisterType<InternalLinkHandler>().As<ITwInternalLinkHandler>().SingleInstance();
+                containerBuilder.RegisterType<ExceptionHandler>().As<ITwExceptionHandler>().SingleInstance();
+                containerBuilder.RegisterType<CompletionHandler>().As<ITwCompletionHandler>().SingleInstance();
 
                 containerBuilder.RegisterType<TwEngine>().As<ITwEngine>().SingleInstance();
             });

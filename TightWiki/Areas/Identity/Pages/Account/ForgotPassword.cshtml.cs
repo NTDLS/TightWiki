@@ -11,7 +11,7 @@ using System.Text.Encodings.Web;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
-using static TightWiki.Plugin.Constants;
+using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -19,12 +19,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
     public class ForgotPasswordModel : PageModelBase
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IWikiEmailSender _emailSender;
+        private readonly ITwEmailSender _emailSender;
         private readonly ILogger<ITwEngine> _logger;
 
         public ForgotPasswordModel(
             ILogger<ITwEngine> logger, UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager, IWikiEmailSender emailSender, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
+            SignInManager<IdentityUser> signInManager, ITwEmailSender emailSender, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
             : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _logger = logger;

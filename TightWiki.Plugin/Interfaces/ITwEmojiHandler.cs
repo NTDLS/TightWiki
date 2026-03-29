@@ -3,7 +3,7 @@
     /// <summary>
     /// Handles wiki emojis.
     /// </summary>
-    public interface IEmojiHandler
+    public interface ITwEmojiHandler
     {
         /// <summary>
         /// Handles an emoji instruction.
@@ -11,6 +11,6 @@
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="key">The lookup key for the given emoji.</param>
         /// <param name="scale">The desired 1-100 scale factor for the emoji.</param>
-        public Task<HandlerResult> Handle(ITwEngineState state, string key, int scale);
+        public Task<TwHandlerResult> Handle(ITwEngineState state, string key, int scale);
     }
 }

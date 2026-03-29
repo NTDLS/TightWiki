@@ -1,6 +1,6 @@
 ﻿namespace TightWiki.Plugin.Models
 {
-    public class Theme
+    public class TwTheme
     {
         public string Name { get; set; } = string.Empty;
         public string DelimitedFiles { get; set; } = string.Empty;

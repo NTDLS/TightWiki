@@ -22,7 +22,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
         }
         public AccessDeniedModel(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
-            ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
+            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
             : base(logger, signInManager, localizer, wikiConfiguration)
         {
 

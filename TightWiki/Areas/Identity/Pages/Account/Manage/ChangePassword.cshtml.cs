@@ -55,7 +55,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         public ChangePasswordModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<ITwEngine> logger, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
+            ILogger<ITwEngine> logger, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
                         : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _userManager = userManager;
@@ -123,7 +123,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            if (profile.AccountName.Equals(Constants.DEFAULTACCOUNT, StringComparison.InvariantCultureIgnoreCase))
+            if (profile.AccountName.Equals(TwConstants.DEFAULTACCOUNT, StringComparison.InvariantCultureIgnoreCase))
             {
                 await UsersRepository.SetAdminPasswordIsChanged();
             }

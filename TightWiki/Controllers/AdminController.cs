@@ -15,7 +15,7 @@ using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Models;
 using TightWiki.Repository;
 using TightWiki.Security;
-using static TightWiki.Plugin.Constants;
+using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Controllers
 {
@@ -29,7 +29,7 @@ namespace TightWiki.Controllers
         private readonly ILogger<ITwEngine> _logger;
 
         public AdminController(ITwEngine tightEngine, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, ILogger<ITwEngine> logger, ISharedLocalizationText localizer,
+            UserManager<IdentityUser> userManager, ILogger<ITwEngine> logger, ITwSharedLocalizationText localizer,
             TwConfiguration wikiConfiguration)
             : base(logger, signInManager, userManager, localizer, wikiConfiguration)
         {
@@ -584,7 +584,7 @@ namespace TightWiki.Controllers
                 }
                 await SessionState.RequirePermission(null, WikiPermission.Moderate);
 
-                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+                var pageNavigation = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
 
                 if (model.UserSelection == true)
                 {
@@ -710,7 +710,7 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+                var pageNavigation = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
 
                 var pageNumber = GetQueryValue("page", 1);
                 var orderBy = GetQueryValue<string>("OrderBy");
@@ -764,7 +764,7 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+                var pageNavigation = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
 
                 if (model.UserSelection == true)
                 {
@@ -1662,7 +1662,7 @@ namespace TightWiki.Controllers
 
                 var model = new EmojiViewModel
                 {
-                    Emoji = emoji ?? new Emoji(),
+                    Emoji = emoji ?? new TwEmoji(),
                     Categories = string.Join(",", (await EmojiRepository.GetEmojiCategoriesByName(name)).Select(o => o.Category).ToList()),
                     OriginalName = emoji?.Name ?? string.Empty
                 };

@@ -3,7 +3,7 @@
     /// <summary>
     /// Handles wiki completion events.
     /// </summary>
-    public interface ICompletionHandler
+    public interface ITwCompletionHandler
     {
         /// <summary>
         /// Handles wiki completion events. Is called when the wiki processing competes for a given page.

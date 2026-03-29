@@ -3,7 +3,7 @@
     /// <summary>
     /// Handles links from one wiki page to another.
     /// </summary>
-    public interface IInternalLinkHandler
+    public interface ITwInternalLinkHandler
     {
         /// <summary>
         /// Handles an internal wiki link.
@@ -14,6 +14,6 @@
         /// <param name="linkText">The text which should be show in the absence of an image.</param>
         /// <param name="image">The image that should be shown.</param>
         /// <param name="imageScale">The 0-100 image scale factor for the given image.</param>
-        public Task<HandlerResult> Handle(ITwEngineState state, NamespaceNavigation pageNavigation, string pageName, string linkText, string? image, int imageScale);
+        public Task<TwHandlerResult> Handle(ITwEngineState state, TwNamespaceNavigation pageNavigation, string pageName, string linkText, string? image, int imageScale);
     }
 }

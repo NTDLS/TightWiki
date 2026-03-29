@@ -16,12 +16,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<ITwEngine> _logger;
-        private readonly ISharedLocalizationText _localizer;
+        private readonly ITwSharedLocalizationText _localizer;
 
         public ConfirmEmailChangeModel(
             ILogger<ITwEngine> logger,
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
+            SignInManager<IdentityUser> signInManager, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
             : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _logger = logger;

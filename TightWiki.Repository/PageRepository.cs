@@ -7,7 +7,7 @@ using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Models;
-using static TightWiki.Plugin.Constants;
+using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Repository
 {
@@ -375,7 +375,7 @@ namespace TightWiki.Repository
             await FlushPageCache(pageId);
         }
 
-        public static async Task UpdatePageReferences(int pageId, List<PageReference> referencesPageNavigations)
+        public static async Task UpdatePageReferences(int pageId, List<TwPageReference> referencesPageNavigations)
         {
             await ManagedDataStorage.Pages.EphemeralAsync(async o =>
             {
@@ -700,7 +700,7 @@ namespace TightWiki.Repository
             {
                 PageId = page.Id,
                 Name = page.Name,
-                Navigation = NamespaceNavigation.CleanAndValidate(page.Name),
+                Navigation = TwNamespaceNavigation.CleanAndValidate(page.Name),
                 Description = page.Description,
                 Body = page.Body ?? string.Empty,
                 Namespace = page.Namespace,
@@ -1073,7 +1073,7 @@ namespace TightWiki.Repository
             });
         }
 
-        public static async Task<WikiPage?> GetPageRevisionByNavigation(NamespaceNavigation navigation, int? revision = null)
+        public static async Task<WikiPage?> GetPageRevisionByNavigation(TwNamespaceNavigation navigation, int? revision = null)
         {
             var param = new
             {
@@ -1090,7 +1090,7 @@ namespace TightWiki.Repository
 
         public static async Task<WikiPage?> GetPageRevisionByNavigation(string givenNavigation, int? revision = null, bool refreshCache = false)
         {
-            var navigation = new NamespaceNavigation(givenNavigation);
+            var navigation = new TwNamespaceNavigation(givenNavigation);
 
             var param = new
             {

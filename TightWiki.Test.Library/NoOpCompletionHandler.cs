@@ -3,7 +3,7 @@
 namespace TightWiki.Test.Library
 {
     public class NoOpCompletionHandler
-        : ICompletionHandler
+        : ITwCompletionHandler
     {
         public async Task Complete(ITwEngineState state)
         {

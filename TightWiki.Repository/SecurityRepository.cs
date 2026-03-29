@@ -3,7 +3,7 @@ using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki.Library;
 using TightWiki.Plugin;
-using static TightWiki.Plugin.Constants;
+using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Repository
 {
@@ -24,21 +24,21 @@ namespace TightWiki.Repository
 
             if (await UsersRepository.AdminPasswordStatus() == WikiAdminPasswordChangeState.NeedsToBeSet)
             {
-                var user = await userManager.FindByNameAsync(Constants.DEFAULTUSERNAME);
+                var user = await userManager.FindByNameAsync(TwConstants.DEFAULTUSERNAME);
                 if (user == null)
                 {
-                    var creationResult = await userManager.CreateAsync(new IdentityUser(Constants.DEFAULTUSERNAME), Constants.DEFAULTPASSWORD);
+                    var creationResult = await userManager.CreateAsync(new IdentityUser(TwConstants.DEFAULTUSERNAME), TwConstants.DEFAULTPASSWORD);
                     if (!creationResult.Succeeded)
                     {
                         throw new Exception(string.Join("\r\n", creationResult.Errors.Select(o => o.Description)));
                     }
 
-                    user = await userManager.FindByNameAsync(Constants.DEFAULTUSERNAME);
+                    user = await userManager.FindByNameAsync(TwConstants.DEFAULTUSERNAME);
                 }
 
                 user.EnsureNotNull();
 
-                user.Email = Constants.DEFAULTUSERNAME; // Ensure email is set or updated
+                user.Email = TwConstants.DEFAULTUSERNAME; // Ensure email is set or updated
                 user.EmailConfirmed = true;
                 var emailUpdateResult = await userManager.UpdateAsync(user);
                 if (!emailUpdateResult.Succeeded)
@@ -59,7 +59,7 @@ namespace TightWiki.Repository
                 await UpsertUserClaims(userManager, user, claimsToAdd);
 
                 var token = await userManager.GeneratePasswordResetTokenAsync(user.EnsureNotNull());
-                var result = await userManager.ResetPasswordAsync(user, token, Constants.DEFAULTPASSWORD);
+                var result = await userManager.ResetPasswordAsync(user, token, TwConstants.DEFAULTPASSWORD);
                 if (!result.Succeeded)
                 {
                     throw new Exception(string.Join("\r\n", emailUpdateResult.Errors.Select(o => o.Description)));
@@ -67,14 +67,14 @@ namespace TightWiki.Repository
 
                 await UsersRepository.SetAdminPasswordIsDefault();
 
-                var existingProfileUserId = UsersRepository.GetUserAccountIdByNavigation(Navigation.Clean(Constants.DEFAULTACCOUNT));
+                var existingProfileUserId = UsersRepository.GetUserAccountIdByNavigation(Navigation.Clean(TwConstants.DEFAULTACCOUNT));
                 if (existingProfileUserId == null)
                 {
-                    await UsersRepository.CreateProfile(Guid.Parse(user.Id), Constants.DEFAULTACCOUNT);
+                    await UsersRepository.CreateProfile(Guid.Parse(user.Id), TwConstants.DEFAULTACCOUNT);
                 }
                 else
                 {
-                    await UsersRepository.SetProfileUserId(Constants.DEFAULTACCOUNT, Guid.Parse(user.Id));
+                    await UsersRepository.SetProfileUserId(TwConstants.DEFAULTACCOUNT, Guid.Parse(user.Id));
                 }
             }
         }

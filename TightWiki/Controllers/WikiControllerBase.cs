@@ -8,12 +8,12 @@ using TightWiki.Plugin.Interfaces;
 namespace TightWiki.Controllers
 {
     public class WikiControllerBase<T>(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
+        UserManager<IdentityUser> userManager, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
         : Controller
     {
         public TwConfiguration WikiConfiguration { get; private set; } = wikiConfiguration;
         public ILogger<ITwEngine> Logger { get; private set; } = logger;
-        public ISharedLocalizationText Localizer { get; private set; } = localizer;
+        public ITwSharedLocalizationText Localizer { get; private set; } = localizer;
         public SessionState SessionState { get; private set; } = new();
 
         public readonly SignInManager<IdentityUser> SignInManager = signInManager;

@@ -6,13 +6,13 @@ using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
-using static TightWiki.Plugin.Constants;
+using static TightWiki.Plugin.TwConstants;
 
 namespace DummyPageGenerator
 {
     internal class PageGenerator
     {
-        private readonly ISharedLocalizationText _localizer;
+        private readonly ITwSharedLocalizationText _localizer;
         private readonly object _lockObject = new();
         private List<WikiPage> _pagePool;
         private readonly Random _random;
@@ -26,7 +26,7 @@ namespace DummyPageGenerator
         public List<AccountProfile> Users => _users;
         public Random Random => _random;
 
-        public PageGenerator(ISharedLocalizationText localizer, UserManager<IdentityUser> userManager)
+        public PageGenerator(ITwSharedLocalizationText localizer, UserManager<IdentityUser> userManager)
         {
             _localizer = localizer;
             _userManager = userManager;

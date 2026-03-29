@@ -39,13 +39,13 @@ namespace TightWiki.Repository
             }).EnsureNotNull();
         }
 
-        public static async Task<List<Theme>> GetAllThemes()
+        public static async Task<List<TwTheme>> GetAllThemes()
         {
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Configuration);
 
             return await WikiCache.AddOrGet(cacheKey, async () =>
             {
-                var themes = await ManagedDataStorage.Config.QueryAsync<Theme>("GetAllThemes.sql");
+                var themes = await ManagedDataStorage.Config.QueryAsync<TwTheme>("GetAllThemes.sql");
 
                 foreach (var theme in themes)
                 {
@@ -97,7 +97,7 @@ namespace TightWiki.Repository
             try
             {
                 value = Security.Helpers.DecryptString(Security.Helpers.MachineKey, value);
-                if (value == Constants.CRYPTOCHECK)
+                if (value == TwConstants.CRYPTOCHECK)
                 {
                     return true;
                 }
@@ -116,7 +116,7 @@ namespace TightWiki.Repository
         {
             var param = new
             {
-                Content = Security.Helpers.EncryptString(Security.Helpers.MachineKey, Constants.CRYPTOCHECK)
+                Content = Security.Helpers.EncryptString(Security.Helpers.MachineKey, TwConstants.CRYPTOCHECK)
             };
 
             await ManagedDataStorage.Config.QueryFirstOrDefaultAsync<string>("SetCryptoCheck.sql", param);
@@ -237,20 +237,20 @@ namespace TightWiki.Repository
 
         #region Menu Items.
 
-        public static async Task<List<MenuItem>> GetAllMenuItems(string? orderBy = null, string? orderByDirection = null)
+        public static async Task<List<TwMenuItem>> GetAllMenuItems(string? orderBy = null, string? orderByDirection = null)
         {
             var query = RepositoryHelpers.TransposeOrderby("GetAllMenuItems.sql", orderBy, orderByDirection);
-            return await ManagedDataStorage.Config.QueryAsync<MenuItem>(query);
+            return await ManagedDataStorage.Config.QueryAsync<TwMenuItem>(query);
         }
 
-        public static async Task<MenuItem> GetMenuItemById(int id)
+        public static async Task<TwMenuItem> GetMenuItemById(int id)
         {
             var param = new
             {
                 Id = id
             };
 
-            return await ManagedDataStorage.Config.QuerySingleAsync<MenuItem>("GetMenuItemById.sql", param);
+            return await ManagedDataStorage.Config.QuerySingleAsync<TwMenuItem>("GetMenuItemById.sql", param);
         }
 
         public static async Task DeleteMenuItemById(int id)
@@ -265,7 +265,7 @@ namespace TightWiki.Repository
             WikiCache.ClearCategory(WikiCache.Category.Configuration);
         }
 
-        public static async Task<int> UpdateMenuItemById(MenuItem menuItem)
+        public static async Task<int> UpdateMenuItemById(TwMenuItem menuItem)
         {
             var param = new
             {
@@ -281,7 +281,7 @@ namespace TightWiki.Repository
             return menuItemId;
         }
 
-        public static async Task<int> InsertMenuItem(MenuItem menuItem)
+        public static async Task<int> InsertMenuItem(TwMenuItem menuItem)
         {
             var param = new
             {
@@ -298,7 +298,7 @@ namespace TightWiki.Repository
 
         #endregion
 
-        public static async Task<List<Emoji>> ReloadEmojis(bool preloadAnimatedEmojis, int defaultEmojiHeight)
+        public static async Task<List<TwEmoji>> ReloadEmojis(bool preloadAnimatedEmojis, int defaultEmojiHeight)
         {
             WikiCache.ClearCategory(WikiCache.Category.Emoji);
             var emojis = await EmojiRepository.GetAllEmojis();

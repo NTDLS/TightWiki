@@ -17,7 +17,7 @@ using TightWiki.Translations;
 namespace TightWiki
 {
     public class SessionState
-        : ISessionState
+        : ITwSessionState
     {
         private readonly string _denyString = WikiPermissionDisposition.Deny.ToString();
         private readonly string _allowString = WikiPermissionDisposition.Allow.ToString();
@@ -28,9 +28,9 @@ namespace TightWiki
         #region Authentication.
 
         public bool IsAuthenticated { get; set; }
-        public IAccountProfile? Profile { get; set; }
+        public ITwAccountProfile? Profile { get; set; }
         public bool IsAdministrator { get; set; }
-        public Theme UserTheme { get; set; } = new();
+        public TwTheme UserTheme { get; set; } = new();
         public List<ApparentPermission> Permissions { get; set; } = new();
 
         #endregion
@@ -50,7 +50,7 @@ namespace TightWiki
         /// <summary>
         /// The "page" here is more of a "mock page", we use the name for various stuff.
         /// </summary>
-        public IWikiPage Page { get; set; } = new WikiPage();
+        public ITwPage Page { get; set; } = new WikiPage();
 
         #endregion
 
@@ -209,7 +209,7 @@ namespace TightWiki
 
                 if (givenCanonical != null)
                 {
-                    var navigation = new NamespaceNavigation(givenCanonical);
+                    var navigation = new TwNamespaceNavigation(givenCanonical);
                     page = await PageRepository.GetPageInfoByNavigation(navigation.Canonical);
                 }
 

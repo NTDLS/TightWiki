@@ -6,7 +6,7 @@ namespace TightWiki.Models.DataModels
     /// This model combines the elements of an account and a profile into one class.
     /// </summary>
     public partial class AccountProfile
-        : IAccountProfile
+        : ITwAccountProfile
     {
         public string? Theme { get; set; }
         public Guid UserId { get; set; }

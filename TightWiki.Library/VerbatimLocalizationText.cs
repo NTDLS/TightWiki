@@ -4,7 +4,7 @@ using TightWiki.Plugin.Interfaces;
 namespace TightWiki.Library
 {
     public class VerbatimLocalizationText
-        : ISharedLocalizationText
+        : ITwSharedLocalizationText
     {
         public LocalizedString this[string key]
             => new LocalizedString(key, key);

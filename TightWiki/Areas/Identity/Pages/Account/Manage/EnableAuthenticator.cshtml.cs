@@ -41,7 +41,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         public EnableAuthenticatorModel(SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             ILogger<ITwEngine> logger,
-            UrlEncoder urlEncoder, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
+            UrlEncoder urlEncoder, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
                         : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _userManager = userManager;

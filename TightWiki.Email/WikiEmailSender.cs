@@ -4,12 +4,12 @@ using Microsoft.Extensions.Logging;
 using MimeKit;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
-using static TightWiki.Plugin.Constants;
+using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Email
 {
     public class WikiEmailSender
-        : IWikiEmailSender
+        : ITwEmailSender
     {
         private readonly ILogger<WikiEmailSender> _logger;
 

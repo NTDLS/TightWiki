@@ -12,7 +12,7 @@ namespace TightWiki.Controllers
     [Authorize]
     [Route("[controller]")]
     public class TagsController(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
+        UserManager<IdentityUser> userManager, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
         : WikiControllerBase<TagsController>(logger, signInManager, userManager, localizer, wikiConfiguration)
     {
         [AllowAnonymous]
@@ -31,7 +31,7 @@ namespace TightWiki.Controllers
                 }
                 SessionState.Page.Name = Localize("Tags");
 
-                givenCanonical = NamespaceNavigation.CleanAndValidate(givenCanonical);
+                givenCanonical = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
 
                 string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
                 var pages = (await PageRepository.GetPageInfoByTag(givenCanonical)).OrderBy(o => o.Name).ToList();

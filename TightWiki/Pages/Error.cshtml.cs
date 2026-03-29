@@ -17,7 +17,7 @@ namespace TightWiki.Pages
         private readonly ILogger<ITwEngine> _logger;
 
         public ErrorModel(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
-            ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
+            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
             : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _logger = logger;

@@ -44,7 +44,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public LoginWith2faModel(
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            ILogger<ITwEngine> logger, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
+            ILogger<ITwEngine> logger, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
                         : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _signInManager = signInManager;

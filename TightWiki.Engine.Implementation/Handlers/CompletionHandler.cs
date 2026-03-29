@@ -7,7 +7,7 @@ namespace TightWiki.Engine.Implementation.Handlers
     /// Handles wiki completion events.
     /// </summary>
     public class CompletionHandler
-        : ICompletionHandler
+        : ITwCompletionHandler
     {
         /// <summary>
         /// Handles wiki completion events. Is called when the wiki processing completes for a given page.

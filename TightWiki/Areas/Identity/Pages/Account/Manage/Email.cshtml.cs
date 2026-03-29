@@ -11,7 +11,7 @@ using System.Text.Encodings.Web;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
-using static TightWiki.Plugin.Constants;
+using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -35,13 +35,13 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly IWikiEmailSender _emailSender;
+        private readonly ITwEmailSender _emailSender;
 
         public EmailModel(
             ILogger<ITwEngine> logger,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IWikiEmailSender emailSender, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
+            ITwEmailSender emailSender, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
                         : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _userManager = userManager;

@@ -8,12 +8,12 @@ namespace TightWiki.Plugin.Interfaces
     public interface ITwEngineState
     {
         #region Parameters.
-        ISharedLocalizationText Localizer { get; }
-        ISessionState? Session { get; }
+        ITwSharedLocalizationText Localizer { get; }
+        ITwSessionState? Session { get; }
         IQueryCollection QueryString { get; }
 
         ITwEngine Engine { get; }
-        IWikiPage Page { get; }
+        ITwPage Page { get; }
         int? Revision { get; }
         public HashSet<WikiMatchType> OmitMatches { get; }
         public int NestDepth { get; } //Used for recursion.
@@ -33,8 +33,8 @@ namespace TightWiki.Plugin.Interfaces
         Dictionary<string, string> Snippets { get; }
         List<string> Tags { get; set; }
         List<string> ProcessingInstructions { get; }
-        List<PageReference> OutgoingLinks { get; }
-        List<TableOfContentsTag> TableOfContents { get; }
+        List<TwPageReference> OutgoingLinks { get; }
+        List<TwTableOfContentsTag> TableOfContents { get; }
         List<string> Headers { get; }
 
         #endregion
@@ -71,7 +71,7 @@ namespace TightWiki.Plugin.Interfaces
         /// </summary>
         /// <param name="page">The child page to process</param>
         /// <param name="revision">The optional revision of the child page to process</param>
-        Task<ITwEngineState> TransformChild(IWikiPage page, int? revision = null);
+        Task<ITwEngineState> TransformChild(ITwPage page, int? revision = null);
 
         /// <summary>
         /// Replaces placeholders in the specified page content with previously stored match values.
@@ -80,7 +80,7 @@ namespace TightWiki.Plugin.Interfaces
         /// <param name="forceDecode">If true, matches are replaced even if they are set to not allow nested decode.
         /// ForceDecode is typically only executed at the end of all processing but is made available here for special use cases by custom functions.
         /// <see cref="WikiMatchSet.AllowNestedDecode"/></param>
-        public void SwapInStoredMatches(WikiString pageContent, bool forceNestedDecode);
+        public void SwapInStoredMatches(TwString pageContent, bool forceNestedDecode);
 
         /// <summary>
         /// Replaces soft and hard line break markers in the specified page content with the provided override value or
@@ -91,6 +91,6 @@ namespace TightWiki.Plugin.Interfaces
         /// <param name="pageContent">The wiki page content in which line break markers will be replaced. Cannot be null.</param>
         /// <param name="overrideValue">The string to use as a replacement for both soft and hard line break markers. If null, uses "\r\n" for soft
         /// breaks and "<br />" for hard breaks.</param>
-        public void SwapInLineBreaks(WikiString pageContent, string? overrideValue = null);
+        public void SwapInLineBreaks(TwString pageContent, string? overrideValue = null);
     }
 }

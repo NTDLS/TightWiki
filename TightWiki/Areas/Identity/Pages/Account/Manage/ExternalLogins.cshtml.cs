@@ -20,7 +20,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
                 ILogger<ITwEngine> logger,
                 UserManager<IdentityUser> userManager,
                 SignInManager<IdentityUser> signInManager,
-                IUserStore<IdentityUser> userStore, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
+                IUserStore<IdentityUser> userStore, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
                         : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _userManager = userManager;

@@ -4,7 +4,7 @@ using TightWiki.Plugin.Interfaces;
 namespace TightWiki.Translations
 {
     public class SharedLocalizationText
-        : ISharedLocalizationText
+        : ITwSharedLocalizationText
     {
         private readonly IStringLocalizer<SharedLocalizer> _localizer;
 

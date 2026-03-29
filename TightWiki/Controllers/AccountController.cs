@@ -25,7 +25,7 @@ namespace TightWiki.Controllers
             ILogger<ITwEngine> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore, ISharedLocalizationText localizer)
+            IUserStore<IdentityUser> userStore, ITwSharedLocalizationText localizer)
             : base(logger, signInManager, userManager, localizer, wikiConfiguration)
         {
             _httpContextAccessor = httpContextAccessor;

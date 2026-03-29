@@ -44,7 +44,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         public SetPasswordModel(
             ILogger<ITwEngine> logger,
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
+            SignInManager<IdentityUser> signInManager, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
                         : base(logger, signInManager, localizer, wikiConfiguration)
 
         {

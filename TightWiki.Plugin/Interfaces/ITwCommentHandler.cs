@@ -3,13 +3,13 @@
     /// <summary>
     /// Handles wiki comments. These are generally removed from the result.
     /// </summary>
-    public interface ICommentHandler
+    public interface ITwCommentHandler
     {
         /// <summary>
         /// Handles a wiki comment.
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="text">The comment text</param>
-        public Task<HandlerResult> Handle(ITwEngineState state, string text);
+        public Task<TwHandlerResult> Handle(ITwEngineState state, string text);
     }
 }

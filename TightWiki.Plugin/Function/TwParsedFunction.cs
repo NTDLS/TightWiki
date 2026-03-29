@@ -5,14 +5,14 @@ namespace TightWiki.Plugin.Function
     /// <summary>
     /// Represnets a function call that has been parsed of its name, type and arguments.
     /// </summary>
-    public class ParsedFunction
+    public class TwParsedFunction
     {
         public string Demarcation { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public List<string> Arguments { get; set; } = new List<string>();
         public string? BodyText { get; }
 
-        public ParsedFunction(string demarcation, string name, List<string> arguments, string? bodyText)
+        public TwParsedFunction(string demarcation, string name, List<string> arguments, string? bodyText)
         {
             Demarcation = demarcation;
             Name = name;
@@ -34,7 +34,7 @@ namespace TightWiki.Plugin.Function
             return ParseArguments($"({paramString})");
         }
 
-        public static ParsedFunction Create(string functionCall)
+        public static TwParsedFunction Create(string functionCall)
         {
             string functionName = string.Empty;
             var arguments = new List<string>();
@@ -107,7 +107,7 @@ namespace TightWiki.Plugin.Function
                 throw new Exception($"Function name is missing.");
             }
 
-            return new ParsedFunction(functionDemarcation, functionName, arguments, bodyText);
+            return new TwParsedFunction(functionDemarcation, functionName, arguments, bodyText);
         }
 
         private static WikiFunctionType ParseDemarcation(string demarcation)

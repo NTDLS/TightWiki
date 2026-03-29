@@ -7,7 +7,7 @@ namespace TightWiki.Engine.Implementation.Handlers
     /// Handles wiki emojis.
     /// </summary>
     public class EmojiHandler
-        : IEmojiHandler
+        : ITwEmojiHandler
     {
         /// <summary>
         /// Handles an emoji instruction.
@@ -15,7 +15,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="key">The lookup key for the given emoji.</param>
         /// <param name="scale">The desired 1-100 scale factor for the emoji.</param>
-        public async Task<HandlerResult> Handle(ITwEngineState state, string key, int scale)
+        public async Task<TwHandlerResult> Handle(ITwEngineState state, string key, int scale)
         {
             var emoji = state.Engine.WikiConfiguration.Emojis.FirstOrDefault(o => o.Shortcut == key);
 
@@ -25,18 +25,18 @@ namespace TightWiki.Engine.Implementation.Handlers
                 {
                     var emojiImage = $"<img src=\"{state.Engine.WikiConfiguration.BasePath}/file/Emoji/{key.Trim('%')}?Scale={scale}\" alt=\"{emoji?.Name}\" />";
 
-                    return new HandlerResult(emojiImage);
+                    return new TwHandlerResult(emojiImage);
                 }
                 else
                 {
                     var emojiImage = $"<img src=\"{state.Engine.WikiConfiguration.BasePath}/file/Emoji/{key.Trim('%')}\" alt=\"{emoji?.Name}\" />";
 
-                    return new HandlerResult(emojiImage);
+                    return new TwHandlerResult(emojiImage);
                 }
             }
             else
             {
-                return new HandlerResult(key) { Instructions = [HandlerResultInstruction.DisallowNestedProcessing] };
+                return new TwHandlerResult(key) { Instructions = [HandlerResultInstruction.DisallowNestedProcessing] };
             }
         }
     }

@@ -14,7 +14,7 @@ using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
 using TightWiki.Security;
-using static TightWiki.Plugin.Constants;
+using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -37,11 +37,11 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<ITwEngine> _logger;
-        private readonly ISharedLocalizationText _localizer;
+        private readonly ITwSharedLocalizationText _localizer;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public LoginModel(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, ISharedLocalizationText localizer,
+            UserManager<IdentityUser> userManager, ITwSharedLocalizationText localizer,
             IHttpContextAccessor httpContextAccessor, TwConfiguration wikiConfiguration)
             : base(logger, signInManager, localizer, wikiConfiguration)
         {

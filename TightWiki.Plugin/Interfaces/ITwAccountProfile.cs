@@ -1,6 +1,6 @@
 ﻿namespace TightWiki.Plugin.Interfaces
 {
-    public interface IAccountProfile
+    public interface ITwAccountProfile
     {
         //public string Role { get; set; }
         public Guid UserId { get; set; }

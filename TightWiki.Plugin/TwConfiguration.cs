@@ -10,12 +10,12 @@ namespace TightWiki.Plugin
         /// The base path of the wiki, used for generating links.
         /// </summary>
         public string BasePath { get; set; } = string.Empty;
-        public Theme SystemTheme { get; set; } = new();
+        public TwTheme SystemTheme { get; set; } = new();
         public bool IsDebug { get; set; }
         public bool AllowSignup { get; set; }
         public bool EnableLDAPAuthentication { get; set; }
 
-        public List<Emoji> Emojis { get; set; } = new();
+        public List<TwEmoji> Emojis { get; set; } = new();
         public string BrandImageSmall { get; set; } = string.Empty;
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace TightWiki.Plugin
         public string Name { get; set; } = string.Empty;
         public string FooterBlurb { get; set; } = string.Empty;
         public string Copyright { get; set; } = string.Empty;
-        public List<MenuItem> MenuItems { get; set; } = new();
+        public List<TwMenuItem> MenuItems { get; set; } = new();
         public string HTMLHeader { get; set; } = string.Empty;
         public string HTMLFooter { get; set; } = string.Empty;
         public string HTMLPreBody { get; set; } = string.Empty;

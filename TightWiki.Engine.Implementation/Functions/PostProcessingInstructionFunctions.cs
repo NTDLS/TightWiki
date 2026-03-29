@@ -12,7 +12,7 @@ namespace TightWiki.Engine.Implementation.Functions
         : ITwFunctionModule
     {
         [TwPostProcessingInstructionFunction("Tags", "Displays list of tag links for the tags that are included on the current page.")]
-        public async Task<HandlerResult> Tags(ITwEngineState state,
+        public async Task<TwHandlerResult> Tags(ITwEngineState state,
             TightWikiTabularStyle styleName)
         {
             var html = new StringBuilder();
@@ -37,29 +37,29 @@ namespace TightWiki.Engine.Implementation.Functions
                     break;
             }
 
-            return new HandlerResult(html.ToString());
+            return new TwHandlerResult(html.ToString());
         }
 
         [TwPostProcessingInstructionFunction("TagCloud", "Displays a tag cloud for the specified page tag.")]
-        public async Task<HandlerResult> TagCloud(ITwEngineState state,
+        public async Task<TwHandlerResult> TagCloud(ITwEngineState state,
             string pageTag, int top = 1000)
         {
             string html = await TagCloudBuilder.Build(state.Engine.WikiConfiguration.BasePath, pageTag, top);
-            return new HandlerResult(html);
+            return new TwHandlerResult(html);
         }
 
         [TwPostProcessingInstructionFunction("SearchCloud", "Displays a search cloud for the specified search phrase.")]
-        public async Task<HandlerResult> SearchCloud(ITwEngineState state,
+        public async Task<TwHandlerResult> SearchCloud(ITwEngineState state,
             string searchPhrase, int top = 1000)
         {
             var tokens = searchPhrase.Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
 
             string html = await SearchCloudBuilder.Build(state.Engine.WikiConfiguration.BasePath, tokens, top);
-            return new HandlerResult(html);
+            return new TwHandlerResult(html);
         }
 
         [TwPostProcessingInstructionFunction("Toc", "Displays a table of contents for the page based on the header tags.")]
-        public async Task<HandlerResult> Toc(ITwEngineState state,
+        public async Task<TwHandlerResult> Toc(ITwEngineState state,
             bool alphabetized = false)
         {
             var html = new StringBuilder();
@@ -68,8 +68,8 @@ namespace TightWiki.Engine.Implementation.Functions
                         orderby t.StartingPosition
                         select t).ToList();
 
-            var unordered = new List<TableOfContentsTag>();
-            var ordered = new List<TableOfContentsTag>();
+            var unordered = new List<TwTableOfContentsTag>();
+            var ordered = new List<TwTableOfContentsTag>();
 
             if (alphabetized)
             {
@@ -124,7 +124,7 @@ namespace TightWiki.Engine.Implementation.Functions
                 currentLevel--;
             }
 
-            return new HandlerResult(html.ToString());
+            return new TwHandlerResult(html.ToString());
         }
     }
 }

@@ -3,7 +3,7 @@
 namespace TightWiki.Models.DataModels
 {
     public class WikiPage
-        : IWikiPage
+        : ITwPage
     {
         public int Id { get; set; } = 0;
 

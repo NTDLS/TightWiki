@@ -33,7 +33,7 @@ namespace TightWiki.Repository
             foreach (var tag in tags)
             {
                 var encodedTag = System.Net.WebUtility.HtmlEncode(tag.Tag);
-                var url = $"{basePath}/Tags/Browse/{NamespaceNavigation.CleanAndValidate(tag.Tag)}";
+                var url = $"{basePath}/Tags/Browse/{TwNamespaceNavigation.CleanAndValidate(tag.Tag)}";
 
                 string tierClass = GetTierClass(tag.PageCount, minPageCount, maxPageCount);
 

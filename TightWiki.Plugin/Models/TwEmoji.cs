@@ -1,6 +1,6 @@
 ﻿namespace TightWiki.Plugin.Models
 {
-    public class Emoji
+    public class TwEmoji
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

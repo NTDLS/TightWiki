@@ -8,7 +8,7 @@ namespace TightWiki.Engine.Implementation.Handlers
     /// Handles links from one wiki page to another.
     /// </summary>
     public class InternalLinkHandler
-        : IInternalLinkHandler
+        : ITwInternalLinkHandler
     {
         /// <summary>
         /// Handles an internal wiki link.
@@ -19,7 +19,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// <param name="linkText">The text which should be show in the absence of an image.</param>
         /// <param name="image">The image that should be shown.</param>
         /// <param name="imageScale">The 0-100 image scale factor for the given image.</param>
-        public async Task<HandlerResult> Handle(ITwEngineState state, NamespaceNavigation pageNavigation,
+        public async Task<TwHandlerResult> Handle(ITwEngineState state, TwNamespaceNavigation pageNavigation,
             string pageName, string linkText, string? image, int imageScale)
         {
             var page = await PageRepository.GetPageRevisionByNavigation(pageNavigation);
@@ -49,7 +49,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                             href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/Page/Create?Name={pageName}\">{linkText}</a>";
                         }
 
-                        return new HandlerResult(href)
+                        return new TwHandlerResult(href)
                         {
                             Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
                         };
@@ -59,7 +59,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         var href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/Page/Create?Name={pageName}\">{linkText}</a>"
                             + "<font color=\"#cc0000\" size=\"2\">?</font>";
 
-                        return new HandlerResult(href)
+                        return new TwHandlerResult(href)
                         {
                             Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
                         };
@@ -94,14 +94,14 @@ namespace TightWiki.Engine.Implementation.Handlers
                             mockHref = $"linkText";
                         }
 
-                        return new HandlerResult(mockHref)
+                        return new TwHandlerResult(mockHref)
                         {
                             Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
                         };
                     }
                     else if (linkText != null)
                     {
-                        return new HandlerResult(linkText)
+                        return new TwHandlerResult(linkText)
                         {
                             Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
                         };
@@ -141,7 +141,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                     href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\">{linkText}</a>";
                 }
 
-                return new HandlerResult(href)
+                return new TwHandlerResult(href)
                 {
                     Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
                 };

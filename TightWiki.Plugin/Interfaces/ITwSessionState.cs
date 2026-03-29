@@ -2,9 +2,9 @@
 
 namespace TightWiki.Plugin.Interfaces
 {
-    public interface ISessionState
+    public interface ITwSessionState
     {
-        public IAccountProfile? Profile { get; set; }
+        public ITwAccountProfile? Profile { get; set; }
 
         IQueryCollection? QueryString { get; set; }
 

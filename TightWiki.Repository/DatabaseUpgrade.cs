@@ -172,7 +172,7 @@ namespace TightWiki.Repository
             return null;
         }
 
-        public static async Task ApplyAllSeedData(ILogger logger, ISharedLocalizationText localizer, UserManager<IdentityUser> userManager, ITwEngine tightEngine, WikiDefaultDataType[] defaultDataTypes)
+        public static async Task ApplyAllSeedData(ILogger logger, ITwSharedLocalizationText localizer, UserManager<IdentityUser> userManager, ITwEngine tightEngine, WikiDefaultDataType[] defaultDataTypes)
         {
             #region Seed: AdminUser.
 

@@ -1,16 +1,16 @@
 ﻿namespace TightWiki.Plugin
 {
-    public class HandlerResult
+    public class TwHandlerResult
     {
         public string Content { get; set; } = string.Empty;
 
         public List<HandlerResultInstruction> Instructions { get; set; } = new();
 
-        public HandlerResult()
+        public TwHandlerResult()
         {
         }
 
-        public HandlerResult(string content)
+        public TwHandlerResult(string content)
         {
             Content = content;
         }

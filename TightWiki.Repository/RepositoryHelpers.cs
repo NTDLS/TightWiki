@@ -5,7 +5,7 @@ using TightWiki.Caching;
 using TightWiki.Models.DataModels;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
-using static TightWiki.Plugin.Constants;
+using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Repository
 {
@@ -14,7 +14,7 @@ namespace TightWiki.Repository
         /// <summary>
         /// Inserts a new page if Page.Id == 0, other wise updates the page. All metadata is written to the database.
         /// </summary>
-        public static async Task<int> UpsertPage(ITwEngine wikifier, ISharedLocalizationText localizer, WikiPage page, ISessionState? sessionState = null)
+        public static async Task<int> UpsertPage(ITwEngine wikifier, ITwSharedLocalizationText localizer, WikiPage page, ITwSessionState? sessionState = null)
         {
             bool isNewlyCreated = page.Id == 0;
 
@@ -37,7 +37,7 @@ namespace TightWiki.Repository
         /// <param name="sessionState"></param>
         /// <param name="query"></param>
         /// <param name="page"></param>
-        public static async Task RefreshPageMetadata(ITwEngine wikifier, ISharedLocalizationText localizer, WikiPage page, ISessionState? sessionState = null)
+        public static async Task RefreshPageMetadata(ITwEngine wikifier, ITwSharedLocalizationText localizer, WikiPage page, ITwSessionState? sessionState = null)
         {
             //We omit function calls from the tokenization process because they are too dynamic for static searching.
             var state = await wikifier.Transform(localizer, sessionState, page, null, [WikiMatchType.StandardFunction]);

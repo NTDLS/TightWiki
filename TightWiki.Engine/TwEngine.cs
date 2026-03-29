@@ -13,14 +13,14 @@ namespace TightWiki.Engine
         public TwConfiguration WikiConfiguration { get; private set; }
 
         public ILogger<ITwEngine> Logger { get; set; }
-        public IMarkupHandler MarkupHandler { get; private set; }
-        public IHeadingHandler HeadingHandler { get; private set; }
-        public ICommentHandler CommentHandler { get; private set; }
-        public IEmojiHandler EmojiHandler { get; private set; }
-        public IExternalLinkHandler ExternalLinkHandler { get; private set; }
-        public IInternalLinkHandler InternalLinkHandler { get; private set; }
-        public IExceptionHandler ExceptionHandler { get; private set; }
-        public ICompletionHandler CompletionHandler { get; private set; }
+        public ITwMarkupHandler MarkupHandler { get; private set; }
+        public ITwHeadingHandler HeadingHandler { get; private set; }
+        public ITwCommentHandler CommentHandler { get; private set; }
+        public ITwEmojiHandler EmojiHandler { get; private set; }
+        public ITwExternalLinkHandler ExternalLinkHandler { get; private set; }
+        public ITwInternalLinkHandler InternalLinkHandler { get; private set; }
+        public ITwExceptionHandler ExceptionHandler { get; private set; }
+        public ITwCompletionHandler CompletionHandler { get; private set; }
 
         public List<TwEngineFunctionModule> EngineModules { get; private set; }
         public List<TwEngineFunctionDescriptor> StandardFunctions { get; private set; }
@@ -31,14 +31,14 @@ namespace TightWiki.Engine
         public TwEngine(
             TwConfiguration wikiConfiguration,
             ILogger<ITwEngine> logger,
-            IMarkupHandler markupHandler,
-            IHeadingHandler headingHandler,
-            ICommentHandler commentHandler,
-            IEmojiHandler emojiHandler,
-            IExternalLinkHandler externalLinkHandler,
-            IInternalLinkHandler internalLinkHandler,
-            IExceptionHandler exceptionHandler,
-            ICompletionHandler completionHandler)
+            ITwMarkupHandler markupHandler,
+            ITwHeadingHandler headingHandler,
+            ITwCommentHandler commentHandler,
+            ITwEmojiHandler emojiHandler,
+            ITwExternalLinkHandler externalLinkHandler,
+            ITwInternalLinkHandler internalLinkHandler,
+            ITwExceptionHandler exceptionHandler,
+            ITwCompletionHandler completionHandler)
         {
             WikiConfiguration = wikiConfiguration;
             Logger = logger;
@@ -75,7 +75,7 @@ namespace TightWiki.Engine
                 .Where(x => x.Attribute != null)
                 .Select(x =>
                 {
-                    if (x.Method.ReturnType != typeof(Task<HandlerResult>))
+                    if (x.Method.ReturnType != typeof(Task<TwHandlerResult>))
                         throw new InvalidOperationException(
                             $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
                     return x;
@@ -95,7 +95,7 @@ namespace TightWiki.Engine
                 .Where(x => x.Attribute != null)
                 .Select(x =>
                 {
-                    if (x.Method.ReturnType != typeof(Task<HandlerResult>))
+                    if (x.Method.ReturnType != typeof(Task<TwHandlerResult>))
                         throw new InvalidOperationException(
                             $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
                     return x;
@@ -115,7 +115,7 @@ namespace TightWiki.Engine
                 .Where(x => x.Attribute != null)
                 .Select(x =>
                 {
-                    if (x.Method.ReturnType != typeof(Task<HandlerResult>))
+                    if (x.Method.ReturnType != typeof(Task<TwHandlerResult>))
                         throw new InvalidOperationException(
                             $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
                     return x;
@@ -135,7 +135,7 @@ namespace TightWiki.Engine
                 .Where(x => x.Attribute != null)
                 .Select(x =>
                 {
-                    if (x.Method.ReturnType != typeof(Task<HandlerResult>))
+                    if (x.Method.ReturnType != typeof(Task<TwHandlerResult>))
                         throw new InvalidOperationException(
                             $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
                     return x;
@@ -154,7 +154,7 @@ namespace TightWiki.Engine
         /// <param name="page">The page that is being processed.</param>
         /// <param name="revision">The revision of the page that is being processed.</param>
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
-        public async Task<ITwEngineState> Transform(ISharedLocalizationText localizer, ISessionState? session, IWikiPage page, int? revision = null, WikiMatchType[]? omitMatches = null)
+        public async Task<ITwEngineState> Transform(ITwSharedLocalizationText localizer, ITwSessionState? session, ITwPage page, int? revision = null, WikiMatchType[]? omitMatches = null)
         {
             var childState = new TwEngineState(Logger, this, localizer, session, page, revision, omitMatches);
             return await childState.Transform();

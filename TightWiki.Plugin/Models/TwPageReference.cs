@@ -1,6 +1,6 @@
 ﻿namespace TightWiki.Plugin.Models
 {
-    public class PageReference
+    public class TwPageReference
     {
         /// <summary>
         /// The name of the page. Such as "Sand Box" or "Some Namespace : SandBox". 
@@ -15,13 +15,13 @@
         /// The cleaned up version of the name, safe for passing in URLs.
         public string Navigation { get; set; } = string.Empty;
 
-        public PageReference()
+        public TwPageReference()
         {
         }
 
         public override bool Equals(object? obj)
         {
-            return obj is PageReference other
+            return obj is TwPageReference other
                 && string.Equals(Navigation, other.Navigation, StringComparison.InvariantCultureIgnoreCase);
         }
 
@@ -30,7 +30,7 @@
             return Navigation.GetHashCode();
         }
 
-        public PageReference(string name, string navigation)
+        public TwPageReference(string name, string navigation)
         {
             var parts = name.Split("::");
 

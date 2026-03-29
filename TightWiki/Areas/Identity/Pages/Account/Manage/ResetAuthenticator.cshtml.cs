@@ -18,7 +18,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         public ResetAuthenticatorModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<ITwEngine> logger, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
+            ILogger<ITwEngine> logger, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
                         : base(logger, signInManager, localizer, wikiConfiguration)
 
         {

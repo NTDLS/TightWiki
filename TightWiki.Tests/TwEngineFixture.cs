@@ -58,14 +58,14 @@ namespace TightWiki.Tests
             }
         }
 
-        public ISessionState CreateWikiSession()
+        public ITwSessionState CreateWikiSession()
         {
             return new DummySessionState();
         }
 
         public async Task<ITwEngineState> WikiTransform(string pageName, string body)
         {
-            var navigation = new NamespaceNavigation(pageName);
+            var navigation = new TwNamespaceNavigation(pageName);
 
             var page = new WikiPage()
             {

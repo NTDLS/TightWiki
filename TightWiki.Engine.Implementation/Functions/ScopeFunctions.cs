@@ -11,12 +11,12 @@ namespace TightWiki.Engine.Implementation.Functions
         : ITwFunctionModule
     {
         [TwScopeFunction("Code", "Renders a block of code with optional syntax highlighting.", true)]
-        public async Task<HandlerResult> Code(ITwEngineState state, string scopeBody,
+        public async Task<TwHandlerResult> Code(ITwEngineState state, string scopeBody,
             TightWikiCodeLanguage codeLanguage = TightWikiCodeLanguage.Auto)
         {
             var html = new StringBuilder();
 
-            var wikiScopeBody = new WikiString(scopeBody.Replace("\r\n", "\n").Replace("\t", "    "));
+            var wikiScopeBody = new TwString(scopeBody.Replace("\r\n", "\n").Replace("\t", "    "));
 
             // On the off-chance that the scope body contains matches that need to be swapped
             //  in, we need to swap them in before encoding the text for HTML. This is to allow us
@@ -35,23 +35,23 @@ namespace TightWiki.Engine.Implementation.Functions
                 html.Append($"<pre class=\"language-{codeLanguage.ToString().ToLowerInvariant()}\"><code>{encodedScopeBody}</code></pre>");
             }
 
-            return new HandlerResult(html.ToString())
+            return new TwHandlerResult(html.ToString())
             {
                 Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
             };
         }
 
         [TwScopeFunction("Table", "Renders a table with optional border and header row.")]
-        public async Task<HandlerResult> Table(ITwEngineState state, string scopeBody,
+        public async Task<TwHandlerResult> Table(ITwEngineState state, string scopeBody,
             bool hasBorder = true, bool isFirstRowHeader = true)
             => await BaseTable(state, scopeBody, hasBorder, isFirstRowHeader);
 
         [TwScopeFunction("StripedTable", "Renders a striped table with optional border and header row.")]
-        public async Task<HandlerResult> StripedTable(ITwEngineState state, string scopeBody,
+        public async Task<TwHandlerResult> StripedTable(ITwEngineState state, string scopeBody,
             bool hasBorder = true, bool isFirstRowHeader = true)
             => await BaseTable(state, scopeBody, hasBorder, isFirstRowHeader);
 
-        private async Task<HandlerResult> BaseTable(ITwEngineState state, string scopeBody,
+        private async Task<TwHandlerResult> BaseTable(ITwEngineState state, string scopeBody,
             bool hasBorder = true, bool isFirstRowHeader = true, bool isStriped = false)
         {
             var html = new StringBuilder();
@@ -111,11 +111,11 @@ namespace TightWiki.Engine.Implementation.Functions
             html.Append($"</tbody>");
             html.Append($"</table>");
 
-            return new HandlerResult(html.ToString());
+            return new TwHandlerResult(html.ToString());
         }
 
         [TwScopeFunction("Bullets", "Renders a list of bullets with optional nesting.")]
-        public async Task<HandlerResult> Bullets(ITwEngineState state, string scopeBody,
+        public async Task<TwHandlerResult> Bullets(ITwEngineState state, string scopeBody,
             TightWikiBulletStyle type = TightWikiBulletStyle.Unordered)
         {
             var html = new StringBuilder();
@@ -201,11 +201,11 @@ namespace TightWiki.Engine.Implementation.Functions
                     }
                     break;
             }
-            return new HandlerResult(html.ToString());
+            return new TwHandlerResult(html.ToString());
         }
 
         [TwScopeFunction("DefineSnippet", "Defines a reusable snippet of content.")]
-        public async Task<HandlerResult> DefineSnippet(ITwEngineState state, string scopeBody,
+        public async Task<TwHandlerResult> DefineSnippet(ITwEngineState state, string scopeBody,
             string name)
         {
             var html = new StringBuilder();
@@ -215,11 +215,11 @@ namespace TightWiki.Engine.Implementation.Functions
                 state.Snippets[name] = scopeBody;
             }
 
-            return new HandlerResult(html.ToString());
+            return new TwHandlerResult(html.ToString());
         }
 
         [TwScopeFunction("Alert", "Renders an alert box with optional style and title.")]
-        public async Task<HandlerResult> Alert(ITwEngineState state, string scopeBody,
+        public async Task<TwHandlerResult> Alert(ITwEngineState state, string scopeBody,
             TightWikiBootstrapStyle styleName = TightWikiBootstrapStyle.Default, string titleText = "")
         {
             var html = new StringBuilder();
@@ -228,11 +228,11 @@ namespace TightWiki.Engine.Implementation.Functions
 
             if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h3>{titleText}</h3>{scopeBody}";
             html.Append($"<div class=\"alert {style} shadow-lg\">{scopeBody}</div>");
-            return new HandlerResult(html.ToString());
+            return new TwHandlerResult(html.ToString());
         }
 
         [TwScopeFunction("Order", "Orders a list of items in ascending or descending order.")]
-        public async Task<HandlerResult> Order(ITwEngineState state, string scopeBody,
+        public async Task<TwHandlerResult> Order(ITwEngineState state, string scopeBody,
             TightWikiOrder direction = TightWikiOrder.Ascending)
         {
             var html = new StringBuilder();
@@ -248,48 +248,48 @@ namespace TightWiki.Engine.Implementation.Functions
                     html.Append(string.Join("\r\n", lines.OrderByDescending(o => o)));
                     break;
             }
-            return new HandlerResult(html.ToString());
+            return new TwHandlerResult(html.ToString());
         }
 
         [TwScopeFunction("Jumbotron", "Renders a jumbotron with optional style and title.")]
-        public async Task<HandlerResult> Jumbotron(ITwEngineState state, string scopeBody,
+        public async Task<TwHandlerResult> Jumbotron(ITwEngineState state, string scopeBody,
             TightWikiBootstrapStyle styleName = TightWikiBootstrapStyle.Secondary, string? titleText = null)
         {
             var html = new StringBuilder();
 
-            var fillStyle = FillStyler.GetBackgroundStyle(styleName);
+            var fillStyle = TwFillStyler.GetBackgroundStyle(styleName);
 
             html.Append($"<div class=\"mt-4 p-5 {fillStyle.ForegroundStyle} {fillStyle.BackgroundStyle} rounded\">");
             if (!string.IsNullOrEmpty(titleText)) html.Append($"<h1>{titleText}</h1>");
             html.Append($"<p>{scopeBody}</p>");
             html.Append($"</div>");
-            return new HandlerResult(html.ToString());
+            return new TwHandlerResult(html.ToString());
         }
 
         [TwScopeFunction("Foreground", "Renders text with a specified foreground color.")]
-        public async Task<HandlerResult> Foreground(ITwEngineState state, string scopeBody,
+        public async Task<TwHandlerResult> Foreground(ITwEngineState state, string scopeBody,
             TightWikiBootstrapStyle styleName = TightWikiBootstrapStyle.Default)
         {
             var html = new StringBuilder();
 
-            var style = FillStyler.GetForegroundStyle(styleName).Swap();
+            var style = TwFillStyler.GetForegroundStyle(styleName).Swap();
             html.Append($"<p class=\"{style.ForegroundStyle} {style.BackgroundStyle}\">{scopeBody}</p>");
-            return new HandlerResult(html.ToString());
+            return new TwHandlerResult(html.ToString());
         }
 
         [TwScopeFunction("Background", "Renders text with a specified background color.")]
-        public async Task<HandlerResult> Background(ITwEngineState state, string scopeBody,
+        public async Task<TwHandlerResult> Background(ITwEngineState state, string scopeBody,
             TightWikiBootstrapStyle styleName = TightWikiBootstrapStyle.Default)
         {
             var html = new StringBuilder();
 
-            var style = FillStyler.GetBackgroundStyle(styleName).Swap();
+            var style = TwFillStyler.GetBackgroundStyle(styleName).Swap();
             html.Append($"<div class=\"p-3 mb-2 {style.ForegroundStyle} {style.BackgroundStyle}\">{scopeBody}</div>");
-            return new HandlerResult(html.ToString());
+            return new TwHandlerResult(html.ToString());
         }
 
         [TwScopeFunction("Collapse", "Renders a collapsible section with optional link text.")]
-        public async Task<HandlerResult> Collapse(ITwEngineState state, string scopeBody, string linkText = "Show")
+        public async Task<TwHandlerResult> Collapse(ITwEngineState state, string scopeBody, string linkText = "Show")
         {
             var html = new StringBuilder();
 
@@ -297,11 +297,11 @@ namespace TightWiki.Engine.Implementation.Functions
             html.Append($"<a data-bs-toggle=\"collapse\" href=\"#{uid}\" role=\"button\" aria-expanded=\"false\" aria-controls=\"{uid}\">{linkText}</a>");
             html.Append($"<div class=\"collapse\" id=\"{uid}\">");
             html.Append($"<div class=\"card card-body\"><p class=\"card-text\">{scopeBody}</p></div></div>");
-            return new HandlerResult(html.ToString());
+            return new TwHandlerResult(html.ToString());
         }
 
         [TwScopeFunction("Callout", "Renders a callout box with optional style and title.")]
-        public async Task<HandlerResult> Callout(ITwEngineState state, string scopeBody,
+        public async Task<TwHandlerResult> Callout(ITwEngineState state, string scopeBody,
             TightWikiBootstrapStyle styleName = TightWikiBootstrapStyle.Default, string? titleText = null)
         {
             var html = new StringBuilder();
@@ -310,17 +310,17 @@ namespace TightWiki.Engine.Implementation.Functions
             if (!string.IsNullOrWhiteSpace(titleText)) html.Append($"<h4>{titleText}</h4>");
             html.Append($"{scopeBody}");
             html.Append($"</div>");
-            return new HandlerResult(html.ToString());
+            return new TwHandlerResult(html.ToString());
         }
 
         [TwScopeFunction("Card", "Renders a card with optional style and title.")]
-        public async Task<HandlerResult> Card(ITwEngineState state, string scopeBody,
+        public async Task<TwHandlerResult> Card(ITwEngineState state, string scopeBody,
             TightWikiBootstrapStyle styleName = TightWikiBootstrapStyle.Default, string? titleText = null)
         {
             var html = new StringBuilder();
 
-            var borderStyle = BorderStyler.GetBorderStyle(styleName);
-            var fillStyle = FillStyler.GetBackgroundStyle(styleName);
+            var borderStyle = TwBorderStyler.GetBorderStyle(styleName);
+            var fillStyle = TwFillStyler.GetBackgroundStyle(styleName);
 
             html.Append($"<div class=\"card {borderStyle.ForegroundStyle} {borderStyle.BorderStyle} shadow-lg mb-3\">");
             if (string.IsNullOrEmpty(titleText) == false)
@@ -331,16 +331,16 @@ namespace TightWiki.Engine.Implementation.Functions
             html.Append($"<p class=\"card-text\">{scopeBody}</p>");
             html.Append("</div>");
             html.Append("</div>");
-            return new HandlerResult(html.ToString());
+            return new TwHandlerResult(html.ToString());
         }
 
         [TwScopeFunction("BlockQuote", "Renders a blockquote with optional alignment and caption.")]
-        public async Task<HandlerResult> BlockQuote(ITwEngineState state, string scopeBody,
+        public async Task<TwHandlerResult> BlockQuote(ITwEngineState state, string scopeBody,
             TightWikiAlignStyle styleName = TightWikiAlignStyle.Start, string? caption = null)
         {
             var html = new StringBuilder();
 
-            var style = AlignStyler.GetStyle(styleName);
+            var style = TwAlignStyler.GetStyle(styleName);
 
             html.Append($"<figure class=\"{style.Style}\">");
             html.Append($"<blockquote class=\"blockquote\">{scopeBody}</blockquote >");
@@ -352,16 +352,16 @@ namespace TightWiki.Engine.Implementation.Functions
                 html.Append("</figcaption>");
             }
             html.Append("</figure>");
-            return new HandlerResult(html.ToString());
+            return new TwHandlerResult(html.ToString());
         }
 
         [TwScopeFunction("Figure", "Renders a figure with optional alignment and caption.")]
-        public async Task<HandlerResult> Figure(ITwEngineState state, string scopeBody,
+        public async Task<TwHandlerResult> Figure(ITwEngineState state, string scopeBody,
             TightWikiAlignStyle styleName = TightWikiAlignStyle.Default, string? caption = null)
         {
             var html = new StringBuilder();
 
-            var style = AlignStyler.GetStyle(styleName);
+            var style = TwAlignStyler.GetStyle(styleName);
 
             html.Append($"<figure class=\"figure\">");
             html.Append($"{scopeBody}");
@@ -373,7 +373,7 @@ namespace TightWiki.Engine.Implementation.Functions
                 html.Append("</figcaption>");
             }
             html.Append("</figure>");
-            return new HandlerResult(html.ToString());
+            return new TwHandlerResult(html.ToString());
         }
     }
 }

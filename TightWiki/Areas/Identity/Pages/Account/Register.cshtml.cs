@@ -12,7 +12,7 @@ using TightWiki.Library;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
-using static TightWiki.Plugin.Constants;
+using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -74,8 +74,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<ITwEngine> _logger;
-        private readonly IWikiEmailSender _emailSender;
-        private readonly ISharedLocalizationText _localizer;
+        private readonly ITwEmailSender _emailSender;
+        private readonly ITwSharedLocalizationText _localizer;
 
 
         public RegisterModel(
@@ -83,8 +83,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<ITwEngine> logger,
-            IWikiEmailSender emailSender,
-            ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
+            ITwEmailSender emailSender,
+            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
                         : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _userManager = userManager;

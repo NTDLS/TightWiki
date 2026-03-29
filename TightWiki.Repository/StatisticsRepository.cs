@@ -1,5 +1,5 @@
 ﻿using TightWiki.Models.DataModels;
-using static TightWiki.Plugin.Constants;
+using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Repository
 {

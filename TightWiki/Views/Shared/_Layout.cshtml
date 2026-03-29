@@ -7,8 +7,8 @@
 @using TightWiki.Models
 @using TightWiki.Plugin
 @using TightWiki.Plugin.Interfaces
-@using static TightWiki.Plugin.Constants
-@inject ISharedLocalizationText Localizer
+@using static TightWiki.Plugin.TwConstants
+@inject ITwSharedLocalizationText Localizer
 @inject ITwEngine TightEngine
 @inject TwConfiguration WikiConfiguration
 
@@ -337,7 +337,7 @@
                     <div class="card-body">
                         <strong>@Localizer["Current admin login"]:</strong><br />
                         <span class="ms-3"><strong>@Localizer["Username"]:</strong> "admin@tightwiki.com"</span><br />
-                        <span class="ms-3"><strong>@Localizer["Password"]:</strong> "@Constants.DEFAULTPASSWORD"</span>
+                        <span class="ms-3"><strong>@Localizer["Password"]:</strong> "@TwConstants.DEFAULTPASSWORD"</span>
                     </div>
                 </div>
             }

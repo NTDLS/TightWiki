@@ -22,7 +22,7 @@ namespace TightWiki.Engine
                 bool processedMatches = false;
                 var matchStore = new Dictionary<string, string>();
 
-                var content = new WikiString(unprocessedText);
+                var content = new TwString(unprocessedText);
                 TransformEmoji(wikiConfiguration, content, matchStore);
                 TransformLinks(wikiConfiguration, content, matchStore);
                 TransformMarkup(wikiConfiguration, content, matchStore);
@@ -51,7 +51,7 @@ namespace TightWiki.Engine
             return guid;
         }
 
-        private static void TransformEmoji(TwConfiguration wikiConfiguration, WikiString pageContent, Dictionary<string, string> matchStore)
+        private static void TransformEmoji(TwConfiguration wikiConfiguration, TwString pageContent, Dictionary<string, string> matchStore)
         {
             var rgx = new Regex(@"(%%.+?%%)", RegexOptions.IgnoreCase);
             var matches = TwWikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
@@ -95,7 +95,7 @@ namespace TightWiki.Engine
         /// Transform basic markup such as bold, italics, underline, etc. for single and multi-line.
         /// </summary>
         /// <param name="pageContent"></param>
-        private static void TransformMarkup(TwConfiguration wikiConfiguration, WikiString pageContent, Dictionary<string, string> matchStore)
+        private static void TransformMarkup(TwConfiguration wikiConfiguration, TwString pageContent, Dictionary<string, string> matchStore)
         {
             var symbols = TwWikiUtility.GetApplicableSymbols(pageContent.Value);
 
@@ -129,7 +129,7 @@ namespace TightWiki.Engine
         /// Transform links, these can be internal Wiki links or external links.
         /// </summary>
         /// <param name="pageContent"></param>
-        private static void TransformLinks(TwConfiguration wikiConfiguration, WikiString pageContent, Dictionary<string, string> matchStore)
+        private static void TransformLinks(TwConfiguration wikiConfiguration, TwString pageContent, Dictionary<string, string> matchStore)
         {
             //Parse external explicit links. eg. [[http://test.net]].
             var rgx = new Regex(@"(\[\[http\:\/\/.+?\]\])", RegexOptions.IgnoreCase);
@@ -138,7 +138,7 @@ namespace TightWiki.Engine
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
 
-                var args = ParsedFunction.ParseArgumentsAddParenthesis(keyword);
+                var args = TwParsedFunction.ParseArgumentsAddParenthesis(keyword);
                 if (args.Count > 1)
                 {
                     pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{args[0]}\">{args[1]}</a>"));
@@ -156,7 +156,7 @@ namespace TightWiki.Engine
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
 
-                var args = ParsedFunction.ParseArgumentsAddParenthesis(keyword);
+                var args = TwParsedFunction.ParseArgumentsAddParenthesis(keyword);
                 if (args.Count == 1)
                 {
                     pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{args[0]}\">{args[1]}</a>"));
@@ -173,7 +173,7 @@ namespace TightWiki.Engine
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
-                var args = ParsedFunction.ParseArgumentsAddParenthesis(keyword);
+                var args = TwParsedFunction.ParseArgumentsAddParenthesis(keyword);
 
                 if (args.Count == 1)
                 {

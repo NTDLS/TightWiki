@@ -1,6 +1,6 @@
 ﻿namespace TightWiki.Plugin
 {
-    public static class Constants
+    public static class TwConstants
     {
         public const string SoftBreak = "<!--SoftBreak-->"; //These will remain as \r\n in the final HTML.
         public const string HardBreak = "<!--HardBreak-->"; //These will remain as <br /> in the final HTML.

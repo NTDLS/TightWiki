@@ -7,7 +7,7 @@ namespace TightWiki.Engine.Implementation.Handlers
     /// Handles exceptions thrown by the wiki engine.
     /// </summary>
     public class ExceptionHandler
-        : IExceptionHandler
+        : ITwExceptionHandler
     {
         /// <summary>
         /// Called when an exception is thrown by the wiki engine.

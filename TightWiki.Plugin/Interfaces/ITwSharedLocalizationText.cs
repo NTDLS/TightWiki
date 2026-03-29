@@ -2,7 +2,7 @@
 
 namespace TightWiki.Plugin.Interfaces
 {
-    public interface ISharedLocalizationText
+    public interface ITwSharedLocalizationText
     {
         LocalizedString this[string key] { get; }
         LocalizedString this[string key, params object[] arguments] { get; }

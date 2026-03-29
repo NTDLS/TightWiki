@@ -24,7 +24,7 @@ namespace TightWiki.Controllers
         private readonly UserManager<IdentityUser> _userManager;
 
         public FileController(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
+            UserManager<IdentityUser> userManager, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
             : base(logger, signInManager, userManager, localizer, wikiConfiguration)
         {
             _logger = logger;
@@ -43,8 +43,8 @@ namespace TightWiki.Controllers
         {
             try
             {
-                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-                var fileNavigation = new NamespaceNavigation(givenFileNavigation);
+                var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
+                var fileNavigation = new TwNamespaceNavigation(givenFileNavigation);
 
                 var scale = GetQueryValue<int?>("Scale");
                 var maxWidth = GetQueryValue<int?>("MaxWidth");
@@ -159,8 +159,8 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-                var fileNavigation = new NamespaceNavigation(givenFileNavigation);
+                var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
+                var fileNavigation = new TwNamespaceNavigation(givenFileNavigation);
 
                 var scale = GetQueryValue<int?>("Scale");
                 var maxWidth = GetQueryValue<int?>("MaxWidth");
@@ -270,8 +270,8 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-                var fileNavigation = new NamespaceNavigation(givenFileNavigation);
+                var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
+                var fileNavigation = new TwNamespaceNavigation(givenFileNavigation);
 
                 var file = await PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
 
@@ -309,8 +309,8 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-                var fileNavigation = new NamespaceNavigation(givenFileNavigation);
+                var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
+                var fileNavigation = new TwNamespaceNavigation(givenFileNavigation);
 
                 var model = new PageFileRevisionsViewModel()
                 {
@@ -348,7 +348,7 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+                var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
 
                 var page = await PageRepository.GetPageRevisionByNavigation(pageNavigation);
                 if (page != null)
@@ -394,7 +394,7 @@ namespace TightWiki.Controllers
                 }
                 try
                 {
-                    var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+                    var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
 
                     var page = (await PageRepository.GetPageInfoByNavigation(pageNavigation.Canonical)).EnsureNotNull();
 
@@ -457,7 +457,7 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+                var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
 
                 var page = (await PageRepository.GetPageInfoByNavigation(pageNavigation.Canonical)).EnsureNotNull();
 
@@ -515,8 +515,8 @@ namespace TightWiki.Controllers
                 }
 
                 await PageFileRepository.DetachPageRevisionAttachment(
-                    new NamespaceNavigation(givenPageNavigation).Canonical,
-                    new NamespaceNavigation(givenFileNavigation).Canonical, pageRevision);
+                    new TwNamespaceNavigation(givenPageNavigation).Canonical,
+                    new TwNamespaceNavigation(givenFileNavigation).Canonical, pageRevision);
 
                 return Content(Localize("Success"));
             }

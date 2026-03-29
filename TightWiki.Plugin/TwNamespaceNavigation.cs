@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace TightWiki.Plugin
 {
-    public class NamespaceNavigation
+    public class TwNamespaceNavigation
     {
         private string _namespace = string.Empty;
         private string _page = string.Empty;
@@ -52,7 +52,7 @@ namespace TightWiki.Plugin
         /// Creates a new instance of NamespaceNavigation.
         /// </summary>
         /// <param name="givenCanonical">Page navigation with optional namespace.</param>
-        public NamespaceNavigation(string givenCanonical)
+        public TwNamespaceNavigation(string givenCanonical)
         {
             _lowerCase = true;
             Canonical = givenCanonical;
@@ -63,7 +63,7 @@ namespace TightWiki.Plugin
         /// </summary>
         /// <param name="givenCanonical">Page navigation with optional namespace.</param>
         /// <param name="lowerCase">If false, the namespace and page name will not be lowercased.</param>
-        public NamespaceNavigation(string givenCanonical, bool lowerCase)
+        public TwNamespaceNavigation(string givenCanonical, bool lowerCase)
         {
             _lowerCase = lowerCase;
             Canonical = givenCanonical;

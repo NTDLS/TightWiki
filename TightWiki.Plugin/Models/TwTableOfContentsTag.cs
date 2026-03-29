@@ -3,14 +3,14 @@
     /// <summary>
     /// Table of contents tag.
     /// </summary>
-    public class TableOfContentsTag
+    public class TwTableOfContentsTag
     {
         public int Level;
         public string HrefTag;
         public string Text;
         public int StartingPosition;
 
-        public TableOfContentsTag(int level, int startingPosition, string hrefTag, string text)
+        public TwTableOfContentsTag(int level, int startingPosition, string hrefTag, string text)
         {
             Level = level;
             StartingPosition = startingPosition;

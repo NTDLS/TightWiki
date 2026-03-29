@@ -8,7 +8,7 @@ using TightWiki.Library;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
-using static TightWiki.Plugin.Constants;
+using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -56,13 +56,13 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<ITwEngine> _logger;
-        private readonly ISharedLocalizationText _localizer;
+        private readonly ITwSharedLocalizationText _localizer;
 
         public LdapLoginSupplementalModel(
             ILogger<ITwEngine> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
+            IUserStore<IdentityUser> userStore, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
             : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _logger = logger;

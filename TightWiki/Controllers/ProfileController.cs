@@ -21,7 +21,7 @@ namespace TightWiki.Controllers
 {
     [Route("[controller]")]
     public class ProfileController(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, IWebHostEnvironment environment, ISharedLocalizationText localizer,
+        UserManager<IdentityUser> userManager, IWebHostEnvironment environment, ITwSharedLocalizationText localizer,
         TwConfiguration wikiConfiguration)
         : WikiControllerBase<ProfileController>(logger, signInManager, userManager, localizer, wikiConfiguration)
     {
@@ -50,7 +50,7 @@ namespace TightWiki.Controllers
                 ProfileAvatar? avatar;
                 if (WikiConfiguration.EnablePublicProfiles)
                 {
-                    avatar = await UsersRepository.GetProfileAvatarByNavigation(NamespaceNavigation.CleanAndValidate(userAccountName)) ?? new ProfileAvatar();
+                    avatar = await UsersRepository.GetProfileAvatarByNavigation(TwNamespaceNavigation.CleanAndValidate(userAccountName)) ?? new ProfileAvatar();
                 }
                 else
                 {
@@ -200,7 +200,7 @@ namespace TightWiki.Controllers
             {
                 SessionState.Page.Name = Localize("Public Profile");
 
-                userAccountName = NamespaceNavigation.CleanAndValidate(userAccountName);
+                userAccountName = TwNamespaceNavigation.CleanAndValidate(userAccountName);
 
                 if (!WikiConfiguration.EnablePublicProfiles)
                 {
@@ -337,7 +337,7 @@ namespace TightWiki.Controllers
                     }
                 }
 
-                model.AccountProfile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName.ToLowerInvariant());
+                model.AccountProfile.Navigation = TwNamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName.ToLowerInvariant());
 
                 var file = Request.Form.Files["Avatar"];
                 if (file != null && file.Length > 0)
@@ -366,7 +366,7 @@ namespace TightWiki.Controllers
                 }
 
                 profile.AccountName = model.AccountProfile.AccountName;
-                profile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName);
+                profile.Navigation = TwNamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName);
                 profile.Biography = model.AccountProfile.Biography;
                 profile.ModifiedDate = DateTime.UtcNow;
                 await UsersRepository.UpdateProfile(profile);

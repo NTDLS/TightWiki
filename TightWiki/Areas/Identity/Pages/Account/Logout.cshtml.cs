@@ -21,7 +21,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public LogoutModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager,
             ILogger<ITwEngine> logger, IAuthenticationSchemeProvider schemeProvider,
-            ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
+            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
             : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _schemeProvider = schemeProvider;

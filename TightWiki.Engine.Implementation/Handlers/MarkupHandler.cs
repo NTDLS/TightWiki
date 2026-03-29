@@ -7,7 +7,7 @@ namespace TightWiki.Engine.Implementation.Handlers
     /// Handles basic markup/style instructions like bole, italic, underline, etc.
     /// </summary>
     public class MarkupHandler
-        : IMarkupHandler
+        : ITwMarkupHandler
     {
         /// <summary>
         /// Handles basic markup instructions like bole, italic, underline, etc.
@@ -15,20 +15,20 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="sequence">The sequence of symbols that were found to denotate this markup instruction,</param>
         /// <param name="scopeBody">The body of text to apply the style to.</param>
-        public async Task<HandlerResult> Handle(ITwEngineState state, char sequence, string scopeBody)
+        public async Task<TwHandlerResult> Handle(ITwEngineState state, char sequence, string scopeBody)
         {
             switch (sequence)
             {
-                case '~': return new HandlerResult($"<strike>{scopeBody}</strike>");
-                case '*': return new HandlerResult($"<strong>{scopeBody}</strong>");
-                case '_': return new HandlerResult($"<u>{scopeBody}</u>");
-                case '/': return new HandlerResult($"<i>{scopeBody}</i>");
-                case '!': return new HandlerResult($"<mark>{scopeBody}</mark>");
+                case '~': return new TwHandlerResult($"<strike>{scopeBody}</strike>");
+                case '*': return new TwHandlerResult($"<strong>{scopeBody}</strong>");
+                case '_': return new TwHandlerResult($"<u>{scopeBody}</u>");
+                case '/': return new TwHandlerResult($"<i>{scopeBody}</i>");
+                case '!': return new TwHandlerResult($"<mark>{scopeBody}</mark>");
                 default:
                     break;
             }
 
-            return new HandlerResult() { Instructions = [HandlerResultInstruction.Skip] };
+            return new TwHandlerResult() { Instructions = [HandlerResultInstruction.Skip] };
         }
     }
 }

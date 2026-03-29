@@ -1,6 +1,6 @@
 ﻿namespace TightWiki.Plugin.Function
 {
-    public static class SelfDocument
+    public static class TwSelfDocument
     {
         /// <summary>
         /// Don't ever look at this. :(

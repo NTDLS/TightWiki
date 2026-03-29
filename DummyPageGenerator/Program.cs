@@ -19,7 +19,7 @@ namespace DummyPageGenerator
     internal class Program
     {
         public class NoOpCompletionHandler
-            : ICompletionHandler
+            : ITwCompletionHandler
         {
             public async Task Complete(ITwEngineState state)
             {
@@ -39,14 +39,14 @@ namespace DummyPageGenerator
                        .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                        .ConfigureContainer<ContainerBuilder>(containerBuilder =>
                        {
-                           containerBuilder.RegisterType<MarkupHandler>().As<IMarkupHandler>().SingleInstance();
-                           containerBuilder.RegisterType<HeadingHandler>().As<IHeadingHandler>().SingleInstance();
-                           containerBuilder.RegisterType<CommentHandler>().As<ICommentHandler>().SingleInstance();
-                           containerBuilder.RegisterType<EmojiHandler>().As<IEmojiHandler>().SingleInstance();
-                           containerBuilder.RegisterType<ExternalLinkHandler>().As<IExternalLinkHandler>().SingleInstance();
-                           containerBuilder.RegisterType<InternalLinkHandler>().As<IInternalLinkHandler>().SingleInstance();
-                           containerBuilder.RegisterType<ExceptionHandler>().As<IExceptionHandler>().SingleInstance();
-                           containerBuilder.RegisterType<NoOpCompletionHandler>().As<ICompletionHandler>().SingleInstance();
+                           containerBuilder.RegisterType<MarkupHandler>().As<ITwMarkupHandler>().SingleInstance();
+                           containerBuilder.RegisterType<HeadingHandler>().As<ITwHeadingHandler>().SingleInstance();
+                           containerBuilder.RegisterType<CommentHandler>().As<ITwCommentHandler>().SingleInstance();
+                           containerBuilder.RegisterType<EmojiHandler>().As<ITwEmojiHandler>().SingleInstance();
+                           containerBuilder.RegisterType<ExternalLinkHandler>().As<ITwExternalLinkHandler>().SingleInstance();
+                           containerBuilder.RegisterType<InternalLinkHandler>().As<ITwInternalLinkHandler>().SingleInstance();
+                           containerBuilder.RegisterType<ExceptionHandler>().As<ITwExceptionHandler>().SingleInstance();
+                           containerBuilder.RegisterType<NoOpCompletionHandler>().As<ITwCompletionHandler>().SingleInstance();
 
                            containerBuilder.RegisterType<TwEngine>().As<ITwEngine>().SingleInstance();
                        }).Build();

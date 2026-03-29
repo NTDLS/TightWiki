@@ -1,7 +1,7 @@
 
 namespace TightWiki.Plugin.Models
 {
-    public partial class MenuItem
+    public partial class TwMenuItem
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

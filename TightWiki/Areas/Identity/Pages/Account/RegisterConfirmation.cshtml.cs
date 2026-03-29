@@ -15,12 +15,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
     public class RegisterConfirmationModel : PageModelBase
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IWikiEmailSender _emailSender;
+        private readonly ITwEmailSender _emailSender;
         private readonly ILogger<ITwEngine> _logger;
 
         public RegisterConfirmationModel(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, IWikiEmailSender emailSender,
-            ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
+            UserManager<IdentityUser> userManager, ITwEmailSender emailSender,
+            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
                         : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _logger = logger;

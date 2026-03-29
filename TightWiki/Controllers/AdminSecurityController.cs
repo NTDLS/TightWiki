@@ -13,14 +13,14 @@ using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
-using static TightWiki.Plugin.Constants;
+using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Controllers
 {
     [Authorize]
     [Route("[controller]")]
     public class AdminSecurityController(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
+        UserManager<IdentityUser> userManager, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
         : WikiControllerBase<AdminSecurityController>(logger, signInManager, userManager, localizer, wikiConfiguration)
     {
         #region Roles.
@@ -499,7 +499,7 @@ namespace TightWiki.Controllers
                 model.Countries = CountryItem.GetAll();
                 model.Languages = LanguageItem.GetAll();
                 model.Roles = await UsersRepository.GetAllRoles();
-                model.AccountProfile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName.ToLowerInvariant());
+                model.AccountProfile.Navigation = TwNamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName.ToLowerInvariant());
 
                 if (!ModelState.IsValid)
                 {
@@ -519,7 +519,7 @@ namespace TightWiki.Controllers
                             throw new Exception(string.Join("<br />\r\n", result.Errors.Select(o => o.Description)));
                         }
 
-                        if (model.AccountProfile.AccountName.Equals(Constants.DEFAULTACCOUNT, StringComparison.InvariantCultureIgnoreCase))
+                        if (model.AccountProfile.AccountName.Equals(TwConstants.DEFAULTACCOUNT, StringComparison.InvariantCultureIgnoreCase))
                         {
                             await UsersRepository.SetAdminPasswordIsChanged();
                         }
@@ -577,7 +577,7 @@ namespace TightWiki.Controllers
                 }
 
                 profile.AccountName = model.AccountProfile.AccountName;
-                profile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName);
+                profile.Navigation = TwNamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName);
                 profile.Biography = model.AccountProfile.Biography;
                 profile.ModifiedDate = DateTime.UtcNow;
                 await UsersRepository.UpdateProfile(profile);
@@ -725,7 +725,7 @@ namespace TightWiki.Controllers
                 model.Countries = CountryItem.GetAll();
                 model.Languages = LanguageItem.GetAll();
                 model.Roles = await UsersRepository.GetAllRoles();
-                model.AccountProfile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName?.ToLowerInvariant());
+                model.AccountProfile.Navigation = TwNamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName?.ToLowerInvariant());
 
                 if (!ModelState.IsValid)
                 {
@@ -795,7 +795,7 @@ namespace TightWiki.Controllers
                 var profile = await UsersRepository.GetAccountProfileByUserId(userId.Value);
 
                 profile.AccountName = model.AccountProfile.AccountName;
-                profile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName);
+                profile.Navigation = TwNamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName);
                 profile.Biography = model.AccountProfile.Biography;
                 profile.ModifiedDate = DateTime.UtcNow;
                 await UsersRepository.UpdateProfile(profile);
