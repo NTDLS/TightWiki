@@ -1,4 +1,4 @@
-﻿using TightWiki.Models.DataModels;
+﻿using TightWiki.Plugin.Models;
 
 namespace TightWiki.Models.ViewModels.Admin
 {
@@ -9,7 +9,7 @@ namespace TightWiki.Models.ViewModels.Admin
         public string Name { get; set; } = string.Empty;
         public string Namespace { get; set; } = string.Empty;
         public string Navigation { get; set; } = string.Empty;
-        public List<DeletedPageRevision> Revisions { get; set; } = new();
+        public List<TwDeletedPageRevision> Revisions { get; set; } = new();
         public int PaginationPageCount { get; set; }
     }
 }

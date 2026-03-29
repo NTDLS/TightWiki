@@ -1,10 +1,10 @@
-﻿using TightWiki.Models.DataModels;
+﻿using TightWiki.Plugin.Models;
 
 namespace TightWiki.Models.ViewModels.AdminSecurity
 {
     public class RolesViewModel
         : ViewModelBase
     {
-        public List<Role> Roles { get; set; } = new();
+        public List<TwRole> Roles { get; set; } = new();
     }
 }

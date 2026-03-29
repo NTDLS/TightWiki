@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using TightWiki.Models.DataModels;
+using TightWiki.Plugin.Models;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Repository
@@ -66,7 +66,7 @@ namespace TightWiki.Repository
             return await ManagedDataStorage.Logging.ExecuteScalarAsync<int>("GetExceptionCount.sql");
         }
 
-        public static async Task<List<WikiLogEntry>> GetLogEntriesPaged(int pageNumber,
+        public static async Task<List<TwLogEntry>> GetLogEntriesPaged(int pageNumber,
             string? orderBy = null, string? orderByDirection = null)
         {
             var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
@@ -78,17 +78,17 @@ namespace TightWiki.Repository
             };
 
             var query = RepositoryHelpers.TransposeOrderby("GetLogEntriesPaged.sql", orderBy, orderByDirection);
-            return await ManagedDataStorage.Logging.QueryAsync<WikiLogEntry>(query, param);
+            return await ManagedDataStorage.Logging.QueryAsync<TwLogEntry>(query, param);
         }
 
-        public static async Task<WikiLogEntry> GetLogEntryById(int id)
+        public static async Task<TwLogEntry> GetLogEntryById(int id)
         {
             var param = new
             {
                 Id = id
             };
 
-            return await ManagedDataStorage.Logging.QuerySingleAsync<WikiLogEntry>("GetLogEntryById.sql", param);
+            return await ManagedDataStorage.Logging.QuerySingleAsync<TwLogEntry>("GetLogEntryById.sql", param);
         }
     }
 }

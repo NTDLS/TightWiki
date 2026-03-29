@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using TightWiki.Models.DataModels;
+using TightWiki.Plugin.Models;
 
 namespace TightWiki.Models.ViewModels.Profile
 {
@@ -54,7 +54,7 @@ namespace TightWiki.Models.ViewModels.Profile
 
         //public string? Role { get; set; } = string.Empty;
 
-        public static AccountProfileAccountViewModel FromDataModel(AccountProfile model)
+        public static AccountProfileAccountViewModel FromDataModel(TwAccountProfile model)
         {
             return new AccountProfileAccountViewModel
             {

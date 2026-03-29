@@ -1,4 +1,4 @@
-﻿using TightWiki.Models.DataModels;
+﻿using TightWiki.Plugin.Models;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Repository
@@ -41,7 +41,7 @@ namespace TightWiki.Repository
         public static async Task PurgePageStatistics()
             => await ManagedDataStorage.Statistics.ExecuteAsync("PurgePageStatistics.sql");
 
-        public static async Task<List<PageStatistics>> GetPageStatisticsPaged(
+        public static async Task<List<TwPageStatistics>> GetPageStatisticsPaged(
             int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
             pageSize ??= await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
@@ -57,7 +57,7 @@ namespace TightWiki.Repository
                 using var users_db = o.Attach("pages.db", "pages_db");
 
                 var query = RepositoryHelpers.TransposeOrderby("GetPageStatisticsPaged.sql", orderBy, orderByDirection);
-                return await o.QueryAsync<PageStatistics>(query, param);
+                return await o.QueryAsync<TwPageStatistics>(query, param);
             });
         }
     }

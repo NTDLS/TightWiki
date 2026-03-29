@@ -2,10 +2,10 @@
 using System.Reflection;
 using System.Text;
 using TightWiki.Library;
-using TightWiki.Models.DataModels;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Models;
 using TightWiki.Repository;
 using static TightWiki.Plugin.TwConstants;
 
@@ -17,7 +17,7 @@ namespace TightWiki.Engine.Implementation.Functions
     {
         #region Helpers.
 
-        private static async Task<WikiPage?> GetPageFromNavigation(string routeData)
+        private static async Task<TwPage?> GetPageFromNavigation(string routeData)
         {
             routeData = TwNamespaceNavigation.CleanAndValidate(routeData);
             var page = await PageRepository.GetPageRevisionByNavigation(routeData);

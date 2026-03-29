@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
-using TightWiki.Models.DataModels;
+using TightWiki.Plugin.Models;
 
 namespace TightWiki.Models.ViewModels.Profile
 {
@@ -32,6 +32,6 @@ namespace TightWiki.Models.ViewModels.Profile
         [Display(Name = "Time Zone")]
         public string TimeZone { get; set; } = string.Empty;
 
-        public List<PageRevision> RecentlyModified { get; set; } = new();
+        public List<TwPageRevision> RecentlyModified { get; set; } = new();
     }
 }

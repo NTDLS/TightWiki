@@ -1,4 +1,4 @@
-using TightWiki.Models.DataModels;
+using TightWiki.Plugin.Models;
 
 namespace TightWiki.Models.ViewModels.Page
 {
@@ -9,6 +9,6 @@ namespace TightWiki.Models.ViewModels.Page
         public string Body { get; set; } = string.Empty;
         public string DeletedByUserName { get; set; } = string.Empty;
         public DateTime DeletedDate { get; set; }
-        public List<PageComment> Comments { get; set; } = new();
+        public List<TwPageComment> Comments { get; set; } = new();
     }
 }

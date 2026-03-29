@@ -9,14 +9,15 @@ using SixLabors.ImageSharp;
 using System.Globalization;
 using System.Text;
 using System.Xml.Serialization;
-using TightWiki.Caching;
 using TightWiki.Engine;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.Requests;
 using TightWiki.Models.ViewModels.Page;
 using TightWiki.Plugin;
+using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Models;
 using TightWiki.Repository;
 using static TightWiki.Library.Images;
 using static TightWiki.Plugin.TwConstants;
@@ -62,8 +63,8 @@ namespace TightWiki.Controllers
             try
             {
                 var hitCounterThrottle = await ConfigurationRepository.Get(WikiConfigurationGroup.Performance, "Hit Counter Throttle (Seconds)", 0);
-                var cacheKey = WikiCacheKey.Build(WikiCache.Category.Session, [pageId, "PageView", GetPageViewViewerKey()]);
-                if (WikiCache.Contains(cacheKey))
+                var cacheKey = TwCacheKey.Build(TwCache.Category.Session, [pageId, "PageView", GetPageViewViewerKey()]);
+                if (TwCache.Contains(cacheKey))
                 {
                     return;
                 }
@@ -81,7 +82,7 @@ namespace TightWiki.Controllers
                 });
 
                 //Just store a value (in this case a DateTime) so that we can test for it later.
-                WikiCache.Set(cacheKey, DateTime.UtcNow, TimeSpan.FromSeconds(hitCounterThrottle));
+                TwCache.Set(cacheKey, DateTime.UtcNow, TimeSpan.FromSeconds(hitCounterThrottle));
             }
             catch (Exception ex)
             {
@@ -148,12 +149,12 @@ namespace TightWiki.Controllers
                             queryKey += $"{query.Key}:{query.Value}";
                         }
 
-                        var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
-                        if (WikiCache.TryGet<PageCache>(cacheKey, out var cached))
+                        var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
+                        if (TwCache.TryGet<PageCache>(cacheKey, out var cached))
                         {
                             model.Body = cached.Body;
                             SessionState.PageTitle = cached.PageTitle;
-                            WikiCache.Set(cacheKey, cached); //Update the cache expiration.
+                            TwCache.Set(cacheKey, cached); //Update the cache expiration.
                         }
                         else
                         {
@@ -168,7 +169,7 @@ namespace TightWiki.Controllers
                                     PageTitle = state.PageTitle
                                 };
 
-                                WikiCache.Set(cacheKey, toBeCached); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
+                                TwCache.Set(cacheKey, toBeCached); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
                             }
                         }
                     }
@@ -185,7 +186,7 @@ namespace TightWiki.Controllers
 
                         foreach (var comment in comments)
                         {
-                            model.Comments.Add(new PageComment
+                            model.Comments.Add(new TwPageComment
                             {
                                 PaginationPageCount = comment.PaginationPageCount,
                                 UserNavigation = comment.UserNavigation,
@@ -450,7 +451,7 @@ namespace TightWiki.Controllers
                 var comments = await PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryValue("page", 1));
                 foreach (var comment in comments)
                 {
-                    model.Comments.Add(new PageComment
+                    model.Comments.Add(new TwPageComment
                     {
                         PaginationPageCount = comment.PaginationPageCount,
                         UserNavigation = comment.UserNavigation,
@@ -518,7 +519,7 @@ namespace TightWiki.Controllers
                 var comments = await PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryValue("page", 1));
                 foreach (var comment in comments)
                 {
-                    model.Comments.Add(new PageComment
+                    model.Comments.Add(new TwPageComment
                     {
                         PaginationPageCount = comment.PaginationPageCount,
                         UserNavigation = comment.UserNavigation,
@@ -711,8 +712,8 @@ namespace TightWiki.Controllers
                 if (confirmAction == true && page != null)
                 {
                     await PageRepository.MovePageToDeletedById(page.Id, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
-                    WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
-                    WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Id]));
+                    TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.Page, [page.Navigation]));
+                    TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.Page, [page.Id]));
                     return NotifyOfSuccess(Localize("The page has been deleted."), $"/Home");
                 }
 
@@ -886,7 +887,7 @@ namespace TightWiki.Controllers
                 }
                 */
 
-                var page = new WikiPage()
+                var page = new TwPage()
                 {
                     Body = request.Body,
                     Name = request.Name,
@@ -965,7 +966,7 @@ namespace TightWiki.Controllers
                     var templates = await PageRepository.GetAllTemplatePages();
 
                     if (templatePage == null)
-                        templatePage = new WikiPage();
+                        templatePage = new TwPage();
                     else
                         templates.Insert(0, templatePage);
 
@@ -1034,7 +1035,7 @@ namespace TightWiki.Controllers
                     {
                         return NotifyOfError(ex.GetBaseException().Message, "/");
                     }
-                    var page = new WikiPage()
+                    var page = new TwPage()
                     {
                         CreatedDate = DateTime.UtcNow,
                         CreatedByUserId = SessionState.Profile.EnsureNotNull().UserId,
@@ -1109,8 +1110,8 @@ namespace TightWiki.Controllers
 
                     if (string.IsNullOrWhiteSpace(originalNavigation) == false)
                     {
-                        WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [originalNavigation]));
-                        WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Id]));
+                        TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.Page, [originalNavigation]));
+                        TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.Page, [page.Id]));
                         return Redirect($"{WikiConfiguration.BasePath}/{page.Navigation}/Edit");
                     }
 
@@ -1163,8 +1164,8 @@ namespace TightWiki.Controllers
                 var scale = GetQueryValue<int?>("Scale");
                 var maxWidth = GetQueryValue<int?>("MaxWidth");
 
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, pageRevision, scale, maxWidth]);
-                if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
+                var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Page, [givenPageNavigation, givenFileNavigation, pageRevision, scale, maxWidth]);
+                if (TwCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
                 {
                     return File(cached.Bytes, cached.ContentType);
                 }
@@ -1216,7 +1217,7 @@ namespace TightWiki.Controllers
                             using var ms = new MemoryStream();
                             file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
                             var cacheItem = new ImageCacheItem(ms.ToArray(), file.ContentType);
-                            WikiCache.Set(cacheKey, cacheItem);
+                            TwCache.Set(cacheKey, cacheItem);
                             return File(cacheItem.Bytes, cacheItem.ContentType);
                         }
                     }
@@ -1233,7 +1234,7 @@ namespace TightWiki.Controllers
                         image.SaveAsPng(ms);
 
                         var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
-                        WikiCache.Set(cacheKey, cacheItem);
+                        TwCache.Set(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
                     else
@@ -1402,7 +1403,7 @@ namespace TightWiki.Controllers
 
                 var sr = new StringWriter();
                 var writer = new System.Xml.XmlTextWriter(sr);
-                var serializer = new XmlSerializer(typeof(WikiPage));
+                var serializer = new XmlSerializer(typeof(TwPage));
                 serializer.Serialize(writer, page);
 
                 return File(Encoding.UTF8.GetBytes(sr.ToString()), "text/xml", $"{givenCanonical}.xml");

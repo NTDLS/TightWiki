@@ -3,8 +3,8 @@ using NTDLS.Helpers;
 using System.Security.Claims;
 using System.Text;
 using TightWiki.Library;
-using TightWiki.Models.DataModels;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Models;
 using TightWiki.Repository;
 using static TightWiki.Plugin.TwConstants;
 
@@ -14,16 +14,16 @@ namespace DummyPageGenerator
     {
         private readonly ITwSharedLocalizationText _localizer;
         private readonly object _lockObject = new();
-        private List<WikiPage> _pagePool;
+        private List<TwPage> _pagePool;
         private readonly Random _random;
         private readonly List<string> _namespaces;
         private readonly List<string> _tags;
         private readonly List<string> _fileNames;
         private List<string> _recentPageNames = new();
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly List<AccountProfile> _users;
+        private readonly List<TwAccountProfile> _users;
 
-        public List<AccountProfile> Users => _users;
+        public List<TwAccountProfile> Users => _users;
         public Random Random => _random;
 
         public PageGenerator(ITwSharedLocalizationText localizer, UserManager<IdentityUser> userManager)
@@ -239,7 +239,7 @@ namespace DummyPageGenerator
                 body.AppendLine($"##related");
                 body.AppendLine("\r\n");
 
-                var page = new WikiPage()
+                var page = new TwPage()
                 {
                     Name = pageName,
                     Body = body.ToString(),
@@ -269,7 +269,7 @@ namespace DummyPageGenerator
             }
         }
 
-        private WikiPage GetRandomPage()
+        private TwPage GetRandomPage()
         {
             lock (_pagePool)
             {
@@ -277,7 +277,7 @@ namespace DummyPageGenerator
             }
         }
 
-        private void InsertPagePool(WikiPage page)
+        private void InsertPagePool(TwPage page)
         {
             lock (_pagePool)
             {
@@ -339,7 +339,7 @@ namespace DummyPageGenerator
                 //throw new Exception("Could not save the attached file, too large");
             }
 
-            await PageFileRepository.UpsertPageFile(new PageFileAttachment()
+            await PageFileRepository.UpsertPageFile(new TwPageFileAttachment()
             {
                 Data = fileData,
                 CreatedDate = DateTime.UtcNow,

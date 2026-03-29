@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Security.Claims;
-using TightWiki.Caching;
 using TightWiki.Engine;
 using TightWiki.Library;
-using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Plugin;
+using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Models;
 using TightWiki.Repository;
 using static TightWiki.Library.Images;
 
@@ -47,14 +47,14 @@ namespace TightWiki.Controllers
                 string givenMax = Request.Query["max"].ToString().DefaultWhenNullOrEmpty("512");
                 string? givenExact = Request.Query["exact"];
 
-                ProfileAvatar? avatar;
+                TwProfileAvatar? avatar;
                 if (WikiConfiguration.EnablePublicProfiles)
                 {
-                    avatar = await UsersRepository.GetProfileAvatarByNavigation(TwNamespaceNavigation.CleanAndValidate(userAccountName)) ?? new ProfileAvatar();
+                    avatar = await UsersRepository.GetProfileAvatarByNavigation(TwNamespaceNavigation.CleanAndValidate(userAccountName)) ?? new TwProfileAvatar();
                 }
                 else
                 {
-                    avatar = new ProfileAvatar();
+                    avatar = new TwProfileAvatar();
                 }
 
                 if (avatar.Bytes == null || avatar.Bytes.Length == 0)
@@ -383,8 +383,8 @@ namespace TightWiki.Controllers
                 await SecurityRepository.UpsertUserClaims(UserManager, user, claims);
 
                 await SignInManager.RefreshSignInAsync(user);
-                WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.Navigation]));
-                WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.UserId]));
+                TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.User, [profile.Navigation]));
+                TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.User, [profile.UserId]));
 
                 await UpdateUserCultureCookie(userId);
 
@@ -436,7 +436,7 @@ namespace TightWiki.Controllers
                 await SignInManager.SignOutAsync();
 
                 await UsersRepository.AnonymizeProfile(profile.UserId);
-                WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.Navigation]));
+                TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.User, [profile.Navigation]));
 
                 await HttpContext.SignOutAsync(); //Do we still need this??
                 return NotifyOfSuccess(Localize("Your account has been deleted."), $"/Profile/Deleted");

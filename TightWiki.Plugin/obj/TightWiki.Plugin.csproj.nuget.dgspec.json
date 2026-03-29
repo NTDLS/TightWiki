@@ -66,6 +66,10 @@
             "NTDLS.SqliteDapperWrapper": {
               "target": "Package",
               "version": "[1.4.2, )"
+            },
+            "System.Runtime.Caching": {
+              "target": "Package",
+              "version": "[10.0.5, )"
             }
           },
           "imports": [

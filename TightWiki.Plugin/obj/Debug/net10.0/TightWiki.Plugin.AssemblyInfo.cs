@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TightWiki.Plugin")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0da8888728bdc172aa36a840a5e11263bee56a4e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bda4a647efee6a51fb415cfdb12a15f89437ec26")]
 [assembly: System.Reflection.AssemblyProductAttribute("TightWiki.Plugin")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TightWiki.Plugin")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

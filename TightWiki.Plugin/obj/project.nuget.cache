@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "LLWYpwkFNwM=",
+  "dgSpecHash": "fccQ9wm+OEo=",
   "success": true,
   "projectFilePath": "C:\\NTDLS\\TightWiki\\TightWiki.Plugin\\TightWiki.Plugin.csproj",
   "expectedPackageFiles": [
@@ -21,7 +21,11 @@
     "C:\\Users\\jpatterson\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\3.0.2\\sqlitepclraw.bundle_e_sqlite3.3.0.2.nupkg.sha512",
     "C:\\Users\\jpatterson\\.nuget\\packages\\sqlitepclraw.config.e_sqlite3\\3.0.2\\sqlitepclraw.config.e_sqlite3.3.0.2.nupkg.sha512",
     "C:\\Users\\jpatterson\\.nuget\\packages\\sqlitepclraw.core\\3.0.2\\sqlitepclraw.core.3.0.2.nupkg.sha512",
-    "C:\\Users\\jpatterson\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\3.0.2\\sqlitepclraw.provider.e_sqlite3.3.0.2.nupkg.sha512"
+    "C:\\Users\\jpatterson\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\3.0.2\\sqlitepclraw.provider.e_sqlite3.3.0.2.nupkg.sha512",
+    "C:\\Users\\jpatterson\\.nuget\\packages\\system.configuration.configurationmanager\\10.0.5\\system.configuration.configurationmanager.10.0.5.nupkg.sha512",
+    "C:\\Users\\jpatterson\\.nuget\\packages\\system.diagnostics.eventlog\\10.0.5\\system.diagnostics.eventlog.10.0.5.nupkg.sha512",
+    "C:\\Users\\jpatterson\\.nuget\\packages\\system.runtime.caching\\10.0.5\\system.runtime.caching.10.0.5.nupkg.sha512",
+    "C:\\Users\\jpatterson\\.nuget\\packages\\system.security.cryptography.protecteddata\\10.0.5\\system.security.cryptography.protecteddata.10.0.5.nupkg.sha512"
   ],
   "logs": []
 }

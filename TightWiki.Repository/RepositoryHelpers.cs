@@ -1,10 +1,10 @@
 ﻿using DuoVia.FuzzyStrings;
 using NTDLS.Helpers;
 using NTDLS.SqliteDapperWrapper;
-using TightWiki.Caching;
-using TightWiki.Models.DataModels;
 using TightWiki.Plugin;
+using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Models;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Repository
@@ -14,7 +14,7 @@ namespace TightWiki.Repository
         /// <summary>
         /// Inserts a new page if Page.Id == 0, other wise updates the page. All metadata is written to the database.
         /// </summary>
-        public static async Task<int> UpsertPage(ITwEngine wikifier, ITwSharedLocalizationText localizer, WikiPage page, ITwSessionState? sessionState = null)
+        public static async Task<int> UpsertPage(ITwEngine wikifier, ITwSharedLocalizationText localizer, TwPage page, ITwSessionState? sessionState = null)
         {
             bool isNewlyCreated = page.Id == 0;
 
@@ -37,7 +37,7 @@ namespace TightWiki.Repository
         /// <param name="sessionState"></param>
         /// <param name="query"></param>
         /// <param name="page"></param>
-        public static async Task RefreshPageMetadata(ITwEngine wikifier, ITwSharedLocalizationText localizer, WikiPage page, ITwSessionState? sessionState = null)
+        public static async Task RefreshPageMetadata(ITwEngine wikifier, ITwSharedLocalizationText localizer, TwPage page, ITwSessionState? sessionState = null)
         {
             //We omit function calls from the tokenization process because they are too dynamic for static searching.
             var state = await wikifier.Transform(localizer, sessionState, page, null, [WikiMatchType.StandardFunction]);
@@ -46,7 +46,7 @@ namespace TightWiki.Repository
             await PageRepository.UpdatePageProcessingInstructions(page.Id, state.ProcessingInstructions);
 
             var pageTokens = (await ParsePageTokens(state)).Select(o =>
-                      new PageToken
+                      new TwPageToken
                       {
                           PageId = page.Id,
                           Token = o.Token,
@@ -58,11 +58,11 @@ namespace TightWiki.Repository
 
             await PageRepository.UpdatePageReferences(page.Id, state.OutgoingLinks);
 
-            WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Id]));
-            WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
+            TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.Page, [page.Id]));
+            TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.Page, [page.Navigation]));
         }
 
-        public static async Task<List<AggregatedSearchToken>> ParsePageTokens(ITwEngineState state)
+        public static async Task<List<TwAggregatedSearchToken>> ParsePageTokens(ITwEngineState state)
         {
             var parsedTokens = new List<WeightedSearchToken>();
 
@@ -71,7 +71,7 @@ namespace TightWiki.Repository
             parsedTokens.AddRange(await ComputeParsedPageTokens(string.Join(" ", state.Tags), 1.4));
             parsedTokens.AddRange(await ComputeParsedPageTokens(state.Page.Name, 1.6));
 
-            var aggregatedTokens = parsedTokens.GroupBy(o => o.Token).Select(o => new AggregatedSearchToken
+            var aggregatedTokens = parsedTokens.GroupBy(o => o.Token).Select(o => new TwAggregatedSearchToken
             {
                 Token = o.Key,
                 DoubleMetaphone = o.Key.ToDoubleMetaphone(),

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TightWiki.Plugin.Models;
 
 namespace TightWiki.Models.ViewModels.Page
 {
@@ -13,7 +14,7 @@ namespace TightWiki.Models.ViewModels.Page
         public string? Description { get; set; } = string.Empty;
         public string? ChangeSummary { get; set; } = string.Empty;
         public string? Body { get; set; } = string.Empty;
-        public List<DataModels.WikiPage> Templates { get; set; } = new();
-        public List<DataModels.FeatureTemplate> FeatureTemplates { get; set; } = new();
+        public List<TwPage> Templates { get; set; } = new();
+        public List<TwFeatureTemplate> FeatureTemplates { get; set; } = new();
     }
 }

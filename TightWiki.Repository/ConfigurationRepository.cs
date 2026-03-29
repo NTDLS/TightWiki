@@ -1,10 +1,10 @@
 ﻿using NTDLS.Helpers;
 using System.Data;
 using System.Runtime.Caching;
-using TightWiki.Caching;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Plugin;
+using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Models;
 
 namespace TightWiki.Repository
@@ -13,9 +13,9 @@ namespace TightWiki.Repository
     {
         public static async Task<ConfigurationEntries> GetConfigurationEntryValuesByGroupName(string groupName)
         {
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Configuration, [groupName]);
+            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Configuration, [groupName]);
 
-            return await WikiCache.AddOrGet(cacheKey, async () =>
+            return await TwCache.AddOrGet(cacheKey, async () =>
             {
                 var entries = await ManagedDataStorage.Config.QueryAsync<ConfigurationEntry>("GetConfigurationEntryValuesByGroupName.sql",
                     new { GroupName = groupName });
@@ -41,9 +41,9 @@ namespace TightWiki.Repository
 
         public static async Task<List<TwTheme>> GetAllThemes()
         {
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Configuration);
+            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Configuration);
 
-            return await WikiCache.AddOrGet(cacheKey, async () =>
+            return await TwCache.AddOrGet(cacheKey, async () =>
             {
                 var themes = await ManagedDataStorage.Config.QueryAsync<TwTheme>("GetAllThemes.sql");
 
@@ -190,9 +190,9 @@ namespace TightWiki.Repository
 
         public static async Task<string?> GetConfigurationEntryValuesByGroupNameAndEntryName(string groupName, string entryName)
         {
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Configuration, [groupName, entryName]);
+            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Configuration, [groupName, entryName]);
 
-            return await WikiCache.AddOrGetAsync(cacheKey, async () =>
+            return await TwCache.AddOrGetAsync(cacheKey, async () =>
             {
                 var configEntry = await ManagedDataStorage.Config.QuerySingleAsync<ConfigurationEntry>("GetConfigurationEntryValuesByGroupNameAndEntryName.sql",
                     new
@@ -262,7 +262,7 @@ namespace TightWiki.Repository
 
             await ManagedDataStorage.Config.ExecuteAsync("DeleteMenuItemById.sql", param);
 
-            WikiCache.ClearCategory(WikiCache.Category.Configuration);
+            TwCache.ClearCategory(TwCache.Category.Configuration);
         }
 
         public static async Task<int> UpdateMenuItemById(TwMenuItem menuItem)
@@ -277,7 +277,7 @@ namespace TightWiki.Repository
 
             var menuItemId = await ManagedDataStorage.Config.ExecuteScalarAsync<int>("UpdateMenuItemById.sql", param);
 
-            WikiCache.ClearCategory(WikiCache.Category.Configuration);
+            TwCache.ClearCategory(TwCache.Category.Configuration);
             return menuItemId;
         }
 
@@ -292,7 +292,7 @@ namespace TightWiki.Repository
 
             var menuItemId = await ManagedDataStorage.Config.ExecuteScalarAsync<int>("InsertMenuItem.sql", param);
 
-            WikiCache.ClearCategory(WikiCache.Category.Configuration);
+            TwCache.ClearCategory(TwCache.Category.Configuration);
             return menuItemId;
         }
 
@@ -300,7 +300,7 @@ namespace TightWiki.Repository
 
         public static async Task<List<TwEmoji>> ReloadEmojis(bool preloadAnimatedEmojis, int defaultEmojiHeight)
         {
-            WikiCache.ClearCategory(WikiCache.Category.Emoji);
+            TwCache.ClearCategory(TwCache.Category.Emoji);
             var emojis = await EmojiRepository.GetAllEmojis();
 
             if (preloadAnimatedEmojis)
@@ -316,12 +316,12 @@ namespace TightWiki.Repository
                     {
                         if (emoji.MimeType.Equals("image/gif", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            var imageCacheKey = WikiCacheKey.Build(WikiCache.Category.Emoji, [emoji.Shortcut]);
+                            var imageCacheKey = TwCacheKey.Build(TwCache.Category.Emoji, [emoji.Shortcut]);
                             emoji.ImageData = (await EmojiRepository.GetEmojiByName(emoji.Name))?.ImageData;
 
                             if (emoji.ImageData != null)
                             {
-                                var scaledImageCacheKey = WikiCacheKey.Build(WikiCache.Category.Emoji, [emoji.Shortcut, "100"]);
+                                var scaledImageCacheKey = TwCacheKey.Build(TwCache.Category.Emoji, [emoji.Shortcut, "100"]);
                                 var decompressedImageBytes = Utility.Decompress(emoji.ImageData);
                                 var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(decompressedImageBytes));
 
@@ -350,7 +350,7 @@ namespace TightWiki.Repository
                                 //These are hard to generate, so just keep it forever.
                                 var resized = Images.ResizeGifImage(decompressedImageBytes, Width, Height);
                                 var itemCache = new ImageCacheItem(resized, "image/gif");
-                                WikiCache.Set(scaledImageCacheKey, itemCache, new CacheItemPolicy());
+                                TwCache.Set(scaledImageCacheKey, itemCache, new CacheItemPolicy());
                             }
                         }
                     });

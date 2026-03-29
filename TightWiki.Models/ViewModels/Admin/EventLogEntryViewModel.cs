@@ -1,10 +1,10 @@
-﻿using TightWiki.Models.DataModels;
+﻿using TightWiki.Plugin.Models;
 
 namespace TightWiki.Models.ViewModels.Admin
 {
     public class EventLogEntryViewModel
         : ViewModelBase
     {
-        public WikiLogEntry LogEntry { get; set; } = new();
+        public TwLogEntry LogEntry { get; set; } = new();
     }
 }

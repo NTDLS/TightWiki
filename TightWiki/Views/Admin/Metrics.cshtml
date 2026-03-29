@@ -1,5 +1,6 @@
 @using TightWiki
 @using TightWiki.Plugin
+@using TightWiki.Plugin.Caching
 @using TightWiki.Plugin.Interfaces
 @using System.Globalization
 @using System.Runtime.InteropServices;
@@ -144,12 +145,12 @@
             </thead>
             <tbody>
                 <tr>
-                    <td class="text-end">@TightWiki.Caching.WikiCache.CacheItemCount.ToString("N0")</td>
-                    <td class="text-end">@TightWiki.Caching.WikiCache.CacheSets.ToString("N0")</td>
-                    <td class="text-end">@TightWiki.Caching.WikiCache.CacheGets.ToString("N0")</td>
-                    <td class="text-end">@TightWiki.Caching.WikiCache.CacheHits.ToString("N0")</td>
-                    <td class="text-end">@TightWiki.Caching.WikiCache.CacheMisses.ToString("N0")</td>
-                    <td class="text-end">@NTDLS.Helpers.Formatters.FileSize((long)TightWiki.Caching.WikiCache.CacheMemoryLimit)</td>
+                    <td class="text-end">@TwCache.CacheItemCount.ToString("N0")</td>
+                    <td class="text-end">@TwCache.CacheSets.ToString("N0")</td>
+                    <td class="text-end">@TwCache.CacheGets.ToString("N0")</td>
+                    <td class="text-end">@TwCache.CacheHits.ToString("N0")</td>
+                    <td class="text-end">@TwCache.CacheMisses.ToString("N0")</td>
+                    <td class="text-end">@NTDLS.Helpers.Formatters.FileSize((long)TwCache.CacheMemoryLimit)</td>
                 </tr>
             </tbody>
         </table>

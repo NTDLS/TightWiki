@@ -1,4 +1,4 @@
-﻿using TightWiki.Models.DataModels;
+﻿using TightWiki.Plugin.Models;
 
 namespace TightWiki.Models.ViewModels.File
 {
@@ -7,7 +7,7 @@ namespace TightWiki.Models.ViewModels.File
     {
         public string PageNavigation { get; set; } = string.Empty;
         public string FileNavigation { get; set; } = string.Empty;
-        public List<PageFileAttachmentInfo> Revisions { get; set; } = new();
+        public List<TwPageFileAttachmentInfo> Revisions { get; set; } = new();
         public int PaginationPageCount { get; set; }
     }
 }

@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using NTDLS.Helpers;
 using TightWiki.Library;
-using TightWiki.Models.DataModels;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Test.Library;
@@ -67,7 +66,7 @@ namespace TightWiki.Tests
         {
             var navigation = new TwNamespaceNavigation(pageName);
 
-            var page = new WikiPage()
+            var page = new TwPage()
             {
                 Body = body,
                 Name = pageName,

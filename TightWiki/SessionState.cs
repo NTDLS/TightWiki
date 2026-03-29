@@ -4,11 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using NTDLS.Helpers;
 using System.Security.Claims;
-using TightWiki.Caching;
 using TightWiki.Exceptions;
 using TightWiki.Extensions;
-using TightWiki.Models.DataModels;
 using TightWiki.Plugin;
+using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Models;
 using TightWiki.Repository;
@@ -31,7 +30,7 @@ namespace TightWiki
         public ITwAccountProfile? Profile { get; set; }
         public bool IsAdministrator { get; set; }
         public TwTheme UserTheme { get; set; } = new();
-        public List<ApparentPermission> Permissions { get; set; } = new();
+        public List<TwApparentPermission> Permissions { get; set; } = new();
 
         #endregion
 
@@ -45,12 +44,12 @@ namespace TightWiki
         public string PageNavigation { get; set; } = string.Empty;
         public string PageNavigationEscaped { get; set; } = string.Empty;
         public string PageTags { get; set; } = string.Empty;
-        public ProcessingInstructionCollection PageInstructions { get; set; } = new();
+        public TwProcessingInstructionCollection PageInstructions { get; set; } = new();
         public TwConfiguration WikiConfiguration { get; set; } = new();
         /// <summary>
         /// The "page" here is more of a "mock page", we use the name for various stuff.
         /// </summary>
-        public ITwPage Page { get; set; } = new WikiPage();
+        public ITwPage Page { get; set; } = new TwPage();
 
         #endregion
 
@@ -60,7 +59,7 @@ namespace TightWiki
         public async Task<SessionState> Hydrate(ILogger<ITwEngine> logger,
             SignInManager<IdentityUser> signInManager, PageModel pageModel, TwConfiguration wikiConfiguration)
         {
-            Page = new WikiPage() { Name = WikiConfiguration.Name };
+            Page = new TwPage() { Name = WikiConfiguration.Name };
             WikiConfiguration = wikiConfiguration;
             Logger = logger;
             QueryString = pageModel.Request.Query;
@@ -75,7 +74,7 @@ namespace TightWiki
         public async Task<SessionState> Hydrate(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
             Controller controller, TwConfiguration wikiConfiguration)
         {
-            Page = new WikiPage() { Name = WikiConfiguration.Name };
+            Page = new TwPage() { Name = WikiConfiguration.Name };
             WikiConfiguration = wikiConfiguration;
             Logger = logger;
 
@@ -150,7 +149,7 @@ namespace TightWiki
         /// </summary>
         public async Task SetPageId(int? pageId, int? revision = null)
         {
-            Page = new Models.DataModels.WikiPage();
+            Page = new Models.DataModels.TwPage();
             PageInstructions = new();
             PageTags = string.Empty;
 
@@ -201,11 +200,11 @@ namespace TightWiki
                 return true;
             }
 
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [givenCanonical, Profile?.UserId, string.Join("|", permissions).ToLowerInvariant()]);
+            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Security, [givenCanonical, Profile?.UserId, string.Join("|", permissions).ToLowerInvariant()]);
 
-            return await WikiCache.AddOrGetAsync(cacheKey, async () =>
+            return await TwCache.AddOrGetAsync(cacheKey, async () =>
             {
-                Models.DataModels.WikiPage? page = null;
+                TwPage? page = null;
 
                 if (givenCanonical != null)
                 {
@@ -231,7 +230,7 @@ namespace TightWiki
             });
         }
 
-        private bool? EvaluatePermission(WikiPermission permission, Models.DataModels.WikiPage? page)
+        private bool? EvaluatePermission(WikiPermission permission, TwPage? page)
         {
             string permissionString = permission.ToString();
 

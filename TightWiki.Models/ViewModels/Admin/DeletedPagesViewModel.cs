@@ -1,9 +1,11 @@
-﻿namespace TightWiki.Models.ViewModels.Admin
+﻿using TightWiki.Plugin.Models;
+
+namespace TightWiki.Models.ViewModels.Admin
 {
     public class DeletedPagesViewModel
         : ViewModelBase
     {
-        public List<DataModels.WikiPage> Pages { get; set; } = new();
+        public List<TwPage> Pages { get; set; } = new();
         public string SearchString { get; set; } = string.Empty;
         public int PaginationPageCount { get; set; }
     }

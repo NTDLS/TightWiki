@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using NTDLS.DelegateThreadPooling;
 using NTDLS.Helpers;
 using System.Reflection;
-using TightWiki.Caching;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Admin;
 using TightWiki.Models.ViewModels.Page;
 using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Plugin;
+using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Models;
 using TightWiki.Repository;
@@ -272,7 +272,7 @@ namespace TightWiki.Controllers
                 }
                 if (model.UserSelection == true)
                 {
-                    WikiCache.Clear();
+                    TwCache.Clear();
                     return NotifyOfSuccess(Localize("Memory cache purged."), model.YesRedirectURL);
                 }
 
@@ -942,15 +942,15 @@ namespace TightWiki.Controllers
                                 queryKey += $"{query.Key}:{query.Value}";
                             }
 
-                            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
-                            if (WikiCache.Contains(cacheKey) == false)
+                            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
+                            if (TwCache.Contains(cacheKey) == false)
                             {
                                 var state = await _tightEngine.Transform(Localizer, SessionState, page, page.Revision);
                                 page.Body = state.HtmlResult;
 
                                 if (state.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
                                 {
-                                    WikiCache.Set(cacheKey, state.HtmlResult); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
+                                    TwCache.Set(cacheKey, state.HtmlResult); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
                                 }
                             }
                         });
@@ -987,7 +987,7 @@ namespace TightWiki.Controllers
                 if (model.UserSelection == true)
                 {
                     await PageRepository.TruncateAllPageRevisions("YES");
-                    WikiCache.Clear();
+                    TwCache.Clear();
                     return NotifyOfSuccess(Localize("All page revisions have been truncated."), model.YesRedirectURL);
                 }
 
@@ -1584,7 +1584,7 @@ namespace TightWiki.Controllers
                         await WikiConfigurationFactory.ReloadAll(WikiConfiguration);
                     }
 
-                    WikiCache.ClearCategory(WikiCache.Category.Configuration);
+                    TwCache.ClearCategory(TwCache.Category.Configuration);
 
                     model.SuccessMessage = Localize("The configuration has been saved successfully!");
                 }

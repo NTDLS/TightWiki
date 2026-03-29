@@ -1,9 +1,11 @@
-﻿namespace TightWiki.Models.ViewModels.Admin
+﻿using TightWiki.Plugin.Models;
+
+namespace TightWiki.Models.ViewModels.Admin
 {
     public class OrphanedPageAttachmentsViewModel
         : ViewModelBase
     {
-        public List<DataModels.OrphanedPageAttachment> Files { get; set; } = new();
+        public List<TwOrphanedPageAttachment> Files { get; set; } = new();
         public int PaginationPageCount { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using TightWiki.Models.DataModels;
+using TightWiki.Plugin.Models;
 
 namespace TightWiki.Models.ViewModels.AdminSecurity
 {
@@ -49,7 +49,7 @@ namespace TightWiki.Models.ViewModels.AdminSecurity
         public int PaginationPageSize { get; set; }
         public int PaginationPageCount { get; set; }
 
-        public static AccountProfileAccountViewModel FromDataModel(AccountProfile model)
+        public static AccountProfileAccountViewModel FromDataModel(TwAccountProfile model)
         {
             return new AccountProfileAccountViewModel
             {

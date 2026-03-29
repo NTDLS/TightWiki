@@ -1,4 +1,4 @@
-﻿using TightWiki.Models.DataModels;
+﻿using TightWiki.Plugin.Models;
 
 namespace TightWiki.Models.ViewModels.AdminSecurity
 {
@@ -14,22 +14,22 @@ namespace TightWiki.Models.ViewModels.AdminSecurity
         /// <summary>
         /// Permissions assigned to this role.
         /// </summary>
-        public List<RolePermission> AssignedPermissions { get; set; } = new();
+        public List<TwRolePermission> AssignedPermissions { get; set; } = new();
 
         /// <summary>
         /// Members of this role.
         /// </summary>
-        public List<AccountProfile> Members { get; set; } = new();
+        public List<TwAccountProfile> Members { get; set; } = new();
 
         /// <summary>
         /// All available permissions.
         /// </summary>
-        public List<Permission> Permissions { get; set; } = new();
+        public List<TwPermission> Permissions { get; set; } = new();
 
         /// <summary>
         /// All available permission dispositions.
         /// </summary>
-        public List<PermissionDisposition> PermissionDispositions { get; set; } = new();
+        public List<TwPermissionDisposition> PermissionDispositions { get; set; } = new();
 
         public int PaginationPageCount_Members { get; set; }
         public int PaginationPageCount_Permissions { get; set; }

@@ -15,8 +15,8 @@ namespace TightWiki.Repository
         public static async Task<List<TwEmoji>> GetEmojisByCategory(string category)
             => await ManagedDataStorage.Emoji.QueryAsync<TwEmoji>("GetEmojisByCategory.sql", new { Category = category });
 
-        public static async Task<List<EmojiCategory>> GetEmojiCategoriesGrouped()
-            => await ManagedDataStorage.Emoji.QueryAsync<EmojiCategory>("GetEmojiCategoriesGrouped.sql");
+        public static async Task<List<TwEmojiCategory>> GetEmojiCategoriesGrouped()
+            => await ManagedDataStorage.Emoji.QueryAsync<TwEmojiCategory>("GetEmojiCategoriesGrouped.sql");
 
         public static async Task<List<int>> SearchEmojiCategoryIds(List<string> categories)
         {
@@ -32,14 +32,14 @@ namespace TightWiki.Repository
             });
         }
 
-        public static async Task<List<EmojiCategory>> GetEmojiCategoriesByName(string name)
+        public static async Task<List<TwEmojiCategory>> GetEmojiCategoriesByName(string name)
         {
             var param = new
             {
                 Name = name
             };
 
-            return await ManagedDataStorage.Emoji.QueryAsync<EmojiCategory>("GetEmojiCategoriesByName.sql", param);
+            return await ManagedDataStorage.Emoji.QueryAsync<TwEmojiCategory>("GetEmojiCategoriesByName.sql", param);
         }
 
         public static async Task DeleteById(int id)

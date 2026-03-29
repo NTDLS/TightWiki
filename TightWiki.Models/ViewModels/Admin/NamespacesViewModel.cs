@@ -1,11 +1,11 @@
-﻿using TightWiki.Models.DataModels;
+﻿using TightWiki.Plugin.Models;
 
 namespace TightWiki.Models.ViewModels.Admin
 {
     public class NamespacesViewModel
         : ViewModelBase
     {
-        public List<NamespaceStat> Namespaces { get; set; } = new();
+        public List<TwNamespaceStat> Namespaces { get; set; } = new();
         public int PaginationPageCount { get; set; }
     }
 }

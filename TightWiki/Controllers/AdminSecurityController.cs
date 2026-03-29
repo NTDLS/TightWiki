@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
 using System.Security.Claims;
-using TightWiki.Caching;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.Requests;
@@ -11,6 +10,7 @@ using TightWiki.Models.ViewModels.AdminSecurity;
 using TightWiki.Models.ViewModels.Shared;
 using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Plugin;
+using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
 using static TightWiki.Plugin.TwConstants;
@@ -42,7 +42,7 @@ namespace TightWiki.Controllers
                 if (model.UserSelection == true)
                 {
                     await UsersRepository.DeleteRole(roleId);
-                    WikiCache.ClearCategory(WikiCache.Category.Security);
+                    TwCache.ClearCategory(TwCache.Category.Security);
                     return NotifyOfSuccess(Localize("The specified role has been deleted."), model.YesRedirectURL);
                 }
 
@@ -73,7 +73,7 @@ namespace TightWiki.Controllers
                 {
                     result = await UsersRepository.AddAccountMembership(request.UserId, request.RoleId);
                 }
-                WikiCache.ClearCategory(WikiCache.Category.Security);
+                TwCache.ClearCategory(TwCache.Category.Security);
 
                 return Ok(new { success = true, alreadyExists = alreadyExists, membership = result, message = (string?)null });
             }
@@ -102,7 +102,7 @@ namespace TightWiki.Controllers
                 {
                     result = await UsersRepository.AddRoleMember(request.UserId, request.RoleId);
                 }
-                WikiCache.ClearCategory(WikiCache.Category.Security);
+                TwCache.ClearCategory(TwCache.Category.Security);
 
                 return Ok(new { success = true, alreadyExists = alreadyExists, membership = result, message = (string?)null });
             }
@@ -124,7 +124,7 @@ namespace TightWiki.Controllers
             {
                 await SessionState.RequireAdminPermission();
                 await UsersRepository.RemoveRoleMember(roleId, userId);
-                WikiCache.ClearCategory(WikiCache.Category.Security);
+                TwCache.ClearCategory(TwCache.Category.Security);
 
                 return Ok(new { success = true, message = (string?)null });
             }
@@ -146,7 +146,7 @@ namespace TightWiki.Controllers
             {
                 await SessionState.RequireAdminPermission();
                 await UsersRepository.RemoveRolePermission(id);
-                WikiCache.ClearCategory(WikiCache.Category.Security);
+                TwCache.ClearCategory(TwCache.Category.Security);
 
                 return Ok(new { success = true, message = (string?)null });
             }
@@ -177,7 +177,7 @@ namespace TightWiki.Controllers
                     result = await UsersRepository.InsertRolePermission(
                         request.RoleId, request.PermissionId, request.PermissionDispositionId, request.Namespace, request.PageId);
                 }
-                WikiCache.ClearCategory(WikiCache.Category.Security);
+                TwCache.ClearCategory(TwCache.Category.Security);
 
                 return Ok(new { success = true, alreadyExists = alreadyExists, permission = result, message = (string?)null });
             }
@@ -240,7 +240,7 @@ namespace TightWiki.Controllers
                 }
 
                 await UsersRepository.InsertRole(model.Name, model.Description);
-                WikiCache.ClearCategory(WikiCache.Category.Security);
+                TwCache.ClearCategory(TwCache.Category.Security);
 
                 return Redirect($"{WikiConfiguration.BasePath}/AdminSecurity/Roles");
             }
@@ -354,7 +354,7 @@ namespace TightWiki.Controllers
                     result = await UsersRepository.InsertAccountPermission(
                         request.UserId, request.PermissionId, request.PermissionDispositionId, request.Namespace, request.PageId);
                 }
-                WikiCache.ClearCategory(WikiCache.Category.Security);
+                TwCache.ClearCategory(TwCache.Category.Security);
 
                 return Ok(new { success = true, alreadyExists = alreadyExists, permission = result, message = (string?)null });
             }
@@ -376,7 +376,7 @@ namespace TightWiki.Controllers
             {
                 await SessionState.RequireAdminPermission();
                 await UsersRepository.RemoveAccountPermission(id);
-                WikiCache.ClearCategory(WikiCache.Category.Security);
+                TwCache.ClearCategory(TwCache.Category.Security);
 
                 return Ok(new { success = true, message = (string?)null });
             }
@@ -598,8 +598,8 @@ namespace TightWiki.Controllers
                 {
                     await SignInManager.RefreshSignInAsync(user);
 
-                    WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.Navigation]));
-                    WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.UserId]));
+                    TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.User, [profile.Navigation]));
+                    TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.User, [profile.UserId]));
 
                     //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
                     SessionState.UserTheme = (await ConfigurationRepository.GetAllThemes())
@@ -647,7 +647,7 @@ namespace TightWiki.Controllers
                 }
 
                 model.SuccessMessage = Localize("The profile has been saved successfully!");
-                WikiCache.ClearCategory(WikiCache.Category.Security);
+                TwCache.ClearCategory(TwCache.Category.Security);
 
                 return View(model);
             }
@@ -825,7 +825,7 @@ namespace TightWiki.Controllers
                         }
                     }
                 }
-                WikiCache.ClearCategory(WikiCache.Category.Security);
+                TwCache.ClearCategory(TwCache.Category.Security);
 
                 return NotifyOf(Localize("The account has been created."), model.ErrorMessage, $"/AdminSecurity/Account/{profile.Navigation}");
             }
@@ -912,17 +912,17 @@ namespace TightWiki.Controllers
                     }
 
                     await UsersRepository.AnonymizeProfile(profile.UserId);
-                    WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.Navigation]));
+                    TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.User, [profile.Navigation]));
 
                     if (profile.UserId == SessionState.Profile?.UserId)
                     {
                         //We're deleting our own account. Oh boy...
                         await SignInManager.SignOutAsync();
 
-                        WikiCache.ClearCategory(WikiCache.Category.Security);
+                        TwCache.ClearCategory(TwCache.Category.Security);
                         return NotifyOfSuccess(Localize("Your account has been deleted."), $"/Profile/Deleted");
                     }
-                    WikiCache.ClearCategory(WikiCache.Category.Security);
+                    TwCache.ClearCategory(TwCache.Category.Security);
 
                     return NotifyOfSuccess(Localize("The account has been deleted."), $"/AdminSecurity/Accounts");
                 }

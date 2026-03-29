@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
-using TightWiki.Caching;
 using TightWiki.Plugin;
+using TightWiki.Plugin.Caching;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Repository
@@ -20,7 +20,7 @@ namespace TightWiki.Repository
 
         public static async Task ReloadAll(TwConfiguration instance)
         {
-            WikiCache.Clear();
+            TwCache.Clear();
 
             instance.IsDebug = Debugger.IsAttached;
 
@@ -29,7 +29,7 @@ namespace TightWiki.Repository
             instance.RecordCompilationMetrics = performanceConfig.Value<bool>("Record Compilation Metrics");
             instance.CacheMemoryLimitMB = performanceConfig.Value<int>("Cache Memory Limit MB");
 
-            WikiCache.Initialize(instance.CacheMemoryLimitMB, TimeSpan.FromSeconds(instance.PageCacheSeconds));
+            TwCache.Initialize(instance.CacheMemoryLimitMB, TimeSpan.FromSeconds(instance.PageCacheSeconds));
 
             var basicConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
             var customizationConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Customization);

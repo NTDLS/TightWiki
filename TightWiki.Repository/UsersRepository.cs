@@ -1,8 +1,9 @@
 ﻿using NTDLS.Helpers;
-using TightWiki.Caching;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Plugin;
+using TightWiki.Plugin.Caching;
+using TightWiki.Plugin.Models;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Repository
@@ -17,9 +18,9 @@ namespace TightWiki.Repository
                 RoleId = roleId
             };
 
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [userId, roleId]);
+            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Security, [userId, roleId]);
 
-            return await WikiCache.AddOrGetAsync(cacheKey, forceReCache, async () =>
+            return await TwCache.AddOrGetAsync(cacheKey, forceReCache, async () =>
                 await ManagedDataStorage.Users.QueryFirstOrDefaultAsync<bool?>("IsAccountAMemberOfRole.sql", param) ?? false
             );
         }
@@ -44,9 +45,9 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [userId, permissionId, permissionDispositionId, ns, pageId]);
+            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Security, [userId, permissionId, permissionDispositionId, ns, pageId]);
 
-            return await WikiCache.AddOrGetAsync(cacheKey, forceReCache, async () =>
+            return await TwCache.AddOrGetAsync(cacheKey, forceReCache, async () =>
                 await ManagedDataStorage.Users.QueryFirstOrDefaultAsync<bool?>("IsAccountPermissionDefined.sql", param) ?? false
             );
         }
@@ -81,18 +82,18 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [roleId, permissionId, permissionDispositionId, ns, pageId]);
+            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Security, [roleId, permissionId, permissionDispositionId, ns, pageId]);
 
-            return await WikiCache.AddOrGetAsync(cacheKey, forceReCache, async () =>
+            return await TwCache.AddOrGetAsync(cacheKey, forceReCache, async () =>
                 await ManagedDataStorage.Users.QueryFirstOrDefaultAsync<bool?>("IsRolePermissionDefined.sql", param) ?? false
             );
         }
 
-        public static async Task<List<Role>> AutoCompleteRole(string? searchText)
-            => await ManagedDataStorage.Users.QueryAsync<Role>("AutoCompleteRole.sql", new { SearchText = searchText ?? string.Empty });
+        public static async Task<List<TwRole>> AutoCompleteRole(string? searchText)
+            => await ManagedDataStorage.Users.QueryAsync<TwRole>("AutoCompleteRole.sql", new { SearchText = searchText ?? string.Empty });
 
-        public static async Task<List<AccountProfile>> AutoCompleteAccount(string? searchText)
-            => await ManagedDataStorage.Users.QueryAsync<AccountProfile>("AutoCompleteAccount.sql", new { SearchText = searchText ?? string.Empty });
+        public static async Task<List<TwAccountProfile>> AutoCompleteAccount(string? searchText)
+            => await ManagedDataStorage.Users.QueryAsync<TwAccountProfile>("AutoCompleteAccount.sql", new { SearchText = searchText ?? string.Empty });
 
         public static async Task<AddRoleMemberResult?> AddRoleMemberByname(Guid userId, string roleName)
             => await ManagedDataStorage.Users.QueryFirstOrDefaultAsync<AddRoleMemberResult>("AddRoleMemberByname.sql", new { UserId = userId, RoleName = roleName });
@@ -134,13 +135,13 @@ namespace TightWiki.Repository
         /// <summary>
         /// Gets the apparent account permissions for a user combined with the permissions of all roles that user is a member of.
         /// </summary>
-        public static async Task<List<ApparentPermission>> GetApparentAccountPermissions(Guid userId)
+        public static async Task<List<TwApparentPermission>> GetApparentAccountPermissions(Guid userId)
         {
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [userId]);
+            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Security, [userId]);
 
-            return await WikiCache.AddOrGet(cacheKey, async () =>
+            return await TwCache.AddOrGet(cacheKey, async () =>
             {
-                return await ManagedDataStorage.Users.QueryAsync<ApparentPermission>(@"Scripts\GetApparentAccountPermissions.sql",
+                return await ManagedDataStorage.Users.QueryAsync<TwApparentPermission>(@"Scripts\GetApparentAccountPermissions.sql",
                 new
                 {
                     UserId = userId
@@ -148,16 +149,16 @@ namespace TightWiki.Repository
             }).EnsureNotNull();
         }
 
-        public static async Task<List<ApparentPermission>> GetApparentRolePermissions(WikiRoles role)
+        public static async Task<List<TwApparentPermission>> GetApparentRolePermissions(WikiRoles role)
             => await GetApparentRolePermissions(role.ToString());
 
-        public static async Task<List<ApparentPermission>> GetApparentRolePermissions(string roleName)
+        public static async Task<List<TwApparentPermission>> GetApparentRolePermissions(string roleName)
         {
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [roleName]);
+            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Security, [roleName]);
 
-            return (await WikiCache.AddOrGetAsync(cacheKey, async () =>
+            return (await TwCache.AddOrGetAsync(cacheKey, async () =>
             {
-                return await ManagedDataStorage.Users.QueryAsync<ApparentPermission>(@"Scripts\GetApparentRolePermissions.sql",
+                return await ManagedDataStorage.Users.QueryAsync<TwApparentPermission>(@"Scripts\GetApparentRolePermissions.sql",
                 new
                 {
                     RoleName = roleName
@@ -165,27 +166,27 @@ namespace TightWiki.Repository
             })).EnsureNotNull();
         }
 
-        public static async Task<List<PermissionDisposition>> GetAllPermissionDispositions()
+        public static async Task<List<TwPermissionDisposition>> GetAllPermissionDispositions()
         {
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security);
+            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Security);
 
-            return (await WikiCache.AddOrGetAsync(cacheKey, async () =>
+            return (await TwCache.AddOrGetAsync(cacheKey, async () =>
             {
-                return await ManagedDataStorage.Users.QueryAsync<PermissionDisposition>(@"Scripts\GetAllPermissionDispositions.sql");
+                return await ManagedDataStorage.Users.QueryAsync<TwPermissionDisposition>(@"Scripts\GetAllPermissionDispositions.sql");
             })).EnsureNotNull();
         }
 
-        public static async Task<List<Permission>> GetAllPermissions()
+        public static async Task<List<TwPermission>> GetAllPermissions()
         {
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security);
+            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Security);
 
-            return (await WikiCache.AddOrGetAsync(cacheKey, async () =>
+            return (await TwCache.AddOrGetAsync(cacheKey, async () =>
             {
-                return await ManagedDataStorage.Users.QueryAsync<Permission>(@"Scripts\GetAllPermissions.sql");
+                return await ManagedDataStorage.Users.QueryAsync<TwPermission>(@"Scripts\GetAllPermissions.sql");
             })).EnsureNotNull();
         }
 
-        public static async Task<List<RolePermission>> GetRolePermissionsPaged(int roleId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
+        public static async Task<List<TwRolePermission>> GetRolePermissionsPaged(int roleId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
             return await ManagedDataStorage.Users.EphemeralAsync(async o =>
             {
@@ -201,11 +202,11 @@ namespace TightWiki.Repository
                 };
 
                 var query = RepositoryHelpers.TransposeOrderby("GetRolePermissionsPaged.sql", orderBy, orderByDirection);
-                return await o.QueryAsync<RolePermission>(query, param);
+                return await o.QueryAsync<TwRolePermission>(query, param);
             });
         }
 
-        public static async Task<List<AccountProfile>> GetAllPublicProfilesPaged(int pageNumber, int? pageSize = null, string? searchToken = null)
+        public static async Task<List<TwAccountProfile>> GetAllPublicProfilesPaged(int pageNumber, int? pageSize = null, string? searchToken = null)
         {
             pageSize ??= await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
@@ -216,7 +217,7 @@ namespace TightWiki.Repository
                 SearchToken = searchToken
             };
 
-            return await ManagedDataStorage.Users.QueryAsync<AccountProfile>("GetAllPublicProfilesPaged.sql", param);
+            return await ManagedDataStorage.Users.QueryAsync<TwAccountProfile>("GetAllPublicProfilesPaged.sql", param);
         }
 
         /// <summary>
@@ -240,9 +241,9 @@ namespace TightWiki.Repository
 
         public static async Task<bool> IsUserMemberOfAdministrators(Guid userId)
         {
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
+            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.User, [userId]);
 
-            return await WikiCache.AddOrGetAsync(cacheKey, async () =>
+            return await TwCache.AddOrGetAsync(cacheKey, async () =>
             {
                 var result = await ManagedDataStorage.Users.ExecuteScalarAsync<int?>("IsUserMemberOfAdministrators.sql",
                 new
@@ -253,23 +254,23 @@ namespace TightWiki.Repository
             });
         }
 
-        public static async Task<Role> GetRoleByName(string name)
+        public static async Task<TwRole> GetRoleByName(string name)
         {
             var param = new
             {
                 Name = name
             };
 
-            return ManagedDataStorage.Users.QuerySingle<Role>("GetRoleByName.sql", param);
+            return ManagedDataStorage.Users.QuerySingle<TwRole>("GetRoleByName.sql", param);
         }
 
-        public static async Task<List<Role>> GetAllRoles(string? orderBy = null, string? orderByDirection = null)
+        public static async Task<List<TwRole>> GetAllRoles(string? orderBy = null, string? orderByDirection = null)
         {
             var query = RepositoryHelpers.TransposeOrderby("GetAllRoles.sql", orderBy, orderByDirection);
-            return await ManagedDataStorage.Users.QueryAsync<Role>(query);
+            return await ManagedDataStorage.Users.QueryAsync<TwRole>(query);
         }
 
-        public static async Task<List<AccountProfile>> GetRoleMembersPaged(int roleId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
+        public static async Task<List<TwAccountProfile>> GetRoleMembersPaged(int roleId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
             var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
@@ -281,10 +282,10 @@ namespace TightWiki.Repository
             };
 
             var query = RepositoryHelpers.TransposeOrderby("GetRoleMembersPaged.sql", orderBy, orderByDirection);
-            return await ManagedDataStorage.Users.QueryAsync<AccountProfile>(query, param);
+            return await ManagedDataStorage.Users.QueryAsync<TwAccountProfile>(query, param);
         }
 
-        public static async Task<List<AccountPermission>> GetAccountPermissionsPaged(Guid userId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
+        public static async Task<List<TwAccountPermission>> GetAccountPermissionsPaged(Guid userId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
             return await ManagedDataStorage.Users.EphemeralAsync(async o =>
             {
@@ -300,11 +301,11 @@ namespace TightWiki.Repository
                 };
 
                 var query = RepositoryHelpers.TransposeOrderby("GetAccountPermissionsPaged.sql", orderBy, orderByDirection);
-                return await o.QueryAsync<AccountPermission>(query, param);
+                return await o.QueryAsync<TwAccountPermission>(query, param);
             });
         }
 
-        public static async Task<List<AccountRoleMembership>> GetAccountRoleMembershipPaged(Guid userId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
+        public static async Task<List<TwAccountRoleMembership>> GetAccountRoleMembershipPaged(Guid userId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
             var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
@@ -316,13 +317,13 @@ namespace TightWiki.Repository
             };
 
             var query = RepositoryHelpers.TransposeOrderby("GetAccountRoleMembershipPaged.sql", orderBy, orderByDirection);
-            return await ManagedDataStorage.Users.QueryAsync<AccountRoleMembership>(query, param);
+            return await ManagedDataStorage.Users.QueryAsync<TwAccountRoleMembership>(query, param);
         }
 
-        public static async Task<List<AccountProfile>> GetAllUsers()
-            => await ManagedDataStorage.Users.QueryAsync<AccountProfile>("GetAllUsers.sql");
+        public static async Task<List<TwAccountProfile>> GetAllUsers()
+            => await ManagedDataStorage.Users.QueryAsync<TwAccountProfile>("GetAllUsers.sql");
 
-        public static async Task<List<AccountProfile>> GetAllUsersPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null, string? searchToken = null)
+        public static async Task<List<TwAccountProfile>> GetAllUsersPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null, string? searchToken = null)
         {
             var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
@@ -334,7 +335,7 @@ namespace TightWiki.Repository
             };
 
             var query = RepositoryHelpers.TransposeOrderby("GetAllUsersPaged.sql", orderBy, orderByDirection);
-            return await ManagedDataStorage.Users.QueryAsync<AccountProfile>(query, param);
+            return await ManagedDataStorage.Users.QueryAsync<TwAccountProfile>(query, param);
         }
 
         public static async Task CreateProfile(Guid userId, string accountName)
@@ -376,32 +377,32 @@ namespace TightWiki.Repository
             return ((await ManagedDataStorage.Users.ExecuteScalarAsync<int?>("DoesProfileAccountExist.sql", param)) ?? 0) != 0;
         }
 
-        public static async Task<AccountProfile?> GetBasicProfileByUserId(Guid userId)
+        public static async Task<TwAccountProfile?> GetBasicProfileByUserId(Guid userId)
         {
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
-            return await WikiCache.AddOrGetAsync(cacheKey, async () =>
+            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.User, [userId]);
+            return await TwCache.AddOrGetAsync(cacheKey, async () =>
             {
                 var param = new
                 {
                     UserId = userId
                 };
 
-                return await ManagedDataStorage.Users.QuerySingleOrDefaultAsync<AccountProfile?>("GetBasicProfileByUserId.sql", param);
+                return await ManagedDataStorage.Users.QuerySingleOrDefaultAsync<TwAccountProfile?>("GetBasicProfileByUserId.sql", param);
             });
         }
 
-        public static async Task<AccountProfile> GetAccountProfileByUserId(Guid userId, bool forceReCache = false)
+        public static async Task<TwAccountProfile> GetAccountProfileByUserId(Guid userId, bool forceReCache = false)
         {
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
+            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.User, [userId]);
 
-            return (await WikiCache.AddOrGetAsync(cacheKey, forceReCache, async () =>
+            return (await TwCache.AddOrGetAsync(cacheKey, forceReCache, async () =>
             {
                 var param = new
                 {
                     UserId = userId
                 };
 
-                return await ManagedDataStorage.Users.QuerySingleAsync<AccountProfile>("GetAccountProfileByUserId.sql", param);
+                return await ManagedDataStorage.Users.QuerySingleAsync<TwAccountProfile>("GetAccountProfileByUserId.sql", param);
             })).EnsureNotNull();
         }
 
@@ -426,17 +427,17 @@ namespace TightWiki.Repository
             return await ManagedDataStorage.Users.QueryFirstOrDefaultAsync<Guid>("GetUserAccountIdByNavigation.sql", param);
         }
 
-        public static async Task<AccountProfile> GetAccountProfileByNavigation(string? navigation)
+        public static async Task<TwAccountProfile> GetAccountProfileByNavigation(string? navigation)
         {
             var param = new
             {
                 Navigation = navigation
             };
 
-            return await ManagedDataStorage.Users.QuerySingleAsync<AccountProfile>("GetAccountProfileByNavigation.sql", param);
+            return await ManagedDataStorage.Users.QuerySingleAsync<TwAccountProfile>("GetAccountProfileByNavigation.sql", param);
         }
 
-        public static async Task<AccountProfile?> GetProfileByAccountNameOrEmailAndPasswordHash(string accountNameOrEmail, string passwordHash)
+        public static async Task<TwAccountProfile?> GetProfileByAccountNameOrEmailAndPasswordHash(string accountNameOrEmail, string passwordHash)
         {
             var param = new
             {
@@ -444,10 +445,10 @@ namespace TightWiki.Repository
                 PasswordHash = passwordHash
             };
 
-            return await ManagedDataStorage.Users.QuerySingleAsync<AccountProfile>("GetProfileByAccountNameOrEmailAndPasswordHash.sql", param);
+            return await ManagedDataStorage.Users.QuerySingleAsync<TwAccountProfile>("GetProfileByAccountNameOrEmailAndPasswordHash.sql", param);
         }
 
-        public static async Task<AccountProfile?> GetProfileByAccountNameOrEmailAndPassword(string accountNameOrEmail, string password)
+        public static async Task<TwAccountProfile?> GetProfileByAccountNameOrEmailAndPassword(string accountNameOrEmail, string password)
         {
             string passwordHash = Security.Helpers.Sha256(password);
             var param = new
@@ -456,13 +457,13 @@ namespace TightWiki.Repository
                 PasswordHash = passwordHash
             };
 
-            return await ManagedDataStorage.Users.QuerySingleAsync<AccountProfile>("GetProfileByAccountNameOrEmailAndPasswordHash.sql", param);
+            return await ManagedDataStorage.Users.QuerySingleAsync<TwAccountProfile>("GetProfileByAccountNameOrEmailAndPasswordHash.sql", param);
         }
 
-        public static async Task<ProfileAvatar?> GetProfileAvatarByNavigation(string navigation)
-            => await ManagedDataStorage.Users.QuerySingleOrDefaultAsync<ProfileAvatar>("GetProfileAvatarByNavigation.sql", new { Navigation = navigation });
+        public static async Task<TwProfileAvatar?> GetProfileAvatarByNavigation(string navigation)
+            => await ManagedDataStorage.Users.QuerySingleOrDefaultAsync<TwProfileAvatar>("GetProfileAvatarByNavigation.sql", new { Navigation = navigation });
 
-        public static async Task UpdateProfile(AccountProfile item)
+        public static async Task UpdateProfile(TwAccountProfile item)
         {
             var param = new
             {
@@ -474,7 +475,7 @@ namespace TightWiki.Repository
             };
 
             await ManagedDataStorage.Users.ExecuteAsync("UpdateProfile.sql", param);
-            WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [item.UserId]));
+            TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.User, [item.UserId]));
         }
 
         public static async Task UpdateProfileAvatar(Guid userId, byte[] imageData, string contentType)
@@ -487,14 +488,14 @@ namespace TightWiki.Repository
             };
 
             await ManagedDataStorage.Users.ExecuteAsync("UpdateProfileAvatar.sql", param);
-            WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [userId]));
+            TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.User, [userId]));
         }
 
         public static async Task<WikiAdminPasswordChangeState> AdminPasswordStatus()
         {
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Configuration);
+            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Configuration);
 
-            if (WikiCache.Get<bool?>(cacheKey) == true)
+            if (TwCache.Get<bool?>(cacheKey) == true)
             {
                 return WikiAdminPasswordChangeState.HasBeenChanged;
             }
@@ -502,7 +503,7 @@ namespace TightWiki.Repository
             var result = await ManagedDataStorage.Users.ExecuteScalarAsync<bool?>("IsAdminPasswordChanged.sql");
             if (result == true)
             {
-                WikiCache.Set(cacheKey, true);
+                TwCache.Set(cacheKey, true);
                 return WikiAdminPasswordChangeState.HasBeenChanged;
             }
             if (result == null)

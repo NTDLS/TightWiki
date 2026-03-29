@@ -1,4 +1,4 @@
-﻿using TightWiki.Models.DataModels;
+﻿using TightWiki.Plugin.Models;
 
 namespace TightWiki.Models.ViewModels.File
 {
@@ -8,6 +8,6 @@ namespace TightWiki.Models.ViewModels.File
         public string PageNavigation { get; set; } = string.Empty;
         public int PageRevision { get; set; } = 0;
 
-        public List<PageFileAttachmentInfo> Files { get; set; } = new();
+        public List<TwPageFileAttachmentInfo> Files { get; set; } = new();
     }
 }

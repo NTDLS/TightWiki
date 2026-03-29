@@ -13,7 +13,6 @@ using System.Text;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation.Handlers;
 using TightWiki.Library;
-using TightWiki.Models.DataModels;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
 using TightWiki.Repository.Extensions;
@@ -120,7 +119,7 @@ namespace TightWiki.Test.Library
                 body.AppendLine($"##related");
                 body.AppendLine("\r\n");
 
-                var page = new WikiPage()
+                var page = new TwPage()
                 {
                     Name = navigation,
                     Body = body.ToString(),
@@ -151,7 +150,7 @@ namespace TightWiki.Test.Library
                 //    throw new Exception("Could not save the attached file, too large");
             }
 
-            await PageFileRepository.UpsertPageFile(new PageFileAttachment()
+            await PageFileRepository.UpsertPageFile(new TwPageFileAttachment()
             {
                 Data = fileData,
                 CreatedDate = DateTime.UtcNow,
