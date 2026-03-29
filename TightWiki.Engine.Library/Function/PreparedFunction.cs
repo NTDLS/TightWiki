@@ -131,7 +131,7 @@ namespace TightWiki.Engine.Library.Function
                         {
                             //We have a named parameter and we are currently processing the correct
                             //  parameter in the function, so we can add it to the parameters list.
-                            preparedFunction.Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), parsedFunction.Arguments[givenArgIndex]));
+                            preparedFunction.Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), preparedFunction.ConvertArgumentValue(param, value)));
                             givenArgIndex++;
                             descriptorArgIndex++;
                             continue;
