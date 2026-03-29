@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>내용</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>히트 카운터 쓰로틀 (초)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>사용자가 페이지를 다시 볼 때까지 기다려야 하는 초 단위의 시간. 0은 지연이 없음을 의미합니다.</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>페이지 통계가 삭제되었습니다.</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>페이지 통계</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>가장 최신의 모든 위키 페이지에 대한 페이지 통계입니다.</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>페이지 통계를 삭제하면 모든 페이지의 저장된 통계가 삭제됩니다. 계속하시겠습니까?</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>페이지 통계 삭제</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>조회수</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>수정 내역</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>빌드 시간</value>
+  </data>
 </root>

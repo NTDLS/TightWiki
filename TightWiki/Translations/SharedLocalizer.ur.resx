@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>مفید معلومات</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>ہٹ کاؤنٹر تھروٹل (سیکنڈ)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>اس سیکنڈز کی تعداد جس کا انتظار صارف کو اپنی صفحہ دیکھنے کے دوبارہ شمار ہونے سے پہلے کرنا ہوتا ہے۔ 0 کا مطلب کوئی تاخیر نہیں۔</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>صفحہ کے اعدادوشمار حذف کر دیے گئے ہیں۔</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>صفحہ کے اعدادوشمار</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>تمام وکی صفحات کے لیے تازہ ترین صفحات کے اعدادوشمار۔</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>صفحہ کے اعدادوشمار کو حذف کرنے سے تمام صفحات کے لیے ذخیرہ شدہ اعدادوشمار حذف ہو جائیں گے۔ کیا آپ جاری رکھنا چاہتے ہیں؟</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>صفحہ کے اعدادوشمار حذف کریں</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>نظرِ جنگیں</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>نظرثانی</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>تعمیر کا وقت</value>
+  </data>
 </root>

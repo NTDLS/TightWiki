@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>Sisältö</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>Väläytyskytkin (sekuntia)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>Kuinka monta sekuntia käyttäjän on odotettava ennen kuin sivun katselukertaa lasketaan uudelleen. 0 tarkoittaa ei odotusaikaa.</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>Sivustatiedot poistettu.</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>Sivun tilastot</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>Uusimmat sivun tilastot kaikille wiki-sivuille.</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>Sivutilastojen poistaminen poistaa kaikki tallennetut tilastot kaikilta sivuilta. Jatkaa?</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>Poista sivutilastot</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Näytöt</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>Muokkaukset</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>Buildausaika</value>
+  </data>
 </root>

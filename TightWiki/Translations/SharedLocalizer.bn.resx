@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>বিষয়বস্তু</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>হিট কাউন্টার থ্রোটল (সেকেন্ড)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>একজন ব্যবহারকারীকে একটি পৃষ্ঠা দেখার পরে আবার সেই পৃষ্ঠা দেখার জন্য কত সেকেন্ড অপেক্ষা করতে হবে। 0 মানে কোন দেরি নেই।</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>পৃষ্ঠা পরিসংখ্যান পরিষ্কার করা হয়েছে।</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>পৃষ্ঠা পরিসংখ্যান</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>সব ওয়িকি পৃষ্ঠার জন্য সর্বশেষ পৃষ্ঠা পরিসংখ্যান।</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>পৃষ্ঠা পরিসংখ্যান পরিষ্কার করলে সমস্ত পৃষ্ঠার জন্য সংরক্ষিত সমস্ত পরিসংখ্যান মুছে যাবে। চালিয়ে যাবেন?</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>পৃষ্ঠা পরিসংখ্যান পরিষ্কার করুন</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>দৃশ্যমানতা</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>সংশোধনসমূহ</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>নির্মাণ সময়</value>
+  </data>
 </root>

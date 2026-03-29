@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>Περιεχόμενα</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>Χρονική καθυστέρηση μετρητή επισκέψεων (δεύτερα)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>Ο αριθμός των δευτερολέπτων που ένας χρήστης πρέπει να περιμένει πριν μετρηθεί ξανά η προβολή μιας σελίδας. 0 σημαίνει χωρίς καθυστέρηση.</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>Τατιστικά σελίδας καθαρίστηκαν.</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>Στατιστικά Σελίδας</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>Οι τελευταίες στατιστικές σελίδας για όλες τις σελίδες wiki.</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>Ο καθαρισμός των στατιστικών σελίδας θα διαγράψει όλες τις αποθηκευμένες στατιστικές για όλες τις σελίδες. Συνεχίστε;</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>Καθαρισμός Στατιστικών Σελίδας</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Προβολές</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>Επεξεργασίες</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>Χρόνος Δημιουργίας</value>
+  </data>
 </root>

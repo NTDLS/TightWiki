@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>محتوا</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>محدودکننده شمارنده بازدید (ثانیه)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>تعداد ثانیه‌هایی که باید کاربر منتظر بماند تا دیدگاه او دوباره شمارش شود. 0 به معنای بدون تأخیر است.</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>آمار صفحه پاک شده است.</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>آمار صفحه</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>جدیدترین آمار صفحه برای تمام صفحات ویکی.</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>پاک کردن آمار صفحه تمام آمارهای ذخیره شده برای تمام صفحات را حذف خواهد کرد. ادامه می‌دهید؟</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>پاک کردن آمار صفحه</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>بازدیدها</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>اصلاحات</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>زمان ساخت</value>
+  </data>
 </root>

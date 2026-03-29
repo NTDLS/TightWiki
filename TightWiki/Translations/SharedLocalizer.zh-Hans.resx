@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>内容</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>点击次数限制（秒）</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>用户在其查看页面后必须等待的秒数。0表示没有延迟。</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>页面统计数据已清除。</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>页面统计</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>所有维基页面的最新页面统计数据。</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>清除页面统计数据将删除所有页面的所有存储统计信息。继续吗？</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>清除页面统计</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>浏览量</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>修订</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>构建时间</value>
+  </data>
 </root>

@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>เนื้อหา</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>อัตราการจำกัดการนับการเข้าชม (วินาที)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>จำนวนวินาทีที่ผู้ใช้ต้องรอก่อนที่การดูหน้าเพจของพวกเขาจะถูกนับอีกครั้ง 0 หมายถึงไม่มีการดีเลย์</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>สถิติหน้าเพจถูกล้างแล้ว</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>สถิติหน้าเพจ</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>สถิติหน้าเพจล่าสุดสำหรับทุกหน้าในวิกิ</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>การล้างสถิติหน้าเพจจะลบสถิติที่เก็บไว้ทั้งหมดสำหรับทุกหน้า ดำเนินการต่อไหม?</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>ล้างสถิติหน้าเพจ</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>การเข้าชม</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>การแก้ไข</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>เวลาที่สร้าง</value>
+  </data>
 </root>

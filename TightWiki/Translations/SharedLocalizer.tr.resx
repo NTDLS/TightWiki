@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>İçerik</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>Tehdit Sayacı Kısıtlaması (Saniye)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>Kullanıcının bir sayfayı tekrar görüntülemeden önce beklemesi gereken saniye sayısı. 0 ise hiç gecikme yok.</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>Sayfa istatistikleri temizlendi.</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>Sayfa İstatistikleri</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>Bütün wiki sayfaları için en son sayfa istatistikleri.</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>Sayfa istatistiklerinin temizlenmesi, tüm sayfalar için saklanan tüm istatistikleri silecektir. Devam etmek istiyor musunuz?</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>Sayfa İstatistiklerini Temizle</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Gösterimler</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>Revizyonlar</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>İnşa Süresi</value>
+  </data>
 </root>

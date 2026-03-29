@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>Conteúdo</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>Controle de Limite de Acertos (Segundos)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>O número de segundos que um usuário deve esperar antes que sua visualização de uma página seja contada novamente. 0 significa sem atraso.</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>Estatísticas da página apagadas.</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>Estatísticas da Página</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>As estatísticas mais recentes de todas as páginas do wiki.</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>Excluir as estatísticas da página apagará todas as estatísticas armazenadas de todas as páginas. Deseja continuar?</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>Excluir Estatísticas da Página</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Visualizações</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>Revisões</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>Tempo de Desenvolvimento</value>
+  </data>
 </root>

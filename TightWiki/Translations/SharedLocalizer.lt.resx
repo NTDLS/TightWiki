@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>Turinys</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>Pertraukimo laikas (sekundės)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>Laikotarpis, kurio metu naudotojas turi palaukti prieš vėl skaičiuojant jų peržiūrą. 0 reiškia jokių uždelsimų.</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>Skaičiai apie puslapį ištrinti.</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>Puslapio statistika</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>Naujausia puslapio statistika visiems wiki puslapiams.</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>Puslapio statistikos ištrynimas pašalins visas saugomas statistikas iš visų puslapių. Tęsti?</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>Ištrinti Puslapio Statistikas</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Peržiūros</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>Redakcijos</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>Sudarymo laikas</value>
+  </data>
 </root>

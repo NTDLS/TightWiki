@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>Змесціва</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>Гуллікатар рычага (секунды)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>Колькасць секунд, якія карыстальнік павінен чакаць перад адлік яшчэ раз прагляду старонкі. 0 азначае бяззатрымкі.</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>Статыстыка старонак ачышчана.</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>Статыстыка старонак</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>Апошняя статыстыка старонак для ўсіх старонак вікі.</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>Ачыстка статыстыкі старонак выдаліць усе захаваныя статыстыкі для ўсіх старонак. Працягнуць?</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>Ачысціць статыстыку старонак</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Прагляды</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>Рэдакцыі</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>Час пабудовы</value>
+  </data>
 </root>

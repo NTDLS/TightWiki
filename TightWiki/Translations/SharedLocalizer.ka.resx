@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>შინაართვები</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>შეხედვის საზღვრების კონტროლი (წამები)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>წილადობის წუთზე მეტი დრო უნდა დაუყოვნებელი იყოს, სანამ კვლავ დაითვლება გვერდის ნახვა. 0 ნიშნავს გაჩერების არარსებობას.</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>გვერდის სტატისტიკა წაშლილია.</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>გვერდის სტატისტიკა</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>უუნარო გვერდის სტატისტიკის უახლესი მონაცემები.</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>გვერდის სტატისტიკის გამორიცხვა ყველა გადახვევს წაიშლება. გვსურს გაგრძელება?</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>გვერდის სტატისტიკის გამორჩევა</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>ნახვები</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>რედაქციები</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>მკაშვეთის დრო</value>
+  </data>
 </root>

@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>Isi</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>Throttle Hit Counter (detik)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>Jumlah detik pengguna harus menunggu sebelum pandangannya terhadap sebuah halaman dihitung lagi. 0 berarti tidak ada penundaan.</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>Statistik halaman dihapus.</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>Statistik Halaman</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>Statistik halaman terbaru untuk semua halaman wiki.</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>Penghapusan statistik halaman akan menghapus semua statistik yang tersimpan untuk semua halaman. Lanjutkan?</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>Hapus Statistik Halaman</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Tampilan</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>Revisi</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>Waktu Pembuatan</value>
+  </data>
 </root>

@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>Innehåll</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>Hit Counter Throttling (Sekunder)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>Antal sekunder en användare måste vänta innan deras vy av en sida räknas om. 0 betyder ingen fördröjning.</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>Sidstatistik rensad.</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>Sidstatistik</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>De senaste sidstatistiken för alla wiki-sidor.</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>Att rensa sidstatistiken kommer att ta bort all lagrad statistik för alla sidor. Fortsätta?</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>Rensa Sidstatistik</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Visningar</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>Revideringar</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>Byggtid</value>
+  </data>
 </root>

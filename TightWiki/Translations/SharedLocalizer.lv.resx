@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>Satura rādītājs</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>Skatītāja ierobežošanas (sekundes)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>Vienību sekunžu skaits, kas ir jāgaida, pirms lapas skatījums tiek skaitīts atkārtoti. 0 nozīmē bez aizkaves.</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>Lapas statistika izdzēsta.</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>Lapas statistika</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>Visas lapas jaunākā statistika.</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>Lapas statistikas izdzēšana izdzēsīs visas uzkrātās statistikas par visām lapām. Turpināt?</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>Dzēst lapas statistiku</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Skatījumi</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>Rediģējumi</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>Izstrādes laiks</value>
+  </data>
 </root>

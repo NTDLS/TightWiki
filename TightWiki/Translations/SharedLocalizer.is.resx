@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>Innihald</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>Þröskuldur í völdun spjalds (sekúndur)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>Fjöldi sekúndna sem notandi þarf að bíða áður en skoðun á síðunni er talin aftur. 0 þýðir enga töf.</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>Staðfestingar síðunnar hreinsaðar.</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>Staðfestingar síðunnar</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>Nýjustu staðfestingar síðunnar fyrir allar wiki-síður.</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>Hreinsun staðfestinga síðunnar mun eyða öllum geymdum staðfestingum fyrir allar síður. Viljið halda áfram?</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>Hreinsa staðfestingar síðunnar</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Skoðanir</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>Uppfærslur</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>Byggingartími</value>
+  </data>
 </root>

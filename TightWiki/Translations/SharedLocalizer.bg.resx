@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>Съдържание</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>Тормоз по брой преглеждания (секунди)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>Броят секунди, които потребителят трябва да изчака, преди да бъде счетено ново преглеждане на страницата. 0 означава без закъснение.</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>Статистиката на страницата е изчистена.</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>Статистика на страницата</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>Най-новата статистика за всички уики страници.</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>Изчистването на статистиката ще изтрие цялата съхранена статистика за всички страници. Продължавате ли?</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>Изчистване на статистиката на страницата</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Прегледи</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>Ревизии</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>Време за създаване</value>
+  </data>
 </root>

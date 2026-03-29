@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>Obsah</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>Omezovač počtu zobrazení (sekundy)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>Počet sekund, které musí uživatel počkat, než bude jeho zobrazení stránky znovu zaznamenáno. 0 znamená žádné zpoždění.</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>Štatistiky stránky byly vymazány.</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>Statistiky stránky</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>Nejnovější statistiky všech wiki stránek.</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>Vymazání statistik stránky smaže všechny uložené statistiky pro všechny stránky. Pokračovat?</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>Vymazat statistiky stránky</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Zobrazení</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>Revize</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>Čas sestavení</value>
+  </data>
 </root>

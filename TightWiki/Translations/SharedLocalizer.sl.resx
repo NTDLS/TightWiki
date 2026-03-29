@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>Vsebina</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>Omejitev štetja ogledov (sekunde)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>Število sekund, ki jih mora uporabnik počakati, preden se njegov ogled strani ponovno šteje. 0 pomeni brez zamude.</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>Statistika strani izbrisana.</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>Statistika strani</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>Najnovejša statistika vseh strani v wiki-ju.</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>Brisanje statistike strani bo izbrisalo vse shranjene statistike za vse strani. Nadaljujete?</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>Izbriši statistiko strani</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Pogledi</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>Revizije</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>Čas izdelave</value>
+  </data>
 </root>

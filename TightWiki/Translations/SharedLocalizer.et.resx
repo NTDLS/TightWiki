@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>Sisu</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>Veadluse piiramise ajastu (sekundites)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>Kui kaua kasutaja peab ootama, enne kui tema lehekülje vaadet uuesti arvutatakse. 0 tähendab, et oodatakse mitte midagi.</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>Lehekülje statistika on tühjendatud.</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>Lehekülje statistika</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>Kõigi wiki lehekülgede uusimad lehekülje statistika</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>Lehekülje statistika eemaldamine kustutab kõik salvestatud statistika andmed kõigilt lehekülgedelt. Jätkata?</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>Eemalda lehekülje statistika</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Vaatamised</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>Redaktsioonid</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>Ehitusaeeg</value>
+  </data>
 </root>

@@ -2611,4 +2611,34 @@
   <data name="Contents" xml:space="preserve">
     <value>المحتويات</value>
   </data>
+  <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
+    <value>محدد معدل الضربات (ثواني)</value>
+  </data>
+  <data name="The number of seconds a user must wait before their view of a page is counted again. 0 means no delay." xml:space="preserve">
+    <value>عدد الثواني التي يجب أن ينتظرها المستخدم قبل أن يتم حساب عرضه للصفحة مرة أخرى. 0 يعني عدم وجود تأخير.</value>
+  </data>
+  <data name="Page statistics purged." xml:space="preserve">
+    <value>تمت إزالة إحصائيات الصفحة.</value>
+  </data>
+  <data name="Page Statistics" xml:space="preserve">
+    <value>إحصائيات الصفحة</value>
+  </data>
+  <data name="The latest page statistics for all wiki pages." xml:space="preserve">
+    <value>آخر إحصائيات الصفحة لجميع صفحات الويكي.</value>
+  </data>
+  <data name="Purging the page statistics will delete all of the stored statistics for all pages. Continue?" xml:space="preserve">
+    <value>سيؤدي مسح إحصائيات الصفحة إلى حذف جميع الإحصائيات المخزنة لجميع الصفحات. هل تريد المتابعة؟</value>
+  </data>
+  <data name="Purge Page Statistics" xml:space="preserve">
+    <value>مسح إحصائيات الصفحة</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>مشاهدات</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>تعديلات</value>
+  </data>
+  <data name="Build Time" xml:space="preserve">
+    <value>وقت البناء</value>
+  </data>
 </root>
