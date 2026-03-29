@@ -1,6 +1,8 @@
-﻿@using TightWiki.Models
+﻿@using TightWiki
+@using TightWiki.Models
 @using TightWiki.Library
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @model TightWiki.Models.ViewModels.Profile.PublicViewModel
 @{
@@ -24,7 +26,7 @@
         <div class="card-body">
             <div class="row g-4">
                 <div class="col-12 col-md-4 col-lg-3 text-center">
-                    <img src="@GlobalConfiguration.BasePath/Profile/@Model.Navigation/Avatar?max=150"
+                    <img src="@WikiConfiguration.BasePath/Profile/@Model.Navigation/Avatar?max=150"
                          alt="@Model.AccountName"
                          class="img-thumbnail"
                          style="max-width: 150px; max-height: 150px;" />
@@ -97,7 +99,7 @@
                         <tr>
                             <td>
                                 <a class="text-decoration-none fw-semibold"
-                                       href="@GlobalConfiguration.BasePath/@h.Navigation">
+                                       href="@WikiConfiguration.BasePath/@h.Navigation">
                                     @Html.DisplayTextFor(x => h.Name)
                                 </a>
                             </td>

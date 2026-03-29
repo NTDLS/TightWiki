@@ -45,8 +45,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public LoginWith2faModel(
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            ILogger<ITightEngine> logger, ISharedLocalizationText localizer)
-                        : base(logger, signInManager, localizer)
+            ILogger<ITightEngine> logger, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+                        : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -76,7 +76,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{WikiConfiguration.BasePath}/");
 
                 // Ensure the user has gone through the username & password screen first
                 var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
@@ -100,7 +100,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{WikiConfiguration.BasePath}/");
 
                 if (!ModelState.IsValid)
                 {
@@ -127,7 +127,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 else if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User with ID '{UserId}' account locked out.", user.Id);
-                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Lockout");
+                    return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/Lockout");
                 }
                 else
                 {

@@ -1,6 +1,6 @@
 ﻿using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Models;
+using TightWiki.Library;
 
 namespace TightWiki.Engine.Implementation.Handlers
 {
@@ -18,19 +18,19 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// <param name="scale">The desired 1-100 scale factor for the emoji.</param>
         public async Task<HandlerResult> Handle(ITightEngineState state, string key, int scale)
         {
-            var emoji = GlobalConfiguration.Emojis.FirstOrDefault(o => o.Shortcut == key);
+            var emoji = state.Engine.WikiConfiguration.Emojis.FirstOrDefault(o => o.Shortcut == key);
 
-            if (GlobalConfiguration.Emojis.Exists(o => o.Shortcut == key))
+            if (state.Engine.WikiConfiguration.Emojis.Exists(o => o.Shortcut == key))
             {
                 if (scale != 100 && scale > 0 && scale <= 500)
                 {
-                    var emojiImage = $"<img src=\"{GlobalConfiguration.BasePath}/file/Emoji/{key.Trim('%')}?Scale={scale}\" alt=\"{emoji?.Name}\" />";
+                    var emojiImage = $"<img src=\"{state.Engine.WikiConfiguration.BasePath}/file/Emoji/{key.Trim('%')}?Scale={scale}\" alt=\"{emoji?.Name}\" />";
 
                     return new HandlerResult(emojiImage);
                 }
                 else
                 {
-                    var emojiImage = $"<img src=\"{GlobalConfiguration.BasePath}/file/Emoji/{key.Trim('%')}\" alt=\"{emoji?.Name}\" />";
+                    var emojiImage = $"<img src=\"{state.Engine.WikiConfiguration.BasePath}/file/Emoji/{key.Trim('%')}\" alt=\"{emoji?.Name}\" />";
 
                     return new HandlerResult(emojiImage);
                 }

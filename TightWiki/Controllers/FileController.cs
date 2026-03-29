@@ -24,8 +24,8 @@ namespace TightWiki.Controllers
         private readonly UserManager<IdentityUser> _userManager;
 
         public FileController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, ISharedLocalizationText localizer)
-            : base(logger, signInManager, userManager, localizer)
+            UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+            : base(logger, signInManager, userManager, localizer, wikiConfiguration)
         {
             _logger = logger;
             _signInManager = signInManager;
@@ -405,7 +405,7 @@ namespace TightWiki.Controllers
                             var fileSize = file.Length;
                             if (fileSize > 0)
                             {
-                                if (fileSize > GlobalConfiguration.MaxAttachmentFileSize)
+                                if (fileSize > WikiConfiguration.MaxAttachmentFileSize)
                                 {
                                     return Json(new { message = Localize("Could not attach file: [{0}], too large.", file.FileName) });
                                 }
@@ -466,7 +466,7 @@ namespace TightWiki.Controllers
                     var fileSize = fileData.Length;
                     if (fileSize > 0)
                     {
-                        if (fileSize > GlobalConfiguration.MaxAttachmentFileSize)
+                        if (fileSize > WikiConfiguration.MaxAttachmentFileSize)
                         {
                             return Content(Localize("Could not save the attached file, too large"));
                         }
@@ -567,7 +567,7 @@ namespace TightWiki.Controllers
                     var givenScale = GetQueryValue("Scale", 100);
 
                     string shortcut = $"%%{emojiNavigation.ToLowerInvariant()}%%";
-                    var emoji = GlobalConfiguration.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
+                    var emoji = WikiConfiguration.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
                     if (emoji != null)
                     {
                         //Do we have this scale cached already?
@@ -603,7 +603,7 @@ namespace TightWiki.Controllers
                                 givenScale = 500;
                             }
 
-                            var (Width, Height) = Utility.ScaleToMaxOf(img.Width, img.Height, GlobalConfiguration.DefaultEmojiHeight);
+                            var (Width, Height) = Utility.ScaleToMaxOf(img.Width, img.Height, WikiConfiguration.DefaultEmojiHeight);
 
                             //Adjust to any specified scaling.
                             Height = (int)(Height * (givenScale / 100.0));

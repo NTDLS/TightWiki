@@ -21,8 +21,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
 
         public LogoutModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager,
-            ILogger<ITightEngine> logger, IAuthenticationSchemeProvider schemeProvider, ISharedLocalizationText localizer)
-            : base(logger, signInManager, localizer)
+            ILogger<ITightEngine> logger, IAuthenticationSchemeProvider schemeProvider,
+            ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+            : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _schemeProvider = schemeProvider;
             _signInManager = signInManager;
@@ -34,7 +35,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-                returnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+                returnUrl = WebUtility.UrlDecode(returnUrl ?? $"{WikiConfiguration.BasePath}/");
 
                 await _signInManager.SignOutAsync();
             }

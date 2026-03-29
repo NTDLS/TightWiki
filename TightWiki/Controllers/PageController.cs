@@ -27,8 +27,8 @@ namespace TightWiki.Controllers
     [Route("")]
     public class PageController(ITightEngine tightEngine, SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager, ISideBySideDiffBuilder diffBuilder,
-        ILogger<ITightEngine> logger, ISharedLocalizationText localizer)
-        : WikiControllerBase<PageController>(logger, signInManager, userManager, localizer)
+        ILogger<ITightEngine> logger, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+        : WikiControllerBase<PageController>(logger, signInManager, userManager, localizer, wikiConfiguration)
     {
         [AllowAnonymous]
         [Route("/robots.txt")]
@@ -141,7 +141,7 @@ namespace TightWiki.Controllers
 
                     await SessionState.SetPageId(page.Id, pageRevision);
 
-                    if (GlobalConfiguration.PageCacheSeconds > 0)
+                    if (WikiConfiguration.PageCacheSeconds > 0)
                     {
                         string queryKey = string.Empty;
                         foreach (var query in Request.Query)
@@ -180,7 +180,7 @@ namespace TightWiki.Controllers
                         model.Body = state.HtmlResult;
                     }
 
-                    if (GlobalConfiguration.EnablePageComments && GlobalConfiguration.ShowCommentsOnPageFooter && model.HideFooterComments == false)
+                    if (WikiConfiguration.EnablePageComments && WikiConfiguration.ShowCommentsOnPageFooter && model.HideFooterComments == false)
                     {
                         var comments = await PageRepository.GetPageCommentsPaged(navigation.Canonical, 1);
 
@@ -193,7 +193,7 @@ namespace TightWiki.Controllers
                                 Id = comment.Id,
                                 UserName = comment.UserName,
                                 UserId = comment.UserId,
-                                Body = WikifierLite.Process(comment.Body),
+                                Body = WikifierLite.Process(WikiConfiguration, comment.Body),
                                 CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
                             });
                         }
@@ -458,7 +458,7 @@ namespace TightWiki.Controllers
                         Id = comment.Id,
                         UserName = comment.UserName,
                         UserId = comment.UserId,
-                        Body = WikifierLite.Process(comment.Body),
+                        Body = WikifierLite.Process(WikiConfiguration, comment.Body),
                         CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
                     });
                 }
@@ -526,7 +526,7 @@ namespace TightWiki.Controllers
                         Id = comment.Id,
                         UserName = comment.UserName,
                         UserId = comment.UserId,
-                        Body = WikifierLite.Process(comment.Body),
+                        Body = WikifierLite.Process(WikiConfiguration, comment.Body),
                         CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
                     });
                 }
@@ -564,7 +564,7 @@ namespace TightWiki.Controllers
                     await RepositoryHelpers.RefreshPageMetadata(tightEngine, Localizer, page, SessionState);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}/{pageNavigation}");
+                return Redirect($"{WikiConfiguration.BasePath}/{pageNavigation}");
             }
             catch (Exception ex)
             {
@@ -717,7 +717,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("The page has been deleted."), $"/Home");
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}/{pageNavigation}");
+                return Redirect($"{WikiConfiguration.BasePath}/{pageNavigation}");
             }
             catch (Exception ex)
             {
@@ -796,7 +796,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("The page has been reverted."), $"/{pageNavigation}");
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}/{pageNavigation}");
+                return Redirect($"{WikiConfiguration.BasePath}/{pageNavigation}");
             }
             catch (Exception ex)
             {
@@ -1002,8 +1002,8 @@ namespace TightWiki.Controllers
 
                 model.FeatureTemplates = await PageRepository.GetAllFeatureTemplates();
 
-                if (GlobalConfiguration.ShowChangeSummaryWhenEditing
-                    && GlobalConfiguration.RequireChangeSummaryWhenEditing
+                if (WikiConfiguration.ShowChangeSummaryWhenEditing
+                    && WikiConfiguration.RequireChangeSummaryWhenEditing
                     && string.IsNullOrEmpty(model.ChangeSummary))
                 {
                     ModelState.AddModelError("ChangeSummary", Localize("A change summary is required for page edits."));
@@ -1112,7 +1112,7 @@ namespace TightWiki.Controllers
                     {
                         WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [originalNavigation]));
                         WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Id]));
-                        return Redirect($"{GlobalConfiguration.BasePath}/{page.Navigation}/Edit");
+                        return Redirect($"{WikiConfiguration.BasePath}/{page.Navigation}/Edit");
                     }
 
                     return View(model);

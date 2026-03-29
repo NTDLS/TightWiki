@@ -3,7 +3,7 @@ using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Function.Attributes;
 using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Models;
+using TightWiki.Library;
 
 namespace TightWiki.Engine.Implementation.Functions
 {
@@ -24,7 +24,7 @@ namespace TightWiki.Engine.Implementation.Functions
                     html.Append("<ul>");
                     foreach (var tag in state.Tags)
                     {
-                        html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/Tags/Browse/{tag}\">{tag}</a>");
+                        html.Append($"<li><a href=\"{state.Engine.WikiConfiguration.BasePath}/Tags/Browse/{tag}\">{tag}</a>");
                     }
                     html.Append("</ul>");
                     break;
@@ -32,7 +32,7 @@ namespace TightWiki.Engine.Implementation.Functions
                     foreach (var tag in state.Tags)
                     {
                         if (html.Length > 0) html.Append(" | ");
-                        html.Append($"<a href=\"{GlobalConfiguration.BasePath}/Tags/Browse/{tag}\">{tag}</a>");
+                        html.Append($"<a href=\"{state.Engine.WikiConfiguration.BasePath}/Tags/Browse/{tag}\">{tag}</a>");
                     }
                     break;
             }
@@ -44,7 +44,7 @@ namespace TightWiki.Engine.Implementation.Functions
         public async Task<HandlerResult> TagCloud(ITightEngineState state,
             string pageTag, int top = 1000)
         {
-            string html = await TagCloudBuilder.Build(pageTag, top);
+            string html = await TagCloudBuilder.Build(state.Engine.WikiConfiguration.BasePath, pageTag, top);
             return new HandlerResult(html);
         }
 
@@ -54,7 +54,7 @@ namespace TightWiki.Engine.Implementation.Functions
         {
             var tokens = searchPhrase.Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
 
-            string html = await SearchCloudBuilder.Build(tokens, top);
+            string html = await SearchCloudBuilder.Build(state.Engine.WikiConfiguration.BasePath, tokens, top);
             return new HandlerResult(html);
         }
 

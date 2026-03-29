@@ -1,7 +1,9 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.PagesViewModel
+@using TightWiki
 @using TightWiki.Library
 @using TightWiki.Models
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @{
     Layout = "_Layout";
@@ -27,7 +29,7 @@
 
         <div class="d-flex flex-wrap gap-2">
             @ConfirmActionHelper.GenerateWarnButton(
-                GlobalConfiguration.BasePath,
+                WikiConfiguration.BasePath,
                 Localizer["This will rebuild all pages in the wiki. This could take some time! Continue?"].Value,
                 Localizer["Rebuild All Pages"].Value,
                 "/Admin/RebuildAllPages",
@@ -35,7 +37,7 @@
                 @class: "btn btn-warning btn-sm d-inline-flex align-items-center")
 
             @ConfirmActionHelper.GenerateWarnButton(
-                GlobalConfiguration.BasePath,
+                WikiConfiguration.BasePath,
                 Localizer["This will compile all pages in the wiki and store them in cache. This could take some time! Continue?"].Value,
                 Localizer["Pre-Cache All Pages"].Value,
                 "/Admin/PreCacheAllPages",
@@ -43,7 +45,7 @@
                 @class: "btn btn-primary btn-sm d-inline-flex align-items-center")
 
             @ConfirmActionHelper.GenerateDangerButton(
-                GlobalConfiguration.BasePath,
+                WikiConfiguration.BasePath,
                 Localizer["Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?"].Value,
                 Localizer["Truncate Page Revisions"].Value,
                 "/Admin/TruncatePageRevisions",
@@ -127,28 +129,28 @@
                                 @if (!string.IsNullOrEmpty(p.Namespace))
                                 {
                                     <a class="text-decoration-none text-muted"
-                                           href="@GlobalConfiguration.BasePath/Admin/Namespace/@p.Namespace">
+                                           href="@WikiConfiguration.BasePath/Admin/Namespace/@p.Namespace">
                                         @p.Namespace
                                     </a>
                                     <span class="text-muted"> :: </span>
                                 }
 
                                 <a class="text-decoration-none fw-semibold"
-                                       href="@GlobalConfiguration.BasePath/@p.Navigation">
+                                       href="@WikiConfiguration.BasePath/@p.Navigation">
                                     @p.Title
                                 </a>
                             </td>
 
                             <td class="text-nowrap">
                                 <a class="text-decoration-none"
-                                       href="@GlobalConfiguration.BasePath/Admin/PageRevisions/@p.Navigation">
+                                       href="@WikiConfiguration.BasePath/Admin/PageRevisions/@p.Navigation">
                                     @p.Revision
                                 </a>
                             </td>
 
                             <td class="text-center text-nowrap">
                                 <a class="text-decoration-none"
-                                       href="@GlobalConfiguration.BasePath/Admin/DeletedPageRevisions/@p.Id">
+                                       href="@WikiConfiguration.BasePath/Admin/DeletedPageRevisions/@p.Id">
                                     @p.DeletedRevisionCount
                                 </a>
                             </td>
@@ -164,7 +166,7 @@
                             <td class="text-nowrap">
                                 <div class="d-flex flex-wrap gap-2">
                                     @ConfirmActionHelper.GenerateDangerButton(
-                                        GlobalConfiguration.BasePath,
+                                        WikiConfiguration.BasePath,
                                         Localizer["Deleting '{0}' will move the page, all {1} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?"].Format(p.Name, p.Revision),
                                         Localizer["Delete"].Value,
                                         "/Admin/DeletePage/" + p.Id,

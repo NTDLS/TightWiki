@@ -1,9 +1,11 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
+﻿@using TightWiki
+@using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.Extensions.Options
 @using System.Globalization
 @using TightWiki.Models
 @using TightWiki.Library
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @model TightWiki.Models.ViewModels.Page.PageLocalizationViewModel
 @{
@@ -83,7 +85,7 @@
 
                 <a rel="nofollow"
                        class="language-option @(isCurrent ? "active" : "")"
-                       href="@GlobalConfiguration.BasePath/Page/SetLocalization?culture=@language.Name&returnUrl=@ViewBag.ReturnUrl"
+                       href="@WikiConfiguration.BasePath/Page/SetLocalization?culture=@language.Name&returnUrl=@ViewBag.ReturnUrl"
                        aria-current="@(isCurrent ? "true" : "false")">
 
                     <span class="language-native">@language.NativeName</span>

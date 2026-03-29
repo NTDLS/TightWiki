@@ -1,8 +1,10 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.PageStatisticsViewModel
+@using TightWiki
 @using NTDLS.Helpers
 @using TightWiki.Library
 @using TightWiki.Models
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @{
     Layout = "_Layout";
@@ -27,7 +29,7 @@
         </span>
 
         @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
-            GlobalConfiguration.BasePath,
+            WikiConfiguration.BasePath,
             Localizer["Purging the page statistics will delete all of the stored statistics for all pages. Continue?"].Value,
             Localizer["Purge Page Statistics"].Value,
             "/Admin/PurgePageStatistics",
@@ -122,14 +124,14 @@
                                 @if (!string.IsNullOrEmpty(stat.Namespace))
                                 {
                                     <a class="text-decoration-none text-muted"
-                                           href="@GlobalConfiguration.BasePath/Admin/Namespace/@stat.Namespace">
+                                           href="@WikiConfiguration.BasePath/Admin/Namespace/@stat.Namespace">
                                         @stat.Namespace
                                     </a>
                                     <span class="text-muted"> :: </span>
                                 }
 
                                 <a class="text-decoration-none fw-semibold"
-                                       href="@GlobalConfiguration.BasePath/@stat.Navigation">
+                                       href="@WikiConfiguration.BasePath/@stat.Navigation">
                                     @stat.Title
                                 </a>
                             </td>

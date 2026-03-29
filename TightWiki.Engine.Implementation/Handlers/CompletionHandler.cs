@@ -1,5 +1,4 @@
 ﻿using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Models;
 using TightWiki.Repository;
 
 namespace TightWiki.Engine.Implementation.Handlers
@@ -16,7 +15,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         public async Task Complete(ITightEngineState state)
         {
-            if (GlobalConfiguration.RecordCompilationMetrics)
+            if (state.Engine.WikiConfiguration.RecordCompilationMetrics)
             {
                 await StatisticsRepository.MergePageCompilationStatistics(state.Page.Id,
                     state.ProcessingTime.TotalMilliseconds,

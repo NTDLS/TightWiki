@@ -1,4 +1,4 @@
-﻿using TightWiki.Engine.Library;
+﻿using TightWiki.Library;
 
 namespace TightWiki.Engine
 {

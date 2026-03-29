@@ -19,8 +19,8 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         public ResetAuthenticatorModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<ITightEngine> logger, ISharedLocalizationText localizer)
-                        : base(logger, signInManager, localizer)
+            ILogger<ITightEngine> logger, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+                        : base(logger, signInManager, localizer, wikiConfiguration)
 
         {
             _userManager = userManager;
@@ -62,7 +62,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = Localizer["Your authenticator app key has been reset, you will need to configure your authenticator app using the new key."];
 
-            return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/EnableAuthenticator");
+            return RedirectToPage($"{WikiConfiguration.BasePath}/Identity/EnableAuthenticator");
         }
     }
 }

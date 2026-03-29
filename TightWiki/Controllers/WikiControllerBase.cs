@@ -9,11 +9,11 @@ using TightWiki.Models;
 namespace TightWiki.Controllers
 {
     public class WikiControllerBase<T>(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer)
+        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
         : Controller
     {
+        public TightWikiConfiguration WikiConfiguration { get; private set; } = wikiConfiguration;
         public ILogger<ITightEngine> Logger { get; private set; } = logger;
-
         public ISharedLocalizationText Localizer { get; private set; } = localizer;
         public SessionState SessionState { get; private set; } = new();
 
@@ -23,7 +23,7 @@ namespace TightWiki.Controllers
         [NonAction]
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var sessionState = await SessionState.Hydrate(Logger, SignInManager, this);
+            var sessionState = await SessionState.Hydrate(Logger, SignInManager, this, WikiConfiguration);
             ViewData["SessionState"] = sessionState;
             await next();
         }
@@ -155,7 +155,7 @@ namespace TightWiki.Controllers
         {
             try
             {
-                return Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(successMessage)}&NotifyErrorMessage={Uri.EscapeDataString(errorMessage)}&RedirectUrl={Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}")}&RedirectTimeout=5");
+                return Redirect($"{WikiConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(successMessage)}&NotifyErrorMessage={Uri.EscapeDataString(errorMessage)}&RedirectUrl={Uri.EscapeDataString($"{WikiConfiguration.BasePath}{redirectUrl}")}&RedirectTimeout=5");
             }
             catch (Exception ex)
             {
@@ -168,7 +168,7 @@ namespace TightWiki.Controllers
         {
             try
             {
-                return Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}")}&RedirectTimeout=5");
+                return Redirect($"{WikiConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString($"{WikiConfiguration.BasePath}{redirectUrl}")}&RedirectTimeout=5");
             }
             catch (Exception ex)
             {
@@ -181,7 +181,7 @@ namespace TightWiki.Controllers
         {
             try
             {
-                return Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyWarningMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}")}");
+                return Redirect($"{WikiConfiguration.BasePath}/Utility/Notify?NotifyWarningMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString($"{WikiConfiguration.BasePath}{redirectUrl}")}");
             }
             catch (Exception ex)
             {
@@ -194,7 +194,7 @@ namespace TightWiki.Controllers
         {
             try
             {
-                return Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}")}");
+                return Redirect($"{WikiConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString($"{WikiConfiguration.BasePath}{redirectUrl}")}");
             }
             catch (Exception ex)
             {
@@ -207,7 +207,7 @@ namespace TightWiki.Controllers
         {
             try
             {
-                return Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(message)}");
+                return Redirect($"{WikiConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(message)}");
             }
             catch (Exception ex)
             {
@@ -220,7 +220,7 @@ namespace TightWiki.Controllers
         {
             try
             {
-                return Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyWarningMessage={Uri.EscapeDataString(message)}");
+                return Redirect($"{WikiConfiguration.BasePath}/Utility/Notify?NotifyWarningMessage={Uri.EscapeDataString(message)}");
             }
             catch (Exception ex)
             {
@@ -233,7 +233,7 @@ namespace TightWiki.Controllers
         {
             try
             {
-                return Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString(message)}");
+                return Redirect($"{WikiConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString(message)}");
             }
             catch (Exception ex)
             {

@@ -63,8 +63,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly ILogger<ITightEngine> _logger;
 
         public ResetPasswordModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, ISharedLocalizationText localizer)
-                        : base(logger, signInManager, localizer)
+            UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+                        : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _logger = logger;
             _userManager = userManager;
@@ -116,13 +116,13 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 if (user == null)
                 {
                     // Don't reveal that the user does not exist
-                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/ResetPasswordConfirmation");
+                    return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/ResetPasswordConfirmation");
                 }
 
                 var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
                 if (result.Succeeded)
                 {
-                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/ResetPasswordConfirmation");
+                    return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/ResetPasswordConfirmation");
                 }
 
                 foreach (var error in result.Errors)

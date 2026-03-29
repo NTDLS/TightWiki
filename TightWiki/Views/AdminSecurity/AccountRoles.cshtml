@@ -1,7 +1,9 @@
 @using TightWiki.Library
+@using TightWiki
 @using TightWiki.Models
 @using TightWiki.Models.ViewModels.AdminSecurity
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @model AccountRolesViewModel
 @{
@@ -164,7 +166,7 @@
                         <tr>
                             <td>
                                 <a class="text-decoration-none fw-semibold"
-                                       href="@GlobalConfiguration.BasePath/AdminSecurity/Role/@membership.Name">
+                                       href="@WikiConfiguration.BasePath/AdminSecurity/Role/@membership.Name">
                                     @membership.Name
                                 </a>
                             </td>
@@ -241,7 +243,7 @@
             return;
         }
 
-        const response = await fetch(`@GlobalConfiguration.BasePath/AdminSecurity/RemoveAccountPermission/${permissionId}`, {
+        const response = await fetch(`@WikiConfiguration.BasePath/AdminSecurity/RemoveAccountPermission/${permissionId}`, {
             method: 'POST',
         });
 
@@ -265,7 +267,7 @@
             return;
         }
 
-        const response = await fetch(`@GlobalConfiguration.BasePath/AdminSecurity/RemoveRoleMember/${roleId}/@Model.Id`, {
+        const response = await fetch(`@WikiConfiguration.BasePath/AdminSecurity/RemoveRoleMember/${roleId}/@Model.Id`, {
             method: 'POST',
         });
 
@@ -334,7 +336,7 @@
             placeholder: "@Localizer["Select a page"]",
             minimumInputLength: 0,
             ajax: {
-                url: '@GlobalConfiguration.BasePath/AdminSecurity/AutocompletePage',
+                url: '@WikiConfiguration.BasePath/AdminSecurity/AutocompletePage',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {
@@ -360,7 +362,7 @@
             placeholder: "@Localizer["Select a namespace"]",
             minimumInputLength: 0,
             ajax: {
-                url: '@GlobalConfiguration.BasePath/AdminSecurity/AutocompleteNamespace',
+                url: '@WikiConfiguration.BasePath/AdminSecurity/AutocompleteNamespace',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {
@@ -450,7 +452,7 @@
             pageId: pageId
         };
 
-        const response = await fetch('@GlobalConfiguration.BasePath/AdminSecurity/AddAccountPermission', {
+        const response = await fetch('@WikiConfiguration.BasePath/AdminSecurity/AddAccountPermission', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -557,7 +559,7 @@
             placeholder: "@Localizer["Select a role"]",
             minimumInputLength: 0,
             ajax: {
-                url: '@GlobalConfiguration.BasePath/AdminSecurity/AutoCompleteRole',
+                url: '@WikiConfiguration.BasePath/AdminSecurity/AutoCompleteRole',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {
@@ -597,7 +599,7 @@
             roleId: role[0].id,
         };
 
-        const response = await fetch('@GlobalConfiguration.BasePath/AdminSecurity/AddAccountMembership', {
+        const response = await fetch('@WikiConfiguration.BasePath/AdminSecurity/AddAccountMembership', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -627,7 +629,7 @@
         const newRow = document.createElement("tr");
 
         newRow.innerHTML = `
-            <td><a href="@GlobalConfiguration.BasePath/AdminSecurity/Role/${result.membership.name}">${result.membership.name}</a></td>
+            <td><a href="@WikiConfiguration.BasePath/AdminSecurity/Role/${result.membership.name}">${result.membership.name}</a></td>
 
             <td class="text-nowrap">
                 <button type="button"

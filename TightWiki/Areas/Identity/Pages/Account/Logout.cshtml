@@ -1,6 +1,9 @@
 ﻿@page
+@using TightWiki
 @using TightWiki.Library
+@using TightWiki.Models
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @model LogoutModel
 @{
@@ -32,7 +35,7 @@
 
             <form asp-area="Identity"
                   asp-page="/Account/Logout"
-                  asp-route-returnUrl="@($"{TightWiki.Models.GlobalConfiguration.BasePath}/")"
+                  asp-route-returnUrl="@($"{WikiConfiguration.BasePath}/")"
                   method="post">
                 @Html.AntiForgeryToken()
 
@@ -41,7 +44,7 @@
                         <i class="bi bi-box-arrow-right me-1"></i>@Localizer["Logout"]
                     </button>
 
-                    <a href="@TightWiki.Models.GlobalConfiguration.BasePath/"
+                    <a href="@WikiConfiguration.BasePath/"
                            class="btn btn-success">
                         <i class="bi bi-x-circle me-1"></i>@Localizer["Cancel"]
                     </a>

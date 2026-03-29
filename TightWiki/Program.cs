@@ -18,10 +18,10 @@ using TightWiki.Engine.Implementation.Handlers;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
-using TightWiki.Models;
 using TightWiki.Repository;
 using TightWiki.Repository.Extensions;
 using TightWiki.Translations;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki
 {
@@ -69,14 +69,14 @@ namespace TightWiki
                 ManagedDataStorage.Defaults.SetConnectionString(defaultsDatabasePath);
             }
 
-            await ConfigurationRepository.ReloadEverything();
+            var wikiConfiguration = await WikiConfigurationManager.Create(builder.Configuration);
 
             // Add DiffPlex services.
             builder.Services.AddScoped<IDiffer, Differ>();
             builder.Services.AddScoped<ISideBySideDiffBuilder>(sp =>
                 new SideBySideDiffBuilder(sp.GetRequiredService<IDiffer>()));
 
-            var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
+            var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
             var requireConfirmedAccount = membershipConfig.Value<bool>("Require Email Verification");
 
             // Add services to the container.
@@ -120,15 +120,16 @@ namespace TightWiki
                 };
             });
             builder.Services.AddSingleton<RequestLocalizationOptions>();
+            builder.Services.AddSingleton(wikiConfiguration);
 
             builder.Services.AddSingleton<IWikiEmailSender, WikiEmailSender>();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = requireConfirmedAccount)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            var externalAuthenticationConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.ExternalAuthentication);
-            var basicConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Basic);
-            var cookiesConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Cookies);
+            var externalAuthenticationConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.ExternalAuthentication);
+            var basicConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
+            var cookiesConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Cookies);
 
             var authentication = builder.Services.AddAuthentication()
                 .AddCookie("CookieAuth", options =>
@@ -136,7 +137,7 @@ namespace TightWiki
                     options.Cookie.Name = basicConfig.Value<string>("Name").EnsureNotNull();
                     options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
                     options.Cookie.SameSite = SameSiteMode.Lax;
-                    options.LoginPath = $"{GlobalConfiguration.BasePath}/Identity/Account/Login";
+                    options.LoginPath = $"{wikiConfiguration.BasePath}/Identity/Account/Login";
                     options.ExpireTimeSpan = TimeSpan.FromHours(cookiesConfig.Value<int>("Expiration Hours"));
                     options.SlidingExpiration = true;
                     options.Cookie.IsEssential = true;
@@ -175,7 +176,7 @@ namespace TightWiki
                         {
                             OnRemoteFailure = context =>
                             {
-                                context.Response.Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
+                                context.Response.Redirect($"{wikiConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
                                 context.HandleResponse();
                                 return Task.CompletedTask;
                             }
@@ -200,7 +201,7 @@ namespace TightWiki
                         {
                             OnRemoteFailure = context =>
                             {
-                                context.Response.Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
+                                context.Response.Redirect($"{wikiConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
                                 context.HandleResponse();
                                 return Task.CompletedTask;
                             }
@@ -243,7 +244,7 @@ namespace TightWiki
                         {
                             OnRemoteFailure = context =>
                             {
-                                context.Response.Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString("OIDC login was canceled.")}");
+                                context.Response.Redirect($"{wikiConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString("OIDC login was canceled.")}");
                                 context.HandleResponse();
                                 return Task.CompletedTask;
                             }
@@ -269,29 +270,24 @@ namespace TightWiki
                 containerBuilder.RegisterType<TightEngine>().As<ITightEngine>().SingleInstance();
             });
 
-            var basePath = builder.Configuration.GetValue<string>("BasePath");
-            if (!string.IsNullOrEmpty(basePath))
-            {
-                GlobalConfiguration.BasePath = basePath;
 
-                builder.Services.ConfigureApplicationCookie(options =>
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                if (!string.IsNullOrEmpty(wikiConfiguration.BasePath))
                 {
-                    if (!string.IsNullOrEmpty(basePath))
-                    {
-                        options.LoginPath = new PathString($"{basePath}/Identity/Account/Login");
-                        options.LogoutPath = new PathString($"{basePath}/Identity/Account/Logout");
-                        options.AccessDeniedPath = new PathString($"{basePath}/Identity/Account/AccessDenied");
-                        options.Cookie.Path = basePath; // Ensure the cookie is scoped to the sub-site path.
-                    }
-                    else
-                    {
-                        options.LoginPath = new PathString("/Identity/Account/Login");
-                        options.LogoutPath = new PathString("/Identity/Account/Logout");
-                        options.AccessDeniedPath = new PathString("/Identity/Account/AccessDenied");
-                        options.Cookie.Path = "/"; // Use root path if no base path is set.
-                    }
-                });
-            }
+                    options.LoginPath = new PathString($"{wikiConfiguration.BasePath}/Identity/Account/Login");
+                    options.LogoutPath = new PathString($"{wikiConfiguration.BasePath}/Identity/Account/Logout");
+                    options.AccessDeniedPath = new PathString($"{wikiConfiguration.BasePath}/Identity/Account/AccessDenied");
+                    options.Cookie.Path = wikiConfiguration.BasePath; // Ensure the cookie is scoped to the sub-site path.
+                }
+                else
+                {
+                    options.LoginPath = new PathString("/Identity/Account/Login");
+                    options.LogoutPath = new PathString("/Identity/Account/Logout");
+                    options.AccessDeniedPath = new PathString("/Identity/Account/AccessDenied");
+                    options.Cookie.Path = "/"; // Use root path if no base path is set.
+                }
+            });
 
             var app = builder.Build();
 
@@ -312,16 +308,16 @@ namespace TightWiki
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            if (!string.IsNullOrEmpty(basePath))
+            if (!string.IsNullOrEmpty(wikiConfiguration.BasePath))
             {
-                app.UsePathBase(basePath);
+                app.UsePathBase(wikiConfiguration.BasePath);
 
                 // Redirect root requests to basePath (something like '/TightWiki').
                 app.Use(async (context, next) =>
                 {
                     if (context.Request.Path == "/")
                     {
-                        context.Response.Redirect(basePath);
+                        context.Response.Redirect(wikiConfiguration.BasePath);
                         return;
                     }
                     await next();
@@ -331,7 +327,7 @@ namespace TightWiki
                 {
                     OnPrepareResponse = ctx =>
                     {
-                        ctx.Context.Request.PathBase = basePath;
+                        ctx.Context.Request.PathBase = wikiConfiguration.BasePath;
                     }
                 });
             }

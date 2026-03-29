@@ -1,6 +1,6 @@
 using TightWiki.Library;
-using TightWiki.Models;
 using TightWiki.Models.DataModels;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Repository
 {
@@ -49,8 +49,6 @@ namespace TightWiki.Repository
             };
 
             await ManagedDataStorage.Emoji.ExecuteAsync("DeleteEmojiById.sql", param);
-
-            await ConfigurationRepository.ReloadEmojis();
         }
 
         public static async Task<Emoji?> GetEmojiByName(string name)
@@ -112,23 +110,23 @@ namespace TightWiki.Repository
                 }
             });
 
-            await ConfigurationRepository.ReloadEmojis();
-
             return emojiId;
         }
 
         public static async Task<List<Emoji>> GetAllEmojisPaged(int pageNumber,
             string? orderBy = null, string? orderByDirection = null, List<string>? categories = null)
         {
+            var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+
             if (categories == null || categories.Count == 0)
             {
                 var param = new
                 {
                     PageNumber = pageNumber,
-                    PageSize = GlobalConfiguration.PaginationSize
+                    PageSize = paginationSize
                 };
 
-                var query = RepositoryHelper.TransposeOrderby("GetAllEmojisPaged.sql", orderBy, orderByDirection);
+                var query = RepositoryHelpers.TransposeOrderby("GetAllEmojisPaged.sql", orderBy, orderByDirection);
                 return await ManagedDataStorage.Emoji.QueryAsync<Emoji>(query, param);
             }
             else
@@ -137,7 +135,7 @@ namespace TightWiki.Repository
                 var param = new
                 {
                     PageNumber = pageNumber,
-                    PageSize = GlobalConfiguration.PaginationSize
+                    PageSize = paginationSize
                 };
 
                 return await ManagedDataStorage.Emoji.EphemeralAsync(async o =>
@@ -146,12 +144,12 @@ namespace TightWiki.Repository
                     {
                         SearchTokenCount = emojiCategoryIds.Count(),
                         PageNumber = pageNumber,
-                        PageSize = GlobalConfiguration.PaginationSize
+                        PageSize = paginationSize
                     };
 
                     using var tempTable = o.CreateTempTableFrom("TempEmojiCategoryIds", emojiCategoryIds);
 
-                    var query = RepositoryHelper.TransposeOrderby("GetAllEmojisPagedByCategories.sql", orderBy, orderByDirection);
+                    var query = RepositoryHelpers.TransposeOrderby("GetAllEmojisPagedByCategories.sql", orderBy, orderByDirection);
                     return await o.QueryAsync<Emoji>(query, getAllEmojisPagedByCategoriesParam);
                 });
             }

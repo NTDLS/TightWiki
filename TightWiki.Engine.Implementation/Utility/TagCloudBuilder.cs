@@ -1,13 +1,12 @@
 ﻿using System.Text;
 using TightWiki.Library;
-using TightWiki.Models;
 using TightWiki.Repository;
 
 namespace TightWiki.Engine.Implementation.Utility
 {
     public static class TagCloudBuilder
     {
-        public static async Task<string> Build(string seedTag, int? maxCount)
+        public static async Task<string> Build(string basePath, string seedTag, int? maxCount)
         {
             var tags = (await PageRepository.GetAssociatedTags(seedTag))
                 .OrderByDescending(o => o.PageCount)
@@ -35,7 +34,7 @@ namespace TightWiki.Engine.Implementation.Utility
             foreach (var tag in tags)
             {
                 var encodedTag = System.Net.WebUtility.HtmlEncode(tag.Tag);
-                var url = $"{GlobalConfiguration.BasePath}/Tags/Browse/{NamespaceNavigation.CleanAndValidate(tag.Tag)}";
+                var url = $"{basePath}/Tags/Browse/{NamespaceNavigation.CleanAndValidate(tag.Tag)}";
 
                 string tierClass = GetTierClass(tag.PageCount, minPageCount, maxPageCount);
 

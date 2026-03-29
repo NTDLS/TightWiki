@@ -11,9 +11,16 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
     public class IndexModel
         : PageModel
     {
-        public IActionResult OnGetAsync()
+        private readonly TightWikiConfiguration _wikiConfiguration;
+
+        public IndexModel(TightWikiConfiguration wikiConfiguration)
         {
-            return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Manage/Email");
+            _wikiConfiguration = wikiConfiguration;
+        }
+
+        public IActionResult OnGet()
+        {
+            return Redirect($"{_wikiConfiguration.BasePath}/Identity/Account/Manage/Email");
         }
     }
 }

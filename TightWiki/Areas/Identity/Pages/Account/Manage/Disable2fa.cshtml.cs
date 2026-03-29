@@ -17,8 +17,8 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
 
         public Disable2faModel(SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            ILogger<ITightEngine> logger, ISharedLocalizationText localizer)
-                        : base(logger, signInManager, localizer)
+            ILogger<ITightEngine> logger, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+                        : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _userManager = userManager;
             _logger = logger;
@@ -63,7 +63,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
 
             _logger.LogInformation("User with ID '{UserId}' has disabled 2fa.", _userManager.GetUserId(User));
             StatusMessage = Localizer["2fa has been disabled. You can reenable 2fa when you setup an authenticator app"];
-            return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/TwoFactorAuthentication");
+            return RedirectToPage($"{WikiConfiguration.BasePath}/Identity/TwoFactorAuthentication");
         }
     }
 }

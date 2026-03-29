@@ -1,11 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
+using TightWiki.Models;
 
 namespace TightWiki.Engine.Library.Interfaces
 {
     public interface ITightEngine
     {
+        TightWikiConfiguration WikiConfiguration { get; }
+
         ILogger<ITightEngine> Logger { get; }
         IMarkupHandler MarkupHandler { get; }
         IHeadingHandler HeadingHandler { get; }

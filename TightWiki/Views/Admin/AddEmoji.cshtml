@@ -1,6 +1,8 @@
-﻿@using TightWiki.Models
+﻿@using TightWiki
+@using TightWiki.Models
 @using TightWiki.Library
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @model TightWiki.Models.ViewModels.Admin.AddEmojiViewModel
 @{
@@ -65,7 +67,7 @@
     </div>
 </div>
 
-@using (Html.BeginForm(null, null, null, FormMethod.Post, true, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}", enctype = "multipart/form-data" }))
+@using (Html.BeginForm(null, null, null, FormMethod.Post, true, new { action = $"{WikiConfiguration.BasePath}{Context.Request.Path}", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 

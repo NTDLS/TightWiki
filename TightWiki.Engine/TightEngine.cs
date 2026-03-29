@@ -6,12 +6,15 @@ using TightWiki.Engine.Library.Function.Attributes;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
+using TightWiki.Models;
 
 namespace TightWiki.Engine
 {
     public class TightEngine
         : ITightEngine
     {
+        public TightWikiConfiguration WikiConfiguration { get; private set; }
+
         public ILogger<ITightEngine> Logger { get; set; }
         public IMarkupHandler MarkupHandler { get; private set; }
         public IHeadingHandler HeadingHandler { get; private set; }
@@ -29,6 +32,7 @@ namespace TightWiki.Engine
         public List<TightEngineFunctionDescriptor> PostProcessingFunctions { get; private set; }
 
         public TightEngine(
+            TightWikiConfiguration wikiConfiguration,
             ILogger<ITightEngine> logger,
             IMarkupHandler markupHandler,
             IHeadingHandler headingHandler,
@@ -39,6 +43,7 @@ namespace TightWiki.Engine
             IExceptionHandler exceptionHandler,
             ICompletionHandler completionHandler)
         {
+            WikiConfiguration = wikiConfiguration;
             Logger = logger;
             MarkupHandler = markupHandler;
             HeadingHandler = headingHandler;

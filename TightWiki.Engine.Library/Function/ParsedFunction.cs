@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using TightWiki.Engine.Library.Function.Exceptions;
+using TightWiki.Library;
 
 namespace TightWiki.Engine.Library.Function
 {
@@ -13,7 +14,7 @@ namespace TightWiki.Engine.Library.Function
         public List<string> Arguments { get; set; } = new List<string>();
         public string? BodyText { get; }
 
-        public ParsedFunction(string demarcation, string name,   List<string> arguments, string? bodyText)
+        public ParsedFunction(string demarcation, string name, List<string> arguments, string? bodyText)
         {
             Demarcation = demarcation;
             Name = name;
@@ -76,7 +77,7 @@ namespace TightWiki.Engine.Library.Function
                 //What we are tring to do here is find the name of the function and (for scoped functions) also parse
                 //  the body content after the function name - making sure to excluse the open and close demarcation.
                 int skippedCharsCount = functionDemarcation.Length;
-                for(; skippedCharsCount < functionCall.Length; skippedCharsCount++)
+                for (; skippedCharsCount < functionCall.Length; skippedCharsCount++)
                 {
                     //Skip whitespace between the demarcation and the start of the function name.
                     if (functionCall[skippedCharsCount] != ' ' && functionCall[skippedCharsCount] != '\t')

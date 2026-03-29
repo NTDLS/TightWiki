@@ -12,8 +12,12 @@ namespace TightWiki
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
-        public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
+        private readonly TightWikiConfiguration _wikiConfiguration;
+
+        public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger,
+             TightWikiConfiguration wikiConfiguration)
         {
+            _wikiConfiguration = wikiConfiguration;
             _next = next;
             _logger = logger;
         }
@@ -49,7 +53,7 @@ namespace TightWiki
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 context.Response.ContentType = "application/json";
 
-                context.Response.Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString("An unexpected error has occurred. The details of this exception have been logged.")}");
+                context.Response.Redirect($"{_wikiConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString("An unexpected error has occurred. The details of this exception have been logged.")}");
             }
         }
     }

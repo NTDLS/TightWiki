@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System.Globalization;
 using TightWiki.Library.Interfaces;
 
 namespace TightWiki.Library

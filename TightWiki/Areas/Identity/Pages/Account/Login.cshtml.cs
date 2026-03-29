@@ -15,6 +15,7 @@ using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Repository;
 using TightWiki.Security;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -41,8 +42,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public LoginModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, IHttpContextAccessor httpContextAccessor)
-            : base(logger, signInManager, localizer)
+            UserManager<IdentityUser> userManager, ISharedLocalizationText localizer,
+            IHttpContextAccessor httpContextAccessor, TightWikiConfiguration wikiConfiguration)
+            : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _httpContextAccessor = httpContextAccessor;
             _localizer = localizer;
@@ -62,7 +64,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{WikiConfiguration.BasePath}/");
 
                 if (!string.IsNullOrEmpty(ErrorMessage))
                 {
@@ -84,9 +86,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-                var ldapAuthenticationConfiguration = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.LDAPAuthentication);
+                var ldapAuthenticationConfiguration = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.LDAPAuthentication);
 
-                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{WikiConfiguration.BasePath}/");
 
                 ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
@@ -102,18 +104,18 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     }
                     else if (result.RequiresTwoFactor)
                     {
-                        return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/LoginWith2fa?ReturnUrl={WebUtility.UrlEncode(ReturnUrl)}&RememberMe={Input.RememberMe}");
+                        return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/LoginWith2fa?ReturnUrl={WebUtility.UrlEncode(ReturnUrl)}&RememberMe={Input.RememberMe}");
                     }
                     else if (result.IsLockedOut)
                     {
                         _logger.LogWarning("User account locked out.");
-                        return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Lockout");
+                        return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/Lockout");
                     }
                     else
                     {
                         #region Fallback to LDAP authentication if enabled.
 
-                        if (GlobalConfiguration.EnableLDAPAuthentication)
+                        if (WikiConfiguration.EnableLDAPAuthentication)
                         {
                             if (LDAPUtility.LdapCredentialChallenge(ldapAuthenticationConfiguration, _localizer,
                                 Input.Username, Input.Password, out var samAccountName, out var objectGuid))
@@ -131,9 +133,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
                                 }
                                 else
                                 {
-                                    if (GlobalConfiguration.AllowSignup != true)
+                                    if (WikiConfiguration.AllowSignup != true)
                                     {
-                                        return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                                        return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
                                     }
 
                                     var newUser = new IdentityUser()
@@ -171,14 +173,14 @@ namespace TightWiki.Areas.Identity.Pages.Account
                                     // Check if the user has a profile, if not, redirect to the supplemental info page.
                                     if (await UsersRepository.GetBasicProfileByUserId(Guid.Parse(foundUser.Id)) == null)
                                     {
-                                        if (GlobalConfiguration.AllowSignup != true)
+                                        if (WikiConfiguration.AllowSignup != true)
                                         {
-                                            return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                                            return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
                                         }
 
                                         //User exits but does not have a profile.
                                         //This means that the user has authenticated with LDSP, but has yet to complete the signup process.
-                                        return RedirectToPage($"{GlobalConfiguration.BasePath}/Account/LdapLoginSupplemental", new { UserId = foundUser.Id, ReturnUrl = returnUrl });
+                                        return RedirectToPage($"{WikiConfiguration.BasePath}/Account/LdapLoginSupplemental", new { UserId = foundUser.Id, ReturnUrl = returnUrl });
                                     }
                                 }
 

@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 
@@ -7,7 +6,7 @@ namespace TightWiki.Engine.Implementation.Utility
 {
     public class SearchCloudBuilder
     {
-        public static async Task<string> Build(List<string> searchTokens, int? maxCount = null)
+        public static async Task<string> Build(string basePath, List<string> searchTokens, int? maxCount = null)
         {
             var pages = (await PageRepository.PageSearch(searchTokens))
                 .OrderByDescending(o => o.Score)
@@ -27,7 +26,7 @@ namespace TightWiki.Engine.Implementation.Utility
 
             foreach (var page in pages)
             {
-                pageList.Add(new TagCloudItem(page.Name, pageIndex, "<font size=\"" + fontSize + $"\"><a href=\"{GlobalConfiguration.BasePath}/" + page.Navigation + "\">" + page.Name + "</a></font>"));
+                pageList.Add(new TagCloudItem(page.Name, pageIndex, "<font size=\"" + fontSize + $"\"><a href=\"{basePath}/" + page.Navigation + "\">" + page.Name + "</a></font>"));
 
                 if ((pageIndex % sizeStep) == 0)
                 {

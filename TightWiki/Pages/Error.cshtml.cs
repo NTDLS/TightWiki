@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
+using TightWiki.Models;
 
 namespace TightWiki.Pages
 {
@@ -16,8 +17,9 @@ namespace TightWiki.Pages
 
         private readonly ILogger<ITightEngine> _logger;
 
-        public ErrorModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, ISharedLocalizationText localizer)
-            : base(logger, signInManager, localizer)
+        public ErrorModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
+            ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+            : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _logger = logger;
         }

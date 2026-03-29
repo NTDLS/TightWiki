@@ -9,7 +9,7 @@ using TightWiki.Engine.Library.Function;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
-using static TightWiki.Engine.Library.Constants;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Engine
 {

@@ -1,8 +1,10 @@
+@using TightWiki
 @using System.Globalization
 @using System.Runtime.InteropServices;
 @using TightWiki.Models
 @using TightWiki.Library
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @model TightWiki.Models.ViewModels.Admin.MetricsViewModel
 @{
@@ -30,7 +32,7 @@
         </span>
 
         @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
-            GlobalConfiguration.BasePath,
+            WikiConfiguration.BasePath,
             Localizer["Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?"].Value,
             Localizer["Purge Memory Cache"].Value,
             "/Admin/PurgeMemoryCache",
@@ -81,7 +83,7 @@
             <tbody>
                 <tr>
                     <th scope="row">@Localizer["Pages"]</th>
-                    <td><a class="text-decoration-none" href="@GlobalConfiguration.BasePath/Admin/Pages">@Model.Metrics.Pages.ToString("N0")</a></td>
+                    <td><a class="text-decoration-none" href="@WikiConfiguration.BasePath/Admin/Pages">@Model.Metrics.Pages.ToString("N0")</a></td>
                     <th scope="row">@Localizer["Page Revisions"]</th>
                     <td>@Model.Metrics.PageRevisions.ToString("N0")</td>
                 </tr>
@@ -99,19 +101,19 @@
                 </tr>
                 <tr>
                     <th scope="row">@Localizer["Page Search Tokens"]</th>
-                    <td><a class="text-decoration-none" href="@GlobalConfiguration.BasePath/Page/Search">@Model.Metrics.PageSearchTokens.ToString("N0")</a></td>
+                    <td><a class="text-decoration-none" href="@WikiConfiguration.BasePath/Page/Search">@Model.Metrics.PageSearchTokens.ToString("N0")</a></td>
                     <th scope="row">@Localizer["Namespaces"]</th>
-                    <td><a class="text-decoration-none" href="@GlobalConfiguration.BasePath/Admin/Namespaces">@Model.Metrics.Namespaces.ToString("N0")</a></td>
+                    <td><a class="text-decoration-none" href="@WikiConfiguration.BasePath/Admin/Namespaces">@Model.Metrics.Namespaces.ToString("N0")</a></td>
                 </tr>
                 <tr>
                     <th scope="row">@Localizer["Users"]</th>
-                    <td><a class="text-decoration-none" href="@GlobalConfiguration.BasePath/AdminSecurity/Accounts">@Model.Metrics.Users.ToString("N0")</a></td>
+                    <td><a class="text-decoration-none" href="@WikiConfiguration.BasePath/AdminSecurity/Accounts">@Model.Metrics.Users.ToString("N0")</a></td>
                     <th scope="row">@Localizer["Profiles"]</th>
-                    <td><a class="text-decoration-none" href="@GlobalConfiguration.BasePath/AdminSecurity/Accounts">@Model.Metrics.Profiles.ToString("N0")</a></td>
+                    <td><a class="text-decoration-none" href="@WikiConfiguration.BasePath/AdminSecurity/Accounts">@Model.Metrics.Profiles.ToString("N0")</a></td>
                 </tr>
                 <tr>
                     <th scope="row">@Localizer["Exceptions"]</th>
-                    <td><a class="text-decoration-none" href="@GlobalConfiguration.BasePath/Admin/Exceptions">@Model.Metrics.Exceptions.ToString("N0")</a></td>
+                    <td><a class="text-decoration-none" href="@WikiConfiguration.BasePath/Admin/Exceptions">@Model.Metrics.Exceptions.ToString("N0")</a></td>
                     <th scope="row">&nbsp;</th>
                     <td>&nbsp;</td>
                 </tr>

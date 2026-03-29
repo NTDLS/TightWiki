@@ -82,7 +82,7 @@ namespace DummyPageGenerator
             var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
             var userStore = serviceProvider.GetRequiredService<IUserStore<IdentityUser>>();
 
-            await ConfigurationRepository.ReloadEverything();
+            //await ConfigurationRepository.ReloadEverything();
 
             var pg = new PageGenerator(new VerbatimLocalizationText(), userManager);
 

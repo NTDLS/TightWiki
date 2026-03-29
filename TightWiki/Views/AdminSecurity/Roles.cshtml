@@ -1,8 +1,10 @@
 ﻿@model RolesViewModel
+@using TightWiki
 @using TightWiki.Library
 @using TightWiki.Models
 @using TightWiki.Models.ViewModels.AdminSecurity
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @{
     Layout = "_Layout";
@@ -26,7 +28,7 @@
             <i class="bi bi-shield-lock me-2"></i>@Localizer["Security Roles"]
         </span>
 
-        <a href="@GlobalConfiguration.BasePath/AdminSecurity/AddRole"
+        <a href="@WikiConfiguration.BasePath/AdminSecurity/AddRole"
                class="btn btn-primary">
             <i class="bi bi-plus-circle me-1"></i>@Localizer["Add Role"]
         </a>
@@ -58,7 +60,7 @@
                         <tr>
                             <td>
                                 <a class="text-decoration-none fw-semibold"
-                                       href="@GlobalConfiguration.BasePath/AdminSecurity/Role/@role.Name">
+                                       href="@WikiConfiguration.BasePath/AdminSecurity/Role/@role.Name">
                                     @role.Name
                                 </a>
                             </td>

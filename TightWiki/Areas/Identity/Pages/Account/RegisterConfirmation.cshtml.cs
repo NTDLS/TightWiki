@@ -21,8 +21,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly ILogger<ITightEngine> _logger;
 
         public RegisterConfirmationModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, IWikiEmailSender emailSender, ISharedLocalizationText localizer)
-                        : base(logger, signInManager, localizer)
+            UserManager<IdentityUser> userManager, IWikiEmailSender emailSender,
+            ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+                        : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _logger = logger;
             _userManager = userManager;
@@ -33,11 +34,11 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-                returnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+                returnUrl = WebUtility.UrlDecode(returnUrl ?? $"{WikiConfiguration.BasePath}/");
 
-                if (GlobalConfiguration.AllowSignup != true)
+                if (WikiConfiguration.AllowSignup != true)
                 {
-                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                    return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
                 }
             }
             catch (Exception ex)

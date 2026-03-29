@@ -1,4 +1,6 @@
-﻿namespace TightWiki.Engine.Library
+﻿using TightWiki.Library;
+
+namespace TightWiki.Engine.Library
 {
     public class AlignStyler
     {

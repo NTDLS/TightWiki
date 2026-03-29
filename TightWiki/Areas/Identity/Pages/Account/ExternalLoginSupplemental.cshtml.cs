@@ -8,6 +8,7 @@ using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Repository;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -55,8 +56,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
             ILogger<ITightEngine> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore, ISharedLocalizationText localizer)
-            : base(logger, signInManager, localizer)
+            IUserStore<IdentityUser> userStore, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+            : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _logger = logger;
             _userManager = userManager;
@@ -70,11 +71,11 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-                ReturnUrl = WebUtility.UrlDecode(ReturnUrl ?? $"{GlobalConfiguration.BasePath}/");
+                ReturnUrl = WebUtility.UrlDecode(ReturnUrl ?? $"{WikiConfiguration.BasePath}/");
 
-                if (GlobalConfiguration.AllowSignup != true)
+                if (WikiConfiguration.AllowSignup != true)
                 {
-                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                    return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
                 }
 
                 await PopulateDefaults();
@@ -92,7 +93,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             Input.Countries = CountryItem.GetAll();
             Input.Languages = LanguageItem.GetAll();
 
-            var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
+            var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
 
             if (string.IsNullOrEmpty(Input.TimeZone))
                 Input.TimeZone = membershipConfig.Value<string>("Default TimeZone").EnsureNotNull();
@@ -108,11 +109,11 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-                ReturnUrl = WebUtility.UrlDecode(ReturnUrl ?? $"{GlobalConfiguration.BasePath}/");
+                ReturnUrl = WebUtility.UrlDecode(ReturnUrl ?? $"{WikiConfiguration.BasePath}/");
 
-                if (GlobalConfiguration.AllowSignup != true)
+                if (WikiConfiguration.AllowSignup != true)
                 {
-                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                    return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
                 }
 
                 await PopulateDefaults();
@@ -158,7 +159,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     return NotifyOfError(_localizer["An error occurred while adding the login."]);
                 }
 
-                var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
+                var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
                 await UsersRepository.CreateProfile(Guid.Parse(user.Id), Input.AccountName);
                 await UsersRepository.AddRoleMemberByname(Guid.Parse(user.Id), membershipConfig.Value<string>("Default Signup Role").EnsureNotNull());
 
@@ -182,7 +183,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
             if (string.IsNullOrEmpty(ReturnUrl))
             {
-                return Redirect($"{GlobalConfiguration.BasePath}/");
+                return Redirect($"{WikiConfiguration.BasePath}/");
             }
             return Redirect(ReturnUrl);
         }

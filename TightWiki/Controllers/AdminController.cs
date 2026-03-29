@@ -29,8 +29,9 @@ namespace TightWiki.Controllers
         private readonly ILogger<ITightEngine> _logger;
 
         public AdminController(ITightEngine tightEngine, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, ILogger<ITightEngine> logger, ISharedLocalizationText localizer)
-            : base(logger, signInManager, userManager, localizer)
+            UserManager<IdentityUser> userManager, ILogger<ITightEngine> logger, ISharedLocalizationText localizer,
+            TightWikiConfiguration wikiConfiguration)
+            : base(logger, signInManager, userManager, localizer, wikiConfiguration)
         {
             _tightEngine = tightEngine;
             _userManager = userManager;
@@ -123,7 +124,7 @@ namespace TightWiki.Controllers
                     }
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -179,7 +180,7 @@ namespace TightWiki.Controllers
                     return NotifyOfError(Localize("Unknown database action: '{0}'", databaseAction), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -246,7 +247,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("Page statistics purged."), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -275,7 +276,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("Memory cache purged."), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -600,7 +601,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("The page has been reverted."), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -793,7 +794,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("Page revision has been moved to the deletion queue."), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -901,7 +902,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("All pages have been rebuilt."), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -960,7 +961,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("All pages have been cached."), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -990,7 +991,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("All page revisions have been truncated."), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -1019,7 +1020,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("The page deletion queue has been purged."), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -1048,7 +1049,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("The page revision has been purged from the deletion queue."), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -1077,7 +1078,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("The page revision has been restored."), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -1106,7 +1107,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("The page deletion queue has been purged."), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -1135,7 +1136,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("The page has been purged from the deletion queue."), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -1164,7 +1165,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("The page has been moved to the deletion queue."), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -1198,7 +1199,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("The page has restored."), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -1278,7 +1279,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("All orphaned page attachments have been purged."), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -1307,7 +1308,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("The pages orphaned attachments have been purged."), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -1420,6 +1421,7 @@ namespace TightWiki.Controllers
                 if (id.DefaultWhenNull(0) == 0)
                 {
                     model.Id = await ConfigurationRepository.InsertMenuItem(model.ToDataModel());
+                    await WikiConfigurationManager.ReloadMenu(WikiConfiguration);
                     ModelState.Clear();
 
                     return NotifyOfSuccess(Localize("The menu item has been created."), $"/Admin/MenuItem/{model.Id}");
@@ -1427,6 +1429,7 @@ namespace TightWiki.Controllers
                 else
                 {
                     await ConfigurationRepository.UpdateMenuItemById(model.ToDataModel());
+                    await WikiConfigurationManager.ReloadMenu(WikiConfiguration);
                 }
 
                 model.SuccessMessage = Localize("The menu item has been saved.");
@@ -1456,10 +1459,11 @@ namespace TightWiki.Controllers
                 if (model.UserSelection == true)
                 {
                     await ConfigurationRepository.DeleteMenuItemById(id);
+                    await WikiConfigurationManager.ReloadMenu(WikiConfiguration);
                     return NotifyOfSuccess(Localize("The specified menu item has been deleted."), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -1556,10 +1560,10 @@ namespace TightWiki.Controllers
                         if ($"{fc.GroupName}:{fc.EntryName}" == "Customization:Theme")
                         {
                             //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
-                            GlobalConfiguration.SystemTheme = (await ConfigurationRepository.GetAllThemes()).Single(o => o.Name == value);
+                            WikiConfiguration.SystemTheme = (await ConfigurationRepository.GetAllThemes()).Single(o => o.Name == value);
                             if (string.IsNullOrEmpty(SessionState.Profile?.Theme))
                             {
-                                SessionState.UserTheme = GlobalConfiguration.SystemTheme;
+                                SessionState.UserTheme = WikiConfiguration.SystemTheme;
                             }
                         }
 
@@ -1569,6 +1573,7 @@ namespace TightWiki.Controllers
                         }
 
                         await ConfigurationRepository.SaveConfigurationEntryValueByGroupAndEntry(fc.GroupName, fc.EntryName, value);
+                        await WikiConfigurationManager.ReloadAll(WikiConfiguration);
                     }
 
                     WikiCache.ClearCategory(WikiCache.Category.Configuration);
@@ -1708,7 +1713,7 @@ namespace TightWiki.Controllers
                 var file = Request.Form.Files["ImageData"];
                 if (file != null && file.Length > 0)
                 {
-                    if (file.Length > GlobalConfiguration.MaxEmojiFileSize)
+                    if (file.Length > WikiConfiguration.MaxEmojiFileSize)
                     {
                         model.ErrorMessage += Localize("Could not save the attached image, too large.");
                     }
@@ -1733,7 +1738,7 @@ namespace TightWiki.Controllers
                 model.Emoji.Id = (int)emoji.Id;
                 ModelState.Clear();
 
-                await ConfigurationRepository.ReloadEmojis();
+                await WikiConfigurationManager.ReloadEmojis(WikiConfiguration);
 
                 if (nameChanged)
                 {
@@ -1821,7 +1826,7 @@ namespace TightWiki.Controllers
                 var file = Request.Form.Files["ImageData"];
                 if (file != null && file.Length > 0)
                 {
-                    if (file.Length > GlobalConfiguration.MaxEmojiFileSize)
+                    if (file.Length > WikiConfiguration.MaxEmojiFileSize)
                     {
                         ModelState.AddModelError("Name", Localize("Could not save the attached image, too large."));
                     }
@@ -1841,6 +1846,7 @@ namespace TightWiki.Controllers
                 }
 
                 await EmojiRepository.UpsertEmoji(emoji);
+                await WikiConfigurationManager.ReloadEmojis(WikiConfiguration);
 
                 return NotifyOfSuccess(Localize("The emoji has been created."), $"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
             }
@@ -1870,10 +1876,11 @@ namespace TightWiki.Controllers
                 if (model.UserSelection == true && emoji != null)
                 {
                     await EmojiRepository.DeleteById(emoji.Id);
+                    await WikiConfigurationManager.ReloadEmojis(WikiConfiguration);
                     return NotifyOfSuccess(Localize("The specified emoji has been deleted."), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -1972,7 +1979,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("All event logs have been purged."), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -1997,7 +2004,7 @@ namespace TightWiki.Controllers
             try
             {
 
-                if (GlobalConfiguration.EnableLDAPAuthentication == false)
+                if (WikiConfiguration.EnableLDAPAuthentication == false)
                 {
                     return Json(new { ok = false, error = Localize("LDAP authentication is not enabled.") });
                 }

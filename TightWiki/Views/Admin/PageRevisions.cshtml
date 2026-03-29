@@ -1,7 +1,9 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.PageRevisionsViewModel
+@using TightWiki
 @using TightWiki.Library
 @using TightWiki.Models
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @{
     Layout = "_Layout";
@@ -19,7 +21,7 @@
         <div class="mt-1">
             <span class="text-muted">@Localizer["Page"]:</span>
             <a class="text-decoration-none fw-semibold"
-                   href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation">
+                   href="@WikiConfiguration.BasePath/@sessionState.PageNavigation">
                 @sessionState.Page.Name
             </a>
         </div>
@@ -55,7 +57,7 @@
                                 @Localizer["Modified Date"]
                             </a>
                         </th>
-                        @if (GlobalConfiguration.ShowChangeSummaryWhenEditing)
+                        @if (WikiConfiguration.ShowChangeSummaryWhenEditing)
                         {
                             <th scope="col">
                                 @Localizer["Summary"]
@@ -76,7 +78,7 @@
                         <tr>
                             <td class="text-nowrap">
                                 <a class="text-decoration-none fw-semibold"
-                                       href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/@h.Revision"
+                                       href="@WikiConfiguration.BasePath/@sessionState.PageNavigation/@h.Revision"
                                        target="_blank"
                                        rel="noopener">
                                     @Html.DisplayTextFor(x => h.Revision)
@@ -85,7 +87,7 @@
 
                             <td>
                                 <a class="text-decoration-none"
-                                       href="@GlobalConfiguration.BasePath/Profile/@h.ModifiedByUserName/Public">
+                                       href="@WikiConfiguration.BasePath/Profile/@h.ModifiedByUserName/Public">
                                     @Html.DisplayTextFor(x => h.ModifiedByUserName)
                                 </a>
                             </td>
@@ -94,11 +96,11 @@
                                 @Html.DisplayTextFor(x => h.ModifiedDate)
                             </td>
 
-                            @if (GlobalConfiguration.ShowChangeSummaryWhenEditing)
+                            @if (WikiConfiguration.ShowChangeSummaryWhenEditing)
                             {
                                 <td>
                                     <a class="text-decoration-none"
-                                           href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Compare/@h.Revision">
+                                           href="@WikiConfiguration.BasePath/@sessionState.PageNavigation/Compare/@h.Revision">
                                         @Html.DisplayTextFor(x => h.ChangeSummary)
                                     </a>
                                 </td>
@@ -106,7 +108,7 @@
 
                             <td>
                                 <a class="text-decoration-none"
-                                       href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Compare/@h.Revision">
+                                       href="@WikiConfiguration.BasePath/@sessionState.PageNavigation/Compare/@h.Revision">
                                     @Html.DisplayTextFor(x => h.ChangeAnalysis)
                                 </a>
                             </td>
@@ -114,7 +116,7 @@
                             <td class="text-nowrap">
                                 <div class="d-flex gap-2">
                                     @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
-                                        GlobalConfiguration.BasePath,
+                                        WikiConfiguration.BasePath,
                                         Localizer["Reverting {0} from revision {1} to {2} will rollback {3} changes.<br />Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.<br /><br />Are you sure you want to continue?<br /><br />"]
                                             .Format(h.Name, h.HighestRevision, h.Revision, h.HigherRevisionCount),
                                         Localizer["Revert"].Value,
@@ -123,7 +125,7 @@
                                         @class: "btn btn-warning btn-sm d-inline-flex align-items-center")
 
                                     @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(
-                                        GlobalConfiguration.BasePath,
+                                        WikiConfiguration.BasePath,
                                         Localizer["Deleting revision {0} of \"{1}\" will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?"]
                                             .Format(h.Revision, h.Name),
                                         Localizer["Delete"].Value,

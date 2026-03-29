@@ -9,7 +9,6 @@ namespace TightWiki.Engine.Library.Interfaces
     public interface ITightEngineState
     {
         #region Parameters.
-
         ISharedLocalizationText Localizer { get; }
         ISessionState? Session { get; }
         IQueryCollection QueryString { get; }

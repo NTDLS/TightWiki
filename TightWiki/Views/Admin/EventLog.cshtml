@@ -1,7 +1,9 @@
 @model TightWiki.Models.ViewModels.Admin.EventLogViewModel
+@using TightWiki
 @using TightWiki.Library
 @using TightWiki.Models
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @{
     Layout = "_Layout";
@@ -26,7 +28,7 @@
         </span>
 
         @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
-            GlobalConfiguration.BasePath,
+            WikiConfiguration.BasePath,
             @Localizer["This will permanently purge all event logs. Continue?"].Value,
             @Localizer["Purge Event Log"].Value,
             "/Admin/PurgeEventLog",
@@ -95,7 +97,7 @@
 
                             <td>
                                 <a class="text-decoration-none"
-                                       href="@GlobalConfiguration.BasePath/Admin/EventLogEntry/@ex.Id">
+                                       href="@WikiConfiguration.BasePath/Admin/EventLogEntry/@ex.Id">
                                     @(string.IsNullOrWhiteSpace(ex.Text) ? Localizer["(No text)"].Value : ex.Text)
                                 </a>
                             </td>

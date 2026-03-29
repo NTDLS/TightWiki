@@ -2,6 +2,7 @@
 using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki.Library;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Repository
 {
@@ -44,7 +45,7 @@ namespace TightWiki.Repository
                     throw new Exception(string.Join("\r\n", emailUpdateResult.Errors.Select(o => o.Description)));
                 }
 
-                var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
+                var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
 
                 var claimsToAdd = new List<Claim>
                     {

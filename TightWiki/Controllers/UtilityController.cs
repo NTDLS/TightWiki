@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
+using TightWiki.Models;
 using TightWiki.Models.ViewModels.Utility;
 
 namespace TightWiki.Controllers
@@ -11,8 +12,8 @@ namespace TightWiki.Controllers
     [Authorize]
     [Route("[controller]")]
     public class UtilityController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer)
-        : WikiControllerBase<UtilityController>(logger, signInManager, userManager, localizer)
+        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+        : WikiControllerBase<UtilityController>(logger, signInManager, userManager, localizer, wikiConfiguration)
     {
         [AllowAnonymous]
         [HttpGet("Notify")]

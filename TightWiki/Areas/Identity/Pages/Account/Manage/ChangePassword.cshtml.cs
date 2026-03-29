@@ -56,8 +56,8 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         public ChangePasswordModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<ITightEngine> logger, ISharedLocalizationText localizer)
-                        : base(logger, signInManager, localizer)
+            ILogger<ITightEngine> logger, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+                        : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -89,7 +89,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             var hasPassword = await _userManager.HasPasswordAsync(user);
             if (!hasPassword)
             {
-                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/SetPassword");
+                return RedirectToPage($"{WikiConfiguration.BasePath}/Identity/SetPassword");
             }
 
             return Page();

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
+using TightWiki.Models;
 
 namespace TightWiki.Pages
 {
@@ -8,8 +9,9 @@ namespace TightWiki.Pages
     {
         private readonly ILogger<ITightEngine> _logger;
 
-        public PrivacyModel(SignInManager<IdentityUser> signInManager, ILogger<ITightEngine> logger, ISharedLocalizationText localizer)
-            : base(logger, signInManager, localizer)
+        public PrivacyModel(SignInManager<IdentityUser> signInManager, ILogger<ITightEngine> logger,
+            ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+            : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _logger = logger;
         }

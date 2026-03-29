@@ -22,8 +22,9 @@ namespace TightWiki.Controllers
 {
     [Route("[controller]")]
     public class ProfileController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, IWebHostEnvironment environment, ISharedLocalizationText localizer)
-        : WikiControllerBase<ProfileController>(logger, signInManager, userManager, localizer)
+        UserManager<IdentityUser> userManager, IWebHostEnvironment environment, ISharedLocalizationText localizer,
+        TightWikiConfiguration wikiConfiguration)
+        : WikiControllerBase<ProfileController>(logger, signInManager, userManager, localizer, wikiConfiguration)
     {
         private readonly IWebHostEnvironment _environment = environment;
 
@@ -48,7 +49,7 @@ namespace TightWiki.Controllers
                 string? givenExact = Request.Query["exact"];
 
                 ProfileAvatar? avatar;
-                if (GlobalConfiguration.EnablePublicProfiles)
+                if (WikiConfiguration.EnablePublicProfiles)
                 {
                     avatar = await UsersRepository.GetProfileAvatarByNavigation(NamespaceNavigation.CleanAndValidate(userAccountName)) ?? new ProfileAvatar();
                 }
@@ -202,7 +203,7 @@ namespace TightWiki.Controllers
 
                 userAccountName = NamespaceNavigation.CleanAndValidate(userAccountName);
 
-                if (!GlobalConfiguration.EnablePublicProfiles)
+                if (!WikiConfiguration.EnablePublicProfiles)
                 {
                     return View(new PublicViewModel
                     {
@@ -227,11 +228,11 @@ namespace TightWiki.Controllers
                     TimeZone = accountProfile.TimeZone,
                     Language = accountProfile.Language,
                     Country = accountProfile.Country,
-                    Biography = WikifierLite.Process(accountProfile.Biography),
+                    Biography = WikifierLite.Process(WikiConfiguration, accountProfile.Biography),
                     Avatar = accountProfile.Avatar
                 };
 
-                model.RecentlyModified = (await PageRepository.GetTopRecentlyModifiedPagesInfoByUserId(accountProfile.UserId, GlobalConfiguration.DefaultProfileRecentlyModifiedCount))
+                model.RecentlyModified = (await PageRepository.GetTopRecentlyModifiedPagesInfoByUserId(accountProfile.UserId, WikiConfiguration.DefaultProfileRecentlyModifiedCount))
                     .OrderByDescending(o => o.ModifiedDate).ThenBy(o => o.Name).ToList();
 
                 foreach (var item in model.RecentlyModified)
@@ -342,11 +343,11 @@ namespace TightWiki.Controllers
                 var file = Request.Form.Files["Avatar"];
                 if (file != null && file.Length > 0)
                 {
-                    if (GlobalConfiguration.AllowableImageTypes.Contains(file.ContentType.ToLowerInvariant()) == false)
+                    if (WikiConfiguration.AllowableImageTypes.Contains(file.ContentType.ToLowerInvariant()) == false)
                     {
                         model.ErrorMessage += Localize("Could not save the attached image, type not allowed.") + "\r\n";
                     }
-                    else if (file.Length > GlobalConfiguration.MaxAvatarFileSize)
+                    else if (file.Length > WikiConfiguration.MaxAvatarFileSize)
                     {
                         model.ErrorMessage += Localize("Could not save the attached image, too large.") + "\r\n";
                     }
@@ -389,7 +390,7 @@ namespace TightWiki.Controllers
                 await UpdateUserCultureCookie(userId);
 
                 //Redirect so that the language and theme are applied immediately.
-                return LocalRedirect($"{GlobalConfiguration.BasePath}/Profile/My?SuccessMessage={Localize("Your profile has been saved.")}");
+                return LocalRedirect($"{WikiConfiguration.BasePath}/Profile/My?SuccessMessage={Localize("Your profile has been saved.")}");
             }
             catch (Exception ex)
             {
@@ -442,7 +443,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess(Localize("Your account has been deleted."), $"/Profile/Deleted");
             }
 
-            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+            return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         /// <summary>

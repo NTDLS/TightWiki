@@ -13,6 +13,7 @@ using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Repository;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -83,8 +84,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<ITightEngine> logger,
-            IWikiEmailSender emailSender, ISharedLocalizationText localizer)
-                        : base(logger, signInManager, localizer)
+            IWikiEmailSender emailSender,
+            ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+                        : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -109,7 +111,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             Input.Countries = CountryItem.GetAll();
             Input.Languages = LanguageItem.GetAll();
 
-            var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
+            var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
 
             if (string.IsNullOrEmpty(Input.TimeZone))
                 Input.TimeZone = membershipConfig.Value<string>("Default TimeZone").EnsureNotNull();
@@ -125,11 +127,11 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{WikiConfiguration.BasePath}/");
 
-                if (GlobalConfiguration.AllowSignup != true)
+                if (WikiConfiguration.AllowSignup != true)
                 {
-                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                    return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
                 }
                 await PopulateDefaults();
 
@@ -146,11 +148,11 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{WikiConfiguration.BasePath}/");
 
-                if (GlobalConfiguration.AllowSignup != true)
+                if (WikiConfiguration.AllowSignup != true)
                 {
-                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                    return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
                 }
 
                 await PopulateDefaults();
@@ -187,7 +189,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                         var userId = await _userManager.GetUserIdAsync(user);
 
-                        var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
+                        var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
                         await UsersRepository.CreateProfile(Guid.Parse(userId), Input.AccountName);
                         await UsersRepository.AddRoleMemberByname(Guid.Parse(user.Id), membershipConfig.Value<string>("Default Signup Role").EnsureNotNull());
 
@@ -213,9 +215,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
                                 values: new { area = "Identity", userId = userId, code = encodedCode, returnUrl = ReturnUrl },
                                 protocol: Request.Scheme);
 
-                            var configEmailTemplate = await ConfigurationRepository.Get<string>(Constants.WikiConfigurationGroup.Membership, "Template: Account Verification Email");
+                            var configEmailTemplate = await ConfigurationRepository.Get<string>(WikiConfigurationGroup.Membership, "Template: Account Verification Email");
                             var emailTemplate = new StringBuilder(configEmailTemplate);
-                            var basicConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Basic);
+                            var basicConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
                             var siteName = basicConfig.Value<string>("Name");
                             var address = basicConfig.Value<string>("Address");
                             var profile = await UsersRepository.GetAccountProfileByUserId(Guid.Parse(userId));
@@ -236,7 +238,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                             await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate.ToString());
 
-                            return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegisterConfirmation?email={Input.Email}&returnUrl={WebUtility.UrlEncode(returnUrl)}");
+                            return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/RegisterConfirmation?email={Input.Email}&returnUrl={WebUtility.UrlEncode(returnUrl)}");
                         }
                         else
                         {

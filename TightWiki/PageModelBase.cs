@@ -21,9 +21,12 @@ namespace TightWiki
         public string ErrorMessage { get; set; } = string.Empty;
 
         public ILogger<ITightEngine> Logger { get; private set; }
+        public TightWikiConfiguration WikiConfiguration { get; private set; }
 
-        public PageModelBase(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, ISharedLocalizationText localizer)
+        public PageModelBase(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
+            ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
         {
+            WikiConfiguration = wikiConfiguration;
             Localizer = localizer;
             Logger = logger;
             SignInManager = signInManager;
@@ -31,7 +34,7 @@ namespace TightWiki
 
         public override async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
         {
-            var sessionState = await SessionState.Hydrate(Logger, SignInManager, this);
+            var sessionState = await SessionState.Hydrate(Logger, SignInManager, this, WikiConfiguration);
             ViewData["SessionState"] = sessionState;
             await next();
         }
@@ -69,21 +72,21 @@ namespace TightWiki
             => int.Parse(GetFormString(key, defaultValue.ToString()));
 
         protected RedirectResult NotifyOfSuccess(string message, string redirectUrl)
-            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}")}&RedirectTimeout=5");
+            => Redirect($"{WikiConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString($"{WikiConfiguration.BasePath}{redirectUrl}")}&RedirectTimeout=5");
 
         protected RedirectResult NotifyOfWarning(string message, string redirectUrl)
-            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyWarningMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString(Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}"))}");
+            => Redirect($"{WikiConfiguration.BasePath}/Utility/Notify?NotifyWarningMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString(Uri.EscapeDataString($"{WikiConfiguration.BasePath}{redirectUrl}"))}");
 
         protected RedirectResult NotifyOfError(string message, string redirectUrl)
-            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString(Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}"))}");
+            => Redirect($"{WikiConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString(Uri.EscapeDataString($"{WikiConfiguration.BasePath}{redirectUrl}"))}");
 
         protected RedirectResult NotifyOfSuccess(string message)
-            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(message)}");
+            => Redirect($"{WikiConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(message)}");
 
         protected RedirectResult NotifyOfWarning(string message)
-            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyWarningMessage={Uri.EscapeDataString(message)}");
+            => Redirect($"{WikiConfiguration.BasePath}/Utility/Notify?NotifyWarningMessage={Uri.EscapeDataString(message)}");
 
         protected RedirectResult NotifyOfError(string message)
-            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString(message)}");
+            => Redirect($"{WikiConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString(message)}");
     }
 }

@@ -17,8 +17,8 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
 
         public GenerateRecoveryCodesModel(SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            ILogger<ITightEngine> logger, ISharedLocalizationText localizer)
-                        : base(logger, signInManager, localizer)
+            ILogger<ITightEngine> logger, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+                        : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _userManager = userManager;
             _logger = logger;
@@ -75,7 +75,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
 
             _logger.LogInformation("User with ID '{UserId}' has generated new 2FA recovery codes.", userId);
             StatusMessage = Localizer["You have generated new recovery codes."];
-            return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/ShowRecoveryCodes");
+            return RedirectToPage($"{WikiConfiguration.BasePath}/Identity/ShowRecoveryCodes");
         }
     }
 }

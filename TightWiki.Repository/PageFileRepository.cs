@@ -1,7 +1,7 @@
 ﻿using NTDLS.SqliteDapperWrapper;
 using TightWiki.Caching;
-using TightWiki.Models;
 using TightWiki.Models.DataModels;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Repository
 {
@@ -22,13 +22,15 @@ namespace TightWiki.Repository
         public static async Task<List<OrphanedPageAttachment>> GetOrphanedPageAttachmentsPaged(
             int pageNumber, string? orderBy = null, string? orderByDirection = null)
         {
+            var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+
             var param = new
             {
                 PageNumber = pageNumber,
-                PageSize = GlobalConfiguration.PaginationSize
+                PageSize = paginationSize
             };
 
-            var query = RepositoryHelper.TransposeOrderby("GetOrphanedPageAttachments.sql", orderBy, orderByDirection);
+            var query = RepositoryHelpers.TransposeOrderby("GetOrphanedPageAttachments.sql", orderBy, orderByDirection);
             return await ManagedDataStorage.Pages.QueryAsync<OrphanedPageAttachment>(query, param);
         }
 
@@ -47,7 +49,7 @@ namespace TightWiki.Repository
 
         public static async Task<List<PageFileAttachmentInfo>> GetPageFilesInfoByPageNavigationAndPageRevisionPaged(string pageNavigation, int pageNumber, int? pageSize = null, int? pageRevision = null)
         {
-            pageSize ??= GlobalConfiguration.PaginationSize;
+            pageSize ??= await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -103,12 +105,14 @@ namespace TightWiki.Repository
 
         public static async Task<List<PageFileAttachmentInfo>> GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged(string pageNavigation, string fileNavigation, int pageNumber)
         {
+            var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+
             var param = new
             {
                 PageNavigation = pageNavigation,
                 FileNavigation = fileNavigation,
                 PageNumber = pageNumber,
-                PageSize = GlobalConfiguration.PaginationSize
+                PageSize = paginationSize
             };
 
             return await ManagedDataStorage.Pages.EphemeralAsync(async o =>

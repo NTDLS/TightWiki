@@ -14,10 +14,10 @@ using TightWiki.Engine;
 using TightWiki.Engine.Implementation.Handlers;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
-using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 using TightWiki.Repository.Extensions;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Test.Library
 {
@@ -92,7 +92,7 @@ namespace TightWiki.Test.Library
             Engine = host.Services.GetRequiredService<ITightEngine>();
 
             //Loading all settings.
-            ConfigurationRepository.ReloadEverything().Wait();
+            //ConfigurationRepository.ReloadEverything().Wait();
         }
 
         public async Task CreatePage(string navigation, string createdByAccountNavigaion, List<string>? tags = null)
@@ -146,9 +146,9 @@ namespace TightWiki.Test.Library
 
         private async Task AttachFile(int pageId, Guid userId, string fileName, byte[] fileData)
         {
-            if (fileData.Length > GlobalConfiguration.MaxAttachmentFileSize)
+            //if (fileData.Length > GlobalConfiguration.MaxAttachmentFileSize)
             {
-                throw new Exception("Could not save the attached file, too large");
+                //    throw new Exception("Could not save the attached file, too large");
             }
 
             await PageFileRepository.UpsertPageFile(new PageFileAttachment()
@@ -178,7 +178,7 @@ namespace TightWiki.Test.Library
             }
 
             var userId = UserManager.GetUserIdAsync(user).Result;
-            var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
+            var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
 
             await UsersRepository.CreateProfile(Guid.Parse(userId), accountName);
 

@@ -1,7 +1,9 @@
-﻿@using TightWiki.Library
+﻿@using TightWiki
+@using TightWiki.Library
 @using TightWiki.Models
 @using static TightWiki.Library.Constants
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @model TightWiki.Models.ViewModels.File.FileAttachmentViewModel
 @{
@@ -43,12 +45,12 @@
             if (confirm("@(Localizer["Are you sure you want to detach"]) '" + fileName + "'?")) {
                 $.ajax({
                     type: 'POST',
-                    url: '@GlobalConfiguration.BasePath/File/Detach/'
+                        url: '@WikiConfiguration.BasePath/File/Detach/'
                          + encodeURIComponent('@Html.Raw(Model.PageNavigation)')
                          + '/' + encodeURIComponent(fileName)
                          + '/' + encodeURIComponent('@Model.PageRevision'),
                     success: function (result) {
-                        $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@Html.Raw(Model.PageNavigation)");
+                            $("#uploadedFiles").load("@WikiConfiguration.BasePath/File/PageAttachments/@Html.Raw(Model.PageNavigation)");
                     }
                 });
             }
@@ -88,8 +90,8 @@
     {
         <div class="list-group-item d-flex justify-content-between align-items-center">
             <div class="ms-1 mb-1">
-                <a href="@GlobalConfiguration.BasePath/File/Binary/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.Name</a> <span class="file-meta">(@x.FriendlySize)</span>
-                <a href="@GlobalConfiguration.BasePath/File/Revisions/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.FileRevision @Localizer["revisions"]</a>
+                <a href="@WikiConfiguration.BasePath/File/Binary/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.Name</a> <span class="file-meta">(@x.FriendlySize)</span>
+                <a href="@WikiConfiguration.BasePath/File/Revisions/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.FileRevision @Localizer["revisions"]</a>
             </div>
             <div class="d-inline-flex gap-1">
                 <button class="btn btn-thin btn-primary me-0" onclick="copyToClipboard('@x.Name', this); return false;">

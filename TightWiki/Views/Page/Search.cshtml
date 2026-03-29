@@ -1,6 +1,8 @@
-﻿@using TightWiki.Models
+﻿@using TightWiki
+@using TightWiki.Models
 @using TightWiki.Library
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @model TightWiki.Models.ViewModels.Page.PageSearchViewModel
 @{
@@ -63,7 +65,7 @@
                                     }
 
                                     <a class="text-decoration-none fw-semibold"
-                                           href="@GlobalConfiguration.BasePath/@p.Navigation">
+                                           href="@WikiConfiguration.BasePath/@p.Navigation">
                                         @p.Title
                                     </a>
 

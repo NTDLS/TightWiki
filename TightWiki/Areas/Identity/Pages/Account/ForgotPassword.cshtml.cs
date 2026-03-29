@@ -13,6 +13,7 @@ using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Repository;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -25,8 +26,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public ForgotPasswordModel(
             ILogger<ITightEngine> logger, UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager, IWikiEmailSender emailSender, ISharedLocalizationText localizer)
-            : base(logger, signInManager, localizer)
+            SignInManager<IdentityUser> signInManager, IWikiEmailSender emailSender, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+            : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _logger = logger;
             _userManager = userManager;
@@ -65,7 +66,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                     {
                         // Don't reveal that the user does not exist or is not confirmed
-                        return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/ForgotPasswordConfirmation");
+                        return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/ForgotPasswordConfirmation");
                     }
 
                     var code = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -76,10 +77,10 @@ namespace TightWiki.Areas.Identity.Pages.Account
                         values: new { area = "Identity", encodedCode },
                         protocol: Request.Scheme);
 
-                    var configEmailTemplate = await ConfigurationRepository.Get<string>(Constants.WikiConfigurationGroup.Membership, "Template: Reset Password Email");
+                    var configEmailTemplate = await ConfigurationRepository.Get<string>(WikiConfigurationGroup.Membership, "Template: Reset Password Email");
 
                     var emailTemplate = new StringBuilder(configEmailTemplate);
-                    var basicConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Basic);
+                    var basicConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
                     var siteName = basicConfig.Value<string>("Name");
                     var address = basicConfig.Value<string>("Address");
                     var profile = await UsersRepository.GetAccountProfileByUserId(Guid.Parse(user.Id));
@@ -100,7 +101,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                     await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate.ToString());
 
-                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/ForgotPasswordConfirmation");
+                    return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/ForgotPasswordConfirmation");
                 }
             }
             catch (Exception ex)

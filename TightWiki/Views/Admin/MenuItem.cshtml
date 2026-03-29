@@ -1,6 +1,8 @@
-﻿@using TightWiki.Library
+﻿@using TightWiki
+@using TightWiki.Library
 @using TightWiki.Models
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @model TightWiki.Models.ViewModels.Admin.MenuItemViewModel
 @{
@@ -32,11 +34,11 @@
                 </button>
 
                 @ConfirmActionHelper.GenerateDangerButton(
-                    GlobalConfiguration.BasePath,
+                    WikiConfiguration.BasePath,
                     Localizer["Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?"].Format(Model.Name),
                     Localizer["Delete"].Value,
                     $"/Admin/DeleteMenuItem/{Model.Id}",
-                    $"{GlobalConfiguration.BasePath}/Admin/MenuItems",
+                    $"{WikiConfiguration.BasePath}/Admin/MenuItems",
                     Context.Request.Path.Value)
             </div>
         </div>
