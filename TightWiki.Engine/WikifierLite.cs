@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using TightWiki.Engine.Library;
+using TightWiki.Engine.Library.Function;
 using TightWiki.Models;
 
 namespace TightWiki.Engine
@@ -75,12 +76,12 @@ namespace TightWiki.Engine
                 {
                     if (scale != 100 && scale > 0 && scale <= 500)
                     {
-                        var emojiImage = $"<img src=\"/file/Emoji/{key.Trim('%')}?Scale={scale}\" alt=\"{emoji?.Name}\" />";
+                        var emojiImage = $"<img src=\"{wikiConfiguration.BasePath}/file/Emoji/{key.Trim('%')}?Scale={scale}\" alt=\"{emoji?.Name}\" />";
                         pageContent.Replace(match.Value, StoreMatch(matchStore, emojiImage));
                     }
                     else
                     {
-                        var emojiImage = $"<img src=\"/file/Emoji/{key.Trim('%')}\" alt=\"{emoji?.Name}\" />";
+                        var emojiImage = $"<img src=\"{wikiConfiguration.BasePath}/file/Emoji/{key.Trim('%')}\" alt=\"{emoji?.Name}\" />";
                         pageContent.Replace(match.Value, StoreMatch(matchStore, emojiImage));
                     }
                 }
@@ -137,10 +138,8 @@ namespace TightWiki.Engine
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                //WIP
-                /*
-                var args = FunctionParser.ParseArgumentsAddParenthesis(keyword);
 
+                var args = ParsedFunction.ParseArgumentsAddParenthesis(keyword);
                 if (args.Count > 1)
                 {
                     pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{args[0]}\">{args[1]}</a>"));
@@ -149,7 +148,6 @@ namespace TightWiki.Engine
                 {
                     pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{args[0]}\">{args[0]}</a>"));
                 }
-                */
             }
 
             //Parse external explicit links. eg. [[https://test.net]].
@@ -158,19 +156,16 @@ namespace TightWiki.Engine
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                //WIP
-                /*
-                                var args = FunctionParser.ParseArgumentsAddParenthesis(keyword);
 
-                                if (args.Count == 1)
-                                {
-                                    pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{args[0]}\">{args[1]}</a>"));
-                                }
-                                else if (args.Count > 1)
-                                {
-                                    pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{args[0]}\">{args[0]}</a>"));
-                                }
-                */
+                var args = ParsedFunction.ParseArgumentsAddParenthesis(keyword);
+                if (args.Count == 1)
+                {
+                    pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{args[0]}\">{args[1]}</a>"));
+                }
+                else if (args.Count > 1)
+                {
+                    pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{args[0]}\">{args[0]}</a>"));
+                }
             }
 
             //Parse internal dynamic links. eg [[AboutUs|About Us]].
@@ -179,19 +174,16 @@ namespace TightWiki.Engine
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
-                //WIP
-                /*
-                var args = FunctionParser.ParseArgumentsAddParenthesis(keyword);
+                var args = ParsedFunction.ParseArgumentsAddParenthesis(keyword);
 
                 if (args.Count == 1)
                 {
-                    pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{GlobalConfiguration.BasePath}/{args[0]}\">{args[0]}</a>"));
+                    pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{wikiConfiguration.BasePath}/{args[0]}\">{args[0]}</a>"));
                 }
                 else if (args.Count > 1)
                 {
-                    pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{GlobalConfiguration.BasePath}/{args[0]}\">{args[1]}</a>"));
+                    pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{wikiConfiguration.BasePath}/{args[0]}\">{args[1]}</a>"));
                 }
-                */
             }
         }
     }
