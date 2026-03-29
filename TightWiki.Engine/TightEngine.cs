@@ -1,19 +1,21 @@
 ﻿using Microsoft.Extensions.Logging;
+using NTDLS.Helpers;
+using System.Reflection;
+using TightWiki.Engine.Library;
+using TightWiki.Engine.Library.Function.Attributes;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
-using static TightWiki.Engine.Library.Constants;
+using TightWiki.Models;
 
 namespace TightWiki.Engine
 {
     public class TightEngine
         : ITightEngine
     {
+        public TightWikiConfiguration WikiConfiguration { get; private set; }
+
         public ILogger<ITightEngine> Logger { get; set; }
-        public IScopeFunctionHandler ScopeFunctionHandler { get; private set; }
-        public IStandardFunctionHandler StandardFunctionHandler { get; private set; }
-        public IProcessingInstructionFunctionHandler ProcessingInstructionFunctionHandler { get; private set; }
-        public IPostProcessingFunctionHandler PostProcessingFunctionHandler { get; private set; }
         public IMarkupHandler MarkupHandler { get; private set; }
         public IHeadingHandler HeadingHandler { get; private set; }
         public ICommentHandler CommentHandler { get; private set; }
@@ -23,12 +25,15 @@ namespace TightWiki.Engine
         public IExceptionHandler ExceptionHandler { get; private set; }
         public ICompletionHandler CompletionHandler { get; private set; }
 
+        public List<TightEngineFunctionModule> EngineModules { get; private set; }
+        public List<TightEngineFunctionDescriptor> StandardFunctions { get; private set; }
+        public List<TightEngineFunctionDescriptor> ScopeFunctions { get; private set; }
+        public List<TightEngineFunctionDescriptor> ProcessingFunctions { get; private set; }
+        public List<TightEngineFunctionDescriptor> PostProcessingFunctions { get; private set; }
+
         public TightEngine(
+            TightWikiConfiguration wikiConfiguration,
             ILogger<ITightEngine> logger,
-            IStandardFunctionHandler standardFunctionHandler,
-            IScopeFunctionHandler scopeFunctionHandler,
-            IProcessingInstructionFunctionHandler processingInstructionFunctionHandler,
-            IPostProcessingFunctionHandler postProcessingFunctionHandler,
             IMarkupHandler markupHandler,
             IHeadingHandler headingHandler,
             ICommentHandler commentHandler,
@@ -38,13 +43,8 @@ namespace TightWiki.Engine
             IExceptionHandler exceptionHandler,
             ICompletionHandler completionHandler)
         {
+            WikiConfiguration = wikiConfiguration;
             Logger = logger;
-            StandardFunctionHandler = standardFunctionHandler;
-
-            StandardFunctionHandler = standardFunctionHandler;
-            ScopeFunctionHandler = scopeFunctionHandler;
-            ProcessingInstructionFunctionHandler = processingInstructionFunctionHandler;
-            PostProcessingFunctionHandler = postProcessingFunctionHandler;
             MarkupHandler = markupHandler;
             HeadingHandler = headingHandler;
             CommentHandler = commentHandler;
@@ -53,6 +53,100 @@ namespace TightWiki.Engine
             InternalLinkHandler = internalLinkHandler;
             ExceptionHandler = exceptionHandler;
             CompletionHandler = completionHandler;
+
+            EngineModules = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a => a.GetTypes())
+                .Select(t => new
+                {
+                    Type = t,
+                    Attribute = t.GetCustomAttribute<TightWikiFunctionModuleAttribute>()
+                })
+                .Where(x => x.Attribute != null)
+                .Where(x => typeof(ITightWikiFunctionModule).IsAssignableFrom(x.Type))
+                //This is where we instantiate the function modules, so we can later
+                //  invoke their functions without needing to instantiate them again.
+                .Select(x => new TightEngineFunctionModule(x.Type, x.Attribute.EnsureNotNull()))
+                .ToList();
+
+            StandardFunctions = EngineModules
+                .SelectMany(t => t.DeclaringType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+                .Select(m => new
+                {
+                    Method = m,
+                    Attribute = m.GetCustomAttribute<TightWikiStandardFunctionAttribute>()
+                })
+                .Where(x => x.Attribute != null)
+                .Select(x =>
+                {
+                    if (x.Method.ReturnType != typeof(Task<HandlerResult>))
+                        throw new InvalidOperationException(
+                            $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
+                    return x;
+                })
+                .Select(m => new TightEngineFunctionDescriptor(
+                    EngineModules.Single(t => t.DeclaringType == m.Method.DeclaringType),
+                    m.Method, m.Attribute.EnsureNotNull()))
+                .ToList();
+
+            ScopeFunctions = EngineModules
+                .SelectMany(t => t.DeclaringType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+                .Select(m => new
+                {
+                    Method = m,
+                    Attribute = m.GetCustomAttribute<TightWikiScopeFunctionAttribute>()
+                })
+                .Where(x => x.Attribute != null)
+                .Select(x =>
+                {
+                    if (x.Method.ReturnType != typeof(Task<HandlerResult>))
+                        throw new InvalidOperationException(
+                            $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
+                    return x;
+                })
+                .Select(m => new TightEngineFunctionDescriptor(
+                    EngineModules.Single(t => t.DeclaringType == m.Method.DeclaringType),
+                    m.Method, m.Attribute.EnsureNotNull()))
+                .ToList();
+
+            ProcessingFunctions = EngineModules
+                .SelectMany(t => t.DeclaringType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+                .Select(m => new
+                {
+                    Method = m,
+                    Attribute = m.GetCustomAttribute<TightWikiProcessingInstructionFunctionAttribute>()
+                })
+                .Where(x => x.Attribute != null)
+                .Select(x =>
+                {
+                    if (x.Method.ReturnType != typeof(Task<HandlerResult>))
+                        throw new InvalidOperationException(
+                            $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
+                    return x;
+                })
+                .Select(m => new TightEngineFunctionDescriptor(
+                    EngineModules.Single(t => t.DeclaringType == m.Method.DeclaringType),
+                    m.Method, m.Attribute.EnsureNotNull()))
+                .ToList();
+
+            PostProcessingFunctions = EngineModules
+                .SelectMany(t => t.DeclaringType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+                .Select(m => new
+                {
+                    Method = m,
+                    Attribute = m.GetCustomAttribute<TightWikiPostProcessingInstructionFunctionAttribute>()
+                })
+                .Where(x => x.Attribute != null)
+                .Select(x =>
+                {
+                    if (x.Method.ReturnType != typeof(Task<HandlerResult>))
+                        throw new InvalidOperationException(
+                            $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
+                    return x;
+                })
+                .Select(m => new TightEngineFunctionDescriptor(
+                    EngineModules.Single(t => t.DeclaringType == m.Method.DeclaringType),
+                    m.Method, m.Attribute.EnsureNotNull()))
+                .ToList();
         }
 
         /// <summary>

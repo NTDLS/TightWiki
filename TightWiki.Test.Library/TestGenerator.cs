@@ -1,6 +1,4 @@
-﻿using TightWiki.Engine.Function;
-using TightWiki.Engine.Library.Interfaces;
-using static TightWiki.Engine.Function.FunctionConstants;
+﻿using TightWiki.Engine.Library.Interfaces;
 
 namespace TightWiki.Test.Library
 {
@@ -13,6 +11,7 @@ namespace TightWiki.Test.Library
             _engine = engine;
         }
 
+        /*
         public void Generate(FunctionPrototypeCollection collection)
         {
             //Generate all combination for required parameters.
@@ -29,7 +28,7 @@ namespace TightWiki.Test.Library
                 foreach (var combo in combinations)
                 {
                     var fArgs = string.Join(", ", combo.Select(FormatValue));
-                    Console.WriteLine($"{prototype.Demarcation}{prototype.ProperName}({fArgs})");
+                    Console.WriteLine($"{Descriptor.Demarcation}{prototype.ProperName}({fArgs})");
                 }
             }
 
@@ -96,6 +95,6 @@ namespace TightWiki.Test.Library
                 _ => value.ToString()
             } ?? throw new ArgumentException();
         }
-
+        */
     }
 }

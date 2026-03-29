@@ -1,7 +1,9 @@
+@using TightWiki
 @using TightWiki.Library
 @using TightWiki.Models
 @using TightWiki.Models.ViewModels.AdminSecurity
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @model RoleViewModel
 @{
@@ -46,11 +48,11 @@
         @if (Model.IsBuiltIn != true)
         {
             @ConfirmActionHelper.GenerateDangerButton(
-                GlobalConfiguration.BasePath,
+                WikiConfiguration.BasePath,
                 Localizer["Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?"].Format(Model.Name),
                 Localizer["Delete Role"].Value,
                 $"/AdminSecurity/DeleteRole/{Model.Id}",
-                $"{GlobalConfiguration.BasePath}/AdminSecurity/Roles",
+                $"{WikiConfiguration.BasePath}/AdminSecurity/Roles",
                 Context.Request.Path.Value)
         }
     </div>
@@ -193,7 +195,7 @@
                         <tr>
                             <td>
                                 <a class="text-decoration-none fw-semibold"
-                                       href="@GlobalConfiguration.BasePath/AdminSecurity/Account/@member.Navigation">
+                                       href="@WikiConfiguration.BasePath/AdminSecurity/Account/@member.Navigation">
                                     @member.AccountName
                                 </a>
                             </td>
@@ -221,7 +223,7 @@
             return;
         }
 
-        const response = await fetch(`@GlobalConfiguration.BasePath/AdminSecurity/RemoveRolePermission/${permissionId}`, {
+        const response = await fetch(`@WikiConfiguration.BasePath/AdminSecurity/RemoveRolePermission/${permissionId}`, {
             method: 'POST',
         });
 
@@ -245,7 +247,7 @@
             return;
         }
 
-        const response = await fetch(`@GlobalConfiguration.BasePath/AdminSecurity/RemoveRoleMember/@Model.Id/${userId}`, {
+        const response = await fetch(`@WikiConfiguration.BasePath/AdminSecurity/RemoveRoleMember/@Model.Id/${userId}`, {
             method: 'POST',
         });
 
@@ -366,7 +368,7 @@
             placeholder: "@Localizer["Select a page"]",
             minimumInputLength: 0,
             ajax: {
-                url: '@GlobalConfiguration.BasePath/AdminSecurity/AutocompletePage',
+                url: '@WikiConfiguration.BasePath/AdminSecurity/AutocompletePage',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {
@@ -392,7 +394,7 @@
             placeholder: "@Localizer["Select a namespace"]",
             minimumInputLength: 0,
             ajax: {
-                url: '@GlobalConfiguration.BasePath/AdminSecurity/AutocompleteNamespace',
+                url: '@WikiConfiguration.BasePath/AdminSecurity/AutocompleteNamespace',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {
@@ -482,7 +484,7 @@
             pageId: pageId
         };
 
-        const response = await fetch('@GlobalConfiguration.BasePath/AdminSecurity/AddRolePermission', {
+        const response = await fetch('@WikiConfiguration.BasePath/AdminSecurity/AddRolePermission', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -588,7 +590,7 @@
             placeholder: "@Localizer["Select an account"]",
             minimumInputLength: 0,
             ajax: {
-                url: '@GlobalConfiguration.BasePath/AdminSecurity/AutoCompleteAccount',
+                url: '@WikiConfiguration.BasePath/AdminSecurity/AutoCompleteAccount',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {
@@ -628,7 +630,7 @@
             userId: account[0].id,
         };
 
-        const response = await fetch('@GlobalConfiguration.BasePath/AdminSecurity/AddRoleMember', {
+        const response = await fetch('@WikiConfiguration.BasePath/AdminSecurity/AddRoleMember', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -658,7 +660,7 @@
         const newRow = document.createElement("tr");
 
         newRow.innerHTML = `
-            <td><a href="@GlobalConfiguration.BasePath/AdminSecurity/Account/${result.membership.navigation}">${result.membership.accountName}</a></td>
+            <td><a href="@WikiConfiguration.BasePath/AdminSecurity/Account/${result.membership.navigation}">${result.membership.accountName}</a></td>
             <td>${result.membership.emailAddress}</td>
             <td>${result.membership.firstName}</td>
             <td>${result.membership.lastName}</td>

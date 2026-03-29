@@ -51,9 +51,9 @@ namespace TightWiki.Tests.Unit
 
             //Can we loop here and test all the transformations in one go?
 
-            foreach (var prototype in fixture.EngineArtifacts.Engine.StandardFunctionHandler.Prototypes.Items)
-            {
-            }
+            //foreach (var prototype in fixture.EngineArtifacts.Engine.StandardFunctionHandler.Prototypes.Items)
+            //{
+            //}
 
             /*
 

@@ -1,7 +1,9 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.OrphanedPageAttachmentsViewModel
+@using TightWiki
 @using TightWiki.Library
 @using TightWiki.Models
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @{
     Layout = "_Layout";
@@ -26,7 +28,7 @@
         </span>
 
         @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(
-            GlobalConfiguration.BasePath,
+            WikiConfiguration.BasePath,
             Localizer["This will permanently purge all orphaned page attachments. Continue?"].Value,
             Localizer["Purge Orphaned Attachments"].Value,
             "/Admin/PurgeOrphanedAttachments",
@@ -82,21 +84,21 @@
                                 @if (!string.IsNullOrEmpty(p.Namespace))
                                 {
                                     <a class="text-decoration-none text-muted"
-                                           href="@GlobalConfiguration.BasePath/Admin/Namespace/@p.Namespace">
+                                           href="@WikiConfiguration.BasePath/Admin/Namespace/@p.Namespace">
                                         @p.Namespace
                                     </a>
                                     <span class="text-muted"> :: </span>
                                 }
 
                                 <a class="text-decoration-none fw-semibold"
-                                       href="@GlobalConfiguration.BasePath/@p.PageNavigation">
+                                       href="@WikiConfiguration.BasePath/@p.PageNavigation">
                                     @p.PageTitle
                                 </a>
                             </td>
 
                             <td>
                                 <a class="text-decoration-none"
-                                       href="@GlobalConfiguration.BasePath/File/Binary/@p.PageNavigation/@p.FileNavigation/@p.FileRevision">
+                                       href="@WikiConfiguration.BasePath/File/Binary/@p.PageNavigation/@p.FileNavigation/@p.FileRevision">
                                     @p.FileName
                                 </a>
                             </td>
@@ -112,7 +114,7 @@
                             <td class="text-nowrap">
                                 <div class="d-flex gap-2">
                                     @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(
-                                        GlobalConfiguration.BasePath,
+                                        WikiConfiguration.BasePath,
                                         Localizer["This will permanently delete the specified attachment. Continue?"].Value,
                                         Localizer["Delete"].Value,
                                         $"/Admin/PurgeOrphanedAttachment/{p.PageFileId}/{p.FileRevision}",

@@ -1,7 +1,9 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.DeletedPagesRevisionsViewModel
+@using TightWiki
 @using TightWiki.Library
 @using TightWiki.Models
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @{
     Layout = "_Layout";
@@ -26,7 +28,7 @@
         </span>
 
         @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(
-            GlobalConfiguration.BasePath,
+            WikiConfiguration.BasePath,
             Localizer["This will permanently purge all deleted page revisions for \"{0}\". Continue?"].Format(Model.Name),
             Localizer["Purge Deleted Revisions"].Value,
             $"/Admin/PurgeDeletedPageRevisions/{Model.PageId}",
@@ -74,7 +76,7 @@
                         <tr>
                             <td class="text-nowrap">
                                 <a class="text-decoration-none fw-semibold"
-                                       href="@GlobalConfiguration.BasePath/Admin/DeletedPageRevision/@p.Id/@p.Revision">
+                                       href="@WikiConfiguration.BasePath/Admin/DeletedPageRevision/@p.Id/@p.Revision">
                                     @p.Revision
                                 </a>
                             </td>
@@ -90,7 +92,7 @@
                             <td class="text-nowrap">
                                 <div class="d-flex gap-2">
                                     @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(
-                                        GlobalConfiguration.BasePath,
+                                        WikiConfiguration.BasePath,
                                         Localizer["This will restore the deleted revision. Continue?"].Value,
                                         Localizer["Restore"].Value,
                                         $"/Admin/RestoreDeletedPageRevision/{p.Id}/{p.Revision}",
@@ -98,7 +100,7 @@
                                         @class: "btn btn-success btn-sm d-inline-flex align-items-center")
 
                                     @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(
-                                        GlobalConfiguration.BasePath,
+                                        WikiConfiguration.BasePath,
                                         Localizer["This will permanently delete the specified deleted revision. Continue?"].Value,
                                         Localizer["Purge"].Value,
                                         $"/Admin/PurgeDeletedPageRevision/{p.Id}/{p.Revision}",

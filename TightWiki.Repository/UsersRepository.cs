@@ -1,8 +1,8 @@
 ﻿using NTDLS.Helpers;
 using TightWiki.Caching;
 using TightWiki.Library;
-using TightWiki.Models;
 using TightWiki.Models.DataModels;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Repository
 {
@@ -190,7 +190,7 @@ namespace TightWiki.Repository
             {
                 using var users_db = o.Attach("pages.db", "pages_db");
 
-                pageSize ??= GlobalConfiguration.PaginationSize;
+                pageSize ??= await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
                 var param = new
                 {
@@ -199,14 +199,14 @@ namespace TightWiki.Repository
                     RoleId = roleId
                 };
 
-                var query = RepositoryHelper.TransposeOrderby("GetRolePermissionsPaged.sql", orderBy, orderByDirection);
+                var query = RepositoryHelpers.TransposeOrderby("GetRolePermissionsPaged.sql", orderBy, orderByDirection);
                 return await o.QueryAsync<RolePermission>(query, param);
             });
         }
 
         public static async Task<List<AccountProfile>> GetAllPublicProfilesPaged(int pageNumber, int? pageSize = null, string? searchToken = null)
         {
-            pageSize ??= GlobalConfiguration.PaginationSize;
+            pageSize ??= await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -264,20 +264,22 @@ namespace TightWiki.Repository
 
         public static async Task<List<Role>> GetAllRoles(string? orderBy = null, string? orderByDirection = null)
         {
-            var query = RepositoryHelper.TransposeOrderby("GetAllRoles.sql", orderBy, orderByDirection);
+            var query = RepositoryHelpers.TransposeOrderby("GetAllRoles.sql", orderBy, orderByDirection);
             return await ManagedDataStorage.Users.QueryAsync<Role>(query);
         }
 
         public static async Task<List<AccountProfile>> GetRoleMembersPaged(int roleId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
+            var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+
             var param = new
             {
                 RoleId = roleId,
                 PageNumber = pageNumber,
-                PageSize = GlobalConfiguration.PaginationSize
+                PageSize = paginationSize
             };
 
-            var query = RepositoryHelper.TransposeOrderby("GetRoleMembersPaged.sql", orderBy, orderByDirection);
+            var query = RepositoryHelpers.TransposeOrderby("GetRoleMembersPaged.sql", orderBy, orderByDirection);
             return await ManagedDataStorage.Users.QueryAsync<AccountProfile>(query, param);
         }
 
@@ -287,7 +289,7 @@ namespace TightWiki.Repository
             {
                 using var users_db = o.Attach("pages.db", "pages_db");
 
-                pageSize ??= GlobalConfiguration.PaginationSize;
+                pageSize ??= await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
                 var param = new
                 {
@@ -296,21 +298,23 @@ namespace TightWiki.Repository
                     UserId = userId
                 };
 
-                var query = RepositoryHelper.TransposeOrderby("GetAccountPermissionsPaged.sql", orderBy, orderByDirection);
+                var query = RepositoryHelpers.TransposeOrderby("GetAccountPermissionsPaged.sql", orderBy, orderByDirection);
                 return await o.QueryAsync<AccountPermission>(query, param);
             });
         }
 
         public static async Task<List<AccountRoleMembership>> GetAccountRoleMembershipPaged(Guid userId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
+            var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+
             var param = new
             {
                 UserId = userId,
                 PageNumber = pageNumber,
-                PageSize = GlobalConfiguration.PaginationSize
+                PageSize = paginationSize
             };
 
-            var query = RepositoryHelper.TransposeOrderby("GetAccountRoleMembershipPaged.sql", orderBy, orderByDirection);
+            var query = RepositoryHelpers.TransposeOrderby("GetAccountRoleMembershipPaged.sql", orderBy, orderByDirection);
             return await ManagedDataStorage.Users.QueryAsync<AccountRoleMembership>(query, param);
         }
 
@@ -319,14 +323,16 @@ namespace TightWiki.Repository
 
         public static async Task<List<AccountProfile>> GetAllUsersPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null, string? searchToken = null)
         {
+            var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+
             var param = new
             {
                 PageNumber = pageNumber,
-                PageSize = GlobalConfiguration.PaginationSize,
+                PageSize = paginationSize,
                 SearchToken = searchToken
             };
 
-            var query = RepositoryHelper.TransposeOrderby("GetAllUsersPaged.sql", orderBy, orderByDirection);
+            var query = RepositoryHelpers.TransposeOrderby("GetAllUsersPaged.sql", orderBy, orderByDirection);
             return await ManagedDataStorage.Users.QueryAsync<AccountProfile>(query, param);
         }
 

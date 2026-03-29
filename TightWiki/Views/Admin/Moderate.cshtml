@@ -1,6 +1,8 @@
-﻿@using TightWiki.Models
+﻿@using TightWiki
+@using TightWiki.Models
 @using TightWiki.Library
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @model TightWiki.Models.ViewModels.Admin.PageModerateViewModel
 @{
@@ -71,14 +73,14 @@
                         <tr>
                             <td>
                                 <a class="text-decoration-none fw-semibold"
-                                       href="@GlobalConfiguration.BasePath/@p.Navigation">
+                                       href="@WikiConfiguration.BasePath/@p.Navigation">
                                     @p.Name
                                 </a>
                             </td>
 
                             <td class="text-nowrap">
                                 <a class="text-decoration-none"
-                                       href="@GlobalConfiguration.BasePath/@p.Navigation/Revisions">
+                                       href="@WikiConfiguration.BasePath/@p.Navigation/Revisions">
                                     @p.Revision
                                 </a>
                             </td>

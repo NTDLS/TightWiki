@@ -1,17 +1,15 @@
 ﻿using Microsoft.Extensions.Logging;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
-using static TightWiki.Engine.Library.Constants;
+using TightWiki.Models;
 
 namespace TightWiki.Engine.Library.Interfaces
 {
     public interface ITightEngine
     {
+        TightWikiConfiguration WikiConfiguration { get; }
+
         ILogger<ITightEngine> Logger { get; }
-        IScopeFunctionHandler ScopeFunctionHandler { get; }
-        IStandardFunctionHandler StandardFunctionHandler { get; }
-        IProcessingInstructionFunctionHandler ProcessingInstructionFunctionHandler { get; }
-        IPostProcessingFunctionHandler PostProcessingFunctionHandler { get; }
         IMarkupHandler MarkupHandler { get; }
         IHeadingHandler HeadingHandler { get; }
         ICommentHandler CommentHandler { get; }
@@ -20,7 +18,12 @@ namespace TightWiki.Engine.Library.Interfaces
         IInternalLinkHandler InternalLinkHandler { get; }
         IExceptionHandler ExceptionHandler { get; }
         ICompletionHandler CompletionHandler { get; }
+
+        List<TightEngineFunctionDescriptor> StandardFunctions { get; }
+        List<TightEngineFunctionDescriptor> ScopeFunctions { get; }
+        List<TightEngineFunctionDescriptor> ProcessingFunctions { get; }
+        List<TightEngineFunctionDescriptor> PostProcessingFunctions { get; }
+
         Task<ITightEngineState> Transform(ISharedLocalizationText localizer, ISessionState? sessionState, IWikiPage page, int? revision = null, WikiMatchType[]? omitMatches = null);
-        //ITightEngineState TransformChild(ITightEngineState parent, IPage page, int? revision = null);
     }
 }

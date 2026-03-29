@@ -3,7 +3,7 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Version>2.31.3</Version>
+		<Version>2.32.0</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -12,7 +12,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\TightWiki.Engine.Function\TightWiki.Engine.Function.csproj" />
 		<ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />
+		<ProjectReference Include="..\TightWiki.Models\TightWiki.Models.csproj" />
 	</ItemGroup>
 </Project>

@@ -1,7 +1,9 @@
-﻿@using TightWiki.Models
+﻿@using TightWiki
+@using TightWiki.Models
 @using TightWiki.Models.ViewModels.AdminSecurity
 @using TightWiki.Library
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @model AccountProfileViewModel
 @{
@@ -16,7 +18,7 @@
     </div>
 </div>
 
-@using (Html.BeginForm(null, null, new { navigation = Model.AccountProfile.Navigation }, FormMethod.Post, true, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}", enctype = "multipart/form-data" }))
+@using (Html.BeginForm(null, null, new { navigation = Model.AccountProfile.Navigation }, FormMethod.Post, true, new { action = $"{WikiConfiguration.BasePath}{Context.Request.Path}", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.AccountProfile.Navigation)
@@ -42,7 +44,7 @@
                         <div class="card-body text-center">
                             <div id="avatar-preview-container">
                                 <img id="avatar-preview"
-                                     src="@GlobalConfiguration.BasePath/Profile/Default/Avatar?max=150"
+                                     src="@WikiConfiguration.BasePath/Profile/Default/Avatar?max=150"
                                      alt="Image Preview"
                                      class="img-thumbnail"
                                      style="max-width: 200px; max-height: 200px;" />

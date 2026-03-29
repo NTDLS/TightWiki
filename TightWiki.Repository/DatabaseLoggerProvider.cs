@@ -2,7 +2,8 @@
 
 namespace TightWiki.Repository
 {
-    public class DatabaseLoggerProvider : ILoggerProvider
+    public class DatabaseLoggerProvider
+        : ILoggerProvider
     {
         private readonly LogLevel _minLevel;
 
@@ -16,6 +17,9 @@ namespace TightWiki.Repository
             return new DatabaseLogger(categoryName, _minLevel);
         }
 
-        public void Dispose() { }
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+        }
     }
 }

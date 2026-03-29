@@ -5,7 +5,6 @@ using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models.DataModels;
-using TightWiki.Repository;
 using TightWiki.Test.Library;
 using Xunit.Abstractions;
 
@@ -81,7 +80,7 @@ namespace TightWiki.Tests
         private async Task CreateFixtureInstance()
         {
             _output.WriteLine($"Loadnig all settings.");
-            await ConfigurationRepository.ReloadEverything();
+            //await ConfigurationRepository.ReloadEverything();
 
             _output.WriteLine($"Creating users and profiles.");
             await EngineArtifacts.CreateUserAndProfile(_emailAddress, _accountName, _password);

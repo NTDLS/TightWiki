@@ -17,7 +17,7 @@
         .removeClass('text-dark')
         .addClass('@sessionState.UserTheme.ClassBranding');
 
-    @if (TightWiki.Models.GlobalConfiguration.FixedMenuPosition) {
+    @if (GlobalConfiguration.FixedMenuPosition) {
         <text>
             const navHeight = $('nav').outerHeight() + 20;
             $('#mainContainer').css('margin-top', navHeight + 'px');

@@ -1,7 +1,9 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.DeletedPagesViewModel
+@using TightWiki
 @using TightWiki.Library
 @using TightWiki.Models
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @{
     Layout = "_Layout";
@@ -26,7 +28,7 @@
         </span>
 
         @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(
-            GlobalConfiguration.BasePath,
+            WikiConfiguration.BasePath,
             Localizer["This will permanently purge all deleted pages. Continue?"].Value,
             Localizer["Purge Deleted Pages"].Value,
             "/Admin/PurgeDeletedPages",
@@ -84,14 +86,14 @@
                                 @if (!string.IsNullOrEmpty(p.Namespace))
                                 {
                                     <a class="text-decoration-none text-muted"
-                                           href="@GlobalConfiguration.BasePath/Admin/Namespace/@p.Namespace">
+                                           href="@WikiConfiguration.BasePath/Admin/Namespace/@p.Namespace">
                                         @p.Namespace
                                     </a>
                                     <span class="text-muted"> :: </span>
                                 }
 
                                 <a class="text-decoration-none fw-semibold"
-                                       href="@GlobalConfiguration.BasePath/Admin/DeletedPage/@p.Id">
+                                       href="@WikiConfiguration.BasePath/Admin/DeletedPage/@p.Id">
                                     @p.Title
                                 </a>
                             </td>
@@ -99,7 +101,7 @@
                             <td class="text-nowrap">
                                 <div class="d-flex gap-2">
                                     @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(
-                                        GlobalConfiguration.BasePath,
+                                        WikiConfiguration.BasePath,
                                         Localizer["This will restore the deleted page and all of its history. Continue?"].Value,
                                         Localizer["Restore"].Value,
                                         "/Admin/RestoreDeletedPage/" + p.Id,
@@ -107,7 +109,7 @@
                                         @class: "btn btn-sm btn-outline-primary d-inline-flex align-items-center")
 
                                     @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(
-                                        GlobalConfiguration.BasePath,
+                                        WikiConfiguration.BasePath,
                                         Localizer["This will permanently delete the specified page, all revisions and attachments. Continue?"].Value,
                                         Localizer["Purge"].Value,
                                         "/Admin/PurgeDeletedPage/" + p.Id,

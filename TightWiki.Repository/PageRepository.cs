@@ -5,8 +5,8 @@ using NTDLS.SqliteDapperWrapper;
 using TightWiki.Caching;
 using TightWiki.Engine.Library;
 using TightWiki.Library;
-using TightWiki.Models;
 using TightWiki.Models.DataModels;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Repository
 {
@@ -65,7 +65,7 @@ namespace TightWiki.Repository
         public static async Task<List<PageRevision>> GetPageRevisionsInfoByNavigationPaged(
             string navigation, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
-            pageSize ??= GlobalConfiguration.PaginationSize;
+            pageSize ??= await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -78,7 +78,7 @@ namespace TightWiki.Repository
             {
                 using var users_db = o.Attach("users.db", "users_db");
 
-                var query = RepositoryHelper.TransposeOrderby("GetPageRevisionsInfoByNavigationPaged.sql", orderBy, orderByDirection);
+                var query = RepositoryHelpers.TransposeOrderby("GetPageRevisionsInfoByNavigationPaged.sql", orderBy, orderByDirection);
                 return await o.QueryAsync<PageRevision>(query, param);
             });
         }
@@ -218,7 +218,7 @@ namespace TightWiki.Repository
                 return new List<WikiPage>();
             }
 
-            pageSize ??= GlobalConfiguration.PaginationSize;
+            pageSize ??= await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
             allowFuzzyMatching ??= await ConfigurationRepository.Get<bool>("Search", "Allow Fuzzy Matching");
 
             var meteredSearchTokens = await GetMeteredPageSearchTokens(searchTerms, allowFuzzyMatching == true);
@@ -245,7 +245,7 @@ namespace TightWiki.Repository
 
         public static async Task<List<RelatedPage>> GetSimilarPagesPaged(int pageId, int similarity, int pageNumber, int? pageSize = null)
         {
-            pageSize ??= GlobalConfiguration.PaginationSize;
+            pageSize ??= await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -260,7 +260,7 @@ namespace TightWiki.Repository
 
         public static async Task<List<RelatedPage>> GetRelatedPagesPaged(int pageId, int pageNumber, int? pageSize = null)
         {
-            pageSize ??= GlobalConfiguration.PaginationSize;
+            pageSize ??= await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -326,7 +326,9 @@ namespace TightWiki.Repository
 
         public static async Task<List<PageComment>> GetPageCommentsPaged(string navigation, int pageNumber)
         {
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [navigation, pageNumber, GlobalConfiguration.PaginationSize]);
+            var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [navigation, pageNumber, paginationSize]);
 
             return (await WikiCache.AddOrGetAsync(cacheKey, async () =>
             {
@@ -334,7 +336,7 @@ namespace TightWiki.Repository
                 {
                     Navigation = navigation,
                     PageNumber = pageNumber,
-                    PageSize = GlobalConfiguration.PaginationSize
+                    PageSize = paginationSize
                 };
 
                 return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
@@ -347,13 +349,15 @@ namespace TightWiki.Repository
 
         public static async Task<List<NonexistentPage>> GetMissingPagesPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null)
         {
+            var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+
             var param = new
             {
                 PageNumber = pageNumber,
-                PageSize = GlobalConfiguration.PaginationSize
+                PageSize = paginationSize
             };
 
-            var query = RepositoryHelper.TransposeOrderby("GetMissingPagesPaged.sql", orderBy, orderByDirection);
+            var query = RepositoryHelpers.TransposeOrderby("GetMissingPagesPaged.sql", orderBy, orderByDirection);
             return await ManagedDataStorage.Pages.QueryAsync<NonexistentPage>(query, param);
         }
 
@@ -388,10 +392,12 @@ namespace TightWiki.Repository
 
         public static async Task<List<WikiPage>> GetAllPagesByInstructionPaged(int pageNumber, string? instruction = null)
         {
+            var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+
             var param = new
             {
                 PageNumber = pageNumber,
-                PageSize = GlobalConfiguration.PaginationSize,
+                PageSize = paginationSize,
                 Instruction = instruction
             };
 
@@ -443,17 +449,19 @@ namespace TightWiki.Repository
         public static async Task<List<WikiPage>> GetAllNamespacePagesPaged(int pageNumber, string namespaceName,
             string? orderBy = null, string? orderByDirection = null)
         {
+            var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+
             var param = new
             {
                 PageNumber = pageNumber,
-                PageSize = GlobalConfiguration.PaginationSize,
+                PageSize = paginationSize,
                 Namespace = namespaceName
             };
 
             return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
-                var query = RepositoryHelper.TransposeOrderby("GetAllNamespacePagesPaged.sql", orderBy, orderByDirection);
+                var query = RepositoryHelpers.TransposeOrderby("GetAllNamespacePagesPaged.sql", orderBy, orderByDirection);
                 return await o.QueryAsync<WikiPage>(query, param);
             });
         }
@@ -465,10 +473,12 @@ namespace TightWiki.Repository
         public static async Task<List<WikiPage>> GetAllPagesPaged(int pageNumber,
             string? orderBy = null, string? orderByDirection = null, List<string>? searchTerms = null)
         {
+            var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+
             var param = new
             {
                 PageNumber = pageNumber,
-                PageSize = GlobalConfiguration.PaginationSize
+                PageSize = paginationSize
             };
 
             if (searchTerms?.Count > 0)
@@ -481,7 +491,7 @@ namespace TightWiki.Repository
                     using var deletedpagerevisions_db = o.Attach("deletedpagerevisions.db", "deletedpagerevisions_db");
                     using var tempTable = o.CreateTempTableFrom("TempPageIds", pageIds);
 
-                    var query = RepositoryHelper.TransposeOrderby("GetAllPagesByPageIdPaged.sql", orderBy, orderByDirection);
+                    var query = RepositoryHelpers.TransposeOrderby("GetAllPagesByPageIdPaged.sql", orderBy, orderByDirection);
                     return await o.QueryAsync<WikiPage>(query, param);
                 });
             }
@@ -491,7 +501,7 @@ namespace TightWiki.Repository
                 using var users_db = o.Attach("users.db", "users_db");
                 using var deletedpagerevisions_db = o.Attach("deletedpagerevisions.db", "deletedpagerevisions_db");
 
-                var query = RepositoryHelper.TransposeOrderby("GetAllPagesPaged.sql", orderBy, orderByDirection);
+                var query = RepositoryHelpers.TransposeOrderby("GetAllPagesPaged.sql", orderBy, orderByDirection);
                 return await o.QueryAsync<WikiPage>(query, param);
             });
         }
@@ -503,10 +513,12 @@ namespace TightWiki.Repository
         public static async Task<List<WikiPage>> GetAllDeletedPagesPaged(int pageNumber, string? orderBy = null,
             string? orderByDirection = null, List<string>? searchTerms = null)
         {
+            var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+
             var param = new
             {
                 PageNumber = pageNumber,
-                PageSize = GlobalConfiguration.PaginationSize
+                PageSize = paginationSize
             };
 
             if (searchTerms?.Count > 0)
@@ -517,7 +529,7 @@ namespace TightWiki.Repository
                     using var users_db = o.Attach("users.db", "users_db");
                     using var tempTable = o.CreateTempTableFrom("TempPageIds", pageIds);
 
-                    var query = RepositoryHelper.TransposeOrderby("GetAllDeletedPagesByPageIdPaged.sql", orderBy, orderByDirection);
+                    var query = RepositoryHelpers.TransposeOrderby("GetAllDeletedPagesByPageIdPaged.sql", orderBy, orderByDirection);
                     return await o.QueryAsync<WikiPage>(query, param);
                 });
             }
@@ -525,20 +537,22 @@ namespace TightWiki.Repository
             return await ManagedDataStorage.DeletedPages.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
-                var query = RepositoryHelper.TransposeOrderby("GetAllDeletedPagesPaged.sql", orderBy, orderByDirection);
+                var query = RepositoryHelpers.TransposeOrderby("GetAllDeletedPagesPaged.sql", orderBy, orderByDirection);
                 return await o.QueryAsync<WikiPage>(query, param);
             });
         }
 
         public static async Task<List<NamespaceStat>> GetAllNamespacesPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null)
         {
+            var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+
             var param = new
             {
                 PageNumber = pageNumber,
-                PageSize = GlobalConfiguration.PaginationSize
+                PageSize = paginationSize
             };
 
-            var query = RepositoryHelper.TransposeOrderby("GetAllNamespacesPaged.sql", orderBy, orderByDirection);
+            var query = RepositoryHelpers.TransposeOrderby("GetAllNamespacesPaged.sql", orderBy, orderByDirection);
 
             return await ManagedDataStorage.Pages.QueryAsync<NamespaceStat>(query, param);
         }
@@ -978,18 +992,20 @@ namespace TightWiki.Repository
         public static async Task<List<DeletedPageRevision>> GetDeletedPageRevisionsByIdPaged(int pageId, int pageNumber,
             string? orderBy = null, string? orderByDirection = null)
         {
+            var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+
             var param = new
             {
                 PageId = pageId,
                 PageNumber = pageNumber,
-                PageSize = GlobalConfiguration.PaginationSize
+                PageSize = paginationSize
             };
 
             return await ManagedDataStorage.DeletedPageRevisions.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
 
-                var query = RepositoryHelper.TransposeOrderby("GetDeletedPageRevisionsByIdPaged.sql", orderBy, orderByDirection);
+                var query = RepositoryHelpers.TransposeOrderby("GetDeletedPageRevisionsByIdPaged.sql", orderBy, orderByDirection);
                 return await o.QueryAsync<DeletedPageRevision>(query, param);
             });
         }
@@ -1119,7 +1135,7 @@ namespace TightWiki.Repository
             });
         }
 
-        public static async Task<List<WikiPage>> GetPageInfoByTags(List<string> tags)
+        public static async Task<List<WikiPage>> GetPageInfoByTags(IEnumerable<string> tags)
         {
             var cleanedTags = tags.Select(o => Navigation.Clean(o));
 

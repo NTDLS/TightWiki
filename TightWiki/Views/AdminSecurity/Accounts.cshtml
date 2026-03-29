@@ -1,8 +1,10 @@
 ﻿@model AccountsViewModel
+@using TightWiki
 @using TightWiki.Library
 @using TightWiki.Models
 @using TightWiki.Models.ViewModels.AdminSecurity
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @{
     Layout = "_Layout";
@@ -31,7 +33,7 @@
             </span>
 
             <a class="btn btn-success"
-                   href="@GlobalConfiguration.BasePath/AdminSecurity/AddAccount">
+                   href="@WikiConfiguration.BasePath/AdminSecurity/AddAccount">
                 <i class="bi bi-person-plus me-1"></i>@Localizer["Add new account"]
             </a>
         </div>
@@ -116,7 +118,7 @@
                         <tr>
                             <td>
                                 <a class="text-decoration-none fw-semibold"
-                                       href="@GlobalConfiguration.BasePath/AdminSecurity/Account/@user.Navigation">
+                                       href="@WikiConfiguration.BasePath/AdminSecurity/Account/@user.Navigation">
                                     @user.AccountName
                                 </a>
                             </td>

@@ -47,19 +47,22 @@ namespace TightWiki
         public string PageNavigationEscaped { get; set; } = string.Empty;
         public string PageTags { get; set; } = string.Empty;
         public ProcessingInstructionCollection PageInstructions { get; set; } = new();
-
+        public TightWikiConfiguration WikiConfiguration { get; set; } = new();
         /// <summary>
         /// The "page" here is more of a "mock page", we use the name for various stuff.
         /// </summary>
-        public IWikiPage Page { get; set; } = new Models.DataModels.WikiPage() { Name = GlobalConfiguration.Name };
+        public IWikiPage? Page { get; set; }
 
         #endregion
 
         /// <summary>
         /// This method is used to hydrate the session state from PageModelBase.
         /// </summary>
-        public async Task<SessionState> Hydrate(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, PageModel pageModel)
+        public async Task<SessionState> Hydrate(ILogger<ITightEngine> logger,
+            SignInManager<IdentityUser> signInManager, PageModel pageModel, TightWikiConfiguration wikiConfiguration)
         {
+            Page = new WikiPage() { Name = WikiConfiguration.Name };
+            WikiConfiguration = wikiConfiguration;
             Logger = logger;
             QueryString = pageModel.Request.Query;
 
@@ -70,8 +73,11 @@ namespace TightWiki
         /// <summary>
         /// This method is used to hydrate the session state from WikiControllerBase.
         /// </summary>
-        public async Task<SessionState> Hydrate(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, Controller controller)
+        public async Task<SessionState> Hydrate(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
+            Controller controller, TightWikiConfiguration wikiConfiguration)
         {
+            Page = new WikiPage() { Name = WikiConfiguration.Name };
+            WikiConfiguration = wikiConfiguration;
             Logger = logger;
 
             QueryString = controller.Request.Query;
@@ -96,7 +102,7 @@ namespace TightWiki
         {
             IsAuthenticated = false;
 
-            UserTheme = GlobalConfiguration.SystemTheme;
+            UserTheme = WikiConfiguration.SystemTheme;
 
             if (signInManager.IsSignedIn(user))
             {
@@ -114,7 +120,7 @@ namespace TightWiki
                             Profile = profile;
                             IsAdministrator = await UsersRepository.IsUserMemberOfAdministrators(userId);
                             Permissions = await UsersRepository.GetApparentAccountPermissions(userId);
-                            UserTheme = (await ConfigurationRepository.GetAllThemes()).SingleOrDefault(o => o.Name == Profile.Theme) ?? GlobalConfiguration.SystemTheme;
+                            UserTheme = (await ConfigurationRepository.GetAllThemes()).SingleOrDefault(o => o.Name == Profile.Theme) ?? WikiConfiguration.SystemTheme;
                             IsAuthenticated = true;
                             return;
                         }
@@ -156,7 +162,7 @@ namespace TightWiki
 
                 PageInstructions = await PageRepository.GetPageProcessingInstructionsByPageId(Page.Id);
 
-                if (GlobalConfiguration.IncludeWikiTagsInMeta)
+                if (WikiConfiguration.IncludeWikiTagsInMeta)
                 {
                     PageTags = string.Join(",", (await PageRepository.GetPageTagsById(Page.Id))
                         ?.Select(o => o.Tag) ?? []);
@@ -171,14 +177,14 @@ namespace TightWiki
         /// This is only applicable after SetPageId() has been called, to this is intended to be used in views NOT controllers.
         /// </summary>
         public async Task<bool> HoldsPermission(WikiPermission[] permissions)
-            => await HoldsPermission(Page.Navigation, permissions);
+            => await HoldsPermission(Page?.Navigation, permissions);
 
         /// <summary>
         /// Returns true if the user holds the given permission for the current page.
         /// This is only applicable after SetPageId() has been called, to this is intended to be used in views NOT controllers.
         /// </summary>
         public async Task<bool> HoldsPermission(WikiPermission permission)
-            => await HoldsPermission(Page.Navigation, permission);
+            => await HoldsPermission(Page?.Navigation, permission);
 
         /// <summary>
         /// Returns true if the user holds the given permission for given page.
@@ -358,7 +364,7 @@ namespace TightWiki
         {
             if (string.IsNullOrEmpty(Profile?.TimeZone))
             {
-                return TimeZoneInfo.FindSystemTimeZoneById(GlobalConfiguration.DefaultTimeZone);
+                return TimeZoneInfo.FindSystemTimeZoneById(WikiConfiguration.DefaultTimeZone);
             }
             return TimeZoneInfo.FindSystemTimeZoneById(Profile.TimeZone);
         }

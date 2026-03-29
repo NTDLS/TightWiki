@@ -1,6 +1,8 @@
-﻿@using TightWiki.Library
+﻿@using TightWiki
+@using TightWiki.Library
 @using TightWiki.Models
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @model TightWiki.Models.ViewModels.Profile.AccountProfileViewModel
 @{
@@ -14,7 +16,7 @@
     </div>
 </div>
 
-@using (Html.BeginForm(null, null, null, FormMethod.Post, true, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}", enctype = "multipart/form-data" }))
+@using (Html.BeginForm(null, null, null, FormMethod.Post, true, new { action = $"{WikiConfiguration.BasePath}{Context.Request.Path}", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -30,11 +32,11 @@
                 </button>
 
                 @ConfirmActionHelper.GenerateDangerButton(
-                    GlobalConfiguration.BasePath,
+                    WikiConfiguration.BasePath,
                     Localizer["Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?"].Format(Model.AccountProfile.AccountName),
                     Localizer["Delete Account"].Value,
                     $"/Profile/Delete",
-                    $"{GlobalConfiguration.BasePath}/Profile/Deleted",
+                    $"{WikiConfiguration.BasePath}/Profile/Deleted",
                     Context.Request.Path.Value)
             </div>
         </div>
@@ -54,7 +56,7 @@
                                 @if (!string.IsNullOrWhiteSpace(Model.AccountProfile.Navigation))
                                 {
                                     <img id="avatar-preview"
-                                         src="@GlobalConfiguration.BasePath/Profile/@Model.AccountProfile.Navigation/Avatar?max=150"
+                                         src="@WikiConfiguration.BasePath/Profile/@Model.AccountProfile.Navigation/Avatar?max=150"
                                          alt="Image Preview"
                                          class="img-thumbnail"
                                          style="max-width: 200px; max-height: 200px;" />

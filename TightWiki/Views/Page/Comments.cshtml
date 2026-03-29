@@ -1,7 +1,9 @@
-﻿@using TightWiki.Library
+﻿@using TightWiki
+@using TightWiki.Library
 @using TightWiki.Models
 @using static TightWiki.Library.Constants
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @model TightWiki.Models.ViewModels.Page.PageCommentsViewModel
 @{
@@ -17,7 +19,7 @@
         <div class="mt-1">
             <span class="text-muted">@Localizer["Page"]:</span>
             <a class="text-decoration-none fw-semibold"
-                   href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation">
+                   href="@WikiConfiguration.BasePath/@sessionState.PageNavigation">
                 @sessionState.Page.Name
             </a>
         </div>
@@ -59,7 +61,7 @@
         <div class="card shadow-sm mb-3">
             <div class="card-body">
                 <a class="text-decoration-none"
-                       href="@GlobalConfiguration.BasePath/Identity/Account/Login?returnUrl=@Context.Request.Path.Value">
+                       href="@WikiConfiguration.BasePath/Identity/Account/Login?returnUrl=@Context.Request.Path.Value">
                     @Localizer["Login to leave a comment"]
                 </a>
             </div>
@@ -81,15 +83,15 @@
 
                         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                             <div class="d-flex align-items-center flex-wrap gap-2 small text-muted">
-                                <img src="@GlobalConfiguration.BasePath/Profile/@h.UserNavigation/Avatar?Exact=24"
+                                <img src="@WikiConfiguration.BasePath/Profile/@h.UserNavigation/Avatar?Exact=24"
                                      class="rounded-circle"
                                      alt="Avatar"
                                      width="24"
                                      height="24" />
 
-                                @if (TightWiki.Models.GlobalConfiguration.EnablePublicProfiles)
+                                @if (WikiConfiguration.EnablePublicProfiles)
                                 {
-                                    <a href="@GlobalConfiguration.BasePath/Profile/@h.UserNavigation/Public"
+                                    <a href="@WikiConfiguration.BasePath/Profile/@h.UserNavigation/Public"
                                            class="text-decoration-none">
                                         @Html.DisplayTextFor(x => h.UserName)
                                     </a>

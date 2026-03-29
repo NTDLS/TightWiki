@@ -9,7 +9,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NTDLS.DelegateThreadPooling;
 using TightWiki.Engine;
-using TightWiki.Engine.Implementation;
 using TightWiki.Engine.Implementation.Handlers;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
@@ -40,10 +39,6 @@ namespace DummyPageGenerator
                        .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                        .ConfigureContainer<ContainerBuilder>(containerBuilder =>
                        {
-                           containerBuilder.RegisterType<StandardFunctionHandler>().As<IStandardFunctionHandler>().SingleInstance();
-                           containerBuilder.RegisterType<ScopeFunctionHandler>().As<IScopeFunctionHandler>().SingleInstance();
-                           containerBuilder.RegisterType<ProcessingInstructionFunctionHandler>().As<IProcessingInstructionFunctionHandler>().SingleInstance();
-                           containerBuilder.RegisterType<PostProcessingFunctionHandler>().As<IPostProcessingFunctionHandler>().SingleInstance();
                            containerBuilder.RegisterType<MarkupHandler>().As<IMarkupHandler>().SingleInstance();
                            containerBuilder.RegisterType<HeadingHandler>().As<IHeadingHandler>().SingleInstance();
                            containerBuilder.RegisterType<CommentHandler>().As<ICommentHandler>().SingleInstance();
@@ -87,7 +82,7 @@ namespace DummyPageGenerator
             var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
             var userStore = serviceProvider.GetRequiredService<IUserStore<IdentityUser>>();
 
-            await ConfigurationRepository.ReloadEverything();
+            //await ConfigurationRepository.ReloadEverything();
 
             var pg = new PageGenerator(new VerbatimLocalizationText(), userManager);
 

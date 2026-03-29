@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using TightWiki.Models;
 using TightWiki.Models.DataModels;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Repository
 {
@@ -69,13 +69,15 @@ namespace TightWiki.Repository
         public static async Task<List<WikiLogEntry>> GetLogEntriesPaged(int pageNumber,
             string? orderBy = null, string? orderByDirection = null)
         {
+            var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+
             var param = new
             {
                 PageNumber = pageNumber,
-                PageSize = GlobalConfiguration.PaginationSize
+                PageSize = paginationSize
             };
 
-            var query = RepositoryHelper.TransposeOrderby("GetLogEntriesPaged.sql", orderBy, orderByDirection);
+            var query = RepositoryHelpers.TransposeOrderby("GetLogEntriesPaged.sql", orderBy, orderByDirection);
             return await ManagedDataStorage.Logging.QueryAsync<WikiLogEntry>(query, param);
         }
 

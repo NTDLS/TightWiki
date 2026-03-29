@@ -22,8 +22,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public ConfirmEmailChangeModel(
             ILogger<ITightEngine> logger,
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager, ISharedLocalizationText localizer)
-            : base(logger, signInManager, localizer)
+            SignInManager<IdentityUser> signInManager, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+            : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _logger = logger;
             _userManager = userManager;
@@ -44,7 +44,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             {
                 if (userId == null || email == null || code == null)
                 {
-                    return Redirect($"{GlobalConfiguration.BasePath}/");
+                    return Redirect($"{WikiConfiguration.BasePath}/");
                 }
 
                 var user = await _userManager.FindByIdAsync(userId);

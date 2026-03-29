@@ -1,7 +1,9 @@
 @model TightWiki.Models.ViewModels.Admin.MenuItemsViewModel
+@using TightWiki
 @using TightWiki.Library
 @using TightWiki.Models
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @{
     Layout = "_Layout";
@@ -26,7 +28,7 @@
         </span>
 
         <a class="btn btn-success"
-               href="@GlobalConfiguration.BasePath/Admin/MenuItem">
+               href="@WikiConfiguration.BasePath/Admin/MenuItem">
             <i class="bi bi-plus-circle me-1"></i>@Localizer["Add new item"]
         </a>
     </div>
@@ -66,7 +68,7 @@
                             </td>
                             <td>
                                 <a class="text-decoration-none fw-semibold"
-                                       href="@GlobalConfiguration.BasePath/Admin/MenuItem/@item.Id">
+                                       href="@WikiConfiguration.BasePath/Admin/MenuItem/@item.Id">
                                     @item.Name
                                 </a>
                             </td>

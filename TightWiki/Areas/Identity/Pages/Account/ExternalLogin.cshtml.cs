@@ -16,6 +16,7 @@ using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Repository;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -35,8 +36,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             ILogger<ITightEngine> logger,
-            IWikiEmailSender emailSender, ISharedLocalizationText localizer)
-                        : base(logger, signInManager, localizer)
+            IWikiEmailSender emailSender, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+                        : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -82,14 +83,14 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public IActionResult OnGet()
         {
-            return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Login");
+            return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/Login");
         }
 
         public IActionResult OnPost(string provider, string returnUrl = null)
         {
             try
             {
-                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{WikiConfiguration.BasePath}/");
 
                 // Request a redirect to the external login provider.
                 var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { ReturnUrl });
@@ -108,18 +109,18 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{WikiConfiguration.BasePath}/");
 
                 if (remoteError != null)
                 {
                     ErrorMessage = String.Format(_localizer["Error from external provider: {0}"], remoteError);
-                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Login?ReturnUrl={WebUtility.UrlEncode(ReturnUrl)}");
+                    return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/Login?ReturnUrl={WebUtility.UrlEncode(ReturnUrl)}");
                 }
                 var info = await _signInManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
                     ErrorMessage = _localizer["Error loading external login information."];
-                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Login?ReturnUrl={WebUtility.UrlEncode(ReturnUrl)}");
+                    return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/Login?ReturnUrl={WebUtility.UrlEncode(ReturnUrl)}");
                 }
 
                 // Sign in the user with this external login provider if the user already has a login.
@@ -131,7 +132,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 }
                 if (result.IsLockedOut)
                 {
-                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Lockout");
+                    return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/Lockout");
                 }
                 else
                 {
@@ -159,14 +160,14 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{WikiConfiguration.BasePath}/");
 
                 // Get the information about the user from the external login provider
                 var info = await _signInManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
                     ErrorMessage = _localizer["Error loading external login information during confirmation."];
-                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Login?ReturnUrl={WebUtility.UrlEncode(ReturnUrl)}");
+                    return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/Login?ReturnUrl={WebUtility.UrlEncode(ReturnUrl)}");
                 }
 
                 if (ModelState.IsValid)
@@ -193,9 +194,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
                                 values: new { area = "Identity", userId = userId, code = encodedCode },
                                 protocol: Request.Scheme);
 
-                            var configEmailTemplate = await ConfigurationRepository.Get<string>(Constants.WikiConfigurationGroup.Membership, "Template: Account Verification Email");
+                            var configEmailTemplate = await ConfigurationRepository.Get<string>(WikiConfigurationGroup.Membership, "Template: Account Verification Email");
                             var emailTemplate = new StringBuilder(configEmailTemplate);
-                            var basicConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Basic);
+                            var basicConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
                             var siteName = basicConfig.Value<string>("Name");
                             var address = basicConfig.Value<string>("Address");
                             var profile = await UsersRepository.GetAccountProfileByUserId(Guid.Parse(userId));
@@ -219,7 +220,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                             // If account confirmation is required, we need to show the link if we don't have a real email sender
                             if (_userManager.Options.SignIn.RequireConfirmedAccount)
                             {
-                                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegisterConfirmation?Email={Input.Username}");
+                                return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/RegisterConfirmation?Email={Input.Username}");
                             }
 
                             await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);

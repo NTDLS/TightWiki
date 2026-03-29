@@ -11,7 +11,9 @@ using System.Text.Encodings.Web;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
+using TightWiki.Models;
 using TightWiki.Repository;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -41,8 +43,8 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             ILogger<ITightEngine> logger,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IWikiEmailSender emailSender, ISharedLocalizationText localizer)
-                        : base(logger, signInManager, localizer)
+            IWikiEmailSender emailSender, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+                        : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -128,9 +130,9 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
                     values: new { area = "Identity", userId = userId, email = Input.NewEmail, code = encodedCode },
                     protocol: Request.Scheme);
 
-                var configEmailTemplate = await ConfigurationRepository.Get<string>(Constants.WikiConfigurationGroup.Membership, "Template: Account Verification Email");
+                var configEmailTemplate = await ConfigurationRepository.Get<string>(WikiConfigurationGroup.Membership, "Template: Account Verification Email");
                 var emailTemplate = new StringBuilder(configEmailTemplate);
-                var basicConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Basic);
+                var basicConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
                 var siteName = basicConfig.Value<string>("Name");
                 var address = basicConfig.Value<string>("Address");
                 var profile = await UsersRepository.GetAccountProfileByUserId(Guid.Parse(userId));

@@ -1,6 +1,8 @@
-﻿@using TightWiki.Models
+﻿@using TightWiki
+@using TightWiki.Models
 @using TightWiki.Library
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @model TightWiki.Models.ViewModels.Page.DeletedPageViewModel
 @{
@@ -22,7 +24,7 @@
 
         <div class="d-flex flex-wrap gap-2">
             @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
-                GlobalConfiguration.BasePath,
+                WikiConfiguration.BasePath,
                 Localizer["This will restore the deleted page and all of its history. Continue?"].Value,
                 Localizer["Restore This Page"].Value,
                 "/Admin/RestoreDeletedPage/" + Model.PageId,

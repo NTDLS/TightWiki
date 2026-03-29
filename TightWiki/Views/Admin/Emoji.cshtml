@@ -1,6 +1,8 @@
-﻿@using TightWiki.Library
+﻿@using TightWiki
+@using TightWiki.Library
 @using TightWiki.Models
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @model TightWiki.Models.ViewModels.Admin.EmojiViewModel
 @{
@@ -15,7 +17,7 @@
     </div>
 </div>
 
-@using (Html.BeginForm(null, null, new { navigation = Model.Emoji.Name }, FormMethod.Post, true, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}", enctype = "multipart/form-data" }))
+@using (Html.BeginForm(null, null, new { navigation = Model.Emoji.Name }, FormMethod.Post, true, new { action = $"{WikiConfiguration.BasePath}{Context.Request.Path}", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -34,11 +36,11 @@
                 </button>
 
                 @ConfirmActionHelper.GenerateDangerButton(
-                    GlobalConfiguration.BasePath,
+                    WikiConfiguration.BasePath,
                     Localizer["Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?"].Format(Model.Emoji.Name),
                     Localizer["Delete"].Value,
                     $"/Admin/DeleteEmoji/{Model.Emoji.Name}",
-                    $"{GlobalConfiguration.BasePath}/Admin/Emojis",
+                    $"{WikiConfiguration.BasePath}/Admin/Emojis",
                     Context.Request.Path.Value)
             </div>
         </div>
@@ -55,7 +57,7 @@
                                 @if (!string.IsNullOrWhiteSpace(Model.Emoji.Name))
                                 {
                                     <img id="emoji-preview"
-                                         src="@GlobalConfiguration.BasePath/File/Emoji/@Model.Emoji.Name"
+                                         src="@WikiConfiguration.BasePath/File/Emoji/@Model.Emoji.Name"
                                          alt="@Model.Emoji.Name"
                                          class="img-thumbnail"
                                          style="max-width: 160px; max-height: 160px;" />

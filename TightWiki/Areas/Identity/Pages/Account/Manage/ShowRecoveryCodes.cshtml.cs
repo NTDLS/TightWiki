@@ -15,6 +15,13 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
     public class ShowRecoveryCodesModel
         : PageModel
     {
+        private readonly TightWikiConfiguration _wikiConfiguration;
+
+        public ShowRecoveryCodesModel(TightWikiConfiguration wikiConfiguration)
+        {
+            _wikiConfiguration = wikiConfiguration;
+        }
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -37,7 +44,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         {
             if (RecoveryCodes == null || RecoveryCodes.Length == 0)
             {
-                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/TwoFactorAuthentication");
+                return RedirectToPage($"{_wikiConfiguration.BasePath}/Identity/TwoFactorAuthentication");
             }
 
             return Page();

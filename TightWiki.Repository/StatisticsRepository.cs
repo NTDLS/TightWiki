@@ -1,5 +1,5 @@
-﻿using TightWiki.Models;
-using TightWiki.Models.DataModels;
+﻿using TightWiki.Models.DataModels;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Repository
 {
@@ -44,7 +44,7 @@ namespace TightWiki.Repository
         public static async Task<List<PageStatistics>> GetPageStatisticsPaged(
             int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
-            pageSize ??= GlobalConfiguration.PaginationSize;
+            pageSize ??= await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -56,7 +56,7 @@ namespace TightWiki.Repository
             {
                 using var users_db = o.Attach("pages.db", "pages_db");
 
-                var query = RepositoryHelper.TransposeOrderby("GetPageStatisticsPaged.sql", orderBy, orderByDirection);
+                var query = RepositoryHelpers.TransposeOrderby("GetPageStatisticsPaged.sql", orderBy, orderByDirection);
                 return await o.QueryAsync<PageStatistics>(query, param);
             });
         }

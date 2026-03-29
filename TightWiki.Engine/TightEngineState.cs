@@ -4,13 +4,12 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-using TightWiki.Engine.Function;
-using TightWiki.Engine.Function.Exceptions;
 using TightWiki.Engine.Library;
+using TightWiki.Engine.Library.Function;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
-using static TightWiki.Engine.Library.Constants;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Engine
 {
@@ -437,40 +436,28 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformBlock().Matches(pageContent.ToString()));
 
-            var functionHandler = Engine.ScopeFunctionHandler;
-
             foreach (var match in orderedMatches)
             {
-                int paramEndIndex;
-
-                FunctionCall function;
-
-                var mockFunctionCall = "##" + match.Value.Trim([' ', '\t', '{', '}']);
+                var parsedFunction = ParsedFunction.Create(match.Value);
 
                 try
                 {
-                    function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes, mockFunctionCall, out paramEndIndex);
-                    if (onlyProcessFirstChanceFunctions && !function.Prototype.IsFirstChance)
+                    if (onlyProcessFirstChanceFunctions
+                        && Engine.ScopeFunctions.TryGetFunctionDescriptor(parsedFunction, out var function)
+                        && function.Attribute.IsFirstChance == false)
                     {
                         //We are only processing "first chance" functions, so skip processing this function.
                         continue;
                     }
+
+                    var preparedFunction = PreparedFunction.Create(this, Engine.ScopeFunctions, parsedFunction);
+                    var result = await preparedFunction.Execute();
+                    StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
                 }
                 catch (Exception ex)
                 {
                     StoreWikiError(pageContent, match.Value, ex.Message);
                     continue;
-                }
-
-                try
-                {
-                    var scopeBody = mockFunctionCall.Substring(paramEndIndex).Trim();
-                    var result = await functionHandler.Handle(this, function, scopeBody);
-                    StoreHandlerResult(result, WikiMatchType.ScopeFunction, pageContent, match.Value);
-                }
-                catch (Exception ex)
-                {
-                    StoreWikiError(pageContent, match.Value, ex.Message);
                 }
             }
         }
@@ -598,7 +585,7 @@ namespace TightWiki.Engine
             foreach (var match in orderedMatches)
             {
                 string link = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                var args = FunctionParser.ParseArgumentsAddParenthesis(link);
+                var args = ParsedFunction.ParseArgumentsAddParenthesis(link);
 
                 if (args.Count > 1)
                 {
@@ -631,7 +618,7 @@ namespace TightWiki.Engine
             foreach (var match in orderedMatches)
             {
                 string link = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                var args = FunctionParser.ParseArgumentsAddParenthesis(link);
+                var args = ParsedFunction.ParseArgumentsAddParenthesis(link);
 
                 if (args.Count > 1)
                 {
@@ -665,7 +652,7 @@ namespace TightWiki.Engine
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
 
-                var args = FunctionParser.ParseArgumentsAddParenthesis(keyword);
+                var args = ParsedFunction.ParseArgumentsAddParenthesis(keyword);
 
                 string pageName;
                 string text;
@@ -744,30 +731,20 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformProcessingInstructions().Matches(pageContent.ToString()));
 
-            var functionHandler = Engine.ProcessingInstructionFunctionHandler;
-
             foreach (var match in orderedMatches)
             {
-                FunctionCall function;
+                var parsedFunction = ParsedFunction.Create(match.Value);
 
                 try
                 {
-                    function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes, match.Value, out int matchEndIndex);
+                    var preparedFunction = PreparedFunction.Create(this, Engine.ProcessingFunctions, parsedFunction);
+                    var result = await preparedFunction.Execute();
+                    StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
                 }
                 catch (Exception ex)
                 {
                     StoreWikiError(pageContent, match.Value, ex.Message);
                     continue;
-                }
-
-                try
-                {
-                    var result = await functionHandler.Handle(this, function, string.Empty);
-                    StoreHandlerResult(result, WikiMatchType.Instruction, pageContent, match.Value);
-                }
-                catch (Exception ex)
-                {
-                    StoreWikiError(pageContent, match.Value, ex.Message);
                 }
             }
         }
@@ -781,57 +758,34 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformFunctions().Matches(pageContent.ToString()));
 
-            var functionHandler = Engine.StandardFunctionHandler;
-
             foreach (var match in orderedMatches)
             {
-                FunctionCall function;
+                var parsedFunction = ParsedFunction.Create(match.Value);
 
                 try
                 {
-                    function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes, match.Value, out int matchEndIndex);
-                }
-                catch (WikiFunctionPrototypeNotDefinedException ex)
-                {
-                    var postProcessPrototypes = Engine.PostProcessingFunctionHandler.Prototypes;
-                    var parsed = FunctionParser.ParseFunctionCall(match.Value);
-
-                    if (parsed != default && postProcessPrototypes.Exists(parsed.Demarcation, parsed.Name))
+                    if (Engine.PostProcessingFunctions.TryGetFunctionDescriptor(parsedFunction, out _))
                     {
-                        continue; //This IS a function, but it is meant to be parsed at the end of processing.
+                        //This IS a function, but it is meant to be parsed at the end of processing.
+                        continue;
                     }
-                    StoreWikiError(pageContent, match.Value, ex.Message);
-                    continue;
-                }
-                catch (Exception ex)
-                {
-                    StoreWikiError(pageContent, match.Value, ex.Message);
-                    continue;
-                }
 
-                try
-                {
-                    function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes, match.Value, out var paramEndIndex);
-                    if (onlyProcessFirstChanceFunctions && !function.Prototype.IsFirstChance)
+                    if (onlyProcessFirstChanceFunctions
+                        && Engine.StandardFunctions.TryGetFunctionDescriptor(parsedFunction, out var function)
+                        && function.Attribute.IsFirstChance == false)
                     {
                         //We are only processing "first chance" functions, so skip processing this function.
                         continue;
                     }
-                }
-                catch (Exception ex)
-                {
-                    StoreWikiError(pageContent, match.Value, ex.Message);
-                    continue;
-                }
 
-                try
-                {
-                    var result = await functionHandler.Handle(this, function, string.Empty);
+                    var preparedFunction = PreparedFunction.Create(this, Engine.StandardFunctions, parsedFunction);
+                    var result = await preparedFunction.Execute();
                     StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
                 }
                 catch (Exception ex)
                 {
                     StoreWikiError(pageContent, match.Value, ex.Message);
+                    continue;
                 }
             }
         }
@@ -846,30 +800,20 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformPostProcess().Matches(pageContent.ToString()));
 
-            var functionHandler = Engine.PostProcessingFunctionHandler;
-
             foreach (var match in orderedMatches)
             {
-                FunctionCall function;
+                var parsedFunction = ParsedFunction.Create(match.Value);
 
                 try
                 {
-                    function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes, match.Value, out int matchEndIndex);
-                }
-                catch (Exception ex)
-                {
-                    StoreWikiError(pageContent, match.Value, ex.Message);
-                    continue;
-                }
-
-                try
-                {
-                    var result = await functionHandler.Handle(this, function, string.Empty);
+                    var preparedFunction = PreparedFunction.Create(this, Engine.PostProcessingFunctions, parsedFunction);
+                    var result = await preparedFunction.Execute();
                     StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
                 }
                 catch (Exception ex)
                 {
                     StoreWikiError(pageContent, match.Value, ex.Message);
+                    continue;
                 }
             }
         }

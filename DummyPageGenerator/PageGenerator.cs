@@ -4,9 +4,9 @@ using System.Security.Claims;
 using System.Text;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
-using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
+using static TightWiki.Library.Constants;
 
 namespace DummyPageGenerator
 {
@@ -86,7 +86,7 @@ namespace DummyPageGenerator
             }
 
             var userId = _userManager.GetUserIdAsync(user).Result;
-            var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
+            var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
 
             await UsersRepository.CreateProfile(Guid.Parse(userId), await GetRandomUnusedAccountName());
 
@@ -334,9 +334,9 @@ namespace DummyPageGenerator
         /// <param name="fileData"></param>
         private async Task AttachFile(int pageId, Guid userId, string fileName, byte[] fileData)
         {
-            if (fileData.Length > GlobalConfiguration.MaxAttachmentFileSize)
+            //if (fileData.Length > GlobalConfiguration.MaxAttachmentFileSize)
             {
-                throw new Exception("Could not save the attached file, too large");
+                //throw new Exception("Could not save the attached file, too large");
             }
 
             await PageFileRepository.UpsertPageFile(new PageFileAttachment()

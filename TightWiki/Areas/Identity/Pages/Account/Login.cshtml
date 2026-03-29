@@ -1,9 +1,11 @@
 ﻿@page
+@using TightWiki
 @using System.Text.Encodings.Web
 @using TightWiki.Extensions
 @using TightWiki.Models
 @using TightWiki.Library
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @model LoginModel
 @{
@@ -21,7 +23,7 @@
 
                     <div class="form-floating mb-3">
                         <input asp-for="Input.Username" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                        @if(GlobalConfiguration.EnableLDAPAuthentication)
+                        @if (WikiConfiguration.EnableLDAPAuthentication)
                         {
                             <label asp-for="Input.Username">@Localizer["Username"]</label>
                         }
@@ -77,7 +79,7 @@
                                                 name="provider"
                                                 value="@provider.Name"
                                                 title="Log in using your Google account">
-                                            <img src="@GlobalConfiguration.BasePath/images/external/google-signin.svg" alt="Google" class="me-2 provider-icon" />
+                                            <img src="@WikiConfiguration.BasePath/images/external/google-signin.svg" alt="Google" class="me-2 provider-icon" />
                                         </button>
                                     }
                                     else if (provider.Name == "Microsoft")
@@ -87,7 +89,7 @@
                                                 name="provider"
                                                 value="@provider.Name"
                                                 title="Log in using your Microsoft account">
-                                            <img src="@GlobalConfiguration.BasePath/images/external/microsoft-signin.svg" alt="Microsoft" class="me-2 provider-icon" />
+                                            <img src="@WikiConfiguration.BasePath/images/external/microsoft-signin.svg" alt="Microsoft" class="me-2 provider-icon" />
                                         </button>
                                     }
                                     else
@@ -107,7 +109,7 @@
                 }
 
                 <div class="mt-4 small">
-                    @if (TightWiki.Models.GlobalConfiguration.AllowSignup == true)
+                    @if (WikiConfiguration.AllowSignup == true)
                     {
                         <div class="mb-1">
                             <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">

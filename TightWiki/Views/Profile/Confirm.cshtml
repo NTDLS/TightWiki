@@ -1,6 +1,8 @@
-﻿@using TightWiki.Models
+﻿@using TightWiki
+@using TightWiki.Models
 @using TightWiki.Library
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @model TightWiki.Models.ViewModels.Profile.ConfirmViewModel
 @{
@@ -12,7 +14,7 @@
     </div>
     <div class="card-body">
         <p>
-            @Localizer["Already a member?"] <a href="@GlobalConfiguration.BasePath/Account/Login">@Localizer["Login"]</a>.<br />
+            @Localizer["Already a member?"] <a href="@WikiConfiguration.BasePath/Account/Login">@Localizer["Login"]</a>.<br />
             @Localizer["Forgot your password?"] @Html.ActionLink(Localizer["Reset it"].Value, "Forgot", "Account").<br />
         </p>
     </div>

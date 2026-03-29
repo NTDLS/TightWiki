@@ -1,11 +1,9 @@
 ﻿using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Data;
-using System.Diagnostics;
 using System.Runtime.Caching;
 using TightWiki.Caching;
 using TightWiki.Library;
-using TightWiki.Models;
 using TightWiki.Models.DataModels;
 
 namespace TightWiki.Repository
@@ -133,8 +131,6 @@ namespace TightWiki.Repository
             };
 
             await ManagedDataStorage.Config.ExecuteAsync("SaveConfigurationEntryValueByGroupAndEntry.sql", param);
-
-            await ReloadEverything();
         }
 
         public static async Task<List<ConfigurationNest>> GetConfigurationNest()
@@ -242,7 +238,7 @@ namespace TightWiki.Repository
 
         public static async Task<List<MenuItem>> GetAllMenuItems(string? orderBy = null, string? orderByDirection = null)
         {
-            var query = RepositoryHelper.TransposeOrderby("GetAllMenuItems.sql", orderBy, orderByDirection);
+            var query = RepositoryHelpers.TransposeOrderby("GetAllMenuItems.sql", orderBy, orderByDirection);
             return await ManagedDataStorage.Config.QueryAsync<MenuItem>(query);
         }
 
@@ -266,7 +262,6 @@ namespace TightWiki.Repository
             await ManagedDataStorage.Config.ExecuteAsync("DeleteMenuItemById.sql", param);
 
             WikiCache.ClearCategory(WikiCache.Category.Configuration);
-            GlobalConfiguration.MenuItems = await GetAllMenuItems();
         }
 
         public static async Task<int> UpdateMenuItemById(MenuItem menuItem)
@@ -282,8 +277,6 @@ namespace TightWiki.Repository
             var menuItemId = await ManagedDataStorage.Config.ExecuteScalarAsync<int>("UpdateMenuItemById.sql", param);
 
             WikiCache.ClearCategory(WikiCache.Category.Configuration);
-            GlobalConfiguration.MenuItems = await GetAllMenuItems();
-
             return menuItemId;
         }
 
@@ -299,19 +292,17 @@ namespace TightWiki.Repository
             var menuItemId = await ManagedDataStorage.Config.ExecuteScalarAsync<int>("InsertMenuItem.sql", param);
 
             WikiCache.ClearCategory(WikiCache.Category.Configuration);
-            GlobalConfiguration.MenuItems = await GetAllMenuItems();
-
             return menuItemId;
         }
 
         #endregion
 
-        public static async Task ReloadEmojis()
+        public static async Task<List<Emoji>> ReloadEmojis(bool preloadAnimatedEmojis, int defaultEmojiHeight)
         {
             WikiCache.ClearCategory(WikiCache.Category.Emoji);
-            GlobalConfiguration.Emojis = await EmojiRepository.GetAllEmojis();
+            var emojis = await EmojiRepository.GetAllEmojis();
 
-            if (GlobalConfiguration.PreLoadAnimatedEmojis)
+            if (preloadAnimatedEmojis)
             {
                 new Thread(async () =>
                 {
@@ -320,7 +311,7 @@ namespace TightWiki.Repository
                         MaxDegreeOfParallelism = Environment.ProcessorCount / 2 < 2 ? 2 : Environment.ProcessorCount / 2
                     };
 
-                    await Parallel.ForEachAsync(GlobalConfiguration.Emojis, parallelOptions, async (emoji, cancellationToken) =>
+                    await Parallel.ForEachAsync(emojis, parallelOptions, async (emoji, cancellationToken) =>
                     {
                         if (emoji.MimeType.Equals("image/gif", StringComparison.InvariantCultureIgnoreCase))
                         {
@@ -335,7 +326,7 @@ namespace TightWiki.Repository
 
                                 int customScalePercent = 100;
 
-                                var (Width, Height) = Utility.ScaleToMaxOf(img.Width, img.Height, GlobalConfiguration.DefaultEmojiHeight);
+                                var (Width, Height) = Utility.ScaleToMaxOf(img.Width, img.Height, defaultEmojiHeight);
 
                                 //Adjust to any specified scaling.
                                 Height = (int)(Height * (customScalePercent / 100.0));
@@ -364,68 +355,8 @@ namespace TightWiki.Repository
                     });
                 }).Start();
             }
-        }
 
-        public static async Task ReloadEverything()
-        {
-            WikiCache.Clear();
-
-            GlobalConfiguration.IsDebug = Debugger.IsAttached;
-
-            var performanceConfig = await GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Performance);
-            GlobalConfiguration.PageCacheSeconds = performanceConfig.Value<int>("Page Cache Time (Seconds)");
-            GlobalConfiguration.RecordCompilationMetrics = performanceConfig.Value<bool>("Record Compilation Metrics");
-            GlobalConfiguration.CacheMemoryLimitMB = performanceConfig.Value<int>("Cache Memory Limit MB");
-
-            WikiCache.Initialize(GlobalConfiguration.CacheMemoryLimitMB, TimeSpan.FromSeconds(GlobalConfiguration.PageCacheSeconds));
-
-            var basicConfig = await GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Basic);
-            var customizationConfig = await GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Customization);
-            var htmlConfig = await GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.HTMLLayout);
-            var functionalityConfig = await GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Functionality);
-            var membershipConfig = await GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
-            var searchConfig = await GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Search);
-            var filesAndAttachmentsConfig = await GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.FilesAndAttachments);
-            var ldapAuthentication = await GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.LDAPAuthentication);
-            GlobalConfiguration.EnableLDAPAuthentication = ldapAuthentication.Value("LDAP : Enable LDAP Authentication", false);
-
-            GlobalConfiguration.Address = basicConfig?.Value<string>("Address") ?? string.Empty;
-            GlobalConfiguration.Name = basicConfig?.Value<string>("Name") ?? string.Empty;
-            GlobalConfiguration.Copyright = basicConfig?.Value<string>("Copyright") ?? string.Empty;
-
-            var themeName = customizationConfig.Value("Theme", "Light");
-
-            GlobalConfiguration.FixedMenuPosition = customizationConfig.Value("Fixed Header Menu Position", false);
-            GlobalConfiguration.AllowSignup = membershipConfig.Value("Allow Signup", false);
-            GlobalConfiguration.DefaultProfileRecentlyModifiedCount = performanceConfig.Value<int>("Default Profile Recently Modified Count");
-            GlobalConfiguration.PreLoadAnimatedEmojis = performanceConfig.Value<bool>("Pre-Load Animated Emojis");
-            GlobalConfiguration.SystemTheme = (await GetAllThemes()).Single(o => o.Name == themeName);
-            GlobalConfiguration.DefaultEmojiHeight = customizationConfig.Value<int>("Default Emoji Height");
-            GlobalConfiguration.PaginationSize = customizationConfig.Value<int>("Pagination Size");
-
-            GlobalConfiguration.DefaultTimeZone = customizationConfig?.Value<string>("Default TimeZone") ?? string.Empty;
-            GlobalConfiguration.IncludeWikiDescriptionInMeta = functionalityConfig.Value<bool>("Include wiki Description in Meta");
-            GlobalConfiguration.IncludeWikiTagsInMeta = functionalityConfig.Value<bool>("Include wiki Tags in Meta");
-            GlobalConfiguration.EnablePageComments = functionalityConfig.Value<bool>("Enable Page Comments");
-            GlobalConfiguration.EnablePublicProfiles = functionalityConfig.Value<bool>("Enable Public Profiles");
-            GlobalConfiguration.ShowCommentsOnPageFooter = functionalityConfig.Value<bool>("Show Comments on Page Footer");
-            GlobalConfiguration.ShowChangeSummaryWhenEditing = functionalityConfig.Value<bool>("Show Change Summary when Editing");
-            GlobalConfiguration.RequireChangeSummaryWhenEditing = functionalityConfig.Value<bool>("Require Change Summary when Editing");
-            GlobalConfiguration.ShowLastModifiedOnPageFooter = functionalityConfig.Value<bool>("Show Last Modified on Page Footer");
-            GlobalConfiguration.IncludeSearchOnNavbar = searchConfig.Value<bool>("Include Search on Navbar");
-            GlobalConfiguration.HTMLHeader = htmlConfig?.Value<string>("Header") ?? string.Empty;
-            GlobalConfiguration.HTMLFooter = htmlConfig?.Value<string>("Footer") ?? string.Empty;
-            GlobalConfiguration.HTMLPreBody = htmlConfig?.Value<string>("Pre-Body") ?? string.Empty;
-            GlobalConfiguration.HTMLPostBody = htmlConfig?.Value<string>("Post-Body") ?? string.Empty;
-            GlobalConfiguration.BrandImageSmall = customizationConfig?.Value<string>("Brand Image (Small)") ?? string.Empty;
-            GlobalConfiguration.FooterBlurb = customizationConfig?.Value<string>("FooterBlurb") ?? string.Empty;
-            GlobalConfiguration.MaxAvatarFileSize = filesAndAttachmentsConfig.Value<int>("Max Avatar File Size");
-            GlobalConfiguration.MaxAttachmentFileSize = filesAndAttachmentsConfig.Value<int>("Max Attachment File Size");
-            GlobalConfiguration.MaxEmojiFileSize = filesAndAttachmentsConfig.Value<int>("Max Emoji File Size");
-
-            GlobalConfiguration.MenuItems = await GetAllMenuItems();
-
-            await ReloadEmojis();
+            return emojis;
         }
     }
 }

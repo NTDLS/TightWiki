@@ -13,6 +13,7 @@ using TightWiki.Models.ViewModels.AdminSecurity;
 using TightWiki.Models.ViewModels.Shared;
 using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Repository;
+using static TightWiki.Library.Constants;
 using Constants = TightWiki.Library.Constants;
 
 namespace TightWiki.Controllers
@@ -20,8 +21,8 @@ namespace TightWiki.Controllers
     [Authorize]
     [Route("[controller]")]
     public class AdminSecurityController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer)
-        : WikiControllerBase<AdminSecurityController>(logger, signInManager, userManager, localizer)
+        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+        : WikiControllerBase<AdminSecurityController>(logger, signInManager, userManager, localizer, wikiConfiguration)
     {
         #region Roles.
 
@@ -46,7 +47,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("The specified role has been deleted."), model.YesRedirectURL);
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {
@@ -242,7 +243,7 @@ namespace TightWiki.Controllers
                 await UsersRepository.InsertRole(model.Name, model.Description);
                 WikiCache.ClearCategory(WikiCache.Category.Security);
 
-                return Redirect($"{GlobalConfiguration.BasePath}/AdminSecurity/Roles");
+                return Redirect($"{WikiConfiguration.BasePath}/AdminSecurity/Roles");
             }
             catch (Exception ex)
             {
@@ -553,11 +554,11 @@ namespace TightWiki.Controllers
                 var file = Request.Form.Files["Avatar"];
                 if (file != null && file.Length > 0)
                 {
-                    if (GlobalConfiguration.AllowableImageTypes.Contains(file.ContentType.ToLowerInvariant()) == false)
+                    if (WikiConfiguration.AllowableImageTypes.Contains(file.ContentType.ToLowerInvariant()) == false)
                     {
                         model.ErrorMessage += Localize("Could not save the attached image, type not allowed.") + "\r\n";
                     }
-                    else if (file.Length > GlobalConfiguration.MaxAvatarFileSize)
+                    else if (file.Length > WikiConfiguration.MaxAvatarFileSize)
                     {
                         model.ErrorMessage += Localize("Could not save the attached image, too large.") + "\r\n";
                     }
@@ -603,7 +604,7 @@ namespace TightWiki.Controllers
 
                     //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
                     SessionState.UserTheme = (await ConfigurationRepository.GetAllThemes())
-                        .SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? GlobalConfiguration.SystemTheme;
+                        .SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? WikiConfiguration.SystemTheme;
                 }
 
                 //Allow the administrator to confirm/unconfirm the email address.
@@ -672,9 +673,9 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
+                var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
                 var defaultSignupRole = membershipConfig.Value<string>("Default Signup Role").EnsureNotNull();
-                var customizationConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Customization);
+                var customizationConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Customization);
 
                 var model = new AccountProfileViewModel()
                 {
@@ -803,11 +804,11 @@ namespace TightWiki.Controllers
                 var file = Request.Form.Files["Avatar"];
                 if (file != null && file.Length > 0)
                 {
-                    if (GlobalConfiguration.AllowableImageTypes.Contains(file.ContentType.ToLowerInvariant()) == false)
+                    if (WikiConfiguration.AllowableImageTypes.Contains(file.ContentType.ToLowerInvariant()) == false)
                     {
                         model.ErrorMessage += Localize("Could not save the attached image, type not allowed.") + "\r\n";
                     }
-                    else if (file.Length > GlobalConfiguration.MaxAvatarFileSize)
+                    else if (file.Length > WikiConfiguration.MaxAvatarFileSize)
                     {
                         model.ErrorMessage += Localize("Could not save the attached image, too large.") + "\r\n";
                     }
@@ -927,7 +928,7 @@ namespace TightWiki.Controllers
                     return NotifyOfSuccess(Localize("The account has been deleted."), $"/AdminSecurity/Accounts");
                 }
 
-                return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
             }
             catch (Exception ex)
             {

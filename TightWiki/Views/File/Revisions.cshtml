@@ -1,6 +1,8 @@
-﻿@using TightWiki.Models
+﻿@using TightWiki
+@using TightWiki.Models
 @using TightWiki.Library
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @model TightWiki.Models.ViewModels.File.PageFileRevisionsViewModel
 @{
@@ -51,7 +53,7 @@
                         <tr>
                             <td class="text-nowrap">
                                 <a class="text-decoration-none fw-semibold"
-                                       href="@GlobalConfiguration.BasePath/File/Binary/@Model.PageNavigation/@Model.FileNavigation/@h.FileRevision"
+                                       href="@WikiConfiguration.BasePath/File/Binary/@Model.PageNavigation/@Model.FileNavigation/@h.FileRevision"
                                        target="_blank"
                                        rel="noopener">
                                     @Html.DisplayTextFor(x => h.FileRevision)
@@ -60,7 +62,7 @@
 
                             <td>
                                 <a class="text-decoration-none"
-                                       href="@GlobalConfiguration.BasePath/Profile/@h.CreatedByUserName/Public">
+                                       href="@WikiConfiguration.BasePath/Profile/@h.CreatedByUserName/Public">
                                     @Html.DisplayTextFor(x => h.CreatedByUserName)
                                 </a>
                             </td>

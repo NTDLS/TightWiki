@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using TightWiki.Engine.Function;
 using TightWiki.Engine.Library;
 using TightWiki.Models;
 
@@ -10,7 +9,7 @@ namespace TightWiki.Engine
     /// </summary>
     public class WikifierLite
     {
-        public static string Process(string? unprocessedText)
+        public static string Process(TightWikiConfiguration wikiConfiguration, string? unprocessedText)
         {
             unprocessedText = unprocessedText?.Trim() ?? string.Empty;
             if (string.IsNullOrWhiteSpace(unprocessedText))
@@ -24,9 +23,9 @@ namespace TightWiki.Engine
                 var matchStore = new Dictionary<string, string>();
 
                 var content = new WikiString(unprocessedText);
-                TransformEmoji(content, matchStore);
-                TransformLinks(content, matchStore);
-                TransformMarkup(content, matchStore);
+                TransformEmoji(wikiConfiguration, content, matchStore);
+                TransformLinks(wikiConfiguration, content, matchStore);
+                TransformMarkup(wikiConfiguration, content, matchStore);
 
                 foreach (var match in matchStore)
                 {
@@ -52,7 +51,7 @@ namespace TightWiki.Engine
             return guid;
         }
 
-        private static void TransformEmoji(WikiString pageContent, Dictionary<string, string> matchStore)
+        private static void TransformEmoji(TightWikiConfiguration wikiConfiguration, WikiString pageContent, Dictionary<string, string> matchStore)
         {
             var rgx = new Regex(@"(%%.+?%%)", RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
@@ -70,9 +69,9 @@ namespace TightWiki.Engine
 
                 key = $"%%{key}%%";
 
-                var emoji = GlobalConfiguration.Emojis.FirstOrDefault(o => o.Shortcut == key);
+                var emoji = wikiConfiguration.Emojis.FirstOrDefault(o => o.Shortcut == key);
 
-                if (GlobalConfiguration.Emojis.Exists(o => o.Shortcut == key))
+                if (wikiConfiguration.Emojis.Exists(o => o.Shortcut == key))
                 {
                     if (scale != 100 && scale > 0 && scale <= 500)
                     {
@@ -96,7 +95,7 @@ namespace TightWiki.Engine
         /// Transform basic markup such as bold, italics, underline, etc. for single and multi-line.
         /// </summary>
         /// <param name="pageContent"></param>
-        private static void TransformMarkup(WikiString pageContent, Dictionary<string, string> matchStore)
+        private static void TransformMarkup(TightWikiConfiguration wikiConfiguration, WikiString pageContent, Dictionary<string, string> matchStore)
         {
             var symbols = WikiUtility.GetApplicableSymbols(pageContent.Value);
 
@@ -130,7 +129,7 @@ namespace TightWiki.Engine
         /// Transform links, these can be internal Wiki links or external links.
         /// </summary>
         /// <param name="pageContent"></param>
-        private static void TransformLinks(WikiString pageContent, Dictionary<string, string> matchStore)
+        private static void TransformLinks(TightWikiConfiguration wikiConfiguration, WikiString pageContent, Dictionary<string, string> matchStore)
         {
             //Parse external explicit links. eg. [[http://test.net]].
             var rgx = new Regex(@"(\[\[http\:\/\/.+?\]\])", RegexOptions.IgnoreCase);
@@ -138,6 +137,8 @@ namespace TightWiki.Engine
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
+                //WIP
+                /*
                 var args = FunctionParser.ParseArgumentsAddParenthesis(keyword);
 
                 if (args.Count > 1)
@@ -148,6 +149,7 @@ namespace TightWiki.Engine
                 {
                     pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{args[0]}\">{args[0]}</a>"));
                 }
+                */
             }
 
             //Parse external explicit links. eg. [[https://test.net]].
@@ -156,16 +158,19 @@ namespace TightWiki.Engine
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                var args = FunctionParser.ParseArgumentsAddParenthesis(keyword);
+                //WIP
+                /*
+                                var args = FunctionParser.ParseArgumentsAddParenthesis(keyword);
 
-                if (args.Count == 1)
-                {
-                    pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{args[0]}\">{args[1]}</a>"));
-                }
-                else if (args.Count > 1)
-                {
-                    pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{args[0]}\">{args[0]}</a>"));
-                }
+                                if (args.Count == 1)
+                                {
+                                    pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{args[0]}\">{args[1]}</a>"));
+                                }
+                                else if (args.Count > 1)
+                                {
+                                    pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{args[0]}\">{args[0]}</a>"));
+                                }
+                */
             }
 
             //Parse internal dynamic links. eg [[AboutUs|About Us]].
@@ -174,6 +179,8 @@ namespace TightWiki.Engine
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
+                //WIP
+                /*
                 var args = FunctionParser.ParseArgumentsAddParenthesis(keyword);
 
                 if (args.Count == 1)
@@ -184,6 +191,7 @@ namespace TightWiki.Engine
                 {
                     pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{GlobalConfiguration.BasePath}/{args[0]}\">{args[1]}</a>"));
                 }
+                */
             }
         }
     }

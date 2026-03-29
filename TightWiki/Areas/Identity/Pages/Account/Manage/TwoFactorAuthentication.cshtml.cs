@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
+using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -18,8 +19,8 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         public TwoFactorAuthenticationModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<ITightEngine> logger, ISharedLocalizationText localizer)
-            : base(logger, signInManager, localizer)
+            ILogger<ITightEngine> logger, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+            : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _userManager = userManager;
             _signInManager = signInManager;

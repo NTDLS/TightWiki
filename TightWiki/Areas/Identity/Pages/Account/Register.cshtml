@@ -1,8 +1,10 @@
 ﻿@page
+@using TightWiki
 @using TightWiki.Models
 @using System.Text.Encodings.Web
 @using TightWiki.Library
 @inject ISharedLocalizationText Localizer
+@inject TightWikiConfiguration WikiConfiguration
 
 @model RegisterModel
 @{
@@ -218,7 +220,7 @@
                                             name="provider"
                                             value="@provider.Name"
                                             title="Log in using your Google account">
-                                        <img src="@GlobalConfiguration.BasePath/images/external/google-signin.svg"
+                                        <img src="@WikiConfiguration.BasePath/images/external/google-signin.svg"
                                              alt="Google"
                                              class="me-2"
                                              style="max-height: 50px;" />
@@ -231,7 +233,7 @@
                                             name="provider"
                                             value="@provider.Name"
                                             title="Log in using your Microsoft account">
-                                        <img src="@GlobalConfiguration.BasePath/images/external/microsoft-signin.svg"
+                                        <img src="@WikiConfiguration.BasePath/images/external/microsoft-signin.svg"
                                              alt="Microsoft"
                                              class="me-2"
                                              style="max-height: 50px;" />

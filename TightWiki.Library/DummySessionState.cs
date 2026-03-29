@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System.Globalization;
 using TightWiki.Library.Interfaces;
 
 namespace TightWiki.Library
@@ -31,6 +30,6 @@ namespace TightWiki.Library
             => TimeZoneInfo.ConvertTimeFromUtc(datetime, GetPreferredTimeZone());
 
         public TimeZoneInfo GetPreferredTimeZone()
-            => TimeZoneInfo.FindSystemTimeZoneById(CultureInfo.CurrentUICulture.Name);
+            => TimeZoneInfo.Local;
     }
 }

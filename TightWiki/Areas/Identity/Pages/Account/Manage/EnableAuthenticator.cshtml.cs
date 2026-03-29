@@ -42,8 +42,8 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         public EnableAuthenticatorModel(SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             ILogger<ITightEngine> logger,
-            UrlEncoder urlEncoder, ISharedLocalizationText localizer)
-                        : base(logger, signInManager, localizer)
+            UrlEncoder urlEncoder, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+                        : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _userManager = userManager;
             _logger = logger;
@@ -134,11 +134,11 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             {
                 var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
                 RecoveryCodes = recoveryCodes.ToArray();
-                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/ShowRecoveryCodes");
+                return RedirectToPage($"{WikiConfiguration.BasePath}/Identity/ShowRecoveryCodes");
             }
             else
             {
-                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/TwoFactorAuthentication");
+                return RedirectToPage($"{WikiConfiguration.BasePath}/Identity/TwoFactorAuthentication");
             }
         }
 
@@ -180,7 +180,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             return string.Format(
                 CultureInfo.InvariantCulture,
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode(GlobalConfiguration.Name),
+                _urlEncoder.Encode(WikiConfiguration.Name),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }

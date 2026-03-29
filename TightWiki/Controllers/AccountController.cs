@@ -21,12 +21,13 @@ namespace TightWiki.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public AccountController(
+            TightWikiConfiguration wikiConfiguration,
             IHttpContextAccessor httpContextAccessor,
             ILogger<ITightEngine> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore, ISharedLocalizationText localizer)
-            : base(logger, signInManager, userManager, localizer)
+            : base(logger, signInManager, userManager, localizer, wikiConfiguration)
         {
             _httpContextAccessor = httpContextAccessor;
             _userStore = userStore;
@@ -99,14 +100,14 @@ namespace TightWiki.Controllers
 
                     if (await UsersRepository.GetBasicProfileByUserId(Guid.Parse(user.Id)) == null)
                     {
-                        if (GlobalConfiguration.AllowSignup != true)
+                        if (WikiConfiguration.AllowSignup != true)
                         {
-                            return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                            return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
                         }
 
                         //User exists but does not have a profile.
                         //This means that the user has authenticated externally, but has yet to complete the signup process.
-                        return RedirectToPage($"{GlobalConfiguration.BasePath}/Account/ExternalLoginSupplemental", new { ReturnUrl = returnUrl });
+                        return RedirectToPage($"{WikiConfiguration.BasePath}/Account/ExternalLoginSupplemental", new { ReturnUrl = returnUrl });
                     }
 
                     return Redirect(returnUrl);
@@ -133,14 +134,14 @@ namespace TightWiki.Controllers
 
                         if (await UsersRepository.GetBasicProfileByUserId(Guid.Parse(user.Id)) == null)
                         {
-                            if (GlobalConfiguration.AllowSignup != true)
+                            if (WikiConfiguration.AllowSignup != true)
                             {
-                                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                                return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
                             }
 
                             //User exists but does not have a profile.
                             //This means that the user has authenticated externally, but has yet to complete the signup process.
-                            return RedirectToPage($"{GlobalConfiguration.BasePath}/Account/ExternalLoginSupplemental", new { ReturnUrl = returnUrl });
+                            return RedirectToPage($"{WikiConfiguration.BasePath}/Account/ExternalLoginSupplemental", new { ReturnUrl = returnUrl });
                         }
 
                         return Redirect(returnUrl);
@@ -149,12 +150,12 @@ namespace TightWiki.Controllers
                     {
                         // If user with this email does not exist, then we need to create the user and profile.
 
-                        if (GlobalConfiguration.AllowSignup != true)
+                        if (WikiConfiguration.AllowSignup != true)
                         {
-                            return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                            return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
                         }
 
-                        return RedirectToPage($"{GlobalConfiguration.BasePath}/Account/ExternalLoginSupplemental", new { ReturnUrl = returnUrl });
+                        return RedirectToPage($"{WikiConfiguration.BasePath}/Account/ExternalLoginSupplemental", new { ReturnUrl = returnUrl });
                     }
                 }
             }

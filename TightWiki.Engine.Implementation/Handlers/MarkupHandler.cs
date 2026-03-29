@@ -1,6 +1,6 @@
 ﻿using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
-using static TightWiki.Engine.Library.Constants;
+using TightWiki.Library;
 
 namespace TightWiki.Engine.Implementation.Handlers
 {

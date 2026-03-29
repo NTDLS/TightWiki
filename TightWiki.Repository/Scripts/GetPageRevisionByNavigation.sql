@@ -22,7 +22,7 @@ INNER JOIN [PageRevision] as PR
 LEFT OUTER JOIN users_db.Profile as MBU
 	ON MBU.UserId = P.ModifiedByUserId
 LEFT OUTER JOIN users_db.Profile as CBU
-	ON MBU.UserId = P.CreatedByUserId
+	ON CBU.UserId = P.CreatedByUserId
 WHERE
 	P.Navigation = @Navigation
 	AND PR.Revision = COALESCE(@Revision, P.Revision)

@@ -1,4 +1,4 @@
-﻿using static TightWiki.Engine.Library.Constants;
+﻿using TightWiki.Library;
 
 namespace TightWiki.Engine
 {
