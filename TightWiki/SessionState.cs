@@ -51,7 +51,7 @@ namespace TightWiki
         /// <summary>
         /// The "page" here is more of a "mock page", we use the name for various stuff.
         /// </summary>
-        public IWikiPage? Page { get; set; }
+        public IWikiPage Page { get; set; } = new WikiPage();
 
         #endregion
 

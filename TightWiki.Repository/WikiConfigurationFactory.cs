@@ -1,12 +1,12 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.Extensions.Configuration;
+using System.Diagnostics;
 using TightWiki.Caching;
 using TightWiki.Models;
-using TightWiki.Repository;
 using static TightWiki.Library.Constants;
 
-namespace TightWiki
+namespace TightWiki.Repository
 {
-    public static class WikiConfigurationManager
+    public static class WikiConfigurationFactory
     {
         public static async Task<TightWikiConfiguration> Create(IConfiguration configuration)
         {

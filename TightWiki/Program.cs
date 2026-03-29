@@ -69,7 +69,7 @@ namespace TightWiki
                 ManagedDataStorage.Defaults.SetConnectionString(defaultsDatabasePath);
             }
 
-            var wikiConfiguration = await WikiConfigurationManager.Create(builder.Configuration);
+            var wikiConfiguration = await WikiConfigurationFactory.Create(builder.Configuration);
 
             // Add DiffPlex services.
             builder.Services.AddScoped<IDiffer, Differ>();

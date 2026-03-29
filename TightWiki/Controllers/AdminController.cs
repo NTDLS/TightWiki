@@ -1421,7 +1421,7 @@ namespace TightWiki.Controllers
                 if (id.DefaultWhenNull(0) == 0)
                 {
                     model.Id = await ConfigurationRepository.InsertMenuItem(model.ToDataModel());
-                    await WikiConfigurationManager.ReloadMenu(WikiConfiguration);
+                    await WikiConfigurationFactory.ReloadMenu(WikiConfiguration);
                     ModelState.Clear();
 
                     return NotifyOfSuccess(Localize("The menu item has been created."), $"/Admin/MenuItem/{model.Id}");
@@ -1429,7 +1429,7 @@ namespace TightWiki.Controllers
                 else
                 {
                     await ConfigurationRepository.UpdateMenuItemById(model.ToDataModel());
-                    await WikiConfigurationManager.ReloadMenu(WikiConfiguration);
+                    await WikiConfigurationFactory.ReloadMenu(WikiConfiguration);
                 }
 
                 model.SuccessMessage = Localize("The menu item has been saved.");
@@ -1459,7 +1459,7 @@ namespace TightWiki.Controllers
                 if (model.UserSelection == true)
                 {
                     await ConfigurationRepository.DeleteMenuItemById(id);
-                    await WikiConfigurationManager.ReloadMenu(WikiConfiguration);
+                    await WikiConfigurationFactory.ReloadMenu(WikiConfiguration);
                     return NotifyOfSuccess(Localize("The specified menu item has been deleted."), model.YesRedirectURL);
                 }
 
@@ -1573,7 +1573,7 @@ namespace TightWiki.Controllers
                         }
 
                         await ConfigurationRepository.SaveConfigurationEntryValueByGroupAndEntry(fc.GroupName, fc.EntryName, value);
-                        await WikiConfigurationManager.ReloadAll(WikiConfiguration);
+                        await WikiConfigurationFactory.ReloadAll(WikiConfiguration);
                     }
 
                     WikiCache.ClearCategory(WikiCache.Category.Configuration);
@@ -1738,7 +1738,7 @@ namespace TightWiki.Controllers
                 model.Emoji.Id = (int)emoji.Id;
                 ModelState.Clear();
 
-                await WikiConfigurationManager.ReloadEmojis(WikiConfiguration);
+                await WikiConfigurationFactory.ReloadEmojis(WikiConfiguration);
 
                 if (nameChanged)
                 {
@@ -1846,7 +1846,7 @@ namespace TightWiki.Controllers
                 }
 
                 await EmojiRepository.UpsertEmoji(emoji);
-                await WikiConfigurationManager.ReloadEmojis(WikiConfiguration);
+                await WikiConfigurationFactory.ReloadEmojis(WikiConfiguration);
 
                 return NotifyOfSuccess(Localize("The emoji has been created."), $"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
             }
@@ -1876,7 +1876,7 @@ namespace TightWiki.Controllers
                 if (model.UserSelection == true && emoji != null)
                 {
                     await EmojiRepository.DeleteById(emoji.Id);
-                    await WikiConfigurationManager.ReloadEmojis(WikiConfiguration);
+                    await WikiConfigurationFactory.ReloadEmojis(WikiConfiguration);
                     return NotifyOfSuccess(Localize("The specified emoji has been deleted."), model.YesRedirectURL);
                 }
 
