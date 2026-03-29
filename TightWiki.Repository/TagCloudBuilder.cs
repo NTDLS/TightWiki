@@ -1,8 +1,7 @@
 ﻿using System.Text;
 using TightWiki.Library;
-using TightWiki.Repository;
 
-namespace TightWiki.Engine.Implementation.Utility
+namespace TightWiki.Repository
 {
     public static class TagCloudBuilder
     {

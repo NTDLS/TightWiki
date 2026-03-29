@@ -14,7 +14,8 @@ namespace TightWiki.Repository
             _minLevel = minLevel;
         }
 
-        public bool IsEnabled(LogLevel logLevel) => true;
+        public bool IsEnabled(LogLevel logLevel)
+            => logLevel >= _minLevel;
 
         public void Log<TState>(
             LogLevel logLevel,
