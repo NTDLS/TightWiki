@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.DirectoryServices.Protocols;
 using System.Net;
-using TightWiki.Library;
 using TightWiki.Models.DataModels;
+using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Security
 {

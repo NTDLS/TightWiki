@@ -1,9 +1,10 @@
 ﻿@using TightWiki
 @using TightWiki.Library
 @using TightWiki.Models
-@using static TightWiki.Library.Constants
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
 @inject ISharedLocalizationText Localizer
-@inject TightWikiConfiguration WikiConfiguration
+@inject TwConfiguration WikiConfiguration
 
 @model TightWiki.Models.ViewModels.File.FileAttachmentViewModel
 @{

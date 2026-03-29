@@ -1,6 +1,5 @@
-﻿using TightWiki.Engine.Library;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
+﻿using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Engine.Implementation.Handlers
 {
@@ -18,7 +17,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// <param name="text">The text which should be show in the absence of an image.</param>
         /// <param name="image">The image that should be shown.</param>
         /// <param name="imageScale">The 0-100 image scale factor for the given image.</param>
-        public async Task<HandlerResult> Handle(ITightEngineState state, string link, string? text, string? image)
+        public async Task<HandlerResult> Handle(ITwEngineState state, string link, string? text, string? image)
         {
             if (string.IsNullOrEmpty(image))
             {

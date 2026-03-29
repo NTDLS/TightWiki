@@ -1,18 +1,18 @@
 ﻿using System.Text;
-using TightWiki.Engine.Library;
-using TightWiki.Engine.Library.Function.Attributes;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Attributes;
+using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Models;
 using TightWiki.Repository;
 
 namespace TightWiki.Engine.Implementation.Functions
 {
-    [TightWikiFunctionModule("Post Processing Instruction Functions", "Built-in post processing instruction functions.")]
+    [TwFunctionModule("Post Processing Instruction Functions", "Built-in post processing instruction functions.")]
     public class PostProcessingInstructionFunctions
-        : ITightWikiFunctionModule
+        : ITwFunctionModule
     {
-        [TightWikiPostProcessingInstructionFunction("Tags", "Displays list of tag links for the tags that are included on the current page.")]
-        public async Task<HandlerResult> Tags(ITightEngineState state,
+        [TwPostProcessingInstructionFunction("Tags", "Displays list of tag links for the tags that are included on the current page.")]
+        public async Task<HandlerResult> Tags(ITwEngineState state,
             TightWikiTabularStyle styleName)
         {
             var html = new StringBuilder();
@@ -40,16 +40,16 @@ namespace TightWiki.Engine.Implementation.Functions
             return new HandlerResult(html.ToString());
         }
 
-        [TightWikiPostProcessingInstructionFunction("TagCloud", "Displays a tag cloud for the specified page tag.")]
-        public async Task<HandlerResult> TagCloud(ITightEngineState state,
+        [TwPostProcessingInstructionFunction("TagCloud", "Displays a tag cloud for the specified page tag.")]
+        public async Task<HandlerResult> TagCloud(ITwEngineState state,
             string pageTag, int top = 1000)
         {
             string html = await TagCloudBuilder.Build(state.Engine.WikiConfiguration.BasePath, pageTag, top);
             return new HandlerResult(html);
         }
 
-        [TightWikiPostProcessingInstructionFunction("SearchCloud", "Displays a search cloud for the specified search phrase.")]
-        public async Task<HandlerResult> SearchCloud(ITightEngineState state,
+        [TwPostProcessingInstructionFunction("SearchCloud", "Displays a search cloud for the specified search phrase.")]
+        public async Task<HandlerResult> SearchCloud(ITwEngineState state,
             string searchPhrase, int top = 1000)
         {
             var tokens = searchPhrase.Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -58,8 +58,8 @@ namespace TightWiki.Engine.Implementation.Functions
             return new HandlerResult(html);
         }
 
-        [TightWikiPostProcessingInstructionFunction("Toc", "Displays a table of contents for the page based on the header tags.")]
-        public async Task<HandlerResult> Toc(ITightEngineState state,
+        [TwPostProcessingInstructionFunction("Toc", "Displays a table of contents for the page based on the header tags.")]
+        public async Task<HandlerResult> Toc(ITwEngineState state,
             bool alphabetized = false)
         {
             var html = new StringBuilder();

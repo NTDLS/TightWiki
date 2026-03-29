@@ -22,4 +22,8 @@
 		<PackageReference Include="NTDLS.SqliteDapperWrapper" Version="1.4.2" />
 		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\TightWiki.Plugin\TightWiki.Plugin.csproj" />
+	</ItemGroup>
 </Project>

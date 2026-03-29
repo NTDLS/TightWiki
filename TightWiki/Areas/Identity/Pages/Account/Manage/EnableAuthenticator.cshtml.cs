@@ -8,9 +8,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text;
 using System.Text.Encodings.Web;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
-using TightWiki.Models;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -34,15 +33,15 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
     public class EnableAuthenticatorModel : PageModelBase
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<ITightEngine> _logger;
+        private readonly ILogger<ITwEngine> _logger;
         private readonly UrlEncoder _urlEncoder;
 
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
         public EnableAuthenticatorModel(SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            ILogger<ITightEngine> logger,
-            UrlEncoder urlEncoder, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+            ILogger<ITwEngine> logger,
+            UrlEncoder urlEncoder, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
                         : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _userManager = userManager;

@@ -1,10 +1,12 @@
-﻿@using TightWiki
+﻿@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
+@using TightWiki
 @using Microsoft.AspNetCore.Html
 @using DiffPlex.DiffBuilder.Model
 @using TightWiki.Models
 @using TightWiki.Library
 @inject ISharedLocalizationText Localizer
-@inject TightWikiConfiguration WikiConfiguration
+@inject TwConfiguration WikiConfiguration
 
 @model TightWiki.Models.ViewModels.Page.PageCompareViewModel
 @{

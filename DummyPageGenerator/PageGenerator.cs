@@ -2,11 +2,11 @@
 using NTDLS.Helpers;
 using System.Security.Claims;
 using System.Text;
-using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
+using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
-using static TightWiki.Library.Constants;
+using static TightWiki.Plugin.Constants;
 
 namespace DummyPageGenerator
 {
@@ -197,7 +197,7 @@ namespace DummyPageGenerator
         /// Creates a random page on the wiki.
         /// </summary>
         /// <param name="userId"></param>
-        public async Task GeneratePage(ITightEngine tightEngine, Guid userId)
+        public async Task GeneratePage(ITwEngine tightEngine, Guid userId)
         {
             try
             {
@@ -289,7 +289,7 @@ namespace DummyPageGenerator
         /// Modifies a random page on the wiki.
         /// </summary>
         /// <param name="userId"></param>
-        public async Task ModifyRandomPages(ITightEngine engine, Guid userId)
+        public async Task ModifyRandomPages(ITwEngine engine, Guid userId)
         {
             var pageToModify = GetRandomPage();
 

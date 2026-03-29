@@ -12,18 +12,18 @@ using System.Security.Claims;
 using System.Text;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation.Handlers;
-using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
+using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
 using TightWiki.Repository.Extensions;
-using static TightWiki.Library.Constants;
+using static TightWiki.Plugin.Constants;
 
 namespace TightWiki.Test.Library
 {
     public class MockWikiEngineArtifacts
     {
-        public ITightEngine Engine { get; private set; }
+        public ITwEngine Engine { get; private set; }
         public SignInManager<IdentityUser> SignInManager { get; private set; }
         public UserManager<IdentityUser> UserManager { get; private set; }
         public IUserStore<IdentityUser> UserStore { get; private set; }
@@ -54,7 +54,7 @@ namespace TightWiki.Test.Library
                            containerBuilder.RegisterType<InternalLinkHandler>().As<IInternalLinkHandler>().SingleInstance();
                            containerBuilder.RegisterType<ExceptionHandler>().As<IExceptionHandler>().SingleInstance();
                            containerBuilder.RegisterType<NoOpCompletionHandler>().As<ICompletionHandler>().SingleInstance();
-                           containerBuilder.RegisterType<TightEngine>().As<ITightEngine>().SingleInstance();
+                           containerBuilder.RegisterType<TwEngine>().As<ITwEngine>().SingleInstance();
                        }).Build();
 
             //Resolving config services.
@@ -89,7 +89,7 @@ namespace TightWiki.Test.Library
             SignInManager = serviceProvider.GetRequiredService<SignInManager<IdentityUser>>();
             UserManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
             UserStore = serviceProvider.GetRequiredService<IUserStore<IdentityUser>>();
-            Engine = host.Services.GetRequiredService<ITightEngine>();
+            Engine = host.Services.GetRequiredService<ITwEngine>();
 
             //Loading all settings.
             //ConfigurationRepository.ReloadEverything().Wait();

@@ -2,9 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
-using TightWiki.Models;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki
 {
@@ -20,11 +19,11 @@ namespace TightWiki
         public string WarningMessage { get; set; } = string.Empty;
         public string ErrorMessage { get; set; } = string.Empty;
 
-        public ILogger<ITightEngine> Logger { get; private set; }
-        public TightWikiConfiguration WikiConfiguration { get; private set; }
+        public ILogger<ITwEngine> Logger { get; private set; }
+        public TwConfiguration WikiConfiguration { get; private set; }
 
-        public PageModelBase(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-            ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+        public PageModelBase(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
+            ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
         {
             WikiConfiguration = wikiConfiguration;
             Localizer = localizer;

@@ -1,10 +1,12 @@
 ﻿@model AccountsViewModel
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
 @using TightWiki
 @using TightWiki.Library
 @using TightWiki.Models
 @using TightWiki.Models.ViewModels.AdminSecurity
 @inject ISharedLocalizationText Localizer
-@inject TightWikiConfiguration WikiConfiguration
+@inject TwConfiguration WikiConfiguration
 
 @{
     Layout = "_Layout";

@@ -8,21 +8,21 @@ using SixLabors.ImageSharp;
 using System.Security.Claims;
 using TightWiki.Caching;
 using TightWiki.Engine;
-using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
-using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Models.ViewModels.Utility;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
 using static TightWiki.Library.Images;
 
 namespace TightWiki.Controllers
 {
     [Route("[controller]")]
-    public class ProfileController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
+    public class ProfileController(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager, IWebHostEnvironment environment, ISharedLocalizationText localizer,
-        TightWikiConfiguration wikiConfiguration)
+        TwConfiguration wikiConfiguration)
         : WikiControllerBase<ProfileController>(logger, signInManager, userManager, localizer, wikiConfiguration)
     {
         private readonly IWebHostEnvironment _environment = environment;
@@ -227,7 +227,7 @@ namespace TightWiki.Controllers
                     TimeZone = accountProfile.TimeZone,
                     Language = accountProfile.Language,
                     Country = accountProfile.Country,
-                    Biography = WikifierLite.Process(WikiConfiguration, accountProfile.Biography),
+                    Biography = TwWikifierLite.Process(WikiConfiguration, accountProfile.Biography),
                     Avatar = accountProfile.Avatar
                 };
 

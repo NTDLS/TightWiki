@@ -2,11 +2,10 @@
 using NTDLS.Helpers;
 using NTDLS.SqliteDapperWrapper;
 using TightWiki.Caching;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
-using TightWiki.Library.Interfaces;
 using TightWiki.Models.DataModels;
-using static TightWiki.Library.Constants;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
+using static TightWiki.Plugin.Constants;
 
 namespace TightWiki.Repository
 {
@@ -15,7 +14,7 @@ namespace TightWiki.Repository
         /// <summary>
         /// Inserts a new page if Page.Id == 0, other wise updates the page. All metadata is written to the database.
         /// </summary>
-        public static async Task<int> UpsertPage(ITightEngine wikifier, ISharedLocalizationText localizer, WikiPage page, ISessionState? sessionState = null)
+        public static async Task<int> UpsertPage(ITwEngine wikifier, ISharedLocalizationText localizer, WikiPage page, ISessionState? sessionState = null)
         {
             bool isNewlyCreated = page.Id == 0;
 
@@ -38,7 +37,7 @@ namespace TightWiki.Repository
         /// <param name="sessionState"></param>
         /// <param name="query"></param>
         /// <param name="page"></param>
-        public static async Task RefreshPageMetadata(ITightEngine wikifier, ISharedLocalizationText localizer, WikiPage page, ISessionState? sessionState = null)
+        public static async Task RefreshPageMetadata(ITwEngine wikifier, ISharedLocalizationText localizer, WikiPage page, ISessionState? sessionState = null)
         {
             //We omit function calls from the tokenization process because they are too dynamic for static searching.
             var state = await wikifier.Transform(localizer, sessionState, page, null, [WikiMatchType.StandardFunction]);
@@ -63,7 +62,7 @@ namespace TightWiki.Repository
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
         }
 
-        public static async Task<List<AggregatedSearchToken>> ParsePageTokens(ITightEngineState state)
+        public static async Task<List<AggregatedSearchToken>> ParsePageTokens(ITwEngineState state)
         {
             var parsedTokens = new List<WeightedSearchToken>();
 

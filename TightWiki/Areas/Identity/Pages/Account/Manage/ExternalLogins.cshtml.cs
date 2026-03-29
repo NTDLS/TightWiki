@@ -5,9 +5,8 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
-using TightWiki.Models;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -18,10 +17,10 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         private readonly IUserStore<IdentityUser> _userStore;
 
         public ExternalLoginsModel(
-                ILogger<ITightEngine> logger,
+                ILogger<ITwEngine> logger,
                 UserManager<IdentityUser> userManager,
                 SignInManager<IdentityUser> signInManager,
-                IUserStore<IdentityUser> userStore, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+                IUserStore<IdentityUser> userStore, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
                         : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _userManager = userManager;

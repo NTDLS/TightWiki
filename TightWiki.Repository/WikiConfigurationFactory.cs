@@ -1,16 +1,16 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 using TightWiki.Caching;
-using TightWiki.Models;
-using static TightWiki.Library.Constants;
+using TightWiki.Plugin;
+using static TightWiki.Plugin.Constants;
 
 namespace TightWiki.Repository
 {
     public static class WikiConfigurationFactory
     {
-        public static async Task<TightWikiConfiguration> Create(IConfiguration configuration)
+        public static async Task<TwConfiguration> Create(IConfiguration configuration)
         {
-            var instance = new TightWikiConfiguration();
+            var instance = new TwConfiguration();
 
             instance.BasePath = configuration.GetValue<string?>("BasePath") ?? string.Empty;
 
@@ -18,7 +18,7 @@ namespace TightWiki.Repository
             return instance;
         }
 
-        public static async Task ReloadAll(TightWikiConfiguration instance)
+        public static async Task ReloadAll(TwConfiguration instance)
         {
             WikiCache.Clear();
 
@@ -79,12 +79,12 @@ namespace TightWiki.Repository
             await ReloadEmojis(instance);
         }
 
-        public static async Task ReloadMenu(TightWikiConfiguration instance)
+        public static async Task ReloadMenu(TwConfiguration instance)
         {
             instance.MenuItems = await ConfigurationRepository.GetAllMenuItems();
         }
 
-        public static async Task ReloadEmojis(TightWikiConfiguration instance)
+        public static async Task ReloadEmojis(TwConfiguration instance)
         {
             instance.Emojis = await ConfigurationRepository.ReloadEmojis(instance.PreLoadAnimatedEmojis, instance.DefaultEmojiHeight);
         }

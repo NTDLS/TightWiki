@@ -1,5 +1,6 @@
 ﻿using TightWiki.Library;
 using TightWiki.Models.DataModels;
+using TightWiki.Plugin.Models;
 
 namespace TightWiki.Models.ViewModels.Admin
 {

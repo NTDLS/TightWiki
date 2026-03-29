@@ -1,4 +1,4 @@
-﻿using TightWiki.Library.Interfaces;
+﻿using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Models.DataModels
 {

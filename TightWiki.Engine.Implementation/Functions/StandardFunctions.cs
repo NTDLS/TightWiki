@@ -1,19 +1,19 @@
 ﻿using NTDLS.Helpers;
 using System.Reflection;
 using System.Text;
-using TightWiki.Engine.Library;
-using TightWiki.Engine.Library.Function.Attributes;
-using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Attributes;
+using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
-using static TightWiki.Library.Constants;
+using static TightWiki.Plugin.Constants;
 
 namespace TightWiki.Engine.Implementation.Functions
 {
-    [TightWikiFunctionModule("Standard Functions", "Built-in standard functions.")]
+    [TwFunctionModule("Standard Functions", "Built-in standard functions.")]
     public class StandardFunctions
-        : ITightWikiFunctionModule
+        : ITwFunctionModule
     {
         #region Helpers.
 
@@ -24,7 +24,7 @@ namespace TightWiki.Engine.Implementation.Functions
             return page;
         }
 
-        private static void MergeUserVariables(ref ITightEngineState state, Dictionary<string, string> items)
+        private static void MergeUserVariables(ref ITwEngineState state, Dictionary<string, string> items)
         {
             foreach (var item in items)
             {
@@ -32,7 +32,7 @@ namespace TightWiki.Engine.Implementation.Functions
             }
         }
 
-        private static void MergeSnippets(ref ITightEngineState state, Dictionary<string, string> items)
+        private static void MergeSnippets(ref ITwEngineState state, Dictionary<string, string> items)
         {
             foreach (var item in items)
             {
@@ -42,8 +42,8 @@ namespace TightWiki.Engine.Implementation.Functions
 
         #endregion
 
-        [TightWikiStandardFunction("ProfileGlossary", "Creates a glossary of all user profiles.")]
-        public async Task<HandlerResult> ProfileGlossary(ITightEngineState state, int pageSize = 100, string? searchToken = null)
+        [TwStandardFunction("ProfileGlossary", "Creates a glossary of all user profiles.")]
+        public async Task<HandlerResult> ProfileGlossary(ITwEngineState state, int pageSize = 100, string? searchToken = null)
         {
             if (!state.Engine.WikiConfiguration.EnablePublicProfiles)
             {
@@ -87,8 +87,8 @@ namespace TightWiki.Engine.Implementation.Functions
         }
 
         //Creates a list of all user profiles.
-        [TightWikiStandardFunction("ProfileList", "Creates a list of all user profiles.")]
-        public async Task<HandlerResult> ProfileList(ITightEngineState state, int pageSize = 100, string? searchToken = null)
+        [TwStandardFunction("ProfileList", "Creates a list of all user profiles.")]
+        public async Task<HandlerResult> ProfileList(ITwEngineState state, int pageSize = 100, string? searchToken = null)
         {
             if (!state.Engine.WikiConfiguration.EnablePublicProfiles)
             {
@@ -121,8 +121,8 @@ namespace TightWiki.Engine.Implementation.Functions
             return new HandlerResult(html.ToString());
         }
 
-        [TightWikiStandardFunction("Attachments", "Creates a list of all attachments for a page.")]
-        public async Task<HandlerResult> Attachments(ITightEngineState state,
+        [TwStandardFunction("Attachments", "Creates a list of all attachments for a page.")]
+        public async Task<HandlerResult> Attachments(ITwEngineState state,
             TightWikiListStyle styleName = TightWikiListStyle.Full, int pageSize = 5, bool pageSelector = true, string? pageName = null)
         {
             string refTag = state.GetNextHttpQueryToken();
@@ -165,8 +165,8 @@ namespace TightWiki.Engine.Implementation.Functions
             return new HandlerResult(html.ToString());
         }
 
-        [TightWikiStandardFunction("Revisions", "Creates a list of all revisions for a page.")]
-        public async Task<HandlerResult> Revisions(ITightEngineState state,
+        [TwStandardFunction("Revisions", "Creates a list of all revisions for a page.")]
+        public async Task<HandlerResult> Revisions(ITwEngineState state,
             TightWikiListStyle styleName = TightWikiListStyle.Full, int pageSize = 5, bool pageSelector = true, string? pageName = null)
         {
             if (state.Session == null)
@@ -214,8 +214,8 @@ namespace TightWiki.Engine.Implementation.Functions
             return new HandlerResult(html.ToString());
         }
 
-        [TightWikiStandardFunction("Seq", "Inserts a sequence into the document.")]
-        public async Task<HandlerResult> Seq(ITightEngineState state, string key = "Default")
+        [TwStandardFunction("Seq", "Inserts a sequence into the document.")]
+        public async Task<HandlerResult> Seq(ITwEngineState state, string key = "Default")
         {
             var sequences = state.GetStateValue("_sequences", new Dictionary<string, int>());
 
@@ -232,15 +232,15 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiStandardFunction("EditLink", "Creates an edit link for the current page.")]
-        public async Task<HandlerResult> EditLink(ITightEngineState state, string linkText = "edit")
+        [TwStandardFunction("EditLink", "Creates an edit link for the current page.")]
+        public async Task<HandlerResult> EditLink(ITwEngineState state, string linkText = "edit")
         {
             return new HandlerResult($"<a href=\"{state.Engine.WikiConfiguration.BasePath}"
                 + NamespaceNavigation.CleanAndValidate($"/{state.Page.Navigation}/Edit") + $"\">{linkText}</a>");
         }
 
-        [TightWikiStandardFunction("Inject", "Injects an un-processed wiki body into the calling page.", true)]
-        public async Task<HandlerResult> Inject(ITightEngineState state, string pageName)
+        [TwStandardFunction("Inject", "Injects an un-processed wiki body into the calling page.", true)]
+        public async Task<HandlerResult> Inject(ITwEngineState state, string pageName)
         {
 
             var page = await GetPageFromNavigation(pageName);
@@ -255,8 +255,8 @@ namespace TightWiki.Engine.Implementation.Functions
 
         }
 
-        [TightWikiStandardFunction("Include", "Includes a processed wiki body into the calling page.", true)]
-        public async Task<HandlerResult> include(ITightEngineState state, string pageName)
+        [TwStandardFunction("Include", "Includes a processed wiki body into the calling page.", true)]
+        public async Task<HandlerResult> include(ITwEngineState state, string pageName)
         {
             var page = await GetPageFromNavigation(pageName);
             if (page != null)
@@ -274,8 +274,8 @@ namespace TightWiki.Engine.Implementation.Functions
             throw new Exception($"The include page was not found: [{pageName}]");
         }
 
-        [TightWikiStandardFunction("Set", "Sets a wiki variable.")]
-        public async Task<HandlerResult> Set(ITightEngineState state, string key, string value)
+        [TwStandardFunction("Set", "Sets a wiki variable.")]
+        public async Task<HandlerResult> Set(ITwEngineState state, string key, string value)
         {
             if (!state.Variables.TryAdd(key, value))
             {
@@ -288,8 +288,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiStandardFunction("Get", "Gets a wiki variable.")]
-        public async Task<HandlerResult> Get(ITightEngineState state, string key)
+        [TwStandardFunction("Get", "Gets a wiki variable.")]
+        public async Task<HandlerResult> Get(ITwEngineState state, string key)
         {
             if (state.Variables.TryGetValue(key, out var variable))
             {
@@ -299,14 +299,14 @@ namespace TightWiki.Engine.Implementation.Functions
             throw new Exception($"The wiki variable {key} is not defined. It should be set with ##Set() before calling Get().");
         }
 
-        [TightWikiStandardFunction("Color", "Applies a color to the given text.")]
-        public async Task<HandlerResult> color(ITightEngineState state, string color, string text)
+        [TwStandardFunction("Color", "Applies a color to the given text.")]
+        public async Task<HandlerResult> color(ITwEngineState state, string color, string text)
         {
             return new HandlerResult($"<font color=\"{color}\">{text}</font>");
         }
 
-        [TightWikiStandardFunction("Tag", "Associates tags with a page. These are saved with the page and can also be displayed.")]
-        public async Task<HandlerResult> Tag(ITightEngineState state, params string[] tags) //##tag(pipe|separated|list|of|tags)
+        [TwStandardFunction("Tag", "Associates tags with a page. These are saved with the page and can also be displayed.")]
+        public async Task<HandlerResult> Tag(ITwEngineState state, params string[] tags) //##tag(pipe|separated|list|of|tags)
         {
             state.Tags.AddRange(tags);
             state.Tags = state.Tags.Distinct().ToList();
@@ -317,8 +317,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiStandardFunction("Image", "Displays an image that is attached to the page.")]
-        public async Task<HandlerResult> Image(ITightEngineState state,
+        [TwStandardFunction("Image", "Displays an image that is attached to the page.")]
+        public async Task<HandlerResult> Image(ITwEngineState state,
             string name, int? scale = null, string? altText = null, string? @class = null, int? maxWidth = null)
         {
             altText ??= name;
@@ -379,8 +379,8 @@ namespace TightWiki.Engine.Implementation.Functions
             }
         }
 
-        [TightWikiStandardFunction("File", "Displays a file download link.")]
-        public async Task<HandlerResult> File(ITightEngineState state, string name, string linkText, bool showSize = false)
+        [TwStandardFunction("File", "Displays a file download link.")]
+        public async Task<HandlerResult> File(ITwEngineState state, string name, string linkText, bool showSize = false)
         {
             bool explicitNamespace = name.Contains("::");
             bool isPageForeignFile = false;
@@ -431,8 +431,8 @@ namespace TightWiki.Engine.Implementation.Functions
             throw new Exception($"File not found [{name}]");
         }
 
-        [TightWikiStandardFunction("RecentlyModified", "Creates a list of pages that have been recently modified.")]
-        public async Task<HandlerResult> RecentlyModified(ITightEngineState state,
+        [TwStandardFunction("RecentlyModified", "Creates a list of pages that have been recently modified.")]
+        public async Task<HandlerResult> RecentlyModified(ITwEngineState state,
             int top = 1000, TightWikiListStyle styleName = TightWikiListStyle.Full, bool showNamespace = false)
         {
             var pages = (await PageRepository.GetTopRecentlyModifiedPagesInfo(top))
@@ -469,8 +469,8 @@ namespace TightWiki.Engine.Implementation.Functions
             return new HandlerResult(html.ToString());
         }
 
-        [TightWikiStandardFunction("NamespaceGlossary", "Creates a glossary of pages in the specified namespace.")]
-        public async Task<HandlerResult> NamespaceGlossary(ITightEngineState state,
+        [TwStandardFunction("NamespaceGlossary", "Creates a glossary of pages in the specified namespace.")]
+        public async Task<HandlerResult> NamespaceGlossary(ITwEngineState state,
             string[] namespaces, int top = 1000, TightWikiListStyle styleName = TightWikiListStyle.Full, bool showNamespace = false)
         {
             string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
@@ -523,8 +523,8 @@ namespace TightWiki.Engine.Implementation.Functions
             return new HandlerResult(html.ToString());
         }
 
-        [TightWikiStandardFunction("NamespaceList", "Creates a list of pages by searching the page tags.")]
-        public async Task<HandlerResult> NamespaceList(ITightEngineState state,
+        [TwStandardFunction("NamespaceList", "Creates a list of pages by searching the page tags.")]
+        public async Task<HandlerResult> NamespaceList(ITwEngineState state,
             string[] namespaces, int top = 1000, TightWikiListStyle styleName = TightWikiListStyle.Full, bool showNamespace = false)
         {
 
@@ -563,8 +563,8 @@ namespace TightWiki.Engine.Implementation.Functions
             return new HandlerResult(html.ToString());
         }
 
-        [TightWikiStandardFunction("TagGlossary", "Creates a glossary of pages with the specified comma separated tags.")]
-        public async Task<HandlerResult> TagGlossary(ITightEngineState state,
+        [TwStandardFunction("TagGlossary", "Creates a glossary of pages with the specified comma separated tags.")]
+        public async Task<HandlerResult> TagGlossary(ITwEngineState state,
             string[] pageTags, int top = 1000, TightWikiListStyle styleName = TightWikiListStyle.Full, bool showNamespace = false)
         {
             string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
@@ -617,8 +617,8 @@ namespace TightWiki.Engine.Implementation.Functions
             return new HandlerResult(html.ToString());
         }
 
-        [TightWikiStandardFunction("TextGlossary", "Creates a glossary by searching page's body text for the specified comma separated list of words.")]
-        public async Task<HandlerResult> TextGlossary(ITightEngineState state,
+        [TwStandardFunction("TextGlossary", "Creates a glossary by searching page's body text for the specified comma separated list of words.")]
+        public async Task<HandlerResult> TextGlossary(ITwEngineState state,
             string searchPhrase, int top = 1000, TightWikiListStyle styleName = TightWikiListStyle.Full, bool showNamespace = false)
         {
             string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
@@ -672,8 +672,8 @@ namespace TightWiki.Engine.Implementation.Functions
             return new HandlerResult(html.ToString());
         }
 
-        [TightWikiStandardFunction("SearchList", "Creates a list of pages by searching the page body for the specified text.")]
-        public async Task<HandlerResult> SearchList(ITightEngineState state,
+        [TwStandardFunction("SearchList", "Creates a list of pages by searching the page body for the specified text.")]
+        public async Task<HandlerResult> SearchList(ITwEngineState state,
             string searchPhrase, TightWikiListStyle styleName = TightWikiListStyle.Full, int pageSize = 5,
             bool pageSelector = true, bool allowFuzzyMatching = false, bool showNamespace = false)
         {
@@ -721,8 +721,8 @@ namespace TightWiki.Engine.Implementation.Functions
             return new HandlerResult(html.ToString());
         }
 
-        [TightWikiStandardFunction("TagList", "Creates a list of pages by searching the page tags.")]
-        public async Task<HandlerResult> TagList(ITightEngineState state,
+        [TwStandardFunction("TagList", "Creates a list of pages by searching the page tags.")]
+        public async Task<HandlerResult> TagList(ITwEngineState state,
             string[] pageTags, int top = 1000, TightWikiListStyle styleName = TightWikiListStyle.Full, bool showNamespace = false)
         {
             var pages = (await PageRepository.GetPageInfoByTags(pageTags)).Take(top).OrderBy(o => o.Name).ToList();
@@ -760,8 +760,8 @@ namespace TightWiki.Engine.Implementation.Functions
             return new HandlerResult(html.ToString());
         }
 
-        [TightWikiStandardFunction("Similar", "Displays a list of other related pages based on tags.")]
-        public async Task<HandlerResult> Similar(ITightEngineState state,
+        [TwStandardFunction("Similar", "Displays a list of other related pages based on tags.")]
+        public async Task<HandlerResult> Similar(ITwEngineState state,
             int similarity = 80, TightWikiTabularStyle styleName = TightWikiTabularStyle.Full, int pageSize = 10, bool pageSelector = true)
         {
             string refTag = state.GetNextHttpQueryToken();
@@ -806,8 +806,8 @@ namespace TightWiki.Engine.Implementation.Functions
             return new HandlerResult(html.ToString());
         }
 
-        [TightWikiStandardFunction("Related", "Displays a list of other related pages based incoming links.")]
-        public async Task<HandlerResult> Related(ITightEngineState state,
+        [TwStandardFunction("Related", "Displays a list of other related pages based incoming links.")]
+        public async Task<HandlerResult> Related(ITwEngineState state,
             TightWikiTabularStyle styleName = TightWikiTabularStyle.Full, int pageSize = 10, bool pageSelector = true)
         {
             string refTag = state.GetNextHttpQueryToken();
@@ -852,8 +852,8 @@ namespace TightWiki.Engine.Implementation.Functions
             return new HandlerResult(html.ToString());
         }
 
-        [TightWikiStandardFunction("LastModifiedBy", "Displays the name of the person last modified the current page.")]
-        public async Task<HandlerResult> LastModifiedBy(ITightEngineState state)
+        [TwStandardFunction("LastModifiedBy", "Displays the name of the person last modified the current page.")]
+        public async Task<HandlerResult> LastModifiedBy(ITwEngineState state)
         {
             return new HandlerResult(state.Page.ModifiedByUserName)
             {
@@ -861,8 +861,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiStandardFunction("PageRevisionCount", "Displays the total number of revisions for the current page.")]
-        public async Task<HandlerResult> PageRevisionCount(ITightEngineState state)
+        [TwStandardFunction("PageRevisionCount", "Displays the total number of revisions for the current page.")]
+        public async Task<HandlerResult> PageRevisionCount(ITwEngineState state)
         {
             return new HandlerResult($"{state.Page.MostCurrentRevision:n0}")
             {
@@ -870,8 +870,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiStandardFunction("CreatedBy", "Displays the name of the person who created the current page.")]
-        public async Task<HandlerResult> CreatedBy(ITightEngineState state)
+        [TwStandardFunction("CreatedBy", "Displays the name of the person who created the current page.")]
+        public async Task<HandlerResult> CreatedBy(ITwEngineState state)
         {
             return new HandlerResult(state.Page.CreatedByUserName)
             {
@@ -879,8 +879,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiStandardFunction("PageviewCount", "Displays the total number views for the current page.")]
-        public async Task<HandlerResult> PageviewCount(ITightEngineState state)
+        [TwStandardFunction("PageviewCount", "Displays the total number views for the current page.")]
+        public async Task<HandlerResult> PageviewCount(ITwEngineState state)
         {
             int totalPageCount = await StatisticsRepository.GetPageTotalViewCount(state.Page.Id);
             return new HandlerResult($"{totalPageCount:n0}")
@@ -889,8 +889,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiStandardFunction("PageURL", "Displays the URL for the current page.")]
-        public async Task<HandlerResult> PageURL(ITightEngineState state, TightWikiLinkStyle styleName = TightWikiLinkStyle.Link)
+        [TwStandardFunction("PageURL", "Displays the URL for the current page.")]
+        public async Task<HandlerResult> PageURL(ITwEngineState state, TightWikiLinkStyle styleName = TightWikiLinkStyle.Link)
         {
 
             var siteAddress = (await ConfigurationRepository.Get(WikiConfigurationGroup.Basic, "Address", "http://localhost")).TrimEnd('/');
@@ -918,8 +918,8 @@ namespace TightWiki.Engine.Implementation.Functions
             return new HandlerResult();
         }
 
-        [TightWikiStandardFunction("PageId", "Displays the ID of the current page.")]
-        public async Task<HandlerResult> PageId(ITightEngineState state)
+        [TwStandardFunction("PageId", "Displays the ID of the current page.")]
+        public async Task<HandlerResult> PageId(ITwEngineState state)
         {
             return new HandlerResult($"{state.Page.Id}")
             {
@@ -927,8 +927,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiStandardFunction("PageCommentCount", "Displays the total number of comments for the current page.")]
-        public async Task<HandlerResult> PageCommentCount(ITightEngineState state)
+        [TwStandardFunction("PageCommentCount", "Displays the total number of comments for the current page.")]
+        public async Task<HandlerResult> PageCommentCount(ITwEngineState state)
         {
             int totalCommentCount = await PageRepository.GetTotalPageCommentCount(state.Page.Id);
             return new HandlerResult($"{totalCommentCount:n0}")
@@ -937,8 +937,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiStandardFunction("LastModified", "Displays the date and time that the current page was last modified.")]
-        public async Task<HandlerResult> LastModified(ITightEngineState state)
+        [TwStandardFunction("LastModified", "Displays the date and time that the current page was last modified.")]
+        public async Task<HandlerResult> LastModified(ITwEngineState state)
         {
             if (state.Session == null)
             {
@@ -957,8 +957,8 @@ namespace TightWiki.Engine.Implementation.Functions
             return new HandlerResult(string.Empty);
         }
 
-        [TightWikiStandardFunction("Created", "Displays the date and time that the current page was created.")]
-        public async Task<HandlerResult> Created(ITightEngineState state)
+        [TwStandardFunction("Created", "Displays the date and time that the current page was created.")]
+        public async Task<HandlerResult> Created(ITwEngineState state)
         {
             if (state.Session == null)
             {
@@ -977,8 +977,8 @@ namespace TightWiki.Engine.Implementation.Functions
             return new HandlerResult(string.Empty);
         }
 
-        [TightWikiStandardFunction("DotNetVersion", "Displays the .NET version that TightWiki is running on.")]
-        public async Task<HandlerResult> DotNetVersion(ITightEngineState state)
+        [TwStandardFunction("DotNetVersion", "Displays the .NET version that TightWiki is running on.")]
+        public async Task<HandlerResult> DotNetVersion(ITwEngineState state)
         {
             return new HandlerResult(System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription)
             {
@@ -986,8 +986,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiStandardFunction("AppVersion", "Displays the version of the wiki engine.")]
-        public async Task<HandlerResult> AppVersion(ITightEngineState state)
+        [TwStandardFunction("AppVersion", "Displays the version of the wiki engine.")]
+        public async Task<HandlerResult> AppVersion(ITwEngineState state)
         {
             var version = string.Join('.', (Assembly.GetExecutingAssembly()
                 .GetName().Version?.ToString() ?? "0.0.0.0").Split('.').Take(3)); //Major.Minor.Patch
@@ -998,8 +998,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiStandardFunction("Name", "Displays the title of the current page.")]
-        public async Task<HandlerResult> Name(ITightEngineState state)
+        [TwStandardFunction("Name", "Displays the title of the current page.")]
+        public async Task<HandlerResult> Name(ITwEngineState state)
         {
             return new HandlerResult(state.Page.Title)
             {
@@ -1007,8 +1007,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiStandardFunction("SiteName", "Displays the title of the site.")]
-        public async Task<HandlerResult> SiteName(ITightEngineState state)
+        [TwStandardFunction("SiteName", "Displays the title of the site.")]
+        public async Task<HandlerResult> SiteName(ITwEngineState state)
         {
             return new HandlerResult(state.Engine.WikiConfiguration.Name)
             {
@@ -1016,8 +1016,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiStandardFunction("Title", "Displays the title of the current page in title form.")]
-        public async Task<HandlerResult> Title(ITightEngineState state)
+        [TwStandardFunction("Title", "Displays the title of the current page in title form.")]
+        public async Task<HandlerResult> Title(ITwEngineState state)
         {
             return new HandlerResult($"<h1>{state.Page.Title}</h1>")
             {
@@ -1025,8 +1025,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiStandardFunction("Description", "Displays the description of the current page.")]
-        public async Task<HandlerResult> Description(ITightEngineState state)
+        [TwStandardFunction("Description", "Displays the description of the current page.")]
+        public async Task<HandlerResult> Description(ITwEngineState state)
         {
             return new HandlerResult($"{state.Page.Description}")
             {
@@ -1034,8 +1034,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiStandardFunction("Namespace", "Displays the namespace of the current page.")]
-        public async Task<HandlerResult> @Namespace(ITightEngineState state)
+        [TwStandardFunction("Namespace", "Displays the namespace of the current page.")]
+        public async Task<HandlerResult> @Namespace(ITwEngineState state)
         {
             return new HandlerResult(state.Page.Namespace ?? string.Empty)
             {
@@ -1043,8 +1043,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiStandardFunction("Snippet", "Displays the value of a snippet.")]
-        public async Task<HandlerResult> Snippet(ITightEngineState state, string name)
+        [TwStandardFunction("Snippet", "Displays the value of a snippet.")]
+        public async Task<HandlerResult> Snippet(ITwEngineState state, string name)
         {
             if (state.Snippets.TryGetValue(name, out string? value))
             {
@@ -1056,14 +1056,14 @@ namespace TightWiki.Engine.Implementation.Functions
             }
         }
 
-        [TightWikiStandardFunction("BR", "Inserts a line break into the page.")]
-        public async Task<HandlerResult> BR(ITightEngineState state, int count = 1) => await NewLine(state, count);
+        [TwStandardFunction("BR", "Inserts a line break into the page.")]
+        public async Task<HandlerResult> BR(ITwEngineState state, int count = 1) => await NewLine(state, count);
 
-        [TightWikiStandardFunction("NL", "Inserts a line break into the page.")]
-        public async Task<HandlerResult> NL(ITightEngineState state, int count = 1) => await NewLine(state, count);
+        [TwStandardFunction("NL", "Inserts a line break into the page.")]
+        public async Task<HandlerResult> NL(ITwEngineState state, int count = 1) => await NewLine(state, count);
 
-        [TightWikiStandardFunction("NewLine", "Inserts a line break into the page.")]
-        public async Task<HandlerResult> NewLine(ITightEngineState state, int count = 1) //##NewLine([optional:default=1]count)
+        [TwStandardFunction("NewLine", "Inserts a line break into the page.")]
+        public async Task<HandlerResult> NewLine(ITwEngineState state, int count = 1) //##NewLine([optional:default=1]count)
         {
             var lineBreaks = new StringBuilder();
             for (int i = 0; i < count; i++)
@@ -1073,20 +1073,20 @@ namespace TightWiki.Engine.Implementation.Functions
             return new HandlerResult(lineBreaks.ToString());
         }
 
-        [TightWikiStandardFunction("HR", "Inserts a horizontal rule into the page.")]
-        public async Task<HandlerResult> HR(ITightEngineState state, int height = 1)
+        [TwStandardFunction("HR", "Inserts a horizontal rule into the page.")]
+        public async Task<HandlerResult> HR(ITwEngineState state, int height = 1)
         {
             return new HandlerResult($"<hr class=\"my-{height}\">");
         }
 
-        [TightWikiStandardFunction("Navigation", "Displays the navigation text for the current page.")]
-        public async Task<HandlerResult> Navigation(ITightEngineState state)
+        [TwStandardFunction("Navigation", "Displays the navigation text for the current page.")]
+        public async Task<HandlerResult> Navigation(ITwEngineState state)
         {
             return new HandlerResult(state.Page.Navigation);
         }
 
-        [TightWikiStandardFunction("SystemEmojiList", "Displays a list of emojis for the specified category.")]
-        public async Task<HandlerResult> SystemEmojiList(ITightEngineState state)
+        [TwStandardFunction("SystemEmojiList", "Displays a list of emojis for the specified category.")]
+        public async Task<HandlerResult> SystemEmojiList(ITwEngineState state)
         {
             StringBuilder html = new();
 
@@ -1128,8 +1128,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiStandardFunction("SystemEmojiCategoryList", "Displays a list of emoji categories.")]
-        public async Task<HandlerResult> SystemEmojiCategoryList(ITightEngineState state)
+        [TwStandardFunction("SystemEmojiCategoryList", "Displays a list of emoji categories.")]
+        public async Task<HandlerResult> SystemEmojiCategoryList(ITwEngineState state)
         {
             var categories = await EmojiRepository.GetEmojiCategoriesGrouped();
 

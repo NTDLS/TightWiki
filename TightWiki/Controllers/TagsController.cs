@@ -2,18 +2,17 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
-using TightWiki.Models;
 using TightWiki.Models.ViewModels.Page;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
 
 namespace TightWiki.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class TagsController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+    public class TagsController(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
         : WikiControllerBase<TagsController>(logger, signInManager, userManager, localizer, wikiConfiguration)
     {
         [AllowAnonymous]

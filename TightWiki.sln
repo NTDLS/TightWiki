@@ -51,6 +51,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{E460
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TightWiki.Test.CaseGenerator", "TightWiki.Test.CaseGenerator\TightWiki.Test.CaseGenerator.csproj", "{0312383C-6294-4CDE-94BA-E14C464D2A3D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TightWiki.Plugin", "TightWiki.Plugin\TightWiki.Plugin.csproj", "{5FB88759-C371-477E-9C29-5D5246B7108F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,6 +127,10 @@ Global
 		{0312383C-6294-4CDE-94BA-E14C464D2A3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0312383C-6294-4CDE-94BA-E14C464D2A3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0312383C-6294-4CDE-94BA-E14C464D2A3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FB88759-C371-477E-9C29-5D5246B7108F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FB88759-C371-477E-9C29-5D5246B7108F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FB88759-C371-477E-9C29-5D5246B7108F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FB88759-C371-477E-9C29-5D5246B7108F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

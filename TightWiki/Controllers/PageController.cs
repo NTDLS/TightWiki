@@ -11,22 +11,22 @@ using System.Text;
 using System.Xml.Serialization;
 using TightWiki.Caching;
 using TightWiki.Engine;
-using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
-using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.Requests;
 using TightWiki.Models.ViewModels.Page;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
-using static TightWiki.Library.Constants;
 using static TightWiki.Library.Images;
+using static TightWiki.Plugin.Constants;
 
 namespace TightWiki.Controllers
 {
     [Route("")]
-    public class PageController(ITightEngine tightEngine, SignInManager<IdentityUser> signInManager,
+    public class PageController(ITwEngine tightEngine, SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager, ISideBySideDiffBuilder diffBuilder,
-        ILogger<ITightEngine> logger, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+        ILogger<ITwEngine> logger, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
         : WikiControllerBase<PageController>(logger, signInManager, userManager, localizer, wikiConfiguration)
     {
         [AllowAnonymous]
@@ -192,7 +192,7 @@ namespace TightWiki.Controllers
                                 Id = comment.Id,
                                 UserName = comment.UserName,
                                 UserId = comment.UserId,
-                                Body = WikifierLite.Process(WikiConfiguration, comment.Body),
+                                Body = TwWikifierLite.Process(WikiConfiguration, comment.Body),
                                 CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
                             });
                         }
@@ -457,7 +457,7 @@ namespace TightWiki.Controllers
                         Id = comment.Id,
                         UserName = comment.UserName,
                         UserId = comment.UserId,
-                        Body = WikifierLite.Process(WikiConfiguration, comment.Body),
+                        Body = TwWikifierLite.Process(WikiConfiguration, comment.Body),
                         CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
                     });
                 }
@@ -525,7 +525,7 @@ namespace TightWiki.Controllers
                         Id = comment.Id,
                         UserName = comment.UserName,
                         UserId = comment.UserId,
-                        Body = WikifierLite.Process(WikiConfiguration, comment.Body),
+                        Body = TwWikifierLite.Process(WikiConfiguration, comment.Body),
                         CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
                     });
                 }

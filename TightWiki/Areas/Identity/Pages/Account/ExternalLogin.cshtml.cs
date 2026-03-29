@@ -11,12 +11,10 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
-using TightWiki.Library.Interfaces;
-using TightWiki.Models;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
-using static TightWiki.Library.Constants;
+using static TightWiki.Plugin.Constants;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -28,15 +26,15 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly IWikiEmailSender _emailSender;
-        private readonly ILogger<ITightEngine> _logger;
+        private readonly ILogger<ITwEngine> _logger;
         private readonly ISharedLocalizationText _localizer;
 
         public ExternalLoginModel(
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
-            ILogger<ITightEngine> logger,
-            IWikiEmailSender emailSender, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+            ILogger<ITwEngine> logger,
+            IWikiEmailSender emailSender, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
                         : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _signInManager = signInManager;

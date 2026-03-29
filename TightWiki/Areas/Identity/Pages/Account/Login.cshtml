@@ -1,11 +1,13 @@
 ﻿@page
+@using TightWiki.Plugin
 @using TightWiki
 @using System.Text.Encodings.Web
 @using TightWiki.Extensions
 @using TightWiki.Models
 @using TightWiki.Library
+@using TightWiki.Plugin.Interfaces
 @inject ISharedLocalizationText Localizer
-@inject TightWikiConfiguration WikiConfiguration
+@inject TwConfiguration WikiConfiguration
 
 @model LoginModel
 @{

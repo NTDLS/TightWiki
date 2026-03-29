@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Localization;
+using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Library
 {

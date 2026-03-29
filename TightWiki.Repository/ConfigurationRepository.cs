@@ -1,10 +1,11 @@
 ﻿using NTDLS.Helpers;
-using SixLabors.ImageSharp;
 using System.Data;
 using System.Runtime.Caching;
 using TightWiki.Caching;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Models;
 
 namespace TightWiki.Repository
 {
@@ -322,7 +323,7 @@ namespace TightWiki.Repository
                             {
                                 var scaledImageCacheKey = WikiCacheKey.Build(WikiCache.Category.Emoji, [emoji.Shortcut, "100"]);
                                 var decompressedImageBytes = Utility.Decompress(emoji.ImageData);
-                                var img = Image.Load(new MemoryStream(decompressedImageBytes));
+                                var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(decompressedImageBytes));
 
                                 int customScalePercent = 100;
 

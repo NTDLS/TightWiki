@@ -1,6 +1,7 @@
 ﻿using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Shared;
+using TightWiki.Plugin.Models;
 
 namespace TightWiki.Models.ViewModels.AdminSecurity
 {

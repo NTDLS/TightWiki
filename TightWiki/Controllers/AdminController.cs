@@ -5,16 +5,17 @@ using NTDLS.DelegateThreadPooling;
 using NTDLS.Helpers;
 using System.Reflection;
 using TightWiki.Caching;
-using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
-using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Admin;
 using TightWiki.Models.ViewModels.Page;
 using TightWiki.Models.ViewModels.Utility;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Models;
 using TightWiki.Repository;
 using TightWiki.Security;
-using static TightWiki.Library.Constants;
+using static TightWiki.Plugin.Constants;
 
 namespace TightWiki.Controllers
 {
@@ -23,13 +24,13 @@ namespace TightWiki.Controllers
     public class AdminController
         : WikiControllerBase<AdminController>
     {
-        private readonly ITightEngine _tightEngine;
+        private readonly ITwEngine _tightEngine;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<ITightEngine> _logger;
+        private readonly ILogger<ITwEngine> _logger;
 
-        public AdminController(ITightEngine tightEngine, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, ILogger<ITightEngine> logger, ISharedLocalizationText localizer,
-            TightWikiConfiguration wikiConfiguration)
+        public AdminController(ITwEngine tightEngine, SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager, ILogger<ITwEngine> logger, ISharedLocalizationText localizer,
+            TwConfiguration wikiConfiguration)
             : base(logger, signInManager, userManager, localizer, wikiConfiguration)
         {
             _tightEngine = tightEngine;
@@ -1370,8 +1371,16 @@ namespace TightWiki.Controllers
 
                 if (id != null)
                 {
-                    var menuItem = await ConfigurationRepository.GetMenuItemById((int)id);
-                    return View(menuItem.ToViewModel());
+                    var model = await ConfigurationRepository.GetMenuItemById((int)id);
+                    var viewModel = new MenuItemViewModel
+                    {
+                        Name = model.Name,
+                        Id = model.Id,
+                        Link = model.Link,
+                        Ordinal = model.Ordinal
+                    };
+
+                    return View(viewModel);
                 }
                 else
                 {

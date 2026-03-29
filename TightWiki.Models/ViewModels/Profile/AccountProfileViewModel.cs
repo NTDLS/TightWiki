@@ -1,4 +1,5 @@
 using TightWiki.Library;
+using TightWiki.Plugin.Models;
 
 namespace TightWiki.Models.ViewModels.Profile
 {

@@ -3,10 +3,9 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Security.Claims;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
-using TightWiki.Models;
 using TightWiki.Models.ViewModels;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
 
 namespace TightWiki.Controllers
@@ -21,9 +20,9 @@ namespace TightWiki.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public AccountController(
-            TightWikiConfiguration wikiConfiguration,
+            TwConfiguration wikiConfiguration,
             IHttpContextAccessor httpContextAccessor,
-            ILogger<ITightEngine> logger,
+            ILogger<ITwEngine> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore, ISharedLocalizationText localizer)

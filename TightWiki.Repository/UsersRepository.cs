@@ -2,7 +2,8 @@
 using TightWiki.Caching;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
-using static TightWiki.Library.Constants;
+using TightWiki.Plugin;
+using static TightWiki.Plugin.Constants;
 
 namespace TightWiki.Repository
 {

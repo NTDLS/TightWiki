@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Localization;
-using TightWiki.Library;
+using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Translations
 {

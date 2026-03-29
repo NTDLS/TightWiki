@@ -3,13 +3,14 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.Extensions.Options
 @using TightWiki
-@using TightWiki.Engine.Library.Interfaces
 @using TightWiki.Library
 @using TightWiki.Models
-@using static TightWiki.Library.Constants
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
+@using static TightWiki.Plugin.Constants
 @inject ISharedLocalizationText Localizer
-@inject ITightEngine TightEngine
-@inject TightWikiConfiguration WikiConfiguration
+@inject ITwEngine TightEngine
+@inject TwConfiguration WikiConfiguration
 
 @{
     var sessionState = ViewData["SessionState"] as SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -142,7 +143,7 @@
                 <div id="mainNavbar" class="collapse navbar-collapse">
                     <ul class="navbar-nav me-auto mb-2 mb-sm-0">
 
-                        @foreach (TightWiki.Models.DataModels.MenuItem item in WikiConfiguration.MenuItems)
+                        @foreach (var item in WikiConfiguration.MenuItems)
                         {
                             if (item.Link.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) ||
                                 item.Link.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
@@ -336,7 +337,7 @@
                     <div class="card-body">
                         <strong>@Localizer["Current admin login"]:</strong><br />
                         <span class="ms-3"><strong>@Localizer["Username"]:</strong> "admin@tightwiki.com"</span><br />
-                        <span class="ms-3"><strong>@Localizer["Password"]:</strong> "@TightWiki.Library.Constants.DEFAULTPASSWORD"</span>
+                        <span class="ms-3"><strong>@Localizer["Password"]:</strong> "@Constants.DEFAULTPASSWORD"</span>
                     </div>
                 </div>
             }

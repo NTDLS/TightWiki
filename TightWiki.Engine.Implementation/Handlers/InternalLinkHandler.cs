@@ -1,6 +1,5 @@
-﻿using TightWiki.Engine.Library;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
+﻿using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
 
 namespace TightWiki.Engine.Implementation.Handlers
@@ -20,7 +19,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// <param name="linkText">The text which should be show in the absence of an image.</param>
         /// <param name="image">The image that should be shown.</param>
         /// <param name="imageScale">The 0-100 image scale factor for the given image.</param>
-        public async Task<HandlerResult> Handle(ITightEngineState state, NamespaceNavigation pageNavigation,
+        public async Task<HandlerResult> Handle(ITwEngineState state, NamespaceNavigation pageNavigation,
             string pageName, string linkText, string? image, int imageScale)
         {
             var page = await PageRepository.GetPageRevisionByNavigation(pageNavigation);

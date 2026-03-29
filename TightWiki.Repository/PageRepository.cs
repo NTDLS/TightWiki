@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using NTDLS.Helpers;
 using NTDLS.SqliteDapperWrapper;
 using TightWiki.Caching;
-using TightWiki.Engine.Library;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
-using static TightWiki.Library.Constants;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Models;
+using static TightWiki.Plugin.Constants;
 
 namespace TightWiki.Repository
 {

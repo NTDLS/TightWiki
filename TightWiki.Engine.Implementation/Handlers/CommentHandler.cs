@@ -1,6 +1,5 @@
-﻿using TightWiki.Engine.Library;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
+﻿using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Engine.Implementation.Handlers
 {
@@ -15,7 +14,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="text">The comment text</param>
-        public async Task<HandlerResult> Handle(ITightEngineState state, string text)
+        public async Task<HandlerResult> Handle(ITwEngineState state, string text)
         {
             return new HandlerResult() { Instructions = [HandlerResultInstruction.TruncateTrailingLine] };
         }

@@ -1,11 +1,13 @@
-﻿@using TightWiki
+﻿@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
+@using TightWiki
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.Extensions.Options
 @using System.Globalization
 @using TightWiki.Models
 @using TightWiki.Library
 @inject ISharedLocalizationText Localizer
-@inject TightWikiConfiguration WikiConfiguration
+@inject TwConfiguration WikiConfiguration
 
 @model TightWiki.Models.ViewModels.Page.PageLocalizationViewModel
 @{

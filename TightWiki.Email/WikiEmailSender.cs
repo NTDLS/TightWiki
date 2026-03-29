@@ -2,9 +2,9 @@
 using MailKit.Security;
 using Microsoft.Extensions.Logging;
 using MimeKit;
-using TightWiki.Library.Interfaces;
+using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
-using static TightWiki.Library.Constants;
+using static TightWiki.Plugin.Constants;
 
 namespace TightWiki.Email
 {

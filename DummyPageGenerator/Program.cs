@@ -10,8 +10,8 @@ using Microsoft.Extensions.Logging;
 using NTDLS.DelegateThreadPooling;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation.Handlers;
-using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
+using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
 
 namespace DummyPageGenerator
@@ -21,7 +21,7 @@ namespace DummyPageGenerator
         public class NoOpCompletionHandler
             : ICompletionHandler
         {
-            public async Task Complete(ITightEngineState state)
+            public async Task Complete(ITwEngineState state)
             {
             }
         }
@@ -48,7 +48,7 @@ namespace DummyPageGenerator
                            containerBuilder.RegisterType<ExceptionHandler>().As<IExceptionHandler>().SingleInstance();
                            containerBuilder.RegisterType<NoOpCompletionHandler>().As<ICompletionHandler>().SingleInstance();
 
-                           containerBuilder.RegisterType<TightEngine>().As<ITightEngine>().SingleInstance();
+                           containerBuilder.RegisterType<TwEngine>().As<ITwEngine>().SingleInstance();
                        }).Build();
 
 
@@ -97,7 +97,7 @@ namespace DummyPageGenerator
                     workload.Enqueue(async () =>
                     {
                         using var scope = host.Services.CreateScope();
-                        var engine = scope.ServiceProvider.GetRequiredService<TightEngine>();
+                        var engine = scope.ServiceProvider.GetRequiredService<TwEngine>();
 
                         //Create a new page:
                         await pg.GeneratePage(engine, user.UserId);

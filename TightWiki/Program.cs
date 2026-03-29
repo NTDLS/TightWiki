@@ -12,21 +12,77 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NTDLS.Helpers;
+using NTDLS.SqliteDapperWrapper;
 using TightWiki.Email;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation.Handlers;
-using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
-using TightWiki.Library.Interfaces;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
 using TightWiki.Repository.Extensions;
 using TightWiki.Translations;
-using static TightWiki.Library.Constants;
+using static TightWiki.Plugin.Constants;
 
 namespace TightWiki
 {
     public class Program
     {
+        public class DataStuff
+            : ITwManagedDataStorage
+        {
+            public SqliteManagedFactory DeletedPageRevisions { get; private set; }
+            public SqliteManagedFactory DeletedPages { get; private set; }
+            public SqliteManagedFactory Pages { get; private set; }
+            public SqliteManagedFactory Statistics { get; private set; }
+            public SqliteManagedFactory Emoji { get; private set; }
+            public SqliteManagedFactory Logging { get; private set; }
+            public SqliteManagedFactory Users { get; private set; }
+            public SqliteManagedFactory Config { get; private set; }
+            public SqliteManagedFactory Defaults { get; private set; }
+
+            public bool WasDatabaseUpgraded { get; private set; }
+
+            public (string Name, SqliteManagedFactory Factory)[] Collection { get; private set; }
+
+            public DataStuff(IConfiguration configuration, ILogger logger)
+            {
+                Config = new(configuration.GetDatabaseConnectionString("ConfigConnection", "config.db"));
+                Logging = new(configuration.GetDatabaseConnectionString("LoggingConnection", "logging.db"));
+                Pages = new(configuration.GetDatabaseConnectionString("PagesConnection", "pages.db"));
+                DeletedPages = new(configuration.GetDatabaseConnectionString("DeletedPagesConnection", "deletedpages.db"));
+                DeletedPageRevisions = new(configuration.GetDatabaseConnectionString("DeletedPageRevisionsConnection", "deletedpagerevisions.db"));
+                Statistics = new(configuration.GetDatabaseConnectionString("StatisticsConnection", "statistics.db"));
+                Emoji = new(configuration.GetDatabaseConnectionString("EmojiConnection", "emoji.db"));
+                Users = new(configuration.GetDatabaseConnectionString("UsersConnection", "users.db"));
+
+                //Upgrade database if needed and create defaults database if needed. This is done at the very beginning before
+                //  almost anything else to ensure the database is in the correct state for the rest of the application to work with.
+                //
+                // Default data is seeded further down after the injection of ILogger, UserManager, and ITightEngine,
+                //  via a call to DatabaseUpgrade.ApplyAllSeedData()
+                WasDatabaseUpgraded = DatabaseUpgrade.ApplyDatabaseUpgradeScripts(logger).Result;
+
+                var defaultsDatabasePath = DatabaseUpgrade.CreateDefaultsDatabase(logger, configuration, WasDatabaseUpgraded).Result
+                    ?? throw new Exception("Could not determine path to Defaults database.");
+
+                Defaults = new(defaultsDatabasePath);
+
+                Collection =
+                    [
+                        ("DeletedPageRevisions", DeletedPageRevisions),
+                        ("DeletedPages", DeletedPages),
+                        ("Pages", Pages),
+                        ("Statistics", Statistics),
+                        ("Emoji", Emoji),
+                        ("Logging", Logging),
+                        ("Users", Users),
+                        ("Config", Config),
+                        //("Defaults", Defaults), //We do not expose this as it is only used for initial seeding of the database.
+                    ];
+            }
+        }
+
         public static async Task Main(string[] args)
         {
             SqlMapper.AddTypeHandler(new GuidTypeHandler());
@@ -36,38 +92,17 @@ namespace TightWiki
             //This is the minimum log level for the database logger, which is used for logging application events and errors to the database.
             var minimumLogLevel = Enum.Parse<LogLevel>(builder.Configuration.GetValue("EventLogLevel", LogLevel.Information.ToString()));
 
-            ManagedDataStorage.Config.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("ConfigConnection", "config.db"));
-            ManagedDataStorage.Logging.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("LoggingConnection", "logging.db"));
-
             builder.Logging.ClearProviders();
             builder.Logging.AddProvider(new DatabaseLoggerProvider(minimumLogLevel));
 
-            ManagedDataStorage.Pages.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("PagesConnection", "pages.db"));
-            ManagedDataStorage.DeletedPages.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("DeletedPagesConnection", "deletedpages.db"));
-            ManagedDataStorage.DeletedPageRevisions.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("DeletedPageRevisionsConnection", "deletedpagerevisions.db"));
-            ManagedDataStorage.Statistics.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("StatisticsConnection", "statistics.db"));
-            ManagedDataStorage.Emoji.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("EmojiConnection", "emoji.db"));
-            ManagedDataStorage.Users.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("UsersConnection", "users.db"));
+            //var independentLogger = ;
 
-            var independentLogger = new DatabaseLogger("", LogLevel.Information);
+            var dataStuff = new DataStuff(builder.Configuration, new DatabaseLogger("", LogLevel.Information));
 
-            var userConnectionString = ManagedDataStorage.Users.Ephemeral(o => o.NativeConnection.ConnectionString);
+            var userConnectionString = dataStuff.Users.Ephemeral(o => o.NativeConnection.ConnectionString);
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(userConnectionString));
 
             await LoggingRepository.CreateTablesIfNotExist();
-
-            //Upgrade database if needed and create defaults database if needed. This is done at the very beginning before
-            //  almost anything else to ensure the database is in the correct state for the rest of the application to work with.
-            //
-            // Default data is seeded further down after the injection of ILogger, UserManager, and ITightEngine,
-            //  via a call to DatabaseUpgrade.ApplyAllSeedData()
-            var wasDatabaseUpgraded = await DatabaseUpgrade.ApplyDatabaseUpgradeScripts(independentLogger);
-
-            var defaultsDatabasePath = await DatabaseUpgrade.CreateDefaultsDatabase(independentLogger, builder.Configuration, wasDatabaseUpgraded);
-            if (defaultsDatabasePath != null)
-            {
-                ManagedDataStorage.Defaults.SetConnectionString(defaultsDatabasePath);
-            }
 
             var wikiConfiguration = await WikiConfigurationFactory.Create(builder.Configuration);
 
@@ -120,6 +155,7 @@ namespace TightWiki
                 };
             });
             builder.Services.AddSingleton<RequestLocalizationOptions>();
+            builder.Services.AddSingleton<ITwManagedDataStorage>(dataStuff);
             builder.Services.AddSingleton(wikiConfiguration);
 
             builder.Services.AddSingleton<IWikiEmailSender, WikiEmailSender>();
@@ -267,7 +303,7 @@ namespace TightWiki
                 containerBuilder.RegisterType<ExceptionHandler>().As<IExceptionHandler>().SingleInstance();
                 containerBuilder.RegisterType<CompletionHandler>().As<ICompletionHandler>().SingleInstance();
 
-                containerBuilder.RegisterType<TightEngine>().As<ITightEngine>().SingleInstance();
+                containerBuilder.RegisterType<TwEngine>().As<ITwEngine>().SingleInstance();
             });
 
 
@@ -362,9 +398,9 @@ namespace TightWiki
                 var services = scope.ServiceProvider;
                 var logger = services.GetRequiredService<ILogger<Program>>();
                 var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
-                var tightEngine = services.GetRequiredService<ITightEngine>();
+                var tightEngine = services.GetRequiredService<ITwEngine>();
 
-                if (wasDatabaseUpgraded)
+                if (dataStuff.WasDatabaseUpgraded)
                 {
                     try
                     {

@@ -5,13 +5,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki.Caching;
-using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Exceptions;
 using TightWiki.Extensions;
-using TightWiki.Library;
-using TightWiki.Library.Interfaces;
-using TightWiki.Models;
 using TightWiki.Models.DataModels;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Models;
 using TightWiki.Repository;
 using TightWiki.Translations;
 
@@ -24,7 +23,7 @@ namespace TightWiki
         private readonly string _allowString = WikiPermissionDisposition.Allow.ToString();
 
         public IQueryCollection? QueryString { get; set; }
-        public ILogger<ITightEngine>? Logger { get; private set; }
+        public ILogger<ITwEngine>? Logger { get; private set; }
 
         #region Authentication.
 
@@ -47,7 +46,7 @@ namespace TightWiki
         public string PageNavigationEscaped { get; set; } = string.Empty;
         public string PageTags { get; set; } = string.Empty;
         public ProcessingInstructionCollection PageInstructions { get; set; } = new();
-        public TightWikiConfiguration WikiConfiguration { get; set; } = new();
+        public TwConfiguration WikiConfiguration { get; set; } = new();
         /// <summary>
         /// The "page" here is more of a "mock page", we use the name for various stuff.
         /// </summary>
@@ -58,8 +57,8 @@ namespace TightWiki
         /// <summary>
         /// This method is used to hydrate the session state from PageModelBase.
         /// </summary>
-        public async Task<SessionState> Hydrate(ILogger<ITightEngine> logger,
-            SignInManager<IdentityUser> signInManager, PageModel pageModel, TightWikiConfiguration wikiConfiguration)
+        public async Task<SessionState> Hydrate(ILogger<ITwEngine> logger,
+            SignInManager<IdentityUser> signInManager, PageModel pageModel, TwConfiguration wikiConfiguration)
         {
             Page = new WikiPage() { Name = WikiConfiguration.Name };
             WikiConfiguration = wikiConfiguration;
@@ -73,8 +72,8 @@ namespace TightWiki
         /// <summary>
         /// This method is used to hydrate the session state from WikiControllerBase.
         /// </summary>
-        public async Task<SessionState> Hydrate(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-            Controller controller, TightWikiConfiguration wikiConfiguration)
+        public async Task<SessionState> Hydrate(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
+            Controller controller, TwConfiguration wikiConfiguration)
         {
             Page = new WikiPage() { Name = WikiConfiguration.Name };
             WikiConfiguration = wikiConfiguration;

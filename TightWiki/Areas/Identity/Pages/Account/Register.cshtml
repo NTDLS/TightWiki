@@ -1,10 +1,12 @@
 ﻿@page
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
 @using TightWiki
 @using TightWiki.Models
 @using System.Text.Encodings.Web
 @using TightWiki.Library
 @inject ISharedLocalizationText Localizer
-@inject TightWikiConfiguration WikiConfiguration
+@inject TwConfiguration WikiConfiguration
 
 @model RegisterModel
 @{

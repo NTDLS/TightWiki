@@ -5,11 +5,11 @@ using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Web;
 using TightWiki.Caching;
-using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
-using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.File;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
 using static TightWiki.Library.Images;
 
@@ -19,12 +19,12 @@ namespace TightWiki.Controllers
     public class FileController
         : WikiControllerBase<FileController>
     {
-        private readonly ILogger<ITightEngine> _logger;
+        private readonly ILogger<ITwEngine> _logger;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public FileController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+        public FileController(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
             : base(logger, signInManager, userManager, localizer, wikiConfiguration)
         {
             _logger = logger;

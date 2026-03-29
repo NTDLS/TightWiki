@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
-using TightWiki.Library.Interfaces;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Library
 {

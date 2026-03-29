@@ -1,4 +1,4 @@
-﻿using TightWiki.Engine.Library.Interfaces;
+﻿using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
 
 namespace TightWiki.Engine.Implementation.Handlers
@@ -13,7 +13,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// Handles wiki completion events. Is called when the wiki processing completes for a given page.
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
-        public async Task Complete(ITightEngineState state)
+        public async Task Complete(ITwEngineState state)
         {
             if (state.Engine.WikiConfiguration.RecordCompilationMetrics)
             {

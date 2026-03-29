@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using TightWiki.Models.DataModels;
-using static TightWiki.Library.Constants;
+using static TightWiki.Plugin.Constants;
 
 namespace TightWiki.Repository
 {

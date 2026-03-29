@@ -4,9 +4,10 @@ using Microsoft.Extensions.Logging;
 using NTDLS.Helpers;
 using System.Reflection;
 using System.Security.Claims;
-using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models.DataModels.Defaults;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Repository
 {
@@ -137,7 +138,7 @@ namespace TightWiki.Repository
         /// <param name="overwrite">true to overwrite the existing defaults database if it exists; otherwise, false to leave the existing file
         /// unchanged.</param>
         /// <returns>The full path to the created or existing defaults database file, or null if the operation fails.</returns>
-        public static async Task<string?> CreateDefaultsDatabase(ILogger logger, ConfigurationManager configuration, bool overwrite)
+        public static async Task<string?> CreateDefaultsDatabase(ILogger logger, IConfiguration configuration, bool overwrite)
         {
             try
             {
@@ -171,7 +172,7 @@ namespace TightWiki.Repository
             return null;
         }
 
-        public static async Task ApplyAllSeedData(ILogger logger, ISharedLocalizationText localizer, UserManager<IdentityUser> userManager, ITightEngine tightEngine, WikiDefaultDataType[] defaultDataTypes)
+        public static async Task ApplyAllSeedData(ILogger logger, ISharedLocalizationText localizer, UserManager<IdentityUser> userManager, ITwEngine tightEngine, WikiDefaultDataType[] defaultDataTypes)
         {
             #region Seed: AdminUser.
 

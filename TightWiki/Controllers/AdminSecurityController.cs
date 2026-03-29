@@ -4,24 +4,23 @@ using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki.Caching;
-using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
-using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.Requests;
 using TightWiki.Models.ViewModels.AdminSecurity;
 using TightWiki.Models.ViewModels.Shared;
 using TightWiki.Models.ViewModels.Utility;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
-using static TightWiki.Library.Constants;
-using Constants = TightWiki.Library.Constants;
+using static TightWiki.Plugin.Constants;
 
 namespace TightWiki.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class AdminSecurityController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+    public class AdminSecurityController(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
         : WikiControllerBase<AdminSecurityController>(logger, signInManager, userManager, localizer, wikiConfiguration)
     {
         #region Roles.

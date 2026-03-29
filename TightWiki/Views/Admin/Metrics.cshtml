@@ -1,10 +1,12 @@
 @using TightWiki
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
 @using System.Globalization
 @using System.Runtime.InteropServices;
 @using TightWiki.Models
 @using TightWiki.Library
 @inject ISharedLocalizationText Localizer
-@inject TightWikiConfiguration WikiConfiguration
+@inject TwConfiguration WikiConfiguration
 
 @model TightWiki.Models.ViewModels.Admin.MetricsViewModel
 @{

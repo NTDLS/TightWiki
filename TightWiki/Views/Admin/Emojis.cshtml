@@ -1,9 +1,11 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.EmojisViewModel
 @using TightWiki
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
 @using TightWiki.Library
 @using TightWiki.Models
 @inject ISharedLocalizationText Localizer
-@inject TightWikiConfiguration WikiConfiguration
+@inject TwConfiguration WikiConfiguration
 
 @{
     Layout = "_Layout";

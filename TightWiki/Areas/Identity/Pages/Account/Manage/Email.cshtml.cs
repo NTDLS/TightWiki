@@ -8,12 +8,10 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
-using TightWiki.Library.Interfaces;
-using TightWiki.Models;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
-using static TightWiki.Library.Constants;
+using static TightWiki.Plugin.Constants;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -40,10 +38,10 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         private readonly IWikiEmailSender _emailSender;
 
         public EmailModel(
-            ILogger<ITightEngine> logger,
+            ILogger<ITwEngine> logger,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IWikiEmailSender emailSender, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+            IWikiEmailSender emailSender, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
                         : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _userManager = userManager;

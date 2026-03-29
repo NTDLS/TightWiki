@@ -3,8 +3,8 @@ using TightWiki.Repository;
 namespace TightWiki.Tests.Unit
 {
     [Collection("Database Tests")]
-    public class DatabaseTests(TightEngineFixture fixture)
-        : IClassFixture<TightEngineFixture>
+    public class DatabaseTests(TwEngineFixture fixture)
+        : IClassFixture<TwEngineFixture>
     {
         [Fact(DisplayName = "Empty page statistics.")]
         public void EmptyPageStatistics()

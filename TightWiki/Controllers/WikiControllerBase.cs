@@ -2,18 +2,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NTDLS.Helpers;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
-using TightWiki.Models;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Controllers
 {
-    public class WikiControllerBase<T>(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+    public class WikiControllerBase<T>(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
         : Controller
     {
-        public TightWikiConfiguration WikiConfiguration { get; private set; } = wikiConfiguration;
-        public ILogger<ITightEngine> Logger { get; private set; } = logger;
+        public TwConfiguration WikiConfiguration { get; private set; } = wikiConfiguration;
+        public ILogger<ITwEngine> Logger { get; private set; } = logger;
         public ISharedLocalizationText Localizer { get; private set; } = localizer;
         public SessionState SessionState { get; private set; } = new();
 

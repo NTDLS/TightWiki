@@ -9,13 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Security.Claims;
-using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Extensions;
-using TightWiki.Library;
-using TightWiki.Models;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
 using TightWiki.Security;
-using static TightWiki.Library.Constants;
+using static TightWiki.Plugin.Constants;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -37,13 +36,13 @@ namespace TightWiki.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<ITightEngine> _logger;
+        private readonly ILogger<ITwEngine> _logger;
         private readonly ISharedLocalizationText _localizer;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public LoginModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
+        public LoginModel(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager, ISharedLocalizationText localizer,
-            IHttpContextAccessor httpContextAccessor, TightWikiConfiguration wikiConfiguration)
+            IHttpContextAccessor httpContextAccessor, TwConfiguration wikiConfiguration)
             : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _httpContextAccessor = httpContextAccessor;

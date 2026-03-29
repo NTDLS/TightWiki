@@ -4,7 +4,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using TightWiki.Models;
+using TightWiki.Plugin;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -15,9 +15,9 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
     public class ShowRecoveryCodesModel
         : PageModel
     {
-        private readonly TightWikiConfiguration _wikiConfiguration;
+        private readonly TwConfiguration _wikiConfiguration;
 
-        public ShowRecoveryCodesModel(TightWikiConfiguration wikiConfiguration)
+        public ShowRecoveryCodesModel(TwConfiguration wikiConfiguration)
         {
             _wikiConfiguration = wikiConfiguration;
         }

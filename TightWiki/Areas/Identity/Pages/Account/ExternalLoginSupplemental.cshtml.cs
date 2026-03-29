@@ -4,11 +4,11 @@ using NTDLS.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Security.Claims;
-using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
-using TightWiki.Models;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
-using static TightWiki.Library.Constants;
+using static TightWiki.Plugin.Constants;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -49,14 +49,14 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public string? ReturnUrl { get; set; }
 
         private UserManager<IdentityUser> _userManager;
-        private readonly ILogger<ITightEngine> _logger;
+        private readonly ILogger<ITwEngine> _logger;
         private readonly ISharedLocalizationText _localizer;
 
         public ExternalLoginSupplementalModel(
-            ILogger<ITightEngine> logger,
+            ILogger<ITwEngine> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
+            IUserStore<IdentityUser> userStore, ISharedLocalizationText localizer, TwConfiguration wikiConfiguration)
             : base(logger, signInManager, localizer, wikiConfiguration)
         {
             _logger = logger;

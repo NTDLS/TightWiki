@@ -2,7 +2,8 @@
 using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki.Library;
-using static TightWiki.Library.Constants;
+using TightWiki.Plugin;
+using static TightWiki.Plugin.Constants;
 
 namespace TightWiki.Repository
 {

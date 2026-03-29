@@ -1,18 +1,17 @@
-﻿using TightWiki.Engine.Library;
-using TightWiki.Engine.Library.Function.Attributes;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
-using static TightWiki.Library.Constants;
+﻿using TightWiki.Plugin;
+using TightWiki.Plugin.Attributes;
+using TightWiki.Plugin.Interfaces;
+using static TightWiki.Plugin.Constants;
 
 namespace TightWiki.Engine.Implementation.Functions
 {
-    [TightWikiFunctionModule("Processing Instruction Functions", "Built-in processing instruction functions.")]
+    [TwFunctionModule("Processing Instruction Functions", "Built-in processing instruction functions.")]
     public class ProcessingInstructionFunctions
-        : ITightWikiFunctionModule
+        : ITwFunctionModule
     {
         //Associates tags with a page. These are saved with the page and can also be displayed.
-        [TightWikiProcessingInstructionFunction("Tags", "Associates tags with a page. These are saved with the page and can also be displayed.")]
-        public async Task<HandlerResult> Tags(ITightEngineState state,
+        [TwProcessingInstructionFunction("Tags", "Associates tags with a page. These are saved with the page and can also be displayed.")]
+        public async Task<HandlerResult> Tags(ITwEngineState state,
             string[] pageTags) //##tag(pipe|separated|list|of|tags)
         {
             state.Tags.AddRange(pageTags);
@@ -24,8 +23,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiProcessingInstructionFunction("Title", "Sets the title of the page.")]
-        public async Task<HandlerResult> Title(ITightEngineState state,
+        [TwProcessingInstructionFunction("Title", "Sets the title of the page.")]
+        public async Task<HandlerResult> Title(ITwEngineState state,
             string pageTitle)
         {
             state.PageTitle = pageTitle;
@@ -36,8 +35,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiProcessingInstructionFunction("HideFooterLastModified", "Hides the last modified information in the footer.")]
-        public async Task<HandlerResult> HideFooterLastModified(ITightEngineState state)
+        [TwProcessingInstructionFunction("HideFooterLastModified", "Hides the last modified information in the footer.")]
+        public async Task<HandlerResult> HideFooterLastModified(ITwEngineState state)
         {
             state.ProcessingInstructions.Add(WikiInstruction.HideFooterLastModified);
 
@@ -47,8 +46,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiProcessingInstructionFunction("HideFooterComments", "Hides the comments section in the footer.")]
-        public async Task<HandlerResult> HideFooterComments(ITightEngineState state)
+        [TwProcessingInstructionFunction("HideFooterComments", "Hides the comments section in the footer.")]
+        public async Task<HandlerResult> HideFooterComments(ITwEngineState state)
         {
             state.ProcessingInstructions.Add(WikiInstruction.HideFooterComments);
             return new HandlerResult(string.Empty)
@@ -57,8 +56,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiProcessingInstructionFunction("NoCache", "Prevents the page from being cached.")]
-        public async Task<HandlerResult> NoCache(ITightEngineState state)
+        [TwProcessingInstructionFunction("NoCache", "Prevents the page from being cached.")]
+        public async Task<HandlerResult> NoCache(ITwEngineState state)
         {
             state.ProcessingInstructions.Add(WikiInstruction.NoCache);
             return new HandlerResult(string.Empty)
@@ -67,8 +66,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiProcessingInstructionFunction("Deprecate", "Marks the page as deprecated.")]
-        public async Task<HandlerResult> Deprecate(ITightEngineState state)
+        [TwProcessingInstructionFunction("Deprecate", "Marks the page as deprecated.")]
+        public async Task<HandlerResult> Deprecate(ITwEngineState state)
         {
             if (state.NestDepth == 0)
             {
@@ -81,8 +80,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiProcessingInstructionFunction("Protect", "Protects the page from being altered by non-moderators.")]
-        public async Task<HandlerResult> Protect(ITightEngineState state, bool isSilent)
+        [TwProcessingInstructionFunction("Protect", "Protects the page from being altered by non-moderators.")]
+        public async Task<HandlerResult> Protect(ITwEngineState state, bool isSilent)
         {
             if (state.NestDepth == 0)
             {
@@ -98,8 +97,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiProcessingInstructionFunction("Template", "Marks the page as a template.")]
-        public async Task<HandlerResult> Template(ITightEngineState state)
+        [TwProcessingInstructionFunction("Template", "Marks the page as a template.")]
+        public async Task<HandlerResult> Template(ITwEngineState state)
         {
             if (state.NestDepth == 0)
             {
@@ -112,8 +111,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiProcessingInstructionFunction("Review", "Flags the page for review.")]
-        public async Task<HandlerResult> Review(ITightEngineState state)
+        [TwProcessingInstructionFunction("Review", "Flags the page for review.")]
+        public async Task<HandlerResult> Review(ITwEngineState state)
         {
             if (state.NestDepth == 0)
             {
@@ -126,8 +125,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiProcessingInstructionFunction("Include", "Marks the page as an include.")]
-        public async Task<HandlerResult> Include(ITightEngineState state)
+        [TwProcessingInstructionFunction("Include", "Marks the page as an include.")]
+        public async Task<HandlerResult> Include(ITwEngineState state)
         {
             if (state.NestDepth == 0)
             {
@@ -140,8 +139,8 @@ namespace TightWiki.Engine.Implementation.Functions
             };
         }
 
-        [TightWikiProcessingInstructionFunction("Draft", "Marks the page as a draft.")]
-        public async Task<HandlerResult> Draft(ITightEngineState state)
+        [TwProcessingInstructionFunction("Draft", "Marks the page as a draft.")]
+        public async Task<HandlerResult> Draft(ITwEngineState state)
         {
             if (state.NestDepth == 0)
             {

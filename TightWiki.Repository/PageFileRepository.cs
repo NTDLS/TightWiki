@@ -1,7 +1,7 @@
 ﻿using NTDLS.SqliteDapperWrapper;
 using TightWiki.Caching;
 using TightWiki.Models.DataModels;
-using static TightWiki.Library.Constants;
+using static TightWiki.Plugin.Constants;
 
 namespace TightWiki.Repository
 {

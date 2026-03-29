@@ -4,16 +4,16 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using TightWiki.Models;
+using TightWiki.Plugin;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
     public class IndexModel
         : PageModel
     {
-        private readonly TightWikiConfiguration _wikiConfiguration;
+        private readonly TwConfiguration _wikiConfiguration;
 
-        public IndexModel(TightWikiConfiguration wikiConfiguration)
+        public IndexModel(TwConfiguration wikiConfiguration)
         {
             _wikiConfiguration = wikiConfiguration;
         }

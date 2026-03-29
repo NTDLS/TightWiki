@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Engine.Implementation.Handlers
 {
@@ -15,7 +15,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="ex">Optional exception, in the case that this was an actual exception.</param>
         /// <param name="customText">Text that accompanies the exception.</param>
-        public void Log(ITightEngineState state, LogLevel level, string text, Exception? ex = null)
+        public void Log(ITwEngineState state, LogLevel level, string text, Exception? ex = null)
         {
             if (ex != null)
             {
