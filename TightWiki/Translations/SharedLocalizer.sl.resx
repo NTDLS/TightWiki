@@ -1156,9 +1156,6 @@
   <data name="Revision not found" xml:space="preserve">
     <value>Različice niso najdene</value>
   </data>
-  <data name="revisions" xml:space="preserve">
-    <value>različice</value>
-  </data>
   <data name="Role" xml:space="preserve">
     <value>Vloga</value>
   </data>

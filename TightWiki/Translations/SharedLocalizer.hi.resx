@@ -1156,9 +1156,6 @@
   <data name="Revision not found" xml:space="preserve">
     <value>संशोधन नहीं मिला</value>
   </data>
-  <data name="revisions" xml:space="preserve">
-    <value>संशोधन</value>
-  </data>
   <data name="Role" xml:space="preserve">
     <value>भूमिका</value>
   </data>

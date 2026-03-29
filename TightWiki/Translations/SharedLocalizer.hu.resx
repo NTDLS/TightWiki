@@ -1156,9 +1156,6 @@
   <data name="Revision not found" xml:space="preserve">
     <value>Verzió nem található</value>
   </data>
-  <data name="revisions" xml:space="preserve">
-    <value>verziók</value>
-  </data>
   <data name="Role" xml:space="preserve">
     <value>Szerep</value>
   </data>

@@ -1156,9 +1156,6 @@
   <data name="Revision not found" xml:space="preserve">
     <value>Δεν βρέθηκε αναθεώρηση</value>
   </data>
-  <data name="revisions" xml:space="preserve">
-    <value>αναθεωρήσεις</value>
-  </data>
   <data name="Role" xml:space="preserve">
     <value>Ρόλος</value>
   </data>

@@ -1441,9 +1441,6 @@
   <data name="Error copying text" xml:space="preserve">
     <value>Feil ved kopiering av tekst</value>
   </data>
-  <data name="revisions" xml:space="preserve">
-    <value>revisjoner</value>
-  </data>
   <data name="Copy Tag" xml:space="preserve">
     <value>Kopier Tag</value>
   </data>

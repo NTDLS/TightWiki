@@ -1156,9 +1156,6 @@
   <data name="Revision not found" xml:space="preserve">
     <value>Revisi tidak ditemukan</value>
   </data>
-  <data name="revisions" xml:space="preserve">
-    <value>revisi</value>
-  </data>
   <data name="Role" xml:space="preserve">
     <value>Peran</value>
   </data>

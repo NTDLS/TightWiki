@@ -1201,9 +1201,6 @@
   <data name="Revision not found" xml:space="preserve">
     <value>Revision not found</value>
   </data>
-  <data name="revisions" xml:space="preserve">
-    <value>revisions</value>
-  </data>
   <data name="Role" xml:space="preserve">
     <value>Role</value>
   </data>

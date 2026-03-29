@@ -1156,9 +1156,6 @@
   <data name="Revision not found" xml:space="preserve">
     <value>Версия не найдена</value>
   </data>
-  <data name="revisions" xml:space="preserve">
-    <value>версии</value>
-  </data>
   <data name="Role" xml:space="preserve">
     <value>Роль</value>
   </data>

@@ -1156,9 +1156,6 @@
   <data name="Revision not found" xml:space="preserve">
     <value>ترمیم نہیں ملی</value>
   </data>
-  <data name="revisions" xml:space="preserve">
-    <value>ترمیمات</value>
-  </data>
   <data name="Role" xml:space="preserve">
     <value>کردار</value>
   </data>

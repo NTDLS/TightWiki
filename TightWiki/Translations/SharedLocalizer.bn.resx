@@ -1156,9 +1156,6 @@
   <data name="Revision not found" xml:space="preserve">
     <value>সংস্করণ পাওয়া যায়নি</value>
   </data>
-  <data name="revisions" xml:space="preserve">
-    <value>সংস্করণগুলো</value>
-  </data>
   <data name="Role" xml:space="preserve">
     <value>ভূমিকা</value>
   </data>

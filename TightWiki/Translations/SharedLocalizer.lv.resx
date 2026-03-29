@@ -1156,9 +1156,6 @@
   <data name="Revision not found" xml:space="preserve">
     <value>Versija nav atrasta</value>
   </data>
-  <data name="revisions" xml:space="preserve">
-    <value>versijas</value>
-  </data>
   <data name="Role" xml:space="preserve">
     <value>Loma</value>
   </data>

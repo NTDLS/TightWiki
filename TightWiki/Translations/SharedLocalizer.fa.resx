@@ -1156,9 +1156,6 @@
   <data name="Revision not found" xml:space="preserve">
     <value>نسخه یافت نشد</value>
   </data>
-  <data name="revisions" xml:space="preserve">
-    <value>نسخه‌ها</value>
-  </data>
   <data name="Role" xml:space="preserve">
     <value>نقش</value>
   </data>

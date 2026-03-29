@@ -1156,9 +1156,6 @@
   <data name="Revision not found" xml:space="preserve">
     <value>ไม่พบฉบับแก้ไข</value>
   </data>
-  <data name="revisions" xml:space="preserve">
-    <value>ฉบับแก้ไข</value>
-  </data>
   <data name="Role" xml:space="preserve">
     <value>บทบาท</value>
   </data>

@@ -1156,9 +1156,6 @@
   <data name="Revision not found" xml:space="preserve">
     <value>Revide ei leitud</value>
   </data>
-  <data name="revisions" xml:space="preserve">
-    <value>revisioonid</value>
-  </data>
   <data name="Role" xml:space="preserve">
     <value>Roll</value>
   </data>
