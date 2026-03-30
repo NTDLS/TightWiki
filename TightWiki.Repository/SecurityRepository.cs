@@ -2,27 +2,29 @@
 using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Library;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Repository
 {
-    public static class SecurityRepository
+    public class SecurityRepository(ITwConfigurationRepository configurationRepository, IUsersRepository usersRepository)
+        : ISecurityRepository
     {
         /// <summary>
         /// Detect whether this is the first time the WIKI has ever been run and do some initialization.
         /// Adds the first user with the email and password contained in Constants.DEFAULTUSERNAME and Constants.DEFAULTPASSWORD
         /// </summary>
-        public static async void ValidateEncryptionAndCreateAdminUser(UserManager<IdentityUser> userManager)
+        public async void ValidateEncryptionAndCreateAdminUser(UserManager<IdentityUser> userManager)
         {
-            if (await ConfigurationRepository.IsFirstRun())
+            if (await configurationRepository.IsFirstRun())
             {
                 //If this is the first time the app has run on this machine (based on an encryption key) then clear the admin password status.
                 //This will cause the application to set the admin password to the default password and display a warning until it is changed.
-                await UsersRepository.SetAdminPasswordClear();
+                await usersRepository.SetAdminPasswordClear();
             }
 
-            if (await UsersRepository.AdminPasswordStatus() == WikiAdminPasswordChangeState.NeedsToBeSet)
+            if (await usersRepository.AdminPasswordStatus() == WikiAdminPasswordChangeState.NeedsToBeSet)
             {
                 var user = await userManager.FindByNameAsync(TwConstants.DEFAULTUSERNAME);
                 if (user == null)
@@ -46,7 +48,7 @@ namespace TightWiki.Repository
                     throw new Exception(string.Join("\r\n", emailUpdateResult.Errors.Select(o => o.Description)));
                 }
 
-                var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
+                var membershipConfig = await configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
 
                 var claimsToAdd = new List<Claim>
                     {
@@ -65,21 +67,21 @@ namespace TightWiki.Repository
                     throw new Exception(string.Join("\r\n", emailUpdateResult.Errors.Select(o => o.Description)));
                 }
 
-                await UsersRepository.SetAdminPasswordIsDefault();
+                await usersRepository.SetAdminPasswordIsDefault();
 
-                var existingProfileUserId = UsersRepository.GetUserAccountIdByNavigation(TwNavigation.Clean(TwConstants.DEFAULTACCOUNT));
+                var existingProfileUserId = usersRepository.GetUserAccountIdByNavigation(TwNavigation.Clean(TwConstants.DEFAULTACCOUNT));
                 if (existingProfileUserId == null)
                 {
-                    await UsersRepository.CreateProfile(Guid.Parse(user.Id), TwConstants.DEFAULTACCOUNT);
+                    await usersRepository.CreateProfile(Guid.Parse(user.Id), TwConstants.DEFAULTACCOUNT);
                 }
                 else
                 {
-                    await UsersRepository.SetProfileUserId(TwConstants.DEFAULTACCOUNT, Guid.Parse(user.Id));
+                    await usersRepository.SetProfileUserId(TwConstants.DEFAULTACCOUNT, Guid.Parse(user.Id));
                 }
             }
         }
 
-        public static async Task UpsertUserClaims(UserManager<IdentityUser> userManager, IdentityUser user, List<Claim> givenClaims)
+        public async Task UpsertUserClaims(UserManager<IdentityUser> userManager, IdentityUser user, List<Claim> givenClaims)
         {
             // Get existing claims for the user
             var existingClaims = await userManager.GetClaimsAsync(user);

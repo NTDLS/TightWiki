@@ -4,7 +4,6 @@ using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Models;
-using TightWiki.Repository;
 
 namespace TightWiki.Engine.Implementation.Functions
 {

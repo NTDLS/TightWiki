@@ -3,14 +3,16 @@ using System.Data;
 using System.Runtime.Caching;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Caching;
+using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 
 namespace TightWiki.Repository
 {
-    public static class ConfigurationRepository
+    public class ConfigurationRepository
+        : ITwConfigurationRepository
     {
-        public static async Task<TwConfigurationEntries> GetConfigurationEntryValuesByGroupName(string groupName)
+        public async Task<TwConfigurationEntries> GetConfigurationEntryValuesByGroupName(string groupName)
         {
             var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Configuration, [groupName]);
 
@@ -38,7 +40,7 @@ namespace TightWiki.Repository
             }).EnsureNotNull();
         }
 
-        public static async Task<List<TwTheme>> GetAllThemes()
+        public async Task<List<TwTheme>> GetAllThemes()
         {
             var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Configuration);
 
@@ -55,7 +57,7 @@ namespace TightWiki.Repository
             }).EnsureNotNull();
         }
 
-        public static async Task<TwWikiDatabaseStatistics> GetWikiDatabaseMetrics()
+        public async Task<TwWikiDatabaseStatistics> GetWikiDatabaseMetrics()
         {
             return await ManagedDataStorage.Config.EphemeralAsync(async o =>
             {
@@ -72,7 +74,7 @@ namespace TightWiki.Repository
         /// <summary>
         /// Determines if this is the first time the wiki has run. Returns true if it is the first time.
         /// </summary>
-        public static async Task<bool> IsFirstRun()
+        public async Task<bool> IsFirstRun()
         {
             bool isEncryptionValid = await GetCryptoCheck();
             if (isEncryptionValid == false)
@@ -89,7 +91,7 @@ namespace TightWiki.Repository
         /// If the value is present but we cant decrypt it, then we are NOT setup.
         /// If the value is present and we can decrypt it, then we are setup and good to go!
         /// </summary>
-        public static async Task<bool> GetCryptoCheck()
+        public async Task<bool> GetCryptoCheck()
         {
             var value = await ManagedDataStorage.Config.QueryFirstOrDefaultAsync<string>("GetCryptoCheck.sql") ?? string.Empty;
 
@@ -111,7 +113,7 @@ namespace TightWiki.Repository
         /// <summary>
         /// Writes an encrypted value to the database so we can test at a later time to ensure that encryption is setup.
         /// </summary>
-        public static async Task SetCryptoCheck()
+        public async Task SetCryptoCheck()
         {
             var param = new
             {
@@ -121,7 +123,7 @@ namespace TightWiki.Repository
             await ManagedDataStorage.Config.QueryFirstOrDefaultAsync<string>("SetCryptoCheck.sql", param);
         }
 
-        public static async Task SaveConfigurationEntryValueByGroupAndEntry(string groupName, string entryName, string value)
+        public async Task SaveConfigurationEntryValueByGroupAndEntry(string groupName, string entryName, string value)
         {
             var param = new
             {
@@ -133,7 +135,7 @@ namespace TightWiki.Repository
             await ManagedDataStorage.Config.ExecuteAsync("SaveConfigurationEntryValueByGroupAndEntry.sql", param);
         }
 
-        public static async Task<List<TwConfigurationNest>> GetConfigurationNest()
+        public async Task<List<TwConfigurationNest>> GetConfigurationNest()
         {
             var result = new List<TwConfigurationNest>();
             var flatConfig = await GetFlatConfiguration();
@@ -184,10 +186,10 @@ namespace TightWiki.Repository
             return result;
         }
 
-        public static async Task<List<TwConfigurationFlat>> GetFlatConfiguration()
+        public async Task<List<TwConfigurationFlat>> GetFlatConfiguration()
             => await ManagedDataStorage.Config.QueryAsync<TwConfigurationFlat>("GetFlatConfiguration.sql");
 
-        public static async Task<string?> GetConfigurationEntryValuesByGroupNameAndEntryName(string groupName, string entryName)
+        public async Task<string?> GetConfigurationEntryValuesByGroupNameAndEntryName(string groupName, string entryName)
         {
             var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Configuration, [groupName, entryName]);
 
@@ -216,13 +218,13 @@ namespace TightWiki.Repository
             });
         }
 
-        public static async Task<T?> Get<T>(string groupName, string entryName)
+        public async Task<T?> Get<T>(string groupName, string entryName)
         {
             var value = await GetConfigurationEntryValuesByGroupNameAndEntryName(groupName, entryName);
             return Converters.ConvertTo<T>(value.EnsureNotNull());
         }
 
-        public static async Task<T> Get<T>(string groupName, string entryName, T defaultValue)
+        public async Task<T> Get<T>(string groupName, string entryName, T defaultValue)
         {
             var value = await GetConfigurationEntryValuesByGroupNameAndEntryName(groupName, entryName);
 
@@ -236,13 +238,13 @@ namespace TightWiki.Repository
 
         #region Menu Items.
 
-        public static async Task<List<TwMenuItem>> GetAllMenuItems(string? orderBy = null, string? orderByDirection = null)
+        public async Task<List<TwMenuItem>> GetAllMenuItems(string? orderBy = null, string? orderByDirection = null)
         {
             var query = RepositoryHelpers.TransposeOrderby("GetAllMenuItems.sql", orderBy, orderByDirection);
             return await ManagedDataStorage.Config.QueryAsync<TwMenuItem>(query);
         }
 
-        public static async Task<TwMenuItem> GetMenuItemById(int id)
+        public async Task<TwMenuItem> GetMenuItemById(int id)
         {
             var param = new
             {
@@ -252,7 +254,7 @@ namespace TightWiki.Repository
             return await ManagedDataStorage.Config.QuerySingleAsync<TwMenuItem>("GetMenuItemById.sql", param);
         }
 
-        public static async Task DeleteMenuItemById(int id)
+        public async Task DeleteMenuItemById(int id)
         {
             var param = new
             {
@@ -264,7 +266,7 @@ namespace TightWiki.Repository
             TwCache.ClearCategory(TwCache.Category.Configuration);
         }
 
-        public static async Task<int> UpdateMenuItemById(TwMenuItem menuItem)
+        public async Task<int> UpdateMenuItemById(TwMenuItem menuItem)
         {
             var param = new
             {
@@ -280,7 +282,7 @@ namespace TightWiki.Repository
             return menuItemId;
         }
 
-        public static async Task<int> InsertMenuItem(TwMenuItem menuItem)
+        public async Task<int> InsertMenuItem(TwMenuItem menuItem)
         {
             var param = new
             {
@@ -297,7 +299,7 @@ namespace TightWiki.Repository
 
         #endregion
 
-        public static async Task<List<TwEmoji>> ReloadEmojis(bool preloadAnimatedEmojis, int defaultEmojiHeight)
+        public async Task<List<TwEmoji>> ReloadEmojis(bool preloadAnimatedEmojis, int defaultEmojiHeight)
         {
             TwCache.ClearCategory(TwCache.Category.Emoji);
             var emojis = await EmojiRepository.GetAllEmojis();

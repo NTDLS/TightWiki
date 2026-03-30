@@ -1,11 +1,13 @@
-﻿using TightWiki.Plugin.Models;
+﻿using TightWiki.Plugin.Interfaces.Repository;
+using TightWiki.Plugin.Models;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Repository
 {
-    public static class StatisticsRepository
+    public class StatisticsRepository(ITwConfigurationRepository configurationRepository)
+        : IStatisticsRepository
     {
-        public static async Task IncrementPageViewCount(int pageId)
+        public async Task IncrementPageViewCount(int pageId)
         {
             var param = new
             {
@@ -15,7 +17,7 @@ namespace TightWiki.Repository
             await ManagedDataStorage.Statistics.ExecuteAsync("IncrementPageViewCount.sql", param);
         }
 
-        public static async Task MergePageCompilationStatistics(int pageId,
+        public async Task MergePageCompilationStatistics(int pageId,
             double wikifyTimeMs, int matchCount, int errorCount, int outgoingLinkCount,
             int tagCount, int processedBodySize, int bodySize)
         {
@@ -35,16 +37,16 @@ namespace TightWiki.Repository
             await ManagedDataStorage.Statistics.ExecuteAsync("MergePageCompilationStatistics.sql", param);
         }
 
-        public static async Task<int> GetPageTotalViewCount(int pageId)
+        public async Task<int> GetPageTotalViewCount(int pageId)
             => await ManagedDataStorage.Statistics.ExecuteScalarAsync<int>("GetPageTotalViewCount.sql", new { PageId = pageId });
 
-        public static async Task PurgePageStatistics()
+        public async Task PurgePageStatistics()
             => await ManagedDataStorage.Statistics.ExecuteAsync("PurgePageStatistics.sql");
 
-        public static async Task<List<TwPageStatistics>> GetPageStatisticsPaged(
+        public async Task<List<TwPageStatistics>> GetPageStatisticsPaged(
             int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
-            pageSize ??= await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            pageSize ??= await configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {

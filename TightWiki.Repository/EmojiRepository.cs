@@ -1,23 +1,25 @@
+using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Repository
 {
-    public static partial class EmojiRepository
+    public partial class EmojiRepository(ITwConfigurationRepository configurationRepository)
+        : ITwEmojiRepository
     {
-        public static async Task<List<TwEmoji>> GetAllEmojis()
+        public async Task<List<TwEmoji>> GetAllEmojis()
             => await ManagedDataStorage.Emoji.QueryAsync<TwEmoji>("GetAllEmojis.sql");
 
-        public static async Task<List<string>> AutoCompleteEmoji(string term)
+        public async Task<List<string>> AutoCompleteEmoji(string term)
             => await ManagedDataStorage.Emoji.QueryAsync<string>("AutoCompleteEmoji.sql", new { Term = term });
-        public static async Task<List<TwEmoji>> GetEmojisByCategory(string category)
+        public async Task<List<TwEmoji>> GetEmojisByCategory(string category)
             => await ManagedDataStorage.Emoji.QueryAsync<TwEmoji>("GetEmojisByCategory.sql", new { Category = category });
 
-        public static async Task<List<TwEmojiCategory>> GetEmojiCategoriesGrouped()
+        public async Task<List<TwEmojiCategory>> GetEmojiCategoriesGrouped()
             => await ManagedDataStorage.Emoji.QueryAsync<TwEmojiCategory>("GetEmojiCategoriesGrouped.sql");
 
-        public static async Task<List<int>> SearchEmojiCategoryIds(List<string> categories)
+        public async Task<List<int>> SearchEmojiCategoryIds(List<string> categories)
         {
             return await ManagedDataStorage.Emoji.EphemeralAsync(async o =>
             {
@@ -31,7 +33,7 @@ namespace TightWiki.Repository
             });
         }
 
-        public static async Task<List<TwEmojiCategory>> GetEmojiCategoriesByName(string name)
+        public async Task<List<TwEmojiCategory>> GetEmojiCategoriesByName(string name)
         {
             var param = new
             {
@@ -41,7 +43,7 @@ namespace TightWiki.Repository
             return await ManagedDataStorage.Emoji.QueryAsync<TwEmojiCategory>("GetEmojiCategoriesByName.sql", param);
         }
 
-        public static async Task DeleteById(int id)
+        public async Task DeleteById(int id)
         {
             var param = new
             {
@@ -51,7 +53,7 @@ namespace TightWiki.Repository
             await ManagedDataStorage.Emoji.ExecuteAsync("DeleteEmojiById.sql", param);
         }
 
-        public static async Task<TwEmoji?> GetEmojiByName(string name)
+        public async Task<TwEmoji?> GetEmojiByName(string name)
         {
             var param = new
             {
@@ -61,7 +63,7 @@ namespace TightWiki.Repository
             return await ManagedDataStorage.Emoji.QuerySingleOrDefaultAsync<TwEmoji>("GetEmojiByName.sql", param);
         }
 
-        public static async Task<int> UpsertEmoji(TwUpsertEmoji emoji)
+        public async Task<int> UpsertEmoji(TwUpsertEmoji emoji)
         {
             int emojiId = await ManagedDataStorage.Emoji.EphemeralAsync(async o =>
             {
@@ -113,10 +115,10 @@ namespace TightWiki.Repository
             return emojiId;
         }
 
-        public static async Task<List<TwEmoji>> GetAllEmojisPaged(int pageNumber,
+        public async Task<List<TwEmoji>> GetAllEmojisPaged(int pageNumber,
             string? orderBy = null, string? orderByDirection = null, List<string>? categories = null)
         {
-            var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             if (categories == null || categories.Count == 0)
             {

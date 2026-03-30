@@ -12,6 +12,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\TightWiki.Repository\TightWiki.Repository.csproj" />
+	  <ProjectReference Include="..\TightWiki.Plugin\TightWiki.Plugin.csproj" />
 	</ItemGroup>
 </Project>

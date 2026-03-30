@@ -7,7 +7,6 @@ using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
-using TightWiki.Repository;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Engine.Implementation.Functions
