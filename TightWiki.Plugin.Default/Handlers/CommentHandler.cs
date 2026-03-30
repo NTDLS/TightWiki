@@ -1,11 +1,10 @@
-﻿using TightWiki.Plugin;
-using TightWiki.Plugin.Attributes;
+﻿using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Functions;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Handlers;
 
-namespace TightWiki.Engine.Implementation.Handlers
+namespace TightWiki.Plugin.Default.Handlers
 {
     /// <summary>
     /// Handles wiki comments. These are generally removed from the result.

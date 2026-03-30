@@ -1,11 +1,10 @@
-﻿using TightWiki.Plugin;
-using TightWiki.Plugin.Attributes;
+﻿using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Functions;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using static TightWiki.Plugin.TwConstants;
 
-namespace TightWiki.Engine.Implementation.Functions
+namespace TightWiki.Plugin.Default.Functions
 {
     [TwPluginModule("Processing Instruction Functions", "Built-in processing instruction functions.", 1000)]
     public class ProcessingInstructionFunctions

@@ -1,13 +1,12 @@
 ﻿using System.Net;
 using System.Text;
-using TightWiki.Plugin;
 using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Functions;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Styler;
 
-namespace TightWiki.Engine.Implementation.Functions
+namespace TightWiki.Plugin.Default.Functions
 {
     [TwPluginModule("Processing Instructions Functions", "Built-in scope functions.", 1000)]
     public class ScopeFunctions

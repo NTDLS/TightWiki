@@ -19,7 +19,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\TightWiki.Engine.Implementation\TightWiki.Engine.Implementation.csproj" />
 		<ProjectReference Include="..\TightWiki.Engine\TightWiki.Engine.csproj" />
 		<ProjectReference Include="..\TightWiki.Repository\TightWiki.Repository.csproj" />
 	</ItemGroup>

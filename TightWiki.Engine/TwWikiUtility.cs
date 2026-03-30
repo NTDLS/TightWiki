@@ -49,45 +49,89 @@ namespace TightWiki.Engine
             return result.OrderByDescending(o => o.Value.Length).ToList();
         }
 
-        /// <summary>
-        /// Gets a list of symbols where the symbol occurs consecutively, more than once. (e.g.  "##This##")
-        /// </summary>
-        internal static HashSet<char> GetApplicableSymbols(string input)
+        internal static int FindNextConsecutive(bool isOpen, string input, int startIndex, out string? foundPattern)
         {
-            var symbolCounts = new Dictionary<char, int>();
-            char? previousChar = null;
-            int consecutiveCount = 0;
+            var stringBuilder = new StringBuilder();
 
-            for (int i = 0; i < input.Length; i++)
+            for (int i = startIndex; i < input.Length; i++)
             {
                 char currentChar = input[i];
+
+                if (currentChar == '\r' || currentChar == '\n')
+                {
+                    foundPattern = null;
+                    return i + 1;
+                }
 
                 if (char.IsLetterOrDigit(currentChar) || char.IsWhiteSpace(currentChar))
                 {
                     continue;
                 }
 
-                if (previousChar.HasValue && currentChar == previousChar.Value)
+                //We want to skip patterns that are preceded or followed by whitespace, as they are less likely to be intentional consecutive symbols. (e.g. "This is a ##test##" vs "This is a ## test ##")
+                if (isOpen)
                 {
-                    consecutiveCount++;
-
-                    if (consecutiveCount > 1)
+                    if (i < input.Length && char.IsWhiteSpace(input[i + 1]))
                     {
-                        symbolCounts.TryGetValue(previousChar.Value, out int count);
-                        symbolCounts[previousChar.Value] = count + 1;
-
-                        consecutiveCount = 1;
+                        continue;
                     }
                 }
                 else
                 {
-                    consecutiveCount = 1;
+                    if (i > 1 && char.IsWhiteSpace(input[i - 1]))
+                    {
+                        continue;
+                    }
                 }
 
-                previousChar = currentChar;
+                stringBuilder.Clear();
+                for (; i < input.Length && input[i] == currentChar; i++)
+                {
+                    stringBuilder.Append(input[i]);
+                }
+
+                if (stringBuilder.Length >= 2)
+                {
+                    foundPattern = stringBuilder.ToString();
+                    return i;
+                }
             }
 
-            return symbolCounts.Where(o => o.Value > 1).Select(o => o.Key).ToHashSet();
+            foundPattern = null;
+            return -1;
+        }
+
+        /// <summary>
+        /// Gets a list of symbols where the symbol occurs consecutively, more than once. (e.g."##This##")
+        /// </summary>
+        internal static HashSet<char> GetApplicableSymbols(string input)
+        {
+            var applicableSymbols = new HashSet<char>();
+            string? previousFoundPattern = null;
+            int i = 0;
+
+            while (i < input.Length)
+            {
+                int foundIndex = FindNextConsecutive(previousFoundPattern == null, input, i, out string? foundPattern);
+                if (foundIndex < 0)
+                {
+                    break;
+                }
+
+                if (foundPattern != null && foundPattern == previousFoundPattern)
+                {
+                    applicableSymbols.Add(foundPattern[0]);
+                    previousFoundPattern = null;
+                }
+                else
+                {
+                    previousFoundPattern = foundPattern;
+                }
+
+                i = foundIndex;
+            }
+
+            return applicableSymbols;
         }
     }
 }

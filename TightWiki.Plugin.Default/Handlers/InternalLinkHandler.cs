@@ -1,12 +1,11 @@
-﻿using TightWiki.Plugin;
-using TightWiki.Plugin.Attributes;
+﻿using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Functions;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Handlers;
 using TightWiki.Plugin.Library;
 
-namespace TightWiki.Engine.Implementation.Handlers
+namespace TightWiki.Plugin.Default.Handlers
 {
     /// <summary>
     /// Handles links from one wiki page to another.

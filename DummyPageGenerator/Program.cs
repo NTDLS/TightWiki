@@ -1,12 +1,11 @@
 ﻿using TightWiki.Plugin.Interfaces;
-using TightWiki.Plugin.Interfaces.Handlers;
 
 namespace DummyPageGenerator
 {
     internal class Program
     {
         public class NoOpCompletionHandler
-            : ITwCompletionHandler
+        //: ITwCompletionHandler
         {
             public async Task Handle(ITwEngineState state)
             {

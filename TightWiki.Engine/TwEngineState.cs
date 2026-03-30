@@ -200,7 +200,7 @@ namespace TightWiki.Engine
             }
             catch (Exception ex)
             {
-                StoreCriticalWikiError(ex);
+                await StoreCriticalWikiError(ex);
             }
 
             ProcessingTime = DateTime.UtcNow - startTime;
@@ -328,12 +328,7 @@ namespace TightWiki.Engine
                     }
                     if (!wasHandled)
                     {
-                        var unhandledResult = new TwHandlerResult
-                        {
-                            Content = match.Value, //If no handler handled this markup, we just return the original text.
-                            Instructions = [HandlerResultInstruction.Skip]
-                        };
-                        StoreHandlerResult(unhandledResult, WikiMatchType.Markup, pageContent, match.Value);
+                        await StoreWikiError(pageContent, match.Value, $"No markup tag handler processed the instruction: \"{match.Value}\".");
                     }
                 }
             }
@@ -476,7 +471,7 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    StoreWikiError(pageContent, match.Value, ex.Message);
+                    await StoreWikiError(pageContent, match.Value, ex.Message);
                     continue;
                 }
             }
@@ -520,12 +515,7 @@ namespace TightWiki.Engine
                     }
                     if (!wasHandled)
                     {
-                        var unhandledResult = new TwHandlerResult
-                        {
-                            Content = match.Value, //If no handler handled this markup, we just return the original text.
-                            Instructions = [HandlerResultInstruction.Skip]
-                        };
-                        StoreHandlerResult(unhandledResult, WikiMatchType.Heading, pageContent, match.Value);
+                        await StoreWikiError(pageContent, match.Value, $"No heading tag handler processed the instruction: \"{match.Value}\".");
                     }
                 }
             }
@@ -551,12 +541,7 @@ namespace TightWiki.Engine
                 }
                 if (!wasHandled)
                 {
-                    var unhandledResult = new TwHandlerResult
-                    {
-                        Content = match.Value, //If no handler handled this markup, we just return the original text.
-                        Instructions = [HandlerResultInstruction.Skip]
-                    };
-                    StoreHandlerResult(unhandledResult, WikiMatchType.Comment, pageContent, match.Value);
+                    await StoreWikiError(pageContent, match.Value, $"No commet tag handler processed the instruction: \"{match.Value}\".");
                 }
             }
         }
@@ -591,12 +576,7 @@ namespace TightWiki.Engine
                 }
                 if (!wasHandled)
                 {
-                    var unhandledResult = new TwHandlerResult
-                    {
-                        Content = match.Value, //If no handler handled this markup, we just return the original text.
-                        Instructions = [HandlerResultInstruction.Skip]
-                    };
-                    StoreHandlerResult(unhandledResult, WikiMatchType.Emoji, pageContent, match.Value);
+                    await StoreWikiError(pageContent, match.Value, $"No emoji tag handler processed the instruction: \"{match.Value}\".");
                 }
             }
         }
@@ -689,12 +669,7 @@ namespace TightWiki.Engine
                 }
                 if (!wasHandled)
                 {
-                    var unhandledResult = new TwHandlerResult
-                    {
-                        Content = match.Value, //If no handler handled this markup, we just return the original text.
-                        Instructions = [HandlerResultInstruction.Skip]
-                    };
-                    StoreHandlerResult(unhandledResult, WikiMatchType.Link, pageContent, match.Value);
+                    await StoreWikiError(pageContent, match.Value, $"No external link tag handler processed the instruction: \"{match.Value}\".");
                 }
             }
 
@@ -742,12 +717,7 @@ namespace TightWiki.Engine
                 }
                 if (!wasHandled)
                 {
-                    var unhandledResult = new TwHandlerResult
-                    {
-                        Content = match.Value, //If no handler handled this markup, we just return the original text.
-                        Instructions = [HandlerResultInstruction.Skip]
-                    };
-                    StoreHandlerResult(unhandledResult, WikiMatchType.Link, pageContent, match.Value);
+                    await StoreWikiError(pageContent, match.Value, $"No external link tag handler processed the instruction: \"{match.Value}\".");
                 }
             }
 
@@ -799,7 +769,7 @@ namespace TightWiki.Engine
                 }
                 else
                 {
-                    StoreWikiError(pageContent, match.Value, "The external link contains no page name.");
+                    await StoreWikiError(pageContent, match.Value, $"The external link contains no page name: \"{match.Value}\".");
                     continue;
                 }
 
@@ -833,12 +803,7 @@ namespace TightWiki.Engine
                 }
                 if (!wasHandled)
                 {
-                    var unhandledResult = new TwHandlerResult
-                    {
-                        Content = match.Value, //If no handler handled this markup, we just return the original text.
-                        Instructions = [HandlerResultInstruction.Skip]
-                    };
-                    StoreHandlerResult(unhandledResult, WikiMatchType.Link, pageContent, match.Value);
+                    await StoreWikiError(pageContent, match.Value, $"No internal link tag handler processed the instruction: \"{match.Value}\".");
                 }
             }
         }
@@ -864,7 +829,7 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    StoreWikiError(pageContent, match.Value, ex.Message);
+                    await StoreWikiError(pageContent, match.Value, ex.Message);
                     continue;
                 }
             }
@@ -905,7 +870,7 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    StoreWikiError(pageContent, match.Value, ex.Message);
+                    await StoreWikiError(pageContent, match.Value, ex.Message);
                     continue;
                 }
             }
@@ -933,7 +898,7 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    StoreWikiError(pageContent, match.Value, ex.Message);
+                    await StoreWikiError(pageContent, match.Value, ex.Message);
                     continue;
                 }
             }
@@ -941,7 +906,7 @@ namespace TightWiki.Engine
 
         private static void TransformWhitespace(TwString pageContent)
         {
-            string identifier = $"<!--{Guid.NewGuid()}-->";
+            string identifier = $"TwBegin{Guid.NewGuid()}TwEnd";
 
             //Replace new-lines with single character new line:
             pageContent.Replace("\r\n", "\n");
@@ -994,28 +959,28 @@ namespace TightWiki.Engine
         /// This is still just a wiki error, not a serious server error.
         /// </summary>
         /// <param name="ex"></param>
-        private void StoreCriticalWikiError(Exception ex)
+        private async Task StoreCriticalWikiError(Exception ex)
         {
             foreach (var handler in Engine.ExceptionHandlers)
             {
-                handler.Handle(this, LogLevel.Warning, $"Page: [{Page.Navigation}], Revision: [{Page.Revision}]", ex);
+                await handler.Handle(this, LogLevel.Warning, $"Page: [{Page.Navigation}], Revision: [{Page.Revision}]", ex);
             }
 
             ErrorCount++;
             HtmlResult = TwWikiUtility.WarningCard("Wiki Parser Exception", ex.Message);
         }
 
-        private string StoreWikiError(TwString pageContent, string match, string value)
+        private async Task<string> StoreWikiError(TwString pageContent, string match, string value)
         {
             foreach (var handler in Engine.ExceptionHandlers)
             {
-                handler.Handle(this, LogLevel.Debug, $"Page: [{Page.Navigation}], Revision: [{Page.Revision}], Error: [{value}]");
+                await handler.Handle(this, LogLevel.Debug, $"Page: [{Page.Navigation}], Revision: [{Page.Revision}], Error: [{value}]");
             }
 
             ErrorCount++;
             _matchesStoredPerIteration++;
 
-            string identifier = $"<!--{Guid.NewGuid()}-->";
+            string identifier = $"TwBegin{Guid.NewGuid()}TwEnd";
 
             var matchSet = new TwMatchSet()
             {
@@ -1035,7 +1000,7 @@ namespace TightWiki.Engine
             MatchCount++;
             _matchesStoredPerIteration++;
 
-            string identifier = $"<!--{Guid.NewGuid()}-->";
+            string identifier = $"TwBegin{Guid.NewGuid()}TwEnd";
 
             var matchSet = new TwMatchSet()
             {
@@ -1055,7 +1020,7 @@ namespace TightWiki.Engine
             MatchCount++;
             _matchesStoredPerIteration++;
 
-            string identifier = $"<!--{Guid.NewGuid()}-->";
+            string identifier = $"TwBegin{Guid.NewGuid()}TwEnd";
 
             var matchSet = new TwMatchSet()
             {

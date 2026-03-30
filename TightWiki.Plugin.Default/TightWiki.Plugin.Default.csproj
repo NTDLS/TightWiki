@@ -12,6 +12,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\TightWiki.Plugin\TightWiki.Plugin.csproj" />
+		<ProjectReference Include="..\TightWiki.Plugin\TightWiki.Plugin.csproj" />
 	</ItemGroup>
+
+	<Target Name="CopyToPlugins" AfterTargets="Build">
+		<Copy
+		  SourceFiles="$(OutputPath)$(AssemblyName).dll"
+		  DestinationFolder="$(MSBuildProjectDirectory)\..\TightWiki\Plugins"
+		  SkipUnchangedFiles="false" />
+	</Target>
 </Project>

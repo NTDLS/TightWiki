@@ -1,12 +1,11 @@
 ﻿using System.Text;
-using TightWiki.Plugin;
 using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Functions;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Models;
 
-namespace TightWiki.Engine.Implementation.Functions
+namespace TightWiki.Plugin.Default.Functions
 {
     [TwPluginModule("Post Processing Instruction Functions", "Built-in post processing instruction functions.", 1000)]
     public class PostProcessingInstructionFunctions

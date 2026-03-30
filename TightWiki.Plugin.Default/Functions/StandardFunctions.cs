@@ -1,7 +1,6 @@
 ﻿using NTDLS.Helpers;
 using System.Reflection;
 using System.Text;
-using TightWiki.Plugin;
 using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Functions;
 using TightWiki.Plugin.Engine;
@@ -11,7 +10,7 @@ using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using static TightWiki.Plugin.TwConstants;
 
-namespace TightWiki.Engine.Implementation.Functions
+namespace TightWiki.Plugin.Default.Functions
 {
     [TwPluginModule("Standard Functions", "Built-in standard functions.", 1000)]
     public class StandardFunctions

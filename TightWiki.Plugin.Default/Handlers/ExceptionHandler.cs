@@ -5,7 +5,7 @@ using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Handlers;
 
-namespace TightWiki.Engine.Implementation.Handlers
+namespace TightWiki.Plugin.Default.Handlers
 {
     /// <summary>
     /// Handles exceptions thrown by the wiki engine.

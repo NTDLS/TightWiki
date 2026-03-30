@@ -12,13 +12,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NTDLS.Helpers;
+using System.Reflection;
 using TightWiki.Email;
 using TightWiki.Engine;
-using TightWiki.Engine.Implementation.Handlers;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Dummy;
 using TightWiki.Plugin.Interfaces;
-using TightWiki.Plugin.Interfaces.Handlers;
 using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Library;
 using TightWiki.Repository.Helpers;
@@ -239,23 +238,53 @@ namespace TightWiki
                 }
             }
 
+            //Load plugins
+            var pluginFolder = Path.Combine(Environment.CurrentDirectory, "Plugins");
+            try
+            {
+                if (!Directory.Exists(pluginFolder))
+                {
+                    Directory.CreateDirectory(pluginFolder);
+                }
+            }
+            catch (Exception ex)
+            {
+                databaseManager.Logger.LogError($"An error occurred while loading plugins: {ex.Message}");
+            }
+
+            if (Directory.Exists(pluginFolder))
+            {
+                foreach (var dllPath in Directory.GetFiles(pluginFolder, "*.dll"))
+                {
+                    try
+                    {
+                        var assembly = Assembly.LoadFrom(dllPath);
+
+                        var pluginType = assembly.GetTypes()
+                            .FirstOrDefault(t => t.FullName == "TightWiki.Plugin.TwPluginModule");
+
+                        if (pluginType == null)
+                            continue;
+
+                        var instance = Activator.CreateInstance(pluginType);
+                        var method = pluginType.GetMethod("GetVersion");
+                        var version = method?.Invoke(instance, null) as string;
+                        databaseManager.Logger.LogInformation($"Loaded plugin: {Path.GetFileName(dllPath)}, version: {version}");
+                    }
+                    catch (Exception ex)
+                    {
+                        databaseManager.Logger.LogError($"Failed to load {Path.GetFileName(dllPath)}: {ex.Message}");
+                    }
+                }
+            }
+
             builder.Services.AddControllersWithViews();
 
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
             builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
             {
-                containerBuilder.RegisterType<MarkupHandler>().As<ITwMarkupHandler>().SingleInstance();
-                containerBuilder.RegisterType<HeadingHandler>().As<ITwHeadingHandler>().SingleInstance();
-                containerBuilder.RegisterType<CommentHandler>().As<ITwCommentHandler>().SingleInstance();
-                containerBuilder.RegisterType<EmojiHandler>().As<ITwEmojiHandler>().SingleInstance();
-                containerBuilder.RegisterType<ExternalLinkHandler>().As<ITwExternalLinkHandler>().SingleInstance();
-                containerBuilder.RegisterType<InternalLinkHandler>().As<ITwInternalLinkHandler>().SingleInstance();
-                containerBuilder.RegisterType<ExceptionHandler>().As<ITwExceptionHandler>().SingleInstance();
-                containerBuilder.RegisterType<CompletionHandler>().As<ITwCompletionHandler>().SingleInstance();
-
                 containerBuilder.RegisterType<TwEngine>().As<ITwEngine>().SingleInstance();
             });
-
 
             builder.Services.ConfigureApplicationCookie(options =>
             {
