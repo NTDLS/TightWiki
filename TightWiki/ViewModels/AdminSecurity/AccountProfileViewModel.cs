@@ -5,7 +5,7 @@ using TightWiki.ViewModels.Shared;
 namespace TightWiki.ViewModels.AdminSecurity
 {
     public class AccountProfileViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public List<TwTheme> Themes { get; set; } = new();
         public List<TwTimeZoneItem> TimeZones { get; set; } = new();

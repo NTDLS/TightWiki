@@ -8,7 +8,7 @@ namespace TightWiki.Pages
 {
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     [IgnoreAntiforgeryToken]
-    public class ErrorModel : PageModelBase
+    public class ErrorModel : TwPageModel
     {
         public string? RequestId { get; set; }
 

@@ -23,7 +23,7 @@ namespace TightWiki.Controllers
     public class ProfileController(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager, IWebHostEnvironment environment, ITwSharedLocalizationText localizer,
         TwConfiguration wikiConfiguration)
-        : WikiControllerBase<ProfileController>(logger, signInManager, userManager, localizer, wikiConfiguration)
+        : TwController<ProfileController>(logger, signInManager, userManager, localizer, wikiConfiguration)
     {
         private readonly IWebHostEnvironment _environment = environment;
 

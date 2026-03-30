@@ -4,6 +4,7 @@ using NTDLS.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Security.Claims;
+using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Library;
@@ -43,7 +44,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
     }
 
 
-    public class ExternalLoginSupplementalModel : PageModelBase
+    public class ExternalLoginSupplementalModel : TwPageModel
     {
         [BindProperty]
         public string? ReturnUrl { get; set; }

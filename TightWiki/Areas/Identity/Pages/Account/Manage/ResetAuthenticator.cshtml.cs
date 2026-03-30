@@ -4,12 +4,13 @@
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
-    public class ResetAuthenticatorModel : PageModelBase
+    public class ResetAuthenticatorModel : TwPageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;

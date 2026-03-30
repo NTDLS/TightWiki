@@ -12,7 +12,7 @@ namespace TightWiki.Controllers
     [Route("[controller]")]
     public class UtilityController(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
-        : WikiControllerBase<UtilityController>(logger, signInManager, userManager, localizer, wikiConfiguration)
+        : TwController<UtilityController>(logger, signInManager, userManager, localizer, wikiConfiguration)
     {
         [AllowAnonymous]
         [HttpGet("Notify")]

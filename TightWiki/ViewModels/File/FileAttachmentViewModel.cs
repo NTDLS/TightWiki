@@ -3,7 +3,7 @@
 namespace TightWiki.ViewModels.File
 {
     public class FileAttachmentViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public string PageNavigation { get; set; } = string.Empty;
         public int PageRevision { get; set; } = 0;

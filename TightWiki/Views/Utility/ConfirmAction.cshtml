@@ -9,7 +9,7 @@
 @model ConfirmActionViewModel
 @{
     Layout = "_Layout";
-    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
 
     string cardClass = "card shadow-sm mb-3";
     string headerClass = "card-header";

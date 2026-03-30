@@ -1,7 +1,7 @@
 ﻿namespace TightWiki.ViewModels.Page
 {
     public class PageRevertViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public string? PageName { get; set; }
         /// <summary>

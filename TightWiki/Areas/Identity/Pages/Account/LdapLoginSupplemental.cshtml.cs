@@ -4,6 +4,7 @@ using NTDLS.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Security.Claims;
+using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Library;
@@ -46,7 +47,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public string Language { get; set; } = string.Empty;
     }
 
-    public class LdapLoginSupplementalModel : PageModelBase
+    public class LdapLoginSupplementalModel : TwPageModel
     {
         [BindProperty(SupportsGet = true)]
         public Guid UserId { get; set; }

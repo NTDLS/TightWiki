@@ -1,6 +1,6 @@
 ﻿namespace TightWiki.ViewModels
 {
-    public class ViewModelBase
+    public class TwViewModel
     {
         public string SuccessMessage { get; set; } = string.Empty;
         public string WarningMessage { get; set; } = string.Empty;

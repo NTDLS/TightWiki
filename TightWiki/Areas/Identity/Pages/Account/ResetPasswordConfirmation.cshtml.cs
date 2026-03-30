@@ -4,6 +4,7 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 
@@ -14,7 +15,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
     ///     directly from your code. This API may change or be removed in future releases.
     /// </summary>
     [AllowAnonymous]
-    public class ResetPasswordConfirmationModel : PageModelBase
+    public class ResetPasswordConfirmationModel : TwPageModel
     {
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used

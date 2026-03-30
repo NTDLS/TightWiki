@@ -3,7 +3,7 @@
 namespace TightWiki.ViewModels.Admin
 {
     public class PageStatisticsViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public List<TwPageStatistics> Statistics { get; set; } = new();
         public int PaginationPageCount { get; set; }

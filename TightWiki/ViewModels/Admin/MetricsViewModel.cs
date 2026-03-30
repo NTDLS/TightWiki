@@ -3,7 +3,7 @@
 namespace TightWiki.ViewModels.Admin
 {
     public class MetricsViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public TwWikiDatabaseStatistics Metrics { get; set; } = new();
         public string ApplicationVersion { get; set; } = string.Empty;

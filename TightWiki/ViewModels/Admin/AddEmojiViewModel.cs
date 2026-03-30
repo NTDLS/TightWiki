@@ -1,7 +1,7 @@
 ﻿namespace TightWiki.ViewModels.Admin
 {
     public class AddEmojiViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

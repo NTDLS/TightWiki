@@ -17,7 +17,7 @@ namespace TightWiki.Controllers
 {
     [Route("File")]
     public class FileController
-        : WikiControllerBase<FileController>
+        : TwController<FileController>
     {
         private readonly ILogger<ITwEngine> _logger;
         private readonly SignInManager<IdentityUser> _signInManager;

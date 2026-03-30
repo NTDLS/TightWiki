@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text;
 using System.Text.Encodings.Web;
+using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 
@@ -30,7 +31,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         public string Code { get; set; }
     }
 
-    public class EnableAuthenticatorModel : PageModelBase
+    public class EnableAuthenticatorModel : TwPageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<ITwEngine> _logger;

@@ -3,7 +3,7 @@
 namespace TightWiki.ViewModels.Admin
 {
     public class MissingPagesViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public List<TwNonexistentPage> Pages { get; set; } = new();
         public int PaginationPageCount { get; set; }

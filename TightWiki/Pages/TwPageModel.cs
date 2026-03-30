@@ -5,14 +5,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 
-namespace TightWiki
+namespace TightWiki.Pages
 {
-    public class PageModelBase
+    public class TwPageModel
         : PageModel
     {
         public ITwSharedLocalizationText Localizer { get; private set; }
 
-        public SessionState SessionState { get; private set; } = new();
+        public TwSessionState SessionState { get; private set; } = new();
         public SignInManager<IdentityUser> SignInManager { get; private set; }
 
         public string SuccessMessage { get; set; } = string.Empty;
@@ -22,7 +22,7 @@ namespace TightWiki
         public ILogger<ITwEngine> Logger { get; private set; }
         public TwConfiguration WikiConfiguration { get; private set; }
 
-        public PageModelBase(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
+        public TwPageModel(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
             ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
         {
             WikiConfiguration = wikiConfiguration;

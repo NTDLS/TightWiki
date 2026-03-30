@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Identity;
+using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
 
-    public class RegistrationIsNotAllowedModel : PageModelBase
+    public class RegistrationIsNotAllowedModel : TwPageModel
     {
 
         public void OnGet()

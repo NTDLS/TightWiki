@@ -6,12 +6,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
+using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
-    public class ConfirmEmailModel : PageModelBase
+    public class ConfirmEmailModel : TwPageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<ITwEngine> _logger;

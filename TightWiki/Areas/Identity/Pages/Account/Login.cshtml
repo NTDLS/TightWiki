@@ -9,7 +9,7 @@
 
 @model LoginModel
 @{
-    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <div class="row justify-content-center my-5">

@@ -4,12 +4,13 @@
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
-    public class GenerateRecoveryCodesModel : PageModelBase
+    public class GenerateRecoveryCodesModel : TwPageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<ITwEngine> _logger;

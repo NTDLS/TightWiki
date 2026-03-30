@@ -3,7 +3,7 @@
 namespace TightWiki.ViewModels.Admin
 {
     public class PageRevisionsViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public List<TwPageRevision> Revisions { get; set; } = new();
 

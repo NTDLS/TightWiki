@@ -8,6 +8,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
+using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Library;
@@ -67,7 +68,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public string ConfirmPassword { get; set; } = string.Empty;
     }
 
-    public class RegisterModel : PageModelBase
+    public class RegisterModel : TwPageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;

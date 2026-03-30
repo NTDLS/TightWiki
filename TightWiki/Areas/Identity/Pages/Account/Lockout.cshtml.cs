@@ -4,6 +4,7 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 
@@ -15,7 +16,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
     /// </summary>
     [AllowAnonymous]
     public class LockoutModel
-        : PageModelBase
+        : TwPageModel
     {
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used

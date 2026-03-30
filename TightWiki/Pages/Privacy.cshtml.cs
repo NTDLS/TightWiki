@@ -4,7 +4,7 @@ using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Pages
 {
-    public class PrivacyModel : PageModelBase
+    public class PrivacyModel : TwPageModel
     {
         private readonly ILogger<ITwEngine> _logger;
 

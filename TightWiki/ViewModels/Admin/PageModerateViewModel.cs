@@ -3,7 +3,7 @@
 namespace TightWiki.ViewModels.Admin
 {
     public class PageModerateViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public List<string> Instructions { get; set; } = new();
         public List<TwPage> Pages { get; set; } = new();

@@ -3,7 +3,7 @@ using TightWiki.Plugin.Models;
 namespace TightWiki.ViewModels.Admin
 {
     public class DeletedPageViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public int PageId { get; set; }
         public string Body { get; set; } = string.Empty;

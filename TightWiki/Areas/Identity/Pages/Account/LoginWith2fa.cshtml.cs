@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 
@@ -35,7 +36,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public bool RememberMachine { get; set; }
     }
 
-    public class LoginWith2faModel : PageModelBase
+    public class LoginWith2faModel : TwPageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;

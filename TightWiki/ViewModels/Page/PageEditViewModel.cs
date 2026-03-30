@@ -4,7 +4,7 @@ using TightWiki.Plugin.Models;
 namespace TightWiki.ViewModels.Page
 {
     public class PageEditViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public int Id { get; set; }
 

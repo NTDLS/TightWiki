@@ -11,7 +11,7 @@
 @inject TwConfiguration WikiConfiguration
 
 @{
-    var sessionState = ViewData["SessionState"] as SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
 
     string navBarClass = $"navbar navbar-expand-sm {(WikiConfiguration.FixedMenuPosition ? "fixed-top" : "")} navbar-light bg-white border-bottom shadow-sm";
     var isPageProtected = sessionState.PageInstructions.Contains(WikiInstruction.Protect);

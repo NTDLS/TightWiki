@@ -1,7 +1,7 @@
 ﻿namespace TightWiki.ViewModels.Utility
 {
     public class NotifyViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public string NotifySuccessMessage { get; set; } = string.Empty;
         public string NotifyWarningMessage { get; set; } = string.Empty;

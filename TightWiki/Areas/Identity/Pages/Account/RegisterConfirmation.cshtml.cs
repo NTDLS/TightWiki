@@ -6,13 +6,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class RegisterConfirmationModel : PageModelBase
+    public class RegisterConfirmationModel : TwPageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ITwEmailSender _emailSender;

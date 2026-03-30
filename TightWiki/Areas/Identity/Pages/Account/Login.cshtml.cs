@@ -10,6 +10,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Security.Claims;
 using TightWiki.Extensions;
+using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
@@ -32,7 +33,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
     }
 
     public class LoginModel
-        : PageModelBase
+        : TwPageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;

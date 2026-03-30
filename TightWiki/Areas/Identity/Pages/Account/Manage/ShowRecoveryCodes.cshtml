@@ -7,7 +7,7 @@
 @{
     ViewData["Title"]= Localizer["Recovery codes"].Value;
     ViewData["ActivePage"] = "TwoFactorAuthentication";
-    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <partial name="_StatusMessage" for="StatusMessage" />

@@ -14,7 +14,7 @@ namespace TightWiki.Controllers
     [Route("[controller]")]
     public class TagsController(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
-        : WikiControllerBase<TagsController>(logger, signInManager, userManager, localizer, wikiConfiguration)
+        : TwController<TagsController>(logger, signInManager, userManager, localizer, wikiConfiguration)
     {
         [AllowAnonymous]
         [HttpGet("Browse/{givenCanonical}")]

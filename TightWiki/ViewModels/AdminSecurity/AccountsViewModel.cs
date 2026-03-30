@@ -3,7 +3,7 @@
 namespace TightWiki.ViewModels.AdminSecurity
 {
     public class AccountsViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public List<TwAccountProfile> Users { get; set; } = new();
         public string SearchString { get; set; } = string.Empty;

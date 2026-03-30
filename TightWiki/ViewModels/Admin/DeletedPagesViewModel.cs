@@ -3,7 +3,7 @@
 namespace TightWiki.ViewModels.Admin
 {
     public class DeletedPagesViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public List<TwPage> Pages { get; set; } = new();
         public string SearchString { get; set; } = string.Empty;

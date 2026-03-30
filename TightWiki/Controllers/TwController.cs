@@ -7,14 +7,14 @@ using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Controllers
 {
-    public class WikiControllerBase<T>(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
+    public class TwController<T>(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
         : Controller
     {
         public TwConfiguration WikiConfiguration { get; private set; } = wikiConfiguration;
         public ILogger<ITwEngine> Logger { get; private set; } = logger;
         public ITwSharedLocalizationText Localizer { get; private set; } = localizer;
-        public SessionState SessionState { get; private set; } = new();
+        public TwSessionState SessionState { get; private set; } = new();
 
         public readonly SignInManager<IdentityUser> SignInManager = signInManager;
         public readonly UserManager<IdentityUser> UserManager = userManager;

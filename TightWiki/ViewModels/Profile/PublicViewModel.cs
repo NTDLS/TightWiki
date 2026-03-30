@@ -5,7 +5,7 @@ using TightWiki.Plugin.Models;
 namespace TightWiki.ViewModels.Profile
 {
     public class PublicViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public string Navigation { get; set; } = string.Empty;
         public Guid Id { get; set; }

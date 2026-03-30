@@ -3,7 +3,7 @@
 namespace TightWiki.ViewModels.Admin
 {
     public class EventLogEntryViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public TwLogEntry LogEntry { get; set; } = new();
     }

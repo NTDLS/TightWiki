@@ -4,7 +4,7 @@ using TightWiki.Plugin.Models;
 namespace TightWiki.ViewModels.Admin
 {
     public class ConfigurationViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public List<TwTheme> Themes { get; set; } = new();
         public List<TwRole> Roles { get; set; } = new();

@@ -1,7 +1,7 @@
 namespace TightWiki.ViewModels.Admin
 {
     public class DeletedPageRevisionViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public int PageId { get; set; }
         public int Revision { get; set; }

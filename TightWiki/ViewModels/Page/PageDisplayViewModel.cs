@@ -3,7 +3,7 @@ using TightWiki.Plugin.Models;
 namespace TightWiki.ViewModels.Page
 {
     public class PageDisplayViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public string Body { get; set; } = string.Empty;
         public string ModifiedByUserName { get; set; } = string.Empty;

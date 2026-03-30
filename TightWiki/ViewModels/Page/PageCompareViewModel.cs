@@ -3,7 +3,7 @@ using DiffPlex.DiffBuilder.Model;
 namespace TightWiki.ViewModels.Page
 {
     public class PageCompareViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public string ModifiedByUserName { get; set; } = string.Empty;
         public DateTime ModifiedDate { get; set; }

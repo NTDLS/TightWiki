@@ -3,7 +3,7 @@
 namespace TightWiki.ViewModels.Admin
 {
     public class NamespaceViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public List<TwPage> Pages { get; set; } = new();
         public string Namespace { get; set; } = string.Empty;

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
+using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
@@ -31,7 +32,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         public string NewEmail { get; set; }
     }
 
-    public class EmailModel : PageModelBase
+    public class EmailModel : TwPageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;

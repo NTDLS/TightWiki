@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
@@ -46,7 +47,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         public string ConfirmPassword { get; set; }
     }
 
-    public class ChangePasswordModel : PageModelBase
+    public class ChangePasswordModel : TwPageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;

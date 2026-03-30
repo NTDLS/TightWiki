@@ -1,7 +1,7 @@
 ﻿namespace TightWiki.ViewModels.Page
 {
     public class BrowseViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public string? AssociatedPages { get; set; }
         public string? TagCloud { get; set; }

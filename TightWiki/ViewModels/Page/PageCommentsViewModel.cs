@@ -3,7 +3,7 @@
 namespace TightWiki.ViewModels.Page
 {
     public class PageCommentsViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public List<TwPageComment> Comments { get; set; } = new();
         public string Comment { get; set; } = string.Empty;

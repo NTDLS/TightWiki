@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
+using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
@@ -17,7 +18,7 @@ using static TightWiki.Plugin.TwConstants;
 namespace TightWiki.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class ResendEmailConfirmationModel : PageModelBase
+    public class ResendEmailConfirmationModel : TwPageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ITwEmailSender _emailSender;

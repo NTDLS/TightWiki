@@ -3,7 +3,7 @@
 namespace TightWiki.ViewModels.Admin
 {
     public class MenuItemViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

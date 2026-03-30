@@ -6,13 +6,14 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
     public class LogoutModel
-        : PageModelBase
+        : TwPageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<ITwEngine> _logger;

@@ -20,7 +20,7 @@ namespace TightWiki.Controllers
     [Authorize]
     [Route("[controller]")]
     public class AdminController
-        : WikiControllerBase<AdminController>
+        : TwController<AdminController>
     {
         private readonly ITwEngine _tightEngine;
         private readonly UserManager<IdentityUser> _userManager;

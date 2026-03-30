@@ -11,6 +11,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
+using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
@@ -19,7 +20,7 @@ using static TightWiki.Plugin.TwConstants;
 namespace TightWiki.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class ExternalLoginModel : PageModelBase
+    public class ExternalLoginModel : TwPageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;

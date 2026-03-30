@@ -3,7 +3,7 @@
 namespace TightWiki.ViewModels.Admin
 {
     public class DatabaseViewModel
-        : ViewModelBase
+        : TwViewModel
     {
         public List<TwDatabaseInfo> Info { get; set; } = new();
     }

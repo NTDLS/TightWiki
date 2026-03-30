@@ -13,7 +13,7 @@ namespace TightWiki.Controllers
     [Area("Identity")]
     [Route("Identity/Account")]
     public class AccountController
-        : WikiControllerBase<AccountController>
+        : TwController<AccountController>
     {
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;

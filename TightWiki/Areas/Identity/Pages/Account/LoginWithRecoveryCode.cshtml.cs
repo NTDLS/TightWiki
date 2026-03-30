@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 
@@ -28,7 +29,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public string RecoveryCode { get; set; }
     }
 
-    public class LoginWithRecoveryCodeModel : PageModelBase
+    public class LoginWithRecoveryCodeModel : TwPageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;

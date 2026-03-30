@@ -8,7 +8,7 @@
 @{
     ViewData["Title"]= Localizer["Configure authenticator app"].Value;
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
-    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 

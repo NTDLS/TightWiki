@@ -132,3 +132,7 @@ TightWiki.Test.Library/obj/
 TightWiki.Tests/bin/
 
 TightWiki.Tests/obj/
+
+TightWiki.Plugin/bin/
+
+TightWiki.Plugin/obj/

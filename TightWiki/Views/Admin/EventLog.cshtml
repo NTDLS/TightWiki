@@ -9,7 +9,7 @@
 @model EventLogViewModel
 @{
     Layout = "_Layout";
-    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">

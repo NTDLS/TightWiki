@@ -16,7 +16,7 @@ using TightWiki.Translations;
 
 namespace TightWiki
 {
-    public class SessionState
+    public class TwSessionState
         : ITwSessionState
     {
         private readonly string _denyString = WikiPermissionDisposition.Deny.ToString();
@@ -57,7 +57,7 @@ namespace TightWiki
         /// <summary>
         /// This method is used to hydrate the session state from PageModelBase.
         /// </summary>
-        public async Task<SessionState> Hydrate(ILogger<ITwEngine> logger,
+        public async Task<TwSessionState> Hydrate(ILogger<ITwEngine> logger,
             SignInManager<IdentityUser> signInManager, PageModel pageModel, TwConfiguration wikiConfiguration)
         {
             Page = new TwPage() { Name = WikiConfiguration.Name };
@@ -72,7 +72,7 @@ namespace TightWiki
         /// <summary>
         /// This method is used to hydrate the session state from WikiControllerBase.
         /// </summary>
-        public async Task<SessionState> Hydrate(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
+        public async Task<TwSessionState> Hydrate(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
             Controller controller, TwConfiguration wikiConfiguration)
         {
             Page = new TwPage() { Name = WikiConfiguration.Name };
