@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
@@ -112,7 +111,7 @@ namespace TightWiki.Engine
         {
             Localizer = localizer;
             Logger = logger;
-            QueryString = session?.QueryString ?? new QueryCollection();
+            QueryString = session?.QueryString ?? new EmptyQueryCollection();
             Page = page;
             Revision = revision;
             Matches = new Dictionary<string, TwMatchSet>();
