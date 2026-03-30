@@ -1,0 +1,38 @@
+﻿using NTDLS.Helpers;
+using System.Reflection;
+using TightWiki.Plugin.Attributes.Functions;
+using TightWiki.Plugin.Engine.Function;
+using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Handlers;
+using TightWiki.Plugin.Library;
+
+namespace TightWiki.Plugin.Engine.Handlers
+{
+    /// <summary>
+    /// Handles links from one wiki page to another.
+    /// </summary>
+    public class TwInternalLinkHandlerDescriptor
+        : TwEngineHandlerDescriptor, ITwInternalLinkHandler
+    {
+        public TwInternalLinkHandlerDescriptor(TwEnginePluginModule engineModule, MethodInfo method, ITwHandlerDescriptorAttribute attribute)
+            : base(engineModule, method, attribute)
+        {
+
+        }
+
+        /// <summary>
+        /// Handles an internal wiki link.
+        /// </summary>
+        /// <param name="state">Reference to the wiki state object</param>
+        /// <param name="pageNavigation">The navigation for the linked page.</param>
+        /// <param name="pageName">The name of the page being linked to.</param>
+        /// <param name="linkText">The text which should be show in the absence of an image.</param>
+        /// <param name="image">The image that should be shown.</param>
+        /// <param name="imageScale">The 0-100 image scale factor for the given image.</param>
+        public async Task<TwHandlerResult> Handle(ITwEngineState state, TwNamespaceNavigation pageNavigation, string pageName, string linkText, string? image, int imageScale)
+        {
+            var result = (Task<TwHandlerResult>)Method.Invoke(EngineModule.Instance, [state, pageNavigation, pageName, linkText, image, imageScale]).EnsureNotNull();
+            return await result;
+        }
+    }
+}

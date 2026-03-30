@@ -6,8 +6,8 @@ using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Functions;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Engine.Function;
+using TightWiki.Plugin.Engine.Handlers;
 using TightWiki.Plugin.Interfaces;
-using TightWiki.Plugin.Interfaces.Handlers;
 
 namespace TightWiki.Engine
 {
@@ -17,23 +17,25 @@ namespace TightWiki.Engine
         public TwConfiguration WikiConfiguration { get; private set; }
 
         public ILogger<ITwEngine> Logger { get; set; }
-
-        public List<ITwMarkupHandler> MarkupHandlers { get; private set; }
-        public List<ITwHeadingHandler> HeadingHandlers { get; private set; }
-        public List<ITwCommentHandler> CommentHandlers { get; private set; }
-        public List<ITwEmojiHandler> EmojiHandlers { get; private set; }
-        public List<ITwExternalLinkHandler> ExternalLinkHandlers { get; private set; }
-        public List<ITwInternalLinkHandler> InternalLinkHandlers { get; private set; }
-        public List<ITwExceptionHandler> ExceptionHandlers { get; private set; }
-        public List<ITwCompletionHandler> CompletionHandlers { get; private set; }
-
+        public List<TwEnginePluginModule> EngineModules { get; private set; }
         public ITwDatabaseManager DatabaseManager { get; private set; }
 
-        public List<TwEnginePluginModule> EngineModules { get; private set; }
-        public List<TwEngineFunctionDescriptor> StandardFunctions { get; private set; }
-        public List<TwEngineFunctionDescriptor> ScopeFunctions { get; private set; }
-        public List<TwEngineFunctionDescriptor> ProcessingFunctions { get; private set; }
+
+        public List<TwCommentHandlerDescriptor> CommentHandlers { get; private set; }
+        public List<TwCompletionHandlerDescriptor> CompletionHandlers { get; private set; }
+        public List<TwEmojiHandlerDescriptor> EmojiHandlers { get; private set; }
+        public List<TwExceptionHandlerDescriptor> ExceptionHandlers { get; private set; }
+        public List<TwExternalLinkHandlerDescriptor> ExternalLinkHandlers { get; private set; }
+        public List<TwHeadingHandlerDescriptor> HeadingHandlers { get; private set; }
+        public List<TwInternalLinkHandlerDescriptor> InternalLinkHandlers { get; private set; }
+        public List<TwMarkupHandlerDescriptor> MarkupHandlers { get; private set; }
+
+
         public List<TwEngineFunctionDescriptor> PostProcessingFunctions { get; private set; }
+        public List<TwEngineFunctionDescriptor> ProcessingFunctions { get; private set; }
+        public List<TwEngineFunctionDescriptor> ScopeFunctions { get; private set; }
+        public List<TwEngineFunctionDescriptor> StandardFunctions { get; private set; }
+
 
         public TwEngine(
             TwConfiguration wikiConfiguration,
@@ -62,6 +64,32 @@ namespace TightWiki.Engine
             ScopeFunctions = BuildFunctionDescriptors<TwScopeFunctionAttribute>(EngineModules);
             ProcessingFunctions = BuildFunctionDescriptors<TwProcessingInstructionFunctionAttribute>(EngineModules);
             PostProcessingFunctions = BuildFunctionDescriptors<TwPostProcessingInstructionFunctionAttribute>(EngineModules);
+
+            CompletionHandlers = BuildHandlerDescriptors<TwCompletionHandlerAttribute>(EngineModules)
+                .Select(o => new TwCompletionHandlerDescriptor(o.EngineModule, o.Method, o.Attribute)).ToList();
+
+            EmojiHandlers = BuildHandlerDescriptors<TwEmojiHandlerAttribute>(EngineModules)
+                .Select(o => new TwEmojiHandlerDescriptor(o.EngineModule, o.Method, o.Attribute)).ToList();
+
+            ExceptionHandlers = BuildHandlerDescriptors<TwExceptionHandlerAttribute>(EngineModules)
+                .Select(o => new TwExceptionHandlerDescriptor(o.EngineModule, o.Method, o.Attribute)).ToList();
+
+            ExternalLinkHandlers = BuildHandlerDescriptors<TwExternalLinkHandlerAttribute>(EngineModules)
+                .Select(o => new TwExternalLinkHandlerDescriptor(o.EngineModule, o.Method, o.Attribute)).ToList();
+
+            HeadingHandlers = BuildHandlerDescriptors<TwHeadingHandlerAttribute>(EngineModules)
+                .Select(o => new TwHeadingHandlerDescriptor(o.EngineModule, o.Method, o.Attribute)).ToList();
+
+            InternalLinkHandlers = BuildHandlerDescriptors<TwInternalLinkHandlerAttribute>(EngineModules)
+                .Select(o => new TwInternalLinkHandlerDescriptor(o.EngineModule, o.Method, o.Attribute)).ToList();
+
+            MarkupHandlers = BuildHandlerDescriptors<TwMarkupHandlerAttribute>(EngineModules)
+                .Select(o => new TwMarkupHandlerDescriptor(o.EngineModule, o.Method, o.Attribute)).ToList();
+
+            CommentHandlers = BuildHandlerDescriptors<TwCommentHandlerAttribute>(EngineModules)
+                .Select(o => new TwCommentHandlerDescriptor(o.EngineModule, o.Method, o.Attribute)).ToList();
+
+
         }
 
         private static List<TwEngineFunctionDescriptor> BuildFunctionDescriptors<TFunctionAttribute>(List<TwEnginePluginModule> pluginModules)
@@ -91,7 +119,35 @@ namespace TightWiki.Engine
                 .ToList();
         }
 
+        private static List<TwEngineHandlerDescriptor> BuildHandlerDescriptors<TFunctionAttribute>(List<TwEnginePluginModule> pluginModules)
+            where TFunctionAttribute : Attribute, ITwHandlerDescriptorAttribute
+        {
+            return pluginModules
+                .SelectMany(module => module.DeclaringType
+                    .GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                    .Select(m => new { Method = m, Module = module }))
+                .Select(x => new
+                {
+                    x.Method,
+                    x.Module,
+                    PluginAttribute = x.Method.DeclaringType?.GetCustomAttribute<TwPluginModuleAttribute>(),
+                    Attribute = x.Method.GetCustomAttribute<TFunctionAttribute>()
+                })
+                .Where(x => x.Attribute != null)
+                .Select(x =>
+                {
+                    if (x.PluginAttribute == null)
+                        throw new InvalidOperationException($"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must belong to a class decorated with TwPluginModuleAttribute.");
+                    if (x.Method.ReturnType != typeof(Task<TwHandlerResult>))
+                        throw new InvalidOperationException($"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
+                    return x;
+                })
+                .Select(x => new TwEngineHandlerDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull()))
+                .ToList();
+        }
+
         /*
+
         private static List<TwEngineHandlerDescriptor> BuildhanderDescriptors<TFunctionAttribute>(
     List<TwEngineFunctionModule> pluginModules)
     where TFunctionAttribute : Attribute, ITwHandlerDescriptorAttribute
@@ -121,7 +177,7 @@ namespace TightWiki.Engine
                 .Select(x => new TwEngineHandlerDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull()))
                 .ToList();
         }
-*/
+        */
 
         /// <summary>
         /// Transforms the content for the given page.

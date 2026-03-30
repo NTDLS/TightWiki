@@ -1,5 +1,6 @@
 ﻿using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Functions;
+using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Handlers;
 
@@ -17,7 +18,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         [TwCompletionHandler("Default completion handler", "Handles wiki completion events.")]
-        public async Task Handle(ITwEngineState state)
+        public async Task<TwHandlerResult> Handle(ITwEngineState state)
         {
             if (state.Engine.WikiConfiguration.RecordCompilationMetrics)
             {
@@ -30,6 +31,8 @@ namespace TightWiki.Engine.Implementation.Handlers
                     state.HtmlResult.Length,
                     state.Page.Body.Length);
             }
+
+            return new TwHandlerResult();
         }
     }
 }

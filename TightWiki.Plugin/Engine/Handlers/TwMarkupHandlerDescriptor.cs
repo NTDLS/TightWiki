@@ -1,0 +1,33 @@
+﻿using NTDLS.Helpers;
+using System.Reflection;
+using TightWiki.Plugin.Attributes.Functions;
+using TightWiki.Plugin.Engine.Function;
+using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Handlers;
+
+namespace TightWiki.Plugin.Engine.Handlers
+{
+    /// <summary>
+    /// Handles basic markup/style instructions like bold, italic, underline, etc.
+    /// </summary>
+    public class TwMarkupHandlerDescriptor
+        : TwEngineHandlerDescriptor, ITwMarkupHandler
+    {
+        public TwMarkupHandlerDescriptor(TwEnginePluginModule engineModule, MethodInfo method, ITwHandlerDescriptorAttribute attribute)
+            : base(engineModule, method, attribute)
+        {
+        }
+
+        /// <summary>
+        /// Handles basic markup instructions like bold, italic, underline, etc.
+        /// </summary>
+        /// <param name="state">Reference to the wiki state object</param>
+        /// <param name="sequence">The sequence of symbols that were found to denotate this markup instruction,</param>
+        /// <param name="scopeBody">The body of text to apply the style to.</param>
+        public async Task<TwHandlerResult> Handle(ITwEngineState state, char sequence, string scopeBody)
+        {
+            var result = (Task<TwHandlerResult>)Method.Invoke(EngineModule.Instance, [state, sequence, scopeBody]).EnsureNotNull();
+            return await result;
+        }
+    }
+}

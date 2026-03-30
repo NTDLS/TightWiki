@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
@@ -319,6 +318,7 @@ namespace TightWiki.Engine
                     bool wasHandled = false;
                     foreach (var handler in Engine.MarkupHandlers)
                     {
+                        wasHandled = true;
                         var result = await handler.Handle(this, symbol, body);
                         if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
                         {
@@ -331,7 +331,7 @@ namespace TightWiki.Engine
                         var unhandledResult = new TwHandlerResult
                         {
                             Content = match.Value, //If no handler handled this markup, we just return the original text.
-                            Instructions = new List<HandlerResultInstruction>() //No special instructions, just swap in the content.
+                            Instructions = [HandlerResultInstruction.Skip]
                         };
                         StoreHandlerResult(unhandledResult, WikiMatchType.Markup, pageContent, match.Value);
                     }
@@ -512,6 +512,7 @@ namespace TightWiki.Engine
                         var result = await handler.Handle(this, headingMarkers - 1, link, text);
                         if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
                         {
+                            wasHandled = true;
                             TableOfContents.Add(new TwTableOfContentsTag(headingMarkers - 1, match.Index, link, text));
                             StoreHandlerResult(result, WikiMatchType.Heading, pageContent, match.Value);
                             break;
@@ -522,7 +523,7 @@ namespace TightWiki.Engine
                         var unhandledResult = new TwHandlerResult
                         {
                             Content = match.Value, //If no handler handled this markup, we just return the original text.
-                            Instructions = new List<HandlerResultInstruction>() //No special instructions, just swap in the content.
+                            Instructions = [HandlerResultInstruction.Skip]
                         };
                         StoreHandlerResult(unhandledResult, WikiMatchType.Heading, pageContent, match.Value);
                     }
@@ -543,6 +544,7 @@ namespace TightWiki.Engine
                     var result = await handler.Handle(this, match.Value);
                     if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
                     {
+                        wasHandled = true;
                         StoreHandlerResult(result, WikiMatchType.Comment, pageContent, match.Value);
                         break;
                     }
@@ -552,7 +554,7 @@ namespace TightWiki.Engine
                     var unhandledResult = new TwHandlerResult
                     {
                         Content = match.Value, //If no handler handled this markup, we just return the original text.
-                        Instructions = new List<HandlerResultInstruction>() //No special instructions, just swap in the content.
+                        Instructions = [HandlerResultInstruction.Skip]
                     };
                     StoreHandlerResult(unhandledResult, WikiMatchType.Comment, pageContent, match.Value);
                 }
@@ -582,6 +584,7 @@ namespace TightWiki.Engine
                     var result = await handler.Handle(this, $"%%{key}%%", scale);
                     if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
                     {
+                        wasHandled = true;
                         StoreHandlerResult(result, WikiMatchType.Emoji, pageContent, match.Value);
                         break;
                     }
@@ -591,7 +594,7 @@ namespace TightWiki.Engine
                     var unhandledResult = new TwHandlerResult
                     {
                         Content = match.Value, //If no handler handled this markup, we just return the original text.
-                        Instructions = new List<HandlerResultInstruction>() //No special instructions, just swap in the content.
+                        Instructions = [HandlerResultInstruction.Skip]
                     };
                     StoreHandlerResult(unhandledResult, WikiMatchType.Emoji, pageContent, match.Value);
                 }
@@ -679,6 +682,7 @@ namespace TightWiki.Engine
                     var result = await handler.Handle(this, link, text, image);
                     if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
                     {
+                        wasHandled = true;
                         StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value);
                         break;
                     }
@@ -688,7 +692,7 @@ namespace TightWiki.Engine
                     var unhandledResult = new TwHandlerResult
                     {
                         Content = match.Value, //If no handler handled this markup, we just return the original text.
-                        Instructions = new List<HandlerResultInstruction>() //No special instructions, just swap in the content.
+                        Instructions = [HandlerResultInstruction.Skip]
                     };
                     StoreHandlerResult(unhandledResult, WikiMatchType.Link, pageContent, match.Value);
                 }
@@ -731,6 +735,7 @@ namespace TightWiki.Engine
                     var result = await handler.Handle(this, link, text, image);
                     if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
                     {
+                        wasHandled = true;
                         StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value);
                         break;
                     }
@@ -740,7 +745,7 @@ namespace TightWiki.Engine
                     var unhandledResult = new TwHandlerResult
                     {
                         Content = match.Value, //If no handler handled this markup, we just return the original text.
-                        Instructions = new List<HandlerResultInstruction>() //No special instructions, just swap in the content.
+                        Instructions = [HandlerResultInstruction.Skip]
                     };
                     StoreHandlerResult(unhandledResult, WikiMatchType.Link, pageContent, match.Value);
                 }
@@ -820,8 +825,8 @@ namespace TightWiki.Engine
                     var result = await handler.Handle(this, pageNavigation, pageName.Trim(':'), text, image, imageScale);
                     if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
                     {
+                        wasHandled = true;
                         OutgoingLinks.Add(new TwPageReference(pageName, pageNavigation.Canonical));
-
                         StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value);
                         break;
                     }
@@ -831,7 +836,7 @@ namespace TightWiki.Engine
                     var unhandledResult = new TwHandlerResult
                     {
                         Content = match.Value, //If no handler handled this markup, we just return the original text.
-                        Instructions = new List<HandlerResultInstruction>() //No special instructions, just swap in the content.
+                        Instructions = [HandlerResultInstruction.Skip]
                     };
                     StoreHandlerResult(unhandledResult, WikiMatchType.Link, pageContent, match.Value);
                 }
