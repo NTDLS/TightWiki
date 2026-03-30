@@ -1,24 +1,33 @@
-﻿using NTDLS.Helpers;
+﻿using Microsoft.Extensions.Configuration;
+using NTDLS.Helpers;
+using NTDLS.SqliteDapperWrapper;
 using System.Data;
-using System.Runtime.Caching;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Interfaces.Repository;
-using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
+using TightWiki.Repository.Extensions;
+using TightWiki.Repository.Helpers;
 
 namespace TightWiki.Repository
 {
     public class ConfigurationRepository
         : ITwConfigurationRepository
     {
+        public SqliteManagedFactory ConfigFactory { get; private set; }
+
+        public ConfigurationRepository(IConfiguration configuration)
+        {
+            ConfigFactory = new SqliteManagedFactory(configuration.GetDatabaseConnectionString("ConfigConnection", "config.db"));
+        }
+
         public async Task<TwConfigurationEntries> GetConfigurationEntryValuesByGroupName(string groupName)
         {
             var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Configuration, [groupName]);
 
             return await TwCache.AddOrGet(cacheKey, async () =>
             {
-                var entries = await ManagedDataStorage.Config.QueryAsync<TwConfigurationEntry>("GetConfigurationEntryValuesByGroupName.sql",
+                var entries = await ConfigFactory.QueryAsync<TwConfigurationEntry>("GetConfigurationEntryValuesByGroupName.sql",
                     new { GroupName = groupName });
 
                 foreach (var entry in entries)
@@ -46,7 +55,7 @@ namespace TightWiki.Repository
 
             return await TwCache.AddOrGet(cacheKey, async () =>
             {
-                var themes = await ManagedDataStorage.Config.QueryAsync<TwTheme>("GetAllThemes.sql");
+                var themes = await ConfigFactory.QueryAsync<TwTheme>("GetAllThemes.sql");
 
                 foreach (var theme in themes)
                 {
@@ -59,15 +68,12 @@ namespace TightWiki.Repository
 
         public async Task<TwWikiDatabaseStatistics> GetWikiDatabaseMetrics()
         {
-            return await ManagedDataStorage.Config.EphemeralAsync(async o =>
+            return await ConfigFactory.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
                 using var pages_db = o.Attach("pages.db", "pages_db");
 
-                var result = await o.QuerySingleAsync<TwWikiDatabaseStatistics>("GetWikiDatabaseStatistics.sql");
-                result.Exceptions = await LoggingRepository.GetExceptionCount();
-
-                return result;
+                return await o.QuerySingleAsync<TwWikiDatabaseStatistics>("GetWikiDatabaseStatistics.sql");
             });
         }
 
@@ -93,7 +99,7 @@ namespace TightWiki.Repository
         /// </summary>
         public async Task<bool> GetCryptoCheck()
         {
-            var value = await ManagedDataStorage.Config.QueryFirstOrDefaultAsync<string>("GetCryptoCheck.sql") ?? string.Empty;
+            var value = await ConfigFactory.QueryFirstOrDefaultAsync<string>("GetCryptoCheck.sql") ?? string.Empty;
 
             try
             {
@@ -120,7 +126,7 @@ namespace TightWiki.Repository
                 Content = Security.Helpers.EncryptString(Security.Helpers.MachineKey, TwConstants.CRYPTOCHECK)
             };
 
-            await ManagedDataStorage.Config.QueryFirstOrDefaultAsync<string>("SetCryptoCheck.sql", param);
+            await ConfigFactory.QueryFirstOrDefaultAsync<string>("SetCryptoCheck.sql", param);
         }
 
         public async Task SaveConfigurationEntryValueByGroupAndEntry(string groupName, string entryName, string value)
@@ -132,7 +138,7 @@ namespace TightWiki.Repository
                 Value = value
             };
 
-            await ManagedDataStorage.Config.ExecuteAsync("SaveConfigurationEntryValueByGroupAndEntry.sql", param);
+            await ConfigFactory.ExecuteAsync("SaveConfigurationEntryValueByGroupAndEntry.sql", param);
         }
 
         public async Task<List<TwConfigurationNest>> GetConfigurationNest()
@@ -187,7 +193,7 @@ namespace TightWiki.Repository
         }
 
         public async Task<List<TwConfigurationFlat>> GetFlatConfiguration()
-            => await ManagedDataStorage.Config.QueryAsync<TwConfigurationFlat>("GetFlatConfiguration.sql");
+            => await ConfigFactory.QueryAsync<TwConfigurationFlat>("GetFlatConfiguration.sql");
 
         public async Task<string?> GetConfigurationEntryValuesByGroupNameAndEntryName(string groupName, string entryName)
         {
@@ -195,7 +201,7 @@ namespace TightWiki.Repository
 
             return await TwCache.AddOrGetAsync(cacheKey, async () =>
             {
-                var configEntry = await ManagedDataStorage.Config.QuerySingleAsync<TwConfigurationEntry>("GetConfigurationEntryValuesByGroupNameAndEntryName.sql",
+                var configEntry = await ConfigFactory.QuerySingleAsync<TwConfigurationEntry>("GetConfigurationEntryValuesByGroupNameAndEntryName.sql",
                     new
                     {
                         GroupName = groupName,
@@ -241,7 +247,7 @@ namespace TightWiki.Repository
         public async Task<List<TwMenuItem>> GetAllMenuItems(string? orderBy = null, string? orderByDirection = null)
         {
             var query = RepositoryHelpers.TransposeOrderby("GetAllMenuItems.sql", orderBy, orderByDirection);
-            return await ManagedDataStorage.Config.QueryAsync<TwMenuItem>(query);
+            return await ConfigFactory.QueryAsync<TwMenuItem>(query);
         }
 
         public async Task<TwMenuItem> GetMenuItemById(int id)
@@ -251,7 +257,7 @@ namespace TightWiki.Repository
                 Id = id
             };
 
-            return await ManagedDataStorage.Config.QuerySingleAsync<TwMenuItem>("GetMenuItemById.sql", param);
+            return await ConfigFactory.QuerySingleAsync<TwMenuItem>("GetMenuItemById.sql", param);
         }
 
         public async Task DeleteMenuItemById(int id)
@@ -261,7 +267,7 @@ namespace TightWiki.Repository
                 Id = id
             };
 
-            await ManagedDataStorage.Config.ExecuteAsync("DeleteMenuItemById.sql", param);
+            await ConfigFactory.ExecuteAsync("DeleteMenuItemById.sql", param);
 
             TwCache.ClearCategory(TwCache.Category.Configuration);
         }
@@ -276,7 +282,7 @@ namespace TightWiki.Repository
                 menuItem.Ordinal
             };
 
-            var menuItemId = await ManagedDataStorage.Config.ExecuteScalarAsync<int>("UpdateMenuItemById.sql", param);
+            var menuItemId = await ConfigFactory.ExecuteScalarAsync<int>("UpdateMenuItemById.sql", param);
 
             TwCache.ClearCategory(TwCache.Category.Configuration);
             return menuItemId;
@@ -291,74 +297,12 @@ namespace TightWiki.Repository
                 menuItem.Ordinal
             };
 
-            var menuItemId = await ManagedDataStorage.Config.ExecuteScalarAsync<int>("InsertMenuItem.sql", param);
+            var menuItemId = await ConfigFactory.ExecuteScalarAsync<int>("InsertMenuItem.sql", param);
 
             TwCache.ClearCategory(TwCache.Category.Configuration);
             return menuItemId;
         }
 
         #endregion
-
-        public async Task<List<TwEmoji>> ReloadEmojis(bool preloadAnimatedEmojis, int defaultEmojiHeight)
-        {
-            TwCache.ClearCategory(TwCache.Category.Emoji);
-            var emojis = await EmojiRepository.GetAllEmojis();
-
-            if (preloadAnimatedEmojis)
-            {
-                new Thread(async () =>
-                {
-                    var parallelOptions = new ParallelOptions
-                    {
-                        MaxDegreeOfParallelism = Environment.ProcessorCount / 2 < 2 ? 2 : Environment.ProcessorCount / 2
-                    };
-
-                    await Parallel.ForEachAsync(emojis, parallelOptions, async (emoji, cancellationToken) =>
-                    {
-                        if (emoji.MimeType.Equals("image/gif", StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            var imageCacheKey = TwCacheKey.Build(TwCache.Category.Emoji, [emoji.Shortcut]);
-                            emoji.ImageData = (await EmojiRepository.GetEmojiByName(emoji.Name))?.ImageData;
-
-                            if (emoji.ImageData != null)
-                            {
-                                var scaledImageCacheKey = TwCacheKey.Build(TwCache.Category.Emoji, [emoji.Shortcut, "100"]);
-                                var decompressedImageBytes = Utility.Decompress(emoji.ImageData);
-                                var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(decompressedImageBytes));
-
-                                int customScalePercent = 100;
-
-                                var (Width, Height) = Utility.ScaleToMaxOf(img.Width, img.Height, defaultEmojiHeight);
-
-                                //Adjust to any specified scaling.
-                                Height = (int)(Height * (customScalePercent / 100.0));
-                                Width = (int)(Width * (customScalePercent / 100.0));
-
-                                //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
-                                //  dimension to become very small (or even negative). So here we will check the height and width
-                                //  to ensure they are both at least n pixels and adjust both dimensions.
-                                if (Height < 16)
-                                {
-                                    Height += 16 - Height;
-                                    Width += 16 - Height;
-                                }
-                                if (Width < 16)
-                                {
-                                    Height += 16 - Width;
-                                    Width += 16 - Width;
-                                }
-
-                                //These are hard to generate, so just keep it forever.
-                                var resized = TwImages.ResizeGifImage(decompressedImageBytes, Width, Height);
-                                var itemCache = new TwImageCacheItem(resized, "image/gif");
-                                TwCache.Set(scaledImageCacheKey, itemCache, new CacheItemPolicy());
-                            }
-                        }
-                    });
-                }).Start();
-            }
-
-            return emojis;
-        }
     }
 }

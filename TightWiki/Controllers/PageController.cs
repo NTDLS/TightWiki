@@ -16,6 +16,7 @@ using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using TightWiki.Repository;
+using TightWiki.Repository.Helpers;
 using TightWiki.RequestModels;
 using TightWiki.ViewModels.Page;
 using static TightWiki.Plugin.Library.TwImages;

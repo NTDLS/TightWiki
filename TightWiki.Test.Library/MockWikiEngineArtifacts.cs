@@ -18,6 +18,7 @@ using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using TightWiki.Repository;
 using TightWiki.Repository.Extensions;
+using TightWiki.Repository.Helpers;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Test.Library

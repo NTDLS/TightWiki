@@ -23,7 +23,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         public async Task<TwHandlerResult> Handle(ITwEngineState state, TwNamespaceNavigation pageNavigation,
             string pageName, string linkText, string? image, int imageScale)
         {
-            var page = await PageRepository.GetPageRevisionByNavigation(pageNavigation);
+            var page = await state.Engine.DatabaseManager.PageRepository.GetPageRevisionByNavigation(pageNavigation);
 
             if (page == null)
             {

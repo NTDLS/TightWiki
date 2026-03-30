@@ -16,7 +16,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         {
             if (state.Engine.WikiConfiguration.RecordCompilationMetrics)
             {
-                await StatisticsRepository.MergePageCompilationStatistics(state.Page.Id,
+                await state.Engine.DatabaseManager.StatisticsRepository.MergePageCompilationStatistics(state.Page.Id,
                     state.ProcessingTime.TotalMilliseconds,
                     state.MatchCount,
                     state.ErrorCount,

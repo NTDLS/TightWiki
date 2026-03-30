@@ -4,8 +4,12 @@ using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Interfaces.Repository
 {
-    public interface IPageRepository
+    public interface ITwPageRepository
     {
+        SqliteManagedFactory PagesFactory { get; }
+        SqliteManagedFactory DeletedPagesFactory { get; }
+        SqliteManagedFactory DeletedPageRevisionsFactory { get; }
+
         Task<List<TwPage>> AutoCompletePage(string? searchText);
         Task<List<string>> AutoCompleteNamespace(string? searchText);
         Task<TwPage?> GetPageRevisionInfoById(int pageId, int? revision = null);
@@ -36,12 +40,12 @@ namespace TightWiki.Plugin.Interfaces.Repository
         /// Unlike the search, this method returns all pages and allows them to be paired down using the search terms.
         /// Whereas the search requires a search term to get results. The matching here is also exact, no score based matching.
         /// </summary>
-        Task<List<TwPage>> GetAllPagesPaged(int pageNumber,string? orderBy = null, string? orderByDirection = null, List<string>? searchTerms = null);
+        Task<List<TwPage>> GetAllPagesPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null, List<string>? searchTerms = null);
         /// <summary>
         /// Unlike the search, this method returns all pages and allows them to be paired down using the search terms.
         /// Whereas the search requires a search term to get results. The matching here is also exact, no score based matching.
         /// </summary>
-        Task<List<TwPage>> GetAllDeletedPagesPaged(int pageNumber, string? orderBy = null,string? orderByDirection = null, List<string>? searchTerms = null);
+        Task<List<TwPage>> GetAllDeletedPagesPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null, List<string>? searchTerms = null);
         Task<List<TwNamespaceStat>> GetAllNamespacesPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null);
         Task<List<string>> GetAllNamespaces();
         Task<List<TwPage>> GetAllPages();
@@ -82,5 +86,38 @@ namespace TightWiki.Plugin.Interfaces.Repository
         Task<List<TwPage>> GetPageInfoByTags(IEnumerable<string> tags);
         Task<List<TwPage>> GetPageInfoByTag(string tag);
         Task UpdatePageTags(int pageId, List<string> tags);
+
+        /// <summary>
+        /// Inserts a new page if Page.Id == 0, other wise updates the page. All metadata is written to the database.
+        /// </summary>
+        Task<int> UpsertPage(ITwEngine wikifier, ITwSharedLocalizationText localizer, TwPage page, ITwSessionState? sessionState = null);
+
+        /// <summary>
+        /// Rebuilds the page and writes all aspects to the database.
+        /// </summary>
+        /// <param name="sessionState"></param>
+        /// <param name="query"></param>
+        /// <param name="page"></param>
+        Task RefreshPageMetadata(ITwEngine wikifier, ITwSharedLocalizationText localizer, TwPage page, ITwSessionState? sessionState = null);
+
+        Task<List<TwAggregatedSearchToken>> ParsePageTokens(ITwEngineState state);
+
+        #region Page File.
+
+        Task DetachPageRevisionAttachment(string pageNavigation, string fileNavigation, int pageRevision);
+        Task<List<TwOrphanedPageAttachment>> GetOrphanedPageAttachmentsPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null);
+        Task PurgeOrphanedPageAttachments();
+        Task PurgeOrphanedPageAttachment(int pageFileId, int revision);
+        Task<List<TwPageFileAttachmentInfo>> GetPageFilesInfoByPageNavigationAndPageRevisionPaged(string pageNavigation, int pageNumber, int? pageSize = null, int? pageRevision = null);
+        Task<TwPageFileAttachmentInfo?> GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null);
+        Task<TwPageFileAttachment?> GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? fileRevision = null);
+        Task<TwPageFileAttachment?> GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null);
+        Task<List<TwPageFileAttachmentInfo>> GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged(string pageNavigation, string fileNavigation, int pageNumber);
+        Task<List<TwPageFileAttachmentInfo>> GetPageFilesInfoByPageId(int pageId);
+        Task<TwPageFileRevisionAttachmentInfo?> GetPageFileInfoByFileNavigation(SqliteManagedInstance connection, int pageId, string fileNavigation);
+        Task<TwPageFileRevisionAttachmentInfo?> GetPageCurrentRevisionAttachmentByFileNavigation(SqliteManagedInstance connection, int pageId, string fileNavigation);
+        Task UpsertPageFile(TwPageFileAttachment item, Guid userId);
+
+        #endregion
     }
 }

@@ -1,9 +1,12 @@
+using NTDLS.SqliteDapperWrapper;
 using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Interfaces.Repository
 {
     public interface ITwEmojiRepository
     {
+        SqliteManagedFactory EmojiFactory { get; }
+
         Task<List<TwEmoji>> GetAllEmojis();
         Task<List<string>> AutoCompleteEmoji(string term);
         Task<List<TwEmoji>> GetEmojisByCategory(string category);
@@ -13,6 +16,7 @@ namespace TightWiki.Plugin.Interfaces.Repository
         Task DeleteById(int id);
         Task<TwEmoji?> GetEmojiByName(string name);
         Task<int> UpsertEmoji(TwUpsertEmoji emoji);
-        Task<List<TwEmoji>> GetAllEmojisPaged(int pageNumber,string? orderBy = null, string? orderByDirection = null, List<string>? categories = null);
+        Task<List<TwEmoji>> GetAllEmojisPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null, List<string>? categories = null);
+        Task<List<TwEmoji>> ReloadEmojis(bool preloadAnimatedEmojis, int defaultEmojiHeight);
     }
 }

@@ -1,5 +1,3 @@
-using TightWiki.Repository;
-
 namespace TightWiki.Tests.Unit
 {
     [Collection("Database Tests")]

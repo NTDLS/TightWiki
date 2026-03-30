@@ -1,11 +1,11 @@
 ﻿using NTDLS.SqliteDapperWrapper;
 
-namespace TightWiki.Repository
+namespace TightWiki.Repository.Helpers
 {
     /// <summary>
     /// Stores instances of ManagedDataStorageFactories that are used to store various parts of the data for the site.
     /// </summary>
-    public static class ManagedDataStorage
+    public static class _ManagedDataStorage
     {
         private static (string Name, SqliteManagedFactory Factory)[]? _collection = null;
 

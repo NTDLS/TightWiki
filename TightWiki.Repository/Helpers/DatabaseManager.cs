@@ -2,41 +2,95 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NTDLS.Helpers;
+using NTDLS.SqliteDapperWrapper;
 using System.Reflection;
 using System.Security.Claims;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Dummy;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using TightWiki.Plugin.Models.Defaults;
 
-namespace TightWiki.Repository
+namespace TightWiki.Repository.Helpers
 {
-    public static class DatabaseUpgrade
+    public class DatabaseManager
+        : ITwDatabaseManager
     {
+        public ITwConfigurationRepository ConfigurationRepository { get; private set; }
+        public ITwDefaultsRepository DefaultsRepository { get; private set; }
+        public ITwEmojiRepository EmojiRepository { get; private set; }
+        public ITwLoggingRepository LoggingRepository { get; private set; }
+        public ITwPageRepository PageRepository { get; private set; }
+        public ITwStatisticsRepository StatisticsRepository { get; private set; }
+        public ITwUsersRepository UsersRepository { get; private set; }
+
+        public (string Name, SqliteManagedFactory Factory)[] Databases { get; private set; }
+
+        /// <summary>
+        /// We expose this here because it is the earliest we can prop upa database logger.
+        /// </summary>
+        public ILogger Logger { get; private set; }
+
+        public DatabaseManager(IConfiguration configuration)
+        {
+            Logger = new ConsoleLogger();
+
+            ConfigurationRepository = new ConfigurationRepository(configuration);
+
+            var defaultsDatabasePath = CreateDefaultsDatabase(configuration).Result
+                ?? throw new Exception("Could not determine path to Defaults database.");
+
+            DefaultsRepository = new DefaultsRepository(defaultsDatabasePath);
+
+            LoggingRepository = new LoggingRepository(configuration, ConfigurationRepository);
+
+            var minimumLogLevel = Enum.Parse<LogLevel>(configuration.GetValue("EventLogLevel", LogLevel.Information.ToString()));
+            Logger = new DatabaseLogger(LoggingRepository, minimumLogLevel);
+
+            EmojiRepository = new EmojiRepository(configuration, ConfigurationRepository);
+            StatisticsRepository = new StatisticsRepository(configuration, ConfigurationRepository);
+            PageRepository = new PageRepository(configuration, ConfigurationRepository, StatisticsRepository);
+            UsersRepository = new UsersRepository(configuration, ConfigurationRepository);
+
+            Databases =
+                [
+                    ("DeletedPageRevisions", PageRepository.DeletedPageRevisionsFactory),
+                    ("DeletedPages", PageRepository.DeletedPagesFactory),
+                    ("Pages", PageRepository.PagesFactory),
+                    ("Statistics", StatisticsRepository.StatisticsFactory),
+                    ("Emoji", EmojiRepository.EmojiFactory),
+                    ("Logging", LoggingRepository.LoggingFactory),
+                    ("Users", UsersRepository.UsersFactory),
+                    ("Config", ConfigurationRepository.ConfigFactory),
+                    //("Defaults", Defaults), //We do not expose this as it is only used for initial seeding of the database.
+                ];
+
+        }
+
         /// <summary>
         /// Gets the current version stored in the VersionState table.
         /// </summary>
-        public static async Task<string> GetVersionStateVersion()
-            => await ManagedDataStorage.Config.ExecuteScalarAsync<string>(@"Scripts\Initialization\GetVersionStateVersion.sql") ?? "0.0.0";
+        public async Task<string> GetVersionStateVersion()
+            => await ConfigurationRepository.ConfigFactory.ExecuteScalarAsync<string>(@"Scripts\Initialization\GetVersionStateVersion.sql") ?? "0.0.0";
 
         /// <summary>
         /// Stores the current assembly version into the VersionState table.
         /// </summary>
-        public static async Task SetVersionStateVersion()
+        public async Task SetVersionStateVersion()
         {
             var version = string.Join('.', //Note that we only care about major.minor.patch hence the Take(3).
                 (Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0.0").Split('.').Take(3));
 
-            await ManagedDataStorage.Config.ExecuteAsync(@"Scripts\Initialization\SetVersionStateVersion.sql", new { Version = version });
+            await ConfigurationRepository.ConfigFactory.ExecuteAsync(@"Scripts\Initialization\SetVersionStateVersion.sql", new { Version = version });
         }
 
         /// <summary>
         /// See @Initialization.Versions.md
         /// Returns true if an upgrade was performed, false if the database was already at the latest version.
         /// </summary>
-        public static async Task<bool> ApplyDatabaseUpgradeScripts(ILogger logger)
+        public async Task<bool> ApplyDatabaseUpgradeScripts(ILogger logger)
         {
             try
             {
@@ -58,7 +112,7 @@ namespace TightWiki.Repository
                     return false; //The database version is already at the latest version.
                 }
 
-                logger.LogInformation("Starting database upgrade.");
+                Logger.LogInformation("Starting database upgrade.");
 
                 var manifestResources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
 
@@ -126,7 +180,7 @@ namespace TightWiki.Repository
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Database upgrade failed.");
+                Logger.LogError(ex, "Database upgrade failed.");
                 return false;
             }
         }
@@ -140,7 +194,7 @@ namespace TightWiki.Repository
         /// <param name="overwrite">true to overwrite the existing defaults database if it exists; otherwise, false to leave the existing file
         /// unchanged.</param>
         /// <returns>The full path to the created or existing defaults database file, or null if the operation fails.</returns>
-        public static async Task<string?> CreateDefaultsDatabase(ILogger logger, IConfiguration configuration, bool overwrite)
+        public async Task<string?> CreateDefaultsDatabase(IConfiguration configuration)
         {
             try
             {
@@ -148,7 +202,7 @@ namespace TightWiki.Repository
                 var databasePath = configuration.GetConnectionString("DatabasePath");
                 if (string.IsNullOrEmpty(databasePath))
                 {
-                    var configDatabase = ManagedDataStorage.Config.Ephemeral(o => o.NativeConnection.DataSource);
+                    var configDatabase = ConfigurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);
                     databasePath = Path.GetDirectoryName(configDatabase);
                     if (databasePath == null)
                     {
@@ -159,33 +213,31 @@ namespace TightWiki.Repository
 
                 var defaultsDatabasePath = Path.Combine(databasePath, "defaults.db");
 
-                if (!File.Exists(defaultsDatabasePath) || overwrite)
-                {
-                    logger.LogInformation("Creating defaults database.");
-                    var defaultDatabaseBytes = TwEmbeddedResourceReader.LoadBytes(@"Defaults\defaults.db");
-                    await File.WriteAllBytesAsync(defaultsDatabasePath, defaultDatabaseBytes);
-                }
+                Logger.LogInformation("Creating defaults database.");
+                var defaultDatabaseBytes = TwEmbeddedResourceReader.LoadBytes(@"Defaults\defaults.db");
+                await File.WriteAllBytesAsync(defaultsDatabasePath, defaultDatabaseBytes);
+
                 return defaultsDatabasePath;
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "An error occurred while extracting the default data database.");
+                Logger.LogError(ex, "An error occurred while extracting the default data database.");
             }
             return null;
         }
 
-        public static async Task ApplyAllSeedData(ILogger logger, ITwSharedLocalizationText localizer, UserManager<IdentityUser> userManager, ITwEngine tightEngine, WikiDefaultDataType[] defaultDataTypes)
+        public async Task ApplyAllSeedData(ITwSharedLocalizationText localizer, UserManager<IdentityUser> userManager, ITwEngine tightEngine, WikiDefaultDataType[] defaultDataTypes)
         {
             #region Seed: AdminUser.
 
-            var adminUserId = await ManagedDataStorage.Users.QueryFirstOrDefaultAsync<Guid?>(@"Scripts\Defaults\GetAdminUserId.sql");
+            var adminUserId = await UsersRepository.UsersFactory.QueryFirstOrDefaultAsync<Guid?>(@"Scripts\Defaults\GetAdminUserId.sql");
 
             //Check to see if we already have an admin user. If not, we will create one with a random password.
             try
             {
                 if (adminUserId == null)
                 {
-                    logger.LogWarning($"Admin user with ID {adminUserId} was not found in the identity database. A new admin user will be created.");
+                    Logger.LogWarning($"Admin user with ID {adminUserId} was not found in the identity database. A new admin user will be created.");
 
                     //We couldn't find an admin user, so we will create a new one with a random password.
                     var user = new IdentityUser()
@@ -204,7 +256,7 @@ namespace TightWiki.Repository
                         var result = await userManager.CreateAsync(user, TwPasswordGenerator.Generate(32));
                         if (result.Succeeded)
                         {
-                            logger.LogInformation("Database upgrade user created a new account with password.");
+                            Logger.LogInformation("Database upgrade user created a new account with password.");
 
                             adminUserId = Guid.Parse(await userManager.GetUserIdAsync(user));
 
@@ -212,19 +264,19 @@ namespace TightWiki.Repository
 
                             var claimsToAdd = new List<Claim> { new("firstname", "Database"), new("lastname", "Upgrade") };
 
-                            await SecurityRepository.UpsertUserClaims(userManager, user, claimsToAdd);
+                            await UsersRepository.UpsertUserClaims(userManager, user, claimsToAdd);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "An error occurred while ensuring the existence of an admin user for seeding default wiki pages. Default wiki page seeding will be skipped.");
+                Logger.LogError(ex, "An error occurred while ensuring the existence of an admin user for seeding default wiki pages. Default wiki page seeding will be skipped.");
             }
 
             if (adminUserId == null)
             {
-                logger.LogError("Database upgrade could not find or create an admin user, which is required for seeding default wiki pages. Default wiki page seeding will be skipped.");
+                Logger.LogError("Database upgrade could not find or create an admin user, which is required for seeding default wiki pages. Default wiki page seeding will be skipped.");
                 return;
             }
 
@@ -234,14 +286,14 @@ namespace TightWiki.Repository
 
             if (defaultDataTypes.Contains(WikiDefaultDataType.Configurations))
             {
-                logger.LogInformation("Seeding default configurations.");
+                Logger.LogInformation("Seeding default configurations.");
 
                 try
                 {
-                    var defaultConfigurationGroups = ManagedDataStorage.Defaults.Query<TwDefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurationGroups.sql");
+                    var defaultConfigurationGroups = DefaultsRepository.DefaultsFactory.Query<TwDefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurationGroups.sql");
                     foreach (var defaultConfigurationGroup in defaultConfigurationGroups)
                     {
-                        await ManagedDataStorage.Config.ExecuteAsync(@"Scripts\Defaults\Merge\MergeConfigurationGroup.sql",
+                        await ConfigurationRepository.ConfigFactory.ExecuteAsync(@"Scripts\Defaults\Merge\MergeConfigurationGroup.sql",
                             new
                             {
                                 Name = defaultConfigurationGroup.ConfigurationGroupName,
@@ -251,15 +303,15 @@ namespace TightWiki.Repository
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An error occurred while seeding default configuration groups.");
+                    Logger.LogError(ex, "An error occurred while seeding default configuration groups.");
                 }
 
                 try
                 {
-                    var defaultConfigurations = ManagedDataStorage.Defaults.Query<TwDefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurations.sql");
+                    var defaultConfigurations = DefaultsRepository.DefaultsFactory.Query<TwDefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurations.sql");
                     foreach (var defaultConfiguration in defaultConfigurations)
                     {
-                        await ManagedDataStorage.Config.ExecuteAsync(@"Scripts\Defaults\Merge\MergeConfigurationEntry.sql",
+                        await ConfigurationRepository.ConfigFactory.ExecuteAsync(@"Scripts\Defaults\Merge\MergeConfigurationEntry.sql",
                             new
                             {
                                 Name = defaultConfiguration.ConfigurationEntryName,
@@ -274,7 +326,7 @@ namespace TightWiki.Repository
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An error occurred while seeding default configuration entries.");
+                    Logger.LogError(ex, "An error occurred while seeding default configuration entries.");
                 }
             }
 
@@ -284,13 +336,13 @@ namespace TightWiki.Repository
 
             if (defaultDataTypes.Contains(WikiDefaultDataType.Themes))
             {
-                logger.LogInformation("Seeding default themes.");
+                Logger.LogInformation("Seeding default themes.");
                 try
                 {
-                    var defaultThemes = ManagedDataStorage.Defaults.Query<TwDefaultTheme>(@"Scripts\Defaults\GetDefaultThemes.sql");
+                    var defaultThemes = DefaultsRepository.DefaultsFactory.Query<TwDefaultTheme>(@"Scripts\Defaults\GetDefaultThemes.sql");
                     foreach (var defaultTheme in defaultThemes)
                     {
-                        await ManagedDataStorage.Config.ExecuteAsync(@"Scripts\Defaults\Merge\MergeTheme.sql",
+                        await ConfigurationRepository.ConfigFactory.ExecuteAsync(@"Scripts\Defaults\Merge\MergeTheme.sql",
                             new
                             {
                                 Name = defaultTheme.Name,
@@ -305,7 +357,7 @@ namespace TightWiki.Repository
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An error occurred while seeding default themes.");
+                    Logger.LogError(ex, "An error occurred while seeding default themes.");
                 }
             }
 
@@ -317,7 +369,7 @@ namespace TightWiki.Repository
                 || defaultDataTypes.Contains(WikiDefaultDataType.WikiIncludePages)
                 || defaultDataTypes.Contains(WikiDefaultDataType.WikiBuiltinPages))
             {
-                logger.LogInformation("Seeding default wiki pages.");
+                Logger.LogInformation("Seeding default wiki pages.");
 
                 try
                 {
@@ -328,23 +380,23 @@ namespace TightWiki.Repository
 
                     if (defaultDataTypes.Contains(WikiDefaultDataType.WikiHelpPages))
                     {
-                        defaultWikiPages.AddRange(ManagedDataStorage.Defaults.Query<TwDefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
+                        defaultWikiPages.AddRange(DefaultsRepository.DefaultsFactory.Query<TwDefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
                             new { Namespace = "Wiki Help" }));
                     }
                     if (defaultDataTypes.Contains(WikiDefaultDataType.WikiIncludePages))
                     {
-                        defaultWikiPages.AddRange(ManagedDataStorage.Defaults.Query<TwDefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
+                        defaultWikiPages.AddRange(DefaultsRepository.DefaultsFactory.Query<TwDefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
                             new { Namespace = "Include" }));
                     }
                     if (defaultDataTypes.Contains(WikiDefaultDataType.WikiBuiltinPages))
                     {
-                        defaultWikiPages.AddRange(ManagedDataStorage.Defaults.Query<TwDefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
+                        defaultWikiPages.AddRange(DefaultsRepository.DefaultsFactory.Query<TwDefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
                             new { Namespace = "Builtin" }));
                     }
 
                     foreach (var defaultWikiPage in defaultWikiPages)
                     {
-                        var existingPage = await ManagedDataStorage.Pages.QueryFirstOrDefaultAsync<TwPage>(@"Scripts\Defaults\GetPageByNavigation.sql",
+                        var existingPage = await PageRepository.PagesFactory.QueryFirstOrDefaultAsync<TwPage>(@"Scripts\Defaults\GetPageByNavigation.sql",
                             new { Navigation = defaultWikiPage.Navigation });
 
                         //if (existingPage == null || existingPage.DataHash != defaultWikiPage.DataHash)
@@ -363,13 +415,13 @@ namespace TightWiki.Repository
                                 ModifiedDate = DateTime.UtcNow
                             };
 
-                            await RepositoryHelpers.UpsertPage(tightEngine, localizer, wikiPage, dummySessionState);
+                            await PageRepository.UpsertPage(tightEngine, localizer, wikiPage, dummySessionState);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An error occurred while seeding default wiki help pages.");
+                    Logger.LogError(ex, "An error occurred while seeding default wiki help pages.");
                 }
             }
 
@@ -381,10 +433,10 @@ namespace TightWiki.Repository
             {
                 try
                 {
-                    var defaultFeatureTemplates = ManagedDataStorage.Defaults.Query<TwDefaultFeatureTemplate>(@"Scripts\Defaults\GetDefaultFeatureTemplates.sql");
+                    var defaultFeatureTemplates = DefaultsRepository.DefaultsFactory.Query<TwDefaultFeatureTemplate>(@"Scripts\Defaults\GetDefaultFeatureTemplates.sql");
                     foreach (var defaultFeatureTemplate in defaultFeatureTemplates)
                     {
-                        await ManagedDataStorage.Pages.ExecuteAsync(@"Scripts\Defaults\Merge\MergeFeatureTemplate.sql",
+                        await PageRepository.PagesFactory.ExecuteAsync(@"Scripts\Defaults\Merge\MergeFeatureTemplate.sql",
                             new
                             {
                                 Name = defaultFeatureTemplate.Name,
@@ -397,16 +449,16 @@ namespace TightWiki.Repository
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An error occurred while seeding default feature templates.");
+                    Logger.LogError(ex, "An error occurred while seeding default feature templates.");
                 }
             }
 
             #endregion
         }
 
-        private static async Task ProcessInitializationScript(ILogger logger, Assembly assembly, string fullUpdateScriptPath, string scriptName)
+        private async Task ProcessInitializationScript(ILogger logger, Assembly assembly, string fullUpdateScriptPath, string scriptName)
         {
-            logger.LogInformation($"Executing initialization script: \"{fullUpdateScriptPath}\"");
+            Logger.LogInformation($"Executing initialization script: \"{fullUpdateScriptPath}\"");
 
             //Get the script text.
             using var stream = assembly.GetManifestResourceStream(fullUpdateScriptPath);
@@ -419,7 +471,7 @@ namespace TightWiki.Repository
             string databaseName = scriptNameParts[1];
             //string scriptName = scriptNameParts[2];
 
-            var databaseFactory = ManagedDataStorage.Collection.Single(o => o.Name == databaseName).Factory;
+            var databaseFactory = Databases.Single(o => o.Name.Equals(databaseName, StringComparison.InvariantCultureIgnoreCase)).Factory;
 
             bool shouldExecute = true;
 

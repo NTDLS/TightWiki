@@ -1,28 +1,44 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using NTDLS.SqliteDapperWrapper;
 using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Models;
+using TightWiki.Repository.Extensions;
+using TightWiki.Repository.Helpers;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Repository
 {
-    public class LoggingRepository(ITwConfigurationRepository configurationRepository)
-        : ILoggingRepository
+    public class LoggingRepository
+        : ITwLoggingRepository
     {
+        readonly private ITwConfigurationRepository _configurationRepository;
+        public SqliteManagedFactory LoggingFactory { get; private set; }
+
+        public LoggingRepository(IConfiguration configuration, ITwConfigurationRepository configurationRepository)
+        {
+            _configurationRepository = configurationRepository;
+            var connectionString = configuration.GetDatabaseConnectionString("LoggingConnection", "logging.db");
+            LoggingFactory = new SqliteManagedFactory(connectionString);
+
+            CreateTablesIfNotExist().Wait();
+        }
+
         public async Task PurgeLogs()
         {
-            await ManagedDataStorage.Logging.ExecuteAsync("PurgeLogs.sql");
+            await LoggingFactory.ExecuteAsync("PurgeLogs.sql");
         }
 
         public async Task CreateTablesIfNotExist()
         {
-            if (!ManagedDataStorage.Logging.DoesTableExist("Severity"))
+            if (!LoggingFactory.DoesTableExist("Severity"))
             {
-                await ManagedDataStorage.Logging.ExecuteAsync(@"Scripts\CreateSeverityTable.sql");
+                await LoggingFactory.ExecuteAsync(@"Scripts\CreateSeverityTable.sql");
             }
 
-            if (!ManagedDataStorage.Logging.DoesTableExist("Log"))
+            if (!LoggingFactory.DoesTableExist("Log"))
             {
-                await ManagedDataStorage.Logging.ExecuteAsync(@"Scripts\CreateLogTable.sql");
+                await LoggingFactory.ExecuteAsync(@"Scripts\CreateLogTable.sql");
             }
         }
 
@@ -45,7 +61,7 @@ namespace TightWiki.Repository
                 CreatedDate = DateTime.UtcNow,
             };
 
-            await ManagedDataStorage.Logging.ExecuteAsync("InsertLog.sql", param);
+            await LoggingFactory.ExecuteAsync("InsertLog.sql", param);
         }
 
         /*
@@ -65,13 +81,13 @@ namespace TightWiki.Repository
 
         public async Task<int> GetExceptionCount()
         {
-            return await ManagedDataStorage.Logging.ExecuteScalarAsync<int>("GetExceptionCount.sql");
+            return await LoggingFactory.ExecuteScalarAsync<int>("GetExceptionCount.sql");
         }
 
         public async Task<List<TwLogEntry>> GetLogEntriesPaged(int pageNumber,
             string? orderBy = null, string? orderByDirection = null)
         {
-            var paginationSize = await configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -80,7 +96,7 @@ namespace TightWiki.Repository
             };
 
             var query = RepositoryHelpers.TransposeOrderby("GetLogEntriesPaged.sql", orderBy, orderByDirection);
-            return await ManagedDataStorage.Logging.QueryAsync<TwLogEntry>(query, param);
+            return await LoggingFactory.QueryAsync<TwLogEntry>(query, param);
         }
 
         public async Task<TwLogEntry> GetLogEntryById(int id)
@@ -90,7 +106,7 @@ namespace TightWiki.Repository
                 Id = id
             };
 
-            return await ManagedDataStorage.Logging.QuerySingleAsync<TwLogEntry>("GetLogEntryById.sql", param);
+            return await LoggingFactory.QuerySingleAsync<TwLogEntry>("GetLogEntryById.sql", param);
         }
     }
 }

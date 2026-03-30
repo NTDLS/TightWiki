@@ -1,9 +1,12 @@
-﻿using TightWiki.Plugin.Models;
+﻿using NTDLS.SqliteDapperWrapper;
+using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Interfaces.Repository
 {
     public interface ITwConfigurationRepository
     {
+        SqliteManagedFactory ConfigFactory { get; }
+
         Task<TwConfigurationEntries> GetConfigurationEntryValuesByGroupName(string groupName);
 
         Task<List<TwTheme>> GetAllThemes();
@@ -52,7 +55,5 @@ namespace TightWiki.Plugin.Interfaces.Repository
         Task<int> InsertMenuItem(TwMenuItem menuItem);
 
         #endregion
-
-        Task<List<TwEmoji>> ReloadEmojis(bool preloadAnimatedEmojis, int defaultEmojiHeight);
     }
 }

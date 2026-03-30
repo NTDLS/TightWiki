@@ -10,6 +10,7 @@ using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using TightWiki.Repository;
+using TightWiki.Repository.Helpers;
 using TightWiki.Security;
 using TightWiki.ViewModels.Admin;
 using TightWiki.ViewModels.Utility;
@@ -111,7 +112,7 @@ namespace TightWiki.Controllers
                 {
                     try
                     {
-                        await DatabaseUpgrade.ApplyAllSeedData(_logger, Localizer, _userManager, _tightEngine, [defaultDataType]);
+                        await DatabaseManager.ApplyAllSeedData(Localizer, _userManager, _tightEngine, [defaultDataType]);
 
                         return NotifyOfSuccess(Localize("Restore complete."), model.YesRedirectURL);
 
@@ -1427,7 +1428,7 @@ namespace TightWiki.Controllers
                 if (id.DefaultWhenNull(0) == 0)
                 {
                     model.Id = await ConfigurationRepository.InsertMenuItem(model.ToDataModel());
-                    await WikiConfigurationFactory.ReloadMenu(WikiConfiguration);
+                    await TwConfigurationManager.ReloadMenu(WikiConfiguration);
                     ModelState.Clear();
 
                     return NotifyOfSuccess(Localize("The menu item has been created."), $"/Admin/MenuItem/{model.Id}");
@@ -1435,7 +1436,7 @@ namespace TightWiki.Controllers
                 else
                 {
                     await ConfigurationRepository.UpdateMenuItemById(model.ToDataModel());
-                    await WikiConfigurationFactory.ReloadMenu(WikiConfiguration);
+                    await TwConfigurationManager.ReloadMenu(WikiConfiguration);
                 }
 
                 model.SuccessMessage = Localize("The menu item has been saved.");
@@ -1465,7 +1466,7 @@ namespace TightWiki.Controllers
                 if (model.UserSelection == true)
                 {
                     await ConfigurationRepository.DeleteMenuItemById(id);
-                    await WikiConfigurationFactory.ReloadMenu(WikiConfiguration);
+                    await TwConfigurationManager.ReloadMenu(WikiConfiguration);
                     return NotifyOfSuccess(Localize("The specified menu item has been deleted."), model.YesRedirectURL);
                 }
 
@@ -1579,7 +1580,7 @@ namespace TightWiki.Controllers
                         }
 
                         await ConfigurationRepository.SaveConfigurationEntryValueByGroupAndEntry(fc.GroupName, fc.EntryName, value);
-                        await WikiConfigurationFactory.ReloadAll(WikiConfiguration);
+                        await TwConfigurationManager.ReloadAll(WikiConfiguration);
                     }
 
                     TwCache.ClearCategory(TwCache.Category.Configuration);
@@ -1744,7 +1745,7 @@ namespace TightWiki.Controllers
                 model.Emoji.Id = (int)emoji.Id;
                 ModelState.Clear();
 
-                await WikiConfigurationFactory.ReloadEmojis(WikiConfiguration);
+                await TwConfigurationManager.ReloadEmojis(WikiConfiguration);
 
                 if (nameChanged)
                 {
@@ -1852,7 +1853,7 @@ namespace TightWiki.Controllers
                 }
 
                 await EmojiRepository.UpsertEmoji(emoji);
-                await WikiConfigurationFactory.ReloadEmojis(WikiConfiguration);
+                await TwConfigurationManager.ReloadEmojis(WikiConfiguration);
 
                 return NotifyOfSuccess(Localize("The emoji has been created."), $"/Admin/Emoji/{TwNavigation.Clean(emoji.Name)}");
             }
@@ -1882,7 +1883,7 @@ namespace TightWiki.Controllers
                 if (model.UserSelection == true && emoji != null)
                 {
                     await EmojiRepository.DeleteById(emoji.Id);
-                    await WikiConfigurationFactory.ReloadEmojis(WikiConfiguration);
+                    await TwConfigurationManager.ReloadEmojis(WikiConfiguration);
                     return NotifyOfSuccess(Localize("The specified emoji has been deleted."), model.YesRedirectURL);
                 }
 

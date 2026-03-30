@@ -7,6 +7,8 @@ namespace TightWiki.Plugin.Interfaces
     {
         TwConfiguration WikiConfiguration { get; }
 
+        ITwDatabaseManager DatabaseManager { get; }
+
         ILogger<ITwEngine> Logger { get; }
         ITwMarkupHandler MarkupHandler { get; }
         ITwHeadingHandler HeadingHandler { get; }

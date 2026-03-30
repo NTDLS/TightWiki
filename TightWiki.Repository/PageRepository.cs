@@ -1,22 +1,46 @@
 ﻿using DuoVia.FuzzyStrings;
+using Microsoft.Extensions.Configuration;
 using NTDLS.Helpers;
 using NTDLS.SqliteDapperWrapper;
+using TightWiki.Plugin;
 using TightWiki.Plugin.Caching;
+using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
+using TightWiki.Repository.Extensions;
+using TightWiki.Repository.Helpers;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Repository
 {
-    public class PageRepository(ITwConfigurationRepository configurationRepository)
-        : IPageRepository
+    public class PageRepository
+        : ITwPageRepository
     {
+        readonly private ITwConfigurationRepository _configurationRepository;
+        readonly private ITwStatisticsRepository _statisticsRepository;
+
+        public SqliteManagedFactory PagesFactory { get; private set; }
+        public SqliteManagedFactory DeletedPagesFactory { get; private set; }
+        public SqliteManagedFactory DeletedPageRevisionsFactory { get; private set; }
+
+        public PageRepository(IConfiguration configuration,
+            ITwConfigurationRepository configurationRepository,
+            ITwStatisticsRepository statisticsRepository)
+        {
+            _configurationRepository = configurationRepository;
+            _statisticsRepository = statisticsRepository;
+
+            PagesFactory = new(configuration.GetDatabaseConnectionString("PagesConnection", "pages.db"));
+            DeletedPagesFactory = new(configuration.GetDatabaseConnectionString("DeletedPagesConnection", "deletedpages.db"));
+            DeletedPageRevisionsFactory = new(configuration.GetDatabaseConnectionString("DeletedPageRevisionsConnection", "deletedpagerevisions.db"));
+        }
+
         public async Task<List<TwPage>> AutoCompletePage(string? searchText)
-            => await ManagedDataStorage.Pages.QueryAsync<TwPage>("AutoCompletePage.sql", new { SearchText = searchText ?? string.Empty });
+            => await PagesFactory.QueryAsync<TwPage>("AutoCompletePage.sql", new { SearchText = searchText ?? string.Empty });
 
         public async Task<List<string>> AutoCompleteNamespace(string? searchText)
-            => await ManagedDataStorage.Pages.QueryAsync<string>("AutoCompleteNamespace.sql", new { SearchText = searchText ?? string.Empty });
+            => await PagesFactory.QueryAsync<string>("AutoCompleteNamespace.sql", new { SearchText = searchText ?? string.Empty });
 
         public async Task<TwPage?> GetPageRevisionInfoById(int pageId, int? revision = null)
         {
@@ -26,7 +50,7 @@ namespace TightWiki.Repository
                 Revision = revision
             };
 
-            return await ManagedDataStorage.Pages.QuerySingleOrDefaultAsync<TwPage>("GetPageRevisionInfoById.sql", param);
+            return await PagesFactory.QuerySingleOrDefaultAsync<TwPage>("GetPageRevisionInfoById.sql", param);
         }
 
         public async Task<TwProcessingInstructionCollection> GetPageProcessingInstructionsByPageId(int pageId)
@@ -42,7 +66,7 @@ namespace TightWiki.Repository
 
                 return new TwProcessingInstructionCollection()
                 {
-                    Collection = (await ManagedDataStorage.Pages.QueryAsync<TwProcessingInstruction>("GetPageProcessingInstructionsByPageId.sql", param)).ToList()
+                    Collection = (await PagesFactory.QueryAsync<TwProcessingInstruction>("GetPageProcessingInstructionsByPageId.sql", param)).ToList()
                 };
             })).EnsureNotNull();
         }
@@ -58,14 +82,14 @@ namespace TightWiki.Repository
                     PageId = pageId
                 };
 
-                return await ManagedDataStorage.Pages.QueryAsync<TwPageTag>("GetPageTagsById.sql", param);
+                return await PagesFactory.QueryAsync<TwPageTag>("GetPageTagsById.sql", param);
             })).EnsureNotNull();
         }
 
         public async Task<List<TwPageRevision>> GetPageRevisionsInfoByNavigationPaged(
             string navigation, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
-            pageSize ??= await configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            pageSize ??= await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -74,7 +98,7 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            return await PagesFactory.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
 
@@ -91,7 +115,7 @@ namespace TightWiki.Repository
                 TopCount = topCount
             };
 
-            return await ManagedDataStorage.Pages.QueryAsync<TwPageRevision>("GetTopRecentlyModifiedPagesInfoByUserId.sql", param);
+            return await PagesFactory.QueryAsync<TwPageRevision>("GetTopRecentlyModifiedPagesInfoByUserId.sql", param);
         }
 
         public async Task<string?> GetPageNavigationByPageId(int pageId)
@@ -101,7 +125,7 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            return await ManagedDataStorage.Pages.ExecuteScalarAsync<string>("GetPageNavigationByPageId.sql", param);
+            return await PagesFactory.ExecuteScalarAsync<string>("GetPageNavigationByPageId.sql", param);
         }
 
         public async Task<List<TwPage>> GetTopRecentlyModifiedPagesInfo(int topCount)
@@ -111,12 +135,12 @@ namespace TightWiki.Repository
                 TopCount = topCount
             };
 
-            return await ManagedDataStorage.Pages.QueryAsync<TwPage>("GetTopRecentlyModifiedPagesInfo.sql", param);
+            return await PagesFactory.QueryAsync<TwPage>("GetTopRecentlyModifiedPagesInfo.sql", param);
         }
 
         private async Task<List<TwPageSearchToken>> GetFuzzyPageSearchTokens(List<TwPageToken> tokens, double minimumMatchScore)
         {
-            return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            return await PagesFactory.EphemeralAsync(async o =>
             {
                 var param = new
                 {
@@ -131,7 +155,7 @@ namespace TightWiki.Repository
 
         private async Task<List<TwPageSearchToken>> GetExactPageSearchTokens(List<TwPageToken> tokens, double minimumMatchScore)
         {
-            return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            return await PagesFactory.EphemeralAsync(async o =>
             {
                 var param = new
                 {
@@ -150,7 +174,7 @@ namespace TightWiki.Repository
 
             return (await TwCache.AddOrGetAsync(cacheKey, async () =>
             {
-                var minimumMatchScore = await configurationRepository.Get<float>("Search", "Minimum Match Score");
+                var minimumMatchScore = await _configurationRepository.Get<float>("Search", "Minimum Match Score");
 
                 var searchTokens = searchTerms.Select(o =>
                                     new TwPageToken
@@ -191,14 +215,14 @@ namespace TightWiki.Repository
                 return new List<TwPage>();
             }
 
-            bool allowFuzzyMatching = await configurationRepository.Get<bool>("Search", "Allow Fuzzy Matching");
+            bool allowFuzzyMatching = await _configurationRepository.Get<bool>("Search", "Allow Fuzzy Matching");
             var meteredSearchTokens = await GetMeteredPageSearchTokens(searchTerms, allowFuzzyMatching == true);
             if (meteredSearchTokens.Count == 0)
             {
                 return new List<TwPage>();
             }
 
-            return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            return await PagesFactory.EphemeralAsync(async o =>
             {
                 var param = new
                 {
@@ -218,8 +242,8 @@ namespace TightWiki.Repository
                 return new List<TwPage>();
             }
 
-            pageSize ??= await configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
-            allowFuzzyMatching ??= await configurationRepository.Get<bool>("Search", "Allow Fuzzy Matching");
+            pageSize ??= await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            allowFuzzyMatching ??= await _configurationRepository.Get<bool>("Search", "Allow Fuzzy Matching");
 
             var meteredSearchTokens = await GetMeteredPageSearchTokens(searchTerms, allowFuzzyMatching == true);
             if (meteredSearchTokens.Count == 0)
@@ -227,7 +251,7 @@ namespace TightWiki.Repository
                 return new List<TwPage>();
             }
 
-            return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            return await PagesFactory.EphemeralAsync(async o =>
             {
                 var param = new
                 {
@@ -245,7 +269,7 @@ namespace TightWiki.Repository
 
         public async Task<List<TwRelatedPage>> GetSimilarPagesPaged(int pageId, int similarity, int pageNumber, int? pageSize = null)
         {
-            pageSize ??= await configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            pageSize ??= await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -255,12 +279,12 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return await ManagedDataStorage.Pages.QueryAsync<TwRelatedPage>("GetSimilarPagesPaged.sql", param);
+            return await PagesFactory.QueryAsync<TwRelatedPage>("GetSimilarPagesPaged.sql", param);
         }
 
         public async Task<List<TwRelatedPage>> GetRelatedPagesPaged(int pageId, int pageNumber, int? pageSize = null)
         {
-            pageSize ??= await configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            pageSize ??= await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -269,7 +293,7 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return await ManagedDataStorage.Pages.QueryAsync<TwRelatedPage>("GetRelatedPagesPaged.sql", param);
+            return await PagesFactory.QueryAsync<TwRelatedPage>("GetRelatedPagesPaged.sql", param);
         }
 
         public async Task FlushPageCache(int pageId)
@@ -289,7 +313,7 @@ namespace TightWiki.Repository
                 CreatedDate = DateTime.UtcNow
             };
 
-            await ManagedDataStorage.Pages.ExecuteAsync("InsertPageComment.sql", param);
+            await PagesFactory.ExecuteAsync("InsertPageComment.sql", param);
 
             await FlushPageCache(pageId);
         }
@@ -302,7 +326,7 @@ namespace TightWiki.Repository
                 CommentId = commentId
             };
 
-            await ManagedDataStorage.Pages.ExecuteAsync("DeletePageCommentById.sql", param);
+            await PagesFactory.ExecuteAsync("DeletePageCommentById.sql", param);
 
             await FlushPageCache(pageId);
         }
@@ -316,17 +340,17 @@ namespace TightWiki.Repository
                 CommentId = commentId
             };
 
-            await ManagedDataStorage.Pages.ExecuteAsync("DeletePageCommentByUserAndId.sql", param);
+            await PagesFactory.ExecuteAsync("DeletePageCommentByUserAndId.sql", param);
 
             await FlushPageCache(pageId);
         }
 
         public async Task<int> GetTotalPageCommentCount(int pageId)
-            => await ManagedDataStorage.Pages.ExecuteScalarAsync<int>("GetTotalPageCommentCount.sql", new { PageId = pageId });
+            => await PagesFactory.ExecuteScalarAsync<int>("GetTotalPageCommentCount.sql", new { PageId = pageId });
 
         public async Task<List<TwPageComment>> GetPageCommentsPaged(string navigation, int pageNumber)
         {
-            var paginationSize = await configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Page, [navigation, pageNumber, paginationSize]);
 
@@ -339,7 +363,7 @@ namespace TightWiki.Repository
                     PageSize = paginationSize
                 };
 
-                return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+                return await PagesFactory.EphemeralAsync(async o =>
                 {
                     using var users_db = o.Attach("users.db", "users_db");
                     return await o.QueryAsync<TwPageComment>("GetPageCommentsPaged.sql", param);
@@ -349,7 +373,7 @@ namespace TightWiki.Repository
 
         public async Task<List<TwNonexistentPage>> GetMissingPagesPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null)
         {
-            var paginationSize = await configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -358,7 +382,7 @@ namespace TightWiki.Repository
             };
 
             var query = RepositoryHelpers.TransposeOrderby("GetMissingPagesPaged.sql", orderBy, orderByDirection);
-            return await ManagedDataStorage.Pages.QueryAsync<TwNonexistentPage>(query, param);
+            return await PagesFactory.QueryAsync<TwNonexistentPage>(query, param);
         }
 
         public async Task UpdateSinglePageReference(string pageNavigation, int pageId)
@@ -369,14 +393,14 @@ namespace TightWiki.Repository
                 @PageNavigation = pageNavigation
             };
 
-            await ManagedDataStorage.Pages.ExecuteAsync("UpdateSinglePageReference.sql", param);
+            await PagesFactory.ExecuteAsync("UpdateSinglePageReference.sql", param);
 
             await FlushPageCache(pageId);
         }
 
         public async Task UpdatePageReferences(int pageId, List<TwPageReference> referencesPageNavigations)
         {
-            await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            await PagesFactory.EphemeralAsync(async o =>
             {
                 var param = new
                 {
@@ -392,7 +416,7 @@ namespace TightWiki.Repository
 
         public async Task<List<TwPage>> GetAllPagesByInstructionPaged(int pageNumber, string? instruction = null)
         {
-            var paginationSize = await configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -401,7 +425,7 @@ namespace TightWiki.Repository
                 Instruction = instruction
             };
 
-            return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            return await PagesFactory.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
                 return await o.QueryAsync<TwPage>("GetAllPagesByInstructionPaged.sql", param);
@@ -415,7 +439,7 @@ namespace TightWiki.Repository
                 return new List<int>();
             }
 
-            return await ManagedDataStorage.DeletedPages.EphemeralAsync(async o =>
+            return await DeletedPagesFactory.EphemeralAsync(async o =>
             {
                 var param = new
                 {
@@ -434,7 +458,7 @@ namespace TightWiki.Repository
                 return new List<int>();
             }
 
-            return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            return await PagesFactory.EphemeralAsync(async o =>
             {
                 var param = new
                 {
@@ -449,7 +473,7 @@ namespace TightWiki.Repository
         public async Task<List<TwPage>> GetAllNamespacePagesPaged(int pageNumber, string namespaceName,
             string? orderBy = null, string? orderByDirection = null)
         {
-            var paginationSize = await configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -458,7 +482,7 @@ namespace TightWiki.Repository
                 Namespace = namespaceName
             };
 
-            return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            return await PagesFactory.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
                 var query = RepositoryHelpers.TransposeOrderby("GetAllNamespacePagesPaged.sql", orderBy, orderByDirection);
@@ -473,7 +497,7 @@ namespace TightWiki.Repository
         public async Task<List<TwPage>> GetAllPagesPaged(int pageNumber,
             string? orderBy = null, string? orderByDirection = null, List<string>? searchTerms = null)
         {
-            var paginationSize = await configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -485,7 +509,7 @@ namespace TightWiki.Repository
             {
                 var pageIds = await GetPageIdsByTokens(searchTerms);
 
-                return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+                return await PagesFactory.EphemeralAsync(async o =>
                 {
                     using var users_db = o.Attach("users.db", "users_db");
                     using var deletedpagerevisions_db = o.Attach("deletedpagerevisions.db", "deletedpagerevisions_db");
@@ -496,7 +520,7 @@ namespace TightWiki.Repository
                 });
             }
 
-            return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            return await PagesFactory.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
                 using var deletedpagerevisions_db = o.Attach("deletedpagerevisions.db", "deletedpagerevisions_db");
@@ -513,7 +537,7 @@ namespace TightWiki.Repository
         public async Task<List<TwPage>> GetAllDeletedPagesPaged(int pageNumber, string? orderBy = null,
             string? orderByDirection = null, List<string>? searchTerms = null)
         {
-            var paginationSize = await configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -524,7 +548,7 @@ namespace TightWiki.Repository
             if (searchTerms?.Count > 0)
             {
                 var pageIds = await GetDeletedPageIdsByTokens(searchTerms);
-                return await ManagedDataStorage.DeletedPages.EphemeralAsync(async o =>
+                return await DeletedPagesFactory.EphemeralAsync(async o =>
                 {
                     using var users_db = o.Attach("users.db", "users_db");
                     using var tempTable = o.CreateTempTableFrom("TempPageIds", pageIds);
@@ -534,7 +558,7 @@ namespace TightWiki.Repository
                 });
             }
 
-            return await ManagedDataStorage.DeletedPages.EphemeralAsync(async o =>
+            return await DeletedPagesFactory.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
                 var query = RepositoryHelpers.TransposeOrderby("GetAllDeletedPagesPaged.sql", orderBy, orderByDirection);
@@ -544,7 +568,7 @@ namespace TightWiki.Repository
 
         public async Task<List<TwNamespaceStat>> GetAllNamespacesPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null)
         {
-            var paginationSize = await configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -554,29 +578,29 @@ namespace TightWiki.Repository
 
             var query = RepositoryHelpers.TransposeOrderby("GetAllNamespacesPaged.sql", orderBy, orderByDirection);
 
-            return await ManagedDataStorage.Pages.QueryAsync<TwNamespaceStat>(query, param);
+            return await PagesFactory.QueryAsync<TwNamespaceStat>(query, param);
         }
 
         public async Task<List<string>> GetAllNamespaces()
-            => await ManagedDataStorage.Pages.QueryAsync<string>("GetAllNamespaces.sql");
+            => await PagesFactory.QueryAsync<string>("GetAllNamespaces.sql");
 
         public async Task<List<TwPage>> GetAllPages()
-            => await ManagedDataStorage.Pages.QueryAsync<TwPage>("GetAllPages.sql");
+            => await PagesFactory.QueryAsync<TwPage>("GetAllPages.sql");
 
         public async Task<List<TwPage>> GetAllTemplatePages()
-            => await ManagedDataStorage.Pages.QueryAsync<TwPage>("GetAllTemplatePages.sql");
+            => await PagesFactory.QueryAsync<TwPage>("GetAllTemplatePages.sql");
 
         public async Task<List<TwFeatureTemplate>> GetAllFeatureTemplates()
         {
             return (await TwCache.AddOrGetAsync(TwCacheKeyFunction.Build(TwCache.Category.Configuration), async () =>
             {
-                return (await ManagedDataStorage.Pages.QueryAsync<TwFeatureTemplate>("GetAllFeatureTemplates.sql")).ToList();
+                return (await PagesFactory.QueryAsync<TwFeatureTemplate>("GetAllFeatureTemplates.sql")).ToList();
             })).EnsureNotNull();
         }
 
         public async Task UpdatePageProcessingInstructions(int pageId, List<string> instructions)
         {
-            await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            await PagesFactory.EphemeralAsync(async o =>
             {
                 var param = new
                 {
@@ -602,13 +626,13 @@ namespace TightWiki.Repository
                     Revision = revision
                 };
 
-                return await ManagedDataStorage.Pages.QuerySingleOrDefaultAsync<TwPage>("GetPageRevisionById.sql", param);
+                return await PagesFactory.QuerySingleOrDefaultAsync<TwPage>("GetPageRevisionById.sql", param);
             });
         }
 
         public async Task SavePageSearchTokens(List<TwPageToken> items)
         {
-            await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            await PagesFactory.EphemeralAsync(async o =>
             {
                 using var tempTable = o.CreateTempTableFrom("TempTokens", items.Distinct());
                 return await o.QueryAsync<TwPage>("SavePageSearchTokens.sql");
@@ -623,7 +647,7 @@ namespace TightWiki.Repository
             }
             else
             {
-                await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+                await PagesFactory.EphemeralAsync(async o =>
                 {
                     var transaction = o.BeginTransaction();
                     try
@@ -649,7 +673,7 @@ namespace TightWiki.Repository
                     PageId = pageId,
                 };
 
-                return await ManagedDataStorage.Pages.ExecuteScalarAsync<int>("GetCurrentPageRevision.sql", param);
+                return await PagesFactory.ExecuteScalarAsync<int>("GetCurrentPageRevision.sql", param);
             });
         }
 
@@ -678,14 +702,124 @@ namespace TightWiki.Repository
                     Revision = revision
                 };
 
-                return await ManagedDataStorage.Pages.QuerySingleOrDefaultAsync<TwPage>("GetLimitedPageInfoByIdAndRevision.sql", param);
+                return await PagesFactory.QuerySingleOrDefaultAsync<TwPage>("GetLimitedPageInfoByIdAndRevision.sql", param);
             });
+        }
+
+        /// <summary>
+        /// Inserts a new page if Page.Id == 0, other wise updates the page. All metadata is written to the database.
+        /// </summary>
+        public async Task<int> UpsertPage(ITwEngine wikifier, ITwSharedLocalizationText localizer, TwPage page, ITwSessionState? sessionState = null)
+        {
+            bool isNewlyCreated = page.Id == 0;
+
+            page.Id = await SavePage(page);
+
+            await RefreshPageMetadata(wikifier, localizer, page, sessionState);
+
+            if (isNewlyCreated)
+            {
+                //This will update the PageId of references that have been saved to the navigation link.
+                await UpdateSinglePageReference(page.Navigation, page.Id);
+            }
+
+            return page.Id;
+        }
+
+        /// <summary>
+        /// Rebuilds the page and writes all aspects to the database.
+        /// </summary>
+        /// <param name="sessionState"></param>
+        /// <param name="query"></param>
+        /// <param name="page"></param>
+        public async Task RefreshPageMetadata(ITwEngine wikifier, ITwSharedLocalizationText localizer, TwPage page, ITwSessionState? sessionState = null)
+        {
+            //We omit function calls from the tokenization process because they are too dynamic for static searching.
+            var state = await wikifier.Transform(localizer, sessionState, page, null, [WikiMatchType.StandardFunction]);
+
+            await UpdatePageTags(page.Id, state.Tags);
+            await UpdatePageProcessingInstructions(page.Id, state.ProcessingInstructions);
+
+            var pageTokens = (await ParsePageTokens( state)).Select(o =>
+                      new TwPageToken
+                      {
+                          PageId = page.Id,
+                          Token = o.Token,
+                          DoubleMetaphone = o.DoubleMetaphone,
+                          Weight = o.Weight
+                      }).ToList();
+
+            await SavePageSearchTokens(pageTokens);
+            await UpdatePageReferences(page.Id, state.OutgoingLinks);
+
+            TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.Page, [page.Id]));
+            TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.Page, [page.Navigation]));
+        }
+
+        public async Task<List<TwAggregatedSearchToken>> ParsePageTokens(ITwEngineState state)
+        {
+            var parsedTokens = new List<WeightedSearchToken>();
+
+            parsedTokens.AddRange(await ComputeParsedPageTokens( state.HtmlResult, 1));
+            parsedTokens.AddRange(await ComputeParsedPageTokens( state.Page.Description, 1.2));
+            parsedTokens.AddRange(await ComputeParsedPageTokens( string.Join(" ", state.Tags), 1.4));
+            parsedTokens.AddRange(await ComputeParsedPageTokens( state.Page.Name, 1.6));
+
+            var aggregatedTokens = parsedTokens.GroupBy(o => o.Token).Select(o => new TwAggregatedSearchToken
+            {
+                Token = o.Key,
+                DoubleMetaphone = o.Key.ToDoubleMetaphone(),
+                Weight = o.Sum(g => g.Weight)
+            }).ToList();
+
+            return aggregatedTokens;
+        }
+
+        internal async Task<List<WeightedSearchToken>> ComputeParsedPageTokens(string content, double weightMultiplier)
+        {
+            var searchConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
+
+            var exclusionWords = searchConfig?.Value<string>("Word Exclusions")?
+                .Split([',', ';'], StringSplitOptions.RemoveEmptyEntries).Distinct() ?? new List<string>();
+            var strippedContent = Html.StripHtml(content);
+
+            var tokens = strippedContent.Split([' ', '\n', '\t', '-', '_']).ToList();
+
+            if (searchConfig?.Value<bool>("Split Camel Case") == true)
+            {
+                var allSplitTokens = new List<string>();
+
+                foreach (var token in tokens)
+                {
+                    var splitTokens = Text.SplitCamelCase(token);
+                    if (splitTokens.Count > 1)
+                    {
+                        splitTokens.ForEach(t => allSplitTokens.Add(t));
+                    }
+                }
+
+                tokens.AddRange(allSplitTokens);
+            }
+
+            tokens = tokens.ConvertAll(d => d.ToLowerInvariant());
+
+            tokens.RemoveAll(o => exclusionWords.Contains(o));
+
+            var searchTokens = (from w in tokens
+                                group w by w into g
+                                select new WeightedSearchToken
+                                {
+                                    Token = g.Key,
+                                    Weight = g.Count() * weightMultiplier
+                                }).ToList();
+
+            return searchTokens.Where(o => string.IsNullOrWhiteSpace(o.Token) == false).ToList();
         }
 
         /// <summary>
         /// Creates a new page or updates an existing page and its revision history in the data store.
         /// 
-        /// DO NOT USE DIRECLTY: Use RepositoryHelpers.UpsertPage() instead.
+        /// DO NOT USE DIRECLTY: Use UpsertPage() instead.
         /// </summary>
         /// <remarks>If the page content or metadata has changed, a new revision is created and all
         /// attachments are associated with the latest revision. The method automatically manages transaction handling
@@ -693,7 +827,7 @@ namespace TightWiki.Repository
         /// <param name="page">The page to create or update. The page's properties determine whether a new page is created or an existing
         /// page is updated. Cannot be null.</param>
         /// <returns>The unique identifier of the created or updated page.</returns>
-        internal async Task<int> SavePage(TwPage page)
+        private async Task<int> SavePage(TwPage page)
         {
             var pageUpsertParam = new
             {
@@ -711,7 +845,7 @@ namespace TightWiki.Repository
 
             var newDataHash = Security.Helpers.Crc32(page.Body ?? string.Empty);
 
-            await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            await PagesFactory.EphemeralAsync(async o =>
             {
                 var transaction = o.BeginTransaction();
 
@@ -806,7 +940,7 @@ namespace TightWiki.Repository
                     Navigation = navigation
                 };
 
-                return await ManagedDataStorage.Pages.QuerySingleOrDefaultAsync<TwPage?>("GetPageInfoByNavigation.sql", param);
+                return await PagesFactory.QuerySingleOrDefaultAsync<TwPage?>("GetPageInfoByNavigation.sql", param);
             });
         }
 
@@ -819,7 +953,7 @@ namespace TightWiki.Repository
                     PageId = pageId
                 };
 
-                return await ManagedDataStorage.Pages.ExecuteScalarAsync<int>("GetPageRevisionCountByNavigation.sql", param);
+                return await PagesFactory.ExecuteScalarAsync<int>("GetPageRevisionCountByNavigation.sql", param);
             });
         }
 
@@ -830,7 +964,7 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            await PagesFactory.EphemeralAsync(async o =>
             {
                 var transaction = o.BeginTransaction();
                 try
@@ -859,7 +993,7 @@ namespace TightWiki.Repository
                 DeletedDate = DateTime.UtcNow
             };
 
-            await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            await PagesFactory.EphemeralAsync(async o =>
             {
                 var transaction = o.BeginTransaction();
                 try
@@ -887,7 +1021,7 @@ namespace TightWiki.Repository
                 DeletedDate = DateTime.UtcNow
             };
 
-            await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            await PagesFactory.EphemeralAsync(async o =>
             {
                 var transaction = o.BeginTransaction();
                 try
@@ -896,8 +1030,9 @@ namespace TightWiki.Repository
 
                     await o.ExecuteAsync("MovePageToDeletedById.sql", param);
                     transaction.Commit();
-                    await ManagedDataStorage.Statistics.ExecuteAsync("DeletePageStatisticsByPageId.sql", param);
+                    await _statisticsRepository.DeletePageStatisticsByPageId(pageId);
                 }
+
                 catch
                 {
                     transaction.Rollback();
@@ -915,7 +1050,7 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            await ManagedDataStorage.DeletedPages.ExecuteAsync("PurgeDeletedPageByPageId.sql", param);
+            await DeletedPagesFactory.ExecuteAsync("PurgeDeletedPageByPageId.sql", param);
 
             await PurgeDeletedPageRevisionsByPageId(pageId);
 
@@ -924,7 +1059,7 @@ namespace TightWiki.Repository
 
         public async Task PurgeDeletedPages()
         {
-            await ManagedDataStorage.DeletedPages.ExecuteAsync("PurgeDeletedPages.sql");
+            await DeletedPagesFactory.ExecuteAsync("PurgeDeletedPages.sql");
 
             await PurgeDeletedPageRevisions();
         }
@@ -936,7 +1071,7 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            return await ManagedDataStorage.Pages.ExecuteScalarAsync<int>("GetCountOfPageAttachmentsById.sql", param);
+            return await PagesFactory.ExecuteScalarAsync<int>("GetCountOfPageAttachmentsById.sql", param);
         }
 
         public async Task<TwPage?> GetDeletedPageById(int pageId)
@@ -946,7 +1081,7 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            return await ManagedDataStorage.DeletedPages.EphemeralAsync(async o =>
+            return await DeletedPagesFactory.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
                 return await o.QuerySingleOrDefaultAsync<TwPage>("GetDeletedPageById.sql", param);
@@ -960,7 +1095,7 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            return await PagesFactory.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
                 return await o.QuerySingleOrDefaultAsync<TwPage>("GetLatestPageRevisionById.sql", param);
@@ -975,7 +1110,7 @@ namespace TightWiki.Repository
                 Revision = revision
             };
 
-            return await ManagedDataStorage.Pages.ExecuteScalarAsync<int>("GetPageNextRevision.sql", param);
+            return await PagesFactory.ExecuteScalarAsync<int>("GetPageNextRevision.sql", param);
         }
 
         public async Task<int> GetPagePreviousRevision(int pageId, int revision)
@@ -986,13 +1121,13 @@ namespace TightWiki.Repository
                 Revision = revision
             };
 
-            return await ManagedDataStorage.Pages.ExecuteScalarAsync<int>("GetPagePreviousRevision.sql", param);
+            return await PagesFactory.ExecuteScalarAsync<int>("GetPagePreviousRevision.sql", param);
         }
 
         public async Task<List<TwDeletedPageRevision>> GetDeletedPageRevisionsByIdPaged(int pageId, int pageNumber,
             string? orderBy = null, string? orderByDirection = null)
         {
-            var paginationSize = await configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -1001,7 +1136,7 @@ namespace TightWiki.Repository
                 PageSize = paginationSize
             };
 
-            return await ManagedDataStorage.DeletedPageRevisions.EphemeralAsync(async o =>
+            return await DeletedPageRevisionsFactory.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
 
@@ -1012,7 +1147,7 @@ namespace TightWiki.Repository
 
         public async Task PurgeDeletedPageRevisions()
         {
-            await ManagedDataStorage.DeletedPageRevisions.ExecuteAsync("PurgeDeletedPageRevisions.sql");
+            await DeletedPageRevisionsFactory.ExecuteAsync("PurgeDeletedPageRevisions.sql");
         }
 
         public async Task PurgeDeletedPageRevisionsByPageId(int pageId)
@@ -1022,7 +1157,7 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            await ManagedDataStorage.DeletedPageRevisions.ExecuteAsync("PurgeDeletedPageRevisionsByPageId.sql", param);
+            await DeletedPageRevisionsFactory.ExecuteAsync("PurgeDeletedPageRevisionsByPageId.sql", param);
 
             await FlushPageCache(pageId);
         }
@@ -1035,7 +1170,7 @@ namespace TightWiki.Repository
                 Revision = revision
             };
 
-            await ManagedDataStorage.DeletedPageRevisions.ExecuteAsync("PurgeDeletedPageRevisionByPageIdAndRevision.sql", param);
+            await DeletedPageRevisionsFactory.ExecuteAsync("PurgeDeletedPageRevisionByPageIdAndRevision.sql", param);
 
             await FlushPageCache(pageId);
         }
@@ -1048,7 +1183,7 @@ namespace TightWiki.Repository
                 Revision = revision
             };
 
-            await ManagedDataStorage.DeletedPageRevisions.EphemeralAsync(async o =>
+            await DeletedPageRevisionsFactory.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("pages.db", "pages_db");
                 await o.ExecuteAsync("RestoreDeletedPageRevisionByPageIdAndRevision.sql", param);
@@ -1065,7 +1200,7 @@ namespace TightWiki.Repository
                 Revision = revision
             };
 
-            return await ManagedDataStorage.DeletedPageRevisions.EphemeralAsync(async o =>
+            return await DeletedPageRevisionsFactory.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
                 return await o.QueryFirstOrDefaultAsync<TwDeletedPageRevision>("GetDeletedPageRevisionById.sql", param);
@@ -1080,7 +1215,7 @@ namespace TightWiki.Repository
                 Revision = revision
             };
 
-            return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            return await PagesFactory.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
                 return await o.QuerySingleOrDefaultAsync<TwPage>("GetPageRevisionByNavigation.sql", param);
@@ -1106,7 +1241,7 @@ namespace TightWiki.Repository
 
             return await TwCache.AddOrGetAsync(cacheKey, async () =>
             {
-                return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+                return await PagesFactory.EphemeralAsync(async o =>
                 {
                     using var users_db = o.Attach("users.db", "users_db");
                     return await o.QuerySingleOrDefaultAsync<TwPage>("GetPageRevisionByNavigation.sql", param);
@@ -1123,12 +1258,12 @@ namespace TightWiki.Repository
                 @Tag = tag
             };
 
-            return await ManagedDataStorage.Pages.QueryAsync<TwTagAssociation>("GetAssociatedTags.sql", param);
+            return await PagesFactory.QueryAsync<TwTagAssociation>("GetAssociatedTags.sql", param);
         }
 
         public async Task<List<TwPage>> GetPageInfoByNamespaces(List<string> namespaces)
         {
-            return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            return await PagesFactory.EphemeralAsync(async o =>
             {
                 using var tempTable = o.CreateTempTableFrom("TempNamespaces", namespaces);
                 return await o.QueryAsync<TwPage>("GetPageInfoByNamespaces.sql");
@@ -1139,7 +1274,7 @@ namespace TightWiki.Repository
         {
             var cleanedTags = tags.Select(o => TwNavigation.Clean(o));
 
-            return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            return await PagesFactory.EphemeralAsync(async o =>
             {
                 using var tempTable = o.CreateTempTableFrom("TempTags", cleanedTags);
                 return await o.QueryAsync<TwPage>("GetPageInfoByTags.sql");
@@ -1148,7 +1283,7 @@ namespace TightWiki.Repository
 
         public async Task<List<TwPage>> GetPageInfoByTag(string tag)
         {
-            return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            return await PagesFactory.EphemeralAsync(async o =>
             {
                 using var tempTable = o.CreateTempTableFrom("TempTags", new List<string> { TwNavigation.Clean(tag) });
                 return await o.QueryAsync<TwPage>("GetPageInfoByTags.sql");
@@ -1157,7 +1292,7 @@ namespace TightWiki.Repository
 
         public async Task UpdatePageTags(int pageId, List<string> tags)
         {
-            await ManagedDataStorage.Pages.EphemeralAsync(async o =>
+            await PagesFactory.EphemeralAsync(async o =>
             {
                 var paramTags = tags
                     .Select(o => new
@@ -1174,6 +1309,272 @@ namespace TightWiki.Repository
                 };
 
                 return await o.QueryAsync<TwPage>("UpdatePageTags.sql", param);
+            });
+        }
+
+        #endregion
+
+        #region Page Files.
+
+        public async Task DetachPageRevisionAttachment(string pageNavigation, string fileNavigation, int pageRevision)
+        {
+            var param = new
+            {
+                PageNavigation = pageNavigation,
+                FileNavigation = fileNavigation,
+                PageRevision = pageRevision
+            };
+
+            await PagesFactory.ExecuteAsync("DetachPageRevisionAttachment.sql", param);
+        }
+
+        public async Task<List<TwOrphanedPageAttachment>> GetOrphanedPageAttachmentsPaged(
+            int pageNumber, string? orderBy = null, string? orderByDirection = null)
+        {
+            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+
+            var param = new
+            {
+                PageNumber = pageNumber,
+                PageSize = paginationSize
+            };
+
+            var query = RepositoryHelpers.TransposeOrderby("GetOrphanedPageAttachments.sql", orderBy, orderByDirection);
+            return await PagesFactory.QueryAsync<TwOrphanedPageAttachment>(query, param);
+        }
+
+        public async Task PurgeOrphanedPageAttachments()
+            => await PagesFactory.ExecuteAsync("PurgeOrphanedPageAttachments.sql");
+
+        public async Task PurgeOrphanedPageAttachment(int pageFileId, int revision)
+        {
+            var param = new
+            {
+                PageFileId = pageFileId,
+                Revision = revision
+            };
+            await PagesFactory.ExecuteAsync("PurgeOrphanedPageAttachment.sql", param);
+        }
+
+        public async Task<List<TwPageFileAttachmentInfo>> GetPageFilesInfoByPageNavigationAndPageRevisionPaged(string pageNavigation, int pageNumber, int? pageSize = null, int? pageRevision = null)
+        {
+            pageSize ??= await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+
+            var param = new
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                PageNavigation = pageNavigation,
+                PageRevision = pageRevision
+            };
+            return await PagesFactory.QueryAsync<TwPageFileAttachmentInfo>("GetPageFilesInfoByPageNavigationAndPageRevisionPaged.sql", param);
+        }
+
+        public async Task<TwPageFileAttachmentInfo?> GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null)
+        {
+            var param = new
+            {
+                PageNavigation = pageNavigation,
+                FileNavigation = fileNavigation,
+                PageRevision = pageRevision
+            };
+
+            return await PagesFactory.QuerySingleOrDefaultAsync<TwPageFileAttachmentInfo>("GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation.sql", param);
+        }
+
+        public async Task<TwPageFileAttachment?> GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? fileRevision = null)
+        {
+            var param = new
+            {
+                PageNavigation = pageNavigation,
+                FileNavigation = fileNavigation,
+                FileRevision = fileRevision
+            };
+
+            return await PagesFactory.QuerySingleOrDefaultAsync<TwPageFileAttachment>("GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql", param);
+        }
+
+        public async Task<TwPageFileAttachment?> GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null)
+        {
+            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Page, [pageNavigation, fileNavigation, pageRevision]);
+
+            return await TwCache.AddOrGetAsync(cacheKey, async () =>
+            {
+                var param = new
+                {
+                    PageNavigation = pageNavigation,
+                    FileNavigation = fileNavigation,
+                    PageRevision = pageRevision
+                };
+
+                return await PagesFactory.QuerySingleOrDefaultAsync<TwPageFileAttachment>(
+                    "GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation.sql", param);
+            });
+        }
+
+        public async Task<List<TwPageFileAttachmentInfo>> GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged(string pageNavigation, string fileNavigation, int pageNumber)
+        {
+            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+
+            var param = new
+            {
+                PageNavigation = pageNavigation,
+                FileNavigation = fileNavigation,
+                PageNumber = pageNumber,
+                PageSize = paginationSize
+            };
+
+            return await PagesFactory.EphemeralAsync(async o =>
+            {
+                using var users_db = o.Attach("users.db", "users_db");
+
+                var result = await o.QueryAsync<TwPageFileAttachmentInfo>(
+                    "GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged.sql", param);
+
+                return result;
+            });
+        }
+
+        public async Task<List<TwPageFileAttachmentInfo>> GetPageFilesInfoByPageId(int pageId)
+        {
+            var param = new
+            {
+                PageId = pageId
+            };
+
+            return await PagesFactory.QueryAsync<TwPageFileAttachmentInfo>("GetPageFilesInfoByPageId.sql", param);
+        }
+
+        public async Task<TwPageFileRevisionAttachmentInfo?> GetPageFileInfoByFileNavigation(SqliteManagedInstance connection, int pageId, string fileNavigation)
+        {
+            var param = new
+            {
+                PageId = pageId,
+                Navigation = fileNavigation,
+            };
+
+            return await connection.QuerySingleOrDefaultAsync<TwPageFileRevisionAttachmentInfo>("GetPageFileInfoByFileNavigation.sql", param);
+        }
+
+        public async Task<TwPageFileRevisionAttachmentInfo?> GetPageCurrentRevisionAttachmentByFileNavigation(SqliteManagedInstance connection, int pageId, string fileNavigation)
+        {
+            var param = new
+            {
+                PageId = pageId,
+                Navigation = fileNavigation,
+            };
+
+            return await connection.QuerySingleOrDefaultAsync<TwPageFileRevisionAttachmentInfo>("GetPageCurrentRevisionAttachmentByFileNavigation.sql", param);
+        }
+
+        public async Task UpsertPageFile(TwPageFileAttachment item, Guid userId)
+        {
+            bool hasFileChanged = false;
+
+            await PagesFactory.EphemeralAsync(async o =>
+            {
+                var transaction = o.BeginTransaction();
+
+                try
+                {
+                    var pageFileInfo = await GetPageFileInfoByFileNavigation(o, item.PageId, item.FileNavigation);
+                    if (pageFileInfo == null)
+                    {
+                        //If the page file does not exist, then insert it.
+
+                        var InsertPageFileParam = new
+                        {
+                            PageId = item.PageId,
+                            Name = item.Name,
+                            FileNavigation = item.FileNavigation,
+                            ContentType = item.ContentType,
+                            Size = item.Size,
+                            CreatedDate = item.CreatedDate,
+                            Data = item.Data
+                        };
+
+                        o.Execute("InsertPageFile.sql", InsertPageFileParam);
+
+                        //Get the id of the newly inserted page file.
+                        pageFileInfo = await GetPageFileInfoByFileNavigation(o, item.PageId, item.FileNavigation)
+                                        ?? throw new Exception("Failed find newly inserted page attachment.");
+
+                        hasFileChanged = true;
+                    }
+
+
+                    int currentFileRevision = 0;
+                    var newDataHash = Security.Helpers.Crc32(item.Data);
+
+                    var currentlyAttachedFile = await GetPageCurrentRevisionAttachmentByFileNavigation(o, item.PageId, item.FileNavigation);
+                    if (currentlyAttachedFile != null)
+                    {
+                        //The PageFile exists and a revision of it is attached to this page revision.
+                        //Keep track of the file revision, and determine if the file has changed (via the file hash).
+
+                        currentFileRevision = currentlyAttachedFile.Revision;
+                        hasFileChanged = currentlyAttachedFile.DataHash != newDataHash;
+                    }
+                    else
+                    {
+                        //The file either does not exist or is not attached to the current page revision.
+                        hasFileChanged = true;
+
+                        //We determined earlier that the PageFile does exist, so keep track of the file revision.
+                        currentFileRevision = pageFileInfo.Revision;
+                    }
+
+                    if (hasFileChanged)
+                    {
+                        currentFileRevision++;
+
+                        //Get the current page revision so that we can associate the page file attachment with the current page revision.
+                        int currentPageRevision = await GetCurrentPageRevision(o, item.PageId);
+
+                        var updatePageFileRevisionParam = new
+                        {
+                            PageFileId = pageFileInfo.PageFileId,
+                            FileRevision = currentFileRevision
+                        };
+
+                        //The file has changed (or is newly inserted), bump the file revision.
+                        await o.ExecuteAsync("UpdatePageFileRevision.sql", updatePageFileRevisionParam);
+
+                        var insertPageFileRevisionParam = new
+                        {
+                            PageFileId = pageFileInfo.PageFileId,
+                            ContentType = item.ContentType,
+                            Size = item.Size,
+                            CreatedDate = item.CreatedDate,
+                            CreatedByUserId = userId,
+                            Data = item.Data,
+                            FileRevision = currentFileRevision,
+                            DataHash = newDataHash,
+                        };
+
+                        //Insert the actual file data.
+                        await o.ExecuteAsync("InsertPageFileRevision.sql", insertPageFileRevisionParam);
+
+                        var associatePageFileAttachmentWithPageRevisionParam = new
+                        {
+                            PageId = item.PageId,
+                            PageFileId = pageFileInfo.PageFileId,
+                            PageRevision = currentPageRevision,
+                            FileRevision = currentFileRevision,
+                            PreviousFileRevision = currentlyAttachedFile?.Revision //This is so we can disassociate the previous file revision.
+                        };
+
+                        //Associate the latest version of the file with the latest version of the page.
+                        await o.ExecuteAsync("AssociatePageFileAttachmentWithPageRevision.sql", associatePageFileAttachmentWithPageRevisionParam);
+                    }
+
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
             });
         }
 

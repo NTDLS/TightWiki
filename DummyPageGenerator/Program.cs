@@ -13,7 +13,6 @@ using TightWiki.Engine.Implementation.Handlers;
 using TightWiki.Plugin.Dummy;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Library;
-using TightWiki.Repository;
 
 namespace DummyPageGenerator
 {

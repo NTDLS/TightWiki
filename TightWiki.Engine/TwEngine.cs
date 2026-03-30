@@ -24,6 +24,8 @@ namespace TightWiki.Engine
         public ITwExceptionHandler ExceptionHandler { get; private set; }
         public ITwCompletionHandler CompletionHandler { get; private set; }
 
+        public ITwDatabaseManager DatabaseManager { get; private set; }
+
         public List<TwEngineFunctionModule> EngineModules { get; private set; }
         public List<TwEngineFunctionDescriptor> StandardFunctions { get; private set; }
         public List<TwEngineFunctionDescriptor> ScopeFunctions { get; private set; }
@@ -32,6 +34,7 @@ namespace TightWiki.Engine
 
         public TwEngine(
             TwConfiguration wikiConfiguration,
+            ITwDatabaseManager databaseManager,
             ILogger<ITwEngine> logger,
             ITwMarkupHandler markupHandler,
             ITwHeadingHandler headingHandler,
@@ -43,6 +46,7 @@ namespace TightWiki.Engine
             ITwCompletionHandler completionHandler)
         {
             WikiConfiguration = wikiConfiguration;
+            DatabaseManager = databaseManager;
             Logger = logger;
             MarkupHandler = markupHandler;
             HeadingHandler = headingHandler;

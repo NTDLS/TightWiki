@@ -11,7 +11,6 @@
         public int PageSearchTokens { get; set; }
         public int Users { get; set; }
         public int Profiles { get; set; }
-        public int Exceptions { get; set; }
         public int Namespaces { get; set; }
     }
 }

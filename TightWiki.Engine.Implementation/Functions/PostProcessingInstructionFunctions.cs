@@ -44,7 +44,7 @@ namespace TightWiki.Engine.Implementation.Functions
         public async Task<TwHandlerResult> TagCloud(ITwEngineState state,
             string pageTag, int top = 1000)
         {
-            string html = await TagCloudBuilder.Build(state.Engine.WikiConfiguration.BasePath, pageTag, top);
+            string html = await TwTagCloudBuilder.Build(state.Engine.DatabaseManager.PageRepository, state.Engine.WikiConfiguration.BasePath, pageTag, top);
             return new TwHandlerResult(html);
         }
 
@@ -54,7 +54,7 @@ namespace TightWiki.Engine.Implementation.Functions
         {
             var tokens = searchPhrase.Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
 
-            string html = await SearchCloudBuilder.Build(state.Engine.WikiConfiguration.BasePath, tokens, top);
+            string html = await TwSearchCloudBuilder.Build(state.Engine.DatabaseManager.PageRepository, state.Engine.WikiConfiguration.BasePath, tokens, top);
             return new TwHandlerResult(html);
         }
 

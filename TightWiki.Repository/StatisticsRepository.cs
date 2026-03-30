@@ -1,12 +1,27 @@
-﻿using TightWiki.Plugin.Interfaces.Repository;
+﻿using Microsoft.Extensions.Configuration;
+using NTDLS.SqliteDapperWrapper;
+using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Models;
+using TightWiki.Repository.Extensions;
+using TightWiki.Repository.Helpers;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Repository
 {
-    public class StatisticsRepository(ITwConfigurationRepository configurationRepository)
-        : IStatisticsRepository
+    public class StatisticsRepository
+        : ITwStatisticsRepository
     {
+        readonly private ITwConfigurationRepository _configurationRepository;
+        public SqliteManagedFactory StatisticsFactory { get; private set; }
+
+        public StatisticsRepository(IConfiguration configuration, ITwConfigurationRepository configurationRepository)
+        {
+            _configurationRepository = configurationRepository;
+
+            StatisticsFactory = new SqliteManagedFactory(configuration.GetDatabaseConnectionString("StatisticsConnection", "statistics.db"));
+        }
+
+
         public async Task IncrementPageViewCount(int pageId)
         {
             var param = new
@@ -14,7 +29,7 @@ namespace TightWiki.Repository
                 PageId = pageId,
                 LastCompileDateTime = DateTime.UtcNow //Because the file is not nullable.
             };
-            await ManagedDataStorage.Statistics.ExecuteAsync("IncrementPageViewCount.sql", param);
+            await StatisticsFactory.ExecuteAsync("IncrementPageViewCount.sql", param);
         }
 
         public async Task MergePageCompilationStatistics(int pageId,
@@ -34,19 +49,19 @@ namespace TightWiki.Repository
                 LastBodySize = bodySize
             };
 
-            await ManagedDataStorage.Statistics.ExecuteAsync("MergePageCompilationStatistics.sql", param);
+            await StatisticsFactory.ExecuteAsync("MergePageCompilationStatistics.sql", param);
         }
 
         public async Task<int> GetPageTotalViewCount(int pageId)
-            => await ManagedDataStorage.Statistics.ExecuteScalarAsync<int>("GetPageTotalViewCount.sql", new { PageId = pageId });
+            => await StatisticsFactory.ExecuteScalarAsync<int>("GetPageTotalViewCount.sql", new { PageId = pageId });
 
         public async Task PurgePageStatistics()
-            => await ManagedDataStorage.Statistics.ExecuteAsync("PurgePageStatistics.sql");
+            => await StatisticsFactory.ExecuteAsync("PurgePageStatistics.sql");
 
         public async Task<List<TwPageStatistics>> GetPageStatisticsPaged(
             int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
-            pageSize ??= await configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            pageSize ??= await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -54,7 +69,7 @@ namespace TightWiki.Repository
                 PageNumber = pageNumber
             };
 
-            return await ManagedDataStorage.Statistics.EphemeralAsync(async o =>
+            return await StatisticsFactory.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("pages.db", "pages_db");
 
@@ -62,5 +77,8 @@ namespace TightWiki.Repository
                 return await o.QueryAsync<TwPageStatistics>(query, param);
             });
         }
+
+        public async Task<int> DeletePageStatisticsByPageId(int pageId)
+            => await StatisticsFactory.ExecuteScalarAsync<int>("DeletePageStatisticsByPageId.sql", new { PageId = pageId });
     }
 }

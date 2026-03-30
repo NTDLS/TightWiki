@@ -1,17 +1,18 @@
 ﻿using Microsoft.Extensions.Logging;
+using TightWiki.Plugin.Interfaces.Repository;
 
 namespace TightWiki.Repository
 {
     public class DatabaseLogger
         : ILogger
     {
-        private readonly string _category;
         private readonly LogLevel _minLevel;
+        private readonly ITwLoggingRepository _loggingRepository;
 
-        public DatabaseLogger(string category, LogLevel minLevel)
+        public DatabaseLogger(ITwLoggingRepository loggingRepository, LogLevel minLevel)
         {
-            _category = category;
             _minLevel = minLevel;
+            _loggingRepository = loggingRepository;
         }
 
         public bool IsEnabled(LogLevel logLevel)
@@ -32,7 +33,7 @@ namespace TightWiki.Repository
             {
                 try
                 {
-                    await LoggingRepository.WriteLog(
+                    await _loggingRepository.WriteLog(
                         logLevel,
                         message,
                         exception?.GetBaseException()?.Message,

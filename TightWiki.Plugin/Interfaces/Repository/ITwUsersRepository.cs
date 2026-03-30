@@ -1,14 +1,14 @@
-﻿using NTDLS.Helpers;
-using TightWiki.Plugin;
-using TightWiki.Plugin.Caching;
-using TightWiki.Plugin.Library;
+﻿using Microsoft.AspNetCore.Identity;
+using NTDLS.SqliteDapperWrapper;
+using System.Security.Claims;
 using TightWiki.Plugin.Models;
-using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Plugin.Interfaces.Repository
 {
-    public interface IUsersRepository
+    public interface ITwUsersRepository
     {
+        SqliteManagedFactory UsersFactory { get; }
+
         Task<bool> IsAccountAMemberOfRole(Guid userId, int roleId, bool forceReCache = false);
         Task DeleteRole(int roleId);
         Task<bool> InsertRole(string name, string? description);
@@ -65,5 +65,16 @@ namespace TightWiki.Plugin.Interfaces.Repository
         Task SetAdminPasswordClear();
         Task SetAdminPasswordIsChanged();
         Task SetAdminPasswordIsDefault();
+
+        #region Security.
+
+        /// <summary>
+        /// Detect whether this is the first time the WIKI has ever been run and do some initialization.
+        /// Adds the first user with the email and password contained in Constants.DEFAULTUSERNAME and Constants.DEFAULTPASSWORD
+        /// </summary>
+        void ValidateEncryptionAndCreateAdminUser(UserManager<IdentityUser> userManager);
+        Task UpsertUserClaims(UserManager<IdentityUser> userManager, IdentityUser user, List<Claim> givenClaims);
+
+        #endregion
     }
 }

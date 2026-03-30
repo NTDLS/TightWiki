@@ -1,13 +1,14 @@
 ﻿using System.Text;
+using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Library;
 
-namespace TightWiki.Repository
+namespace TightWiki.Plugin.Engine
 {
-    public static class TagCloudBuilder
+    public static class TwTagCloudBuilder
     {
-        public static async Task<string> Build(string basePath, string seedTag, int? maxCount)
+        public static async Task<string> Build(ITwPageRepository pageRepository, string basePath, string seedTag, int? maxCount)
         {
-            var tags = (await PageRepository.GetAssociatedTags(seedTag))
+            var tags = (await pageRepository.GetAssociatedTags(seedTag))
                 .OrderByDescending(o => o.PageCount)
                 .ToList();
 

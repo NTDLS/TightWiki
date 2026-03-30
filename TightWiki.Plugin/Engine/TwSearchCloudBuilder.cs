@@ -1,13 +1,14 @@
 ﻿using System.Text;
+using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Models;
 
-namespace TightWiki.Repository
+namespace TightWiki.Plugin.Engine
 {
-    public class SearchCloudBuilder
+    public class TwSearchCloudBuilder
     {
-        public static async Task<string> Build(string basePath, List<string> searchTokens, int? maxCount = null)
+        public static async Task<string> Build(ITwPageRepository pageRepository, string basePath, List<string> searchTokens, int? maxCount = null)
         {
-            var pages = (await PageRepository.PageSearch(searchTokens))
+            var pages = (await pageRepository.PageSearch(searchTokens))
                 .OrderByDescending(o => o.Score)
                 .ToList();
 

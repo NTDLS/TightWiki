@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using TightWiki.Plugin;
+using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Library;
 using TightWiki.Repository;
@@ -74,7 +75,7 @@ namespace TightWiki.Controllers
                 var model = new BrowseViewModel()
                 {
                     AssociatedPages = glossaryHtml.ToString(),
-                    TagCloud = await TagCloudBuilder.Build(WikiConfiguration.BasePath, givenCanonical, 100)
+                    TagCloud = await TwTagCloudBuilder.Build(WikiConfiguration.BasePath, givenCanonical, 100)
                 };
 
                 return View(model);

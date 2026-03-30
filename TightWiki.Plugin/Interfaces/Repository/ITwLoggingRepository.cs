@@ -1,10 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
+using NTDLS.SqliteDapperWrapper;
 using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Interfaces.Repository
 {
-    public interface ILoggingRepository
+    public interface ITwLoggingRepository
     {
+        SqliteManagedFactory LoggingFactory { get; }
+
         Task PurgeLogs();
         Task CreateTablesIfNotExist();
         Task WriteException(string? text = null, string? exceptionText = null, string? stackTrace = null);
