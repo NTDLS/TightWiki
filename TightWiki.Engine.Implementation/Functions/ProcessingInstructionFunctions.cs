@@ -7,7 +7,7 @@ using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Engine.Implementation.Functions
 {
-    [TwPluginModule("Processing Instruction Functions", "Built-in processing instruction functions.")]
+    [TwPluginModule("Processing Instruction Functions", "Built-in processing instruction functions.", 1000)]
     public class ProcessingInstructionFunctions
         : ITwPluginModule
     {

@@ -9,7 +9,7 @@ using TightWiki.Plugin.Styler;
 
 namespace TightWiki.Engine.Implementation.Functions
 {
-    [TwPluginModule("Processing Instructions Functions", "Built-in scope functions.")]
+    [TwPluginModule("Processing Instructions Functions", "Built-in scope functions.", 1000)]
     public class ScopeFunctions
         : ITwPluginModule
     {

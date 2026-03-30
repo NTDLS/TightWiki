@@ -9,7 +9,7 @@ namespace TightWiki.Engine.Implementation.Handlers
     /// <summary>
     /// Handles wiki completion events.
     /// </summary>
-    [TwPluginModule("Default completion handler", "Handles wiki completion events.")]
+    [TwPluginModule("Default completion handler", "Handles wiki completion events.", 1000)]
     public class CompletionHandler
         : ITwCompletionHandler
     {

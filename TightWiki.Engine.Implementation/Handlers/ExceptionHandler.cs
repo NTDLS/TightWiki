@@ -10,7 +10,7 @@ namespace TightWiki.Engine.Implementation.Handlers
     /// <summary>
     /// Handles exceptions thrown by the wiki engine.
     /// </summary>
-    [TwPluginModule("Default exception handler", "Handles exceptions thrown by the wiki engine.")]
+    [TwPluginModule("Default exception handler", "Handles exceptions thrown by the wiki engine.", 1000)]
     public class ExceptionHandler
         : ITwExceptionHandler
     {

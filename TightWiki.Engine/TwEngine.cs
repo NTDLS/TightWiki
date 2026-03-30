@@ -88,8 +88,6 @@ namespace TightWiki.Engine
 
             CommentHandlers = BuildHandlerDescriptors<TwCommentHandlerAttribute>(EngineModules)
                 .Select(o => new TwCommentHandlerDescriptor(o.EngineModule, o.Method, o.Attribute)).ToList();
-
-
         }
 
         private static List<TwEngineFunctionDescriptor> BuildFunctionDescriptors<TFunctionAttribute>(List<TwEnginePluginModule> pluginModules)
@@ -106,7 +104,7 @@ namespace TightWiki.Engine
                     PluginAttribute = x.Method.DeclaringType?.GetCustomAttribute<TwPluginModuleAttribute>(),
                     Attribute = x.Method.GetCustomAttribute<TFunctionAttribute>()
                 })
-                .Where(x => x.Attribute != null)
+                .Where(x => x.Attribute != null && x.PluginAttribute != null)
                 .Select(x =>
                 {
                     if (x.PluginAttribute == null)
@@ -115,7 +113,7 @@ namespace TightWiki.Engine
                         throw new InvalidOperationException($"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
                     return x;
                 })
-                .Select(x => new TwEngineFunctionDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull()))
+                .Select(x => new TwEngineFunctionDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull(), x.PluginAttribute.EnsureNotNull()))
                 .ToList();
         }
 
@@ -133,7 +131,7 @@ namespace TightWiki.Engine
                     PluginAttribute = x.Method.DeclaringType?.GetCustomAttribute<TwPluginModuleAttribute>(),
                     Attribute = x.Method.GetCustomAttribute<TFunctionAttribute>()
                 })
-                .Where(x => x.Attribute != null)
+                .Where(x => x.Attribute != null && x.PluginAttribute != null)
                 .Select(x =>
                 {
                     if (x.PluginAttribute == null)
@@ -142,7 +140,7 @@ namespace TightWiki.Engine
                         throw new InvalidOperationException($"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
                     return x;
                 })
-                .Select(x => new TwEngineHandlerDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull()))
+                .Select(x => new TwEngineHandlerDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull(), x.PluginAttribute.EnsureNotNull()))
                 .ToList();
         }
 

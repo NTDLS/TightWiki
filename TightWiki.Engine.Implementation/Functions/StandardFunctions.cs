@@ -13,7 +13,7 @@ using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Engine.Implementation.Functions
 {
-    [TwPluginModule("Standard Functions", "Built-in standard functions.")]
+    [TwPluginModule("Standard Functions", "Built-in standard functions.", 1000)]
     public class StandardFunctions
         : ITwPluginModule
     {

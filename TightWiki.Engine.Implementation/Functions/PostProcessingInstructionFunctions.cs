@@ -8,7 +8,7 @@ using TightWiki.Plugin.Models;
 
 namespace TightWiki.Engine.Implementation.Functions
 {
-    [TwPluginModule("Post Processing Instruction Functions", "Built-in post processing instruction functions.")]
+    [TwPluginModule("Post Processing Instruction Functions", "Built-in post processing instruction functions.", 1000)]
     public class PostProcessingInstructionFunctions
         : ITwPluginModule
     {

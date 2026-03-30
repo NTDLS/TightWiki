@@ -5,12 +5,14 @@
     : Attribute
     {
         public string FriendlyName { get; }
-        public string? Description { get; }
+        public string Description { get; }
+        public int Order { get; }
 
-        public TwPluginModuleAttribute(string friendlyName, string? description = null)
+        public TwPluginModuleAttribute(string friendlyName, string description, int order)
         {
             FriendlyName = friendlyName;
             Description = description;
+            Order = order;
         }
     }
 }

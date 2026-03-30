@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Functions;
 
 namespace TightWiki.Plugin.Engine.Function
@@ -17,6 +18,12 @@ namespace TightWiki.Plugin.Engine.Function
         public ITwHandlerDescriptorAttribute Attribute { get; }
 
         /// <summary>
+        /// The attribute of the module that contains the function, containing information
+        /// such as the module name, description, and the order of execution of the module in relation to other modules.
+        /// </summary>
+        public TwPluginModuleAttribute ModuleAttribute { get; }
+
+        /// <summary>
         /// List of functiont that the function accepts, containing information such as the parameter type and name.
         /// Same as method.GetParameters().ToList(), but done here to avoid having to call GetParameters() multiple times, which can be expensive.
         /// </summary>
@@ -29,9 +36,11 @@ namespace TightWiki.Plugin.Engine.Function
         /// </summary>
         public TwEnginePluginModule EngineModule { get; }
 
-        public TwEngineHandlerDescriptor(TwEnginePluginModule engineModule, MethodInfo method, ITwHandlerDescriptorAttribute attribute)
+        public TwEngineHandlerDescriptor(TwEnginePluginModule engineModule, MethodInfo method,
+            ITwHandlerDescriptorAttribute attribute, TwPluginModuleAttribute moduleAttribute)
         {
             EngineModule = engineModule;
+            ModuleAttribute = moduleAttribute;
             Method = method;
             Attribute = attribute;
             Parameters = method.GetParameters().ToList();
