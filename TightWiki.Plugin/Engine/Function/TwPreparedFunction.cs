@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using TightWiki.Plugin.Attributes;
+using TightWiki.Plugin.Attributes.Functions;
 using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Plugin.Engine.Function

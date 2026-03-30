@@ -1,5 +1,6 @@
 ﻿using TightWiki.Plugin;
 using TightWiki.Plugin.Attributes;
+using TightWiki.Plugin.Attributes.Functions;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Handlers;
@@ -19,6 +20,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="key">The lookup key for the given emoji.</param>
         /// <param name="scale">The desired 1-100 scale factor for the emoji.</param>
+        [TwEmojiHandler("Default emoji handler", "Handles wiki emojis.")]
         public async Task<TwHandlerResult> Handle(ITwEngineState state, string key, int scale)
         {
             var emoji = state.Engine.WikiConfiguration.Emojis.FirstOrDefault(o => o.Shortcut == key);

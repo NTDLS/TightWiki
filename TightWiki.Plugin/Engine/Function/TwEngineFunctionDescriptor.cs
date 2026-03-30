@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using TightWiki.Plugin.Attributes;
+using TightWiki.Plugin.Attributes.Functions;
 
 namespace TightWiki.Plugin.Engine.Function
 {

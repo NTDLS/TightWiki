@@ -3,6 +3,7 @@ using NTDLS.Helpers;
 using System.Reflection;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Attributes;
+using TightWiki.Plugin.Attributes.Functions;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Engine.Function;
 using TightWiki.Plugin.Interfaces;
@@ -89,6 +90,38 @@ namespace TightWiki.Engine
                 .Select(x => new TwEngineFunctionDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull()))
                 .ToList();
         }
+
+        /*
+        private static List<TwEngineHandlerDescriptor> BuildhanderDescriptors<TFunctionAttribute>(
+    List<TwEngineFunctionModule> pluginModules)
+    where TFunctionAttribute : Attribute, ITwHandlerDescriptorAttribute
+        {
+            return pluginModules
+                .SelectMany(module => module.DeclaringType
+                    .GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                    .Select(m => new { Method = m, Module = module }))
+                .Select(x => new
+                {
+                    x.Method,
+                    x.Module,
+                    PluginAttribute = x.Method.DeclaringType?.GetCustomAttribute<TwPluginModuleAttribute>(),
+                    Attribute = x.Method.GetCustomAttribute<TFunctionAttribute>()
+                })
+                .Where(x => x.Attribute != null)
+                .Select(x =>
+                {
+                    if (x.PluginAttribute == null)
+                        throw new InvalidOperationException(
+                            $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must belong to a class decorated with TwPluginModuleAttribute.");
+                    if (x.Method.ReturnType != typeof(Task<TwHandlerResult>))
+                        throw new InvalidOperationException(
+                            $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
+                    return x;
+                })
+                .Select(x => new TwEngineHandlerDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull()))
+                .ToList();
+        }
+*/
 
         /// <summary>
         /// Transforms the content for the given page.

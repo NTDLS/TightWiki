@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Text;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Attributes;
+using TightWiki.Plugin.Attributes.Functions;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Repository;

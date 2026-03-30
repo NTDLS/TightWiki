@@ -1,5 +1,6 @@
 ﻿using TightWiki.Plugin;
 using TightWiki.Plugin.Attributes;
+using TightWiki.Plugin.Attributes.Functions;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Handlers;
@@ -23,6 +24,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// <param name="linkText">The text which should be show in the absence of an image.</param>
         /// <param name="image">The image that should be shown.</param>
         /// <param name="imageScale">The 0-100 image scale factor for the given image.</param>
+        [TwInternalLinkHandler("Default internal link handler", "Handles links from one wiki page to another.")]
         public async Task<TwHandlerResult> Handle(ITwEngineState state, TwNamespaceNavigation pageNavigation,
             string pageName, string linkText, string? image, int imageScale)
         {

@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Plugin.Attributes
+﻿namespace TightWiki.Plugin.Attributes.Functions
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class TwScopeFunctionAttribute
