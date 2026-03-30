@@ -1,10 +1,11 @@
 ﻿using NTDLS.Helpers;
 using System.Reflection;
 using System.Text;
-using TightWiki.Library;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Attributes;
+using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using TightWiki.Repository;
 using static TightWiki.Plugin.TwConstants;
@@ -115,7 +116,7 @@ namespace TightWiki.Engine.Implementation.Functions
 
             if (profiles.Count > 0 && profiles.First().PaginationPageCount > 1)
             {
-                html.Append(PageSelectorGenerator.Generate(state.QueryString, profiles.First().PaginationPageCount, refTag));
+                html.Append(TwPageSelectorGenerator.Generate(state.QueryString, profiles.First().PaginationPageCount, refTag));
             }
 
             return new TwHandlerResult(html.ToString());
@@ -158,7 +159,7 @@ namespace TightWiki.Engine.Implementation.Functions
 
                 if (pageSelector && attachments.Count > 0 && attachments.First().PaginationPageCount > 1)
                 {
-                    html.Append(PageSelectorGenerator.Generate(state.QueryString, attachments.First().PaginationPageCount, refTag));
+                    html.Append(TwPageSelectorGenerator.Generate(state.QueryString, attachments.First().PaginationPageCount, refTag));
                 }
             }
 
@@ -194,7 +195,7 @@ namespace TightWiki.Engine.Implementation.Functions
                         var thisRev = await PageRepository.GetPageRevisionByNavigation(state.Page.Navigation, item.Revision);
                         var prevRev = await PageRepository.GetPageRevisionByNavigation(state.Page.Navigation, item.Revision - 1);
 
-                        var summaryText = Differentiator.GetComparisonSummary(thisRev?.Body ?? string.Empty, prevRev?.Body ?? string.Empty);
+                        var summaryText = TwDifferentiator.GetComparisonSummary(thisRev?.Body ?? string.Empty, prevRev?.Body ?? string.Empty);
 
                         if (summaryText.Length > 0)
                         {
@@ -207,7 +208,7 @@ namespace TightWiki.Engine.Implementation.Functions
 
                 if (pageSelector && revisions.Count > 0 && revisions.First().PaginationPageCount > 1)
                 {
-                    html.Append(PageSelectorGenerator.Generate(state.QueryString, revisions.First().PaginationPageCount, refTag));
+                    html.Append(TwPageSelectorGenerator.Generate(state.QueryString, revisions.First().PaginationPageCount, refTag));
                 }
             }
 
@@ -715,7 +716,7 @@ namespace TightWiki.Engine.Implementation.Functions
 
             if (pageSelector && (pageNumber > 1 || pages.Count > 0 && pages.First().PaginationPageCount > 1))
             {
-                html.Append(PageSelectorGenerator.Generate(state.QueryString, pages.FirstOrDefault()?.PaginationPageCount ?? 1, refTag));
+                html.Append(TwPageSelectorGenerator.Generate(state.QueryString, pages.FirstOrDefault()?.PaginationPageCount ?? 1, refTag));
             }
 
             return new TwHandlerResult(html.ToString());
@@ -800,7 +801,7 @@ namespace TightWiki.Engine.Implementation.Functions
 
             if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
             {
-                html.Append(PageSelectorGenerator.Generate(state.QueryString, pages.First().PaginationPageCount, refTag));
+                html.Append(TwPageSelectorGenerator.Generate(state.QueryString, pages.First().PaginationPageCount, refTag));
             }
 
             return new TwHandlerResult(html.ToString());
@@ -846,7 +847,7 @@ namespace TightWiki.Engine.Implementation.Functions
 
             if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
             {
-                html.Append(PageSelectorGenerator.Generate(state.QueryString, pages.First().PaginationPageCount, refTag));
+                html.Append(TwPageSelectorGenerator.Generate(state.QueryString, pages.First().PaginationPageCount, refTag));
             }
 
             return new TwHandlerResult(html.ToString());

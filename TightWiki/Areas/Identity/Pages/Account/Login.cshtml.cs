@@ -20,11 +20,11 @@ namespace TightWiki.Areas.Identity.Pages.Account
 {
     public class LoginInputModel
     {
-        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        [Required]
         public string Username { get; set; }
 
-        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
-        [DataType(DataType.Password, ErrorMessageResourceName = "DataTypeAttribute_EmptyDataTypeString", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Display(Name = "Remember me?")]

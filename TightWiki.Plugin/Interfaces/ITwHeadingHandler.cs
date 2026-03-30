@@ -1,4 +1,6 @@
-﻿namespace TightWiki.Plugin.Interfaces
+﻿using TightWiki.Plugin.Engine;
+
+namespace TightWiki.Plugin.Interfaces
 {
     /// <summary>
     /// Handles wiki headings. These are automatically added to the table of contents.

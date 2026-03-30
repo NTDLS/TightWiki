@@ -4,14 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Web;
-using TightWiki.Library;
-using TightWiki.Models.DataModels;
-using TightWiki.Models.ViewModels.File;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Library;
+using TightWiki.Plugin.Models;
 using TightWiki.Repository;
-using static TightWiki.Library.Images;
+using TightWiki.ViewModels.File;
+using static TightWiki.Plugin.Library.TwImages;
 
 namespace TightWiki.Controllers
 {
@@ -50,7 +50,7 @@ namespace TightWiki.Controllers
                 var maxWidth = GetQueryValue<int?>("MaxWidth");
 
                 var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, scale, maxWidth]);
-                if (TwCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
+                if (TwCache.TryGet<TwImageCacheItem>(cacheKey, out var cached))
                 {
                     return File(cached.Bytes, cached.ContentType);
                 }
@@ -102,7 +102,7 @@ namespace TightWiki.Controllers
                             using var image = ResizeImage(img, width, height);
                             using var ms = new MemoryStream();
                             file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
-                            var cacheItem = new ImageCacheItem(ms.ToArray(), file.ContentType);
+                            var cacheItem = new TwImageCacheItem(ms.ToArray(), file.ContentType);
                             TwCache.Set(cacheKey, cacheItem);
                             return File(cacheItem.Bytes, cacheItem.ContentType);
                         }
@@ -118,7 +118,7 @@ namespace TightWiki.Controllers
                         using var image = ResizeImage(img, width, height);
                         using var ms = new MemoryStream();
                         file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
-                        var cacheItem = new ImageCacheItem(ms.ToArray(), file.ContentType);
+                        var cacheItem = new TwImageCacheItem(ms.ToArray(), file.ContentType);
                         TwCache.Set(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
@@ -166,7 +166,7 @@ namespace TightWiki.Controllers
                 var maxWidth = GetQueryValue<int?>("MaxWidth");
 
                 var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, scale, maxWidth]);
-                if (TwCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
+                if (TwCache.TryGet<TwImageCacheItem>(cacheKey, out var cached))
                 {
                     return File(cached.Bytes, cached.ContentType);
                 }
@@ -203,11 +203,11 @@ namespace TightWiki.Controllers
                             width += difference;
                         }
 
-                        using var image = Images.ResizeImage(img, width, height);
+                        using var image = TwImages.ResizeImage(img, width, height);
                         using var ms = new MemoryStream();
                         image.SaveAsPng(ms);
 
-                        var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
+                        var cacheItem = new TwImageCacheItem(ms.ToArray(), "image/png");
                         TwCache.Set(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
@@ -219,11 +219,11 @@ namespace TightWiki.Controllers
                         int width = Math.Max(1, (int)Math.Round(img.Width * widthScale));
                         int height = Math.Max(1, (int)Math.Round(img.Height * widthScale));
 
-                        using var image = Images.ResizeImage(img, width, height);
+                        using var image = TwImages.ResizeImage(img, width, height);
                         using var ms = new MemoryStream();
                         image.SaveAsPng(ms);
 
-                        var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
+                        var cacheItem = new TwImageCacheItem(ms.ToArray(), "image/png");
                         TwCache.Set(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
@@ -232,7 +232,7 @@ namespace TightWiki.Controllers
                         using var ms = new MemoryStream();
                         img.SaveAsPng(ms);
 
-                        var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
+                        var cacheItem = new TwImageCacheItem(ms.ToArray(), "image/png");
                         TwCache.Set(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
@@ -418,7 +418,7 @@ namespace TightWiki.Controllers
                                     CreatedDate = DateTime.UtcNow,
                                     PageId = page.Id,
                                     Name = fileName,
-                                    FileNavigation = Navigation.Clean(fileName),
+                                    FileNavigation = TwNavigation.Clean(fileName),
                                     Size = fileSize,
                                     ContentType = Utility.GetMimeType(fileName)
                                 }, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
@@ -479,7 +479,7 @@ namespace TightWiki.Controllers
                             CreatedDate = DateTime.UtcNow,
                             PageId = page.Id,
                             Name = fileName,
-                            FileNavigation = Navigation.Clean(fileName),
+                            FileNavigation = TwNavigation.Clean(fileName),
                             Size = fileSize,
                             ContentType = Utility.GetMimeType(fileName)
                         }, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
@@ -560,7 +560,7 @@ namespace TightWiki.Controllers
         {
             try
             {
-                var emojiNavigation = Navigation.Clean(givenEmojiNavigation);
+                var emojiNavigation = TwNavigation.Clean(givenEmojiNavigation);
 
                 if (string.IsNullOrEmpty(emojiNavigation) == false)
                 {
@@ -572,7 +572,7 @@ namespace TightWiki.Controllers
                     {
                         //Do we have this scale cached already?
                         var scaledImageCacheKey = TwCacheKey.Build(TwCache.Category.Emoji, [shortcut, givenScale]);
-                        if (TwCache.TryGet<ImageCacheItem>(scaledImageCacheKey, out var cachedEmoji))
+                        if (TwCache.TryGet<TwImageCacheItem>(scaledImageCacheKey, out var cachedEmoji))
                         {
                             return File(cachedEmoji.Bytes, cachedEmoji.ContentType);
                         }
@@ -626,17 +626,17 @@ namespace TightWiki.Controllers
                             if (emoji.MimeType?.ToLowerInvariant() == "image/gif")
                             {
                                 var resized = ResizeGifImage(decompressedImageBytes, Width, Height);
-                                var itemCache = new ImageCacheItem(resized, "image/gif");
+                                var itemCache = new TwImageCacheItem(resized, "image/gif");
                                 TwCache.Set(scaledImageCacheKey, itemCache);
                                 return File(itemCache.Bytes, itemCache.ContentType);
                             }
                             else
                             {
-                                using var image = Images.ResizeImage(img, Width, Height);
+                                using var image = TwImages.ResizeImage(img, Width, Height);
                                 using var ms = new MemoryStream();
                                 image.SaveAsPng(ms);
 
-                                var itemCache = new ImageCacheItem(ms.ToArray(), "image/png");
+                                var itemCache = new TwImageCacheItem(ms.ToArray(), "image/png");
                                 TwCache.Set(scaledImageCacheKey, itemCache);
 
                                 return File(itemCache.Bytes, itemCache.ContentType);

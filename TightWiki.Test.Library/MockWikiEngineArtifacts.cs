@@ -12,8 +12,10 @@ using System.Security.Claims;
 using System.Text;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation.Handlers;
-using TightWiki.Library;
+using TightWiki.Plugin.Dummy;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Library;
+using TightWiki.Plugin.Models;
 using TightWiki.Repository;
 using TightWiki.Repository.Extensions;
 using static TightWiki.Plugin.TwConstants;
@@ -26,14 +28,14 @@ namespace TightWiki.Test.Library
         public SignInManager<IdentityUser> SignInManager { get; private set; }
         public UserManager<IdentityUser> UserManager { get; private set; }
         public IUserStore<IdentityUser> UserStore { get; private set; }
-        public VerbatimLocalizationText Localizer { get; private set; }
+        public TwVerbatimLocalizationText Localizer { get; private set; }
 
         public MockWikiEngineArtifacts()
         {
-            SqlMapper.AddTypeHandler(new GuidTypeHandler());
+            SqlMapper.AddTypeHandler(new TwGuidTypeHandler());
 
             //Creating localizer.
-            Localizer = new VerbatimLocalizationText();
+            Localizer = new TwVerbatimLocalizationText();
 
             //Creating host builder.
             var host = Host.CreateDefaultBuilder()
@@ -73,12 +75,12 @@ namespace TightWiki.Test.Library
 
             services.AddLogging(configure => configure.AddConsole());
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<TwApplicationDbContext>(options =>
                 options.UseSqlite(ManagedDataStorage.Users.Ephemeral(o => o.NativeConnection.ConnectionString)));
 
             //Register identity services.
             services.AddIdentity<IdentityUser, IdentityRole>()
-                    .AddEntityFrameworkStores<ApplicationDbContext>()
+                    .AddEntityFrameworkStores<TwApplicationDbContext>()
                     .AddDefaultTokenProviders();
 
             //Build service provider.
@@ -98,7 +100,7 @@ namespace TightWiki.Test.Library
         {
             try
             {
-                var profile = await UsersRepository.GetAccountProfileByNavigation(Navigation.Clean(createdByAccountNavigaion));
+                var profile = await UsersRepository.GetAccountProfileByNavigation(TwNavigation.Clean(createdByAccountNavigaion));
                 var body = new StringBuilder();
 
                 body.AppendLine($"##title");
@@ -130,7 +132,7 @@ namespace TightWiki.Test.Library
                     Description = "This is just a test page.",
                 };
 
-                var localizer = new VerbatimLocalizationText();
+                var localizer = new TwVerbatimLocalizationText();
                 int newPageId = await RepositoryHelpers.UpsertPage(Engine, localizer, page);
 
                 var fileName = "testFile.txt";
@@ -156,7 +158,7 @@ namespace TightWiki.Test.Library
                 CreatedDate = DateTime.UtcNow,
                 PageId = pageId,
                 Name = fileName,
-                FileNavigation = Navigation.Clean(fileName),
+                FileNavigation = TwNavigation.Clean(fileName),
                 Size = fileData.Length,
                 ContentType = Utility.GetMimeType(fileName)
             }, userId);

@@ -1,9 +1,8 @@
-@using TightWiki.Library
+@using TightWiki
 @using TightWiki.Plugin
 @using TightWiki.Plugin.Interfaces
-@using TightWiki
-@using TightWiki.Models
-@using TightWiki.Models.ViewModels.AdminSecurity
+@using TightWiki.Plugin.Library
+@using TightWiki.ViewModels.AdminSecurity
 @inject ITwSharedLocalizationText Localizer
 @inject TwConfiguration WikiConfiguration
 
@@ -54,7 +53,7 @@
                 <i class="bi bi-shield-lock me-2"></i>@Localizer["Account Permissions"]
             </span>
             <div>
-                @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount_Permissions, "Page_Permissions")
+                @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount_Permissions, "Page_Permissions")
             </div>
         </div>
 
@@ -64,19 +63,19 @@
                     <tr>
                         <th scope="col" style="width: 18%;">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Disposition", "Permissions")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "Disposition", "Permissions")">
                                 @Localizer["Disposition"]
                             </a>
                         </th>
                         <th scope="col" style="width: 20%;">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Permission", "Permissions")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "Permission", "Permissions")">
                                 @Localizer["Permission"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Resource", "Permissions")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "Resource", "Permissions")">
                                 @Localizer["Resource"]
                             </a>
                         </th>
@@ -143,7 +142,7 @@
                 <i class="bi bi-people me-2"></i>@Localizer["Account Role Membership"]
             </span>
             <div>
-                @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount_Members, "Page_Memberships", @class: "mb-3")
+                @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount_Members, "Page_Memberships", @class: "mb-3")
             </div>
         </div>
 
@@ -153,7 +152,7 @@
                     <tr>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Role", "Memberships")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "Role", "Memberships")">
                                 @Localizer["Name"]
                             </a>
                         </th>

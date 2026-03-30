@@ -1,12 +1,12 @@
-﻿@model TightWiki.Models.ViewModels.Admin.DeletedPagesRevisionsViewModel
-@using TightWiki
-@using TightWiki.Library
-@using TightWiki.Models
+﻿@using TightWiki
 @using TightWiki.Plugin
 @using TightWiki.Plugin.Interfaces
+@using TightWiki.Plugin.Library
+@using TightWiki.ViewModels.Admin
 @inject ITwSharedLocalizationText Localizer
 @inject TwConfiguration WikiConfiguration
 
+@model DeletedPagesRevisionsViewModel
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -29,7 +29,7 @@
             <i class="bi bi-clock-history me-2"></i>@Localizer["Deleted Revisions"]
         </span>
 
-        @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(
+        @TwConfirmActionHelper.GenerateDangerButton(
             WikiConfiguration.BasePath,
             Localizer["This will permanently purge all deleted page revisions for \"{0}\". Continue?"].Format(Model.Name),
             Localizer["Purge Deleted Revisions"].Value,
@@ -42,7 +42,7 @@
 {
     <div class="card shadow-sm">
         <div class="card-body pb-0">
-            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
+            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
         </div>
 
         <div class="table-responsive">
@@ -51,19 +51,19 @@
                     <tr>
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "Revision")">
                                 @Localizer["Revision"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "DeletedDate")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "DeletedDate")">
                                 @Localizer["Deleted Date"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "DeletedBy")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "DeletedBy")">
                                 @Localizer["Deleted By"]
                             </a>
                         </th>
@@ -93,7 +93,7 @@
 
                             <td class="text-nowrap">
                                 <div class="d-flex gap-2">
-                                    @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(
+                                    @TwConfirmActionHelper.GenerateSafeButton(
                                         WikiConfiguration.BasePath,
                                         Localizer["This will restore the deleted revision. Continue?"].Value,
                                         Localizer["Restore"].Value,
@@ -101,7 +101,7 @@
                                         Context.Request.Path.Value,
                                         @class: "btn btn-success btn-sm d-inline-flex align-items-center")
 
-                                    @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(
+                                    @TwConfirmActionHelper.GenerateDangerButton(
                                         WikiConfiguration.BasePath,
                                         Localizer["This will permanently delete the specified deleted revision. Continue?"].Value,
                                         Localizer["Purge"].Value,
@@ -117,7 +117,7 @@
         </div>
 
         <div class="card-body pt-3">
-            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
+            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
         </div>
     </div>
 }

@@ -1,12 +1,12 @@
-﻿@using TightWiki.Plugin
+﻿@using TightWiki
+@using TightWiki.Plugin
 @using TightWiki.Plugin.Interfaces
-@using TightWiki
-@using TightWiki.Library
-@using TightWiki.Models
+@using TightWiki.Plugin.Library
+@using TightWiki.ViewModels.Profile
 @inject ITwSharedLocalizationText Localizer
 @inject TwConfiguration WikiConfiguration
 
-@model TightWiki.Models.ViewModels.Profile.AccountProfileViewModel
+@model AccountProfileViewModel
 @{
     Layout = "_Layout";
 }
@@ -33,7 +33,7 @@
                     <i class="bi bi-floppy me-1"></i>@Localizer["Save"]
                 </button>
 
-                @ConfirmActionHelper.GenerateDangerButton(
+                @TwConfirmActionHelper.GenerateDangerButton(
                     WikiConfiguration.BasePath,
                     Localizer["Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?"].Format(Model.AccountProfile.AccountName),
                     Localizer["Delete Account"].Value,

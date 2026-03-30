@@ -4,11 +4,12 @@ using Microsoft.Extensions.Logging;
 using NTDLS.Helpers;
 using System.Reflection;
 using System.Security.Claims;
-using TightWiki.Library;
-using TightWiki.Models.DataModels.Defaults;
 using TightWiki.Plugin;
+using TightWiki.Plugin.Dummy;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
+using TightWiki.Plugin.Models.Defaults;
 
 namespace TightWiki.Repository
 {
@@ -161,7 +162,7 @@ namespace TightWiki.Repository
                 if (!File.Exists(defaultsDatabasePath) || overwrite)
                 {
                     logger.LogInformation("Creating defaults database.");
-                    var defaultDatabaseBytes = EmbeddedResourceReader.LoadBytes(@"Defaults\defaults.db");
+                    var defaultDatabaseBytes = TwEmbeddedResourceReader.LoadBytes(@"Defaults\defaults.db");
                     await File.WriteAllBytesAsync(defaultsDatabasePath, defaultDatabaseBytes);
                 }
                 return defaultsDatabasePath;
@@ -200,7 +201,7 @@ namespace TightWiki.Repository
                     }
                     else
                     {
-                        var result = await userManager.CreateAsync(user, PasswordGenerator.Generate(32));
+                        var result = await userManager.CreateAsync(user, TwPasswordGenerator.Generate(32));
                         if (result.Succeeded)
                         {
                             logger.LogInformation("Database upgrade user created a new account with password.");
@@ -237,7 +238,7 @@ namespace TightWiki.Repository
 
                 try
                 {
-                    var defaultConfigurationGroups = ManagedDataStorage.Defaults.Query<DefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurationGroups.sql");
+                    var defaultConfigurationGroups = ManagedDataStorage.Defaults.Query<TwDefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurationGroups.sql");
                     foreach (var defaultConfigurationGroup in defaultConfigurationGroups)
                     {
                         await ManagedDataStorage.Config.ExecuteAsync(@"Scripts\Defaults\Merge\MergeConfigurationGroup.sql",
@@ -255,7 +256,7 @@ namespace TightWiki.Repository
 
                 try
                 {
-                    var defaultConfigurations = ManagedDataStorage.Defaults.Query<DefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurations.sql");
+                    var defaultConfigurations = ManagedDataStorage.Defaults.Query<TwDefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurations.sql");
                     foreach (var defaultConfiguration in defaultConfigurations)
                     {
                         await ManagedDataStorage.Config.ExecuteAsync(@"Scripts\Defaults\Merge\MergeConfigurationEntry.sql",
@@ -286,7 +287,7 @@ namespace TightWiki.Repository
                 logger.LogInformation("Seeding default themes.");
                 try
                 {
-                    var defaultThemes = ManagedDataStorage.Defaults.Query<DefaultTheme>(@"Scripts\Defaults\GetDefaultThemes.sql");
+                    var defaultThemes = ManagedDataStorage.Defaults.Query<TwDefaultTheme>(@"Scripts\Defaults\GetDefaultThemes.sql");
                     foreach (var defaultTheme in defaultThemes)
                     {
                         await ManagedDataStorage.Config.ExecuteAsync(@"Scripts\Defaults\Merge\MergeTheme.sql",
@@ -321,23 +322,23 @@ namespace TightWiki.Repository
                 try
                 {
 
-                    var dummySessionState = new DummySessionState();
+                    var dummySessionState = new TwDummySessionState();
 
-                    List<DefaultWikiPage> defaultWikiPages = new();
+                    List<TwDefaultWikiPage> defaultWikiPages = new();
 
                     if (defaultDataTypes.Contains(WikiDefaultDataType.WikiHelpPages))
                     {
-                        defaultWikiPages.AddRange(ManagedDataStorage.Defaults.Query<DefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
+                        defaultWikiPages.AddRange(ManagedDataStorage.Defaults.Query<TwDefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
                             new { Namespace = "Wiki Help" }));
                     }
                     if (defaultDataTypes.Contains(WikiDefaultDataType.WikiIncludePages))
                     {
-                        defaultWikiPages.AddRange(ManagedDataStorage.Defaults.Query<DefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
+                        defaultWikiPages.AddRange(ManagedDataStorage.Defaults.Query<TwDefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
                             new { Namespace = "Include" }));
                     }
                     if (defaultDataTypes.Contains(WikiDefaultDataType.WikiBuiltinPages))
                     {
-                        defaultWikiPages.AddRange(ManagedDataStorage.Defaults.Query<DefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
+                        defaultWikiPages.AddRange(ManagedDataStorage.Defaults.Query<TwDefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
                             new { Namespace = "Builtin" }));
                     }
 
@@ -348,7 +349,7 @@ namespace TightWiki.Repository
 
                         //if (existingPage == null || existingPage.DataHash != defaultWikiPage.DataHash)
                         {
-                            var wikiPage = new Models.DataModels.TwPage()
+                            var wikiPage = new TwPage()
                             {
                                 Id = existingPage?.Id ?? 0,
                                 Name = defaultWikiPage.Name,
@@ -380,7 +381,7 @@ namespace TightWiki.Repository
             {
                 try
                 {
-                    var defaultFeatureTemplates = ManagedDataStorage.Defaults.Query<DefaultFeatureTemplate>(@"Scripts\Defaults\GetDefaultFeatureTemplates.sql");
+                    var defaultFeatureTemplates = ManagedDataStorage.Defaults.Query<TwDefaultFeatureTemplate>(@"Scripts\Defaults\GetDefaultFeatureTemplates.sql");
                     foreach (var defaultFeatureTemplate in defaultFeatureTemplates)
                     {
                         await ManagedDataStorage.Pages.ExecuteAsync(@"Scripts\Defaults\Merge\MergeFeatureTemplate.sql",

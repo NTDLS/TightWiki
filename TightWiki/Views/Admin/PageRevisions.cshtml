@@ -1,12 +1,12 @@
-﻿@model TightWiki.Models.ViewModels.Admin.PageRevisionsViewModel
+﻿@using TightWiki
 @using TightWiki.Plugin
 @using TightWiki.Plugin.Interfaces
-@using TightWiki
-@using TightWiki.Library
-@using TightWiki.Models
+@using TightWiki.Plugin.Library
+@using TightWiki.ViewModels.Admin
 @inject ITwSharedLocalizationText Localizer
 @inject TwConfiguration WikiConfiguration
 
+@model PageRevisionsViewModel
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -34,7 +34,7 @@
 {
     <div class="card shadow-sm">
         <div class="card-body pb-0">
-            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
+            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
         </div>
 
         <div class="table-responsive">
@@ -43,19 +43,19 @@
                     <tr>
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "Revision")">
                                 @Localizer["Revision"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">
                                 @Localizer["Modified By"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">
                                 @Localizer["Modified Date"]
                             </a>
                         </th>
@@ -117,7 +117,7 @@
 
                             <td class="text-nowrap">
                                 <div class="d-flex gap-2">
-                                    @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
+                                    @TwConfirmActionHelper.GenerateWarnButton(
                                         WikiConfiguration.BasePath,
                                         Localizer["Reverting {0} from revision {1} to {2} will rollback {3} changes.<br />Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.<br /><br />Are you sure you want to continue?<br /><br />"]
                                             .Format(h.Name, h.HighestRevision, h.Revision, h.HigherRevisionCount),
@@ -126,7 +126,7 @@
                                         Context.Request.Path.Value,
                                         @class: "btn btn-warning btn-sm d-inline-flex align-items-center")
 
-                                    @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(
+                                    @TwConfirmActionHelper.GenerateDangerButton(
                                         WikiConfiguration.BasePath,
                                         Localizer["Deleting revision {0} of \"{1}\" will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?"]
                                             .Format(h.Revision, h.Name),
@@ -143,7 +143,7 @@
         </div>
 
         <div class="card-body pt-3">
-            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
+            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
         </div>
     </div>
 }

@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
-using TightWiki.Models.ViewModels.Page;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Library;
 using TightWiki.Repository;
+using TightWiki.ViewModels.Page;
 
 namespace TightWiki.Controllers
 {
@@ -70,7 +71,7 @@ namespace TightWiki.Controllers
                     glossaryHtml.Append("</ul>");
                 }
 
-                var model = new BrowseViewModel
+                var model = new BrowseViewModel()
                 {
                     AssociatedPages = glossaryHtml.ToString(),
                     TagCloud = await TagCloudBuilder.Build(WikiConfiguration.BasePath, givenCanonical, 100)

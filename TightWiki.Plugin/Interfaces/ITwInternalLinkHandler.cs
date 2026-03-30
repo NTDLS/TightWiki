@@ -1,4 +1,7 @@
-﻿namespace TightWiki.Plugin.Interfaces
+﻿using TightWiki.Plugin.Engine;
+using TightWiki.Plugin.Library;
+
+namespace TightWiki.Plugin.Interfaces
 {
     /// <summary>
     /// Handles links from one wiki page to another.

@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using TightWiki.Models.DataModels;
+using TightWiki.Plugin.Models;
 
 namespace TightWiki.Repository
 {
@@ -21,11 +21,11 @@ namespace TightWiki.Repository
             int sizeStep = (pageCount > fontSize ? pageCount : (fontSize * 2)) / fontSize;
             int pageIndex = 0;
 
-            var pageList = new List<TagCloudItem>();
+            var pageList = new List<TwTagCloudItem>();
 
             foreach (var page in pages)
             {
-                pageList.Add(new TagCloudItem(page.Name, pageIndex, "<font size=\"" + fontSize + $"\"><a href=\"{basePath}/" + page.Navigation + "\">" + page.Name + "</a></font>"));
+                pageList.Add(new TwTagCloudItem(page.Name, pageIndex, "<font size=\"" + fontSize + $"\"><a href=\"{basePath}/" + page.Navigation + "\">" + page.Name + "</a></font>"));
 
                 if ((pageIndex % sizeStep) == 0)
                 {
@@ -37,11 +37,11 @@ namespace TightWiki.Repository
 
             var cloudHtml = new StringBuilder();
 
-            pageList.Sort(TagCloudItem.CompareItem);
+            pageList.Sort(TwTagCloudItem.CompareItem);
 
             cloudHtml.Append("<table align=\"center\" border=\"0\" width=\"100%\"><tr><td><p align=\"justify\">");
 
-            foreach (TagCloudItem tag in pageList)
+            foreach (TwTagCloudItem tag in pageList)
             {
                 cloudHtml.Append(tag.HTML + "&nbsp; ");
             }

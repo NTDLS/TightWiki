@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Attributes;
+using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Models;
 using TightWiki.Repository;

@@ -4,9 +4,9 @@ using NTDLS.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Security.Claims;
-using TightWiki.Library;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Library;
 using TightWiki.Repository;
 using static TightWiki.Plugin.TwConstants;
 
@@ -14,13 +14,13 @@ namespace TightWiki.Areas.Identity.Pages.Account
 {
     public class ExternalLoginSupplementalInputModel
     {
-        public List<TimeZoneItem> TimeZones { get; set; } = new();
-        public List<CountryItem> Countries { get; set; } = new();
-        public List<LanguageItem> Languages { get; set; } = new();
+        public List<TwTimeZoneItem> TimeZones { get; set; } = new();
+        public List<TwCountryItem> Countries { get; set; } = new();
+        public List<TwLanguageItem> Languages { get; set; } = new();
 
 
         [Display(Name = "Display Name")]
-        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        [Required]
         public string AccountName { get; set; } = string.Empty;
 
         [Display(Name = "First Name")]
@@ -30,15 +30,15 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public string? LastName { get; set; } = string.Empty;
 
         [Display(Name = "Time-Zone")]
-        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        [Required]
         public string TimeZone { get; set; } = string.Empty;
 
         [Display(Name = "Country")]
-        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        [Required]
         public string Country { get; set; } = string.Empty;
 
         [Display(Name = "Language")]
-        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        [Required]
         public string Language { get; set; } = string.Empty;
     }
 
@@ -89,9 +89,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         private async Task PopulateDefaults()
         {
-            Input.TimeZones = TimeZoneItem.GetAll();
-            Input.Countries = CountryItem.GetAll();
-            Input.Languages = LanguageItem.GetAll();
+            Input.TimeZones = TwTimeZoneItem.GetAll();
+            Input.Countries = TwCountryItem.GetAll();
+            Input.Languages = TwLanguageItem.GetAll();
 
             var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
 

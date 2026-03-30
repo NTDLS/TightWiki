@@ -3,16 +3,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
 using System.Security.Claims;
-using TightWiki.Library;
-using TightWiki.Models.DataModels;
-using TightWiki.Models.Requests;
-using TightWiki.Models.ViewModels.AdminSecurity;
-using TightWiki.Models.ViewModels.Shared;
-using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Library;
+using TightWiki.Plugin.Models;
 using TightWiki.Repository;
+using TightWiki.RequestModels;
+using TightWiki.ViewModels.AdminSecurity;
+using TightWiki.ViewModels.Shared;
+using TightWiki.ViewModels.Utility;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Controllers
@@ -66,7 +66,7 @@ namespace TightWiki.Controllers
             {
                 await SessionState.RequireAdminPermission();
 
-                AddAccountMembershipResult? result = null;
+                TwAddAccountMembershipResult? result = null;
 
                 bool alreadyExists = await UsersRepository.IsAccountAMemberOfRole(request.UserId, request.RoleId, true);
                 if (!alreadyExists)
@@ -95,7 +95,7 @@ namespace TightWiki.Controllers
             {
                 await SessionState.RequireAdminPermission();
 
-                AddRoleMemberResult? result = null;
+                TwAddRoleMemberResult? result = null;
 
                 bool alreadyExists = await UsersRepository.IsAccountAMemberOfRole(request.UserId, request.RoleId, true);
                 if (!alreadyExists)
@@ -168,7 +168,7 @@ namespace TightWiki.Controllers
             {
                 await SessionState.RequireAdminPermission();
 
-                InsertRolePermissionResult? result = null;
+                TwInsertRolePermissionResult? result = null;
 
                 bool alreadyExists = await UsersRepository.IsRolePermissionDefined(
                     request.RoleId, request.PermissionId, request.PermissionDispositionId, request.Namespace, request.PageId, true);
@@ -267,7 +267,7 @@ namespace TightWiki.Controllers
                 }
                 SessionState.Page.Name = Localize("Roles");
 
-                navigation = Navigation.Clean(navigation);
+                navigation = TwNavigation.Clean(navigation);
 
                 var role = await UsersRepository.GetRoleByName(navigation);
 
@@ -345,7 +345,7 @@ namespace TightWiki.Controllers
             {
                 await SessionState.RequireAdminPermission();
 
-                InsertAccountPermissionResult? result = null;
+                TwInsertAccountPermissionResult? result = null;
 
                 bool alreadyExists = await UsersRepository.IsAccountPermissionDefined(
                     request.UserId, request.PermissionId, request.PermissionDispositionId, request.Namespace, request.PageId, true);
@@ -403,7 +403,7 @@ namespace TightWiki.Controllers
                 }
                 SessionState.Page.Name = Localize("Roles");
 
-                navigation = Navigation.Clean(navigation);
+                navigation = TwNavigation.Clean(navigation);
 
                 var profile = await UsersRepository.GetAccountProfileByNavigation(navigation);
 
@@ -455,13 +455,13 @@ namespace TightWiki.Controllers
                 var model = new AccountProfileViewModel()
                 {
                     AccountProfile = AccountProfileAccountViewModel.FromDataModel(
-                        await UsersRepository.GetAccountProfileByNavigation(Navigation.Clean(navigation))),
+                        await UsersRepository.GetAccountProfileByNavigation(TwNavigation.Clean(navigation))),
 
                     Credential = new CredentialViewModel(),
                     Themes = await ConfigurationRepository.GetAllThemes(),
-                    TimeZones = TimeZoneItem.GetAll(),
-                    Countries = CountryItem.GetAll(),
-                    Languages = LanguageItem.GetAll(),
+                    TimeZones = TwTimeZoneItem.GetAll(),
+                    Countries = TwCountryItem.GetAll(),
+                    Languages = TwLanguageItem.GetAll(),
                     Roles = await UsersRepository.GetAllRoles()
                 };
 
@@ -482,7 +482,7 @@ namespace TightWiki.Controllers
         /// </summary>
         [Authorize]
         [HttpPost("Account/{navigation}")]
-        public async Task<ActionResult> Account(string navigation, Models.ViewModels.AdminSecurity.AccountProfileViewModel model)
+        public async Task<ActionResult> Account(string navigation, AccountProfileViewModel model)
         {
             try
             {
@@ -495,9 +495,9 @@ namespace TightWiki.Controllers
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
                 model.Themes = await ConfigurationRepository.GetAllThemes();
-                model.TimeZones = TimeZoneItem.GetAll();
-                model.Countries = CountryItem.GetAll();
-                model.Languages = LanguageItem.GetAll();
+                model.TimeZones = TwTimeZoneItem.GetAll();
+                model.Countries = TwCountryItem.GetAll();
+                model.Languages = TwLanguageItem.GetAll();
                 model.Roles = await UsersRepository.GetAllRoles();
                 model.AccountProfile.Navigation = TwNamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName.ToLowerInvariant());
 
@@ -688,9 +688,9 @@ namespace TightWiki.Controllers
                     DefaultRole = defaultSignupRole,
                     Themes = await ConfigurationRepository.GetAllThemes(),
                     Credential = new CredentialViewModel(),
-                    TimeZones = TimeZoneItem.GetAll(),
-                    Countries = CountryItem.GetAll(),
-                    Languages = LanguageItem.GetAll(),
+                    TimeZones = TwTimeZoneItem.GetAll(),
+                    Countries = TwCountryItem.GetAll(),
+                    Languages = TwLanguageItem.GetAll(),
                     Roles = await UsersRepository.GetAllRoles()
                 };
 
@@ -708,7 +708,7 @@ namespace TightWiki.Controllers
         /// </summary>
         [Authorize]
         [HttpPost("AddAccount")]
-        public async Task<ActionResult> AddAccount(Models.ViewModels.AdminSecurity.AccountProfileViewModel model)
+        public async Task<ActionResult> AddAccount(AccountProfileViewModel model)
         {
             try
             {
@@ -721,9 +721,9 @@ namespace TightWiki.Controllers
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
                 model.Themes = await ConfigurationRepository.GetAllThemes();
-                model.TimeZones = TimeZoneItem.GetAll();
-                model.Countries = CountryItem.GetAll();
-                model.Languages = LanguageItem.GetAll();
+                model.TimeZones = TwTimeZoneItem.GetAll();
+                model.Countries = TwCountryItem.GetAll();
+                model.Languages = TwLanguageItem.GetAll();
                 model.Roles = await UsersRepository.GetAllRoles();
                 model.AccountProfile.Navigation = TwNamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName?.ToLowerInvariant());
 

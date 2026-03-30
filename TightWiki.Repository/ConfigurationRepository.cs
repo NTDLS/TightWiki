@@ -1,23 +1,22 @@
 ﻿using NTDLS.Helpers;
 using System.Data;
 using System.Runtime.Caching;
-using TightWiki.Library;
-using TightWiki.Models.DataModels;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Caching;
+using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 
 namespace TightWiki.Repository
 {
     public static class ConfigurationRepository
     {
-        public static async Task<ConfigurationEntries> GetConfigurationEntryValuesByGroupName(string groupName)
+        public static async Task<TwConfigurationEntries> GetConfigurationEntryValuesByGroupName(string groupName)
         {
             var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Configuration, [groupName]);
 
             return await TwCache.AddOrGet(cacheKey, async () =>
             {
-                var entries = await ManagedDataStorage.Config.QueryAsync<ConfigurationEntry>("GetConfigurationEntryValuesByGroupName.sql",
+                var entries = await ManagedDataStorage.Config.QueryAsync<TwConfigurationEntry>("GetConfigurationEntryValuesByGroupName.sql",
                     new { GroupName = groupName });
 
                 foreach (var entry in entries)
@@ -35,7 +34,7 @@ namespace TightWiki.Repository
                     }
                 }
 
-                return new ConfigurationEntries(entries);
+                return new TwConfigurationEntries(entries);
             }).EnsureNotNull();
         }
 
@@ -56,14 +55,14 @@ namespace TightWiki.Repository
             }).EnsureNotNull();
         }
 
-        public static async Task<WikiDatabaseStatistics> GetWikiDatabaseMetrics()
+        public static async Task<TwWikiDatabaseStatistics> GetWikiDatabaseMetrics()
         {
             return await ManagedDataStorage.Config.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
                 using var pages_db = o.Attach("pages.db", "pages_db");
 
-                var result = await o.QuerySingleAsync<WikiDatabaseStatistics>("GetWikiDatabaseStatistics.sql");
+                var result = await o.QuerySingleAsync<TwWikiDatabaseStatistics>("GetWikiDatabaseStatistics.sql");
                 result.Exceptions = await LoggingRepository.GetExceptionCount();
 
                 return result;
@@ -134,15 +133,15 @@ namespace TightWiki.Repository
             await ManagedDataStorage.Config.ExecuteAsync("SaveConfigurationEntryValueByGroupAndEntry.sql", param);
         }
 
-        public static async Task<List<ConfigurationNest>> GetConfigurationNest()
+        public static async Task<List<TwConfigurationNest>> GetConfigurationNest()
         {
-            var result = new List<ConfigurationNest>();
+            var result = new List<TwConfigurationNest>();
             var flatConfig = await GetFlatConfiguration();
 
             var groups = flatConfig.GroupBy(o => o.GroupId);
             foreach (var group in groups)
             {
-                var nest = new ConfigurationNest
+                var nest = new TwConfigurationNest
                 {
                     Id = group.Key,
                     Name = group.Select(o => o.GroupName).First(),
@@ -168,7 +167,7 @@ namespace TightWiki.Repository
                         entryValue = value.EntryValue;
                     }
 
-                    nest.Entries.Add(new ConfigurationEntry()
+                    nest.Entries.Add(new TwConfigurationEntry()
                     {
                         Id = value.EntryId,
                         Value = entryValue,
@@ -185,8 +184,8 @@ namespace TightWiki.Repository
             return result;
         }
 
-        public static async Task<List<ConfigurationFlat>> GetFlatConfiguration()
-            => await ManagedDataStorage.Config.QueryAsync<ConfigurationFlat>("GetFlatConfiguration.sql");
+        public static async Task<List<TwConfigurationFlat>> GetFlatConfiguration()
+            => await ManagedDataStorage.Config.QueryAsync<TwConfigurationFlat>("GetFlatConfiguration.sql");
 
         public static async Task<string?> GetConfigurationEntryValuesByGroupNameAndEntryName(string groupName, string entryName)
         {
@@ -194,7 +193,7 @@ namespace TightWiki.Repository
 
             return await TwCache.AddOrGetAsync(cacheKey, async () =>
             {
-                var configEntry = await ManagedDataStorage.Config.QuerySingleAsync<ConfigurationEntry>("GetConfigurationEntryValuesByGroupNameAndEntryName.sql",
+                var configEntry = await ManagedDataStorage.Config.QuerySingleAsync<TwConfigurationEntry>("GetConfigurationEntryValuesByGroupNameAndEntryName.sql",
                     new
                     {
                         GroupName = groupName,
@@ -348,8 +347,8 @@ namespace TightWiki.Repository
                                 }
 
                                 //These are hard to generate, so just keep it forever.
-                                var resized = Images.ResizeGifImage(decompressedImageBytes, Width, Height);
-                                var itemCache = new ImageCacheItem(resized, "image/gif");
+                                var resized = TwImages.ResizeGifImage(decompressedImageBytes, Width, Height);
+                                var itemCache = new TwImageCacheItem(resized, "image/gif");
                                 TwCache.Set(scaledImageCacheKey, itemCache, new CacheItemPolicy());
                             }
                         }

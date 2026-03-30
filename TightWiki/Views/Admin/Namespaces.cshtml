@@ -1,12 +1,12 @@
-﻿@model TightWiki.Models.ViewModels.Admin.NamespacesViewModel
+﻿@using TightWiki
 @using TightWiki.Plugin
 @using TightWiki.Plugin.Interfaces
-@using TightWiki
-@using TightWiki.Library
-@using TightWiki.Models
+@using TightWiki.Plugin.Library
+@using TightWiki.ViewModels.Admin
 @inject ITwSharedLocalizationText Localizer
 @inject TwConfiguration WikiConfiguration
 
+@model NamespacesViewModel
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -27,7 +27,7 @@
 {
     <div class="card shadow-sm">
         <div class="card-body pb-0">
-            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
+            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
         </div>
 
         <div class="table-responsive">
@@ -36,13 +36,13 @@
                     <tr>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "Name")">
                                 @Localizer["Name"]
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap" style="width: 1%;">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Pages")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "Pages")">
                                 @Localizer["Pages"]
                             </a>
                         </th>
@@ -70,7 +70,7 @@
         </div>
 
         <div class="card-body pt-3">
-            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
+            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
         </div>
     </div>
 }

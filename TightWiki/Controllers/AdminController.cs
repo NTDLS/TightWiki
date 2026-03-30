@@ -4,17 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 using NTDLS.DelegateThreadPooling;
 using NTDLS.Helpers;
 using System.Reflection;
-using TightWiki.Library;
-using TightWiki.Models.DataModels;
-using TightWiki.Models.ViewModels.Admin;
-using TightWiki.Models.ViewModels.Page;
-using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using TightWiki.Repository;
 using TightWiki.Security;
+using TightWiki.ViewModels.Admin;
+using TightWiki.ViewModels.Utility;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Controllers
@@ -60,14 +58,14 @@ namespace TightWiki.Controllers
                 var pageCounts = await SpannedRepository.GetDatabasePageCounts();
                 var pageSizes = await SpannedRepository.GetDatabasePageSizes();
 
-                var info = new List<DatabaseInfo>();
+                var info = new List<TwDatabaseInfo>();
 
                 foreach (var version in versions)
                 {
                     var pageCount = pageCounts.FirstOrDefault(o => o.Name == version.Name).PageCount;
                     var pageSize = pageSizes.FirstOrDefault(o => o.Name == version.Name).PageSize;
 
-                    info.Add(new DatabaseInfo
+                    info.Add(new TwDatabaseInfo
                     {
                         Name = version.Name,
                         Version = version.Version,
@@ -733,7 +731,7 @@ namespace TightWiki.Controllers
                 {
                     var thisRev = await PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision);
                     var prevRev = await PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision - 1);
-                    p.ChangeAnalysis = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
+                    p.ChangeAnalysis = TwDifferentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
                 }
 
                 if (model.Revisions != null && model.Revisions.Count > 0)
@@ -1502,9 +1500,9 @@ namespace TightWiki.Controllers
                 {
                     Themes = await ConfigurationRepository.GetAllThemes(),
                     Roles = await UsersRepository.GetAllRoles(),
-                    TimeZones = TimeZoneItem.GetAll(),
-                    Countries = CountryItem.GetAll(),
-                    Languages = LanguageItem.GetAll(),
+                    TimeZones = TwTimeZoneItem.GetAll(),
+                    Countries = TwCountryItem.GetAll(),
+                    Languages = TwLanguageItem.GetAll(),
                     Nest = await ConfigurationRepository.GetConfigurationNest()
                 };
                 return View(model);
@@ -1541,9 +1539,9 @@ namespace TightWiki.Controllers
                     {
                         Themes = await ConfigurationRepository.GetAllThemes(),
                         Roles = await UsersRepository.GetAllRoles(),
-                        TimeZones = TimeZoneItem.GetAll(),
-                        Countries = CountryItem.GetAll(),
-                        Languages = LanguageItem.GetAll(),
+                        TimeZones = TwTimeZoneItem.GetAll(),
+                        Countries = TwCountryItem.GetAll(),
+                        Languages = TwLanguageItem.GetAll(),
                         Nest = await ConfigurationRepository.GetConfigurationNest(),
                     };
 
@@ -1711,7 +1709,7 @@ namespace TightWiki.Controllers
                     }
                 }
 
-                var emoji = new UpsertEmoji
+                var emoji = new TwUpsertEmoji
                 {
                     Id = model.Emoji.Id,
                     Name = model.Emoji.Name.ToLowerInvariant(),
@@ -1750,7 +1748,7 @@ namespace TightWiki.Controllers
 
                 if (nameChanged)
                 {
-                    return NotifyOfSuccess(Localize("The emoji has been saved."), $"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
+                    return NotifyOfSuccess(Localize("The emoji has been saved."), $"/Admin/Emoji/{TwNavigation.Clean(emoji.Name)}");
                 }
 
                 return View(model);
@@ -1824,7 +1822,7 @@ namespace TightWiki.Controllers
                     }
                 }
 
-                var emoji = new UpsertEmoji
+                var emoji = new TwUpsertEmoji
                 {
                     Id = model.Id,
                     Name = model.Name.ToLowerInvariant(),
@@ -1856,7 +1854,7 @@ namespace TightWiki.Controllers
                 await EmojiRepository.UpsertEmoji(emoji);
                 await WikiConfigurationFactory.ReloadEmojis(WikiConfiguration);
 
-                return NotifyOfSuccess(Localize("The emoji has been created."), $"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
+                return NotifyOfSuccess(Localize("The emoji has been created."), $"/Admin/Emoji/{TwNavigation.Clean(emoji.Name)}");
             }
             catch (Exception ex)
             {

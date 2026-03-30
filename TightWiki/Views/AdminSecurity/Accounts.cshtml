@@ -1,13 +1,12 @@
-﻿@model AccountsViewModel
+﻿@using TightWiki
 @using TightWiki.Plugin
 @using TightWiki.Plugin.Interfaces
-@using TightWiki
-@using TightWiki.Library
-@using TightWiki.Models
-@using TightWiki.Models.ViewModels.AdminSecurity
+@using TightWiki.Plugin.Library
+@using TightWiki.ViewModels.AdminSecurity
 @inject ITwSharedLocalizationText Localizer
 @inject TwConfiguration WikiConfiguration
 
+@model AccountsViewModel
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -63,7 +62,7 @@
 {
     <div class="card shadow-sm">
         <div class="card-body pb-0">
-            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
+            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
         </div>
 
         <div class="table-responsive">
@@ -72,43 +71,43 @@
                     <tr>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Account")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "Account")">
                                 @Localizer["Display Name"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "FirstName")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "FirstName")">
                                 @Localizer["First Name"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "LastName")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "LastName")">
                                 @Localizer["Last Name"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Country")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "Country")">
                                 @Localizer["Country"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "TimeZone")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "TimeZone")">
                                 @Localizer["Time Zone"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "EmailAddress")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "EmailAddress")">
                                 @Localizer["Email Address"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Created")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "Created")">
                                 @Localizer["Created Date"]
                             </a>
                         </th>
@@ -162,7 +161,7 @@
         </div>
 
         <div class="card-body pt-3">
-            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
+            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
         </div>
     </div>
 }

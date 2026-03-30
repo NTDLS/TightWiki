@@ -2,8 +2,9 @@
 using NTDLS.Helpers;
 using System.Security.Claims;
 using System.Text;
-using TightWiki.Library;
+using TightWiki.Plugin.Dummy;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using TightWiki.Repository;
 using static TightWiki.Plugin.TwConstants;
@@ -61,7 +62,7 @@ namespace DummyPageGenerator
             while (true)
             {
                 var randomAccountName = string.Join(" ", WordsRepository.GetRandomWords(2));
-                if (!await UsersRepository.DoesProfileAccountExist(Navigation.Clean(randomAccountName)))
+                if (!await UsersRepository.DoesProfileAccountExist(TwNavigation.Clean(randomAccountName)))
                 {
                     return randomAccountName;
                 }
@@ -250,7 +251,7 @@ namespace DummyPageGenerator
                     Description = string.Join(' ', WordsRepository.GetRandomWords(_random.Next(3, 5))),
                 };
 
-                var localizer = new VerbatimLocalizationText();
+                var localizer = new TwVerbatimLocalizationText();
 
                 int newPageId = await RepositoryHelpers.UpsertPage(tightEngine, localizer, page);
 
@@ -345,7 +346,7 @@ namespace DummyPageGenerator
                 CreatedDate = DateTime.UtcNow,
                 PageId = pageId,
                 Name = fileName,
-                FileNavigation = Navigation.Clean(fileName),
+                FileNavigation = TwNavigation.Clean(fileName),
                 Size = fileData.Length,
                 ContentType = Utility.GetMimeType(fileName)
             }, userId);

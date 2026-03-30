@@ -7,15 +7,15 @@ using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Security.Claims;
 using TightWiki.Engine;
-using TightWiki.Library;
-using TightWiki.Models.ViewModels.Profile;
-using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using TightWiki.Repository;
-using static TightWiki.Library.Images;
+using TightWiki.ViewModels.Profile;
+using TightWiki.ViewModels.Utility;
+using static TightWiki.Plugin.Library.TwImages;
 
 namespace TightWiki.Controllers
 {
@@ -238,7 +238,7 @@ namespace TightWiki.Controllers
                 {
                     var thisRev = await PageRepository.GetPageRevisionByNavigation(item.Navigation, item.Revision);
                     var prevRev = await PageRepository.GetPageRevisionByNavigation(item.Navigation, item.Revision - 1);
-                    item.ChangeAnalysis = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
+                    item.ChangeAnalysis = TwDifferentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
                 }
 
                 return View(model);
@@ -276,9 +276,9 @@ namespace TightWiki.Controllers
                          await UsersRepository.GetAccountProfileByUserId(SessionState.Profile.EnsureNotNull().UserId)),
 
                     Themes = await ConfigurationRepository.GetAllThemes(),
-                    TimeZones = TimeZoneItem.GetAll(),
-                    Countries = CountryItem.GetAll(),
-                    Languages = LanguageItem.GetAll()
+                    TimeZones = TwTimeZoneItem.GetAll(),
+                    Countries = TwCountryItem.GetAll(),
+                    Languages = TwLanguageItem.GetAll()
                 };
 
                 model.AccountProfile.CreatedDate = SessionState.LocalizeDateTime(model.AccountProfile.CreatedDate);
@@ -312,9 +312,9 @@ namespace TightWiki.Controllers
                 }
                 SessionState.Page.Name = Localize("My Profile");
 
-                model.TimeZones = TimeZoneItem.GetAll();
-                model.Countries = CountryItem.GetAll();
-                model.Languages = LanguageItem.GetAll();
+                model.TimeZones = TwTimeZoneItem.GetAll();
+                model.Countries = TwCountryItem.GetAll();
+                model.Languages = TwLanguageItem.GetAll();
                 model.Themes = await ConfigurationRepository.GetAllThemes();
 
                 //Get the UserId from the logged in context because we do not trust anything from the model.

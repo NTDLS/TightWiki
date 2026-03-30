@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using TightWiki.Plugin.Engine.Function;
 
 namespace TightWiki.Plugin.Interfaces
 {

@@ -1,0 +1,19 @@
+﻿using Dapper;
+using System.Data;
+
+namespace TightWiki.Plugin.Library
+{
+    public class TwGuidTypeHandler
+        : SqlMapper.TypeHandler<Guid>
+    {
+        public override void SetValue(IDbDataParameter parameter, Guid value)
+        {
+            parameter.Value = value.ToString();
+        }
+
+        public override Guid Parse(object value)
+        {
+            return Guid.Parse((string)value);
+        }
+    }
+}

@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Security.Claims;
-using TightWiki.Models.ViewModels;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Repository;
+using TightWiki.ViewModels;
 
 namespace TightWiki.Controllers
 {

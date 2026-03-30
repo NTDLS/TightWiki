@@ -1,13 +1,13 @@
-﻿@model TightWiki.Models.ViewModels.Admin.PageStatisticsViewModel
+﻿@using NTDLS.Helpers
+@using TightWiki
 @using TightWiki.Plugin
 @using TightWiki.Plugin.Interfaces
-@using TightWiki
-@using NTDLS.Helpers
-@using TightWiki.Library
-@using TightWiki.Models
+@using TightWiki.Plugin.Library
+@using TightWiki.ViewModels.Admin
 @inject ITwSharedLocalizationText Localizer
 @inject TwConfiguration WikiConfiguration
 
+@model PageStatisticsViewModel
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -30,7 +30,7 @@
             <i class="bi bi-bar-chart-line me-2"></i>@Localizer["Page Statistics"]
         </span>
 
-        @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
+        @TwConfirmActionHelper.GenerateWarnButton(
             WikiConfiguration.BasePath,
             Localizer["Purging the page statistics will delete all of the stored statistics for all pages. Continue?"].Value,
             Localizer["Purge Page Statistics"].Value,
@@ -41,7 +41,7 @@
     @if (Model.Statistics.Count > 0)
     {
         <div class="card-body pb-0">
-            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
+            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
         </div>
 
         <div class="table-responsive">
@@ -51,69 +51,69 @@
    
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "Name")">
                                 @Localizer["Name"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "LastCompileDateTime")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "LastCompileDateTime")">
                                 @Localizer["Last Compile"]
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "LastErrorCount")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "LastErrorCount")">
                                 @Localizer["Errors"]
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "TotalCompilationCount")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "TotalCompilationCount")">
                                 @Localizer["Compilations"]
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "TotalViewCount")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "TotalViewCount")">
                                 @Localizer["Views"]
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Revisions")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "Revisions")">
                                 @Localizer["Revisions"]
                             </a>
                         </th>
 
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "LastWikifyTimeMs")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "LastWikifyTimeMs")">
                                 @Localizer["Build Time"]
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "LastMatchCount")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "LastMatchCount")">
                                 @Localizer["Wiki Matches"]
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "LastOutgoingLinkCount")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "LastOutgoingLinkCount")">
                                 @Localizer["Outgoing Links"]
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "LastTagCount")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "LastTagCount")">
                                 @Localizer["Tags"]
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "LastProcessedBodySize")">
-                                @Localizer["Size"] <span class="text-muted">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "LastProcessedBodySize")">
+                                @Localizer["Size"]
                             </a>
                         </th>
                     </tr>
@@ -191,7 +191,7 @@
         </div>
 
         <div class="card-body pt-3">
-            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
+            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
         </div>
     }
     else

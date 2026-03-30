@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using TightWiki.Plugin;
+using TightWiki.Plugin.Library;
 
 namespace TightWiki.Repository
 {

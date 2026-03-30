@@ -1,12 +1,12 @@
-@model TightWiki.Models.ViewModels.Admin.MenuItemsViewModel
 @using TightWiki
 @using TightWiki.Plugin
 @using TightWiki.Plugin.Interfaces
-@using TightWiki.Library
-@using TightWiki.Models
+@using TightWiki.Plugin.Library
+@using TightWiki.ViewModels.Admin
 @inject ITwSharedLocalizationText Localizer
 @inject TwConfiguration WikiConfiguration
 
+@model MenuItemsViewModel
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -43,19 +43,19 @@
                     <tr>
                         <th scope="col" class="text-nowrap" style="width: 1%;">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Ordinal")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "Ordinal")">
                                 @Localizer["Ordinal"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "Name")">
                                 @Localizer["Name"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Link")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "Link")">
                                 @Localizer["Hyperlink"]
                             </a>
                         </th>

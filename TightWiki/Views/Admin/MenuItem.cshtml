@@ -1,12 +1,11 @@
 ﻿@using TightWiki
-@using TightWiki.Library
 @using TightWiki.Plugin
 @using TightWiki.Plugin.Interfaces
-@using TightWiki.Models
+@using TightWiki.ViewModels.Admin
 @inject ITwSharedLocalizationText Localizer
 @inject TwConfiguration WikiConfiguration
 
-@model TightWiki.Models.ViewModels.Admin.MenuItemViewModel
+@model MenuItemViewModel
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -35,7 +34,7 @@
                     <i class="bi bi-floppy me-1"></i>@Localizer["Save"]
                 </button>
 
-                @ConfirmActionHelper.GenerateDangerButton(
+                @TwConfirmActionHelper.GenerateDangerButton(
                     WikiConfiguration.BasePath,
                     Localizer["Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?"].Format(Model.Name),
                     Localizer["Delete"].Value,

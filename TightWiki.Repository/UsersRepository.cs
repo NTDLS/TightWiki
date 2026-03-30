@@ -1,8 +1,7 @@
 ﻿using NTDLS.Helpers;
-using TightWiki.Library;
-using TightWiki.Models.DataModels;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Caching;
+using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using static TightWiki.Plugin.TwConstants;
 
@@ -52,7 +51,7 @@ namespace TightWiki.Repository
             );
         }
 
-        public static async Task<InsertAccountPermissionResult?> InsertAccountPermission(
+        public static async Task<TwInsertAccountPermissionResult?> InsertAccountPermission(
             Guid userId, int permissionId, string permissionDisposition, string? ns, string? pageId)
         {
             var param = new
@@ -67,7 +66,7 @@ namespace TightWiki.Repository
             return await ManagedDataStorage.Users.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("pages.db", "pages_db");
-                return await o.QueryFirstOrDefaultAsync<InsertAccountPermissionResult>("InsertAccountPermission.sql", param);
+                return await o.QueryFirstOrDefaultAsync<TwInsertAccountPermissionResult>("InsertAccountPermission.sql", param);
             });
         }
 
@@ -95,14 +94,14 @@ namespace TightWiki.Repository
         public static async Task<List<TwAccountProfile>> AutoCompleteAccount(string? searchText)
             => await ManagedDataStorage.Users.QueryAsync<TwAccountProfile>("AutoCompleteAccount.sql", new { SearchText = searchText ?? string.Empty });
 
-        public static async Task<AddRoleMemberResult?> AddRoleMemberByname(Guid userId, string roleName)
-            => await ManagedDataStorage.Users.QueryFirstOrDefaultAsync<AddRoleMemberResult>("AddRoleMemberByname.sql", new { UserId = userId, RoleName = roleName });
+        public static async Task<TwAddRoleMemberResult?> AddRoleMemberByname(Guid userId, string roleName)
+            => await ManagedDataStorage.Users.QueryFirstOrDefaultAsync<TwAddRoleMemberResult>("AddRoleMemberByname.sql", new { UserId = userId, RoleName = roleName });
 
-        public static async Task<AddRoleMemberResult?> AddRoleMember(Guid userId, int roleId)
-            => await ManagedDataStorage.Users.QueryFirstOrDefaultAsync<AddRoleMemberResult>("AddRoleMember.sql", new { UserId = userId, RoleId = roleId });
+        public static async Task<TwAddRoleMemberResult?> AddRoleMember(Guid userId, int roleId)
+            => await ManagedDataStorage.Users.QueryFirstOrDefaultAsync<TwAddRoleMemberResult>("AddRoleMember.sql", new { UserId = userId, RoleId = roleId });
 
-        public static async Task<AddAccountMembershipResult?> AddAccountMembership(Guid userId, int roleId)
-            => await ManagedDataStorage.Users.QueryFirstOrDefaultAsync<AddAccountMembershipResult>("AddAccountMembership.sql", new { UserId = userId, RoleId = roleId });
+        public static async Task<TwAddAccountMembershipResult?> AddAccountMembership(Guid userId, int roleId)
+            => await ManagedDataStorage.Users.QueryFirstOrDefaultAsync<TwAddAccountMembershipResult>("AddAccountMembership.sql", new { UserId = userId, RoleId = roleId });
 
         public static async Task RemoveRoleMember(int roleId, Guid userId)
             => await ManagedDataStorage.Users.ExecuteAsync("RemoveRoleMember.sql", new { RoleId = roleId, UserId = userId });
@@ -113,7 +112,7 @@ namespace TightWiki.Repository
         public static async Task RemoveAccountPermission(int id)
             => await ManagedDataStorage.Users.ExecuteAsync("RemoveAccountPermission.sql", new { Id = id });
 
-        public static async Task<InsertRolePermissionResult?> InsertRolePermission(
+        public static async Task<TwInsertRolePermissionResult?> InsertRolePermission(
             int roleId, int permissionId, string permissionDisposition, string? ns, string? pageId)
         {
             var param = new
@@ -128,7 +127,7 @@ namespace TightWiki.Repository
             return await ManagedDataStorage.Users.EphemeralAsync(async o =>
             {
                 using var users_db = o.Attach("pages.db", "pages_db");
-                return await o.QueryFirstOrDefaultAsync<InsertRolePermissionResult>("InsertRolePermission.sql", param);
+                return await o.QueryFirstOrDefaultAsync<TwInsertRolePermissionResult>("InsertRolePermission.sql", param);
             });
         }
 
@@ -233,7 +232,7 @@ namespace TightWiki.Repository
                 UserId = userId,
                 ModifiedDate = DateTime.UtcNow,
                 StandinName = anonymousName,
-                Navigation = Navigation.Clean(anonymousName)
+                Navigation = TwNavigation.Clean(anonymousName)
             };
 
             await ManagedDataStorage.Users.ExecuteAsync("AnonymizeProfile.sql", param);
@@ -340,7 +339,7 @@ namespace TightWiki.Repository
 
         public static async Task CreateProfile(Guid userId, string accountName)
         {
-            if (await DoesProfileAccountExist(Navigation.Clean(accountName)))
+            if (await DoesProfileAccountExist(TwNavigation.Clean(accountName)))
             {
                 throw new Exception("An account with that name already exists");
             }
@@ -349,7 +348,7 @@ namespace TightWiki.Repository
             {
                 UserId = userId,
                 AccountName = accountName,
-                Navigation = Navigation.Clean(accountName),
+                Navigation = TwNavigation.Clean(accountName),
                 CreatedDate = DateTime.UtcNow,
                 ModifiedDate = DateTime.UtcNow
             };

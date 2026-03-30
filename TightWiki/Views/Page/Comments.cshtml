@@ -1,12 +1,12 @@
 ﻿@using TightWiki
-@using TightWiki.Library
-@using TightWiki.Models
 @using TightWiki.Plugin
 @using TightWiki.Plugin.Interfaces
+@using TightWiki.Plugin.Library
+@using TightWiki.ViewModels.Page
 @inject ITwSharedLocalizationText Localizer
 @inject TwConfiguration WikiConfiguration
 
-@model TightWiki.Models.ViewModels.Page.PageCommentsViewModel
+@model PageCommentsViewModel
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -69,7 +69,7 @@
         </div>
     }
 
-    @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
+    @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
 
     @if (Model.Comments.Count > 0)
     {
@@ -134,6 +134,6 @@
     }
 
     <div class="mt-3">
-        @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
+        @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
     </div>
 }

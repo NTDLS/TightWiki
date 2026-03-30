@@ -1,11 +1,8 @@
 ﻿using DuoVia.FuzzyStrings;
-using Microsoft.EntityFrameworkCore.Metadata;
 using NTDLS.Helpers;
 using NTDLS.SqliteDapperWrapper;
-using TightWiki.Library;
-using TightWiki.Models.DataModels;
-using TightWiki.Plugin;
 using TightWiki.Plugin.Caching;
+using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using static TightWiki.Plugin.TwConstants;
 
@@ -115,7 +112,7 @@ namespace TightWiki.Repository
             return await ManagedDataStorage.Pages.QueryAsync<TwPage>("GetTopRecentlyModifiedPagesInfo.sql", param);
         }
 
-        private static async Task<List<PageSearchToken>> GetFuzzyPageSearchTokens(List<TwPageToken> tokens, double minimumMatchScore)
+        private static async Task<List<TwPageSearchToken>> GetFuzzyPageSearchTokens(List<TwPageToken> tokens, double minimumMatchScore)
         {
             return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
             {
@@ -126,11 +123,11 @@ namespace TightWiki.Repository
                 };
 
                 using var tempTable = o.CreateTempTableFrom("TempSearchTerms", tokens.Distinct());
-                return await o.QueryAsync<PageSearchToken>("GetFuzzyPageSearchTokens.sql", param);
+                return await o.QueryAsync<TwPageSearchToken>("GetFuzzyPageSearchTokens.sql", param);
             });
         }
 
-        private static async Task<List<PageSearchToken>> GetExactPageSearchTokens(List<TwPageToken> tokens, double minimumMatchScore)
+        private static async Task<List<TwPageSearchToken>> GetExactPageSearchTokens(List<TwPageToken> tokens, double minimumMatchScore)
         {
             return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
             {
@@ -141,11 +138,11 @@ namespace TightWiki.Repository
                 };
 
                 using var tempTable = o.CreateTempTableFrom("TempSearchTerms", tokens.Distinct());
-                return await o.QueryAsync<PageSearchToken>("GetExactPageSearchTokens.sql", param);
+                return await o.QueryAsync<TwPageSearchToken>("GetExactPageSearchTokens.sql", param);
             });
         }
 
-        private static async Task<List<PageSearchToken>> GetMeteredPageSearchTokens(List<string> searchTerms, bool allowFuzzyMatching)
+        private static async Task<List<TwPageSearchToken>> GetMeteredPageSearchTokens(List<string> searchTerms, bool allowFuzzyMatching)
         {
             var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Search, [string.Join(',', searchTerms), allowFuzzyMatching]);
 
@@ -170,7 +167,7 @@ namespace TightWiki.Repository
                     return allTokens
                             .GroupBy(token => token.PageId)
                             .Where(group => group.Sum(g => g.Score) >= minimumMatchScore) // Filtering groups
-                            .Select(group => new PageSearchToken
+                            .Select(group => new TwPageSearchToken
                             {
                                 PageId = group.Key,
                                 Match = group.Max(g => g.Match),
@@ -1138,7 +1135,7 @@ namespace TightWiki.Repository
 
         public static async Task<List<TwPage>> GetPageInfoByTags(IEnumerable<string> tags)
         {
-            var cleanedTags = tags.Select(o => Navigation.Clean(o));
+            var cleanedTags = tags.Select(o => TwNavigation.Clean(o));
 
             return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
             {
@@ -1151,7 +1148,7 @@ namespace TightWiki.Repository
         {
             return await ManagedDataStorage.Pages.EphemeralAsync(async o =>
             {
-                using var tempTable = o.CreateTempTableFrom("TempTags", new List<string> { Navigation.Clean(tag) });
+                using var tempTable = o.CreateTempTableFrom("TempTags", new List<string> { TwNavigation.Clean(tag) });
                 return await o.QueryAsync<TwPage>("GetPageInfoByTags.sql");
             });
         }
@@ -1164,7 +1161,7 @@ namespace TightWiki.Repository
                     .Select(o => new
                     {
                         Tag = o,
-                        Navigation = Navigation.Clean(o)
+                        Navigation = TwNavigation.Clean(o)
                     })
                     .DistinctBy(o => o.Navigation);
 

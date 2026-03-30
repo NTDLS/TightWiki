@@ -10,8 +10,9 @@ using Microsoft.Extensions.Logging;
 using NTDLS.DelegateThreadPooling;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation.Handlers;
-using TightWiki.Library;
+using TightWiki.Plugin.Dummy;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Library;
 using TightWiki.Repository;
 
 namespace DummyPageGenerator
@@ -28,7 +29,7 @@ namespace DummyPageGenerator
 
         static async Task Main(string[] args)
         {
-            SqlMapper.AddTypeHandler(new GuidTypeHandler());
+            SqlMapper.AddTypeHandler(new TwGuidTypeHandler());
 
             var host = Host.CreateDefaultBuilder(args)
                        .ConfigureAppConfiguration((context, config) =>
@@ -57,7 +58,7 @@ namespace DummyPageGenerator
 
             services.AddLogging(configure => configure.AddConsole());
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<TwApplicationDbContext>(options =>
                 options.UseSqlite(configuration.GetConnectionString("UsersConnection")));
 
             ManagedDataStorage.Pages.SetConnectionString(configuration.GetConnectionString("PagesConnection"));
@@ -72,7 +73,7 @@ namespace DummyPageGenerator
 
             // Register Identity services
             services.AddIdentity<IdentityUser, IdentityRole>()
-                    .AddEntityFrameworkStores<ApplicationDbContext>()
+                    .AddEntityFrameworkStores<TwApplicationDbContext>()
                     .AddDefaultTokenProviders();
 
             var serviceProvider = services.BuildServiceProvider();
@@ -84,7 +85,7 @@ namespace DummyPageGenerator
 
             //await ConfigurationRepository.ReloadEverything();
 
-            var pg = new PageGenerator(new VerbatimLocalizationText(), userManager);
+            var pg = new PageGenerator(new TwVerbatimLocalizationText(), userManager);
 
             var pool = new DelegateThreadPool();
 

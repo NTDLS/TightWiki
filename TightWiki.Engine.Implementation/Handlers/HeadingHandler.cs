@@ -1,4 +1,4 @@
-﻿using TightWiki.Plugin;
+﻿using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Engine.Implementation.Handlers

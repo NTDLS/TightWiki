@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NTDLS.Helpers;
-using TightWiki.Library;
-using TightWiki.Plugin;
+using TightWiki.Plugin.Dummy;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Library;
+using TightWiki.Plugin.Models;
 using TightWiki.Test.Library;
 using Xunit.Abstractions;
 
@@ -59,7 +60,7 @@ namespace TightWiki.Tests
 
         public ITwSessionState CreateWikiSession()
         {
-            return new DummySessionState();
+            return new TwDummySessionState();
         }
 
         public async Task<ITwEngineState> WikiTransform(string pageName, string body)

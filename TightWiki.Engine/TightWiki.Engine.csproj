@@ -12,8 +12,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />
-		<ProjectReference Include="..\TightWiki.Models\TightWiki.Models.csproj" />
+	  <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.9" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\TightWiki.Plugin\TightWiki.Plugin.csproj" />
 		<ProjectReference Include="..\TightWiki.Security\TightWiki.Security.csproj" />
 	</ItemGroup>

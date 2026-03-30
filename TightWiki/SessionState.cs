@@ -9,6 +9,7 @@ using TightWiki.Extensions;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using TightWiki.Repository;
 using TightWiki.Translations;
@@ -149,7 +150,7 @@ namespace TightWiki
         /// </summary>
         public async Task SetPageId(int? pageId, int? revision = null)
         {
-            Page = new Models.DataModels.TwPage();
+            Page = new TwPage();
             PageInstructions = new();
             PageTags = string.Empty;
 

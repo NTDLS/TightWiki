@@ -1,5 +1,4 @@
-using TightWiki.Library;
-using TightWiki.Models.DataModels;
+using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using static TightWiki.Plugin.TwConstants;
 
@@ -62,7 +61,7 @@ namespace TightWiki.Repository
             return await ManagedDataStorage.Emoji.QuerySingleOrDefaultAsync<TwEmoji>("GetEmojiByName.sql", param);
         }
 
-        public static async Task<int> UpsertEmoji(UpsertEmoji emoji)
+        public static async Task<int> UpsertEmoji(TwUpsertEmoji emoji)
         {
             int emojiId = await ManagedDataStorage.Emoji.EphemeralAsync(async o =>
             {

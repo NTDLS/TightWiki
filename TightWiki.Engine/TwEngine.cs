@@ -3,6 +3,8 @@ using NTDLS.Helpers;
 using System.Reflection;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Attributes;
+using TightWiki.Plugin.Engine;
+using TightWiki.Plugin.Engine.Function;
 using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Engine

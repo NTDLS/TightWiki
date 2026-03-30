@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
-using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.ViewModels.Utility;
 
 namespace TightWiki.Controllers
 {

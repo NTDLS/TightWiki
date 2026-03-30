@@ -5,7 +5,7 @@ using OpenAI.Chat;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using TightWiki.Library;
+using TightWiki.Plugin.Library;
 
 namespace LocalizerScan
 {
@@ -20,7 +20,7 @@ namespace LocalizerScan
             new(@"_localizer\.Format\(""((?:[^""\\]|\\.)*)""\s*[,\)]", RegexOptions.Compiled)
         ];
 
-        private static readonly SupportedCultures _supportedCultures = new SupportedCultures();
+        private static readonly TwSupportedCultures _supportedCultures = new TwSupportedCultures();
 
         private static int Main(string[] args)
         {
@@ -107,12 +107,12 @@ namespace LocalizerScan
                     }
                 }
 
-                var templateXml = EmbeddedResourceReader.LoadText(@"EmbeddedText\TemplateResourceXml.txt");
+                var templateXml = TwEmbeddedResourceReader.LoadText(@"EmbeddedText\TemplateResourceXml.txt");
 
                 Console.WriteLine($"Found {keysToTranslate.Count} unique localization keys.");
 
                 var list = _supportedCultures.Collection.ToList();
-                list.Add(new CultureInfoSettings("", "")); //Neutral culture does not have a culture code in the file name.
+                list.Add(new TwCultureInfoSettings("", "")); //Neutral culture does not have a culture code in the file name.
 
                 foreach (var culture in list)
                 {
@@ -258,7 +258,7 @@ namespace LocalizerScan
 
                     Console.WriteLine($"Processing batch of {batch.Count:n0} elements -> {targetLanguage.Name}");
 
-                    var promptText = EmbeddedResourceReader.LoadText(@"EmbeddedText\OpenAIPrompt.txt")
+                    var promptText = TwEmbeddedResourceReader.LoadText(@"EmbeddedText\OpenAIPrompt.txt")
                         .Replace("{sourceLanguage}", sourceLanguage)
                         .Replace("{targetLanguage}", targetLanguage.Name);
 

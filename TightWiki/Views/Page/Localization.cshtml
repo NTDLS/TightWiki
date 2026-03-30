@@ -1,15 +1,13 @@
-﻿@using TightWiki.Plugin
-@using TightWiki.Plugin.Interfaces
+﻿@using System.Globalization
 @using TightWiki
-@using Microsoft.AspNetCore.Mvc.Localization
-@using Microsoft.Extensions.Options
-@using System.Globalization
-@using TightWiki.Models
-@using TightWiki.Library
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
+@using TightWiki.Plugin.Library
+@using TightWiki.ViewModels.Page
 @inject ITwSharedLocalizationText Localizer
 @inject TwConfiguration WikiConfiguration
 
-@model TightWiki.Models.ViewModels.Page.PageLocalizationViewModel
+@model PageLocalizationViewModel
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");

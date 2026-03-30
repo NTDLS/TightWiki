@@ -1,12 +1,12 @@
-﻿@model TightWiki.Models.ViewModels.Admin.PagesViewModel
+﻿@using TightWiki
 @using TightWiki.Plugin
 @using TightWiki.Plugin.Interfaces
-@using TightWiki
-@using TightWiki.Library
-@using TightWiki.Models
+@using TightWiki.Plugin.Library
+@using TightWiki.ViewModels.Admin
 @inject ITwSharedLocalizationText Localizer
 @inject TwConfiguration WikiConfiguration
 
+@model PagesViewModel
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -30,7 +30,7 @@
         </span>
 
         <div class="d-flex flex-wrap gap-2">
-            @ConfirmActionHelper.GenerateWarnButton(
+            @TwConfirmActionHelper.GenerateWarnButton(
                 WikiConfiguration.BasePath,
                 Localizer["This will rebuild all pages in the wiki. This could take some time! Continue?"].Value,
                 Localizer["Rebuild All Pages"].Value,
@@ -38,7 +38,7 @@
                 Context.Request.Path.Value,
                 @class: "btn btn-warning btn-sm d-inline-flex align-items-center")
 
-            @ConfirmActionHelper.GenerateWarnButton(
+            @TwConfirmActionHelper.GenerateWarnButton(
                 WikiConfiguration.BasePath,
                 Localizer["This will compile all pages in the wiki and store them in cache. This could take some time! Continue?"].Value,
                 Localizer["Pre-Cache All Pages"].Value,
@@ -46,7 +46,7 @@
                 Context.Request.Path.Value,
                 @class: "btn btn-primary btn-sm d-inline-flex align-items-center")
 
-            @ConfirmActionHelper.GenerateDangerButton(
+            @TwConfirmActionHelper.GenerateDangerButton(
                 WikiConfiguration.BasePath,
                 Localizer["Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?"].Value,
                 Localizer["Truncate Page Revisions"].Value,
@@ -81,7 +81,7 @@
 {
     <div class="card shadow-sm">
         <div class="card-body pb-0">
-            @PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
+            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
         </div>
 
         <div class="table-responsive">
@@ -90,31 +90,31 @@
                     <tr>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "Name")">
                                 @Localizer["Name"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap" style="width: 1%;">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "Revision")">
                                 @Localizer["Revision"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap" style="width: 1%;">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "DeletedRevisions")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "DeletedRevisions")">
                                 @Localizer["Deleted Revisions"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">
                                 @Localizer["Modified By"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">
                                 @Localizer["Modified Date"]
                             </a>
                         </th>
@@ -167,7 +167,7 @@
 
                             <td class="text-nowrap">
                                 <div class="d-flex flex-wrap gap-2">
-                                    @ConfirmActionHelper.GenerateDangerButton(
+                                    @TwConfirmActionHelper.GenerateDangerButton(
                                         WikiConfiguration.BasePath,
                                         Localizer["Deleting '{0}' will move the page, all {1} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?"].Format(p.Name, p.Revision),
                                         Localizer["Delete"].Value,
@@ -183,7 +183,7 @@
         </div>
 
         <div class="card-body pt-3">
-            @PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
+            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
         </div>
     </div>
 }

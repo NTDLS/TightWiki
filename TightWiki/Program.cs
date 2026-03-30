@@ -16,9 +16,10 @@ using NTDLS.SqliteDapperWrapper;
 using TightWiki.Email;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation.Handlers;
-using TightWiki.Library;
 using TightWiki.Plugin;
+using TightWiki.Plugin.Dummy;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Library;
 using TightWiki.Repository;
 using TightWiki.Repository.Extensions;
 using TightWiki.Translations;
@@ -85,7 +86,7 @@ namespace TightWiki
 
         public static async Task Main(string[] args)
         {
-            SqlMapper.AddTypeHandler(new GuidTypeHandler());
+            SqlMapper.AddTypeHandler(new TwGuidTypeHandler());
 
             var builder = WebApplication.CreateBuilder(args);
 
@@ -100,7 +101,7 @@ namespace TightWiki
             var dataStuff = new DataStuff(builder.Configuration, new DatabaseLogger("", LogLevel.Information));
 
             var userConnectionString = dataStuff.Users.Ephemeral(o => o.NativeConnection.ConnectionString);
-            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(userConnectionString));
+            builder.Services.AddDbContext<TwApplicationDbContext>(options => options.UseSqlite(userConnectionString));
 
             await LoggingRepository.CreateTablesIfNotExist();
 
@@ -120,7 +121,7 @@ namespace TightWiki
             // Adds support for controllers and views
             builder.Services.AddControllersWithViews(config =>
                 {
-                    config.ModelBinderProviders.Insert(0, new InvariantDecimalModelBinderProvider());
+                    config.ModelBinderProviders.Insert(0, new TwInvariantDecimalModelBinderProvider());
                 })
                 .AddDataAnnotationsLocalization()
                 .AddXmlSerializerFormatters()
@@ -135,7 +136,7 @@ namespace TightWiki
 
             builder.Services.AddRazorPages();
 
-            var supportedCultures = new SupportedCultures();
+            var supportedCultures = new TwSupportedCultures();
             builder.Services.AddSingleton(x => supportedCultures);
 
             builder.Services.Configure<RequestLocalizationOptions>(opts =>
@@ -158,10 +159,10 @@ namespace TightWiki
             builder.Services.AddSingleton<ITwManagedDataStorage>(dataStuff);
             builder.Services.AddSingleton(wikiConfiguration);
 
-            builder.Services.AddSingleton<ITwEmailSender, WikiEmailSender>();
+            builder.Services.AddSingleton<ITwEmailSender, TwEmailSender>();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = requireConfirmedAccount)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<TwApplicationDbContext>();
 
             var externalAuthenticationConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.ExternalAuthentication);
             var basicConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
@@ -404,7 +405,7 @@ namespace TightWiki
                 {
                     try
                     {
-                        await DatabaseUpgrade.ApplyAllSeedData(logger, new VerbatimLocalizationText(), userManager, tightEngine,
+                        await DatabaseUpgrade.ApplyAllSeedData(logger, new TwVerbatimLocalizationText(), userManager, tightEngine,
                             [WikiDefaultDataType.Themes,
                             WikiDefaultDataType.Configurations,
                             WikiDefaultDataType.FeatureTemplates,

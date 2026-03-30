@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using NTDLS.Helpers;
 using System.Security.Claims;
-using TightWiki.Library;
 using TightWiki.Plugin;
+using TightWiki.Plugin.Library;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Repository
@@ -67,7 +67,7 @@ namespace TightWiki.Repository
 
                 await UsersRepository.SetAdminPasswordIsDefault();
 
-                var existingProfileUserId = UsersRepository.GetUserAccountIdByNavigation(Navigation.Clean(TwConstants.DEFAULTACCOUNT));
+                var existingProfileUserId = UsersRepository.GetUserAccountIdByNavigation(TwNavigation.Clean(TwConstants.DEFAULTACCOUNT));
                 if (existingProfileUserId == null)
                 {
                     await UsersRepository.CreateProfile(Guid.Parse(user.Id), TwConstants.DEFAULTACCOUNT);

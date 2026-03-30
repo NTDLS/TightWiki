@@ -57,7 +57,6 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\TightWiki.Engine.Implementation\TightWiki.Engine.Implementation.csproj" />
 	  <ProjectReference Include="..\TightWiki.Engine\TightWiki.Engine.csproj" />
-	  <ProjectReference Include="..\TightWiki.Models\TightWiki.Models.csproj" />
 	  <ProjectReference Include="..\TightWiki.Repository\TightWiki.Repository.csproj" />
 	  <ProjectReference Include="..\TightWiki.Test.Library\TightWiki.Test.Library.csproj" />
 	</ItemGroup>

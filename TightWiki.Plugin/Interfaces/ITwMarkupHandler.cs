@@ -1,4 +1,6 @@
-﻿namespace TightWiki.Plugin.Interfaces
+﻿using TightWiki.Plugin.Engine;
+
+namespace TightWiki.Plugin.Interfaces
 {
     /// <summary>
     /// Handles basic markup/style instructions like bole, italic, underline, etc.

@@ -2,14 +2,13 @@
 @using TightWiki.Plugin
 @using TightWiki.Plugin.Caching
 @using TightWiki.Plugin.Interfaces
+@using TightWiki.ViewModels.Admin
 @using System.Globalization
 @using System.Runtime.InteropServices;
-@using TightWiki.Models
-@using TightWiki.Library
 @inject ITwSharedLocalizationText Localizer
 @inject TwConfiguration WikiConfiguration
 
-@model TightWiki.Models.ViewModels.Admin.MetricsViewModel
+@model MetricsViewModel
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -34,7 +33,7 @@
             <i class="bi bi-speedometer2 me-2"></i>@Localizer["System Metrics"]
         </span>
 
-        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
+        @Html.Raw(TwConfirmActionHelper.GenerateWarnButton(
             WikiConfiguration.BasePath,
             Localizer["Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?"].Value,
             Localizer["Purge Memory Cache"].Value,
