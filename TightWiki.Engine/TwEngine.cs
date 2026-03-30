@@ -16,14 +16,15 @@ namespace TightWiki.Engine
         public TwConfiguration WikiConfiguration { get; private set; }
 
         public ILogger<ITwEngine> Logger { get; set; }
-        public ITwMarkupHandler MarkupHandler { get; private set; }
-        public ITwHeadingHandler HeadingHandler { get; private set; }
-        public ITwCommentHandler CommentHandler { get; private set; }
-        public ITwEmojiHandler EmojiHandler { get; private set; }
-        public ITwExternalLinkHandler ExternalLinkHandler { get; private set; }
-        public ITwInternalLinkHandler InternalLinkHandler { get; private set; }
-        public ITwExceptionHandler ExceptionHandler { get; private set; }
-        public ITwCompletionHandler CompletionHandler { get; private set; }
+
+        public List<ITwMarkupHandler> MarkupHandlers { get; private set; }
+        public List<ITwHeadingHandler> HeadingHandlers { get; private set; }
+        public List<ITwCommentHandler> CommentHandlers { get; private set; }
+        public List<ITwEmojiHandler> EmojiHandlers { get; private set; }
+        public List<ITwExternalLinkHandler> ExternalLinkHandlers { get; private set; }
+        public List<ITwInternalLinkHandler> InternalLinkHandlers { get; private set; }
+        public List<ITwExceptionHandler> ExceptionHandlers { get; private set; }
+        public List<ITwCompletionHandler> CompletionHandlers { get; private set; }
 
         public ITwDatabaseManager DatabaseManager { get; private set; }
 
@@ -34,20 +35,13 @@ namespace TightWiki.Engine
         public List<TwEngineFunctionDescriptor> PostProcessingFunctions { get; private set; }
 
         public TwEngine(
-            TwConfiguration wikiConfiguration
-)
+            TwConfiguration wikiConfiguration,
+            ITwDatabaseManager databaseManager,
+            ILogger<ITwEngine> logger)
         {
             WikiConfiguration = wikiConfiguration;
             DatabaseManager = databaseManager;
             Logger = logger;
-            MarkupHandler = markupHandler;
-            HeadingHandler = headingHandler;
-            CommentHandler = commentHandler;
-            EmojiHandler = emojiHandler;
-            ExternalLinkHandler = externalLinkHandler;
-            InternalLinkHandler = internalLinkHandler;
-            ExceptionHandler = exceptionHandler;
-            CompletionHandler = completionHandler;
 
             EngineModules = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(a => a.GetTypes())
