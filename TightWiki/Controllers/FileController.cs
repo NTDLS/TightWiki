@@ -7,31 +7,27 @@ using System.Web;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
-using TightWiki.Repository;
 using TightWiki.ViewModels.File;
 using static TightWiki.Plugin.Library.TwImages;
 
 namespace TightWiki.Controllers
 {
     [Route("File")]
-    public class FileController
-        : TwController<FileController>
+    public class FileController(
+            ILogger<ITwEngine> logger,
+            ITwEmojiRepository emojiRepository,
+            ITwPageRepository pageRepository,
+            ITwSharedLocalizationText localizer,
+            SignInManager<IdentityUser> signInManager,
+            TwConfiguration wikiConfiguration,
+            UserManager<IdentityUser> userManager,
+            ITwDatabaseManager databaseManager
+        )
+        : TwController<FileController>(logger, signInManager, userManager, localizer, wikiConfiguration, databaseManager)
     {
-        private readonly ILogger<ITwEngine> _logger;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
-
-        public FileController(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
-            : base(logger, signInManager, userManager, localizer, wikiConfiguration)
-        {
-            _logger = logger;
-            _signInManager = signInManager;
-            _userManager = userManager;
-        }
-
         /// <summary>
         /// Gets an image attached to a page.
         /// </summary>
@@ -55,7 +51,7 @@ namespace TightWiki.Controllers
                     return File(cached.Bytes, cached.ContentType);
                 }
 
-                var file = await PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
+                var file = await pageRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
                 if (file != null)
                 {
                     if (file.ContentType == "image/x-icon")
@@ -171,7 +167,7 @@ namespace TightWiki.Controllers
                     return File(cached.Bytes, cached.ContentType);
                 }
 
-                var file = await PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
+                var file = await pageRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
                 if (file != null)
                 {
                     var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(file.Data)));
@@ -273,7 +269,7 @@ namespace TightWiki.Controllers
                 var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
                 var fileNavigation = new TwNamespaceNavigation(givenFileNavigation);
 
-                var file = await PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
+                var file = await pageRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
 
                 if (file != null)
                 {
@@ -316,7 +312,7 @@ namespace TightWiki.Controllers
                 {
                     PageNavigation = pageNavigation.Canonical,
                     FileNavigation = fileNavigation.Canonical,
-                    Revisions = await PageFileRepository.GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged
+                    Revisions = await pageRepository.GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged
                         (pageNavigation.Canonical, fileNavigation.Canonical, GetQueryValue("page", 1))
                 };
 
@@ -350,10 +346,10 @@ namespace TightWiki.Controllers
                 }
                 var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
 
-                var page = await PageRepository.GetPageRevisionByNavigation(pageNavigation);
+                var page = await pageRepository.GetPageRevisionByNavigation(pageNavigation);
                 if (page != null)
                 {
-                    var pageFiles = await PageFileRepository.GetPageFilesInfoByPageId(page.Id);
+                    var pageFiles = await pageRepository.GetPageFilesInfoByPageId(page.Id);
 
                     return View(new FileAttachmentViewModel
                     {
@@ -396,7 +392,7 @@ namespace TightWiki.Controllers
                 {
                     var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
 
-                    var page = (await PageRepository.GetPageInfoByNavigation(pageNavigation.Canonical)).EnsureNotNull();
+                    var page = (await pageRepository.GetPageInfoByNavigation(pageNavigation.Canonical)).EnsureNotNull();
 
                     foreach (IFormFile file in postedFiles)
                     {
@@ -412,7 +408,7 @@ namespace TightWiki.Controllers
 
                                 var fileName = HttpUtility.UrlDecode(file.FileName);
 
-                                await PageFileRepository.UpsertPageFile(new TwPageFileAttachment()
+                                await pageRepository.UpsertPageFile(new TwPageFileAttachment()
                                 {
                                     Data = Utility.ConvertHttpFileToBytes(file),
                                     CreatedDate = DateTime.UtcNow,
@@ -429,7 +425,7 @@ namespace TightWiki.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Failed to upload file");
+                    Logger.LogError(ex, "Failed to upload file");
                     return StatusCode(500, new { success = false, message = Localize("An error occurred: {0}", ex.Message) });
                 }
             }
@@ -459,7 +455,7 @@ namespace TightWiki.Controllers
                 }
                 var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
 
-                var page = (await PageRepository.GetPageInfoByNavigation(pageNavigation.Canonical)).EnsureNotNull();
+                var page = (await pageRepository.GetPageInfoByNavigation(pageNavigation.Canonical)).EnsureNotNull();
 
                 if (fileData != null)
                 {
@@ -473,7 +469,7 @@ namespace TightWiki.Controllers
 
                         var fileName = HttpUtility.UrlDecode(fileData.FileName);
 
-                        await PageFileRepository.UpsertPageFile(new TwPageFileAttachment()
+                        await pageRepository.UpsertPageFile(new TwPageFileAttachment()
                         {
                             Data = Utility.ConvertHttpFileToBytes(fileData),
                             CreatedDate = DateTime.UtcNow,
@@ -514,7 +510,7 @@ namespace TightWiki.Controllers
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
 
-                await PageFileRepository.DetachPageRevisionAttachment(
+                await pageRepository.DetachPageRevisionAttachment(
                     new TwNamespaceNavigation(givenPageNavigation).Canonical,
                     new TwNamespaceNavigation(givenFileNavigation).Canonical, pageRevision);
 
@@ -535,7 +531,7 @@ namespace TightWiki.Controllers
         {
             try
             {
-                var emojis = await EmojiRepository.AutoCompleteEmoji(q ?? string.Empty);
+                var emojis = await emojiRepository.AutoCompleteEmoji(q ?? string.Empty);
 
                 return Json(emojis.Select(o => new
                 {
@@ -582,7 +578,7 @@ namespace TightWiki.Controllers
                         if (emoji.ImageData == null)
                         {
                             //We don't get the bytes by default, that would be a lot of RAM for all the thousands of images.
-                            emoji.ImageData = (await EmojiRepository.GetEmojiByName(emoji.Name))?.ImageData;
+                            emoji.ImageData = (await emojiRepository.GetEmojiByName(emoji.Name))?.ImageData;
 
                             if (emoji.ImageData == null)
                             {

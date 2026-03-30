@@ -11,7 +11,7 @@ using System.Text.Encodings.Web;
 using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
-using TightWiki.Repository;
+using TightWiki.Plugin.Interfaces.Repository;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
@@ -37,17 +37,26 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ITwEmailSender _emailSender;
-
+        private readonly ITwConfigurationRepository _configurationRepository;
+        private readonly ITwUsersRepository _usersRepository;
         public EmailModel(
-            ILogger<ITwEngine> logger,
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
-            ITwEmailSender emailSender, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
-                        : base(logger, signInManager, localizer, wikiConfiguration)
+                ILogger<ITwEngine> logger,
+                UserManager<IdentityUser> userManager,
+                SignInManager<IdentityUser> signInManager,
+                ITwEmailSender emailSender,
+                ITwSharedLocalizationText localizer,
+                TwConfiguration wikiConfiguration,
+                ITwConfigurationRepository configurationRepository,
+                ITwUsersRepository usersRepository,
+                ITwDatabaseManager databaseManager
+            )
+            : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _configurationRepository = configurationRepository;
+            _usersRepository = usersRepository;
         }
 
         /// <summary>
@@ -129,12 +138,12 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
                     values: new { area = "Identity", userId = userId, email = Input.NewEmail, code = encodedCode },
                     protocol: Request.Scheme);
 
-                var configEmailTemplate = await ConfigurationRepository.Get<string>(WikiConfigurationGroup.Membership, "Template: Account Verification Email");
+                var configEmailTemplate = await _configurationRepository.Get<string>(WikiConfigurationGroup.Membership, "Template: Account Verification Email");
                 var emailTemplate = new StringBuilder(configEmailTemplate);
-                var basicConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
+                var basicConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
                 var siteName = basicConfig.Value<string>("Name");
                 var address = basicConfig.Value<string>("Address");
-                var profile = await UsersRepository.GetAccountProfileByUserId(Guid.Parse(userId));
+                var profile = await _usersRepository.GetAccountProfileByUserId(Guid.Parse(userId));
 
                 var emailSubject = "Confirm your email";
                 emailTemplate.Replace("##SUBJECT##", emailSubject);

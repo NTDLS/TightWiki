@@ -11,8 +11,8 @@ using System.Text.Encodings.Web;
 using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Library;
-using TightWiki.Repository;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Areas.Identity.Pages.Account
@@ -77,16 +77,23 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly ILogger<ITwEngine> _logger;
         private readonly ITwEmailSender _emailSender;
         private readonly ITwSharedLocalizationText _localizer;
+        private readonly ITwConfigurationRepository _configurationRepository;
+        private readonly ITwUsersRepository _usersRepository;
 
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore,
-            SignInManager<IdentityUser> signInManager,
-            ILogger<ITwEngine> logger,
-            ITwEmailSender emailSender,
-            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
-                        : base(logger, signInManager, localizer, wikiConfiguration)
+                UserManager<IdentityUser> userManager,
+                IUserStore<IdentityUser> userStore,
+                SignInManager<IdentityUser> signInManager,
+                ILogger<ITwEngine> logger,
+                ITwEmailSender emailSender,
+                ITwSharedLocalizationText localizer,
+                TwConfiguration wikiConfiguration,
+                ITwConfigurationRepository configurationRepository,
+                ITwUsersRepository usersRepository,
+                ITwDatabaseManager databaseManager
+            )
+            : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -95,6 +102,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _configurationRepository = configurationRepository;
+            _usersRepository = usersRepository;
         }
 
         [BindProperty]
@@ -111,7 +120,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             Input.Countries = TwCountryItem.GetAll();
             Input.Languages = TwLanguageItem.GetAll();
 
-            var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
+            var membershipConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
 
             if (string.IsNullOrEmpty(Input.TimeZone))
                 Input.TimeZone = membershipConfig.Value<string>("Default TimeZone").EnsureNotNull();
@@ -167,7 +176,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     ModelState.AddModelError("Input.AccountName", _localizer["Display Name is required."]);
                     return Page();
                 }
-                else if (await UsersRepository.DoesProfileAccountExist(Input.AccountName))
+                else if (await _usersRepository.DoesProfileAccountExist(Input.AccountName))
                 {
                     ModelState.AddModelError("Input.AccountName", _localizer["Display Name is already in use."]);
                     return Page();
@@ -189,9 +198,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                         var userId = await _userManager.GetUserIdAsync(user);
 
-                        var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
-                        await UsersRepository.CreateProfile(Guid.Parse(userId), Input.AccountName);
-                        await UsersRepository.AddRoleMemberByname(Guid.Parse(user.Id), membershipConfig.Value<string>("Default Signup Role").EnsureNotNull());
+                        var membershipConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
+                        await _usersRepository.CreateProfile(Guid.Parse(userId), Input.AccountName);
+                        await _usersRepository.AddRoleMemberByname(Guid.Parse(user.Id), membershipConfig.Value<string>("Default Signup Role").EnsureNotNull());
 
                         var claimsToAdd = new List<Claim>
                         {
@@ -202,7 +211,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                             new ("lastname", Input.LastName ?? ""),
                         };
 
-                        await SecurityRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
+                        await _usersRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
 
                         if (_userManager.Options.SignIn.RequireConfirmedAccount)
                         {
@@ -215,12 +224,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
                                 values: new { area = "Identity", userId = userId, code = encodedCode, returnUrl = ReturnUrl },
                                 protocol: Request.Scheme);
 
-                            var configEmailTemplate = await ConfigurationRepository.Get<string>(WikiConfigurationGroup.Membership, "Template: Account Verification Email");
+                            var configEmailTemplate = await _configurationRepository.Get<string>(WikiConfigurationGroup.Membership, "Template: Account Verification Email");
                             var emailTemplate = new StringBuilder(configEmailTemplate);
-                            var basicConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
+                            var basicConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
                             var siteName = basicConfig.Value<string>("Name");
                             var address = basicConfig.Value<string>("Address");
-                            var profile = await UsersRepository.GetAccountProfileByUserId(Guid.Parse(userId));
+                            var profile = await _usersRepository.GetAccountProfileByUserId(Guid.Parse(userId));
 
                             var emailSubject = "Confirm your email";
                             emailTemplate.Replace("##SUBJECT##", emailSubject);

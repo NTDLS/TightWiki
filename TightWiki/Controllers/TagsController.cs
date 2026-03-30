@@ -5,17 +5,24 @@ using System.Text;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Library;
-using TightWiki.Repository;
 using TightWiki.ViewModels.Page;
 
 namespace TightWiki.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class TagsController(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
-        : TwController<TagsController>(logger, signInManager, userManager, localizer, wikiConfiguration)
+    public class TagsController(
+            ILogger<ITwEngine> logger,
+            ITwPageRepository pageRepository,
+            ITwSharedLocalizationText localizer,
+            SignInManager<IdentityUser> signInManager,
+            TwConfiguration wikiConfiguration,
+            UserManager<IdentityUser> userManager,
+            ITwDatabaseManager databaseManager
+        )
+        : TwController<TagsController>(logger, signInManager, userManager, localizer, wikiConfiguration, databaseManager)
     {
         [AllowAnonymous]
         [HttpGet("Browse/{givenCanonical}")]
@@ -36,7 +43,7 @@ namespace TightWiki.Controllers
                 givenCanonical = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
 
                 string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
-                var pages = (await PageRepository.GetPageInfoByTag(givenCanonical)).OrderBy(o => o.Name).ToList();
+                var pages = (await pageRepository.GetPageInfoByTag(givenCanonical)).OrderBy(o => o.Name).ToList();
                 var glossaryHtml = new StringBuilder();
                 var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpperInvariant()).Distinct();
 
@@ -75,7 +82,7 @@ namespace TightWiki.Controllers
                 var model = new BrowseViewModel()
                 {
                     AssociatedPages = glossaryHtml.ToString(),
-                    TagCloud = await TwTagCloudBuilder.Build(WikiConfiguration.BasePath, givenCanonical, 100)
+                    TagCloud = await TwTagCloudBuilder.Build(pageRepository, WikiConfiguration.BasePath, givenCanonical, 100)
                 };
 
                 return View(model);

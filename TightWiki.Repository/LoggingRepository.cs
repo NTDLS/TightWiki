@@ -18,7 +18,8 @@ namespace TightWiki.Repository
         public LoggingRepository(IConfiguration configuration, ITwConfigurationRepository configurationRepository)
         {
             _configurationRepository = configurationRepository;
-            var connectionString = configuration.GetDatabaseConnectionString("LoggingConnection", "logging.db");
+            var configDatabaseFile = configurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);
+            var connectionString = configuration.GetDatabaseConnectionString("LoggingConnection", "logging.db", configDatabaseFile);
             LoggingFactory = new SqliteManagedFactory(connectionString);
 
             CreateTablesIfNotExist().Wait();

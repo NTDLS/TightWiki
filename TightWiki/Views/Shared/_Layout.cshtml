@@ -5,10 +5,12 @@
 @using TightWiki
 @using TightWiki.Plugin
 @using TightWiki.Plugin.Interfaces
+@using TightWiki.Plugin.Interfaces.Repository
 @using static TightWiki.Plugin.TwConstants
 @inject ITwSharedLocalizationText Localizer
 @inject ITwEngine TightEngine
 @inject TwConfiguration WikiConfiguration
+@inject ITwUsersRepository UsersRepository
 
 @{
     var sessionState = ViewData["SessionState"] as TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -324,7 +326,7 @@
         <main role="main" class="pb-3">
             @Html.Raw(WikiConfiguration.HTMLPreBody)
 
-            @if (await TightWiki.Repository.UsersRepository.AdminPasswordStatus() != WikiAdminPasswordChangeState.HasBeenChanged)
+            @if (await UsersRepository.AdminPasswordStatus() != WikiAdminPasswordChangeState.HasBeenChanged)
             {
                 <div class="card shadow-sm border-warning mb-3">
                     <div class="card-header bg-warning-subtle border-warning">

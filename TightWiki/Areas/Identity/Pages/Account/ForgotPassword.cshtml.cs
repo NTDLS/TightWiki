@@ -11,7 +11,7 @@ using System.Text.Encodings.Web;
 using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
-using TightWiki.Repository;
+using TightWiki.Plugin.Interfaces.Repository;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Areas.Identity.Pages.Account
@@ -22,15 +22,27 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ITwEmailSender _emailSender;
         private readonly ILogger<ITwEngine> _logger;
+        private readonly ITwConfigurationRepository _configurationRepository;
+        private readonly ITwUsersRepository _usersRepository;
 
         public ForgotPasswordModel(
-            ILogger<ITwEngine> logger, UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager, ITwEmailSender emailSender, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
-            : base(logger, signInManager, localizer, wikiConfiguration)
+                ILogger<ITwEngine> logger,
+                UserManager<IdentityUser> userManager,
+                SignInManager<IdentityUser> signInManager,
+                ITwEmailSender emailSender,
+                ITwSharedLocalizationText localizer,
+                TwConfiguration wikiConfiguration,
+                ITwConfigurationRepository configurationRepository,
+                ITwUsersRepository usersRepository,
+                ITwDatabaseManager databaseManager
+            )
+            : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
             _logger = logger;
             _userManager = userManager;
             _emailSender = emailSender;
+            _configurationRepository = configurationRepository;
+            _usersRepository = usersRepository;
         }
 
         /// <summary>
@@ -76,13 +88,13 @@ namespace TightWiki.Areas.Identity.Pages.Account
                         values: new { area = "Identity", encodedCode },
                         protocol: Request.Scheme);
 
-                    var configEmailTemplate = await ConfigurationRepository.Get<string>(WikiConfigurationGroup.Membership, "Template: Reset Password Email");
+                    var configEmailTemplate = await _configurationRepository.Get<string>(WikiConfigurationGroup.Membership, "Template: Reset Password Email");
 
                     var emailTemplate = new StringBuilder(configEmailTemplate);
-                    var basicConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
+                    var basicConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
                     var siteName = basicConfig.Value<string>("Name");
                     var address = basicConfig.Value<string>("Address");
-                    var profile = await UsersRepository.GetAccountProfileByUserId(Guid.Parse(user.Id));
+                    var profile = await _usersRepository.GetAccountProfileByUserId(Guid.Parse(user.Id));
 
                     var emailSubject = "Reset password";
                     emailTemplate.Replace("##SUBJECT##", emailSubject);

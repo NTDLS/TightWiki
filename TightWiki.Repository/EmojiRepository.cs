@@ -20,7 +20,8 @@ namespace TightWiki.Repository
         public EmojiRepository(IConfiguration configuration, ITwConfigurationRepository configurationRepository)
         {
             _configurationRepository = configurationRepository;
-            var connectionString = configuration.GetDatabaseConnectionString("EmojiConnection", "emoji.db");
+            var configDatabaseFile = configurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);
+            var connectionString = configuration.GetDatabaseConnectionString("EmojiConnection", "emoji.db", configDatabaseFile);
             EmojiFactory = new SqliteManagedFactory(connectionString);
         }
 

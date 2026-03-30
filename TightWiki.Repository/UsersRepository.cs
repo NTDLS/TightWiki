@@ -24,7 +24,9 @@ namespace TightWiki.Repository
         {
             _configurationRepository = configurationRepository;
 
-            UsersFactory = new SqliteManagedFactory(configuration.GetDatabaseConnectionString("ConfigConnection", "users.db"));
+            var configDatabaseFile = configurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);
+
+            UsersFactory = new SqliteManagedFactory(configuration.GetDatabaseConnectionString("ConfigConnection", "users.db", configDatabaseFile));
         }
 
         public async Task<bool> IsAccountAMemberOfRole(Guid userId, int roleId, bool forceReCache = false)

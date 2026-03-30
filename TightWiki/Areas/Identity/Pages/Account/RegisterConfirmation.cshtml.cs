@@ -21,8 +21,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public RegisterConfirmationModel(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager, ITwEmailSender emailSender,
-            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
-                        : base(logger, signInManager, localizer, wikiConfiguration)
+            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration, ITwDatabaseManager databaseManager)
+                        : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
             _logger = logger;
             _userManager = userManager;

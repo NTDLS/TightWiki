@@ -31,9 +31,11 @@ namespace TightWiki.Repository
             _configurationRepository = configurationRepository;
             _statisticsRepository = statisticsRepository;
 
-            PagesFactory = new(configuration.GetDatabaseConnectionString("PagesConnection", "pages.db"));
-            DeletedPagesFactory = new(configuration.GetDatabaseConnectionString("DeletedPagesConnection", "deletedpages.db"));
-            DeletedPageRevisionsFactory = new(configuration.GetDatabaseConnectionString("DeletedPageRevisionsConnection", "deletedpagerevisions.db"));
+            var configDatabaseFile = configurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);
+
+            PagesFactory = new(configuration.GetDatabaseConnectionString("PagesConnection", "pages.db", configDatabaseFile));
+            DeletedPagesFactory = new(configuration.GetDatabaseConnectionString("DeletedPagesConnection", "deletedpages.db", configDatabaseFile));
+            DeletedPageRevisionsFactory = new(configuration.GetDatabaseConnectionString("DeletedPageRevisionsConnection", "deletedpagerevisions.db", configDatabaseFile));
         }
 
         public async Task<List<TwPage>> AutoCompletePage(string? searchText)
@@ -740,7 +742,7 @@ namespace TightWiki.Repository
             await UpdatePageTags(page.Id, state.Tags);
             await UpdatePageProcessingInstructions(page.Id, state.ProcessingInstructions);
 
-            var pageTokens = (await ParsePageTokens( state)).Select(o =>
+            var pageTokens = (await ParsePageTokens(state)).Select(o =>
                       new TwPageToken
                       {
                           PageId = page.Id,
@@ -760,10 +762,10 @@ namespace TightWiki.Repository
         {
             var parsedTokens = new List<WeightedSearchToken>();
 
-            parsedTokens.AddRange(await ComputeParsedPageTokens( state.HtmlResult, 1));
-            parsedTokens.AddRange(await ComputeParsedPageTokens( state.Page.Description, 1.2));
-            parsedTokens.AddRange(await ComputeParsedPageTokens( string.Join(" ", state.Tags), 1.4));
-            parsedTokens.AddRange(await ComputeParsedPageTokens( state.Page.Name, 1.6));
+            parsedTokens.AddRange(await ComputeParsedPageTokens(state.HtmlResult, 1));
+            parsedTokens.AddRange(await ComputeParsedPageTokens(state.Page.Description, 1.2));
+            parsedTokens.AddRange(await ComputeParsedPageTokens(string.Join(" ", state.Tags), 1.4));
+            parsedTokens.AddRange(await ComputeParsedPageTokens(state.Page.Name, 1.6));
 
             var aggregatedTokens = parsedTokens.GroupBy(o => o.Token).Select(o => new TwAggregatedSearchToken
             {

@@ -9,8 +9,8 @@ namespace TightWiki.Pages
         private readonly ILogger<ITwEngine> _logger;
 
         public PrivacyModel(SignInManager<IdentityUser> signInManager, ILogger<ITwEngine> logger,
-            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
-            : base(logger, signInManager, localizer, wikiConfiguration)
+            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration, ITwDatabaseManager databaseManager)
+            : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
             _logger = logger;
         }

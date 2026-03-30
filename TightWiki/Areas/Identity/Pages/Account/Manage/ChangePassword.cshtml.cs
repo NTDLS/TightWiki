@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
-using TightWiki.Repository;
+using TightWiki.Plugin.Interfaces.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -52,16 +52,27 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<ITwEngine> _logger;
+        private readonly ITwConfigurationRepository _configurationRepository;
+        private readonly ITwUsersRepository _usersRepository;
 
         public ChangePasswordModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
-            ILogger<ITwEngine> logger, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
-                        : base(logger, signInManager, localizer, wikiConfiguration)
+                UserManager<IdentityUser> userManager,
+                SignInManager<IdentityUser> signInManager,
+                ILogger<ITwEngine> logger,
+                ITwSharedLocalizationText localizer,
+                TwConfiguration wikiConfiguration,
+                ITwConfigurationRepository configurationRepository,
+                ITwUsersRepository usersRepository,
+                ITwDatabaseManager databaseManager
+            )
+            : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _configurationRepository = configurationRepository;
+            _usersRepository = usersRepository;
+
         }
 
         /// <summary>
@@ -108,7 +119,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var profile = await UsersRepository.GetAccountProfileByUserId(Guid.Parse(user.Id));
+            var profile = await _usersRepository.GetAccountProfileByUserId(Guid.Parse(user.Id));
             if (user == null)
             {
                 return NotFound($"Unable to load profile with ID '{_userManager.GetUserId(User)}'.");
@@ -126,7 +137,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
 
             if (profile.AccountName.Equals(TwConstants.DEFAULTACCOUNT, StringComparison.InvariantCultureIgnoreCase))
             {
-                await UsersRepository.SetAdminPasswordIsChanged();
+                await _usersRepository.SetAdminPasswordIsChanged();
             }
 
             await _signInManager.RefreshSignInAsync(user);

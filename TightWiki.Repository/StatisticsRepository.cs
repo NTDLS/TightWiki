@@ -18,9 +18,10 @@ namespace TightWiki.Repository
         {
             _configurationRepository = configurationRepository;
 
-            StatisticsFactory = new SqliteManagedFactory(configuration.GetDatabaseConnectionString("StatisticsConnection", "statistics.db"));
-        }
+            var configDatabaseFile = configurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);
 
+            StatisticsFactory = new SqliteManagedFactory(configuration.GetDatabaseConnectionString("StatisticsConnection", "statistics.db", configDatabaseFile));
+        }
 
         public async Task IncrementPageViewCount(int pageId)
         {

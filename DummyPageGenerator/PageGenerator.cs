@@ -1,17 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using NTDLS.Helpers;
-using System.Security.Claims;
-using System.Text;
-using TightWiki.Plugin.Dummy;
-using TightWiki.Plugin.Interfaces;
-using TightWiki.Plugin.Library;
-using TightWiki.Plugin.Models;
-using TightWiki.Repository;
-using TightWiki.Repository.Helpers;
-using static TightWiki.Plugin.TwConstants;
-
-namespace DummyPageGenerator
+﻿namespace DummyPageGenerator
 {
+    /*
     internal class PageGenerator
     {
         private readonly ITwSharedLocalizationText _localizer;
@@ -392,4 +381,5 @@ namespace DummyPageGenerator
             }
         }
     }
+    */
 }

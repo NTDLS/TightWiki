@@ -3,26 +3,22 @@ using MailKit.Security;
 using Microsoft.Extensions.Logging;
 using MimeKit;
 using TightWiki.Plugin.Interfaces;
-using TightWiki.Repository;
+using TightWiki.Plugin.Interfaces.Repository;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Email
 {
-    public class TwEmailSender
+    public class TwEmailSender(
+            ILogger<TwEmailSender> logger,
+            ITwConfigurationRepository configurationRepository
+        )
         : ITwEmailSender
     {
-        private readonly ILogger<TwEmailSender> _logger;
-
-        public TwEmailSender(ILogger<TwEmailSender> logger)
-        {
-            _logger = logger;
-        }
-
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             try
             {
-                var values = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Email);
+                var values = await configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Email);
                 var smtpPassword = values.Value<string>("Password");
                 var smtpUsername = values.Value<string>("Username");
                 var smtpAddress = values.Value<string>("Address");
@@ -50,7 +46,7 @@ namespace TightWiki.Email
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, ex.Message);
+                logger.LogError(ex, ex.Message);
             }
         }
     }

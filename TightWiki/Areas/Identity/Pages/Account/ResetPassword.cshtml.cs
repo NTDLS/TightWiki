@@ -63,8 +63,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly ILogger<ITwEngine> _logger;
 
         public ResetPasswordModel(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
-                        : base(logger, signInManager, localizer, wikiConfiguration)
+            UserManager<IdentityUser> userManager, ITwSharedLocalizationText localizer,
+            TwConfiguration wikiConfiguration, ITwDatabaseManager databaseManager)
+                        : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
             _logger = logger;
             _userManager = userManager;

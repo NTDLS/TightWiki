@@ -5,34 +5,25 @@ using System.Net;
 using System.Security.Claims;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
-using TightWiki.Repository;
+using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.ViewModels;
 
 namespace TightWiki.Controllers
 {
     [Area("Identity")]
     [Route("Identity/Account")]
-    public class AccountController
-        : TwController<AccountController>
-    {
-        private readonly IUserStore<IdentityUser> _userStore;
-        private readonly IUserEmailStore<IdentityUser> _emailStore;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public AccountController(
-            TwConfiguration wikiConfiguration,
+    public class AccountController(
             IHttpContextAccessor httpContextAccessor,
             ILogger<ITwEngine> logger,
+            ITwSharedLocalizationText localizer,
+            ITwUsersRepository usersRepository,
             SignInManager<IdentityUser> signInManager,
+            TwConfiguration wikiConfiguration,
             UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore, ITwSharedLocalizationText localizer)
-            : base(logger, signInManager, userManager, localizer, wikiConfiguration)
-        {
-            _httpContextAccessor = httpContextAccessor;
-            _userStore = userStore;
-            _emailStore = (IUserEmailStore<IdentityUser>)_userStore;
-        }
-
+            ITwDatabaseManager databaseManager
+        )
+        : TwController<AccountController>(logger, signInManager, userManager, localizer, wikiConfiguration, databaseManager)
+    {
         [HttpGet("ExternalLogin")]
         [ValidateAntiForgeryToken]
         public IActionResult ExternalLoginHttpGet(string provider, string? returnUrl = null)
@@ -97,7 +88,7 @@ namespace TightWiki.Controllers
                     // User exists, sign them in:
                     await SignInManager.SignInAsync(user, isPersistent: false);
 
-                    if (await UsersRepository.GetBasicProfileByUserId(Guid.Parse(user.Id)) == null)
+                    if (await usersRepository.GetBasicProfileByUserId(Guid.Parse(user.Id)) == null)
                     {
                         if (WikiConfiguration.AllowSignup != true)
                         {
@@ -131,7 +122,7 @@ namespace TightWiki.Controllers
                         }
                         await SignInManager.SignInAsync(user, isPersistent: false);
 
-                        if (await UsersRepository.GetBasicProfileByUserId(Guid.Parse(user.Id)) == null)
+                        if (await usersRepository.GetBasicProfileByUserId(Guid.Parse(user.Id)) == null)
                         {
                             if (WikiConfiguration.AllowSignup != true)
                             {
@@ -173,16 +164,16 @@ namespace TightWiki.Controllers
         {
             try
             {
-                var userIdString = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+                var userIdString = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                if (_httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated != true)
+                if (httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated != true)
                 {
                     return;
                 }
 
                 if (Guid.TryParse(userIdString, out var userId))
                 {
-                    var profile = await UsersRepository.GetBasicProfileByUserId(userId);
+                    var profile = await usersRepository.GetBasicProfileByUserId(userId);
                     if (profile != null)
                     {
                         Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,

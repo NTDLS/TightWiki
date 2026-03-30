@@ -21,8 +21,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public ConfirmEmailModel(
             ILogger<ITwEngine> logger,
             SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
-            : base(logger, signInManager, localizer, wikiConfiguration)
+            UserManager<IdentityUser> userManager, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration, ITwDatabaseManager databaseManager)
+            : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
             _localizer = localizer;
             _logger = logger;

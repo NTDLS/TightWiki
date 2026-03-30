@@ -17,8 +17,8 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
 
         public Disable2faModel(SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            ILogger<ITwEngine> logger, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
-                        : base(logger, signInManager, localizer, wikiConfiguration)
+            ILogger<ITwEngine> logger, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration, ITwDatabaseManager databaseManager)
+                        : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
             _userManager = userManager;
             _logger = logger;

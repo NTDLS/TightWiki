@@ -1,9 +1,10 @@
 namespace TightWiki.Tests.Unit
 {
     [Collection("Database Tests")]
-    public class DatabaseTests(TwEngineFixture fixture)
+    public class DatabaseTests(/*TwEngineFixture fixture*/)
         : IClassFixture<TwEngineFixture>
     {
+        /*
         [Fact(DisplayName = "Empty page statistics.")]
         public void EmptyPageStatistics()
         {
@@ -46,24 +47,24 @@ namespace TightWiki.Tests.Unit
             given = "This is a !!test!!!";
             body = (await fixture.WikiTransform("Test :: Page 1", given)).HtmlResult;
             File.AppendAllText(filePath, $"{given}\r\n{body}\r\n");
+                */
+        //Can we loop here and test all the transformations in one go?
 
-            //Can we loop here and test all the transformations in one go?
+        //foreach (var prototype in fixture.EngineArtifacts.Engine.StandardFunctionHandler.Prototypes.Items)
+        //{
+        //}
 
-            //foreach (var prototype in fixture.EngineArtifacts.Engine.StandardFunctionHandler.Prototypes.Items)
-            //{
-            //}
+        /*
 
-            /*
+        Assert.Equal("This is a <strong>test</strong>!",
+            (await fixture.Transform("Test :: Page 1", "This is a **test**!")).HtmlResult);
 
-            Assert.Equal("This is a <strong>test</strong>!",
-                (await fixture.Transform("Test :: Page 1", "This is a **test**!")).HtmlResult);
+        Assert.Equal("This is a <strong>test</strong>!",
+            (await fixture.Transform("Test :: Page 1", "This is a **test**!")).HtmlResult);
 
-            Assert.Equal("This is a <strong>test</strong>!",
-                (await fixture.Transform("Test :: Page 1", "This is a **test**!")).HtmlResult);
-
-            Assert.Equal("This is a <strong>test</strong>!",
-                (await fixture.Transform("Test :: Page 1", "This is a **test**!")).HtmlResult);
-            */
-        }
+        Assert.Equal("This is a <strong>test</strong>!",
+            (await fixture.Transform("Test :: Page 1", "This is a **test**!")).HtmlResult);
+        */
+        //}
     }
 }

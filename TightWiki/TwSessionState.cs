@@ -11,7 +11,6 @@ using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
-using TightWiki.Repository;
 using TightWiki.Translations;
 
 namespace TightWiki
@@ -22,6 +21,7 @@ namespace TightWiki
         private readonly string _denyString = WikiPermissionDisposition.Deny.ToString();
         private readonly string _allowString = WikiPermissionDisposition.Allow.ToString();
 
+        private ITwDatabaseManager? _databaseManager;
         public IQueryCollection? QueryString { get; set; }
         public ILogger<ITwEngine>? Logger { get; private set; }
 
@@ -57,13 +57,14 @@ namespace TightWiki
         /// <summary>
         /// This method is used to hydrate the session state from PageModelBase.
         /// </summary>
-        public async Task<TwSessionState> Hydrate(ILogger<ITwEngine> logger,
-            SignInManager<IdentityUser> signInManager, PageModel pageModel, TwConfiguration wikiConfiguration)
+        public async Task<TwSessionState> Hydrate(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
+            PageModel pageModel, TwConfiguration wikiConfiguration, ITwDatabaseManager databaseManager)
         {
             Page = new TwPage() { Name = WikiConfiguration.Name };
             WikiConfiguration = wikiConfiguration;
             Logger = logger;
             QueryString = pageModel.Request.Query;
+            _databaseManager = databaseManager;
 
             await HydrateSecurityContext(pageModel.HttpContext, signInManager, pageModel.User);
             return this;
@@ -73,11 +74,12 @@ namespace TightWiki
         /// This method is used to hydrate the session state from WikiControllerBase.
         /// </summary>
         public async Task<TwSessionState> Hydrate(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
-            Controller controller, TwConfiguration wikiConfiguration)
+            Controller controller, TwConfiguration wikiConfiguration, ITwDatabaseManager databaseManager)
         {
             Page = new TwPage() { Name = WikiConfiguration.Name };
             WikiConfiguration = wikiConfiguration;
             Logger = logger;
+            _databaseManager = databaseManager;
 
             QueryString = controller.Request.Query;
             PageNavigation = RouteValue("givenCanonical", "Home");
@@ -99,6 +101,9 @@ namespace TightWiki
 
         private async Task HydrateSecurityContext(HttpContext httpContext, SignInManager<IdentityUser> signInManager, ClaimsPrincipal user)
         {
+            if (_databaseManager == null)
+                throw new Exception("Database manager is not set on session state.");
+
             IsAuthenticated = false;
 
             UserTheme = WikiConfiguration.SystemTheme;
@@ -113,13 +118,13 @@ namespace TightWiki
                     {
                         var userId = Guid.Parse((user.Claims.First(x => x.Type == ClaimTypes.NameIdentifier)?.Value).EnsureNotNull());
 
-                        var profile = await UsersRepository.GetBasicProfileByUserId(userId);
+                        var profile = await _databaseManager.UsersRepository.GetBasicProfileByUserId(userId);
                         if (profile != null)
                         {
                             Profile = profile;
-                            IsAdministrator = await UsersRepository.IsUserMemberOfAdministrators(userId);
-                            Permissions = await UsersRepository.GetApparentAccountPermissions(userId);
-                            UserTheme = (await ConfigurationRepository.GetAllThemes()).SingleOrDefault(o => o.Name == Profile.Theme) ?? WikiConfiguration.SystemTheme;
+                            IsAdministrator = await _databaseManager.UsersRepository.IsUserMemberOfAdministrators(userId);
+                            Permissions = await _databaseManager.UsersRepository.GetApparentAccountPermissions(userId);
+                            UserTheme = (await _databaseManager.ConfigurationRepository.GetAllThemes()).SingleOrDefault(o => o.Name == Profile.Theme) ?? WikiConfiguration.SystemTheme;
                             IsAuthenticated = true;
                             return;
                         }
@@ -142,7 +147,7 @@ namespace TightWiki
                 }
             }
 
-            Permissions = await UsersRepository.GetApparentRolePermissions(WikiRoles.Anonymous);
+            Permissions = await _databaseManager.UsersRepository.GetApparentRolePermissions(WikiRoles.Anonymous);
         }
 
         /// <summary>
@@ -150,20 +155,23 @@ namespace TightWiki
         /// </summary>
         public async Task SetPageId(int? pageId, int? revision = null)
         {
+            if (_databaseManager == null)
+                throw new Exception("Database manager is not set on session state.");
+
             Page = new TwPage();
             PageInstructions = new();
             PageTags = string.Empty;
 
             if (pageId != null)
             {
-                Page = await PageRepository.GetLimitedPageInfoByIdAndRevision((int)pageId, revision)
+                Page = await _databaseManager.PageRepository.GetLimitedPageInfoByIdAndRevision((int)pageId, revision)
                     ?? throw new Exception("Page not found");
 
-                PageInstructions = await PageRepository.GetPageProcessingInstructionsByPageId(Page.Id);
+                PageInstructions = await _databaseManager.PageRepository.GetPageProcessingInstructionsByPageId(Page.Id);
 
                 if (WikiConfiguration.IncludeWikiTagsInMeta)
                 {
-                    PageTags = string.Join(",", (await PageRepository.GetPageTagsById(Page.Id))
+                    PageTags = string.Join(",", (await _databaseManager.PageRepository.GetPageTagsById(Page.Id))
                         ?.Select(o => o.Tag) ?? []);
                 }
             }
@@ -196,6 +204,9 @@ namespace TightWiki
         /// </summary>
         public async Task<bool> HoldsPermission(string? givenCanonical, WikiPermission[] permissions)
         {
+            if (_databaseManager == null)
+                throw new Exception("Database manager is not set on session state.");
+
             if (IsAdministrator)
             {
                 return true;
@@ -210,7 +221,7 @@ namespace TightWiki
                 if (givenCanonical != null)
                 {
                     var navigation = new TwNamespaceNavigation(givenCanonical);
-                    page = await PageRepository.GetPageInfoByNavigation(navigation.Canonical);
+                    page = await _databaseManager.PageRepository.GetPageInfoByNavigation(navigation.Canonical);
                 }
 
                 foreach (var permission in permissions)

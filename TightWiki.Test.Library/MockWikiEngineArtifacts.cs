@@ -1,28 +1,6 @@
-﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using Dapper;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using NTDLS.Helpers;
-using System.Security.Claims;
-using System.Text;
-using TightWiki.Engine;
-using TightWiki.Engine.Implementation.Handlers;
-using TightWiki.Plugin.Dummy;
-using TightWiki.Plugin.Interfaces;
-using TightWiki.Plugin.Library;
-using TightWiki.Plugin.Models;
-using TightWiki.Repository;
-using TightWiki.Repository.Extensions;
-using TightWiki.Repository.Helpers;
-using static TightWiki.Plugin.TwConstants;
-
-namespace TightWiki.Test.Library
+﻿namespace TightWiki.Test.Library
 {
+    /*
     public class MockWikiEngineArtifacts
     {
         public ITwEngine Engine { get; private set; }
@@ -64,13 +42,16 @@ namespace TightWiki.Test.Library
 
             //Setting database contexts.
             ManagedDataStorage.Config.SetConnectionString(configuration.GetDatabaseConnectionString("ConfigConnection", "config.db"));
-            ManagedDataStorage.Logging.SetConnectionString(configuration.GetDatabaseConnectionString("LoggingConnection", "logging.db"));
-            ManagedDataStorage.Pages.SetConnectionString(configuration.GetDatabaseConnectionString("PagesConnection", "pages.db"));
-            ManagedDataStorage.DeletedPages.SetConnectionString(configuration.GetDatabaseConnectionString("DeletedPagesConnection", "deletedpages.db"));
-            ManagedDataStorage.DeletedPageRevisions.SetConnectionString(configuration.GetDatabaseConnectionString("DeletedPageRevisionsConnection", "deletedpagerevisions.db"));
-            ManagedDataStorage.Statistics.SetConnectionString(configuration.GetDatabaseConnectionString("StatisticsConnection", "statistics.db"));
-            ManagedDataStorage.Emoji.SetConnectionString(configuration.GetDatabaseConnectionString("EmojiConnection", "emoji.db"));
-            ManagedDataStorage.Users.SetConnectionString(configuration.GetDatabaseConnectionString("UsersConnection", "users.db"));
+
+            var configDatabaseFile = configurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);
+
+            ManagedDataStorage.Logging.SetConnectionString(configuration.GetDatabaseConnectionString("LoggingConnection", "logging.db", configDatabaseFile));
+            ManagedDataStorage.Pages.SetConnectionString(configuration.GetDatabaseConnectionString("PagesConnection", "pages.db", configDatabaseFile));
+            ManagedDataStorage.DeletedPages.SetConnectionString(configuration.GetDatabaseConnectionString("DeletedPagesConnection", "deletedpages.db", configDatabaseFile));
+            ManagedDataStorage.DeletedPageRevisions.SetConnectionString(configuration.GetDatabaseConnectionString("DeletedPageRevisionsConnection", "deletedpagerevisions.db", configDatabaseFile));
+            ManagedDataStorage.Statistics.SetConnectionString(configuration.GetDatabaseConnectionString("StatisticsConnection", "statistics.db", configDatabaseFile));
+            ManagedDataStorage.Emoji.SetConnectionString(configuration.GetDatabaseConnectionString("EmojiConnection", "emoji.db", configDatabaseFile));
+            ManagedDataStorage.Users.SetConnectionString(configuration.GetDatabaseConnectionString("UsersConnection", "users.db", configDatabaseFile));
 
             var services = new ServiceCollection();
 
@@ -194,6 +175,6 @@ namespace TightWiki.Test.Library
 
             await SecurityRepository.UpsertUserClaims(UserManager, user, claimsToAdd);
         }
-
     }
+    */
 }

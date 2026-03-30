@@ -19,8 +19,8 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         public TwoFactorAuthenticationModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<ITwEngine> logger, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
-            : base(logger, signInManager, localizer, wikiConfiguration)
+            ILogger<ITwEngine> logger, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration, ITwDatabaseManager databaseManager)
+            : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;

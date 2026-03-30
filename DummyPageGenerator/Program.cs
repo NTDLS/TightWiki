@@ -1,18 +1,4 @@
-﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using Dapper;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using NTDLS.DelegateThreadPooling;
-using TightWiki.Engine;
-using TightWiki.Engine.Implementation.Handlers;
-using TightWiki.Plugin.Dummy;
-using TightWiki.Plugin.Interfaces;
-using TightWiki.Plugin.Library;
+﻿using TightWiki.Plugin.Interfaces;
 
 namespace DummyPageGenerator
 {
@@ -28,6 +14,7 @@ namespace DummyPageGenerator
 
         static async Task Main(string[] args)
         {
+            /*
             SqlMapper.AddTypeHandler(new TwGuidTypeHandler());
 
             var host = Host.CreateDefaultBuilder(args)
@@ -113,6 +100,7 @@ namespace DummyPageGenerator
 
                 workload.WaitForCompletion();
             }
+            */
         }
     }
 }

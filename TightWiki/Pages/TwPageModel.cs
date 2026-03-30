@@ -7,33 +7,23 @@ using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Pages
 {
-    public class TwPageModel
+    public class TwPageModel(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
+            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration, ITwDatabaseManager databaseManager)
         : PageModel
     {
-        public ITwSharedLocalizationText Localizer { get; private set; }
+        public ITwSharedLocalizationText Localizer { get; private set; } = localizer;
 
         public TwSessionState SessionState { get; private set; } = new();
-        public SignInManager<IdentityUser> SignInManager { get; private set; }
+        public SignInManager<IdentityUser> SignInManager { get; private set; } = signInManager;
+        public TwConfiguration WikiConfiguration { get; private set; } = wikiConfiguration;
 
         public string SuccessMessage { get; set; } = string.Empty;
         public string WarningMessage { get; set; } = string.Empty;
         public string ErrorMessage { get; set; } = string.Empty;
 
-        public ILogger<ITwEngine> Logger { get; private set; }
-        public TwConfiguration WikiConfiguration { get; private set; }
-
-        public TwPageModel(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
-            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
-        {
-            WikiConfiguration = wikiConfiguration;
-            Localizer = localizer;
-            Logger = logger;
-            SignInManager = signInManager;
-        }
-
         public override async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
         {
-            var sessionState = await SessionState.Hydrate(Logger, SignInManager, this, WikiConfiguration);
+            var sessionState = await SessionState.Hydrate(logger, SignInManager, this, WikiConfiguration, databaseManager);
             ViewData["SessionState"] = sessionState;
             await next();
         }

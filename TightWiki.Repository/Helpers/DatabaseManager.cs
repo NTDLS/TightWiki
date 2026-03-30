@@ -558,5 +558,77 @@ namespace TightWiki.Repository.Helpers
                 await databaseFactory.ExecuteAsync(scriptText);
             }
         }
+
+        #region Database admin.
+
+        public async Task<string> VacuumDatabase(string databaseName)
+        {
+            var results = await Databases.Single(o => o.Name == databaseName)
+                .Factory.QueryAsync<string>("VacuumDatabase.sql");
+
+            return string.Join("\r\n", results);
+        }
+
+        public async Task<string> OptimizeDatabase(string databaseName)
+        {
+            var results = Databases.Single(o => o.Name == databaseName)
+                .Factory.Query<string>("OptimizeDatabase.sql");
+
+            return string.Join("\r\n", results);
+        }
+
+        public async Task<string> IntegrityCheckDatabase(string databaseName)
+        {
+            var results = await Databases.Single(o => o.Name == databaseName)
+                .Factory.QueryAsync<string>("IntegrityCheckDatabase.sql");
+
+            return string.Join("\r\n", results) + ForeignKeyCheck(databaseName);
+        }
+
+        public async Task<string> ForeignKeyCheck(string databaseName)
+        {
+            var results = await Databases.Single(o => o.Name == databaseName)
+                .Factory.QueryAsync<string>("ForeignKeyCheck.sql");
+
+            return string.Join("\r\n", results);
+        }
+
+        public async Task<List<(string Name, string Version)>> GetDatabaseVersions()
+        {
+            var results = new List<(string, string)>();
+
+            foreach (var db in Databases)
+            {
+                results.Add((db.Name, await db.Factory.ExecuteScalarAsync<string>("GetDatabaseVersion.sql") ?? string.Empty));
+            }
+
+            return results;
+        }
+
+        public async Task<List<(string Name, int PageCount)>> GetDatabasePageCounts()
+        {
+            var results = new List<(string, int)>();
+
+            foreach (var db in Databases)
+            {
+                results.Add((db.Name, await db.Factory.ExecuteScalarAsync<int>("GetDatabasePageCount.sql")));
+            }
+
+            return results;
+        }
+
+        public async Task<List<(string Name, int PageSize)>> GetDatabasePageSizes()
+        {
+            var results = new List<(string, int)>();
+
+            foreach (var db in Databases)
+            {
+                results.Add((db.Name, await db.Factory.ExecuteScalarAsync<int>("GetDatabasePageSize.sql")));
+            }
+
+            return results;
+        }
+
+        #endregion
     }
 }

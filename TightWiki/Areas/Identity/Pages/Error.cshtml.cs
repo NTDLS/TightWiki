@@ -43,8 +43,8 @@ namespace TightWiki.Areas.Identity.Pages
         }
 
         public ErrorModel(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
-            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
-            : base(logger, signInManager, localizer, wikiConfiguration)
+            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration, ITwDatabaseManager databaseManager)
+            : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
 
         }

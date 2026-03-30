@@ -13,8 +13,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
         }
         public RegistrationIsNotAllowedModel(ILogger<ITwEngine> logger,
-            SignInManager<IdentityUser> signInManager, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
-                        : base(logger, signInManager, localizer, wikiConfiguration)
+            SignInManager<IdentityUser> signInManager, ITwSharedLocalizationText localizer,
+            TwConfiguration wikiConfiguration, ITwDatabaseManager databaseManager)
+                        : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
         }
     }

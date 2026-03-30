@@ -85,7 +85,7 @@ namespace TightWiki.Repository.Helpers
 
         public async Task ReloadMenu()
         {
-           Configuration.MenuItems = await _databaseManager.ConfigurationRepository.GetAllMenuItems();
+            Configuration.MenuItems = await _databaseManager.ConfigurationRepository.GetAllMenuItems();
         }
 
         public async Task ReloadEmojis()

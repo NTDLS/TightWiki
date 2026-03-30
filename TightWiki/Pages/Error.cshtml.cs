@@ -8,7 +8,8 @@ namespace TightWiki.Pages
 {
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     [IgnoreAntiforgeryToken]
-    public class ErrorModel : TwPageModel
+    public class ErrorModel
+        : TwPageModel
     {
         public string? RequestId { get; set; }
 
@@ -17,8 +18,8 @@ namespace TightWiki.Pages
         private readonly ILogger<ITwEngine> _logger;
 
         public ErrorModel(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
-            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration)
-            : base(logger, signInManager, localizer, wikiConfiguration)
+            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration, ITwDatabaseManager databaseManager)
+            : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
             _logger = logger;
         }

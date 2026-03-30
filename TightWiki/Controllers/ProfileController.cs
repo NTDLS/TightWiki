@@ -10,9 +10,9 @@ using TightWiki.Engine;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
-using TightWiki.Repository;
 using TightWiki.ViewModels.Profile;
 using TightWiki.ViewModels.Utility;
 using static TightWiki.Plugin.Library.TwImages;
@@ -20,13 +20,20 @@ using static TightWiki.Plugin.Library.TwImages;
 namespace TightWiki.Controllers
 {
     [Route("[controller]")]
-    public class ProfileController(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, IWebHostEnvironment environment, ITwSharedLocalizationText localizer,
-        TwConfiguration wikiConfiguration)
-        : TwController<ProfileController>(logger, signInManager, userManager, localizer, wikiConfiguration)
+    public class ProfileController(
+            ILogger<ITwEngine> logger,
+            ITwConfigurationRepository configurationRepository,
+            ITwPageRepository pageRepository,
+            ITwSharedLocalizationText localizer,
+            ITwUsersRepository usersRepository,
+            IWebHostEnvironment environment,
+            SignInManager<IdentityUser> signInManager,
+            TwConfiguration wikiConfiguration,
+            UserManager<IdentityUser> userManager,
+            ITwDatabaseManager databaseManager
+        )
+        : TwController<ProfileController>(logger, signInManager, userManager, localizer, wikiConfiguration, databaseManager)
     {
-        private readonly IWebHostEnvironment _environment = environment;
-
         #region User Profile.
 
         /// <summary>
@@ -50,7 +57,7 @@ namespace TightWiki.Controllers
                 TwProfileAvatar? avatar;
                 if (WikiConfiguration.EnablePublicProfiles)
                 {
-                    avatar = await UsersRepository.GetProfileAvatarByNavigation(TwNamespaceNavigation.CleanAndValidate(userAccountName)) ?? new TwProfileAvatar();
+                    avatar = await usersRepository.GetProfileAvatarByNavigation(TwNamespaceNavigation.CleanAndValidate(userAccountName)) ?? new TwProfileAvatar();
                 }
                 else
                 {
@@ -60,7 +67,7 @@ namespace TightWiki.Controllers
                 if (avatar.Bytes == null || avatar.Bytes.Length == 0)
                 {
                     //Load the default avatar.
-                    var filePath = Path.Combine(_environment.WebRootPath, "Avatar.png");
+                    var filePath = Path.Combine(environment.WebRootPath, "Avatar.png");
                     var image = Image.Load(filePath);
                     using var ms = new MemoryStream();
                     image.SaveAsPng(ms);
@@ -210,7 +217,7 @@ namespace TightWiki.Controllers
                     });
                 }
 
-                var accountProfile = await UsersRepository.GetAccountProfileByNavigation(userAccountName);
+                var accountProfile = await usersRepository.GetAccountProfileByNavigation(userAccountName);
                 if (accountProfile == null)
                 {
                     return View(new PublicViewModel
@@ -231,13 +238,13 @@ namespace TightWiki.Controllers
                     Avatar = accountProfile.Avatar
                 };
 
-                model.RecentlyModified = (await PageRepository.GetTopRecentlyModifiedPagesInfoByUserId(accountProfile.UserId, WikiConfiguration.DefaultProfileRecentlyModifiedCount))
+                model.RecentlyModified = (await pageRepository.GetTopRecentlyModifiedPagesInfoByUserId(accountProfile.UserId, WikiConfiguration.DefaultProfileRecentlyModifiedCount))
                     .OrderByDescending(o => o.ModifiedDate).ThenBy(o => o.Name).ToList();
 
                 foreach (var item in model.RecentlyModified)
                 {
-                    var thisRev = await PageRepository.GetPageRevisionByNavigation(item.Navigation, item.Revision);
-                    var prevRev = await PageRepository.GetPageRevisionByNavigation(item.Navigation, item.Revision - 1);
+                    var thisRev = await pageRepository.GetPageRevisionByNavigation(item.Navigation, item.Revision);
+                    var prevRev = await pageRepository.GetPageRevisionByNavigation(item.Navigation, item.Revision - 1);
                     item.ChangeAnalysis = TwDifferentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
                 }
 
@@ -273,9 +280,9 @@ namespace TightWiki.Controllers
                 var model = new AccountProfileViewModel()
                 {
                     AccountProfile = AccountProfileAccountViewModel.FromDataModel(
-                         await UsersRepository.GetAccountProfileByUserId(SessionState.Profile.EnsureNotNull().UserId)),
+                         await usersRepository.GetAccountProfileByUserId(SessionState.Profile.EnsureNotNull().UserId)),
 
-                    Themes = await ConfigurationRepository.GetAllThemes(),
+                    Themes = await configurationRepository.GetAllThemes(),
                     TimeZones = TwTimeZoneItem.GetAll(),
                     Countries = TwCountryItem.GetAll(),
                     Languages = TwLanguageItem.GetAll()
@@ -315,7 +322,7 @@ namespace TightWiki.Controllers
                 model.TimeZones = TwTimeZoneItem.GetAll();
                 model.Countries = TwCountryItem.GetAll();
                 model.Languages = TwLanguageItem.GetAll();
-                model.Themes = await ConfigurationRepository.GetAllThemes();
+                model.Themes = await configurationRepository.GetAllThemes();
 
                 //Get the UserId from the logged in context because we do not trust anything from the model.
                 var userId = SessionState.Profile.EnsureNotNull().UserId;
@@ -327,10 +334,10 @@ namespace TightWiki.Controllers
 
                 var user = UserManager.FindByIdAsync(userId.ToString()).Result.EnsureNotNull();
 
-                var profile = await UsersRepository.GetAccountProfileByUserId(userId);
+                var profile = await usersRepository.GetAccountProfileByUserId(userId);
                 if (!profile.Navigation.Equals(model.AccountProfile.Navigation, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    if (await UsersRepository.DoesProfileAccountExist(model.AccountProfile.AccountName))
+                    if (await usersRepository.DoesProfileAccountExist(model.AccountProfile.AccountName))
                     {
                         ModelState.AddModelError("Account.AccountName", Localize("Account name is already in use."));
                         return View(model);
@@ -356,7 +363,7 @@ namespace TightWiki.Controllers
                         {
                             var imageBytes = Utility.ConvertHttpFileToBytes(file);
                             var image = Utility.CropImageToCenteredSquare(new MemoryStream(imageBytes));
-                            await UsersRepository.UpdateProfileAvatar(profile.UserId, image, "image/webp");
+                            await usersRepository.UpdateProfileAvatar(profile.UserId, image, "image/webp");
                         }
                         catch
                         {
@@ -369,7 +376,7 @@ namespace TightWiki.Controllers
                 profile.Navigation = TwNamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName);
                 profile.Biography = model.AccountProfile.Biography;
                 profile.ModifiedDate = DateTime.UtcNow;
-                await UsersRepository.UpdateProfile(profile);
+                await usersRepository.UpdateProfile(profile);
 
                 var claims = new List<Claim>
                     {
@@ -380,7 +387,7 @@ namespace TightWiki.Controllers
                         new ("lastname", model.AccountProfile.LastName ?? ""),
                         new ("theme", model.AccountProfile.Theme ?? ""),
                     };
-                await SecurityRepository.UpsertUserClaims(UserManager, user, claims);
+                await usersRepository.UpsertUserClaims(UserManager, user, claims);
 
                 await SignInManager.RefreshSignInAsync(user);
                 TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.User, [profile.Navigation]));
@@ -417,7 +424,7 @@ namespace TightWiki.Controllers
             {
                 return NotifyOfError(ex.GetBaseException().Message, "/");
             }
-            var profile = await UsersRepository.GetBasicProfileByUserId(SessionState.Profile.EnsureNotNull().UserId);
+            var profile = await usersRepository.GetBasicProfileByUserId(SessionState.Profile.EnsureNotNull().UserId);
 
             if (model.UserSelection == true && profile != null)
             {
@@ -435,7 +442,7 @@ namespace TightWiki.Controllers
 
                 await SignInManager.SignOutAsync();
 
-                await UsersRepository.AnonymizeProfile(profile.UserId);
+                await usersRepository.AnonymizeProfile(profile.UserId);
                 TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.User, [profile.Navigation]));
 
                 await HttpContext.SignOutAsync(); //Do we still need this??
@@ -466,7 +473,7 @@ namespace TightWiki.Controllers
 
             try
             {
-                var profile = await UsersRepository.GetBasicProfileByUserId(userId);
+                var profile = await usersRepository.GetBasicProfileByUserId(userId);
                 if (profile != null)
                 {
                     Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
