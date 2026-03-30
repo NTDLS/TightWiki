@@ -1,12 +1,15 @@
 ﻿using TightWiki.Plugin;
+using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Handlers;
 
 namespace TightWiki.Engine.Implementation.Handlers
 {
     /// <summary>
     /// Handles links the wiki to another site.
     /// </summary>
+    [TwPluginModule("Default external link handler", "Handles links the wiki to another site.")]
     public class ExternalLinkHandler
         : ITwExternalLinkHandler
     {

@@ -7,9 +7,9 @@ using TightWiki.Plugin.Models;
 
 namespace TightWiki.Engine.Implementation.Functions
 {
-    [TwFunctionModule("Post Processing Instruction Functions", "Built-in post processing instruction functions.")]
+    [TwPluginModule("Post Processing Instruction Functions", "Built-in post processing instruction functions.")]
     public class PostProcessingInstructionFunctions
-        : ITwFunctionModule
+        : ITwPluginModule
     {
         [TwPostProcessingInstructionFunction("Tags", "Displays list of tag links for the tags that are included on the current page.")]
         public async Task<TwHandlerResult> Tags(ITwEngineState state,

@@ -1,17 +1,20 @@
 ﻿using TightWiki.Plugin;
+using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Handlers;
 
 namespace TightWiki.Engine.Implementation.Handlers
 {
     /// <summary>
-    /// Handles basic markup/style instructions like bole, italic, underline, etc.
+    /// Handles basic markup/style instructions like bold, italic, underline, etc.
     /// </summary>
+    [TwPluginModule("Default markup handler", "Handles basic markup instructions like bold, italic, underline, etc.")]
     public class MarkupHandler
         : ITwMarkupHandler
     {
         /// <summary>
-        /// Handles basic markup instructions like bole, italic, underline, etc.
+        /// Handles basic markup instructions like bold, italic, underline, etc.
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="sequence">The sequence of symbols that were found to denotate this markup instruction,</param>

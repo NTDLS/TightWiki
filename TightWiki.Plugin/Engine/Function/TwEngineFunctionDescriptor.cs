@@ -27,9 +27,9 @@ namespace TightWiki.Plugin.Engine.Function
         /// This is used to invoke the method when the function is called, and can also be used to access any properties
         /// or fields of the class that may be needed for the function's execution.
         /// </summary>
-        public TwEngineFunctionModule EngineModule { get; }
+        public TwEnginePluginModule EngineModule { get; }
 
-        public TwEngineFunctionDescriptor(TwEngineFunctionModule engineModule, MethodInfo method, ITwFunctionDescriptorAttribute attribute)
+        public TwEngineFunctionDescriptor(TwEnginePluginModule engineModule, MethodInfo method, ITwFunctionDescriptorAttribute attribute)
         {
             EngineModule = engineModule;
             Method = method;

@@ -1,11 +1,12 @@
 ﻿using TightWiki.Plugin.Engine;
 
-namespace TightWiki.Plugin.Interfaces
+namespace TightWiki.Plugin.Interfaces.Handlers
 {
     /// <summary>
     /// Handles wiki emojis.
     /// </summary>
     public interface ITwEmojiHandler
+        : ITwPluginModule
     {
         /// <summary>
         /// Handles an emoji instruction.

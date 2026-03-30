@@ -1,11 +1,12 @@
 ﻿using TightWiki.Plugin.Engine;
 
-namespace TightWiki.Plugin.Interfaces
+namespace TightWiki.Plugin.Interfaces.Handlers
 {
     /// <summary>
     /// Handles links the wiki to another site.
     /// </summary>
     public interface ITwExternalLinkHandler
+        : ITwPluginModule
     {
         /// <summary>
         /// Handles an internal wiki link.

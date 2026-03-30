@@ -12,9 +12,9 @@ using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Engine.Implementation.Functions
 {
-    [TwFunctionModule("Standard Functions", "Built-in standard functions.")]
+    [TwPluginModule("Standard Functions", "Built-in standard functions.")]
     public class StandardFunctions
-        : ITwFunctionModule
+        : ITwPluginModule
     {
         #region Helpers.
 

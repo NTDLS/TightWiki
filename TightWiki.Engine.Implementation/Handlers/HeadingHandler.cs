@@ -1,11 +1,14 @@
-﻿using TightWiki.Plugin.Engine;
+﻿using TightWiki.Plugin.Attributes;
+using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Handlers;
 
 namespace TightWiki.Engine.Implementation.Handlers
 {
     /// <summary>
     /// Handles wiki headings. These are automatically added to the table of contents.
     /// </summary>
+    [TwPluginModule("Default heading handler", "Handles wiki headings. These are automatically added to the table of contents.")]
     public class HeadingHandler
         : ITwHeadingHandler
     {

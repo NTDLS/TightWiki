@@ -1,14 +1,15 @@
 ﻿using TightWiki.Plugin.Engine;
 
-namespace TightWiki.Plugin.Interfaces
+namespace TightWiki.Plugin.Interfaces.Handlers
 {
     /// <summary>
-    /// Handles basic markup/style instructions like bole, italic, underline, etc.
+    /// Handles basic markup/style instructions like bold, italic, underline, etc.
     /// </summary>
     public interface ITwMarkupHandler
+        : ITwPluginModule
     {
         /// <summary>
-        /// Handles basic markup instructions like bole, italic, underline, etc.
+        /// Handles basic markup instructions like bold, italic, underline, etc.
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="sequence">The sequence of symbols that were found to denotate this markup instruction,</param>

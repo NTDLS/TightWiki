@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
@@ -205,7 +206,10 @@ namespace TightWiki.Engine
 
             ProcessingTime = DateTime.UtcNow - startTime;
 
-            await Engine.CompletionHandler.Complete(this);
+            foreach (var handler in Engine.CompletionHandlers)
+            {
+                await handler.Handle(this);
+            }
 
             return this;
         }
@@ -312,9 +316,25 @@ namespace TightWiki.Engine
                 {
                     string body = match.Value.Substring(sequence.Length, match.Value.Length - sequence.Length * 2);
 
-                    var result = await Engine.MarkupHandler.Handle(this, symbol, body);
-
-                    StoreHandlerResult(result, WikiMatchType.Markup, pageContent, match.Value);
+                    bool wasHandled = false;
+                    foreach (var handler in Engine.MarkupHandlers)
+                    {
+                        var result = await handler.Handle(this, symbol, body);
+                        if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
+                        {
+                            StoreHandlerResult(result, WikiMatchType.Markup, pageContent, match.Value);
+                            break;
+                        }
+                    }
+                    if (!wasHandled)
+                    {
+                        var unhandledResult = new TwHandlerResult
+                        {
+                            Content = match.Value, //If no handler handled this markup, we just return the original text.
+                            Instructions = new List<HandlerResultInstruction>() //No special instructions, just swap in the content.
+                        };
+                        StoreHandlerResult(unhandledResult, WikiMatchType.Markup, pageContent, match.Value);
+                    }
                 }
             }
 
@@ -486,14 +506,26 @@ namespace TightWiki.Engine
                     string link = _tocName + "_" + TableOfContents.Count.ToString();
                     string text = match.Value.Substring(headingMarkers).Trim().Trim(['=']).Trim();
 
-                    var result = await Engine.HeadingHandler.Handle(this, headingMarkers - 1, link, text);
-
-                    if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
+                    bool wasHandled = false;
+                    foreach (var handler in Engine.HeadingHandlers)
                     {
-                        TableOfContents.Add(new TwTableOfContentsTag(headingMarkers - 1, match.Index, link, text));
+                        var result = await handler.Handle(this, headingMarkers - 1, link, text);
+                        if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
+                        {
+                            TableOfContents.Add(new TwTableOfContentsTag(headingMarkers - 1, match.Index, link, text));
+                            StoreHandlerResult(result, WikiMatchType.Heading, pageContent, match.Value);
+                            break;
+                        }
                     }
-
-                    StoreHandlerResult(result, WikiMatchType.Heading, pageContent, match.Value);
+                    if (!wasHandled)
+                    {
+                        var unhandledResult = new TwHandlerResult
+                        {
+                            Content = match.Value, //If no handler handled this markup, we just return the original text.
+                            Instructions = new List<HandlerResultInstruction>() //No special instructions, just swap in the content.
+                        };
+                        StoreHandlerResult(unhandledResult, WikiMatchType.Heading, pageContent, match.Value);
+                    }
                 }
             }
         }
@@ -505,8 +537,25 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                var result = await Engine.CommentHandler.Handle(this, match.Value);
-                StoreHandlerResult(result, WikiMatchType.Comment, pageContent, match.Value);
+                bool wasHandled = false;
+                foreach (var handler in Engine.CommentHandlers)
+                {
+                    var result = await handler.Handle(this, match.Value);
+                    if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
+                    {
+                        StoreHandlerResult(result, WikiMatchType.Comment, pageContent, match.Value);
+                        break;
+                    }
+                }
+                if (!wasHandled)
+                {
+                    var unhandledResult = new TwHandlerResult
+                    {
+                        Content = match.Value, //If no handler handled this markup, we just return the original text.
+                        Instructions = new List<HandlerResultInstruction>() //No special instructions, just swap in the content.
+                    };
+                    StoreHandlerResult(unhandledResult, WikiMatchType.Comment, pageContent, match.Value);
+                }
             }
         }
 
@@ -527,8 +576,25 @@ namespace TightWiki.Engine
                     scale = int.Parse(parts[1]); //Image scale.
                 }
 
-                var result = await Engine.EmojiHandler.Handle(this, $"%%{key}%%", scale);
-                StoreHandlerResult(result, WikiMatchType.Emoji, pageContent, match.Value);
+                bool wasHandled = false;
+                foreach (var handler in Engine.EmojiHandlers)
+                {
+                    var result = await handler.Handle(this, $"%%{key}%%", scale);
+                    if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
+                    {
+                        StoreHandlerResult(result, WikiMatchType.Emoji, pageContent, match.Value);
+                        break;
+                    }
+                }
+                if (!wasHandled)
+                {
+                    var unhandledResult = new TwHandlerResult
+                    {
+                        Content = match.Value, //If no handler handled this markup, we just return the original text.
+                        Instructions = new List<HandlerResultInstruction>() //No special instructions, just swap in the content.
+                    };
+                    StoreHandlerResult(unhandledResult, WikiMatchType.Emoji, pageContent, match.Value);
+                }
             }
         }
 
@@ -587,27 +653,44 @@ namespace TightWiki.Engine
                 string link = match.Value.Substring(2, match.Value.Length - 4).Trim();
                 var args = TwParsedFunction.ParseArgumentsAddParenthesis(link);
 
+                string? text = null;
+                string? image = null;
+
                 if (args.Count > 1)
                 {
+                    text = args[1];
                     link = args[0];
-                    string? text = args[1];
-
                     string imageTag = "image:";
-                    string? image = null;
 
                     if (text.StartsWith(imageTag, StringComparison.InvariantCultureIgnoreCase))
                     {
                         image = text.Substring(imageTag.Length).Trim();
                         text = null;
                     }
-
-                    var result = await Engine.ExternalLinkHandler.Handle(this, link, text, image);
-                    StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value);
                 }
                 else
                 {
-                    var result = await Engine.ExternalLinkHandler.Handle(this, link, link, null);
-                    StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value);
+                    text = link;
+                }
+
+                bool wasHandled = false;
+                foreach (var handler in Engine.ExternalLinkHandlers)
+                {
+                    var result = await handler.Handle(this, link, text, image);
+                    if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
+                    {
+                        StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value);
+                        break;
+                    }
+                }
+                if (!wasHandled)
+                {
+                    var unhandledResult = new TwHandlerResult
+                    {
+                        Content = match.Value, //If no handler handled this markup, we just return the original text.
+                        Instructions = new List<HandlerResultInstruction>() //No special instructions, just swap in the content.
+                    };
+                    StoreHandlerResult(unhandledResult, WikiMatchType.Link, pageContent, match.Value);
                 }
             }
 
@@ -620,27 +703,46 @@ namespace TightWiki.Engine
                 string link = match.Value.Substring(2, match.Value.Length - 4).Trim();
                 var args = TwParsedFunction.ParseArgumentsAddParenthesis(link);
 
+                string? text = null;
+                string? image = null;
+
                 if (args.Count > 1)
                 {
                     link = args[0];
-                    string? text = args[1];
+                    text = args[1];
 
                     string imageTag = "image:";
-                    string? image = null;
+                    image = null;
 
                     if (text.StartsWith(imageTag, StringComparison.InvariantCultureIgnoreCase))
                     {
                         image = text.Substring(imageTag.Length).Trim();
                         text = null;
                     }
-
-                    var result = await Engine.ExternalLinkHandler.Handle(this, link, text, image);
-                    StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value);
                 }
                 else
                 {
-                    var result = await Engine.ExternalLinkHandler.Handle(this, link, link, null);
-                    StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value);
+                    text = link;
+                }
+
+                bool wasHandled = false;
+                foreach (var handler in Engine.ExternalLinkHandlers)
+                {
+                    var result = await handler.Handle(this, link, text, image);
+                    if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
+                    {
+                        StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value);
+                        break;
+                    }
+                }
+                if (!wasHandled)
+                {
+                    var unhandledResult = new TwHandlerResult
+                    {
+                        Content = match.Value, //If no handler handled this markup, we just return the original text.
+                        Instructions = new List<HandlerResultInstruction>() //No special instructions, just swap in the content.
+                    };
+                    StoreHandlerResult(unhandledResult, WikiMatchType.Link, pageContent, match.Value);
                 }
             }
 
@@ -712,13 +814,27 @@ namespace TightWiki.Engine
                     //Use the namespace that the user explicitly specified.
                 }
 
-                var result = await Engine.InternalLinkHandler.Handle(this, pageNavigation, pageName.Trim(':'), text, image, imageScale);
-                if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
+                bool wasHandled = false;
+                foreach (var handler in Engine.InternalLinkHandlers)
                 {
-                    OutgoingLinks.Add(new TwPageReference(pageName, pageNavigation.Canonical));
-                }
+                    var result = await handler.Handle(this, pageNavigation, pageName.Trim(':'), text, image, imageScale);
+                    if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
+                    {
+                        OutgoingLinks.Add(new TwPageReference(pageName, pageNavigation.Canonical));
 
-                StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value);
+                        StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value);
+                        break;
+                    }
+                }
+                if (!wasHandled)
+                {
+                    var unhandledResult = new TwHandlerResult
+                    {
+                        Content = match.Value, //If no handler handled this markup, we just return the original text.
+                        Instructions = new List<HandlerResultInstruction>() //No special instructions, just swap in the content.
+                    };
+                    StoreHandlerResult(unhandledResult, WikiMatchType.Link, pageContent, match.Value);
+                }
             }
         }
 
@@ -875,7 +991,10 @@ namespace TightWiki.Engine
         /// <param name="ex"></param>
         private void StoreCriticalWikiError(Exception ex)
         {
-            Engine.ExceptionHandler.Log(this, LogLevel.Warning, $"Page: [{Page.Navigation}], Revision: [{Page.Revision}]", ex);
+            foreach (var handler in Engine.ExceptionHandlers)
+            {
+                handler.Handle(this, LogLevel.Warning, $"Page: [{Page.Navigation}], Revision: [{Page.Revision}]", ex);
+            }
 
             ErrorCount++;
             HtmlResult = TwWikiUtility.WarningCard("Wiki Parser Exception", ex.Message);
@@ -883,7 +1002,10 @@ namespace TightWiki.Engine
 
         private string StoreWikiError(TwString pageContent, string match, string value)
         {
-            Engine.ExceptionHandler.Log(this, LogLevel.Debug, $"Page: [{Page.Navigation}], Revision: [{Page.Revision}], Error: [{value}]");
+            foreach (var handler in Engine.ExceptionHandlers)
+            {
+                handler.Handle(this, LogLevel.Debug, $"Page: [{Page.Navigation}], Revision: [{Page.Revision}], Error: [{value}]");
+            }
 
             ErrorCount++;
             _matchesStoredPerIteration++;

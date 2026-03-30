@@ -1,12 +1,15 @@
 ﻿using TightWiki.Plugin;
+using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Handlers;
 
 namespace TightWiki.Engine.Implementation.Handlers
 {
     /// <summary>
     /// Handles wiki emojis.
     /// </summary>
+    [TwPluginModule("Default emoji handler", "Handles wiki emojis.")]
     public class EmojiHandler
         : ITwEmojiHandler
     {

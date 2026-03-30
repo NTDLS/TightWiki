@@ -1,6 +1,6 @@
 ﻿namespace TightWiki.Plugin.Interfaces
 {
-    public interface ITwFunctionModule
+    public interface ITwPluginModule
     {
 
     }

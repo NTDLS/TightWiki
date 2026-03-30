@@ -1,6 +1,8 @@
 ﻿using TightWiki.Plugin;
+using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Handlers;
 using TightWiki.Plugin.Library;
 
 namespace TightWiki.Engine.Implementation.Handlers
@@ -8,6 +10,7 @@ namespace TightWiki.Engine.Implementation.Handlers
     /// <summary>
     /// Handles links from one wiki page to another.
     /// </summary>
+    [TwPluginModule("Default internal link handler", "Handles links from one wiki page to another.")]
     public class InternalLinkHandler
         : ITwInternalLinkHandler
     {

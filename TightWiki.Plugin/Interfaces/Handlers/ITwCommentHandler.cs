@@ -1,11 +1,12 @@
 ﻿using TightWiki.Plugin.Engine;
 
-namespace TightWiki.Plugin.Interfaces
+namespace TightWiki.Plugin.Interfaces.Handlers
 {
     /// <summary>
     /// Handles wiki comments. These are generally removed from the result.
     /// </summary>
     public interface ITwCommentHandler
+        : ITwPluginModule
     {
         /// <summary>
         /// Handles a wiki comment.

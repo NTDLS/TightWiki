@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using TightWiki.Plugin.Engine.Function;
+using TightWiki.Plugin.Interfaces.Handlers;
 
 namespace TightWiki.Plugin.Interfaces
 {
@@ -10,14 +11,15 @@ namespace TightWiki.Plugin.Interfaces
         ITwDatabaseManager DatabaseManager { get; }
 
         ILogger<ITwEngine> Logger { get; }
-        ITwMarkupHandler MarkupHandler { get; }
-        ITwHeadingHandler HeadingHandler { get; }
-        ITwCommentHandler CommentHandler { get; }
-        ITwEmojiHandler EmojiHandler { get; }
-        ITwExternalLinkHandler ExternalLinkHandler { get; }
-        ITwInternalLinkHandler InternalLinkHandler { get; }
-        ITwExceptionHandler ExceptionHandler { get; }
-        ITwCompletionHandler CompletionHandler { get; }
+
+        List<ITwMarkupHandler> MarkupHandlers { get; }
+        List<ITwHeadingHandler> HeadingHandlers { get; }
+        List<ITwCommentHandler> CommentHandlers { get; }
+        List<ITwEmojiHandler> EmojiHandlers { get; }
+        List<ITwExternalLinkHandler> ExternalLinkHandlers { get; }
+        List<ITwInternalLinkHandler> InternalLinkHandlers { get; }
+        List<ITwExceptionHandler> ExceptionHandlers { get; }
+        List<ITwCompletionHandler> CompletionHandlers { get; }
 
         List<TwEngineFunctionDescriptor> StandardFunctions { get; }
         List<TwEngineFunctionDescriptor> ScopeFunctions { get; }

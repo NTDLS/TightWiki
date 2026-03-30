@@ -6,6 +6,7 @@ using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Engine.Function;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Handlers;
 
 namespace TightWiki.Engine
 {
@@ -26,24 +27,15 @@ namespace TightWiki.Engine
 
         public ITwDatabaseManager DatabaseManager { get; private set; }
 
-        public List<TwEngineFunctionModule> EngineModules { get; private set; }
+        public List<TwEnginePluginModule> EngineModules { get; private set; }
         public List<TwEngineFunctionDescriptor> StandardFunctions { get; private set; }
         public List<TwEngineFunctionDescriptor> ScopeFunctions { get; private set; }
         public List<TwEngineFunctionDescriptor> ProcessingFunctions { get; private set; }
         public List<TwEngineFunctionDescriptor> PostProcessingFunctions { get; private set; }
 
         public TwEngine(
-            TwConfiguration wikiConfiguration,
-            ITwDatabaseManager databaseManager,
-            ILogger<ITwEngine> logger,
-            ITwMarkupHandler markupHandler,
-            ITwHeadingHandler headingHandler,
-            ITwCommentHandler commentHandler,
-            ITwEmojiHandler emojiHandler,
-            ITwExternalLinkHandler externalLinkHandler,
-            ITwInternalLinkHandler internalLinkHandler,
-            ITwExceptionHandler exceptionHandler,
-            ITwCompletionHandler completionHandler)
+            TwConfiguration wikiConfiguration
+)
         {
             WikiConfiguration = wikiConfiguration;
             DatabaseManager = databaseManager;
@@ -62,93 +54,45 @@ namespace TightWiki.Engine
                 .Select(t => new
                 {
                     Type = t,
-                    Attribute = t.GetCustomAttribute<TwFunctionModuleAttribute>()
+                    Attribute = t.GetCustomAttribute<TwPluginModuleAttribute>()
                 })
                 .Where(x => x.Attribute != null)
-                .Where(x => typeof(ITwFunctionModule).IsAssignableFrom(x.Type))
+                .Where(x => typeof(ITwPluginModule).IsAssignableFrom(x.Type))
                 //This is where we instantiate the function modules, so we can later
                 //  invoke their functions without needing to instantiate them again.
-                .Select(x => new TwEngineFunctionModule(x.Type, x.Attribute.EnsureNotNull()))
+                .Select(x => new TwEnginePluginModule(x.Type, x.Attribute.EnsureNotNull()))
                 .ToList();
 
-            StandardFunctions = EngineModules
-                .SelectMany(t => t.DeclaringType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
-                .Select(m => new
+            StandardFunctions = BuildFunctionDescriptors<TwStandardFunctionAttribute>(EngineModules);
+            ScopeFunctions = BuildFunctionDescriptors<TwScopeFunctionAttribute>(EngineModules);
+            ProcessingFunctions = BuildFunctionDescriptors<TwProcessingInstructionFunctionAttribute>(EngineModules);
+            PostProcessingFunctions = BuildFunctionDescriptors<TwPostProcessingInstructionFunctionAttribute>(EngineModules);
+        }
+
+        private static List<TwEngineFunctionDescriptor> BuildFunctionDescriptors<TFunctionAttribute>(List<TwEnginePluginModule> pluginModules)
+            where TFunctionAttribute : Attribute, ITwFunctionDescriptorAttribute
+        {
+            return pluginModules
+                .SelectMany(module => module.DeclaringType
+                    .GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                    .Select(m => new { Method = m, Module = module }))
+                .Select(x => new
                 {
-                    Method = m,
-                    Attribute = m.GetCustomAttribute<TwStandardFunctionAttribute>()
+                    x.Method,
+                    x.Module,
+                    PluginAttribute = x.Method.DeclaringType?.GetCustomAttribute<TwPluginModuleAttribute>(),
+                    Attribute = x.Method.GetCustomAttribute<TFunctionAttribute>()
                 })
                 .Where(x => x.Attribute != null)
                 .Select(x =>
                 {
+                    if (x.PluginAttribute == null)
+                        throw new InvalidOperationException($"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must belong to a class decorated with TwPluginModuleAttribute.");
                     if (x.Method.ReturnType != typeof(Task<TwHandlerResult>))
-                        throw new InvalidOperationException(
-                            $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
+                        throw new InvalidOperationException($"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
                     return x;
                 })
-                .Select(m => new TwEngineFunctionDescriptor(
-                    EngineModules.Single(t => t.DeclaringType == m.Method.DeclaringType),
-                    m.Method, m.Attribute.EnsureNotNull()))
-                .ToList();
-
-            ScopeFunctions = EngineModules
-                .SelectMany(t => t.DeclaringType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
-                .Select(m => new
-                {
-                    Method = m,
-                    Attribute = m.GetCustomAttribute<TwScopeFunctionAttribute>()
-                })
-                .Where(x => x.Attribute != null)
-                .Select(x =>
-                {
-                    if (x.Method.ReturnType != typeof(Task<TwHandlerResult>))
-                        throw new InvalidOperationException(
-                            $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
-                    return x;
-                })
-                .Select(m => new TwEngineFunctionDescriptor(
-                    EngineModules.Single(t => t.DeclaringType == m.Method.DeclaringType),
-                    m.Method, m.Attribute.EnsureNotNull()))
-                .ToList();
-
-            ProcessingFunctions = EngineModules
-                .SelectMany(t => t.DeclaringType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
-                .Select(m => new
-                {
-                    Method = m,
-                    Attribute = m.GetCustomAttribute<TwProcessingInstructionFunctionAttribute>()
-                })
-                .Where(x => x.Attribute != null)
-                .Select(x =>
-                {
-                    if (x.Method.ReturnType != typeof(Task<TwHandlerResult>))
-                        throw new InvalidOperationException(
-                            $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
-                    return x;
-                })
-                .Select(m => new TwEngineFunctionDescriptor(
-                    EngineModules.Single(t => t.DeclaringType == m.Method.DeclaringType),
-                    m.Method, m.Attribute.EnsureNotNull()))
-                .ToList();
-
-            PostProcessingFunctions = EngineModules
-                .SelectMany(t => t.DeclaringType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
-                .Select(m => new
-                {
-                    Method = m,
-                    Attribute = m.GetCustomAttribute<TwPostProcessingInstructionFunctionAttribute>()
-                })
-                .Where(x => x.Attribute != null)
-                .Select(x =>
-                {
-                    if (x.Method.ReturnType != typeof(Task<TwHandlerResult>))
-                        throw new InvalidOperationException(
-                            $"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
-                    return x;
-                })
-                .Select(m => new TwEngineFunctionDescriptor(
-                    EngineModules.Single(t => t.DeclaringType == m.Method.DeclaringType),
-                    m.Method, m.Attribute.EnsureNotNull()))
+                .Select(x => new TwEngineFunctionDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull()))
                 .ToList();
         }
 

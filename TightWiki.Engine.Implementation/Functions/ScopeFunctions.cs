@@ -8,9 +8,9 @@ using TightWiki.Plugin.Styler;
 
 namespace TightWiki.Engine.Implementation.Functions
 {
-    [TwFunctionModule("Processing Instructions Functions", "Built-in scope functions.")]
+    [TwPluginModule("Processing Instructions Functions", "Built-in scope functions.")]
     public class ScopeFunctions
-        : ITwFunctionModule
+        : ITwPluginModule
     {
         [TwScopeFunction("Code", "Renders a block of code with optional syntax highlighting.", true)]
         public async Task<TwHandlerResult> Code(ITwEngineState state, string scopeBody,
