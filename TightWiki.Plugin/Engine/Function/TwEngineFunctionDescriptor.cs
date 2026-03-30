@@ -42,7 +42,7 @@ namespace TightWiki.Plugin.Engine.Function
             EngineModule = engineModule;
             Method = method;
             Attribute = attribute;
-            ModuleAttribute = moduleAttribute
+            ModuleAttribute = moduleAttribute;
             Parameters = method.GetParameters().ToList();
         }
     }

@@ -66,28 +66,28 @@ namespace TightWiki.Engine
             PostProcessingFunctions = BuildFunctionDescriptors<TwPostProcessingInstructionFunctionAttribute>(EngineModules);
 
             CompletionHandlers = BuildHandlerDescriptors<TwCompletionHandlerAttribute>(EngineModules)
-                .Select(o => new TwCompletionHandlerDescriptor(o.EngineModule, o.Method, o.Attribute)).ToList();
+                .Select(o => new TwCompletionHandlerDescriptor(o)).ToList();
 
             EmojiHandlers = BuildHandlerDescriptors<TwEmojiHandlerAttribute>(EngineModules)
-                .Select(o => new TwEmojiHandlerDescriptor(o.EngineModule, o.Method, o.Attribute)).ToList();
+                .Select(o => new TwEmojiHandlerDescriptor(o)).ToList();
 
             ExceptionHandlers = BuildHandlerDescriptors<TwExceptionHandlerAttribute>(EngineModules)
-                .Select(o => new TwExceptionHandlerDescriptor(o.EngineModule, o.Method, o.Attribute)).ToList();
+                .Select(o => new TwExceptionHandlerDescriptor(o)).ToList();
 
             ExternalLinkHandlers = BuildHandlerDescriptors<TwExternalLinkHandlerAttribute>(EngineModules)
-                .Select(o => new TwExternalLinkHandlerDescriptor(o.EngineModule, o.Method, o.Attribute)).ToList();
+                .Select(o => new TwExternalLinkHandlerDescriptor(o)).ToList();
 
             HeadingHandlers = BuildHandlerDescriptors<TwHeadingHandlerAttribute>(EngineModules)
-                .Select(o => new TwHeadingHandlerDescriptor(o.EngineModule, o.Method, o.Attribute)).ToList();
+                .Select(o => new TwHeadingHandlerDescriptor(o)).ToList();
 
             InternalLinkHandlers = BuildHandlerDescriptors<TwInternalLinkHandlerAttribute>(EngineModules)
-                .Select(o => new TwInternalLinkHandlerDescriptor(o.EngineModule, o.Method, o.Attribute)).ToList();
+                .Select(o => new TwInternalLinkHandlerDescriptor(o)).ToList();
 
             MarkupHandlers = BuildHandlerDescriptors<TwMarkupHandlerAttribute>(EngineModules)
-                .Select(o => new TwMarkupHandlerDescriptor(o.EngineModule, o.Method, o.Attribute)).ToList();
+                .Select(o => new TwMarkupHandlerDescriptor(o)).ToList();
 
             CommentHandlers = BuildHandlerDescriptors<TwCommentHandlerAttribute>(EngineModules)
-                .Select(o => new TwCommentHandlerDescriptor(o.EngineModule, o.Method, o.Attribute)).ToList();
+                .Select(o => new TwCommentHandlerDescriptor(o)).ToList();
         }
 
         private static List<TwEngineFunctionDescriptor> BuildFunctionDescriptors<TFunctionAttribute>(List<TwEnginePluginModule> pluginModules)
@@ -114,6 +114,7 @@ namespace TightWiki.Engine
                     return x;
                 })
                 .Select(x => new TwEngineFunctionDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull(), x.PluginAttribute.EnsureNotNull()))
+                .OrderBy(o => o.ModuleAttribute.Order).ThenBy(o => o.Attribute.IsFirstChance)
                 .ToList();
         }
 
@@ -141,6 +142,7 @@ namespace TightWiki.Engine
                     return x;
                 })
                 .Select(x => new TwEngineHandlerDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull(), x.PluginAttribute.EnsureNotNull()))
+                .OrderBy(o => o.ModuleAttribute.Order)
                 .ToList();
         }
 

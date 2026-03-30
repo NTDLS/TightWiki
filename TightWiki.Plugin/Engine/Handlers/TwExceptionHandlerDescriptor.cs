@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using NTDLS.Helpers;
-using System.Reflection;
-using TightWiki.Plugin.Attributes.Functions;
 using TightWiki.Plugin.Engine.Function;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Handlers;
@@ -14,10 +12,9 @@ namespace TightWiki.Plugin.Engine.Handlers
     public class TwExceptionHandlerDescriptor
         : TwEngineHandlerDescriptor, ITwExceptionHandler
     {
-        public TwExceptionHandlerDescriptor(TwEnginePluginModule engineModule, MethodInfo method, ITwHandlerDescriptorAttribute attribute)
-            : base(engineModule, method, attribute)
+        public TwExceptionHandlerDescriptor(TwEngineHandlerDescriptor descriptor)
+            : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
         {
-
         }
 
         /// <summary>
