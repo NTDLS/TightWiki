@@ -6,7 +6,7 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
     /// Handles wiki emojis.
     /// </summary>
     public interface ITwEmojiHandler
-        : Interfaces.ITwPluginModule
+        : Interfaces.ITwDisabiguation
     {
         /// <summary>
         /// Handles an emoji instruction.

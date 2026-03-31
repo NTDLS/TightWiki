@@ -1,4 +1,4 @@
-﻿using NTDLS.Helpers;
+using NTDLS.Helpers;
 using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Interfaces;
 

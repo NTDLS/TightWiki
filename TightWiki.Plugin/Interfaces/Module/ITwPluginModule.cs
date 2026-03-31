@@ -1,4 +1,4 @@
-﻿using TightWiki.Plugin.Attributes;
+using TightWiki.Plugin.Attributes;
 
 namespace TightWiki.Plugin.Interfaces.Module
 {
@@ -17,11 +17,6 @@ namespace TightWiki.Plugin.Interfaces.Module
         /// The attribute of the plugin module class, containing information such as the module name, description, and order.
         /// </summary>
         TwPluginModuleAttribute Attribute { get; }
-
-        /// <summary>
-        /// The instance of the plugin module class.
-        /// </summary>
-        //ITwPluginModule Instance { get; }
-        ITwPluginModule Instance { get; }
+        Interfaces.ITwDisabiguation Instance { get; }
     }
 }
