@@ -10,7 +10,7 @@ namespace TightWiki.Plugin.Engine.Function
     /// <summary>
     /// Contains information about an actual function call, its supplied parameters, and is matched with a defined function.
     /// </summary>
-    public class TwPreparedFunction
+    public class PreparedFunction
     {
         /// <summary>
         /// The name of the function being called.
@@ -22,9 +22,9 @@ namespace TightWiki.Plugin.Engine.Function
         /// <summary>
         /// The arguments supplied by the caller.
         /// </summary>
-        public List<TwNamedParameter> Parameters { get; private set; } = new();
+        public List<NamedParameter> Parameters { get; private set; } = new();
 
-        public TwPreparedFunction(TwEngineFunctionDescriptor descriptor, TwParsedFunction parsedFunction)
+        public PreparedFunction(TwEngineFunctionDescriptor descriptor, ParsedFunction parsedFunction)
         {
             Descriptor = descriptor;
             Name = descriptor.Method.Name;
@@ -40,8 +40,8 @@ namespace TightWiki.Plugin.Engine.Function
         /// <summary>
         /// Parsed a function call, its parameters and matches it to a defined function and its descriptor.
         /// </summary>
-        public static TwPreparedFunction Create(ITwEngineState state,
-            List<TwEngineFunctionDescriptor> descriptors, TwParsedFunction parsedFunction)
+        public static PreparedFunction Create(ITwEngineState state,
+            List<TwEngineFunctionDescriptor> descriptors, ParsedFunction parsedFunction)
         {
             var descriptor = descriptors.SingleOrDefault(o =>
                 o.Method.Name.Equals(parsedFunction.Name, StringComparison.InvariantCultureIgnoreCase)
@@ -52,7 +52,7 @@ namespace TightWiki.Plugin.Engine.Function
             int givenArgIndex = 0;
             int descriptorArgIndex = 0;
 
-            var preparedFunction = new TwPreparedFunction(descriptor, parsedFunction);
+            var preparedFunction = new PreparedFunction(descriptor, parsedFunction);
 
             if (descriptor.Parameters.Count == 0)
             {
@@ -64,13 +64,13 @@ namespace TightWiki.Plugin.Engine.Function
             {
                 throw new Exception($"Function [{descriptor.Method.Name}] must have the first parameter of type ITightEngineState.");
             }
-            preparedFunction.Parameters.Add(new TwNamedParameter(descriptor.Parameters[descriptorArgIndex].Name.EnsureNotNull(), state));
+            preparedFunction.Parameters.Add(new NamedParameter(descriptor.Parameters[descriptorArgIndex].Name.EnsureNotNull(), state));
             descriptorArgIndex++;
 
             if (descriptor.Attribute is TwScopeFunctionAttribute)
             {
                 //For scope functions, the second parameter must be the bodyText.
-                preparedFunction.Parameters.Add(new TwNamedParameter(descriptor.Parameters[descriptorArgIndex].Name.EnsureNotNull(), parsedFunction.BodyText ?? string.Empty));
+                preparedFunction.Parameters.Add(new NamedParameter(descriptor.Parameters[descriptorArgIndex].Name.EnsureNotNull(), parsedFunction.BodyText ?? string.Empty));
                 descriptorArgIndex++;
             }
 
@@ -87,7 +87,7 @@ namespace TightWiki.Plugin.Engine.Function
                 var type = Nullable.GetUnderlyingType(param.ParameterType) ?? param.ParameterType;
                 if (type.IsPrimitive || type.IsEnum || type == typeof(string))
                 {
-                    preparedFunction.Parameters.Add(new TwNamedParameter(param.Name.EnsureNotNull(), preparedFunction.ConvertArgumentValue(param, parsedFunction.Arguments[givenArgIndex])));
+                    preparedFunction.Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), preparedFunction.ConvertArgumentValue(param, parsedFunction.Arguments[givenArgIndex])));
                     descriptorArgIndex++;
                     givenArgIndex++;
                 }
@@ -110,7 +110,7 @@ namespace TightWiki.Plugin.Engine.Function
                         typedArray.SetValue(arrayValues[i], i);
                     }
 
-                    preparedFunction.Parameters.Add(new TwNamedParameter(param.Name.EnsureNotNull(), typedArray));
+                    preparedFunction.Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), typedArray));
                     descriptorArgIndex++;
                 }
             }
@@ -131,7 +131,7 @@ namespace TightWiki.Plugin.Engine.Function
                         {
                             //We have a named parameter and we are currently processing the correct
                             //  parameter in the function, so we can add it to the parameters list.
-                            preparedFunction.Parameters.Add(new TwNamedParameter(param.Name.EnsureNotNull(), preparedFunction.ConvertArgumentValue(param, value)));
+                            preparedFunction.Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), preparedFunction.ConvertArgumentValue(param, value)));
                             givenArgIndex++;
                             descriptorArgIndex++;
                             continue;
@@ -145,7 +145,7 @@ namespace TightWiki.Plugin.Engine.Function
 
                             if (param.HasDefaultValue)
                             {
-                                preparedFunction.Parameters.Add(new TwNamedParameter(param.Name.EnsureNotNull(), param.DefaultValue));
+                                preparedFunction.Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), param.DefaultValue));
                                 descriptorArgIndex++;
                                 continue;
                             }
@@ -175,7 +175,7 @@ namespace TightWiki.Plugin.Engine.Function
                             typedArray.SetValue(arrayValues[i], i);
                         }
 
-                        preparedFunction.Parameters.Add(new TwNamedParameter(param.Name.EnsureNotNull(), typedArray));
+                        preparedFunction.Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), typedArray));
                     }
                 }
             }
@@ -187,7 +187,7 @@ namespace TightWiki.Plugin.Engine.Function
 
                 if (param.HasDefaultValue)
                 {
-                    preparedFunction.Parameters.Add(new TwNamedParameter(param.Name.EnsureNotNull(), param.DefaultValue));
+                    preparedFunction.Parameters.Add(new NamedParameter(param.Name.EnsureNotNull(), param.DefaultValue));
                     descriptorArgIndex++;
                     continue;
                 }

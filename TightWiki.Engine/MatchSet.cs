@@ -1,6 +1,6 @@
 ﻿namespace TightWiki.Plugin.Engine
 {
-    public class TwMatchSet
+    public class MatchSet
     {
         /// <summary>
         /// The type of match that was found.

@@ -245,7 +245,7 @@ namespace TightWiki
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
             builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
             {
-                containerBuilder.RegisterType<TwEngine>().As<ITwEngine>().SingleInstance();
+                containerBuilder.RegisterType<WikiEngine>().As<ITwEngine>().SingleInstance();
             });
 
             builder.Services.ConfigureApplicationCookie(options =>

@@ -15,7 +15,7 @@ using TightWiki.Plugin.Models;
 
 namespace TightWiki.Engine
 {
-    public class TwEngineState
+    public class WikiEngineState
         : ITwEngineState
     {
         public ITwEngine Engine { get; private set; }
@@ -42,7 +42,7 @@ namespace TightWiki.Engine
         public List<string> ProcessingInstructions { get; private set; } = new();
         public string HtmlResult { get; private set; } = string.Empty;
         public List<string> Tags { get; set; } = new();
-        public Dictionary<string, TwMatchSet> Matches { get; private set; } = new();
+        public Dictionary<string, MatchSet> Matches { get; private set; } = new();
         public List<TwTableOfContentsTag> TableOfContents { get; } = new();
         public List<string> Headers { get; } = new();
 
@@ -108,7 +108,7 @@ namespace TightWiki.Engine
         /// <param name="revision">The revision of the page that is being processed.</param>
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
         /// <param name="nestDepth">The current depth of recursion.</param>
-        internal TwEngineState(ILogger<ITwEngine> logger, ITwEngine engine, ITwSharedLocalizationText localizer, ITwSessionState? session,
+        internal WikiEngineState(ILogger<ITwEngine> logger, ITwEngine engine, ITwSharedLocalizationText localizer, ITwSessionState? session,
             ITwPage page, int? revision = null, WikiMatchType[]? omitMatches = null, int nestDepth = 0)
         {
             Localizer = localizer;
@@ -116,7 +116,7 @@ namespace TightWiki.Engine
             QueryString = session?.QueryString ?? new EmptyQueryCollection();
             Page = page;
             Revision = revision;
-            Matches = new Dictionary<string, TwMatchSet>();
+            Matches = new Dictionary<string, MatchSet>();
             Session = session;
             NestDepth = nestDepth;
 
@@ -136,7 +136,7 @@ namespace TightWiki.Engine
         /// <param name="revision">The optional revision of the child page to process.</param>
         public async Task<ITwEngineState> TransformChild(ITwPage page, int? revision = null)
         {
-            var childState = new TwEngineState(Logger, Engine, Localizer, Session, page, revision, OmitMatches.ToArray(), NestDepth + 1);
+            var childState = new WikiEngineState(Logger, Engine, Localizer, Session, page, revision, OmitMatches.ToArray(), NestDepth + 1);
 
             return await childState.Transform();
         }
@@ -257,7 +257,7 @@ namespace TightWiki.Engine
         /// <param name="pageContent">The page content in which placeholders will be replaced. Cannot be null.</param>
         /// <param name="forceNestedDecode">If true, matches are replaced even if they are set to not allow nested decode.
         /// ForceDecode is typically only executed at the end of all processing but is made available here for special use cases by custom functions.
-        /// <see cref="TwMatchSet.AllowNestedDecode"/></param>
+        /// <see cref="MatchSet.AllowNestedDecode"/></param>
         public void SwapInStoredMatches(TwString pageContent, bool forceNestedDecode)
         {
             //We have to replace a few times because we could have replace tags (guids) nested inside others.
@@ -304,7 +304,7 @@ namespace TightWiki.Engine
         /// </summary>
         private async Task TransformMarkup(TwString pageContent)
         {
-            var symbols = TwWikiUtility.GetApplicableSymbols(pageContent.Value);
+            var symbols = WikiUtility.GetApplicableSymbols(pageContent.Value);
 
             foreach (var symbol in symbols)
             {
@@ -312,7 +312,7 @@ namespace TightWiki.Engine
                 var escapedSequence = Regex.Escape(sequence);
 
                 var rgx = new Regex(@$"{escapedSequence}(.*?){escapedSequence}", RegexOptions.IgnoreCase);
-                var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+                var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
                 foreach (var match in orderedMatches)
                 {
                     string body = match.Value.Substring(sequence.Length, match.Value.Length - sequence.Length * 2);
@@ -335,7 +335,7 @@ namespace TightWiki.Engine
                 }
             }
 
-            var sizeUpOrderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
+            var sizeUpOrderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformHeaderMarkup().Matches(pageContent.ToString()));
 
             foreach (var match in sizeUpOrderedMatches)
@@ -368,7 +368,7 @@ namespace TightWiki.Engine
             //TODO: May need to do the same thing we did with TransformBlocks() to match all these if they need to be nested.
 
             //Transform literal strings, even encodes HTML so that it displays verbatim.
-            var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformLiterals().Matches(pageContent.ToString()));
 
             foreach (var match in orderedMatches)
@@ -450,12 +450,12 @@ namespace TightWiki.Engine
         private async Task TransformScopeFunctionBlock(TwString pageContent, bool onlyProcessFirstChanceFunctions)
         {
             // {{([\\S\\s]*)}}
-            var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformBlock().Matches(pageContent.ToString()));
 
             foreach (var match in orderedMatches)
             {
-                var parsedFunction = TwParsedFunction.Create(match.Value);
+                var parsedFunction = ParsedFunction.Create(match.Value);
 
                 try
                 {
@@ -467,7 +467,7 @@ namespace TightWiki.Engine
                         continue;
                     }
 
-                    var preparedFunction = TwPreparedFunction.Create(this, Engine.ScopeFunctions, parsedFunction);
+                    var preparedFunction = PreparedFunction.Create(this, Engine.ScopeFunctions, parsedFunction);
                     var result = await preparedFunction.Execute();
                     StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
                 }
@@ -484,7 +484,7 @@ namespace TightWiki.Engine
         /// </summary>
         private async Task TransformHeadings(TwString pageContent)
         {
-            var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformSectionHeadings().Matches(pageContent.ToString()));
 
             foreach (var match in orderedMatches)
@@ -525,7 +525,7 @@ namespace TightWiki.Engine
 
         private async Task TransformComments(TwString pageContent)
         {
-            var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformComments().Matches(pageContent.ToString()));
 
             foreach (var match in orderedMatches)
@@ -550,7 +550,7 @@ namespace TightWiki.Engine
 
         private async Task TransformEmoji(TwString pageContent)
         {
-            var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformEmoji().Matches(pageContent.ToString()));
 
             foreach (var match in orderedMatches)
@@ -588,7 +588,7 @@ namespace TightWiki.Engine
         /// </summary>
         private async Task TransformVariables(TwString pageContent)
         {
-            var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformVariables().Matches(pageContent.ToString()));
 
             foreach (var match in orderedMatches)
@@ -630,13 +630,13 @@ namespace TightWiki.Engine
         private async Task TransformLinks(TwString pageContent)
         {
             //Parse external explicit links. eg. [[http://test.net]].
-            var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformExplicitHTTPLinks().Matches(pageContent.ToString()));
 
             foreach (var match in orderedMatches)
             {
                 string link = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                var args = TwParsedFunction.ParseArgumentsAddParenthesis(link);
+                var args = ParsedFunction.ParseArgumentsAddParenthesis(link);
 
                 string? text = null;
                 string? image = null;
@@ -676,13 +676,13 @@ namespace TightWiki.Engine
             }
 
             //Parse external explicit links. eg. [[https://test.net]].
-            orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
+            orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformExplicitHTTPsLinks().Matches(pageContent.ToString()));
 
             foreach (var match in orderedMatches)
             {
                 string link = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                var args = TwParsedFunction.ParseArgumentsAddParenthesis(link);
+                var args = ParsedFunction.ParseArgumentsAddParenthesis(link);
 
                 string? text = null;
                 string? image = null;
@@ -724,14 +724,14 @@ namespace TightWiki.Engine
             }
 
             //Parse internal links. eg [[About Us]], [[About Us, Learn about us]], etc..
-            orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
+            orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformInternalDynamicLinks().Matches(pageContent.ToString()));
 
             foreach (var match in orderedMatches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
 
-                var args = TwParsedFunction.ParseArgumentsAddParenthesis(keyword);
+                var args = ParsedFunction.ParseArgumentsAddParenthesis(keyword);
 
                 string pageName;
                 string text;
@@ -741,7 +741,7 @@ namespace TightWiki.Engine
                 if (args.Count == 1)
                 {
                     //Page navigation only.
-                    text = TwWikiUtility.GetPageNamePart(args[0]); //Text will be page name since we have an image.
+                    text = WikiUtility.GetPageNamePart(args[0]); //Text will be page name since we have an image.
                     pageName = args[0];
                 }
                 else if (args.Count >= 2)
@@ -753,7 +753,7 @@ namespace TightWiki.Engine
                     if (args[1].StartsWith(imageTag, StringComparison.InvariantCultureIgnoreCase))
                     {
                         image = args[1].Substring(imageTag.Length).Trim();
-                        text = TwWikiUtility.GetPageNamePart(args[0]); //Text will be page name since we have an image.
+                        text = WikiUtility.GetPageNamePart(args[0]); //Text will be page name since we have an image.
                     }
                     else
                     {
@@ -816,16 +816,16 @@ namespace TightWiki.Engine
         private async Task TransformProcessingInstructionFunctions(TwString pageContent)
         {
             // <code>(\\@\\@[\\w-]+\\(\\))|(\\@\\@[\\w-]+\\(.*?\\))|(\\@\\@[\\w-]+)</code><br/>
-            var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformProcessingInstructions().Matches(pageContent.ToString()));
 
             foreach (var match in orderedMatches)
             {
-                var parsedFunction = TwParsedFunction.Create(match.Value);
+                var parsedFunction = ParsedFunction.Create(match.Value);
 
                 try
                 {
-                    var preparedFunction = TwPreparedFunction.Create(this, Engine.ProcessingFunctions, parsedFunction);
+                    var preparedFunction = PreparedFunction.Create(this, Engine.ProcessingFunctions, parsedFunction);
                     var result = await preparedFunction.Execute();
                     StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
                 }
@@ -843,12 +843,12 @@ namespace TightWiki.Engine
         private async Task TransformStandardFunctions(TwString pageContent, bool onlyProcessFirstChanceFunctions)
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
-            var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformFunctions().Matches(pageContent.ToString()));
 
             foreach (var match in orderedMatches)
             {
-                var parsedFunction = TwParsedFunction.Create(match.Value);
+                var parsedFunction = ParsedFunction.Create(match.Value);
 
                 try
                 {
@@ -866,7 +866,7 @@ namespace TightWiki.Engine
                         continue;
                     }
 
-                    var preparedFunction = TwPreparedFunction.Create(this, Engine.StandardFunctions, parsedFunction);
+                    var preparedFunction = PreparedFunction.Create(this, Engine.StandardFunctions, parsedFunction);
                     var result = await preparedFunction.Execute();
                     StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
                 }
@@ -885,16 +885,16 @@ namespace TightWiki.Engine
         private async Task TransformPostProcessingFunctions(TwString pageContent)
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
-            var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformPostProcess().Matches(pageContent.ToString()));
 
             foreach (var match in orderedMatches)
             {
-                var parsedFunction = TwParsedFunction.Create(match.Value);
+                var parsedFunction = ParsedFunction.Create(match.Value);
 
                 try
                 {
-                    var preparedFunction = TwPreparedFunction.Create(this, Engine.PostProcessingFunctions, parsedFunction);
+                    var preparedFunction = PreparedFunction.Create(this, Engine.PostProcessingFunctions, parsedFunction);
                     var result = await preparedFunction.Execute();
                     StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
                 }
@@ -969,7 +969,7 @@ namespace TightWiki.Engine
             }
 
             ErrorCount++;
-            HtmlResult = TwWikiUtility.WarningCard("Wiki Parser Exception", ex.Message);
+            HtmlResult = WikiUtility.WarningCard("Wiki Parser Exception", ex.Message);
         }
 
         private async Task<string> StoreWikiError(TwString pageContent, string match, string value)
@@ -984,7 +984,7 @@ namespace TightWiki.Engine
 
             string identifier = $"TwBegin{Guid.NewGuid()}TwEnd";
 
-            var matchSet = new TwMatchSet()
+            var matchSet = new MatchSet()
             {
                 Content = $"<i><font size=\"3\" color=\"#BB0000\">{{{value}}}</font></a>",
                 AllowNestedDecode = false,
@@ -1004,7 +1004,7 @@ namespace TightWiki.Engine
 
             string identifier = $"TwBegin{Guid.NewGuid()}TwEnd";
 
-            var matchSet = new TwMatchSet()
+            var matchSet = new MatchSet()
             {
                 MatchType = matchType,
                 Content = value,
@@ -1024,7 +1024,7 @@ namespace TightWiki.Engine
 
             string identifier = $"TwBegin{Guid.NewGuid()}TwEnd";
 
-            var matchSet = new TwMatchSet()
+            var matchSet = new MatchSet()
             {
                 MatchType = matchType,
                 Content = value,

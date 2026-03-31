@@ -8,7 +8,7 @@ namespace TightWiki.Engine
     /// <summary>
     /// Tiny wikifier (reduced feature-set) for things like comments and profile bios.
     /// </summary>
-    public class TwWikifierLite
+    public class WikiEngineLite
     {
         public static string Process(TwConfiguration wikiConfiguration, string? unprocessedText)
         {
@@ -55,7 +55,7 @@ namespace TightWiki.Engine
         private static void TransformEmoji(TwConfiguration wikiConfiguration, TwString pageContent, Dictionary<string, string> matchStore)
         {
             var rgx = new Regex(@"(%%.+?%%)", RegexOptions.IgnoreCase);
-            var matches = TwWikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
                 string key = match.Value.Trim().ToLowerInvariant().Trim('%');
@@ -98,7 +98,7 @@ namespace TightWiki.Engine
         /// <param name="pageContent"></param>
         private static void TransformMarkup(TwConfiguration wikiConfiguration, TwString pageContent, Dictionary<string, string> matchStore)
         {
-            var symbols = TwWikiUtility.GetApplicableSymbols(pageContent.Value);
+            var symbols = WikiUtility.GetApplicableSymbols(pageContent.Value);
 
             foreach (var symbol in symbols)
             {
@@ -106,7 +106,7 @@ namespace TightWiki.Engine
                 var escapedSequence = Regex.Escape(sequence);
 
                 var rgx = new Regex(@$"{escapedSequence}(.*?){escapedSequence}", RegexOptions.IgnoreCase);
-                var orderedMatches = TwWikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+                var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
                 foreach (var match in orderedMatches)
                 {
                     string body = match.Value.Substring(sequence.Length, match.Value.Length - sequence.Length * 2);
@@ -134,12 +134,12 @@ namespace TightWiki.Engine
         {
             //Parse external explicit links. eg. [[http://test.net]].
             var rgx = new Regex(@"(\[\[http\:\/\/.+?\]\])", RegexOptions.IgnoreCase);
-            var matches = TwWikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
 
-                var args = TwParsedFunction.ParseArgumentsAddParenthesis(keyword);
+                var args = ParsedFunction.ParseArgumentsAddParenthesis(keyword);
                 if (args.Count > 1)
                 {
                     pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{args[0]}\">{args[1]}</a>"));
@@ -152,12 +152,12 @@ namespace TightWiki.Engine
 
             //Parse external explicit links. eg. [[https://test.net]].
             rgx = new Regex(@"(\[\[https\:\/\/.+?\]\])", RegexOptions.IgnoreCase);
-            matches = TwWikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
 
-                var args = TwParsedFunction.ParseArgumentsAddParenthesis(keyword);
+                var args = ParsedFunction.ParseArgumentsAddParenthesis(keyword);
                 if (args.Count == 1)
                 {
                     pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{args[0]}\">{args[1]}</a>"));
@@ -170,11 +170,11 @@ namespace TightWiki.Engine
 
             //Parse internal dynamic links. eg [[AboutUs|About Us]].
             rgx = new Regex(@"(\[\[.+?\]\])", RegexOptions.IgnoreCase);
-            matches = TwWikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
-                var args = TwParsedFunction.ParseArgumentsAddParenthesis(keyword);
+                var args = ParsedFunction.ParseArgumentsAddParenthesis(keyword);
 
                 if (args.Count == 1)
                 {

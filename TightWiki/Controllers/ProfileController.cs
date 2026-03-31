@@ -235,7 +235,7 @@ namespace TightWiki.Controllers
                     TimeZone = accountProfile.TimeZone,
                     Language = accountProfile.Language,
                     Country = accountProfile.Country,
-                    Biography = TwWikifierLite.Process(WikiConfiguration, accountProfile.Biography),
+                    Biography = WikiEngineLite.Process(WikiConfiguration, accountProfile.Biography),
                     Avatar = accountProfile.Avatar
                 };
 

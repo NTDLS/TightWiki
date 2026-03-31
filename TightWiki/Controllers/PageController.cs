@@ -205,7 +205,7 @@ namespace TightWiki.Controllers
                                 Id = comment.Id,
                                 UserName = comment.UserName,
                                 UserId = comment.UserId,
-                                Body = TwWikifierLite.Process(WikiConfiguration, comment.Body),
+                                Body = WikiEngineLite.Process(WikiConfiguration, comment.Body),
                                 CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
                             });
                         }
@@ -470,7 +470,7 @@ namespace TightWiki.Controllers
                         Id = comment.Id,
                         UserName = comment.UserName,
                         UserId = comment.UserId,
-                        Body = TwWikifierLite.Process(WikiConfiguration, comment.Body),
+                        Body = WikiEngineLite.Process(WikiConfiguration, comment.Body),
                         CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
                     });
                 }
@@ -538,7 +538,7 @@ namespace TightWiki.Controllers
                         Id = comment.Id,
                         UserName = comment.UserName,
                         UserId = comment.UserId,
-                        Body = TwWikifierLite.Process(WikiConfiguration, comment.Body),
+                        Body = WikiEngineLite.Process(WikiConfiguration, comment.Body),
                         CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
                     });
                 }

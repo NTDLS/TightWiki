@@ -11,7 +11,7 @@ using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Engine
 {
-    public class TwEngine
+    public class WikiEngine
         : ITwEngine
     {
         public TwConfiguration WikiConfiguration { get; private set; }
@@ -37,7 +37,7 @@ namespace TightWiki.Engine
         public List<TwEngineFunctionDescriptor> StandardFunctions { get; private set; }
 
 
-        public TwEngine(
+        public WikiEngine(
             TwConfiguration wikiConfiguration,
             ITwDatabaseManager databaseManager,
             ILogger<ITwEngine> logger)
@@ -189,7 +189,7 @@ namespace TightWiki.Engine
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
         public async Task<ITwEngineState> Transform(ITwSharedLocalizationText localizer, ITwSessionState? session, ITwPage page, int? revision = null, WikiMatchType[]? omitMatches = null)
         {
-            var childState = new TwEngineState(Logger, this, localizer, session, page, revision, omitMatches);
+            var childState = new WikiEngineState(Logger, this, localizer, session, page, revision, omitMatches);
             return await childState.Transform();
         }
     }

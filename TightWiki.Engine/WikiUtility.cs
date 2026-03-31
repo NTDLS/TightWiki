@@ -4,7 +4,7 @@ using TightWiki.Plugin.Engine;
 
 namespace TightWiki.Engine
 {
-    internal static class TwWikiUtility
+    internal static class WikiUtility
     {
         /// <summary>
         /// Skips the namespace and returns just the page name part of the navigation.
@@ -33,13 +33,13 @@ namespace TightWiki.Engine
             return html.ToString();
         }
 
-        internal static List<TwOrderedMatch> OrderMatchesByLengthDescending(MatchCollection matches)
+        internal static List<OrderedMatch> OrderMatchesByLengthDescending(MatchCollection matches)
         {
-            var result = new List<TwOrderedMatch>();
+            var result = new List<OrderedMatch>();
 
             foreach (Match match in matches)
             {
-                result.Add(new TwOrderedMatch
+                result.Add(new OrderedMatch
                 {
                     Value = match.Value,
                     Index = match.Index
