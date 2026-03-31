@@ -10,6 +10,11 @@ namespace TightWiki.Plugin
     /// </summary>
     public class TwNavigation
     {
+        /// <summary>
+        /// Cleans and normalizes a navigation string to ensure they are valid and consistent.
+        /// This is used for things like namespaces, tags, and other identifiers that need to be URL-friendly and consistent.
+        /// For namespace qualified page names, use TwNamespaceNavigation instead which can handle the namespace and page parts separately.
+        /// </summary>
         public static string Clean(string? str)
         {
             if (str == null)

@@ -26,6 +26,9 @@
         /// <summary>
         /// Creates a new instance of the attribute with the specified name and description.
         /// </summary>
+        /// <param name="name">The user-friendly display name of the handler.</param>
+        /// <param name="description">The user-friendly display description of the handler.</param>
+        /// <param name="order">The order in which the handler should be executed.</param>
         public TwExceptionPluginHandlerAttribute(string name, string description, int order)
         {
             Name = name;

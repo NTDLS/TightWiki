@@ -41,6 +41,10 @@
         /// <summary>
         /// Creates a new instance of the attribute with the specified name and description.
         /// </summary>
+        /// <param name="name">The user-friendly display name of the function.</param>
+        /// <param name="description">The user-friendly display description of the function.</param>
+        /// <param name="order">The order in which the function should be executed.</param>
+        /// <param name="isFirstChance">Indicates whether this function is a first-chance function, meaning it should be executed before all other functions.</param>
         public TwScopeFunctionPluginAttribute(string name, string description, int order, bool isFirstChance = false)
         {
             Name = name;

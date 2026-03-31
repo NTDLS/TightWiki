@@ -5,7 +5,46 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<Version>2.34.0</Version>
+
+		<Title>NTDLS.SqliteDapperWrapper</Title>
+		<Authors>NetworkDLS</Authors>
+		<Nullable>Enable</Nullable>
+		<Company>NetworkDLS</Company>
+		<Description>TightWiki is a modern, open-source wiki platform with zero configuration and full control. Built on ASP.NET Core with SQLite, it runs anywhere, works instantly, and looks great doing it.</Description>
+		<Copyright>Copyright © 2026 NetworkDLS</Copyright>
+		<PackageProjectUrl>https://github.com/NTDLS/TightWiki</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/NTDLS/TightWiki</RepositoryUrl>
+		<RepositoryType>Git</RepositoryType>
+		<PackageReleaseNotes>
+			Initial release.
+		</PackageReleaseNotes>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageTags>wiki;plugin;sqlite;content-management;</PackageTags>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<PackageIcon>Logo.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<OutputType>Library</OutputType>
+		<ApplicationIcon>Logo.ico</ApplicationIcon>
 	</PropertyGroup>
+
+	<ItemGroup Condition=" '$(BuildingPackage)' == 'true' ">
+		<Content Include="Logo.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="Logo.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include=".\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.11.1" />

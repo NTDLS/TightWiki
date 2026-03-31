@@ -100,19 +100,19 @@ namespace TightWiki.Plugin
         /// </summary>
         /// <param name="givenCanonical">Page navigation with optional namespace.</param>
         /// <param name="lowerCase">If false, the namespace and page name will not be lowercased.</param>
-        public static string CleanAndValidate(string? str, bool lowerCase = true)
+        public static string CleanAndValidate(string? givenCanonical, bool lowerCase = true)
         {
-            if (str == null)
+            if (givenCanonical == null)
             {
                 return string.Empty;
             }
 
             //Fix names like "::Page" or "Namespace::".
-            str = str.Trim().Trim([':']).Trim();
+            givenCanonical = givenCanonical.Trim().Trim([':']).Trim();
 
-            if (str.Contains("::"))
+            if (givenCanonical.Contains("::"))
             {
-                var parts = str.Split("::");
+                var parts = givenCanonical.Split("::");
                 if (parts.Length != 2)
                 {
                     throw new Exception("Navigation can not contain more than one namespace.");
@@ -121,17 +121,17 @@ namespace TightWiki.Plugin
             }
 
             // Decode common HTML entities
-            str = str.Replace("&quot;", "\"")
+            givenCanonical = givenCanonical.Replace("&quot;", "\"")
                      .Replace("&amp;", "&")
                      .Replace("&lt;", "<")
                      .Replace("&gt;", ">")
                      .Replace("&nbsp;", " ");
 
             // Normalize backslashes to forward slashes
-            str = str.Replace('\\', '/');
+            givenCanonical = givenCanonical.Replace('\\', '/');
 
             var sb = new StringBuilder();
-            foreach (char c in str)
+            foreach (char c in givenCanonical)
             {
                 if (char.IsWhiteSpace(c) || c == '.')
                 {
