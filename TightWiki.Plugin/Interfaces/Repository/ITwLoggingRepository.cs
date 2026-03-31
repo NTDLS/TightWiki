@@ -4,6 +4,12 @@ using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Interfaces.Repository
 {
+    /// <summary>
+    ///  Data access for logs and exceptions. This is used by the plugin to log exceptions
+    ///  and other information to a local database, which can then be viewed by the user in the UI.
+    ///  This is not intended to be a full featured logging system, but rather a simple way for the
+    ///  plugin to log information that can be viewed by the user in the UI.
+    /// </summary>
     public interface ITwLoggingRepository
     {
         SqliteManagedFactory LoggingFactory { get; }

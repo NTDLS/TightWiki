@@ -4,6 +4,9 @@ using TightWiki.Plugin.Attributes.Functions;
 
 namespace TightWiki.Plugin.Interfaces.Module.Function
 {
+    /// <summary>
+    /// Base interface for a function descriptor, which contains information about a function that can be called by the engine.
+    /// </summary>
     public interface ITwFunctionDescriptor
     {
         /// <summary>
@@ -24,7 +27,7 @@ namespace TightWiki.Plugin.Interfaces.Module.Function
         TwPluginModuleAttribute ModuleAttribute { get; }
 
         /// <summary>
-        /// List of functiont that the function accepts, containing information such as the parameter type and name.
+        /// List of parameters that the function accepts, containing information such as the parameter type and name.
         /// Same as method.GetParameters().ToList(), but done here to avoid having to call GetParameters() multiple times, which can be expensive.
         /// </summary>
         List<ParameterInfo> Parameters { get; }

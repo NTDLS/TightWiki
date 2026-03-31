@@ -5,6 +5,10 @@ using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Interfaces.Repository
 {
+    /// <summary>
+    /// Data access for users, roles, permissions, and related data.
+    /// This includes user profiles, role memberships, account permissions, role permissions, and related data.
+    /// </summary>
     public interface ITwUsersRepository
     {
         SqliteManagedFactory UsersFactory { get; }
@@ -35,10 +39,6 @@ namespace TightWiki.Plugin.Interfaces.Repository
         Task<List<TwPermission>> GetAllPermissions();
         Task<List<TwRolePermission>> GetRolePermissionsPaged(int roleId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null);
         Task<List<TwAccountProfile>> GetAllPublicProfilesPaged(int pageNumber, int? pageSize = null, string? searchToken = null);
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="userId"></param>
         Task AnonymizeProfile(Guid userId);
         Task<bool> IsUserMemberOfAdministrators(Guid userId);
         Task<TwRole> GetRoleByName(string name);

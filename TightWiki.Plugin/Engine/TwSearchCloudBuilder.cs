@@ -4,8 +4,18 @@ using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Engine
 {
+    /// <summary>
+    /// Builds a tag cloud HTML representation based on search results from the page repository.
+    /// The font size of each tag is determined by its relevance score, allowing for a visual
+    /// representation of the importance of each page in the search results.
+    /// </summary>
     public class TwSearchCloudBuilder
     {
+        /// <summary>
+        /// Builds a tag cloud HTML representation based on search results from the page repository.
+        /// The font size of each tag is determined by its relevance score, allowing for a visual
+        /// representation of the importance of each page in the search results.
+        /// </summary>
         public static async Task<string> Build(ITwPageRepository pageRepository, string basePath, List<string> searchTokens, int? maxCount = null)
         {
             var pages = (await pageRepository.PageSearch(searchTokens))

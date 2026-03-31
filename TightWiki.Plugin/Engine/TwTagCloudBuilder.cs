@@ -3,8 +3,18 @@ using TightWiki.Plugin.Interfaces.Repository;
 
 namespace TightWiki.Plugin.Engine
 {
+    /// <summary>
+    /// Provides functionality to generate an HTML tag cloud for tags associated with a specified seed tag.
+    /// The font size of each tag is determined by its relevance score, allowing for a visual
+    /// representation of the importance of each page in the search results.
+    /// </summary>
     public static class TwTagCloudBuilder
     {
+        /// <summary>
+        /// Provides functionality to generate an HTML tag cloud for tags associated with a specified seed tag.
+        /// The font size of each tag is determined by its relevance score, allowing for a visual
+        /// representation of the importance of each page in the search results.
+        /// </summary>
         public static async Task<string> Build(ITwPageRepository pageRepository, string basePath, string seedTag, int? maxCount)
         {
             var tags = (await pageRepository.GetAssociatedTags(seedTag))

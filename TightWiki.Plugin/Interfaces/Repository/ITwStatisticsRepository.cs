@@ -3,6 +3,9 @@ using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Interfaces.Repository
 {
+    /// <summary>
+    ///  Data access for page statistics, page view counts, and related data.
+    /// </summary>
     public interface ITwStatisticsRepository
     {
         SqliteManagedFactory StatisticsFactory { get; }

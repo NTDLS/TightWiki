@@ -5,7 +5,7 @@ namespace TightWiki.Plugin.Engine
     public class TwString
     {
         private readonly StringBuilder _builder = new();
-        
+
         public TwString()
         {
         }

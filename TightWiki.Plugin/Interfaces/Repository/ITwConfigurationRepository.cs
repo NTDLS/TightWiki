@@ -3,6 +3,9 @@ using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Interfaces.Repository
 {
+    /// <summary>
+    /// Data access for configuration entries, themes, and wiki database metrics, etc.
+    /// </summary>
     public interface ITwConfigurationRepository
     {
         SqliteManagedFactory ConfigFactory { get; }

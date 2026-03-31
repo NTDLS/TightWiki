@@ -3,6 +3,9 @@ using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Interfaces.Repository
 {
+    /// <summary>
+    ///  Data access for pages, page revisions, page comments, page processing instructions, page tags, page references, and related data.
+    /// </summary>
     public interface ITwPageRepository
     {
         SqliteManagedFactory PagesFactory { get; }

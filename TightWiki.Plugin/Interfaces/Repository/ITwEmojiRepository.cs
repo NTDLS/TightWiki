@@ -3,6 +3,9 @@ using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Interfaces.Repository
 {
+    /// <summary>
+    ///  Data access for emojis, emoji categories, and related data.
+    /// </summary>
     public interface ITwEmojiRepository
     {
         SqliteManagedFactory EmojiFactory { get; }
