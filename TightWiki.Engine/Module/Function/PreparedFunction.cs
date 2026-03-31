@@ -3,9 +3,11 @@ using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using TightWiki.Plugin.Attributes.Functions;
+using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Module.Function;
 
-namespace TightWiki.Plugin.Engine.Function
+namespace TightWiki.Engine.Module.Function
 {
     /// <summary>
     /// Contains information about an actual function call, its supplied parameters, and is matched with a defined function.

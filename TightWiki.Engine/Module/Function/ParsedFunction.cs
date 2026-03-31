@@ -1,6 +1,7 @@
 ﻿using System.Text;
+using TightWiki.Plugin;
 
-namespace TightWiki.Plugin.Engine.Function
+namespace TightWiki.Engine.Module.Function
 {
     /// <summary>
     /// Represnets a function call that has been parsed of its name, type and arguments.

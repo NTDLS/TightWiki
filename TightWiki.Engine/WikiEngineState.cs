@@ -4,11 +4,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using TightWiki.Engine.Module.Function;
 using TightWiki.Library;
 using TightWiki.Library.Security;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Engine;
-using TightWiki.Plugin.Engine.Function;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Models;
 

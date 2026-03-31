@@ -1,14 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
 using NTDLS.Helpers;
 using System.Reflection;
-using TightWiki.Engine.Handlers;
+using TightWiki.Engine.Module;
+using TightWiki.Engine.Module.Function;
+using TightWiki.Engine.Module.Handlers;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Functions;
 using TightWiki.Plugin.Engine;
-using TightWiki.Plugin.Engine.Function;
 using TightWiki.Plugin.Interfaces;
-using TightWiki.Plugin.Interfaces.Handlers;
+using TightWiki.Plugin.Interfaces.Module.Function;
+using TightWiki.Plugin.Interfaces.Module.Handlers;
 
 namespace TightWiki.Engine
 {

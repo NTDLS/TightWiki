@@ -1,10 +1,9 @@
 ﻿using NTDLS.Helpers;
 using TightWiki.Plugin.Engine;
-using TightWiki.Plugin.Engine.Function;
 using TightWiki.Plugin.Interfaces;
-using TightWiki.Plugin.Interfaces.Handlers;
+using TightWiki.Plugin.Interfaces.Module.Handlers;
 
-namespace TightWiki.Engine.Handlers
+namespace TightWiki.Engine.Module.Handlers
 {
     /// <summary>
     /// Handles basic markup/style instructions like bold, italic, underline, etc.
@@ -12,7 +11,7 @@ namespace TightWiki.Engine.Handlers
     public class TwMarkupHandlerDescriptor
         : TwEngineHandlerDescriptor, ITwMarkupHandler
     {
-        public TwMarkupHandlerDescriptor(TwEngineHandlerDescriptor descriptor)
+        public TwMarkupHandlerDescriptor(ITwEngineHandlerDescriptor descriptor)
             : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
         {
         }

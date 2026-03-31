@@ -1,11 +1,13 @@
 ﻿using System.Reflection;
 using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Functions;
+using TightWiki.Plugin.Interfaces.Module;
+using TightWiki.Plugin.Interfaces.Module.Handlers;
 
-namespace TightWiki.Plugin.Engine.Function
+namespace TightWiki.Engine.Module.Handlers
 {
-    public class TwEngineFunctionDescriptor
-        : ITwEngineFunctionDescriptor
+    public class TwEngineHandlerDescriptor
+        : ITwEngineHandlerDescriptor
     {
         /// <summary>
         /// Reference to the function that will be called when this function is invoked.
@@ -16,7 +18,7 @@ namespace TightWiki.Plugin.Engine.Function
         /// Attributes of the function, containing information such as the demarcation and description.
         /// This is used to match a function call to its descriptor and for documentation purposes.
         /// </summary>
-        public ITwFunctionDescriptorAttribute Attribute { get; }
+        public ITwHandlerDescriptorAttribute Attribute { get; }
 
         /// <summary>
         /// The attribute of the module that contains the function, containing information
@@ -35,15 +37,15 @@ namespace TightWiki.Plugin.Engine.Function
         /// This is used to invoke the method when the function is called, and can also be used to access any properties
         /// or fields of the class that may be needed for the function's execution.
         /// </summary>
-        public TwEnginePluginModule EngineModule { get; }
+        public ITwEnginePluginModule EngineModule { get; }
 
-        public TwEngineFunctionDescriptor(TwEnginePluginModule engineModule, MethodInfo method,
-            ITwFunctionDescriptorAttribute attribute, TwPluginModuleAttribute moduleAttribute)
+        public TwEngineHandlerDescriptor(ITwEnginePluginModule engineModule, MethodInfo method,
+            ITwHandlerDescriptorAttribute attribute, TwPluginModuleAttribute moduleAttribute)
         {
             EngineModule = engineModule;
+            ModuleAttribute = moduleAttribute;
             Method = method;
             Attribute = attribute;
-            ModuleAttribute = moduleAttribute;
             Parameters = method.GetParameters().ToList();
         }
     }

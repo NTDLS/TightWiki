@@ -2,48 +2,38 @@
 using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Functions;
 
-namespace TightWiki.Plugin.Engine.Function
+namespace TightWiki.Plugin.Interfaces.Module.Handlers
 {
-    public class TwEngineHandlerDescriptor
+    public interface ITwEngineHandlerDescriptor
     {
         /// <summary>
         /// Reference to the function that will be called when this function is invoked.
         /// </summary>
-        public MethodInfo Method { get; }
+        MethodInfo Method { get; }
 
         /// <summary>
         /// Attributes of the function, containing information such as the demarcation and description.
         /// This is used to match a function call to its descriptor and for documentation purposes.
         /// </summary>
-        public ITwHandlerDescriptorAttribute Attribute { get; }
+        ITwHandlerDescriptorAttribute Attribute { get; }
 
         /// <summary>
         /// The attribute of the module that contains the function, containing information
         /// such as the module name, description, and the order of execution of the module in relation to other modules.
         /// </summary>
-        public TwPluginModuleAttribute ModuleAttribute { get; }
+        TwPluginModuleAttribute ModuleAttribute { get; }
 
         /// <summary>
         /// List of functiont that the function accepts, containing information such as the parameter type and name.
         /// Same as method.GetParameters().ToList(), but done here to avoid having to call GetParameters() multiple times, which can be expensive.
         /// </summary>
-        public List<ParameterInfo> Parameters { get; }
+        List<ParameterInfo> Parameters { get; }
 
         /// <summary>
         /// The class that contains the function method.
         /// This is used to invoke the method when the function is called, and can also be used to access any properties
         /// or fields of the class that may be needed for the function's execution.
         /// </summary>
-        public TwEnginePluginModule EngineModule { get; }
-
-        public TwEngineHandlerDescriptor(TwEnginePluginModule engineModule, MethodInfo method,
-            ITwHandlerDescriptorAttribute attribute, TwPluginModuleAttribute moduleAttribute)
-        {
-            EngineModule = engineModule;
-            ModuleAttribute = moduleAttribute;
-            Method = method;
-            Attribute = attribute;
-            Parameters = method.GetParameters().ToList();
-        }
+        ITwEnginePluginModule EngineModule { get; }
     }
 }

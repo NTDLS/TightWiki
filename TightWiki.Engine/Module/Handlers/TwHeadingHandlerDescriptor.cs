@@ -1,10 +1,9 @@
 ﻿using NTDLS.Helpers;
 using TightWiki.Plugin.Engine;
-using TightWiki.Plugin.Engine.Function;
 using TightWiki.Plugin.Interfaces;
-using TightWiki.Plugin.Interfaces.Handlers;
+using TightWiki.Plugin.Interfaces.Module.Handlers;
 
-namespace TightWiki.Engine.Handlers
+namespace TightWiki.Engine.Module.Handlers
 {
     /// <summary>
     /// Handles wiki headings. These are automatically added to the table of contents.
@@ -12,7 +11,7 @@ namespace TightWiki.Engine.Handlers
     public class TwHeadingHandlerDescriptor
         : TwEngineHandlerDescriptor, ITwHeadingHandler
     {
-        public TwHeadingHandlerDescriptor(TwEngineHandlerDescriptor descriptor)
+        public TwHeadingHandlerDescriptor(ITwEngineHandlerDescriptor descriptor)
             : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
         {
         }

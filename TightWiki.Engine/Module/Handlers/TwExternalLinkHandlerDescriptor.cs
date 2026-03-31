@@ -1,10 +1,9 @@
 ﻿using NTDLS.Helpers;
 using TightWiki.Plugin.Engine;
-using TightWiki.Plugin.Engine.Function;
 using TightWiki.Plugin.Interfaces;
-using TightWiki.Plugin.Interfaces.Handlers;
+using TightWiki.Plugin.Interfaces.Module.Handlers;
 
-namespace TightWiki.Engine.Handlers
+namespace TightWiki.Engine.Module.Handlers
 {
     /// <summary>
     /// Handles links the wiki to another site.
@@ -12,7 +11,7 @@ namespace TightWiki.Engine.Handlers
     public class TwExternalLinkHandlerDescriptor
         : TwEngineHandlerDescriptor, ITwExternalLinkHandler
     {
-        public TwExternalLinkHandlerDescriptor(TwEngineHandlerDescriptor descriptor)
+        public TwExternalLinkHandlerDescriptor(ITwEngineHandlerDescriptor descriptor)
             : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
         {
         }

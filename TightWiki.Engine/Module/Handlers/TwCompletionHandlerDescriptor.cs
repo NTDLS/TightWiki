@@ -1,10 +1,9 @@
 ﻿using NTDLS.Helpers;
 using TightWiki.Plugin.Engine;
-using TightWiki.Plugin.Engine.Function;
 using TightWiki.Plugin.Interfaces;
-using TightWiki.Plugin.Interfaces.Handlers;
+using TightWiki.Plugin.Interfaces.Module.Handlers;
 
-namespace TightWiki.Engine.Handlers
+namespace TightWiki.Engine.Module.Handlers
 {
     /// <summary>
     /// Handles wiki completion events.
@@ -12,7 +11,7 @@ namespace TightWiki.Engine.Handlers
     public class TwCompletionHandlerDescriptor
         : TwEngineHandlerDescriptor, ITwCompletionHandler
     {
-        public TwCompletionHandlerDescriptor(TwEngineHandlerDescriptor descriptor)
+        public TwCompletionHandlerDescriptor(ITwEngineHandlerDescriptor descriptor)
             : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
         {
         }

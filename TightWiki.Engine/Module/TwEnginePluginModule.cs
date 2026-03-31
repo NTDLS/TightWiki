@@ -1,10 +1,12 @@
 ﻿using NTDLS.Helpers;
 using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Module;
 
-namespace TightWiki.Plugin.Engine.Function
+namespace TightWiki.Engine.Module
 {
     public class TwEnginePluginModule
+        : ITwEnginePluginModule
     {
         public Type DeclaringType { get; private set; }
         public TwPluginModuleAttribute Attribute { get; private set; }
