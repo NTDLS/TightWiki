@@ -27,7 +27,7 @@ namespace TightWiki.Engine.Module.Handlers
         public TwPluginModuleAttribute ModuleAttribute { get; }
 
         /// <summary>
-        /// List of functiont that the function accepts, containing information such as the parameter type and name.
+        /// List of parameters that the function accepts, containing information such as the parameter type and name.
         /// Same as method.GetParameters().ToList(), but done here to avoid having to call GetParameters() multiple times, which can be expensive.
         /// </summary>
         public List<ParameterInfo> Parameters { get; }

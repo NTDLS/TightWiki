@@ -1,5 +1,9 @@
 ﻿namespace TightWiki.Plugin.Attributes
 {
+    /// <summary>
+    /// Attribute to mark a class as a plugin module in the TightWiki plugin system.
+    /// The class can contain functions and handlers that will be registered and executed by the engine.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class TwPluginModuleAttribute
     : Attribute
