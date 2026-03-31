@@ -1,17 +1,17 @@
 ﻿namespace TightWiki.Library
 {
-    public class TwTimeZoneItem
+    public class TimeZoneItem
     {
         public string Text { get; set; } = string.Empty;
         public string Value { get; set; } = string.Empty;
 
-        public static List<TwTimeZoneItem> GetAll()
+        public static List<TimeZoneItem> GetAll()
         {
-            var list = new List<TwTimeZoneItem>();
+            var list = new List<TimeZoneItem>();
 
             foreach (var item in TimeZoneInfo.GetSystemTimeZones())
             {
-                list.Add(new TwTimeZoneItem { Value = item.Id, Text = item.DisplayName });
+                list.Add(new TimeZoneItem { Value = item.Id, Text = item.DisplayName });
             }
 
             return list.OrderBy(o => o.Text).ToList();

@@ -5,7 +5,7 @@ using TightWiki.Plugin.Caching;
 
 namespace TightWiki.Library.Caching
 {
-    public class TwCache
+    public class MemCache
     {
         public delegate T? GetValueDelegate<T>();
         public delegate Task<T?> GetValueDelegateAsync<T>();
@@ -22,16 +22,16 @@ namespace TightWiki.Library.Caching
         }
 
         public static TimeSpan DefaultCacheExpiration { get; set; }
-        private static MemoryCache? _memCache;
+        private static MemoryCache? _cache;
 
         public static ulong CacheSets { get; set; }
         public static ulong CacheGets { get; set; }
         public static ulong CacheHits { get; set; }
         public static ulong CacheMisses { get; set; }
-        public static int CacheItemCount => MemCache.Count();
-        public static double CacheMemoryLimit => MemCache.CacheMemoryLimit;
+        public static int CacheItemCount => Cache.Count();
+        public static double CacheMemoryLimit => Cache.CacheMemoryLimit;
 
-        public static MemoryCache MemCache => _memCache ?? throw new Exception("Cache has not been initialized.");
+        public static MemoryCache Cache => _cache ?? throw new Exception("Cache has not been initialized.");
 
         public static void Initialize(int cacheMemoryLimitMB, TimeSpan defaultCacheExpiration)
         {
@@ -42,8 +42,8 @@ namespace TightWiki.Library.Caching
                 //config.Add("physicalMemoryLimitPercentage", "0");
                 { "CacheMemoryLimitMegabytes", cacheMemoryLimitMB.ToString() }
             };
-            _memCache?.Dispose();
-            _memCache = new MemoryCache("TightWikiCache", config);
+            _cache?.Dispose();
+            _cache = new MemoryCache("TightWikiCache", config);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace TightWiki.Library.Caching
         public static T? Get<T>(ITwCacheKey cacheKey)
         {
             CacheGets++;
-            var result = (T)MemCache.Get(cacheKey.Key);
+            var result = (T)Cache.Get(cacheKey.Key);
 
             if (result == null)
             {
@@ -69,7 +69,7 @@ namespace TightWiki.Library.Caching
         public static bool Contains(ITwCacheKey cacheKey)
         {
             CacheGets++;
-            if (MemCache.Contains(cacheKey.Key))
+            if (Cache.Contains(cacheKey.Key))
             {
                 CacheHits++;
                 return true;
@@ -84,7 +84,7 @@ namespace TightWiki.Library.Caching
         /// </summary>
         public static bool TryGet<T>(ITwCacheKey cacheKey, [NotNullWhen(true)] out T? result)
         {
-            var cached = MemCache.Get(cacheKey.Key);
+            var cached = Cache.Get(cacheKey.Key);
 
             CacheGets++;
             if (cached == null)
@@ -106,7 +106,7 @@ namespace TightWiki.Library.Caching
         /// </summary>
         public static T? AddOrGet<T>(ITwCacheKey cacheKey, bool forceReCache, GetValueDelegate<T?> getValueDelegate, TimeSpan? cacheExpiration = null)
         {
-            if (_memCache == null)
+            if (_cache == null)
             {
                 return getValueDelegate();
             }
@@ -135,7 +135,7 @@ namespace TightWiki.Library.Caching
                 {
                     AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(cacheExpiration.Value.TotalSeconds)
                 };
-                MemCache.Add(cacheKey.Key, result, policy);
+                Cache.Add(cacheKey.Key, result, policy);
             }
 
             return result;
@@ -146,7 +146,7 @@ namespace TightWiki.Library.Caching
         /// </summary>
         public static async Task<T?> AddOrGetAsync<T>(ITwCacheKey cacheKey, bool forceReCache, GetValueDelegateAsync<T?> getValueDelegate, TimeSpan? cacheExpiration = null)
         {
-            if (_memCache == null)
+            if (_cache == null)
             {
                 return await getValueDelegate();
             }
@@ -175,7 +175,7 @@ namespace TightWiki.Library.Caching
                 {
                     AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(cacheExpiration.Value.TotalSeconds)
                 };
-                MemCache.Add(cacheKey.Key, result, policy);
+                Cache.Add(cacheKey.Key, result, policy);
             }
 
             return result;
@@ -186,7 +186,7 @@ namespace TightWiki.Library.Caching
         /// </summary>
         public static T? AddOrGet<T>(ITwCacheKey cacheKey, GetValueDelegate<T?> getValueDelegate, TimeSpan? cacheExpiration = null)
         {
-            if (_memCache == null)
+            if (_cache == null)
             {
                 return getValueDelegate();
             }
@@ -222,7 +222,7 @@ namespace TightWiki.Library.Caching
         /// </summary>
         public static async Task<T?> AddOrGetAsync<T>(ITwCacheKey cacheKey, GetValueDelegateAsync<T?> getValueDelegate, TimeSpan? cacheExpiration = null)
         {
-            if (_memCache == null)
+            if (_cache == null)
             {
                 return await getValueDelegate();
             }
@@ -277,26 +277,26 @@ namespace TightWiki.Library.Caching
         public static void Set(ITwCacheKey cacheKey, object value, CacheItemPolicy policy)
         {
             CacheSets++;
-            MemCache.Add(cacheKey.Key, value, policy);
+            Cache.Add(cacheKey.Key, value, policy);
         }
 
         public static void Remove(ITwCacheKey cacheKey)
-            => MemCache.Remove(cacheKey.Key);
+            => Cache.Remove(cacheKey.Key);
 
         /// <summary>
         /// Removes all entries from the cache.
         /// </summary>
         public static void Clear()
         {
-            if (_memCache == null)
+            if (_cache == null)
             {
                 return;
             }
 
-            var items = MemCache.ToList();
+            var items = Cache.ToList();
             foreach (var a in items)
             {
-                MemCache.Remove(a.Key);
+                Cache.Remove(a.Key);
             }
         }
 
@@ -304,11 +304,11 @@ namespace TightWiki.Library.Caching
         /// Removes cache entries that begin with the given cache key.
         /// </summary>
         /// <param name="category"></param>
-        public static void ClearCategory(TwCacheKey cacheKey)
+        public static void ClearCategory(MemCacheKey cacheKey)
         {
             var keys = new List<string>();
 
-            foreach (var item in MemCache)
+            foreach (var item in Cache)
             {
                 if (item.Key.StartsWith(cacheKey.Key))
                 {
@@ -316,7 +316,7 @@ namespace TightWiki.Library.Caching
                 }
             }
 
-            keys.ForEach(o => MemCache.Remove(o));
+            keys.ForEach(o => Cache.Remove(o));
         }
 
         /// <summary>
@@ -325,11 +325,11 @@ namespace TightWiki.Library.Caching
         /// <param name="category"></param>
         public static void ClearCategory(Category category)
         {
-            var cacheKey = TwCacheKey.Build(category);
+            var cacheKey = MemCacheKey.Build(category);
 
             var keys = new List<string>();
 
-            foreach (var item in MemCache)
+            foreach (var item in Cache)
             {
                 if (item.Key.StartsWith(cacheKey.Key))
                 {
@@ -337,7 +337,7 @@ namespace TightWiki.Library.Caching
                 }
             }
 
-            keys.ForEach(o => MemCache.Remove(o));
+            keys.ForEach(o => Cache.Remove(o));
         }
     }
 }

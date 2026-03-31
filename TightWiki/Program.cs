@@ -28,7 +28,7 @@ namespace TightWiki
     {
         public static async Task Main(string[] args)
         {
-            SqlMapper.AddTypeHandler(new TwGuidTypeHandler());
+            SqlMapper.AddTypeHandler(new GuidTypeHandler());
 
             var builder = WebApplication.CreateBuilder(args);
 
@@ -42,7 +42,7 @@ namespace TightWiki
             builder.Logging.AddProvider(new DatabaseLoggerProvider(databaseManager.LoggingRepository, minimumLogLevel));
 
             var userConnectionString = databaseManager.UsersRepository.UsersFactory.Ephemeral(o => o.NativeConnection.ConnectionString);
-            builder.Services.AddDbContext<TwApplicationDbContext>(options => options.UseSqlite(userConnectionString));
+            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(userConnectionString));
 
             var wikiConfigurationManager = new Repository.Helpers.ConfigurationManager(builder.Configuration, databaseManager);
 
@@ -75,7 +75,7 @@ namespace TightWiki
 
             builder.Services.AddRazorPages();
 
-            var supportedCultures = new TwSupportedCultures();
+            var supportedCultures = new SupportedCultures();
             builder.Services.AddSingleton(x => supportedCultures);
 
             builder.Services.Configure<RequestLocalizationOptions>(opts =>
@@ -98,7 +98,7 @@ namespace TightWiki
             //builder.Services.AddSingleton<ITwManagedDataStorage>(dataStuff);
             builder.Services.AddSingleton(wikiConfigurationManager);
             builder.Services.AddSingleton(wikiConfigurationManager.Configuration);
-            builder.Services.AddSingleton<ITwEmailSender, TwEmailSender>();
+            builder.Services.AddSingleton<ITwEmailSender, EmailSender>();
             builder.Services.AddSingleton<ITwConfigurationRepository>(databaseManager.ConfigurationRepository);
             builder.Services.AddSingleton<ITwLoggingRepository>(databaseManager.LoggingRepository);
             builder.Services.AddSingleton<ITwEmojiRepository>(databaseManager.EmojiRepository);
@@ -108,7 +108,7 @@ namespace TightWiki
             builder.Services.AddSingleton<ITwDatabaseManager>(databaseManager);
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = requireConfirmedAccount)
-                .AddEntityFrameworkStores<TwApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             var externalAuthenticationConfig = await databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.ExternalAuthentication);
             var basicConfig = await databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);

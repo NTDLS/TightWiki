@@ -2,13 +2,13 @@
 
 namespace TightWiki.Library
 {
-    public class TwCultureInfoSettings
+    public class CultureInfoSettings
     {
         public string Code { get; set; }
         public string Name { get; set; }
         public CultureInfo Culture { get; set; }
 
-        public TwCultureInfoSettings(string code, string name)
+        public CultureInfoSettings(string code, string name)
         {
             Code = code;
             Name = name;

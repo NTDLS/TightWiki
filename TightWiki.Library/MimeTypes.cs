@@ -2,7 +2,7 @@
 
 namespace TightWiki.Library
 {
-    internal static class TwMimeTypes
+    internal static class MimeTypes
     {
         /// <summary>
         /// Given a file path, determine the MIME type

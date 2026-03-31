@@ -71,7 +71,7 @@ namespace TightWiki.Library
 
         public static string GetMimeType(string fileName)
         {
-            TwMimeTypes.TryGetContentType(fileName, out var contentType);
+            MimeTypes.TryGetContentType(fileName, out var contentType);
             return contentType ?? "application/octet-stream";
         }
 

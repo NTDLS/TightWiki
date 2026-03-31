@@ -20,7 +20,7 @@ using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using TightWiki.RequestModels;
 using TightWiki.ViewModels.Page;
-using static TightWiki.Library.TwImages;
+using static TightWiki.Library.ImagesUtility;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Controllers
@@ -75,8 +75,8 @@ namespace TightWiki.Controllers
             try
             {
                 var hitCounterThrottle = await configurationRepository.Get(WikiConfigurationGroup.Performance, "Hit Counter Throttle (Seconds)", 0);
-                var cacheKey = TwCacheKey.Build(TwCache.Category.Session, [pageId, "PageView", GetPageViewViewerKey()]);
-                if (TwCache.Contains(cacheKey))
+                var cacheKey = MemCacheKey.Build(MemCache.Category.Session, [pageId, "PageView", GetPageViewViewerKey()]);
+                if (MemCache.Contains(cacheKey))
                 {
                     return;
                 }
@@ -94,7 +94,7 @@ namespace TightWiki.Controllers
                 });
 
                 //Just store a value (in this case a DateTime) so that we can test for it later.
-                TwCache.Set(cacheKey, DateTime.UtcNow, TimeSpan.FromSeconds(hitCounterThrottle));
+                MemCache.Set(cacheKey, DateTime.UtcNow, TimeSpan.FromSeconds(hitCounterThrottle));
             }
             catch (Exception ex)
             {
@@ -161,12 +161,12 @@ namespace TightWiki.Controllers
                             queryKey += $"{query.Key}:{query.Value}";
                         }
 
-                        var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
-                        if (TwCache.TryGet<TwPageCache>(cacheKey, out var cached))
+                        var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
+                        if (MemCache.TryGet<TwPageCache>(cacheKey, out var cached))
                         {
                             model.Body = cached.Body;
                             SessionState.PageTitle = cached.PageTitle;
-                            TwCache.Set(cacheKey, cached); //Update the cache expiration.
+                            MemCache.Set(cacheKey, cached); //Update the cache expiration.
                         }
                         else
                         {
@@ -181,7 +181,7 @@ namespace TightWiki.Controllers
                                     PageTitle = state.PageTitle
                                 };
 
-                                TwCache.Set(cacheKey, toBeCached); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
+                                MemCache.Set(cacheKey, toBeCached); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
                             }
                         }
                     }
@@ -724,8 +724,8 @@ namespace TightWiki.Controllers
                 if (confirmAction == true && page != null)
                 {
                     await pageRepository.MovePageToDeletedById(page.Id, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
-                    TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.Page, [page.Navigation]));
-                    TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.Page, [page.Id]));
+                    MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.Page, [page.Navigation]));
+                    MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.Page, [page.Id]));
                     return NotifyOfSuccess(Localize("The page has been deleted."), $"/Home");
                 }
 
@@ -1122,8 +1122,8 @@ namespace TightWiki.Controllers
 
                     if (string.IsNullOrWhiteSpace(originalNavigation) == false)
                     {
-                        TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.Page, [originalNavigation]));
-                        TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.Page, [page.Id]));
+                        MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.Page, [originalNavigation]));
+                        MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.Page, [page.Id]));
                         return Redirect($"{WikiConfiguration.BasePath}/{page.Navigation}/Edit");
                     }
 
@@ -1176,8 +1176,8 @@ namespace TightWiki.Controllers
                 var scale = GetQueryValue<int?>("Scale");
                 var maxWidth = GetQueryValue<int?>("MaxWidth");
 
-                var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Page, [givenPageNavigation, givenFileNavigation, pageRevision, scale, maxWidth]);
-                if (TwCache.TryGet<TwImageCacheItem>(cacheKey, out var cached))
+                var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Page, [givenPageNavigation, givenFileNavigation, pageRevision, scale, maxWidth]);
+                if (MemCache.TryGet<TwImageCacheItem>(cacheKey, out var cached))
                 {
                     return File(cached.Bytes, cached.ContentType);
                 }
@@ -1229,7 +1229,7 @@ namespace TightWiki.Controllers
                             using var ms = new MemoryStream();
                             file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
                             var cacheItem = new TwImageCacheItem(ms.ToArray(), file.ContentType);
-                            TwCache.Set(cacheKey, cacheItem);
+                            MemCache.Set(cacheKey, cacheItem);
                             return File(cacheItem.Bytes, cacheItem.ContentType);
                         }
                     }
@@ -1241,12 +1241,12 @@ namespace TightWiki.Controllers
                         int width = Math.Max(1, (int)Math.Round(img.Width * widthScale));
                         int height = Math.Max(1, (int)Math.Round(img.Height * widthScale));
 
-                        using var image = TwImages.ResizeImage(img, width, height);
+                        using var image = ImagesUtility.ResizeImage(img, width, height);
                         using var ms = new MemoryStream();
                         image.SaveAsPng(ms);
 
                         var cacheItem = new TwImageCacheItem(ms.ToArray(), "image/png");
-                        TwCache.Set(cacheKey, cacheItem);
+                        MemCache.Set(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
                     else
@@ -1321,7 +1321,7 @@ namespace TightWiki.Controllers
                             width += 16 - width;
                         }
 
-                        using var image = TwImages.ResizeImage(img, width, height);
+                        using var image = ImagesUtility.ResizeImage(img, width, height);
                         using var ms = new MemoryStream();
                         image.SaveAsPng(ms);
                         return File(ms.ToArray(), "image/png");

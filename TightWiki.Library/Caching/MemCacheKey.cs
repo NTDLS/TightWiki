@@ -1,5 +1,5 @@
 ﻿using TightWiki.Plugin.Caching;
-using static TightWiki.Library.Caching.TwCache;
+using static TightWiki.Library.Caching.MemCache;
 
 namespace TightWiki.Library.Caching
 {
@@ -7,15 +7,15 @@ namespace TightWiki.Library.Caching
     /// Contains a verbatim cache key.
     /// </summary>
     /// <param name="key"></param>
-    public class TwCacheKey(string key)
+    public class MemCacheKey(string key)
         : ITwCacheKey
     {
         public string Key { get; set; } = key;
 
-        public static TwCacheKey Build(Category category, object?[] segments)
+        public static MemCacheKey Build(Category category, object?[] segments)
             => new($"[{category}]:[{string.Join("]:[", segments)}]");
 
-        public static TwCacheKey Build(Category category)
+        public static MemCacheKey Build(Category category)
             => new($"[{category}]");
     }
 }

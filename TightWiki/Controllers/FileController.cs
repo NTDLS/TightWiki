@@ -11,7 +11,7 @@ using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Models;
 using TightWiki.ViewModels.File;
-using static TightWiki.Library.TwImages;
+using static TightWiki.Library.ImagesUtility;
 
 namespace TightWiki.Controllers
 {
@@ -45,8 +45,8 @@ namespace TightWiki.Controllers
                 var scale = GetQueryValue<int?>("Scale");
                 var maxWidth = GetQueryValue<int?>("MaxWidth");
 
-                var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, scale, maxWidth]);
-                if (TwCache.TryGet<TwImageCacheItem>(cacheKey, out var cached))
+                var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, scale, maxWidth]);
+                if (MemCache.TryGet<TwImageCacheItem>(cacheKey, out var cached))
                 {
                     return File(cached.Bytes, cached.ContentType);
                 }
@@ -99,7 +99,7 @@ namespace TightWiki.Controllers
                             using var ms = new MemoryStream();
                             file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
                             var cacheItem = new TwImageCacheItem(ms.ToArray(), file.ContentType);
-                            TwCache.Set(cacheKey, cacheItem);
+                            MemCache.Set(cacheKey, cacheItem);
                             return File(cacheItem.Bytes, cacheItem.ContentType);
                         }
                     }
@@ -115,7 +115,7 @@ namespace TightWiki.Controllers
                         using var ms = new MemoryStream();
                         file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
                         var cacheItem = new TwImageCacheItem(ms.ToArray(), file.ContentType);
-                        TwCache.Set(cacheKey, cacheItem);
+                        MemCache.Set(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
                     else
@@ -161,8 +161,8 @@ namespace TightWiki.Controllers
                 var scale = GetQueryValue<int?>("Scale");
                 var maxWidth = GetQueryValue<int?>("MaxWidth");
 
-                var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, scale, maxWidth]);
-                if (TwCache.TryGet<TwImageCacheItem>(cacheKey, out var cached))
+                var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, scale, maxWidth]);
+                if (MemCache.TryGet<TwImageCacheItem>(cacheKey, out var cached))
                 {
                     return File(cached.Bytes, cached.ContentType);
                 }
@@ -199,12 +199,12 @@ namespace TightWiki.Controllers
                             width += difference;
                         }
 
-                        using var image = TwImages.ResizeImage(img, width, height);
+                        using var image = ImagesUtility.ResizeImage(img, width, height);
                         using var ms = new MemoryStream();
                         image.SaveAsPng(ms);
 
                         var cacheItem = new TwImageCacheItem(ms.ToArray(), "image/png");
-                        TwCache.Set(cacheKey, cacheItem);
+                        MemCache.Set(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
                     //Enforce max width if specified.
@@ -215,12 +215,12 @@ namespace TightWiki.Controllers
                         int width = Math.Max(1, (int)Math.Round(img.Width * widthScale));
                         int height = Math.Max(1, (int)Math.Round(img.Height * widthScale));
 
-                        using var image = TwImages.ResizeImage(img, width, height);
+                        using var image = ImagesUtility.ResizeImage(img, width, height);
                         using var ms = new MemoryStream();
                         image.SaveAsPng(ms);
 
                         var cacheItem = new TwImageCacheItem(ms.ToArray(), "image/png");
-                        TwCache.Set(cacheKey, cacheItem);
+                        MemCache.Set(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
                     else
@@ -229,7 +229,7 @@ namespace TightWiki.Controllers
                         img.SaveAsPng(ms);
 
                         var cacheItem = new TwImageCacheItem(ms.ToArray(), "image/png");
-                        TwCache.Set(cacheKey, cacheItem);
+                        MemCache.Set(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
                 }
@@ -567,14 +567,14 @@ namespace TightWiki.Controllers
                     if (emoji != null)
                     {
                         //Do we have this scale cached already?
-                        var scaledImageCacheKey = TwCacheKey.Build(TwCache.Category.Emoji, [shortcut, givenScale]);
-                        if (TwCache.TryGet<TwImageCacheItem>(scaledImageCacheKey, out var cachedEmoji))
+                        var scaledImageCacheKey = MemCacheKey.Build(MemCache.Category.Emoji, [shortcut, givenScale]);
+                        if (MemCache.TryGet<TwImageCacheItem>(scaledImageCacheKey, out var cachedEmoji))
                         {
                             return File(cachedEmoji.Bytes, cachedEmoji.ContentType);
                         }
 
-                        var imageCacheKey = TwCacheKey.Build(TwCache.Category.Emoji, [shortcut]);
-                        emoji.ImageData = TwCache.Get<byte[]>(imageCacheKey);
+                        var imageCacheKey = MemCacheKey.Build(MemCache.Category.Emoji, [shortcut]);
+                        emoji.ImageData = MemCache.Get<byte[]>(imageCacheKey);
                         if (emoji.ImageData == null)
                         {
                             //We don't get the bytes by default, that would be a lot of RAM for all the thousands of images.
@@ -585,7 +585,7 @@ namespace TightWiki.Controllers
                                 return NotFound(Localize("Emoji {0} was not found", emojiNavigation));
                             }
 
-                            TwCache.Set(imageCacheKey, emoji.ImageData);
+                            MemCache.Set(imageCacheKey, emoji.ImageData);
                         }
 
                         if (emoji.ImageData != null)
@@ -623,17 +623,17 @@ namespace TightWiki.Controllers
                             {
                                 var resized = ResizeGifImage(decompressedImageBytes, Width, Height);
                                 var itemCache = new TwImageCacheItem(resized, "image/gif");
-                                TwCache.Set(scaledImageCacheKey, itemCache);
+                                MemCache.Set(scaledImageCacheKey, itemCache);
                                 return File(itemCache.Bytes, itemCache.ContentType);
                             }
                             else
                             {
-                                using var image = TwImages.ResizeImage(img, Width, Height);
+                                using var image = ImagesUtility.ResizeImage(img, Width, Height);
                                 using var ms = new MemoryStream();
                                 image.SaveAsPng(ms);
 
                                 var itemCache = new TwImageCacheItem(ms.ToArray(), "image/png");
-                                TwCache.Set(scaledImageCacheKey, itemCache);
+                                MemCache.Set(scaledImageCacheKey, itemCache);
 
                                 return File(itemCache.Bytes, itemCache.ContentType);
                             }

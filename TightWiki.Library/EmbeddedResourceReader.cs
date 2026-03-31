@@ -7,7 +7,7 @@ namespace TightWiki.Library
     /// <summary>
     /// Used to read EmbeddedResources from assemblies.
     /// </summary>
-    public static class TwEmbeddedResourceReader
+    public static class EmbeddedResourceReader
     {
         private static readonly MemoryCache _cache = new(new MemoryCacheOptions());
 

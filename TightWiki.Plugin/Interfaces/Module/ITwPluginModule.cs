@@ -2,10 +2,10 @@
 
 namespace TightWiki.Plugin.Interfaces.Module
 {
-    public interface ITwEnginePluginModule
+    public interface ITwPluginModule
     {
         Type DeclaringType { get; }
         TwPluginModuleAttribute Attribute { get; }
-        ITwPluginModule Instance { get; }
+        Interfaces.ITwPluginModule Instance { get; }
     }
 }

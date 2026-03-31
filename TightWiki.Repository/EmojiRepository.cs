@@ -176,7 +176,7 @@ namespace TightWiki.Repository
 
         public async Task<List<TwEmoji>> ReloadEmojis(bool preloadAnimatedEmojis, int defaultEmojiHeight)
         {
-            TwCache.ClearCategory(TwCache.Category.Emoji);
+            MemCache.ClearCategory(MemCache.Category.Emoji);
             var emojis = await GetAllEmojis();
 
             if (preloadAnimatedEmojis)
@@ -192,12 +192,12 @@ namespace TightWiki.Repository
                     {
                         if (emoji.MimeType.Equals("image/gif", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            var imageCacheKey = TwCacheKey.Build(TwCache.Category.Emoji, [emoji.Shortcut]);
+                            var imageCacheKey = MemCacheKey.Build(MemCache.Category.Emoji, [emoji.Shortcut]);
                             emoji.ImageData = (await GetEmojiByName(emoji.Name))?.ImageData;
 
                             if (emoji.ImageData != null)
                             {
-                                var scaledImageCacheKey = TwCacheKey.Build(TwCache.Category.Emoji, [emoji.Shortcut, "100"]);
+                                var scaledImageCacheKey = MemCacheKey.Build(MemCache.Category.Emoji, [emoji.Shortcut, "100"]);
                                 var decompressedImageBytes = Utility.Decompress(emoji.ImageData);
                                 var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(decompressedImageBytes));
 
@@ -224,9 +224,9 @@ namespace TightWiki.Repository
                                 }
 
                                 //These are hard to generate, so just keep it forever.
-                                var resized = TwImages.ResizeGifImage(decompressedImageBytes, Width, Height);
+                                var resized = ImagesUtility.ResizeGifImage(decompressedImageBytes, Width, Height);
                                 var itemCache = new TwImageCacheItem(resized, "image/gif");
-                                TwCache.Set(scaledImageCacheKey, itemCache, new CacheItemPolicy());
+                                MemCache.Set(scaledImageCacheKey, itemCache, new CacheItemPolicy());
                             }
                         }
                     });

@@ -38,9 +38,9 @@ namespace TightWiki.Repository
                 RoleId = roleId
             };
 
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Security, [userId, roleId]);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Security, [userId, roleId]);
 
-            return await TwCache.AddOrGetAsync(cacheKey, forceReCache, async () =>
+            return await MemCache.AddOrGetAsync(cacheKey, forceReCache, async () =>
                 await UsersFactory.QueryFirstOrDefaultAsync<bool?>("IsAccountAMemberOfRole.sql", param) ?? false
             );
         }
@@ -65,9 +65,9 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Security, [userId, permissionId, permissionDispositionId, ns, pageId]);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Security, [userId, permissionId, permissionDispositionId, ns, pageId]);
 
-            return await TwCache.AddOrGetAsync(cacheKey, forceReCache, async () =>
+            return await MemCache.AddOrGetAsync(cacheKey, forceReCache, async () =>
                 await UsersFactory.QueryFirstOrDefaultAsync<bool?>("IsAccountPermissionDefined.sql", param) ?? false
             );
         }
@@ -102,9 +102,9 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Security, [roleId, permissionId, permissionDispositionId, ns, pageId]);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Security, [roleId, permissionId, permissionDispositionId, ns, pageId]);
 
-            return await TwCache.AddOrGetAsync(cacheKey, forceReCache, async () =>
+            return await MemCache.AddOrGetAsync(cacheKey, forceReCache, async () =>
                 await UsersFactory.QueryFirstOrDefaultAsync<bool?>("IsRolePermissionDefined.sql", param) ?? false
             );
         }
@@ -157,9 +157,9 @@ namespace TightWiki.Repository
         /// </summary>
         public async Task<List<TwApparentPermission>> GetApparentAccountPermissions(Guid userId)
         {
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Security, [userId]);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Security, [userId]);
 
-            return await TwCache.AddOrGet(cacheKey, async () =>
+            return await MemCache.AddOrGet(cacheKey, async () =>
             {
                 return await UsersFactory.QueryAsync<TwApparentPermission>(@"Scripts\GetApparentAccountPermissions.sql",
                 new
@@ -174,9 +174,9 @@ namespace TightWiki.Repository
 
         public async Task<List<TwApparentPermission>> GetApparentRolePermissions(string roleName)
         {
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Security, [roleName]);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Security, [roleName]);
 
-            return (await TwCache.AddOrGetAsync(cacheKey, async () =>
+            return (await MemCache.AddOrGetAsync(cacheKey, async () =>
             {
                 return await UsersFactory.QueryAsync<TwApparentPermission>(@"Scripts\GetApparentRolePermissions.sql",
                 new
@@ -188,9 +188,9 @@ namespace TightWiki.Repository
 
         public async Task<List<TwPermissionDisposition>> GetAllPermissionDispositions()
         {
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Security);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Security);
 
-            return (await TwCache.AddOrGetAsync(cacheKey, async () =>
+            return (await MemCache.AddOrGetAsync(cacheKey, async () =>
             {
                 return await UsersFactory.QueryAsync<TwPermissionDisposition>(@"Scripts\GetAllPermissionDispositions.sql");
             })).EnsureNotNull();
@@ -198,9 +198,9 @@ namespace TightWiki.Repository
 
         public async Task<List<TwPermission>> GetAllPermissions()
         {
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Security);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Security);
 
-            return (await TwCache.AddOrGetAsync(cacheKey, async () =>
+            return (await MemCache.AddOrGetAsync(cacheKey, async () =>
             {
                 return await UsersFactory.QueryAsync<TwPermission>(@"Scripts\GetAllPermissions.sql");
             })).EnsureNotNull();
@@ -261,9 +261,9 @@ namespace TightWiki.Repository
 
         public async Task<bool> IsUserMemberOfAdministrators(Guid userId)
         {
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.User, [userId]);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.User, [userId]);
 
-            return await TwCache.AddOrGetAsync(cacheKey, async () =>
+            return await MemCache.AddOrGetAsync(cacheKey, async () =>
             {
                 var result = await UsersFactory.ExecuteScalarAsync<int?>("IsUserMemberOfAdministrators.sql",
                 new
@@ -399,8 +399,8 @@ namespace TightWiki.Repository
 
         public async Task<TwAccountProfile?> GetBasicProfileByUserId(Guid userId)
         {
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.User, [userId]);
-            return await TwCache.AddOrGetAsync(cacheKey, async () =>
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.User, [userId]);
+            return await MemCache.AddOrGetAsync(cacheKey, async () =>
             {
                 var param = new
                 {
@@ -413,9 +413,9 @@ namespace TightWiki.Repository
 
         public async Task<TwAccountProfile> GetAccountProfileByUserId(Guid userId, bool forceReCache = false)
         {
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.User, [userId]);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.User, [userId]);
 
-            return (await TwCache.AddOrGetAsync(cacheKey, forceReCache, async () =>
+            return (await MemCache.AddOrGetAsync(cacheKey, forceReCache, async () =>
             {
                 var param = new
                 {
@@ -495,7 +495,7 @@ namespace TightWiki.Repository
             };
 
             await UsersFactory.ExecuteAsync("UpdateProfile.sql", param);
-            TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.User, [item.UserId]));
+            MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.User, [item.UserId]));
         }
 
         public async Task UpdateProfileAvatar(Guid userId, byte[] imageData, string contentType)
@@ -508,14 +508,14 @@ namespace TightWiki.Repository
             };
 
             await UsersFactory.ExecuteAsync("UpdateProfileAvatar.sql", param);
-            TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.User, [userId]));
+            MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.User, [userId]));
         }
 
         public async Task<WikiAdminPasswordChangeState> AdminPasswordStatus()
         {
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Configuration);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Configuration);
 
-            if (TwCache.Get<bool?>(cacheKey) == true)
+            if (MemCache.Get<bool?>(cacheKey) == true)
             {
                 return WikiAdminPasswordChangeState.HasBeenChanged;
             }
@@ -523,7 +523,7 @@ namespace TightWiki.Repository
             var result = await UsersFactory.ExecuteScalarAsync<bool?>("IsAdminPasswordChanged.sql");
             if (result == true)
             {
-                TwCache.Set(cacheKey, true);
+                MemCache.Set(cacheKey, true);
                 return WikiAdminPasswordChangeState.HasBeenChanged;
             }
             if (result == null)

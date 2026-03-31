@@ -214,7 +214,7 @@ namespace TightWiki.Repository.Helpers
                 var defaultsDatabasePath = Path.Combine(databasePath, "defaults.db");
 
                 Logger.LogInformation("Creating defaults database.");
-                var defaultDatabaseBytes = TwEmbeddedResourceReader.LoadBytes(@"Defaults\defaults.db");
+                var defaultDatabaseBytes = EmbeddedResourceReader.LoadBytes(@"Defaults\defaults.db");
                 await File.WriteAllBytesAsync(defaultsDatabasePath, defaultDatabaseBytes);
 
                 return defaultsDatabasePath;
@@ -253,7 +253,7 @@ namespace TightWiki.Repository.Helpers
                     }
                     else
                     {
-                        var result = await userManager.CreateAsync(user, TwPasswordGenerator.Generate(32));
+                        var result = await userManager.CreateAsync(user, PasswordGenerator.Generate(32));
                         if (result.Succeeded)
                         {
                             Logger.LogInformation("Database upgrade user created a new account with password.");

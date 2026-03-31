@@ -24,7 +24,7 @@ namespace TightWiki.Repository.Helpers
 
         public async Task ReloadAll()
         {
-            TwCache.Clear();
+            MemCache.Clear();
 
             Configuration.IsDebug = Debugger.IsAttached;
 
@@ -33,7 +33,7 @@ namespace TightWiki.Repository.Helpers
             Configuration.RecordCompilationMetrics = performanceConfig.Value<bool>("Record Compilation Metrics");
             Configuration.CacheMemoryLimitMB = performanceConfig.Value<int>("Cache Memory Limit MB");
 
-            TwCache.Initialize(Configuration.CacheMemoryLimitMB, TimeSpan.FromSeconds(Configuration.PageCacheSeconds));
+            MemCache.Initialize(Configuration.CacheMemoryLimitMB, TimeSpan.FromSeconds(Configuration.PageCacheSeconds));
 
             var basicConfig = await _databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
             var customizationConfig = await _databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Customization);

@@ -8,10 +8,10 @@ namespace TightWiki.Engine.Module.Handlers
     /// <summary>
     /// Handles wiki comments. These are generally removed from the result.
     /// </summary>
-    public class TwCommentHandlerDescriptor
-        : TwEngineHandlerDescriptor, ITwCommentHandler
+    public class CommentHandlerDescriptor
+        : HandlerDescriptor, ITwCommentHandler
     {
-        public TwCommentHandlerDescriptor(ITwEngineHandlerDescriptor descriptor)
+        public CommentHandlerDescriptor(ITwHandlerDescriptor descriptor)
             : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
         {
         }

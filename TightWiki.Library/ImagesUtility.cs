@@ -4,7 +4,7 @@ using SixLabors.ImageSharp.Processing;
 
 namespace TightWiki.Library
 {
-    public static class TwImages
+    public static class ImagesUtility
     {
         public enum ImageFormat
         {

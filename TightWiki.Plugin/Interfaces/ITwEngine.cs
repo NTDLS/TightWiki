@@ -21,10 +21,10 @@ namespace TightWiki.Plugin.Interfaces
         List<ITwInternalLinkHandler> InternalLinkHandlers { get; }
         List<ITwMarkupHandler> MarkupHandlers { get; }
 
-        List<ITwEngineFunctionDescriptor> StandardFunctions { get; }
-        List<ITwEngineFunctionDescriptor> ScopeFunctions { get; }
-        List<ITwEngineFunctionDescriptor> ProcessingFunctions { get; }
-        List<ITwEngineFunctionDescriptor> PostProcessingFunctions { get; }
+        List<ITwFunctionDescriptor> StandardFunctions { get; }
+        List<ITwFunctionDescriptor> ScopeFunctions { get; }
+        List<ITwFunctionDescriptor> ProcessingFunctions { get; }
+        List<ITwFunctionDescriptor> PostProcessingFunctions { get; }
 
         Task<ITwEngineState> Transform(ITwSharedLocalizationText localizer, ITwSessionState? sessionState, ITwPage page, int? revision = null, WikiMatchType[]? omitMatches = null);
     }

@@ -211,9 +211,9 @@ namespace TightWiki
                 return true;
             }
 
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Security, [givenCanonical, Profile?.UserId, string.Join("|", permissions).ToLowerInvariant()]);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Security, [givenCanonical, Profile?.UserId, string.Join("|", permissions).ToLowerInvariant()]);
 
-            return await TwCache.AddOrGetAsync(cacheKey, async () =>
+            return await MemCache.AddOrGetAsync(cacheKey, async () =>
             {
                 TwPage? page = null;
 

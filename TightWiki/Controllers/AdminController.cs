@@ -273,7 +273,7 @@ namespace TightWiki.Controllers
                 }
                 if (model.UserSelection == true)
                 {
-                    TwCache.Clear();
+                    MemCache.Clear();
                     return NotifyOfSuccess(Localize("Memory cache purged."), model.YesRedirectURL);
                 }
 
@@ -943,15 +943,15 @@ namespace TightWiki.Controllers
                                 queryKey += $"{query.Key}:{query.Value}";
                             }
 
-                            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
-                            if (TwCache.Contains(cacheKey) == false)
+                            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
+                            if (MemCache.Contains(cacheKey) == false)
                             {
                                 var state = await tightEngine.Transform(Localizer, SessionState, page, page.Revision);
                                 page.Body = state.HtmlResult;
 
                                 if (state.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
                                 {
-                                    TwCache.Set(cacheKey, state.HtmlResult); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
+                                    MemCache.Set(cacheKey, state.HtmlResult); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
                                 }
                             }
                         });
@@ -988,7 +988,7 @@ namespace TightWiki.Controllers
                 if (model.UserSelection == true)
                 {
                     await pageRepository.TruncateAllPageRevisions("YES");
-                    TwCache.Clear();
+                    MemCache.Clear();
                     return NotifyOfSuccess(Localize("All page revisions have been truncated."), model.YesRedirectURL);
                 }
 
@@ -1503,9 +1503,9 @@ namespace TightWiki.Controllers
                 {
                     Themes = await configurationRepository.GetAllThemes(),
                     Roles = await usersRepository.GetAllRoles(),
-                    TimeZones = TwTimeZoneItem.GetAll(),
-                    Countries = TwCountryItem.GetAll(),
-                    Languages = TwLanguageItem.GetAll(),
+                    TimeZones = TimeZoneItem.GetAll(),
+                    Countries = CountryItem.GetAll(),
+                    Languages = LanguageItem.GetAll(),
                     Nest = await configurationRepository.GetConfigurationNest()
                 };
                 return View(model);
@@ -1542,9 +1542,9 @@ namespace TightWiki.Controllers
                     {
                         Themes = await configurationRepository.GetAllThemes(),
                         Roles = await usersRepository.GetAllRoles(),
-                        TimeZones = TwTimeZoneItem.GetAll(),
-                        Countries = TwCountryItem.GetAll(),
-                        Languages = TwLanguageItem.GetAll(),
+                        TimeZones = TimeZoneItem.GetAll(),
+                        Countries = CountryItem.GetAll(),
+                        Languages = LanguageItem.GetAll(),
                         Nest = await configurationRepository.GetConfigurationNest(),
                     };
 
@@ -1585,7 +1585,7 @@ namespace TightWiki.Controllers
                         await configurationManager.ReloadAll();
                     }
 
-                    TwCache.ClearCategory(TwCache.Category.Configuration);
+                    MemCache.ClearCategory(MemCache.Category.Configuration);
 
                     model.SuccessMessage = Localize("The configuration has been saved successfully!");
                 }

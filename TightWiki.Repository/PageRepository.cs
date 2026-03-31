@@ -57,9 +57,9 @@ namespace TightWiki.Repository
 
         public async Task<TwProcessingInstructionCollection> GetPageProcessingInstructionsByPageId(int pageId)
         {
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Page, [pageId]);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Page, [pageId]);
 
-            return (await TwCache.AddOrGetAsync(cacheKey, async () =>
+            return (await MemCache.AddOrGetAsync(cacheKey, async () =>
             {
                 var param = new
                 {
@@ -75,9 +75,9 @@ namespace TightWiki.Repository
 
         public async Task<List<TwPageTag>> GetPageTagsById(int pageId)
         {
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Page, [pageId]);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Page, [pageId]);
 
-            return (await TwCache.AddOrGetAsync(cacheKey, async () =>
+            return (await MemCache.AddOrGetAsync(cacheKey, async () =>
             {
                 var param = new
                 {
@@ -172,9 +172,9 @@ namespace TightWiki.Repository
 
         private async Task<List<TwPageSearchToken>> GetMeteredPageSearchTokens(List<string> searchTerms, bool allowFuzzyMatching)
         {
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Search, [string.Join(',', searchTerms), allowFuzzyMatching]);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Search, [string.Join(',', searchTerms), allowFuzzyMatching]);
 
-            return (await TwCache.AddOrGetAsync(cacheKey, async () =>
+            return (await MemCache.AddOrGetAsync(cacheKey, async () =>
             {
                 var minimumMatchScore = await _configurationRepository.Get<float>("Search", "Minimum Match Score");
 
@@ -301,8 +301,8 @@ namespace TightWiki.Repository
         public async Task FlushPageCache(int pageId)
         {
             var pageNavigation = await GetPageNavigationByPageId(pageId);
-            TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.Page, [pageNavigation]));
-            TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.Page, [pageId]));
+            MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.Page, [pageNavigation]));
+            MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.Page, [pageId]));
         }
 
         public async Task InsertPageComment(int pageId, Guid userId, string body)
@@ -354,9 +354,9 @@ namespace TightWiki.Repository
         {
             var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Page, [navigation, pageNumber, paginationSize]);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Page, [navigation, pageNumber, paginationSize]);
 
-            return (await TwCache.AddOrGetAsync(cacheKey, async () =>
+            return (await MemCache.AddOrGetAsync(cacheKey, async () =>
             {
                 var param = new
                 {
@@ -594,7 +594,7 @@ namespace TightWiki.Repository
 
         public async Task<List<TwFeatureTemplate>> GetAllFeatureTemplates()
         {
-            return (await TwCache.AddOrGetAsync(TwCacheKeyFunction.Build(TwCache.Category.Configuration), async () =>
+            return (await MemCache.AddOrGetAsync(MemCacheKeyFunction.Build(MemCache.Category.Configuration), async () =>
             {
                 return (await PagesFactory.QueryAsync<TwFeatureTemplate>("GetAllFeatureTemplates.sql")).ToList();
             })).EnsureNotNull();
@@ -620,7 +620,7 @@ namespace TightWiki.Repository
 
         public async Task<TwPage?> GetPageRevisionById(int pageId, int? revision = null)
         {
-            return await TwCache.AddOrGetAsync(TwCacheKeyFunction.Build(TwCache.Category.Page, [pageId, revision]), async () =>
+            return await MemCache.AddOrGetAsync(MemCacheKeyFunction.Build(MemCache.Category.Page, [pageId, revision]), async () =>
             {
                 var param = new
                 {
@@ -668,7 +668,7 @@ namespace TightWiki.Repository
 
         public async Task<int> GetCurrentPageRevision(int pageId)
         {
-            return await TwCache.AddOrGetAsync(TwCacheKeyFunction.Build(TwCache.Category.Page, [pageId]), async () =>
+            return await MemCache.AddOrGetAsync(MemCacheKeyFunction.Build(MemCache.Category.Page, [pageId]), async () =>
             {
                 var param = new
                 {
@@ -681,7 +681,7 @@ namespace TightWiki.Repository
 
         public async Task<int> GetCurrentPageRevision(SqliteManagedInstance connection, int pageId)
         {
-            return await TwCache.AddOrGetAsync(TwCacheKeyFunction.Build(TwCache.Category.Page, [pageId]), async () =>
+            return await MemCache.AddOrGetAsync(MemCacheKeyFunction.Build(MemCache.Category.Page, [pageId]), async () =>
             {
                 var param = new
                 {
@@ -694,9 +694,9 @@ namespace TightWiki.Repository
 
         public async Task<TwPage?> GetLimitedPageInfoByIdAndRevision(int pageId, int? revision = null)
         {
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Page, [pageId, revision]);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Page, [pageId, revision]);
 
-            return await TwCache.AddOrGetAsync(cacheKey, async () =>
+            return await MemCache.AddOrGetAsync(cacheKey, async () =>
             {
                 var param = new
                 {
@@ -754,8 +754,8 @@ namespace TightWiki.Repository
             await SavePageSearchTokens(pageTokens);
             await UpdatePageReferences(page.Id, state.OutgoingLinks);
 
-            TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.Page, [page.Id]));
-            TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.Page, [page.Navigation]));
+            MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.Page, [page.Id]));
+            MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.Page, [page.Navigation]));
         }
 
         public async Task<List<TwAggregatedSearchToken>> ParsePageTokens(ITwEngineState state)
@@ -935,7 +935,7 @@ namespace TightWiki.Repository
         /// </summary>
         public async Task<TwPage?> GetPageInfoByNavigation(string navigation)
         {
-            return await TwCache.AddOrGetAsync(TwCacheKeyFunction.Build(TwCache.Category.Page, [navigation]), async () =>
+            return await MemCache.AddOrGetAsync(MemCacheKeyFunction.Build(MemCache.Category.Page, [navigation]), async () =>
             {
                 var param = new
                 {
@@ -948,7 +948,7 @@ namespace TightWiki.Repository
 
         public async Task<int> GetPageRevisionCountByPageId(int pageId)
         {
-            return await TwCache.AddOrGetAsync(TwCacheKeyFunction.Build(TwCache.Category.Page, [pageId]), async () =>
+            return await MemCache.AddOrGetAsync(MemCacheKeyFunction.Build(MemCache.Category.Page, [pageId]), async () =>
             {
                 var param = new
                 {
@@ -1234,14 +1234,14 @@ namespace TightWiki.Repository
                 Revision = revision
             };
 
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Page, [navigation.Canonical, revision]);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Page, [navigation.Canonical, revision]);
 
             if (refreshCache)
             {
-                TwCache.Remove(cacheKey);
+                MemCache.Remove(cacheKey);
             }
 
-            return await TwCache.AddOrGetAsync(cacheKey, async () =>
+            return await MemCache.AddOrGetAsync(cacheKey, async () =>
             {
                 return await PagesFactory.EphemeralAsync(async o =>
                 {
@@ -1398,9 +1398,9 @@ namespace TightWiki.Repository
 
         public async Task<TwPageFileAttachment?> GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null)
         {
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Page, [pageNavigation, fileNavigation, pageRevision]);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Page, [pageNavigation, fileNavigation, pageRevision]);
 
-            return await TwCache.AddOrGetAsync(cacheKey, async () =>
+            return await MemCache.AddOrGetAsync(cacheKey, async () =>
             {
                 var param = new
                 {

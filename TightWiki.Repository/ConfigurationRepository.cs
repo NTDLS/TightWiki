@@ -24,9 +24,9 @@ namespace TightWiki.Repository
 
         public async Task<TwConfigurationEntries> GetConfigurationEntryValuesByGroupName(string groupName)
         {
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Configuration, [groupName]);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Configuration, [groupName]);
 
-            return await TwCache.AddOrGet(cacheKey, async () =>
+            return await MemCache.AddOrGet(cacheKey, async () =>
             {
                 var entries = await ConfigFactory.QueryAsync<TwConfigurationEntry>("GetConfigurationEntryValuesByGroupName.sql",
                     new { GroupName = groupName });
@@ -52,9 +52,9 @@ namespace TightWiki.Repository
 
         public async Task<List<TwTheme>> GetAllThemes()
         {
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Configuration);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Configuration);
 
-            return await TwCache.AddOrGet(cacheKey, async () =>
+            return await MemCache.AddOrGet(cacheKey, async () =>
             {
                 var themes = await ConfigFactory.QueryAsync<TwTheme>("GetAllThemes.sql");
 
@@ -198,9 +198,9 @@ namespace TightWiki.Repository
 
         public async Task<string?> GetConfigurationEntryValuesByGroupNameAndEntryName(string groupName, string entryName)
         {
-            var cacheKey = TwCacheKeyFunction.Build(TwCache.Category.Configuration, [groupName, entryName]);
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Configuration, [groupName, entryName]);
 
-            return await TwCache.AddOrGetAsync(cacheKey, async () =>
+            return await MemCache.AddOrGetAsync(cacheKey, async () =>
             {
                 var configEntry = await ConfigFactory.QuerySingleAsync<TwConfigurationEntry>("GetConfigurationEntryValuesByGroupNameAndEntryName.sql",
                     new
@@ -270,7 +270,7 @@ namespace TightWiki.Repository
 
             await ConfigFactory.ExecuteAsync("DeleteMenuItemById.sql", param);
 
-            TwCache.ClearCategory(TwCache.Category.Configuration);
+            MemCache.ClearCategory(MemCache.Category.Configuration);
         }
 
         public async Task<int> UpdateMenuItemById(TwMenuItem menuItem)
@@ -285,7 +285,7 @@ namespace TightWiki.Repository
 
             var menuItemId = await ConfigFactory.ExecuteScalarAsync<int>("UpdateMenuItemById.sql", param);
 
-            TwCache.ClearCategory(TwCache.Category.Configuration);
+            MemCache.ClearCategory(MemCache.Category.Configuration);
             return menuItemId;
         }
 
@@ -300,7 +300,7 @@ namespace TightWiki.Repository
 
             var menuItemId = await ConfigFactory.ExecuteScalarAsync<int>("InsertMenuItem.sql", param);
 
-            TwCache.ClearCategory(TwCache.Category.Configuration);
+            MemCache.ClearCategory(MemCache.Category.Configuration);
             return menuItemId;
         }
 

@@ -2,7 +2,7 @@
 
 namespace TightWiki.Library
 {
-    public static class TwPasswordGenerator
+    public static class PasswordGenerator
     {
         private const string Lower = "abcdefghijklmnopqrstuvwxyz";
         private const string Upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

@@ -1,19 +1,19 @@
 ﻿namespace TightWiki.Library
 {
-    public class TwLanguageItem
+    public class LanguageItem
     {
         public string Text { get; set; } = string.Empty;
         public string Value { get; set; } = string.Empty;
 
-        public static List<TwLanguageItem> GetAll()
+        public static List<LanguageItem> GetAll()
         {
-            var list = new List<TwLanguageItem>();
+            var list = new List<LanguageItem>();
 
-            var supportedCultures = new TwSupportedCultures();
+            var supportedCultures = new SupportedCultures();
 
             foreach (var culture in supportedCultures.Collection)
             {
-                list.Add(new TwLanguageItem
+                list.Add(new LanguageItem
                 {
                     Text = culture.Culture.NativeName,
                     Value = culture.Code

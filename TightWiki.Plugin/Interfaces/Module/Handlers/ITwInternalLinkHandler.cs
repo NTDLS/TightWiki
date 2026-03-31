@@ -6,7 +6,7 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
     /// Handles links from one wiki page to another.
     /// </summary>
     public interface ITwInternalLinkHandler
-        : ITwPluginModule
+        : Interfaces.ITwPluginModule
     {
         /// <summary>
         /// Handles an internal wiki link.

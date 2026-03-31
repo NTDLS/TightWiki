@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TightWiki.Library
 {
-    public class TwApplicationDbContext(DbContextOptions<TwApplicationDbContext> options)
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : IdentityDbContext<IdentityUser>(options)
     {
         protected override void OnModelCreating(ModelBuilder builder)

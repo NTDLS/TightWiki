@@ -19,9 +19,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
 {
     public class RegisterInputModel
     {
-        public List<TwTimeZoneItem> TimeZones { get; set; } = new();
-        public List<TwCountryItem> Countries { get; set; } = new();
-        public List<TwLanguageItem> Languages { get; set; } = new();
+        public List<TimeZoneItem> TimeZones { get; set; } = new();
+        public List<CountryItem> Countries { get; set; } = new();
+        public List<LanguageItem> Languages { get; set; } = new();
 
 
         [Display(Name = "Display Name")]
@@ -116,9 +116,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         private async Task PopulateDefaults()
         {
-            Input.TimeZones = TwTimeZoneItem.GetAll();
-            Input.Countries = TwCountryItem.GetAll();
-            Input.Languages = TwLanguageItem.GetAll();
+            Input.TimeZones = TimeZoneItem.GetAll();
+            Input.Countries = CountryItem.GetAll();
+            Input.Languages = LanguageItem.GetAll();
 
             var membershipConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
 

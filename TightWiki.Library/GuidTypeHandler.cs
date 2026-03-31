@@ -3,7 +3,7 @@ using System.Data;
 
 namespace TightWiki.Library
 {
-    public class TwGuidTypeHandler
+    public class GuidTypeHandler
         : SqlMapper.TypeHandler<Guid>
     {
         public override void SetValue(IDbDataParameter parameter, Guid value)

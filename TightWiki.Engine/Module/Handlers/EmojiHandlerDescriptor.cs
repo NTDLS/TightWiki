@@ -8,10 +8,10 @@ namespace TightWiki.Engine.Module.Handlers
     /// <summary>
     /// Handles wiki emojis.
     /// </summary>
-    public class TwEmojiHandlerDescriptor
-        : TwEngineHandlerDescriptor, ITwEmojiHandler
+    public class EmojiHandlerDescriptor
+        : HandlerDescriptor, ITwEmojiHandler
     {
-        public TwEmojiHandlerDescriptor(ITwEngineHandlerDescriptor descriptor)
+        public EmojiHandlerDescriptor(ITwHandlerDescriptor descriptor)
             : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
         {
         }

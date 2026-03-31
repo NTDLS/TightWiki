@@ -16,7 +16,7 @@ using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using TightWiki.ViewModels.Profile;
 using TightWiki.ViewModels.Utility;
-using static TightWiki.Library.TwImages;
+using static TightWiki.Library.ImagesUtility;
 
 namespace TightWiki.Controllers
 {
@@ -284,9 +284,9 @@ namespace TightWiki.Controllers
                          await usersRepository.GetAccountProfileByUserId(SessionState.Profile.EnsureNotNull().UserId)),
 
                     Themes = await configurationRepository.GetAllThemes(),
-                    TimeZones = TwTimeZoneItem.GetAll(),
-                    Countries = TwCountryItem.GetAll(),
-                    Languages = TwLanguageItem.GetAll()
+                    TimeZones = TimeZoneItem.GetAll(),
+                    Countries = CountryItem.GetAll(),
+                    Languages = LanguageItem.GetAll()
                 };
 
                 model.AccountProfile.CreatedDate = SessionState.LocalizeDateTime(model.AccountProfile.CreatedDate);
@@ -320,9 +320,9 @@ namespace TightWiki.Controllers
                 }
                 SessionState.Page.Name = Localize("My Profile");
 
-                model.TimeZones = TwTimeZoneItem.GetAll();
-                model.Countries = TwCountryItem.GetAll();
-                model.Languages = TwLanguageItem.GetAll();
+                model.TimeZones = TimeZoneItem.GetAll();
+                model.Countries = CountryItem.GetAll();
+                model.Languages = LanguageItem.GetAll();
                 model.Themes = await configurationRepository.GetAllThemes();
 
                 //Get the UserId from the logged in context because we do not trust anything from the model.
@@ -391,8 +391,8 @@ namespace TightWiki.Controllers
                 await usersRepository.UpsertUserClaims(UserManager, user, claims);
 
                 await SignInManager.RefreshSignInAsync(user);
-                TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.User, [profile.Navigation]));
-                TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.User, [profile.UserId]));
+                MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.User, [profile.Navigation]));
+                MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.User, [profile.UserId]));
 
                 await UpdateUserCultureCookie(userId);
 
@@ -444,7 +444,7 @@ namespace TightWiki.Controllers
                 await SignInManager.SignOutAsync();
 
                 await usersRepository.AnonymizeProfile(profile.UserId);
-                TwCache.ClearCategory(TwCacheKey.Build(TwCache.Category.User, [profile.Navigation]));
+                MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.User, [profile.Navigation]));
 
                 await HttpContext.SignOutAsync(); //Do we still need this??
                 return NotifyOfSuccess(Localize("Your account has been deleted."), $"/Profile/Deleted");

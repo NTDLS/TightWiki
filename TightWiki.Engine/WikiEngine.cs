@@ -20,7 +20,7 @@ namespace TightWiki.Engine
         public TwConfiguration WikiConfiguration { get; private set; }
 
         public ILogger<ITwEngine> Logger { get; set; }
-        public List<TwEnginePluginModule> EngineModules { get; private set; }
+        public List<PluginModule> EngineModules { get; private set; }
         public ITwDatabaseManager DatabaseManager { get; private set; }
 
         public List<ITwCommentHandler> CommentHandlers { get; private set; } = new();
@@ -32,10 +32,10 @@ namespace TightWiki.Engine
         public List<ITwInternalLinkHandler> InternalLinkHandlers { get; private set; } = new();
         public List<ITwMarkupHandler> MarkupHandlers { get; private set; } = new();
 
-        public List<ITwEngineFunctionDescriptor> PostProcessingFunctions { get; private set; } = new();
-        public List<ITwEngineFunctionDescriptor> ProcessingFunctions { get; private set; } = new();
-        public List<ITwEngineFunctionDescriptor> ScopeFunctions { get; private set; } = new();
-        public List<ITwEngineFunctionDescriptor> StandardFunctions { get; private set; } = new();
+        public List<ITwFunctionDescriptor> PostProcessingFunctions { get; private set; } = new();
+        public List<ITwFunctionDescriptor> ProcessingFunctions { get; private set; } = new();
+        public List<ITwFunctionDescriptor> ScopeFunctions { get; private set; } = new();
+        public List<ITwFunctionDescriptor> StandardFunctions { get; private set; } = new();
 
         public WikiEngine(
             TwConfiguration wikiConfiguration,
@@ -57,7 +57,7 @@ namespace TightWiki.Engine
                 .Where(x => typeof(ITwPluginModule).IsAssignableFrom(x.Type))
                 //This is where we instantiate the function modules, so we can later
                 //  invoke their functions without needing to instantiate them again.
-                .Select(x => new TwEnginePluginModule(x.Type, x.Attribute.EnsureNotNull()))
+                .Select(x => new PluginModule(x.Type, x.Attribute.EnsureNotNull()))
                 .ToList();
 
             foreach (var item in BuildFunctionDescriptors<TwStandardFunctionAttribute>(EngineModules))
@@ -70,24 +70,24 @@ namespace TightWiki.Engine
                 PostProcessingFunctions.Add(item);
 
             foreach (var item in BuildHandlerDescriptors<TwCompletionHandlerAttribute>(EngineModules))
-                CompletionHandlers.Add(new TwCompletionHandlerDescriptor(item));
+                CompletionHandlers.Add(new CompletionHandlerDescriptor(item));
             foreach (var item in BuildHandlerDescriptors<TwEmojiHandlerAttribute>(EngineModules))
-                EmojiHandlers.Add(new TwEmojiHandlerDescriptor(item));
+                EmojiHandlers.Add(new EmojiHandlerDescriptor(item));
             foreach (var item in BuildHandlerDescriptors<TwExceptionHandlerAttribute>(EngineModules))
-                ExceptionHandlers.Add(new TwExceptionHandlerDescriptor(item));
+                ExceptionHandlers.Add(new ExceptionHandlerDescriptor(item));
             foreach (var item in BuildHandlerDescriptors<TwExternalLinkHandlerAttribute>(EngineModules))
-                ExternalLinkHandlers.Add(new TwExternalLinkHandlerDescriptor(item));
+                ExternalLinkHandlers.Add(new ExternalLinkHandlerDescriptor(item));
             foreach (var item in BuildHandlerDescriptors<TwHeadingHandlerAttribute>(EngineModules))
-                HeadingHandlers.Add(new TwHeadingHandlerDescriptor(item));
+                HeadingHandlers.Add(new HeadingHandlerDescriptor(item));
             foreach (var item in BuildHandlerDescriptors<TwInternalLinkHandlerAttribute>(EngineModules))
-                InternalLinkHandlers.Add(new TwInternalLinkHandlerDescriptor(item));
+                InternalLinkHandlers.Add(new InternalLinkHandlerDescriptor(item));
             foreach (var item in BuildHandlerDescriptors<TwMarkupHandlerAttribute>(EngineModules))
-                MarkupHandlers.Add(new TwMarkupHandlerDescriptor(item));
+                MarkupHandlers.Add(new MarkupHandlerDescriptor(item));
             foreach (var item in BuildHandlerDescriptors<TwCommentHandlerAttribute>(EngineModules))
-                CommentHandlers.Add(new TwCommentHandlerDescriptor(item));
+                CommentHandlers.Add(new CommentHandlerDescriptor(item));
         }
 
-        private static List<TwEngineFunctionDescriptor> BuildFunctionDescriptors<TFunctionAttribute>(List<TwEnginePluginModule> pluginModules)
+        private static List<FunctionDescriptor> BuildFunctionDescriptors<TFunctionAttribute>(List<PluginModule> pluginModules)
             where TFunctionAttribute : Attribute, ITwFunctionDescriptorAttribute
         {
             return pluginModules
@@ -110,12 +110,12 @@ namespace TightWiki.Engine
                         throw new InvalidOperationException($"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
                     return x;
                 })
-                .Select(x => new TwEngineFunctionDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull(), x.PluginAttribute.EnsureNotNull()))
+                .Select(x => new FunctionDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull(), x.PluginAttribute.EnsureNotNull()))
                 .OrderBy(o => o.ModuleAttribute.Order).ThenBy(o => o.Attribute.IsFirstChance)
                 .ToList();
         }
 
-        private static List<TwEngineHandlerDescriptor> BuildHandlerDescriptors<TFunctionAttribute>(List<TwEnginePluginModule> pluginModules)
+        private static List<HandlerDescriptor> BuildHandlerDescriptors<TFunctionAttribute>(List<PluginModule> pluginModules)
             where TFunctionAttribute : Attribute, ITwHandlerDescriptorAttribute
         {
             return pluginModules
@@ -138,7 +138,7 @@ namespace TightWiki.Engine
                         throw new InvalidOperationException($"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
                     return x;
                 })
-                .Select(x => new TwEngineHandlerDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull(), x.PluginAttribute.EnsureNotNull()))
+                .Select(x => new HandlerDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull(), x.PluginAttribute.EnsureNotNull()))
                 .OrderBy(o => o.ModuleAttribute.Order)
                 .ToList();
         }

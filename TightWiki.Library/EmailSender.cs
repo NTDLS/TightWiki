@@ -8,8 +8,8 @@ using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Library
 {
-    public class TwEmailSender(
-                ILogger<TwEmailSender> logger,
+    public class EmailSender(
+                ILogger<EmailSender> logger,
                 ITwConfigurationRepository configurationRepository
             )
         : ITwEmailSender

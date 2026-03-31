@@ -2,9 +2,9 @@
 using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Functions;
 
-namespace TightWiki.Plugin.Interfaces.Module.Handlers
+namespace TightWiki.Plugin.Interfaces.Module.Function
 {
-    public interface ITwEngineHandlerDescriptor
+    public interface ITwFunctionDescriptor
     {
         /// <summary>
         /// Reference to the function that will be called when this function is invoked.
@@ -15,7 +15,7 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
         /// Attributes of the function, containing information such as the demarcation and description.
         /// This is used to match a function call to its descriptor and for documentation purposes.
         /// </summary>
-        ITwHandlerDescriptorAttribute Attribute { get; }
+        ITwFunctionDescriptorAttribute Attribute { get; }
 
         /// <summary>
         /// The attribute of the module that contains the function, containing information
@@ -34,6 +34,6 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
         /// This is used to invoke the method when the function is called, and can also be used to access any properties
         /// or fields of the class that may be needed for the function's execution.
         /// </summary>
-        ITwEnginePluginModule EngineModule { get; }
+        ITwPluginModule EngineModule { get; }
     }
 }
