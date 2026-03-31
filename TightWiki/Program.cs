@@ -15,6 +15,7 @@ using NTDLS.Helpers;
 using System.Reflection;
 using TightWiki.Email;
 using TightWiki.Engine;
+using TightWiki.Library;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Dummy;
 using TightWiki.Plugin.Interfaces;
@@ -238,45 +239,8 @@ namespace TightWiki
                 }
             }
 
-            //Load plugins
             var pluginFolder = Path.Combine(Environment.CurrentDirectory, "Plugins");
-            try
-            {
-                if (!Directory.Exists(pluginFolder))
-                {
-                    Directory.CreateDirectory(pluginFolder);
-                }
-            }
-            catch (Exception ex)
-            {
-                databaseManager.Logger.LogError($"An error occurred while loading plugins: {ex.Message}");
-            }
-
-            if (Directory.Exists(pluginFolder))
-            {
-                foreach (var dllPath in Directory.GetFiles(pluginFolder, "*.dll"))
-                {
-                    try
-                    {
-                        var assembly = Assembly.LoadFrom(dllPath);
-
-                        var pluginType = assembly.GetTypes()
-                            .FirstOrDefault(t => t.FullName == "TightWiki.Plugin.TwPluginModule");
-
-                        if (pluginType == null)
-                            continue;
-
-                        var instance = Activator.CreateInstance(pluginType);
-                        var method = pluginType.GetMethod("GetVersion");
-                        var version = method?.Invoke(instance, null) as string;
-                        databaseManager.Logger.LogInformation($"Loaded plugin: {Path.GetFileName(dllPath)}, version: {version}");
-                    }
-                    catch (Exception ex)
-                    {
-                        databaseManager.Logger.LogError($"Failed to load {Path.GetFileName(dllPath)}: {ex.Message}");
-                    }
-                }
-            }
+            PluginLoader.LoadPlugins(databaseManager.Logger, pluginFolder);
 
             builder.Services.AddControllersWithViews();
 
