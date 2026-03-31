@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
-namespace TightWiki.Engine
+namespace TightWiki.Library
 {
-    internal class EmptyQueryCollection
+    public class EmptyQueryCollection
         : Dictionary<string, StringValues>, IQueryCollection
     {
         public new StringValues this[string key] => TryGetValue(key, out var value) ? value : StringValues.Empty;
