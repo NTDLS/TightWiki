@@ -341,9 +341,9 @@ namespace TightWiki.Plugin.Default.Functions
         {
             var html = new StringBuilder();
 
-            var style = TwAlignStyler.GetStyle(styleName);
+            var align = TwAlignStyler.GetStyle(styleName);
 
-            html.Append($"<figure class=\"{style.Style}\">");
+            html.Append($"<figure class=\"{align}\">");
             html.Append($"<blockquote class=\"blockquote\">{scopeBody}</blockquote >");
 
             if (string.IsNullOrEmpty(caption) == false)
@@ -362,14 +362,14 @@ namespace TightWiki.Plugin.Default.Functions
         {
             var html = new StringBuilder();
 
-            var style = TwAlignStyler.GetStyle(styleName);
+            var align = TwAlignStyler.GetStyle(styleName);
 
             html.Append($"<figure class=\"figure\">");
             html.Append($"{scopeBody}");
 
             if (string.IsNullOrEmpty(caption) == false)
             {
-                html.Append($"<figcaption class=\"figure-caption {style.Style}\">");
+                html.Append($"<figcaption class=\"figure-caption {align}\">");
                 html.Append($"{caption}");
                 html.Append("</figcaption>");
             }

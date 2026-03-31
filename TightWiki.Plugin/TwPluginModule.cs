@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Plugin
 {
@@ -8,6 +9,7 @@ namespace TightWiki.Plugin
     /// The plugin version should be in the format of "Major.Minor.Patch".
     /// </summary>
     public class TwPluginModule
+        : ITwPluginModule
     {
         /// <summary>
         /// Gets the current assembly version in Major.Minor.Patch format.

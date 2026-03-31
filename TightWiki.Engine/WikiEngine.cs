@@ -10,6 +10,7 @@ using TightWiki.Plugin.Attributes.Functions;
 using TightWiki.Plugin.Attributes.Handlers;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Module;
 using TightWiki.Plugin.Interfaces.Module.Function;
 using TightWiki.Plugin.Interfaces.Module.Handlers;
 
@@ -21,7 +22,7 @@ namespace TightWiki.Engine
         public TwConfiguration WikiConfiguration { get; private set; }
 
         public ILogger<ITwEngine> Logger { get; set; }
-        public List<Module.PluginDescriptor> Plugins { get; private set; }
+        public List<ITwPlugin> Plugins { get; private set; } = new();
         public ITwDatabaseManager DatabaseManager { get; private set; }
 
         public List<ITwCommentPlugin> CommentHandlers { get; private set; } = new();
@@ -47,7 +48,7 @@ namespace TightWiki.Engine
             DatabaseManager = databaseManager;
             Logger = logger;
 
-            Plugins = AppDomain.CurrentDomain.GetAssemblies()
+            var plugins = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(a => a.GetTypes())
                 .Select(t => new
                 {
@@ -60,34 +61,75 @@ namespace TightWiki.Engine
                 .Select(x => new PluginDescriptor(x.Type, x.Attribute.EnsureNotNull()))
                 .ToList();
 
+            foreach (var plugin in plugins)
+            {
+                Plugins.Add(plugin);
+            }
+
             foreach (var item in BuildFunctionDescriptors<TwStandardFunctionPluginAttribute>(Plugins))
+            {
+                item.Plugin.Functions.Add(item.FunctionAttribute);
                 StandardFunctions.Add(item);
+            }
             foreach (var item in BuildFunctionDescriptors<TwScopeFunctionPluginAttribute>(Plugins))
+            {
+                item.Plugin.Functions.Add(item.FunctionAttribute);
                 ScopeFunctions.Add(item);
+            }
             foreach (var item in BuildFunctionDescriptors<TwProcessingInstructionFunctionPluginAttribute>(Plugins))
+            {
+                item.Plugin.Functions.Add(item.FunctionAttribute);
                 ProcessingFunctions.Add(item);
+            }
             foreach (var item in BuildFunctionDescriptors<TwPostProcessingInstructionFunctionPluginAttribute>(Plugins))
+            {
+                item.Plugin.Functions.Add(item.FunctionAttribute);
                 PostProcessingFunctions.Add(item);
+            }
 
             foreach (var item in BuildHandlerDescriptors<TwCompletionPluginHandlerAttribute>(Plugins))
+            {
+                item.Plugin.Handlers.Add(item.HandlerAttribute);
                 CompletionHandlers.Add(new CompletionHandlerDescriptor(item));
+            }
             foreach (var item in BuildHandlerDescriptors<TwEmojiPluginHandlerAttribute>(Plugins))
+            {
+                item.Plugin.Handlers.Add(item.HandlerAttribute);
                 EmojiHandlers.Add(new EmojiHandlerDescriptor(item));
+            }
             foreach (var item in BuildHandlerDescriptors<TwExceptionPluginHandlerAttribute>(Plugins))
+            {
+                item.Plugin.Handlers.Add(item.HandlerAttribute);
                 ExceptionHandlers.Add(new ExceptionHandlerDescriptor(item));
+            }
             foreach (var item in BuildHandlerDescriptors<TwExternalLinkPluginHandlerAttribute>(Plugins))
+            {
+                item.Plugin.Handlers.Add(item.HandlerAttribute);
                 ExternalLinkHandlers.Add(new ExternalLinkHandlerDescriptor(item));
+            }
             foreach (var item in BuildHandlerDescriptors<TwHeadingPluginHandlerAttribute>(Plugins))
+            {
+                item.Plugin.Handlers.Add(item.HandlerAttribute);
                 HeadingHandlers.Add(new HeadingHandlerDescriptor(item));
+            }
             foreach (var item in BuildHandlerDescriptors<TwInternalLinkPluginHandlerAttribute>(Plugins))
+            {
+                item.Plugin.Handlers.Add(item.HandlerAttribute);
                 InternalLinkHandlers.Add(new InternalLinkHandlerDescriptor(item));
+            }
             foreach (var item in BuildHandlerDescriptors<TwMarkupPluginHandlerAttribute>(Plugins))
+            {
+                item.Plugin.Handlers.Add(item.HandlerAttribute);
                 MarkupHandlers.Add(new MarkupHandlerDescriptor(item));
+            }
             foreach (var item in BuildHandlerDescriptors<TwCommentPluginHandlerAttribute>(Plugins))
+            {
+                item.Plugin.Handlers.Add(item.HandlerAttribute);
                 CommentHandlers.Add(new CommentHandlerDescriptor(item));
+            }
         }
 
-        private static List<FunctionDescriptor> BuildFunctionDescriptors<TFunctionAttribute>(List<Module.PluginDescriptor> pluginModules)
+        private static List<FunctionDescriptor> BuildFunctionDescriptors<TFunctionAttribute>(List<ITwPlugin> pluginModules)
             where TFunctionAttribute : Attribute, ITwFunctionPluginAttribute
         {
             return pluginModules
@@ -117,7 +159,7 @@ namespace TightWiki.Engine
                 .ToList();
         }
 
-        private static List<HandlerDescriptor> BuildHandlerDescriptors<TFunctionAttribute>(List<Module.PluginDescriptor> pluginModules)
+        private static List<HandlerDescriptor> BuildHandlerDescriptors<TFunctionAttribute>(List<ITwPlugin> pluginModules)
             where TFunctionAttribute : Attribute, ITwPluginHandlerAttribute
         {
             return pluginModules

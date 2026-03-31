@@ -6,7 +6,7 @@ using TightWiki.Plugin.Interfaces.Module.Function;
 
 namespace TightWiki.Engine.Module.Function
 {
-    public class FunctionDescriptor(PluginDescriptor plugin, MethodInfo method,
+    public class FunctionDescriptor(ITwPlugin plugin, MethodInfo method,
         ITwFunctionPluginAttribute attribute, TwPluginAttribute pluginAttribute)
                 : ITwFunctionDescriptor
     {

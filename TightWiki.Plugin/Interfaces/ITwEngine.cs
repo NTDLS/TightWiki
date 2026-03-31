@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using TightWiki.Plugin.Interfaces.Module;
 using TightWiki.Plugin.Interfaces.Module.Function;
 using TightWiki.Plugin.Interfaces.Module.Handlers;
 
@@ -7,9 +8,9 @@ namespace TightWiki.Plugin.Interfaces
     public interface ITwEngine
     {
         TwConfiguration WikiConfiguration { get; }
+        List<ITwPlugin> Plugins { get; }
 
         ITwDatabaseManager DatabaseManager { get; }
-
         ILogger<ITwEngine> Logger { get; }
 
         List<ITwCommentPlugin> CommentHandlers { get; }

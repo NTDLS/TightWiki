@@ -1,4 +1,7 @@
 using TightWiki.Plugin.Attributes;
+using TightWiki.Plugin.Attributes.Functions;
+using TightWiki.Plugin.Attributes.Handlers;
+using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Interfaces.Module
 {
@@ -22,5 +25,15 @@ namespace TightWiki.Plugin.Interfaces.Module
         /// An instance of the plugin module class, used to invoke any functions or handlers that it contains.
         /// </summary>
         object Instance { get; }
+
+        /// <summary>
+        /// List of all functions that are defined in the plugin.
+        /// </summary>
+        List<ITwFunctionPluginAttribute> Functions { get; set; }
+
+        /// <summary>
+        /// List of all handlers that are defined in the plugin.
+        /// </summary>
+        List<ITwPluginHandlerAttribute> Handlers { get; set; }
     }
 }

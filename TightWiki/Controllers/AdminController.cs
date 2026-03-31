@@ -14,6 +14,7 @@ using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using TightWiki.ViewModels.Admin;
 using TightWiki.ViewModels.Utility;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Controllers
@@ -1599,6 +1600,120 @@ namespace TightWiki.Controllers
             catch (Exception ex)
             {
                 Logger.LogError(ex, "An error occurred while saving configuration.");
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Plugins.
+
+        [Authorize]
+        [HttpGet("Plugins")]
+        public async Task<ActionResult> Plugins()
+        {
+            try
+            {
+                try
+                {
+                    await SessionState.RequireAdminPermission();
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                SessionState.Page.Name = Localize("Plugins");
+
+                var pageNumber = GetQueryValue("page", 1);
+                var orderBy = GetQueryValue<string>("OrderBy");
+                var orderByDirection = GetQueryValue<string>("OrderByDirection");
+                var searchString = GetQueryValue("SearchString", string.Empty);
+
+                var model = new PluginsViewModel();
+
+                foreach (var plugin in tightEngine.Plugins)
+                {
+                   model.Plugins.Add(new TwPlugin()
+                    {
+                        Name = plugin.Attribute.Name,
+                        Description = plugin.Attribute.Description,
+                        Order = plugin.Attribute.Order
+                   });
+                }
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An error occurred while retrieving plugins.");
+                throw;
+            }
+        }
+
+        [Authorize]
+        [HttpGet("Plugin/{name}")]
+        public async Task<ActionResult> PluginModule(string name)
+        {
+            try
+            {
+                try
+                {
+                    await SessionState.RequireAdminPermission();
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                SessionState.Page.Name = Localize("Plugins");
+
+                var pageNumber = GetQueryValue("page", 1);
+                var orderBy = GetQueryValue<string>("OrderBy");
+                var orderByDirection = GetQueryValue<string>("OrderByDirection");
+                var searchString = GetQueryValue("SearchString", string.Empty);
+
+                var plugin = tightEngine.Plugins
+                    .FirstOrDefault(o => o.Attribute.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+
+                if (plugin == null)
+                {
+                    return View(new PluginModuleViewModel());
+                }
+
+                var model = new PluginModuleViewModel();
+
+                model.Plugin = new TwPlugin()
+                {
+                    Name = plugin.Attribute.Name ?? string.Empty,
+                    Description = plugin.Attribute.Description ?? string.Empty
+                };
+
+                foreach (var function in plugin.Functions)
+                {
+                    model.Contents.Add(new TwPluginContent()
+                    {
+                        Name = function.Name,
+                        Description = function.Description,
+                        Order = function.Order,
+                        Type = "Function"
+                    });
+                }
+
+                foreach (var handler in plugin.Handlers)
+                {
+                    model.Contents.Add(new TwPluginContent()
+                    {
+                        Name = handler.Name,
+                        Description = handler.Description,
+                        Order = handler.Order,
+                        Type = "Handler"
+                    });
+                }
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An error occurred while retrieving plugin.");
                 throw;
             }
         }

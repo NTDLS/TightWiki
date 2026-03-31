@@ -1,0 +1,95 @@
+﻿@using TightWiki
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
+@using TightWiki.Plugin.Library
+@using TightWiki.ViewModels.Admin
+@inject ITwSharedLocalizationText Localizer
+@inject TwConfiguration WikiConfiguration
+
+@model PluginsViewModel
+@{
+    Layout = "_Layout";
+    var sessionState = ViewData["SessionState"] as TightWiki.TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
+}
+
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+    <div>
+        <h3 class="mb-1">
+            @Localizer["Plugins"]
+        </h3>
+        <div class="text-muted">
+            @Localizer["Global configuration for plugins."]
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm mb-3">
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <span class="fw-semibold">
+            <i class="bi bi-plug me-2"></i>@Localizer["Plugin Management"]
+        </span>
+
+        @*
+                <a class="btn btn-success"
+                   href="@WikiConfiguration.BasePath/Admin/AddPlugin">
+                <i class="bi bi-plus-circle me-1"></i>@Localizer["Add new Plugin"]
+            </a>
+            *@
+    </div>
+</div>
+
+@if (Model.Plugins.Count > 0)
+{
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">
+                            @Localizer["Name"]
+                        </th>
+                        <th scope="col">
+                            @Localizer["Description"]
+                        </th>
+                        <th scope="col">
+                            @Localizer["Order"]
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var plugin in Model.Plugins)
+                    {
+                        <tr>
+                            <td>
+                                <a class="text-decoration-none fw-semibold" href="@WikiConfiguration.BasePath/Admin/Plugin/@plugin.Name">
+                                    @plugin.Name
+                                </a>
+                            </td>
+                            <td>
+                                @plugin.Description
+                            </td>
+                            <td>
+                                @plugin.Order
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card shadow-sm">
+        <div class="card-body text-muted">
+            <i class="bi bi-emoji-frown me-2"></i>
+            @Localizer["There are no plugins configured."]
+        </div>
+    </div>
+}
+
+<script>
+    window.onload = function () {
+        document.getElementById("SearchString")?.focus();
+    }
+</script>

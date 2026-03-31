@@ -1,35 +1,29 @@
 ﻿namespace TightWiki.Plugin.Styler
 {
-    public class TwAlignStyler
+    /// <summary>
+    /// Alignment styler.
+    /// </summary>
+    public static class TwAlignStyler
     {
-        public string Style { get; set; } = String.Empty;
-
-        public TwAlignStyler(string style)
+        private static readonly Dictionary<TwAlignStyle, string> AlignStyles = new()
         {
-            Style = style;
-        }
-
-        public TwAlignStyler()
-        {
-        }
-
-        public static readonly Dictionary<TwAlignStyle, TwAlignStyler> AlignStyles = new()
-        {
-            { TwAlignStyle.Default, new TwAlignStyler("") },
-            { TwAlignStyle.Start, new TwAlignStyler("text-start") },
-            { TwAlignStyle.Center, new TwAlignStyler("text-center") },
-            { TwAlignStyle.End, new TwAlignStyler("text-end") },
+            { TwAlignStyle.Default, "" },
+            { TwAlignStyle.Start, "text-start" },
+            { TwAlignStyle.Center, "text-center" },
+            { TwAlignStyle.End, "text-end" },
         };
 
-        public static TwAlignStyler GetStyle(TwAlignStyle style)
+        /// <summary>
+        /// Gets the alignment style for the given style.
+        /// </summary>
+        public static string GetStyle(TwAlignStyle style)
         {
             if (AlignStyles.TryGetValue(style, out var html))
             {
                 return html;
             }
 
-            return new TwAlignStyler();
+            throw new Exception($"The given align style is not implemented: {style.ToString()}");
         }
-
     }
 }

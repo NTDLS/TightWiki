@@ -1,0 +1,120 @@
+﻿@using TightWiki
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
+@using TightWiki.ViewModels.Admin
+@inject ITwSharedLocalizationText Localizer
+@inject TwConfiguration WikiConfiguration
+
+@model PluginModuleViewModel
+@{
+    Layout = "_Layout";
+    var sessionState = ViewData["SessionState"] as TightWiki.TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
+}
+
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+    <div>
+        <h3 class="mb-1">@Localizer["Plugin"]</h3>
+        <div class="text-muted">
+            @Localizer["Global configuration for plugin."]
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <span class="fw-semibold">
+            <i class="bi bi-plug me-2"></i>@Localizer["Plugin module"]
+        </span>
+    </div>
+
+    <div class="col-12 row align-items-center">
+        <label class="col-auto col-form-label fw-semibold ms-2 pe-2">
+            @Localizer["Name"]
+        </label>
+        <div class="col-auto">
+            <div class="form-control-plaintext p-0">
+                @Model.Plugin?.Name
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 row align-items-center">
+        <label class="col-auto col-form-label fw-semibold ms-2 pe-2">
+            @Localizer["Description"]
+        </label>
+        <div class="col-auto">
+            <div class="form-control-plaintext p-0">
+                @Model.Plugin?.Description
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    @if (Model.Contents.Count > 0)
+    {
+        <table class="table table-striped table-hover align-middle mt-3 mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col" class="text-nowrap text-center align-middle">
+                        @Localizer["Type"]
+                    </th>
+                    <th scope="col">
+                        @Localizer["Name"]
+                    </th>
+                    <th scope="col">
+                        @Localizer["Description"]
+                    </th>
+                    <th scope="col">
+                        @Localizer["Order"]
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var content in Model.Contents)
+                {
+                    <tr>
+                        <td class="text-nowrap text-center align-middle">
+                            @if (content.Type == "Function")
+                            {
+                                <i class="bi bi-play-circle"
+                                   data-bs-toggle="tooltip"
+                                   title="Function"></i>
+                            }
+                            else if (content.Type == "Handler")
+                            {
+                                <i class="bi bi-code-slash"
+                                   data-bs-toggle="tooltip"
+                                   title="Handler"></i>
+                            }
+                            else
+                            {
+                                <i class="bi bi-gear"
+                                   data-bs-toggle="tooltip"
+                                   title="Other"></i>
+                            }
+                        </td>
+                        <td class="text-nowrap">
+                            @content.Name
+                        </td>
+                        <td>
+                            @content.Description
+                        </td>
+                        <td>
+                            @content.Order
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="card shadow-sm">
+            <div class="card-body text-muted">
+                <i class="bi bi-emoji-frown me-2"></i>
+                @Localizer["This plugin does not contain any funcions or handlers."]
+            </div>
+        </div>
+    }
+</div>
