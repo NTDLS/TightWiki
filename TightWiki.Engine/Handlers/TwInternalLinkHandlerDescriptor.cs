@@ -1,9 +1,11 @@
 ﻿using NTDLS.Helpers;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Engine.Function;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Handlers;
 
-namespace TightWiki.Plugin.Engine.Handlers
+namespace TightWiki.Engine.Handlers
 {
     /// <summary>
     /// Handles links from one wiki page to another.
