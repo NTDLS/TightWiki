@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
+using TightWiki.Library.Caching;
 using TightWiki.Plugin;
-using TightWiki.Plugin.Caching;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Repository.Helpers

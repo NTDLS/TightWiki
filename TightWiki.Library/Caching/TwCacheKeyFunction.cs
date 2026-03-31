@@ -1,7 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
-using static TightWiki.Plugin.Caching.TwCache;
+using TightWiki.Plugin.Caching;
+using static TightWiki.Library.Caching.TwCache;
 
-namespace TightWiki.Plugin.Caching
+namespace TightWiki.Library.Caching
 {
     /// <summary>
     /// Contains a verbatim cache key which also includes the calling function name.

@@ -1,6 +1,7 @@
-﻿using static TightWiki.Plugin.Caching.TwCache;
+﻿using TightWiki.Plugin.Caching;
+using static TightWiki.Library.Caching.TwCache;
 
-namespace TightWiki.Plugin.Caching
+namespace TightWiki.Library.Caching
 {
     /// <summary>
     /// Contains a verbatim cache key.

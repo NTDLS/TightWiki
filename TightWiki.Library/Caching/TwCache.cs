@@ -1,8 +1,9 @@
 ﻿using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Caching;
+using TightWiki.Plugin.Caching;
 
-namespace TightWiki.Plugin.Caching
+namespace TightWiki.Library.Caching
 {
     public class TwCache
     {
