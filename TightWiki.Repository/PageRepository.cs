@@ -33,9 +33,12 @@ namespace TightWiki.Repository
 
             var configDatabaseFile = configurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);
 
-            PagesFactory = new(configuration.GetDatabaseConnectionString("PagesConnection", "pages.db", configDatabaseFile));
-            DeletedPagesFactory = new(configuration.GetDatabaseConnectionString("DeletedPagesConnection", "deletedpages.db", configDatabaseFile));
-            DeletedPageRevisionsFactory = new(configuration.GetDatabaseConnectionString("DeletedPageRevisionsConnection", "deletedpagerevisions.db", configDatabaseFile));
+            var safeDbPath = Path.GetDirectoryName(configDatabaseFile)
+                ?? throw new Exception("Could not determine directory of configuration database file");
+
+            PagesFactory = new(configuration.GetDatabaseConnectionString("PagesConnection", "pages.db", Path.Combine(safeDbPath, "pages.db")));
+            DeletedPagesFactory = new(configuration.GetDatabaseConnectionString("DeletedPagesConnection", "deletedpages.db", Path.Combine(safeDbPath, "deletedpages.db")));
+            DeletedPageRevisionsFactory = new(configuration.GetDatabaseConnectionString("DeletedPageRevisionsConnection", "deletedpagerevisions.db", Path.Combine(safeDbPath, "deletedpagerevisions.db")));
         }
 
         public async Task<List<TwPage>> AutoCompletePage(string? searchText)

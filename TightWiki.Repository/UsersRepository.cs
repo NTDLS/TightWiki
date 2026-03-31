@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using MimeKit.Encodings;
 using NTDLS.Helpers;
 using NTDLS.SqliteDapperWrapper;
 using System.Security.Claims;
@@ -26,8 +27,10 @@ namespace TightWiki.Repository
             _configurationRepository = configurationRepository;
 
             var configDatabaseFile = configurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);
+            var safeUsersDbPath = Path.Combine(Path.GetDirectoryName(configDatabaseFile)
+                ?? throw new Exception("Could not determine directory of configuration database file"), "users.db");
 
-            UsersFactory = new SqliteManagedFactory(configuration.GetDatabaseConnectionString("ConfigConnection", "users.db", configDatabaseFile));
+            UsersFactory = new SqliteManagedFactory(configuration.GetDatabaseConnectionString("UsersConnection", "users.db", safeUsersDbPath));
         }
 
         public async Task<bool> IsAccountAMemberOfRole(Guid userId, int roleId, bool forceReCache = false)

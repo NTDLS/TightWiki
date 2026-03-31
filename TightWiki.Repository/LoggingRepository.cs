@@ -18,8 +18,12 @@ namespace TightWiki.Repository
         public LoggingRepository(IConfiguration configuration, ITwConfigurationRepository configurationRepository)
         {
             _configurationRepository = configurationRepository;
+
             var configDatabaseFile = configurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);
-            var connectionString = configuration.GetDatabaseConnectionString("LoggingConnection", "logging.db", configDatabaseFile);
+            var safeDbPath = Path.Combine(Path.GetDirectoryName(configDatabaseFile)
+                ?? throw new Exception("Could not determine directory of configuration database file"), "logging.db");
+
+            var connectionString = configuration.GetDatabaseConnectionString("LoggingConnection", "logging.db", safeDbPath);
             LoggingFactory = new SqliteManagedFactory(connectionString);
 
             CreateTablesIfNotExist().Wait();

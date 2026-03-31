@@ -20,9 +20,12 @@ namespace TightWiki.Repository
         public EmojiRepository(IConfiguration configuration, ITwConfigurationRepository configurationRepository)
         {
             _configurationRepository = configurationRepository;
+
             var configDatabaseFile = configurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);
-            var connectionString = configuration.GetDatabaseConnectionString("EmojiConnection", "emoji.db", configDatabaseFile);
-            EmojiFactory = new SqliteManagedFactory(connectionString);
+            var safeDbPath = Path.Combine(Path.GetDirectoryName(configDatabaseFile)
+                ?? throw new Exception("Could not determine directory of configuration database file"), "emoji.db");
+
+            EmojiFactory = new SqliteManagedFactory(configuration.GetDatabaseConnectionString("EmojiConnection", "emoji.db", safeDbPath));
         }
 
         public async Task<List<TwEmoji>> GetAllEmojis()

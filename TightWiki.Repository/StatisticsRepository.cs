@@ -19,8 +19,10 @@ namespace TightWiki.Repository
             _configurationRepository = configurationRepository;
 
             var configDatabaseFile = configurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);
+            var safeDbPath = Path.Combine(Path.GetDirectoryName(configDatabaseFile)
+                ?? throw new Exception("Could not determine directory of configuration database file"), "statistics.db");
 
-            StatisticsFactory = new SqliteManagedFactory(configuration.GetDatabaseConnectionString("StatisticsConnection", "statistics.db", configDatabaseFile));
+            StatisticsFactory = new SqliteManagedFactory(configuration.GetDatabaseConnectionString("StatisticsConnection", "statistics.db", safeDbPath));
         }
 
         public async Task IncrementPageViewCount(int pageId)
