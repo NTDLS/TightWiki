@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace TightWiki.Plugin.Library
+namespace TightWiki.Library
 {
     internal static class TwMimeTypes
     {

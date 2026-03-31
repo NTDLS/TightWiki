@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Text;
 using System.Xml.Serialization;
 using TightWiki.Engine;
+using TightWiki.Library;
 using TightWiki.Library.Caching;
 using TightWiki.Library.Security;
 using TightWiki.Plugin;
@@ -19,7 +20,7 @@ using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using TightWiki.RequestModels;
 using TightWiki.ViewModels.Page;
-using static TightWiki.Plugin.Library.TwImages;
+using static TightWiki.Library.TwImages;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Controllers

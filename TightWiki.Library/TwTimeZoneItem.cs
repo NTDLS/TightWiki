@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Plugin.Library
+﻿namespace TightWiki.Library
 {
     public class TwTimeZoneItem
     {

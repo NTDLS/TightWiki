@@ -5,7 +5,7 @@ using OpenAI.Chat;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using TightWiki.Plugin.Library;
+using TightWiki.Library;
 
 namespace LocalizerScan
 {

@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using System.Data;
 
-namespace TightWiki.Plugin.Library
+namespace TightWiki.Library
 {
     public class TwGuidTypeHandler
         : SqlMapper.TypeHandler<Guid>

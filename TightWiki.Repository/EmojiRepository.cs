@@ -1,10 +1,10 @@
 using Microsoft.Extensions.Configuration;
 using NTDLS.SqliteDapperWrapper;
 using System.Runtime.Caching;
+using TightWiki.Library;
 using TightWiki.Library.Caching;
 using TightWiki.Library.Extensions;
 using TightWiki.Plugin.Interfaces.Repository;
-using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using TightWiki.Repository.Helpers;
 using static TightWiki.Plugin.TwConstants;

@@ -7,6 +7,7 @@ using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Security.Claims;
 using TightWiki.Engine;
+using TightWiki.Library;
 using TightWiki.Library.Caching;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
@@ -15,7 +16,7 @@ using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using TightWiki.ViewModels.Profile;
 using TightWiki.ViewModels.Utility;
-using static TightWiki.Plugin.Library.TwImages;
+using static TightWiki.Library.TwImages;
 
 namespace TightWiki.Controllers
 {

@@ -4,11 +4,11 @@ using NTDLS.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Security.Claims;
+using TightWiki.Library;
 using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Repository;
-using TightWiki.Plugin.Library;
 using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Areas.Identity.Pages.Account

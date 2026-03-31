@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Text;
 
-namespace TightWiki.Plugin.Library
+namespace TightWiki.Library
 {
     /// <summary>
     /// Used to read EmbeddedResources from assemblies.

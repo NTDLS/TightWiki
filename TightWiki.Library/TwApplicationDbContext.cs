@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace TightWiki.Plugin.Library
+namespace TightWiki.Library
 {
     public class TwApplicationDbContext(DbContextOptions<TwApplicationDbContext> options)
         : IdentityDbContext<IdentityUser>(options)

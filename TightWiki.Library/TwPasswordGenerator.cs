@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace TightWiki.Plugin.Library
+namespace TightWiki.Library
 {
     public static class TwPasswordGenerator
     {

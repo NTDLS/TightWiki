@@ -1,5 +1,6 @@
-﻿
-namespace TightWiki.Plugin.Library
+﻿using TightWiki.Plugin.Library;
+
+namespace TightWiki.Library
 {
     public class TwLanguageItem
     {

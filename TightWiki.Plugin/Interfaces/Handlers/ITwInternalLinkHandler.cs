@@ -1,5 +1,4 @@
 ﻿using TightWiki.Plugin.Engine;
-using TightWiki.Plugin.Library;
 
 namespace TightWiki.Plugin.Interfaces.Handlers
 {

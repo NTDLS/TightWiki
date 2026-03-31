@@ -2,7 +2,7 @@
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 
-namespace TightWiki.Plugin.Library
+namespace TightWiki.Library
 {
     public static class TwImages
     {

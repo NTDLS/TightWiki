@@ -6,7 +6,6 @@ using TightWiki.Plugin;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Repository;
-using TightWiki.Plugin.Library;
 using TightWiki.ViewModels.Page;
 
 namespace TightWiki.Controllers

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using NTDLS.DelegateThreadPooling;
 using NTDLS.Helpers;
 using System.Reflection;
+using TightWiki.Library;
 using TightWiki.Library.Caching;
 using TightWiki.Library.Security;
 using TightWiki.Plugin;

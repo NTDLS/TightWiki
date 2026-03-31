@@ -2,7 +2,6 @@
 using TightWiki.Plugin.Engine.Function;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Handlers;
-using TightWiki.Plugin.Library;
 
 namespace TightWiki.Plugin.Engine.Handlers
 {

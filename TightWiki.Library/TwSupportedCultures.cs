@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
-namespace TightWiki.Plugin.Library
+namespace TightWiki.Library
 {
     public class TwSupportedCultures
     {
