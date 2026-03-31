@@ -45,6 +45,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{FFE9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TightWiki.Library", "TightWiki.Library\TightWiki.Library.csproj", "{DABD29FE-1FDA-4EA5-898D-87C7DC4FD09D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TightWiki.Plugin.Example", "TightWiki.Plugin.Example\TightWiki.Plugin.Example.csproj", "{3283A2E9-CFA1-23A3-2760-F54E3B94E8BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +105,10 @@ Global
 		{DABD29FE-1FDA-4EA5-898D-87C7DC4FD09D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DABD29FE-1FDA-4EA5-898D-87C7DC4FD09D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DABD29FE-1FDA-4EA5-898D-87C7DC4FD09D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3283A2E9-CFA1-23A3-2760-F54E3B94E8BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3283A2E9-CFA1-23A3-2760-F54E3B94E8BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3283A2E9-CFA1-23A3-2760-F54E3B94E8BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3283A2E9-CFA1-23A3-2760-F54E3B94E8BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,6 +126,7 @@ Global
 		{5FB88759-C371-477E-9C29-5D5246B7108F} = {66FB66E3-739C-44E8-B692-B714F41C3641}
 		{CA79D1DD-651E-00E8-8AF5-9940C89251AD} = {FFE90C6C-7859-444B-8644-6CA12FA75B7D}
 		{DABD29FE-1FDA-4EA5-898D-87C7DC4FD09D} = {66FB66E3-739C-44E8-B692-B714F41C3641}
+		{3283A2E9-CFA1-23A3-2760-F54E3B94E8BC} = {FFE90C6C-7859-444B-8644-6CA12FA75B7D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3299E570-76FA-4831-9150-C1CCF4CB50E0}
