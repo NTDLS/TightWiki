@@ -21,19 +21,19 @@
         /// The order in which the functions and handlers in the plugin module should be registered and executed.
         /// Lower values indicate higher priority.
         /// </summary>
-        public int Order { get; }
+        public int Precedence { get; }
 
         /// <summary>
         /// Creates a new instance of the attribute with the specified name and description.
         /// </summary>
         /// <param name="name">The user-friendly display name of the handler.</param>
         /// <param name="description">The user-friendly display description of the handler.</param>
-        /// <param name="order">The order in which the handler should be executed.</param>
-        public TwHeadingPluginHandlerAttribute(string name, string description, int order)
+        /// <param name="precedence">The order in which the handler should be executed.</param>
+        public TwHeadingPluginHandlerAttribute(string name, string description, int precedence)
         {
             Name = name;
             Description = description;
-            Order = order;
+            Precedence = precedence;
         }
     }
 }

@@ -35,6 +35,6 @@
         /// The order in which the functions and handlers in the plugin module should be registered and executed.
         /// Lower values indicate higher priority.
         /// </summary>
-        public int Order { get; }
+        public int Precedence { get; }
     }
 }

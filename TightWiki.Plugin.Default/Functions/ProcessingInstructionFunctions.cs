@@ -6,7 +6,7 @@ using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Plugin.Default.Functions
 {
-    [TwPlugin("Processing Instruction Functions", "Built-in processing instruction functions.", 1000)]
+    [TwPlugin("Processing Instructions", "Built-in processing instruction functions.", 1000)]
     public class ProcessingInstructionFunctions
     {
         //Associates tags with a page. These are saved with the page and can also be displayed.

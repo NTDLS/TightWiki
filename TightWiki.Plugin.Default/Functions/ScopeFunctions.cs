@@ -8,7 +8,7 @@ using TightWiki.Plugin.Styler;
 
 namespace TightWiki.Plugin.Default.Functions
 {
-    [TwPlugin("Processing Instructions Functions", "Built-in scope functions.", 1000)]
+    [TwPlugin("Processing Functions", "Built-in scope functions.", 1000)]
     public class ScopeFunctions
     {
         [TwScopeFunctionPlugin("Code", "Renders a block of code with optional syntax highlighting.", 1000, true)]

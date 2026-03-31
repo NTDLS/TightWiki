@@ -12,6 +12,7 @@ using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Models;
 using TightWiki.ViewModels.File;
 using static TightWiki.Library.ImagesUtility;
+using TwPermission = TightWiki.Plugin.TwPermission;
 
 namespace TightWiki.Controllers
 {
@@ -149,7 +150,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenPageNavigation, Plugin.TwPermission.Read);
+                    await SessionState.RequirePermission(givenPageNavigation, TwPermission.Read);
                 }
                 catch (Exception ex)
                 {
@@ -260,7 +261,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenPageNavigation, Plugin.TwPermission.Read);
+                    await SessionState.RequirePermission(givenPageNavigation, TwPermission.Read);
                 }
                 catch (Exception ex)
                 {
@@ -299,7 +300,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenPageNavigation, Plugin.TwPermission.Read);
+                    await SessionState.RequirePermission(givenPageNavigation, TwPermission.Read);
                 }
                 catch (Exception ex)
                 {
@@ -338,7 +339,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenPageNavigation, Plugin.TwPermission.Read);
+                    await SessionState.RequirePermission(givenPageNavigation, TwPermission.Read);
                 }
                 catch (Exception ex)
                 {
@@ -382,7 +383,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenPageNavigation, [Plugin.TwPermission.Create, Plugin.TwPermission.Edit]);
+                    await SessionState.RequirePermission(givenPageNavigation, [TwPermission.Create, TwPermission.Edit]);
                 }
                 catch (Exception ex)
                 {
@@ -447,7 +448,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenPageNavigation, [Plugin.TwPermission.Create, Plugin.TwPermission.Edit]);
+                    await SessionState.RequirePermission(givenPageNavigation, [TwPermission.Create, TwPermission.Edit]);
                 }
                 catch (Exception ex)
                 {
@@ -503,7 +504,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenPageNavigation, Plugin.TwPermission.Delete);
+                    await SessionState.RequirePermission(givenPageNavigation, TwPermission.Delete);
                 }
                 catch (Exception ex)
                 {

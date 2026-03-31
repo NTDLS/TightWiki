@@ -37,20 +37,20 @@
         /// The order in which the functions and handlers in the plugin module should be registered and executed.
         /// Lower values indicate higher priority.
         /// </summary>
-        public int Order { get; }
+        public int Precedence { get; }
 
         /// <summary>
         /// Creates a new instance of the attribute with the specified name and description.
         /// </summary>
         /// <param name="name">The user-friendly display name of the function.</param>
         /// <param name="description">The user-friendly display description of the function.</param>
-        /// <param name="order">The order in which the function should be executed.</param>
+        /// <param name="precedence">The order in which the function should be executed.</param>
         /// <param name="isFirstChance">Indicates whether this function is a first-chance function, meaning it should be executed before all other functions.</param>
-        public TwStandardFunctionPluginAttribute(string name, string description, int order, bool isFirstChance = false)
+        public TwStandardFunctionPluginAttribute(string name, string description, int precedence, bool isFirstChance = false)
         {
             Name = name;
             Description = description;
-            Order = order;
+            Precedence = precedence;
             IsFirstChance = isFirstChance;
         }
     }

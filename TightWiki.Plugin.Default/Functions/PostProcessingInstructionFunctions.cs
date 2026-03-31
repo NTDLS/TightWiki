@@ -7,7 +7,7 @@ using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Default.Functions
 {
-    [TwPlugin("Post Processing Instruction Functions", "Built-in post processing instruction functions.", 1000)]
+    [TwPlugin("Post Processing Instructions", "Built-in post processing instruction functions.", 1000)]
     public class PostProcessingInstructionFunctions
     {
         [TwPostProcessingInstructionFunctionPlugin("Tags", "Displays list of tag links for the tags that are included on the current page.", 1000)]

@@ -22,6 +22,7 @@ using TightWiki.RequestModels;
 using TightWiki.ViewModels.Page;
 using static TightWiki.Library.ImagesUtility;
 using static TightWiki.Plugin.TwConstants;
+using TwPermission = TightWiki.Plugin.TwPermission;
 
 namespace TightWiki.Controllers
 {
@@ -123,7 +124,7 @@ namespace TightWiki.Controllers
         {
             try
             {
-                await SessionState.RequirePermission(givenCanonical, Plugin.TwPermission.Read);
+                await SessionState.RequirePermission(givenCanonical, TwPermission.Read);
             }
             catch (Exception ex)
             {
@@ -226,7 +227,7 @@ namespace TightWiki.Controllers
 
                     model.HideFooterComments = true;
 
-                    if (SessionState.IsAuthenticated && await SessionState.HoldsPermission(givenCanonical, Plugin.TwPermission.Create))
+                    if (SessionState.IsAuthenticated && await SessionState.HoldsPermission(givenCanonical, TwPermission.Create))
                     {
                         SessionState.ShouldCreatePage = false;
                     }
@@ -246,7 +247,7 @@ namespace TightWiki.Controllers
 
                     model.HideFooterComments = true;
 
-                    if (SessionState.IsAuthenticated && await SessionState.HoldsPermission(givenCanonical, Plugin.TwPermission.Create))
+                    if (SessionState.IsAuthenticated && await SessionState.HoldsPermission(givenCanonical, TwPermission.Create))
                     {
                         SessionState.ShouldCreatePage = true;
                     }
@@ -430,7 +431,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenCanonical, Plugin.TwPermission.Read);
+                    await SessionState.RequirePermission(givenCanonical, TwPermission.Read);
                 }
                 catch (Exception ex)
                 {
@@ -447,7 +448,7 @@ namespace TightWiki.Controllers
                 var deleteAction = GetQueryValue<string>("Delete");
                 if (string.IsNullOrEmpty(deleteAction) == false && SessionState.IsAuthenticated)
                 {
-                    if (await SessionState.HoldsPermission(givenCanonical, Plugin.TwPermission.Moderate))
+                    if (await SessionState.HoldsPermission(givenCanonical, TwPermission.Moderate))
                     {
                         //Moderators and administrators can delete comments that they do not own.
                         await pageRepository.DeletePageCommentById(pageInfo.Id, int.Parse(deleteAction));
@@ -500,7 +501,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenCanonical, Plugin.TwPermission.Edit);
+                    await SessionState.RequirePermission(givenCanonical, TwPermission.Edit);
                 }
                 catch (Exception ex)
                 {
@@ -598,7 +599,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenCanonical, Plugin.TwPermission.Read);
+                    await SessionState.RequirePermission(givenCanonical, TwPermission.Read);
                 }
                 catch (Exception ex)
                 {
@@ -647,7 +648,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenCanonical, Plugin.TwPermission.Read);
+                    await SessionState.RequirePermission(givenCanonical, TwPermission.Read);
                 }
                 catch (Exception ex)
                 {
@@ -705,7 +706,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenCanonical, Plugin.TwPermission.Delete);
+                    await SessionState.RequirePermission(givenCanonical, TwPermission.Delete);
                 }
                 catch (Exception ex)
                 {
@@ -746,7 +747,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenCanonical, Plugin.TwPermission.Delete);
+                    await SessionState.RequirePermission(givenCanonical, TwPermission.Delete);
                 }
                 catch (Exception ex)
                 {
@@ -792,7 +793,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenCanonical, Plugin.TwPermission.Moderate);
+                    await SessionState.RequirePermission(givenCanonical, TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -825,7 +826,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenCanonical, Plugin.TwPermission.Moderate);
+                    await SessionState.RequirePermission(givenCanonical, TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -936,7 +937,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenCanonical, Plugin.TwPermission.Edit);
+                    await SessionState.RequirePermission(givenCanonical, TwPermission.Edit);
                 }
                 catch (Exception ex)
                 {
@@ -950,7 +951,7 @@ namespace TightWiki.Controllers
                 if (page != null)
                 {
                     var instructions = await pageRepository.GetPageProcessingInstructionsByPageId(page.EnsureNotNull().Id);
-                    if (instructions.Contains(TwInstruction.Protect) && !await SessionState.HoldsPermission(givenCanonical, Plugin.TwPermission.Moderate))
+                    if (instructions.Contains(TwInstruction.Protect) && !await SessionState.HoldsPermission(givenCanonical, TwPermission.Moderate))
                     {
                         return NotifyOfError(Localize("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed."));
                     }
@@ -1041,7 +1042,7 @@ namespace TightWiki.Controllers
 
                     try
                     {
-                        await SessionState.RequirePermission(navigation, Plugin.TwPermission.Create);
+                        await SessionState.RequirePermission(navigation, TwPermission.Create);
                     }
                     catch (Exception ex)
                     {
@@ -1078,7 +1079,7 @@ namespace TightWiki.Controllers
 
                     try
                     {
-                        await SessionState.RequirePermission(navigation, Plugin.TwPermission.Edit);
+                        await SessionState.RequirePermission(navigation, TwPermission.Edit);
                     }
                     catch (Exception ex)
                     {
@@ -1086,7 +1087,7 @@ namespace TightWiki.Controllers
                     }
                     var page = (await pageRepository.GetPageRevisionById(model.Id)).EnsureNotNull();
                     var instructions = await pageRepository.GetPageProcessingInstructionsByPageId(page.Id);
-                    if (instructions.Contains(TwInstruction.Protect) && !await SessionState.HoldsPermission(navigation, Plugin.TwPermission.Moderate))
+                    if (instructions.Contains(TwInstruction.Protect) && !await SessionState.HoldsPermission(navigation, TwPermission.Moderate))
                     {
                         return NotifyOfError(Localize("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed."));
                     }
@@ -1280,7 +1281,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenPageNavigation, Plugin.TwPermission.Read);
+                    await SessionState.RequirePermission(givenPageNavigation, TwPermission.Read);
                 }
                 catch (Exception ex)
                 {
@@ -1359,7 +1360,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenPageNavigation, Plugin.TwPermission.Read);
+                    await SessionState.RequirePermission(givenPageNavigation, TwPermission.Read);
                 }
                 catch (Exception ex)
                 {
@@ -1399,7 +1400,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenCanonical, Plugin.TwPermission.Read);
+                    await SessionState.RequirePermission(givenCanonical, TwPermission.Read);
                 }
                 catch (Exception ex)
                 {

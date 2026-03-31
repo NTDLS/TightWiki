@@ -1,7 +1,6 @@
 using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Functions;
 using TightWiki.Plugin.Attributes.Handlers;
-using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Interfaces.Module
 {

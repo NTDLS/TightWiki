@@ -154,8 +154,8 @@ namespace TightWiki.Engine
                 })
                 .Select(x => new FunctionDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull(), x.PluginAttribute.EnsureNotNull()))
                 .OrderByDescending(o => o.FunctionAttribute.IsFirstChance)
-                .ThenBy(o => o.PluginAttribute.Order)
-                .ThenBy(o => o.FunctionAttribute.Order)
+                .ThenBy(o => o.PluginAttribute.Precedence)
+                .ThenBy(o => o.FunctionAttribute.Precedence)
                 .ToList();
         }
 
@@ -183,8 +183,8 @@ namespace TightWiki.Engine
                     return x;
                 })
                 .Select(x => new HandlerDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull(), x.PluginAttribute.EnsureNotNull()))
-                .OrderBy(o => o.PluginAttribute.Order)
-                .ThenBy(o => o.HandlerAttribute.Order)
+                .OrderBy(o => o.PluginAttribute.Precedence)
+                .ThenBy(o => o.HandlerAttribute.Precedence)
                 .ToList();
         }
 
