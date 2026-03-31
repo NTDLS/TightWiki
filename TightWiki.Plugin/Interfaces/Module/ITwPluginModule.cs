@@ -2,10 +2,26 @@
 
 namespace TightWiki.Plugin.Interfaces.Module
 {
+    /// <summary>
+    /// Base interface for a class that is a plugin module in the TightWiki plugin system.
+    /// The class can contain functions and handlers that will be registered and executed by the engine.
+    /// </summary>
     public interface ITwPluginModule
     {
+        /// <summary>
+        /// The type of the class that implements the plugin module.
+        /// </summary>
         Type DeclaringType { get; }
+
+        /// <summary>
+        /// The attribute of the plugin module class, containing information such as the module name, description, and order.
+        /// </summary>
         TwPluginModuleAttribute Attribute { get; }
-        Interfaces.ITwPluginModule Instance { get; }
+
+        /// <summary>
+        /// The instance of the plugin module class.
+        /// </summary>
+        //ITwPluginModule Instance { get; }
+        ITwPluginModule Instance { get; }
     }
 }
