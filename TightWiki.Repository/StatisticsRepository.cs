@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using NTDLS.SqliteDapperWrapper;
+using TightWiki.Library.Extensions;
 using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Models;
-using TightWiki.Repository.Extensions;
 using TightWiki.Repository.Helpers;
 using static TightWiki.Plugin.TwConstants;
 

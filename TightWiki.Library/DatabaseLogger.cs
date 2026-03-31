@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using TightWiki.Plugin.Interfaces.Repository;
 
-namespace TightWiki.Repository
+namespace TightWiki.Library
 {
     public class DatabaseLogger
         : ILogger

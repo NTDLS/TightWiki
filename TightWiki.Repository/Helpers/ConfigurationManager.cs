@@ -6,12 +6,12 @@ using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Repository.Helpers
 {
-    public class TwConfigurationManager
+    public class ConfigurationManager
     {
         private readonly DatabaseManager _databaseManager;
         public TwConfiguration Configuration { get; private set; }
 
-        public TwConfigurationManager(IConfiguration configuration, DatabaseManager databaseManager)
+        public ConfigurationManager(IConfiguration configuration, DatabaseManager databaseManager)
         {
             _databaseManager = databaseManager;
             Configuration = new TwConfiguration()

@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using TightWiki.Library.Security;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Engine.Function;
@@ -1044,8 +1045,8 @@ namespace TightWiki.Engine
         /// </summary>
         public string GetNextHttpQueryToken()
         {
-            _queryTokenHash = Security.Helpers.Sha256(Security.Helpers.EncryptString(Security.Helpers.MachineKey, _queryTokenHash));
-            return $"H{Security.Helpers.Crc32(_queryTokenHash)}";
+            _queryTokenHash = SecurityUtility.Sha256(SecurityUtility.EncryptString(SecurityUtility.MachineKey, _queryTokenHash));
+            return $"H{SecurityUtility.Crc32(_queryTokenHash)}";
         }
 
         #endregion

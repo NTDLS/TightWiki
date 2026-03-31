@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace TightWiki.Repository.Extensions
+namespace TightWiki.Library.Extensions
 {
     public static class ConfigurationManagerExtensions
     {

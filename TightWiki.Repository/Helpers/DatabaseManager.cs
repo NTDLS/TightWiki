@@ -5,6 +5,7 @@ using NTDLS.Helpers;
 using NTDLS.SqliteDapperWrapper;
 using System.Reflection;
 using System.Security.Claims;
+using TightWiki.Library;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Dummy;
 using TightWiki.Plugin.Interfaces;

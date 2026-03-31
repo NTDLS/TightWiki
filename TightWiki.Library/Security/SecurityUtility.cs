@@ -1,9 +1,9 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace TightWiki.Security
+namespace TightWiki.Library.Security
 {
-    public static class Helpers
+    public static class SecurityUtility
     {
         private static string? _machineKey;
         public static string MachineKey

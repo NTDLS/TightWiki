@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Security
+﻿namespace TightWiki.Library.Security
 {
     /// <summary>
     /// Performs 32-bit reversed cyclic redundancy checks.

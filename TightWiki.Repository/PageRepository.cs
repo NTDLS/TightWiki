@@ -2,13 +2,14 @@
 using Microsoft.Extensions.Configuration;
 using NTDLS.Helpers;
 using NTDLS.SqliteDapperWrapper;
+using TightWiki.Library.Extensions;
+using TightWiki.Library.Security;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
-using TightWiki.Repository.Extensions;
 using TightWiki.Repository.Helpers;
 using static TightWiki.Plugin.TwConstants;
 
@@ -845,7 +846,7 @@ namespace TightWiki.Repository
                 ModifiedDate = DateTime.UtcNow
             };
 
-            var newDataHash = Security.Helpers.Crc32(page.Body ?? string.Empty);
+            var newDataHash = SecurityUtility.Crc32(page.Body ?? string.Empty);
 
             await PagesFactory.EphemeralAsync(async o =>
             {
@@ -1506,7 +1507,7 @@ namespace TightWiki.Repository
 
 
                     int currentFileRevision = 0;
-                    var newDataHash = Security.Helpers.Crc32(item.Data);
+                    var newDataHash = SecurityUtility.Crc32(item.Data);
 
                     var currentlyAttachedFile = await GetPageCurrentRevisionAttachmentByFileNavigation(o, item.PageId, item.FileNavigation);
                     if (currentlyAttachedFile != null)

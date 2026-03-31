@@ -4,7 +4,7 @@ using System.Net;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Models;
 
-namespace TightWiki.Security
+namespace TightWiki.Library.Security
 {
     public class LDAPUtility
     {

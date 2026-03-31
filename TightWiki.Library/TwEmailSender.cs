@@ -6,12 +6,12 @@ using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Repository;
 using static TightWiki.Plugin.TwConstants;
 
-namespace TightWiki.Email
+namespace TightWiki.Library
 {
     public class TwEmailSender(
-            ILogger<TwEmailSender> logger,
-            ITwConfigurationRepository configurationRepository
-        )
+                ILogger<TwEmailSender> logger,
+                ITwConfigurationRepository configurationRepository
+            )
         : ITwEmailSender
     {
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)

@@ -5,7 +5,7 @@ namespace TightWiki.Library
 {
     public static class PluginLoader
     {
-        public static void LoadPlugins(ILogger logger, string pluginsDirectory )
+        public static void LoadPlugins(ILogger logger, string pluginsDirectory)
         {
             try
             {

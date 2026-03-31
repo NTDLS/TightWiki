@@ -12,8 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NTDLS.Helpers;
-using System.Reflection;
-using TightWiki.Email;
 using TightWiki.Engine;
 using TightWiki.Library;
 using TightWiki.Plugin;
@@ -47,7 +45,7 @@ namespace TightWiki
             var userConnectionString = databaseManager.UsersRepository.UsersFactory.Ephemeral(o => o.NativeConnection.ConnectionString);
             builder.Services.AddDbContext<TwApplicationDbContext>(options => options.UseSqlite(userConnectionString));
 
-            var wikiConfigurationManager = new TwConfigurationManager(builder.Configuration, databaseManager);
+            var wikiConfigurationManager = new Repository.Helpers.ConfigurationManager(builder.Configuration, databaseManager);
 
             // Add DiffPlex services.
             builder.Services.AddScoped<IDiffer, Differ>();

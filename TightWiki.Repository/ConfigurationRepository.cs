@@ -2,11 +2,12 @@
 using NTDLS.Helpers;
 using NTDLS.SqliteDapperWrapper;
 using System.Data;
+using TightWiki.Library.Extensions;
+using TightWiki.Library.Security;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Models;
-using TightWiki.Repository.Extensions;
 using TightWiki.Repository.Helpers;
 
 namespace TightWiki.Repository
@@ -36,7 +37,7 @@ namespace TightWiki.Repository
                     {
                         try
                         {
-                            entry.Value = Security.Helpers.DecryptString(Security.Helpers.MachineKey, entry.Value);
+                            entry.Value = SecurityUtility.DecryptString(SecurityUtility.MachineKey, entry.Value);
                         }
                         catch
                         {
@@ -103,7 +104,7 @@ namespace TightWiki.Repository
 
             try
             {
-                value = Security.Helpers.DecryptString(Security.Helpers.MachineKey, value);
+                value = SecurityUtility.DecryptString(SecurityUtility.MachineKey, value);
                 if (value == TwConstants.CRYPTOCHECK)
                 {
                     return true;
@@ -123,7 +124,7 @@ namespace TightWiki.Repository
         {
             var param = new
             {
-                Content = Security.Helpers.EncryptString(Security.Helpers.MachineKey, TwConstants.CRYPTOCHECK)
+                Content = SecurityUtility.EncryptString(SecurityUtility.MachineKey, TwConstants.CRYPTOCHECK)
             };
 
             await ConfigFactory.QueryFirstOrDefaultAsync<string>("SetCryptoCheck.sql", param);
@@ -163,7 +164,7 @@ namespace TightWiki.Repository
                     {
                         try
                         {
-                            entryValue = Security.Helpers.DecryptString(Security.Helpers.MachineKey, value.EntryValue);
+                            entryValue = SecurityUtility.DecryptString(SecurityUtility.MachineKey, value.EntryValue);
                         }
                         catch
                         {
@@ -212,7 +213,7 @@ namespace TightWiki.Repository
                 {
                     try
                     {
-                        configEntry.Value = Security.Helpers.DecryptString(Security.Helpers.MachineKey, configEntry.Value);
+                        configEntry.Value = SecurityUtility.DecryptString(SecurityUtility.MachineKey, configEntry.Value);
                     }
                     catch
                     {

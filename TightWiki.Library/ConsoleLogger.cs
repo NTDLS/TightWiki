@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace TightWiki.Repository
+namespace TightWiki.Library
 {
     public class ConsoleLogger
         : ILogger

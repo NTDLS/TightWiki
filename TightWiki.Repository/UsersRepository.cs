@@ -3,12 +3,13 @@ using Microsoft.Extensions.Configuration;
 using NTDLS.Helpers;
 using NTDLS.SqliteDapperWrapper;
 using System.Security.Claims;
+using TightWiki.Library.Extensions;
+using TightWiki.Library.Security;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
-using TightWiki.Repository.Extensions;
 using TightWiki.Repository.Helpers;
 using static TightWiki.Plugin.TwConstants;
 
@@ -469,7 +470,7 @@ namespace TightWiki.Repository
 
         public async Task<TwAccountProfile?> GetProfileByAccountNameOrEmailAndPassword(string accountNameOrEmail, string password)
         {
-            string passwordHash = Security.Helpers.Sha256(password);
+            string passwordHash = SecurityUtility.Sha256(password);
             var param = new
             {
                 AccountNameOrEmail = accountNameOrEmail,

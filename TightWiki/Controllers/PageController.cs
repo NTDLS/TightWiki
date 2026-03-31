@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Text;
 using System.Xml.Serialization;
 using TightWiki.Engine;
+using TightWiki.Library.Security;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Interfaces;
@@ -105,7 +106,7 @@ namespace TightWiki.Controllers
         {
             if (User.Identity?.IsAuthenticated == true && SessionState.Profile != null)
             {
-                return Security.Helpers.Sha1($"user:{SessionState.Profile.UserId}");
+                return SecurityUtility.Sha1($"user:{SessionState.Profile.UserId}");
             }
 
             var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
@@ -113,7 +114,7 @@ namespace TightWiki.Controllers
             //  so lets bake in the user agent as well to help differentiate viewers.
             var userAgent = Request.Headers.UserAgent.ToString();
 
-            return Security.Helpers.Sha1($"anon:{ip}:{userAgent}");
+            return SecurityUtility.Sha1($"anon:{ip}:{userAgent}");
         }
 
         [HttpGet("{givenCanonical}/{pageRevision:int?}")]

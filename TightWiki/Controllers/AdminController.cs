@@ -4,14 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using NTDLS.DelegateThreadPooling;
 using NTDLS.Helpers;
 using System.Reflection;
+using TightWiki.Library.Security;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Caching;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
-using TightWiki.Repository.Helpers;
-using TightWiki.Security;
 using TightWiki.ViewModels.Admin;
 using TightWiki.ViewModels.Utility;
 using static TightWiki.Plugin.TwConstants;
@@ -33,7 +32,7 @@ namespace TightWiki.Controllers
             ITwUsersRepository usersRepository,
             SignInManager<IdentityUser> signInManager,
             TwConfiguration wikiConfiguration,
-            TwConfigurationManager configurationManager,
+            Repository.Helpers.ConfigurationManager configurationManager,
             UserManager<IdentityUser> userManager
         )
         : TwController<AdminController>(logger, signInManager, userManager, localizer, wikiConfiguration, databaseManager)
@@ -1578,7 +1577,7 @@ namespace TightWiki.Controllers
 
                         if (fc.IsEncrypted)
                         {
-                            value = Helpers.EncryptString(Helpers.MachineKey, value);
+                            value = SecurityUtility.EncryptString(SecurityUtility.MachineKey, value);
                         }
 
                         await configurationRepository.SaveConfigurationEntryValueByGroupAndEntry(fc.GroupName, fc.EntryName, value);
