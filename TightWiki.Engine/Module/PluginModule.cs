@@ -1,20 +1,22 @@
 ﻿using NTDLS.Helpers;
 using TightWiki.Plugin.Attributes;
+using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Module;
 
 namespace TightWiki.Engine.Module
 {
     public class PluginModule
-        : Plugin.Interfaces.Module.ITwPluginModule
+        : ITwEngineModule
     {
         public Type DeclaringType { get; private set; }
         public TwPluginModuleAttribute Attribute { get; private set; }
-        public Plugin.Interfaces.ITwPluginModule Instance { get; private set; }
+        public ITwPluginModule Instance { get; private set; }
 
         public PluginModule(Type declaringType, TwPluginModuleAttribute attribute)
         {
             DeclaringType = declaringType;
             Attribute = attribute;
-            Instance = ((Plugin.Interfaces.ITwPluginModule?)Activator.CreateInstance(declaringType)).EnsureNotNull();
+            Instance = ((ITwPluginModule?)Activator.CreateInstance(declaringType)).EnsureNotNull();
         }
     }
 }
