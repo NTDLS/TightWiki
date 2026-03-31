@@ -3,6 +3,15 @@ using System.Text.RegularExpressions;
 
 namespace TightWiki.Plugin
 {
+    /// <summary>
+    /// Represents a navigation target consisting of a namespace and page name, providing parsing, normalization, and
+    /// canonicalization for namespace-based page navigation.
+    /// </summary>
+    /// <remarks>This class is useful for scenarios where page names may be prefixed with namespaces and
+    /// require consistent formatting or validation, such as in wiki-like systems. It provides properties to access or
+    /// modify the namespace, page, and canonical form, and ensures that values are cleaned and validated according to
+    /// defined rules. The class supports both lowercased and case-sensitive navigation names, depending on the
+    /// constructor parameter.</remarks>
     public class TwNamespaceNavigation
     {
         private string _namespace = string.Empty;
