@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>İnşa Süresi</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>Eklentiler</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>Eklenti</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>eklenti için küresel yapılandırma.</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>Eklenti modülü</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>Öncelik</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>Bu eklenti herhangi bir fonksiyon veya işleyici içermiyor.</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>eklentiler için küresel yapılandırma.</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>Eklenti Yönetimi</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>Yeni Eklenti Ekle</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>Yapılandırılmış eklenti yok.</value>
+  </data>
 </root>

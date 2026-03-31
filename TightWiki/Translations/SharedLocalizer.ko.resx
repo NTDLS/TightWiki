@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>빌드 시간</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>플러그인</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>플러그인</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>플러그인에 대한 글로벌 구성.</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>플러그인 모듈</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>우선순위</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>이 플러그인에는 기능이나 핸들러가 포함되어 있지 않습니다.</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>플러그인에 대한 글로벌 구성.</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>플러그인 관리</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>새 플러그인 추가</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>구성된 플러그인이 없습니다.</value>
+  </data>
 </root>

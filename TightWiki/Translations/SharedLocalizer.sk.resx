@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>Čas zostavovania</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>Pluginy</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>Plugin</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>Celková konfigurácia pre plugin.</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>Modul pluginu</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>Priorita</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>Tento plugin neobsahuje žiadne funkcie alebo obsluhy.</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>Celková konfigurácia pre pluginy.</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>Správa pluginov</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>Pridať nový plugin</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>Žiadne pluginy nie sú nakonfigurované.</value>
+  </data>
 </root>

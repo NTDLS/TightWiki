@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>Czas budowy</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>Wtyczki</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>Wtyczka</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>Globalna konfiguracja dla wtyczki.</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>Moduł wtyczki</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>Priorytet</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>Ta wtyczka nie zawiera żadnych funkcji ani obsługi.</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>Globalna konfiguracja dla wtyczek.</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>Zarządzanie wtyczkami</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>Dodaj nową wtyczkę</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>Nie skonfigurowano żadnych wtyczek.</value>
+  </data>
 </root>

@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>Thời gian xây dựng</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>Tiện ích mở rộng</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>Tiện ích mở rộng</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>Cấu hình toàn cục cho tiện ích mở rộng.</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>Module tiện ích mở rộng</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>Độ ưu tiên</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>Tiện ích mở rộng này không chứa chức năng hoặc trình xử lý nào.</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>Cấu hình toàn cục cho các tiện ích mở rộng.</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>Quản lý tiện ích mở rộng</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>Thêm Tiện ích mở rộng mới</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>Không có tiện ích mở rộng nào được cấu hình.</value>
+  </data>
 </root>

@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>ビルド時間</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>プラグイン</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>プラグイン</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>プラグインのグローバル設定。</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>プラグインモジュール</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>優先順位</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>このプラグインには機能やハンドラーが含まれていません。</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>プラグインのグローバル設定。</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>プラグイン管理</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>新しいプラグインを追加</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>設定されたプラグインはありません。</value>
+  </data>
 </root>

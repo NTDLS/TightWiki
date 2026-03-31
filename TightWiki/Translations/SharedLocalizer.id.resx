@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>Waktu Pembuatan</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>Plugin</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>Plugin</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>Konfigurasi global untuk plugin.</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>Modul plugin</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>Prioritas</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>Plugin ini tidak mengandung fungsi atau handler apapun.</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>Konfigurasi global untuk plugin.</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>Manajemen Plugin</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>Tambahkan Plugin Baru</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>Belum ada plugin yang dikonfigurasi.</value>
+  </data>
 </root>

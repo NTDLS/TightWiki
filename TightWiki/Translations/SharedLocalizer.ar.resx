@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>وقت البناء</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>الإضافات</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>الإضافة</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>التكوين العالمي للإضافة.</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>وحدة الإضافة</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>الأولوية</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>هذه الإضافة لا تحتوي على أي وظائف أو معالجات.</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>التكوين العالمي للإضافات.</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>إدارة الإضافات</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>إضافة إضافة جديدة</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>لا توجد إضافات مُكوّنة.</value>
+  </data>
 </root>

@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>Време за създаване</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>Плъгини</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>Плъгин</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>Глобална конфигурация за плъгина.</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>Модул на плъгина</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>Предимство</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>Този плъгин не съдържа функции или обработчици.</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>Глобална конфигурация за плъгините.</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>Управление на плъгини</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>Добавяне на нов плъгин</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>Няма конфигурирани плъгини.</value>
+  </data>
 </root>

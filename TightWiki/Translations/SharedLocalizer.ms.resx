@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>Waktu Pembinaan</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>Pemalam</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>Pemalam</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>konfigurasi global untuk pemalam.</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>Modul pemalam</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>Keutamaan</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>Pemalam ini tidak mengandungi sebarang fungsi atau pengendali.</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>konfigurasi global untuk pemalam.</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>Pengurusan Pemalam</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>Tambah Pemalam baharu</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>Tidak terdapat pemalam yang dikonfigurasikan.</value>
+  </data>
 </root>

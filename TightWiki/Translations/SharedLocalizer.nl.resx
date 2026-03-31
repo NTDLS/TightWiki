@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>Build Tijd</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>Plugins</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>Plug-in</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>Globale configuratie voor plugin.</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>Plugin-module</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>Voorrang</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>Deze plugin bevat geen functies of handlers.</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>Globale configuratie voor plugins.</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>Pluginbeheer</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>Nieuwe plugin toevoegen</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>Er zijn geen plugins geconfigureerd.</value>
+  </data>
 </root>

@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>تعمیر کا وقت</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>پلگ انز</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>پلگ ان</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>پلاگ ان کے لیے عالمی ترتیب</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>پلگ ان موڈول</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>ترجیح</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>یہ پلگ ان کسی بھی فنکشن یا ہینڈلرز پر مشتمل نہیں ہے۔</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>پلگ انز کے لیے عالمی ترتیب</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>پلگ ان مینجمنٹ</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>نیا پلگ ان شامل کریں</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>کوئی بھی پلگ ان ترتیب نہیں دیا گیا ہے۔</value>
+  </data>
 </root>

@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>Vreme izrade</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>Додатци</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>Додатак</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>Глобална конфигурација за додатак.</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>Модул додатка</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>Прецедент</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>Овај додатак не садржи никакве функције или руковаоце.</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>Глобална конфигурација за додатке.</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>Управљање додатцима</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>Додај нови додатак</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>Нема конфигурисаних додатака.</value>
+  </data>
 </root>

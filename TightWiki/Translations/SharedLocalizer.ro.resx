@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>Timp de construire</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>pluginuri</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>Plugin</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>Configurare globală pentru plugin.</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>modul plugin</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>Prioritate</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>Acest plugin nu conține funcții sau handler-e.</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>Configurare globală pentru plugin-uri.</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>Gestionare plugin-uri</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>Adaugă un nou plugin</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>Nu există plugin-uri configurate.</value>
+  </data>
 </root>

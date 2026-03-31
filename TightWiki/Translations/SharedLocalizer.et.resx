@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>Ehitusaeeg</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>Pluginad</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>Plugin</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>Globaalne konfiguratsioon plugin'i jaoks.</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>Plugin moodul</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>Eelisjärjestus</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>See plugin ei sisalda ühtegi funktsiooni ega käsitlejat.</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>Globaalne konfiguratsioon plugin'ide jaoks.</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>Plugin'i haldus</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>Lisa uus plugin</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>Ükski plugin ei ole konfigureeritud.</value>
+  </data>
 </root>

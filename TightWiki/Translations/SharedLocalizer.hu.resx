@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>Build idő</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>Bővítmények</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>Bővítmény</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>Globális konfiguráció a bővítményhez.</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>Bővítmény modul</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>Elsőbbség</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>Ez a bővítmény nem tartalmaz funkciókat vagy kezelőket.</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>Globális konfiguráció a bővítményekhez.</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>Bővítménykezelés</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>Új bővítmény hozzáadása</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>Nincsenek konfigurálva bővítmények.</value>
+  </data>
 </root>

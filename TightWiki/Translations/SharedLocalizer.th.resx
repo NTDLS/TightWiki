@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>เวลาที่สร้าง</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>ปลั๊กอิน</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>ปลั๊กอิน</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>การตั้งค่าทั่วไปสำหรับปลั๊กอิน</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>โมดูลปลั๊กอิน</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>ลำดับความสำคัญ</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>ปลั๊กอินนี้ไม่ประกอบด้วยฟังก์ชันหรือผู้จัดการใด ๆ</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>การตั้งค่าทั่วไปสำหรับปลั๊กอิน</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>การจัดการปลั๊กอิน</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>เพิ่มปลั๊กอินใหม่</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>ยังไม่มีปลั๊กอินที่กำหนดค่าไว้</value>
+  </data>
 </root>

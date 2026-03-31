@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>Izstrādes laiks</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>Spraudņi</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>Spraudnis</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>Globālā konfigurācija spraudnim.</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>Spraudņa modulis</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>Priekšroka</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>Šis spraudnis nesatur nevienu funkciju vai apstrādātāju.</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>Globālā konfigurācija spraudņiem.</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>Spraudņu pārvaldība</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>Pievienot jaunu spraudni</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>Nav konfigurētu spraudņu.</value>
+  </data>
 </root>

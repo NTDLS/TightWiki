@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>Byggetid</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>Plugins</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>Plugin</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>Global konfigurasjon for plugin.</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>Plugin-modul</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>Prioritet</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>Denne pluginen inneholder ingen funksjoner eller håndterere.</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>Global konfigurasjon for plugins.</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>Pluginadministrasjon</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>Legg til ny Plugin</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>Det er ingen plugins konfigurert.</value>
+  </data>
 </root>

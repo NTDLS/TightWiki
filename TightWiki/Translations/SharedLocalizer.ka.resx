@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>მკაშვეთის დრო</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>პლაგინები</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>პლაგინი</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>გლობალური კონფიგურაცია პლაგინისთვის.</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>პლაგინის მოდული</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>პრამდგომლობა</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>ეს პლაგინი არ შეიცავს ფუნქციებს ან დამუშავებლებს.</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>გლობალური კონფიგურაცია პლაგინებისთვის.</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>პლაგინების მართვა</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>დაამატეთ ახალი პლაგინი</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>არ არის კონფიგურირებული პლაგინები.</value>
+  </data>
 </root>

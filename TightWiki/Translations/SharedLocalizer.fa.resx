@@ -2638,4 +2638,34 @@
   <data name="Build Time" xml:space="preserve">
     <value>زمان ساخت</value>
   </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>افزونه‌ها</value>
+  </data>
+  <data name="Plugin" xml:space="preserve">
+    <value>افزونه</value>
+  </data>
+  <data name="Global configuration for plugin." xml:space="preserve">
+    <value>پیکربندی کلی برای افزونه.</value>
+  </data>
+  <data name="Plugin module" xml:space="preserve">
+    <value>ماژول افزونه</value>
+  </data>
+  <data name="Precedence" xml:space="preserve">
+    <value>اولویت</value>
+  </data>
+  <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
+    <value>این افزونه هیچ تابع یا هندلری ندارد.</value>
+  </data>
+  <data name="Global configuration for plugins." xml:space="preserve">
+    <value>پیکربندی کلی برای افزونه‌ها.</value>
+  </data>
+  <data name="Plugin Management" xml:space="preserve">
+    <value>مدیریت افزونه‌ها</value>
+  </data>
+  <data name="Add new Plugin" xml:space="preserve">
+    <value>افزونه جدید اضافه کنید</value>
+  </data>
+  <data name="There are no plugins configured." xml:space="preserve">
+    <value>هیچ افزونه‌ای پیکربندی نشده است.</value>
+  </data>
 </root>
