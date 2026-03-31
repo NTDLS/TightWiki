@@ -22,9 +22,9 @@ namespace TightWiki.Engine.Module.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="sequence">The sequence of symbols that were found to denotate this markup instruction,</param>
         /// <param name="scopeBody">The body of text to apply the style to.</param>
-        public async Task<TwHandlerResult> Handle(ITwEngineState state, char sequence, string scopeBody)
+        public async Task<TwPluginResult> Handle(ITwEngineState state, char sequence, string scopeBody)
         {
-            var result = (Task<TwHandlerResult>)Method.Invoke(EngineModule.Instance, [state, sequence, scopeBody]).EnsureNotNull();
+            var result = (Task<TwPluginResult>)Method.Invoke(EngineModule.Instance, [state, sequence, scopeBody]).EnsureNotNull();
             return await result;
         }
     }

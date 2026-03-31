@@ -15,6 +15,6 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="customText">Text that accompanies the exception.</param>
         /// <param name="ex">Optional exception, in the case that this was an actual exception.</param>
-        Task<TwHandlerResult> Handle(ITwEngineState state, LogLevel level, string text, Exception? ex = null);
+        Task<TwPluginResult> Handle(ITwEngineState state, LogLevel level, string text, Exception? ex = null);
     }
 }

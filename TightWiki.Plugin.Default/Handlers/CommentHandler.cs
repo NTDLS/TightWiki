@@ -19,9 +19,9 @@ namespace TightWiki.Plugin.Default.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="text">The comment text</param>
         [TwCommentHandler("Default comment handler", "Handles wiki comments.")]
-        public async Task<TwHandlerResult> Handle(ITwEngineState state, string text)
+        public async Task<TwPluginResult> Handle(ITwEngineState state, string text)
         {
-            return new TwHandlerResult() { Instructions = [HandlerResultInstruction.TruncateTrailingLine] };
+            return new TwPluginResult() { Instructions = [HandlerResultInstruction.TruncateTrailingLine] };
         }
     }
 }

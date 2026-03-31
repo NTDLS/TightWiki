@@ -303,7 +303,7 @@ namespace TightWiki.Engine
         /// </summary>
         private async Task TransformMarkup(TwString pageContent)
         {
-            var symbols = WikiUtility.GetApplicableSymbols(pageContent.Value);
+            var symbols = WikiUtility.GetApplicableSymbols(pageContent.ToString());
 
             foreach (var symbol in symbols)
             {
@@ -924,7 +924,7 @@ namespace TightWiki.Engine
 
         #region Utility.
 
-        private void StoreHandlerResult(TwHandlerResult result, WikiMatchType matchType, TwString pageContent, string matchValue)
+        private void StoreHandlerResult(TwPluginResult result, WikiMatchType matchType, TwString pageContent, string matchValue)
         {
             if (result.Instructions.Contains(HandlerResultInstruction.Skip))
             {

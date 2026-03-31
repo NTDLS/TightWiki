@@ -24,9 +24,9 @@ namespace TightWiki.Engine.Module.Handlers
         /// <param name="text">The text which should be show in the absence of an image.</param>
         /// <param name="image">The image that should be shown.</param>
         /// <param name="imageScale">The 0-100 image scale factor for the given image.</param>
-        public async Task<TwHandlerResult> Handle(ITwEngineState state, string link, string? text, string? image)
+        public async Task<TwPluginResult> Handle(ITwEngineState state, string link, string? text, string? image)
         {
-            var result = (Task<TwHandlerResult>)Method.Invoke(EngineModule.Instance, [state, link, text, image]).EnsureNotNull();
+            var result = (Task<TwPluginResult>)Method.Invoke(EngineModule.Instance, [state, link, text, image]).EnsureNotNull();
             return await result;
         }
     }

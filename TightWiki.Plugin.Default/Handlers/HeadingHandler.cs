@@ -21,11 +21,11 @@ namespace TightWiki.Plugin.Default.Handlers
         /// <param name="link">The self link reference.</param>
         /// <param name="text">The text for the self link.</param>
         [TwHeadingHandler("Default heading handler", "Handles wiki headings.")]
-        public async Task<TwHandlerResult> Handle(ITwEngineState state, int depth, string link, string text)
+        public async Task<TwPluginResult> Handle(ITwEngineState state, int depth, string link, string text)
         {
             depth = Math.Clamp(depth, 1, 6);
             string html = $"""<div class="tw-heading tw-heading-{depth}" id="{link}"><a href="#{link}">{text}</a></div>""";
-            return new TwHandlerResult(html);
+            return new TwPluginResult(html);
         }
     }
 }

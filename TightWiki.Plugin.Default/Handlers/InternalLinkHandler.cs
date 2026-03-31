@@ -23,7 +23,7 @@ namespace TightWiki.Plugin.Default.Handlers
         /// <param name="image">The image that should be shown.</param>
         /// <param name="imageScale">The 0-100 image scale factor for the given image.</param>
         [TwInternalLinkHandler("Default internal link handler", "Handles links from one wiki page to another.")]
-        public async Task<TwHandlerResult> Handle(ITwEngineState state, TwNamespaceNavigation pageNavigation,
+        public async Task<TwPluginResult> Handle(ITwEngineState state, TwNamespaceNavigation pageNavigation,
             string pageName, string linkText, string? image, int imageScale)
         {
             var page = await state.Engine.DatabaseManager.PageRepository.GetPageRevisionByNavigation(pageNavigation);
@@ -53,7 +53,7 @@ namespace TightWiki.Plugin.Default.Handlers
                             href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/Page/Create?Name={pageName}\">{linkText}</a>";
                         }
 
-                        return new TwHandlerResult(href)
+                        return new TwPluginResult(href)
                         {
                             Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
                         };
@@ -63,7 +63,7 @@ namespace TightWiki.Plugin.Default.Handlers
                         var href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/Page/Create?Name={pageName}\">{linkText}</a>"
                             + "<font color=\"#cc0000\" size=\"2\">?</font>";
 
-                        return new TwHandlerResult(href)
+                        return new TwPluginResult(href)
                         {
                             Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
                         };
@@ -98,14 +98,14 @@ namespace TightWiki.Plugin.Default.Handlers
                             mockHref = $"linkText";
                         }
 
-                        return new TwHandlerResult(mockHref)
+                        return new TwPluginResult(mockHref)
                         {
                             Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
                         };
                     }
                     else if (linkText != null)
                     {
-                        return new TwHandlerResult(linkText)
+                        return new TwPluginResult(linkText)
                         {
                             Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
                         };
@@ -145,7 +145,7 @@ namespace TightWiki.Plugin.Default.Handlers
                     href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\">{linkText}</a>";
                 }
 
-                return new TwHandlerResult(href)
+                return new TwPluginResult(href)
                 {
                     Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
                 };

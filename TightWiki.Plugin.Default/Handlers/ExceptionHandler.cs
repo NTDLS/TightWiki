@@ -21,7 +21,7 @@ namespace TightWiki.Plugin.Default.Handlers
         /// <param name="ex">Optional exception, in the case that this was an actual exception.</param>
         /// <param name="customText">Text that accompanies the exception.</param>
         [TwExceptionHandler("Default exception handler", "Handles exceptions thrown by the wiki engine.")]
-        public async Task<TwHandlerResult> Handle(ITwEngineState state, LogLevel level, string text, Exception? ex = null)
+        public async Task<TwPluginResult> Handle(ITwEngineState state, LogLevel level, string text, Exception? ex = null)
         {
             if (ex != null)
             {
@@ -32,7 +32,7 @@ namespace TightWiki.Plugin.Default.Handlers
                 state.Logger.Log(level, text);
             }
 
-            return new TwHandlerResult();
+            return new TwPluginResult();
         }
     }
 }

@@ -14,6 +14,6 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="key">The lookup key for the given emoji.</param>
         /// <param name="scale">The desired 1-100 scale factor for the emoji.</param>
-        public Task<TwHandlerResult> Handle(ITwEngineState state, string key, int scale);
+        public Task<TwPluginResult> Handle(ITwEngineState state, string key, int scale);
     }
 }

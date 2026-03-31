@@ -13,6 +13,6 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="text">The comment text</param>
-        public Task<TwHandlerResult> Handle(ITwEngineState state, string text);
+        public Task<TwPluginResult> Handle(ITwEngineState state, string text);
     }
 }

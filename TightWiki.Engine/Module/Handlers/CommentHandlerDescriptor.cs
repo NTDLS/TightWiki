@@ -21,9 +21,9 @@ namespace TightWiki.Engine.Module.Handlers
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="text">The comment text</param>
-        public async Task<TwHandlerResult> Handle(ITwEngineState state, string text)
+        public async Task<TwPluginResult> Handle(ITwEngineState state, string text)
         {
-            var result = (Task<TwHandlerResult>)Method.Invoke(EngineModule.Instance, [state, text]).EnsureNotNull();
+            var result = (Task<TwPluginResult>)Method.Invoke(EngineModule.Instance, [state, text]).EnsureNotNull();
             return await result;
         }
     }

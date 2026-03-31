@@ -23,9 +23,9 @@ namespace TightWiki.Engine.Module.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="customText">Text that accompanies the exception.</param>
         /// <param name="ex">Optional exception, in the case that this was an actual exception.</param>
-        public async Task<TwHandlerResult> Handle(ITwEngineState state, LogLevel level, string text, Exception? ex = null)
+        public async Task<TwPluginResult> Handle(ITwEngineState state, LogLevel level, string text, Exception? ex = null)
         {
-            var result = (Task<TwHandlerResult>)Method.Invoke(EngineModule.Instance, [state, level, text, ex]).EnsureNotNull();
+            var result = (Task<TwPluginResult>)Method.Invoke(EngineModule.Instance, [state, level, text, ex]).EnsureNotNull();
             return await result;
         }
     }

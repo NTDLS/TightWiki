@@ -12,6 +12,6 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
         /// Handles wiki completion events. Is called when the wiki processing competes for a given page.
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
-        Task<TwHandlerResult> Handle(ITwEngineState state);
+        Task<TwPluginResult> Handle(ITwEngineState state);
     }
 }

@@ -98,7 +98,7 @@ namespace TightWiki.Engine
         /// <param name="pageContent"></param>
         private static void TransformMarkup(TwConfiguration wikiConfiguration, TwString pageContent, Dictionary<string, string> matchStore)
         {
-            var symbols = WikiUtility.GetApplicableSymbols(pageContent.Value);
+            var symbols = WikiUtility.GetApplicableSymbols(pageContent.ToString());
 
             foreach (var symbol in symbols)
             {

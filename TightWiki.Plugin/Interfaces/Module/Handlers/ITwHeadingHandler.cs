@@ -15,6 +15,6 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
         /// <param name="depth">The size of the header, also used for table of table of contents indentation.</param>
         /// <param name="link">The self link reference.</param>
         /// <param name="text">The text for the self link.</param>
-        public Task<TwHandlerResult> Handle(ITwEngineState state, int depth, string link, string text);
+        public Task<TwPluginResult> Handle(ITwEngineState state, int depth, string link, string text);
     }
 }

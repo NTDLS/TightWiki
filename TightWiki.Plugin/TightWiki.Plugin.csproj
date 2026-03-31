@@ -19,8 +19,4 @@
     <PackageReference Include="System.Runtime.Caching" Version="10.0.5" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Engine\Function\" />
-  </ItemGroup>
-
 </Project>

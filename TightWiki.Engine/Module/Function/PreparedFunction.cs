@@ -32,10 +32,10 @@ namespace TightWiki.Engine.Module.Function
             Name = descriptor.Method.Name;
         }
 
-        public async Task<TwHandlerResult> Execute()
+        public async Task<TwPluginResult> Execute()
         {
             var parameters = Parameters.Select(o => o.Value).ToArray();
-            var result = ((Task<TwHandlerResult>?)Descriptor.Method.Invoke(Descriptor.EngineModule.Instance, parameters)).EnsureNotNull();
+            var result = ((Task<TwPluginResult>?)Descriptor.Method.Invoke(Descriptor.EngineModule.Instance, parameters)).EnsureNotNull();
             return await result;
         }
 

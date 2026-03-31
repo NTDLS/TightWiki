@@ -20,7 +20,7 @@ namespace TightWiki.Plugin.Default.Handlers
         /// <param name="key">The lookup key for the given emoji.</param>
         /// <param name="scale">The desired 1-100 scale factor for the emoji.</param>
         [TwEmojiHandler("Default emoji handler", "Handles wiki emojis.")]
-        public async Task<TwHandlerResult> Handle(ITwEngineState state, string key, int scale)
+        public async Task<TwPluginResult> Handle(ITwEngineState state, string key, int scale)
         {
             var emoji = state.Engine.WikiConfiguration.Emojis.FirstOrDefault(o => o.Shortcut == key);
 
@@ -30,18 +30,18 @@ namespace TightWiki.Plugin.Default.Handlers
                 {
                     var emojiImage = $"<img src=\"{state.Engine.WikiConfiguration.BasePath}/file/Emoji/{key.Trim('%')}?Scale={scale}\" alt=\"{emoji?.Name}\" />";
 
-                    return new TwHandlerResult(emojiImage);
+                    return new TwPluginResult(emojiImage);
                 }
                 else
                 {
                     var emojiImage = $"<img src=\"{state.Engine.WikiConfiguration.BasePath}/file/Emoji/{key.Trim('%')}\" alt=\"{emoji?.Name}\" />";
 
-                    return new TwHandlerResult(emojiImage);
+                    return new TwPluginResult(emojiImage);
                 }
             }
             else
             {
-                return new TwHandlerResult(key) { Instructions = [HandlerResultInstruction.DisallowNestedProcessing] };
+                return new TwPluginResult(key) { Instructions = [HandlerResultInstruction.DisallowNestedProcessing] };
             }
         }
     }

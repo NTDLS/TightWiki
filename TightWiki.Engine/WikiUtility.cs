@@ -51,6 +51,8 @@ namespace TightWiki.Engine
 
         internal static int FindNextConsecutive(bool isOpen, string input, int startIndex, out string? foundPattern)
         {
+            char[] applicableSymbols = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '-', '=', '/', '\\'];
+
             var stringBuilder = new StringBuilder();
 
             for (int i = startIndex; i < input.Length; i++)
@@ -63,7 +65,7 @@ namespace TightWiki.Engine
                     return i + 1;
                 }
 
-                if (char.IsLetterOrDigit(currentChar) || char.IsWhiteSpace(currentChar))
+                if (!applicableSymbols.Contains(currentChar) || char.IsWhiteSpace(currentChar))
                 {
                     continue;
                 }
@@ -106,7 +108,7 @@ namespace TightWiki.Engine
         /// </summary>
         internal static HashSet<char> GetApplicableSymbols(string input)
         {
-            var applicableSymbols = new HashSet<char>();
+            var symbolsFound = new HashSet<char>();
             string? previousFoundPattern = null;
             int i = 0;
 
@@ -120,7 +122,7 @@ namespace TightWiki.Engine
 
                 if (foundPattern != null && foundPattern == previousFoundPattern)
                 {
-                    applicableSymbols.Add(foundPattern[0]);
+                    symbolsFound.Add(foundPattern[0]);
                     previousFoundPattern = null;
                 }
                 else
@@ -131,7 +133,7 @@ namespace TightWiki.Engine
                 i = foundIndex;
             }
 
-            return applicableSymbols;
+            return symbolsFound;
         }
     }
 }

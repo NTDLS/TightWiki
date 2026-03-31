@@ -22,18 +22,18 @@ namespace TightWiki.Plugin.Default.Handlers
         /// <param name="image">The image that should be shown.</param>
         /// <param name="imageScale">The 0-100 image scale factor for the given image.</param>
         [TwExternalLinkHandler("Default external link handler", "Handles links the wiki to another site.")]
-        public async Task<TwHandlerResult> Handle(ITwEngineState state, string link, string? text, string? image)
+        public async Task<TwPluginResult> Handle(ITwEngineState state, string link, string? text, string? image)
         {
             if (string.IsNullOrEmpty(image))
             {
-                return new TwHandlerResult($"<a href=\"{link}\">{text}</a>")
+                return new TwPluginResult($"<a href=\"{link}\">{text}</a>")
                 {
                     Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
                 };
             }
             else
             {
-                return new TwHandlerResult($"<a href=\"{link}\"><img src=\"{image}\" border =\"0\"></a>")
+                return new TwPluginResult($"<a href=\"{link}\"><img src=\"{image}\" border =\"0\"></a>")
                 {
                     Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
                 };

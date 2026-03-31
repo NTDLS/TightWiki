@@ -107,7 +107,7 @@ namespace TightWiki.Engine
                 {
                     if (x.PluginAttribute == null)
                         throw new InvalidOperationException($"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must belong to a class decorated with TwPluginModuleAttribute.");
-                    if (x.Method.ReturnType != typeof(Task<TwHandlerResult>))
+                    if (x.Method.ReturnType != typeof(Task<TwPluginResult>))
                         throw new InvalidOperationException($"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
                     return x;
                 })
@@ -135,7 +135,7 @@ namespace TightWiki.Engine
                 {
                     if (x.PluginAttribute == null)
                         throw new InvalidOperationException($"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must belong to a class decorated with TwPluginModuleAttribute.");
-                    if (x.Method.ReturnType != typeof(Task<TwHandlerResult>))
+                    if (x.Method.ReturnType != typeof(Task<TwPluginResult>))
                         throw new InvalidOperationException($"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
                     return x;
                 })

@@ -12,7 +12,7 @@ namespace TightWiki.Plugin.Default.Functions
         : ITwPluginModule
     {
         [TwPostProcessingInstructionFunction("Tags", "Displays list of tag links for the tags that are included on the current page.")]
-        public async Task<TwHandlerResult> Tags(ITwEngineState state,
+        public async Task<TwPluginResult> Tags(ITwEngineState state,
             TightWikiTabularStyle styleName)
         {
             var html = new StringBuilder();
@@ -37,29 +37,29 @@ namespace TightWiki.Plugin.Default.Functions
                     break;
             }
 
-            return new TwHandlerResult(html.ToString());
+            return new TwPluginResult(html.ToString());
         }
 
         [TwPostProcessingInstructionFunction("TagCloud", "Displays a tag cloud for the specified page tag.")]
-        public async Task<TwHandlerResult> TagCloud(ITwEngineState state,
+        public async Task<TwPluginResult> TagCloud(ITwEngineState state,
             string pageTag, int top = 1000)
         {
             string html = await TwTagCloudBuilder.Build(state.Engine.DatabaseManager.PageRepository, state.Engine.WikiConfiguration.BasePath, pageTag, top);
-            return new TwHandlerResult(html);
+            return new TwPluginResult(html);
         }
 
         [TwPostProcessingInstructionFunction("SearchCloud", "Displays a search cloud for the specified search phrase.")]
-        public async Task<TwHandlerResult> SearchCloud(ITwEngineState state,
+        public async Task<TwPluginResult> SearchCloud(ITwEngineState state,
             string searchPhrase, int top = 1000)
         {
             var tokens = searchPhrase.Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
 
             string html = await TwSearchCloudBuilder.Build(state.Engine.DatabaseManager.PageRepository, state.Engine.WikiConfiguration.BasePath, tokens, top);
-            return new TwHandlerResult(html);
+            return new TwPluginResult(html);
         }
 
         [TwPostProcessingInstructionFunction("Toc", "Displays a table of contents for the page based on the header tags.")]
-        public async Task<TwHandlerResult> Toc(ITwEngineState state,
+        public async Task<TwPluginResult> Toc(ITwEngineState state,
             bool alphabetized = false)
         {
             var html = new StringBuilder();
@@ -124,7 +124,7 @@ namespace TightWiki.Plugin.Default.Functions
                 currentLevel--;
             }
 
-            return new TwHandlerResult(html.ToString());
+            return new TwPluginResult(html.ToString());
         }
     }
 }
