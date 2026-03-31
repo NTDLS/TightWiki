@@ -8,6 +8,7 @@ using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Engine.Function;
 using TightWiki.Plugin.Engine.Handlers;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Handlers;
 
 namespace TightWiki.Engine
 {
@@ -20,22 +21,19 @@ namespace TightWiki.Engine
         public List<TwEnginePluginModule> EngineModules { get; private set; }
         public ITwDatabaseManager DatabaseManager { get; private set; }
 
-
-        public List<TwCommentHandlerDescriptor> CommentHandlers { get; private set; }
-        public List<TwCompletionHandlerDescriptor> CompletionHandlers { get; private set; }
-        public List<TwEmojiHandlerDescriptor> EmojiHandlers { get; private set; }
-        public List<TwExceptionHandlerDescriptor> ExceptionHandlers { get; private set; }
-        public List<TwExternalLinkHandlerDescriptor> ExternalLinkHandlers { get; private set; }
-        public List<TwHeadingHandlerDescriptor> HeadingHandlers { get; private set; }
-        public List<TwInternalLinkHandlerDescriptor> InternalLinkHandlers { get; private set; }
-        public List<TwMarkupHandlerDescriptor> MarkupHandlers { get; private set; }
-
+        public List<ITwCommentHandler> CommentHandlers { get; private set; } = new();
+        public List<ITwCompletionHandler> CompletionHandlers { get; private set; } = new();
+        public List<ITwEmojiHandler> EmojiHandlers { get; private set; } = new();
+        public List<ITwExceptionHandler> ExceptionHandlers { get; private set; } = new();
+        public List<ITwExternalLinkHandler> ExternalLinkHandlers { get; private set; } = new();
+        public List<ITwHeadingHandler> HeadingHandlers { get; private set; } = new();
+        public List<ITwInternalLinkHandler> InternalLinkHandlers { get; private set; } = new();
+        public List<ITwMarkupHandler> MarkupHandlers { get; private set; } = new();
 
         public List<ITwEngineFunctionDescriptor> PostProcessingFunctions { get; private set; } = new();
         public List<ITwEngineFunctionDescriptor> ProcessingFunctions { get; private set; } = new();
         public List<ITwEngineFunctionDescriptor> ScopeFunctions { get; private set; } = new();
         public List<ITwEngineFunctionDescriptor> StandardFunctions { get; private set; } = new();
-
 
         public WikiEngine(
             TwConfiguration wikiConfiguration,
@@ -62,39 +60,29 @@ namespace TightWiki.Engine
 
             foreach (var item in BuildFunctionDescriptors<TwStandardFunctionAttribute>(EngineModules))
                 StandardFunctions.Add(item);
-
             foreach (var item in BuildFunctionDescriptors<TwScopeFunctionAttribute>(EngineModules))
                 ScopeFunctions.Add(item);
-
             foreach (var item in BuildFunctionDescriptors<TwProcessingInstructionFunctionAttribute>(EngineModules))
                 ProcessingFunctions.Add(item);
-
             foreach (var item in BuildFunctionDescriptors<TwPostProcessingInstructionFunctionAttribute>(EngineModules))
                 PostProcessingFunctions.Add(item);
 
-            CompletionHandlers = BuildHandlerDescriptors<TwCompletionHandlerAttribute>(EngineModules)
-                .Select(o => new TwCompletionHandlerDescriptor(o)).ToList();
-
-            EmojiHandlers = BuildHandlerDescriptors<TwEmojiHandlerAttribute>(EngineModules)
-                .Select(o => new TwEmojiHandlerDescriptor(o)).ToList();
-
-            ExceptionHandlers = BuildHandlerDescriptors<TwExceptionHandlerAttribute>(EngineModules)
-                .Select(o => new TwExceptionHandlerDescriptor(o)).ToList();
-
-            ExternalLinkHandlers = BuildHandlerDescriptors<TwExternalLinkHandlerAttribute>(EngineModules)
-                .Select(o => new TwExternalLinkHandlerDescriptor(o)).ToList();
-
-            HeadingHandlers = BuildHandlerDescriptors<TwHeadingHandlerAttribute>(EngineModules)
-                .Select(o => new TwHeadingHandlerDescriptor(o)).ToList();
-
-            InternalLinkHandlers = BuildHandlerDescriptors<TwInternalLinkHandlerAttribute>(EngineModules)
-                .Select(o => new TwInternalLinkHandlerDescriptor(o)).ToList();
-
-            MarkupHandlers = BuildHandlerDescriptors<TwMarkupHandlerAttribute>(EngineModules)
-                .Select(o => new TwMarkupHandlerDescriptor(o)).ToList();
-
-            CommentHandlers = BuildHandlerDescriptors<TwCommentHandlerAttribute>(EngineModules)
-                .Select(o => new TwCommentHandlerDescriptor(o)).ToList();
+            foreach (var item in BuildHandlerDescriptors<TwCompletionHandlerAttribute>(EngineModules))
+                CompletionHandlers.Add(new TwCompletionHandlerDescriptor(item));
+            foreach (var item in BuildHandlerDescriptors<TwEmojiHandlerAttribute>(EngineModules))
+                EmojiHandlers.Add(new TwEmojiHandlerDescriptor(item));
+            foreach (var item in BuildHandlerDescriptors<TwExceptionHandlerAttribute>(EngineModules))
+                ExceptionHandlers.Add(new TwExceptionHandlerDescriptor(item));
+            foreach (var item in BuildHandlerDescriptors<TwExternalLinkHandlerAttribute>(EngineModules))
+                ExternalLinkHandlers.Add(new TwExternalLinkHandlerDescriptor(item));
+            foreach (var item in BuildHandlerDescriptors<TwHeadingHandlerAttribute>(EngineModules))
+                HeadingHandlers.Add(new TwHeadingHandlerDescriptor(item));
+            foreach (var item in BuildHandlerDescriptors<TwInternalLinkHandlerAttribute>(EngineModules))
+                InternalLinkHandlers.Add(new TwInternalLinkHandlerDescriptor(item));
+            foreach (var item in BuildHandlerDescriptors<TwMarkupHandlerAttribute>(EngineModules))
+                MarkupHandlers.Add(new TwMarkupHandlerDescriptor(item));
+            foreach (var item in BuildHandlerDescriptors<TwCommentHandlerAttribute>(EngineModules))
+                CommentHandlers.Add(new TwCommentHandlerDescriptor(item));
         }
 
         private static List<TwEngineFunctionDescriptor> BuildFunctionDescriptors<TFunctionAttribute>(List<TwEnginePluginModule> pluginModules)
