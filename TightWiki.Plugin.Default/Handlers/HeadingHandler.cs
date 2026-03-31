@@ -18,7 +18,7 @@ namespace TightWiki.Plugin.Default.Handlers
         /// <param name="depth">The size of the header, also used for table of table of contents indentation.</param>
         /// <param name="link">The self link reference.</param>
         /// <param name="text">The text for the self link.</param>
-        [TwHeadingPluginHandler("Default heading handler", "Handles wiki headings.")]
+        [TwHeadingPluginHandler("Default heading handler", "Handles wiki headings.", 1000)]
         public async Task<TwPluginResult> Handle(ITwEngineState state, int depth, string link, string text)
         {
             depth = Math.Clamp(depth, 1, 6);

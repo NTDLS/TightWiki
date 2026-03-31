@@ -12,25 +12,19 @@ namespace TightWiki.Engine.Module.Function
     /// <summary>
     /// Contains information about an actual function call, its supplied parameters, and is matched with a defined function.
     /// </summary>
-    public class PreparedFunction
+    public class PreparedFunction(ITwFunctionDescriptor descriptor)
     {
         /// <summary>
         /// The name of the function being called.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; private set; } = descriptor.Method.Name;
 
-        public ITwFunctionDescriptor Descriptor { get; set; }
+        public ITwFunctionDescriptor Descriptor { get; set; } = descriptor;
 
         /// <summary>
         /// The arguments supplied by the caller.
         /// </summary>
         public List<NamedParameter> Parameters { get; private set; } = new();
-
-        public PreparedFunction(ITwFunctionDescriptor descriptor, ParsedFunction parsedFunction)
-        {
-            Descriptor = descriptor;
-            Name = descriptor.Method.Name;
-        }
 
         public async Task<TwPluginResult> Execute()
         {
@@ -47,14 +41,14 @@ namespace TightWiki.Engine.Module.Function
         {
             var descriptor = descriptors.SingleOrDefault(o =>
                 o.Method.Name.Equals(parsedFunction.Name, StringComparison.InvariantCultureIgnoreCase)
-                && o.Attribute is ITwFunctionPluginAttribute attr
+                && o.FunctionAttribute is ITwFunctionPluginAttribute attr
                 && attr.Demarcation == parsedFunction.Demarcation)
                 ?? throw new Exception($"Function ({parsedFunction.Name}) does not have a defined descriptor.");
 
             int givenArgIndex = 0;
             int descriptorArgIndex = 0;
 
-            var preparedFunction = new PreparedFunction(descriptor, parsedFunction);
+            var preparedFunction = new PreparedFunction(descriptor);
 
             if (descriptor.Parameters.Count == 0)
             {
@@ -69,7 +63,7 @@ namespace TightWiki.Engine.Module.Function
             preparedFunction.Parameters.Add(new NamedParameter(descriptor.Parameters[descriptorArgIndex].Name.EnsureNotNull(), state));
             descriptorArgIndex++;
 
-            if (descriptor.Attribute is TwScopeFunctionPluginAttribute)
+            if (descriptor.FunctionAttribute is TwScopeFunctionPluginAttribute)
             {
                 //For scope functions, the second parameter must be the bodyText.
                 preparedFunction.Parameters.Add(new NamedParameter(descriptor.Parameters[descriptorArgIndex].Name.EnsureNotNull(), parsedFunction.BodyText ?? string.Empty));

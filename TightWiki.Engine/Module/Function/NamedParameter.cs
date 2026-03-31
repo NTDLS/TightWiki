@@ -1,14 +1,8 @@
 ﻿namespace TightWiki.Engine.Module.Function
 {
-    public class NamedParameter
+    public class NamedParameter(string name, object? value)
     {
-        public string Name { get; set; }
-        public object? Value { get; set; }
-
-        public NamedParameter(string name, object? value)
-        {
-            Name = name;
-            Value = value;
-        }
+        public string Name { get; set; } = name;
+        public object? Value { get; set; } = value;
     }
 }

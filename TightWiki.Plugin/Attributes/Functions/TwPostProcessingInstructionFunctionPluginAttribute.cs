@@ -30,12 +30,19 @@
         public string Demarcation { get; } = "##";
 
         /// <summary>
+        /// The order in which the functions and handlers in the plugin module should be registered and executed.
+        /// Lower values indicate higher priority.
+        /// </summary>
+        public int Order { get; }
+
+        /// <summary>
         /// Creates a new instance of the attribute with the specified name and description.
         /// </summary>
-        public TwPostProcessingInstructionFunctionPluginAttribute(string name, string description)
+        public TwPostProcessingInstructionFunctionPluginAttribute(string name, string description, int order)
         {
             Name = name;
             Description = description;
+            Order = order;
         }
     }
 }

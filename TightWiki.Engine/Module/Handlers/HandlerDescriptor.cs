@@ -18,13 +18,13 @@ namespace TightWiki.Engine.Module.Handlers
         /// Attributes of the function, containing information such as the demarcation and description.
         /// This is used to match a function call to its descriptor and for documentation purposes.
         /// </summary>
-        public ITwPluginHandlerAttribute Attribute { get; }
+        public ITwPluginHandlerAttribute HandlerAttribute { get; }
 
         /// <summary>
         /// The attribute of the module that contains the function, containing information
         /// such as the module name, description, and the order of execution of the module in relation to other modules.
         /// </summary>
-        public TwPluginAttribute ModuleAttribute { get; }
+        public TwPluginAttribute PluginAttribute { get; }
 
         /// <summary>
         /// List of parameters that the function accepts, containing information such as the parameter type and name.
@@ -40,12 +40,12 @@ namespace TightWiki.Engine.Module.Handlers
         public ITwPlugin Plugin { get; }
 
         public HandlerDescriptor(ITwPlugin plugin, MethodInfo method,
-            ITwPluginHandlerAttribute attribute, TwPluginAttribute moduleAttribute)
+            ITwPluginHandlerAttribute handlerAttribute, TwPluginAttribute pluginAttribute)
         {
             Plugin = plugin;
-            ModuleAttribute = moduleAttribute;
+            PluginAttribute = pluginAttribute;
             Method = method;
-            Attribute = attribute;
+            HandlerAttribute = handlerAttribute;
             Parameters = method.GetParameters().ToList();
         }
     }

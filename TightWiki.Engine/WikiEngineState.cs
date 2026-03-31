@@ -460,7 +460,7 @@ namespace TightWiki.Engine
                 {
                     if (onlyProcessFirstChanceFunctions
                         && Engine.ScopeFunctions.TryGetFunctionDescriptor(parsedFunction, out var function)
-                        && function.Attribute.IsFirstChance == false)
+                        && function.FunctionAttribute.IsFirstChance == false)
                     {
                         //We are only processing "first chance" functions, so skip processing this function.
                         continue;
@@ -859,7 +859,7 @@ namespace TightWiki.Engine
 
                     if (onlyProcessFirstChanceFunctions
                         && Engine.StandardFunctions.TryGetFunctionDescriptor(parsedFunction, out var function)
-                        && function.Attribute.IsFirstChance == false)
+                        && function.FunctionAttribute.IsFirstChance == false)
                     {
                         //We are only processing "first chance" functions, so skip processing this function.
                         continue;

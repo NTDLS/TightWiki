@@ -6,20 +6,12 @@ namespace TightWiki.Engine.Module.Function
     /// <summary>
     /// Represnets a function call that has been parsed of its name, type and arguments.
     /// </summary>
-    public class ParsedFunction
+    public class ParsedFunction(string demarcation, string name, List<string> arguments, string? bodyText)
     {
-        public string Demarcation { get; set; } = string.Empty;
-        public string Name { get; set; } = string.Empty;
-        public List<string> Arguments { get; set; } = new List<string>();
-        public string? BodyText { get; }
-
-        public ParsedFunction(string demarcation, string name, List<string> arguments, string? bodyText)
-        {
-            Demarcation = demarcation;
-            Name = name;
-            Arguments = arguments;
-            BodyText = bodyText;
-        }
+        public string Demarcation { get; set; } = demarcation;
+        public string Name { get; set; } = name;
+        public List<string> Arguments { get; set; } = arguments;
+        public string? BodyText { get; } = bodyText;
 
         /// <summary>
         /// Parses function parameters into a list of arguments based on comma separation.

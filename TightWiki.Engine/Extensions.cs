@@ -9,7 +9,7 @@ namespace TightWiki.Engine
         public static bool TryGetFunctionDescriptor(this List<ITwFunctionDescriptor> list,
             ParsedFunction parsed, [NotNullWhen(true)] out ITwFunctionDescriptor? found)
         {
-            found = list.FirstOrDefault(o => o.Attribute.Demarcation == parsed.Demarcation
+            found = list.FirstOrDefault(o => o.FunctionAttribute.Demarcation == parsed.Demarcation
                 && o.Method.Name.Equals(parsed.Name, StringComparison.InvariantCultureIgnoreCase));
             return found != null;
         }

@@ -105,13 +105,15 @@ namespace TightWiki.Engine
                 .Select(x =>
                 {
                     if (x.PluginAttribute == null)
-                        throw new InvalidOperationException($"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must belong to a class decorated with TwPluginModuleAttribute.");
+                        throw new InvalidOperationException($"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must belong to a class decorated with TwPluginAttribute.");
                     if (x.Method.ReturnType != typeof(Task<TwPluginResult>))
                         throw new InvalidOperationException($"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
                     return x;
                 })
                 .Select(x => new FunctionDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull(), x.PluginAttribute.EnsureNotNull()))
-                .OrderBy(o => o.ModuleAttribute.Order).ThenBy(o => o.Attribute.IsFirstChance)
+                .OrderByDescending(o => o.FunctionAttribute.IsFirstChance)
+                .ThenBy(o => o.PluginAttribute.Order)
+                .ThenBy(o => o.FunctionAttribute.Order)
                 .ToList();
         }
 
@@ -133,13 +135,14 @@ namespace TightWiki.Engine
                 .Select(x =>
                 {
                     if (x.PluginAttribute == null)
-                        throw new InvalidOperationException($"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must belong to a class decorated with TwPluginModuleAttribute.");
+                        throw new InvalidOperationException($"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must belong to a class decorated with TwPluginAttribute.");
                     if (x.Method.ReturnType != typeof(Task<TwPluginResult>))
                         throw new InvalidOperationException($"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
                     return x;
                 })
                 .Select(x => new HandlerDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull(), x.PluginAttribute.EnsureNotNull()))
-                .OrderBy(o => o.ModuleAttribute.Order)
+                .OrderBy(o => o.PluginAttribute.Order)
+                .ThenBy(o => o.HandlerAttribute.Order)
                 .ToList();
         }
 

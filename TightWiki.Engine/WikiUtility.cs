@@ -51,11 +51,12 @@ namespace TightWiki.Engine
 
         internal static int FindNextConsecutive(bool isOpen, string input, int startIndex, out string? foundPattern)
         {
-            char[] applicableSymbols = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '-', '=', '/', '\\'];
+            char[] applicableSymbols = ['~','`','\'','!', '@', '#', '$', '%', '^', '&', '*', '(', ')',
+                '_', '+', '-', '=', '/', '\\', '[', ']', '{', '}', '|', ';', ':', '"', '<', '>', '?'];
 
             var stringBuilder = new StringBuilder();
 
-            for (int i = startIndex; i < input.Length; i++)
+            for (int i = startIndex; i < input.Length;)
             {
                 char currentChar = input[i];
 
@@ -67,14 +68,16 @@ namespace TightWiki.Engine
 
                 if (!applicableSymbols.Contains(currentChar) || char.IsWhiteSpace(currentChar))
                 {
+                    i++;
                     continue;
                 }
 
                 //We want to skip patterns that are preceded or followed by whitespace, as they are less likely to be intentional consecutive symbols. (e.g. "This is a ##test##" vs "This is a ## test ##")
                 if (isOpen)
                 {
-                    if (i < input.Length && char.IsWhiteSpace(input[i + 1]))
+                    if (i < input.Length - 1 && char.IsWhiteSpace(input[i + 1]))
                     {
+                        i++;
                         continue;
                     }
                 }
@@ -82,6 +85,7 @@ namespace TightWiki.Engine
                 {
                     if (i > 1 && char.IsWhiteSpace(input[i - 1]))
                     {
+                        i++;
                         continue;
                     }
                 }

@@ -12,10 +12,12 @@
         /// The user-friendly display name of the plugin module.
         /// </summary>
         public string Name { get; }
+
         /// <summary>
         /// The user-friendly display description of the plugin module.
         /// </summary>
         public string Description { get; }
+
         /// <summary>
         /// The order in which the functions and handlers in the plugin module should be registered and executed.
         /// Lower values indicate higher priority.

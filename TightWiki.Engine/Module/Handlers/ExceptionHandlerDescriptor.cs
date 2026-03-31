@@ -9,13 +9,9 @@ namespace TightWiki.Engine.Module.Handlers
     /// <summary>
     /// Handles exceptions thrown by the wiki engine.
     /// </summary>
-    public class ExceptionHandlerDescriptor
-        : HandlerDescriptor, ITwExceptionPlugin
+    public class ExceptionHandlerDescriptor(ITwHandlerDescriptor descriptor)
+        : HandlerDescriptor(descriptor.Plugin, descriptor.Method, descriptor.HandlerAttribute, descriptor.PluginAttribute), ITwExceptionPlugin
     {
-        public ExceptionHandlerDescriptor(ITwHandlerDescriptor descriptor)
-            : base(descriptor.Plugin, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
-        {
-        }
 
         /// <summary>
         /// Called when an exception is thrown by the wiki engine.

@@ -4,18 +4,11 @@ using TightWiki.Plugin.Interfaces.Module;
 
 namespace TightWiki.Engine.Module
 {
-    public class PluginDescriptor
+    public class PluginDescriptor(Type declaringType, TwPluginAttribute attribute)
         : ITwPlugin
     {
-        public Type DeclaringType { get; private set; }
-        public TwPluginAttribute Attribute { get; private set; }
-        public object Instance { get; private set; }
-
-        public PluginDescriptor(Type declaringType, TwPluginAttribute attribute)
-        {
-            DeclaringType = declaringType;
-            Attribute = attribute;
-            Instance = Activator.CreateInstance(declaringType).EnsureNotNull();
-        }
+        public Type DeclaringType { get; private set; } = declaringType;
+        public TwPluginAttribute Attribute { get; private set; } = attribute;
+        public object Instance { get; private set; } = Activator.CreateInstance(declaringType).EnsureNotNull();
     }
 }

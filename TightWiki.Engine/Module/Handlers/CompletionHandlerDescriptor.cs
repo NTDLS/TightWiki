@@ -8,13 +8,9 @@ namespace TightWiki.Engine.Module.Handlers
     /// <summary>
     /// Handles wiki completion events.
     /// </summary>
-    public class CompletionHandlerDescriptor
-        : HandlerDescriptor, ITwCompletionPlugin
+    public class CompletionHandlerDescriptor(ITwHandlerDescriptor descriptor)
+        : HandlerDescriptor(descriptor.Plugin, descriptor.Method, descriptor.HandlerAttribute, descriptor.PluginAttribute), ITwCompletionPlugin
     {
-        public CompletionHandlerDescriptor(ITwHandlerDescriptor descriptor)
-            : base(descriptor.Plugin, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
-        {
-        }
 
         /// <summary>
         /// Handles wiki completion events. Is called when the wiki processing competes for a given page.
