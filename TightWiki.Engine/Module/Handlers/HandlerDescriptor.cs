@@ -37,9 +37,9 @@ namespace TightWiki.Engine.Module.Handlers
         /// This is used to invoke the method when the function is called, and can also be used to access any properties
         /// or fields of the class that may be needed for the function's execution.
         /// </summary>
-        public TightWiki.Plugin.Interfaces.Module.ITwPluginModule EngineModule { get; }
+        public ITwPluginModule EngineModule { get; }
 
-        public HandlerDescriptor(TightWiki.Plugin.Interfaces.Module.ITwPluginModule engineModule, MethodInfo method,
+        public HandlerDescriptor(ITwPluginModule engineModule, MethodInfo method,
             ITwHandlerDescriptorAttribute attribute, TwPluginModuleAttribute moduleAttribute)
         {
             EngineModule = engineModule;

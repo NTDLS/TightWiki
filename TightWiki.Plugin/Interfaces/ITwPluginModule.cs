@@ -1,6 +1,6 @@
 ﻿namespace TightWiki.Plugin.Interfaces
 {
-    public interface ITwDisabiguation
+    public interface ITwPluginModule
     {
 
     }

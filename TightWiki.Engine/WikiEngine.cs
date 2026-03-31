@@ -55,7 +55,7 @@ namespace TightWiki.Engine
                     Attribute = t.GetCustomAttribute<TwPluginModuleAttribute>()
                 })
                 .Where(x => x.Attribute != null)
-                .Where(x => typeof(ITwDisabiguation).IsAssignableFrom(x.Type))
+                .Where(x => typeof(ITwPluginModule).IsAssignableFrom(x.Type))
                 //This is where we instantiate the function modules, so we can later
                 //  invoke their functions without needing to instantiate them again.
                 .Select(x => new PluginModule(x.Type, x.Attribute.EnsureNotNull()))
