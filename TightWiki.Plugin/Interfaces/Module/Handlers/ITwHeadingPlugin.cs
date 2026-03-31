@@ -5,8 +5,8 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
     /// <summary>
     /// Handles wiki headings. These are automatically added to the table of contents.
     /// </summary>
-    public interface ITwHeadingHandler
-        : ITwPluginModule
+    public interface ITwHeadingPlugin
+        : ITwPlugin
     {
         /// <summary>
         /// Handles wiki headings. These are automatically added to the table of contents.

@@ -21,6 +21,6 @@ namespace TightWiki.Plugin.Interfaces.Module
         /// <summary>
         /// An instance of the plugin module class, used to invoke any functions or handlers that it contains.
         /// </summary>
-        ITwPluginModule Instance { get; }
+        ITwPlugin Instance { get; }
     }
 }

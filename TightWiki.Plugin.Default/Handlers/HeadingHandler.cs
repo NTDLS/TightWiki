@@ -11,7 +11,7 @@ namespace TightWiki.Plugin.Default.Handlers
     /// </summary>
     [TwPluginModule("Default heading handler", "Handles wiki headings. These are automatically added to the table of contents.", 1000)]
     public class HeadingHandler
-        : ITwHeadingHandler
+        : ITwHeadingPlugin
     {
         /// <summary>
         /// Handles wiki headings. These are automatically added to the table of contents.

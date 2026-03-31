@@ -5,8 +5,8 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
     /// <summary>
     /// Handles wiki comments. These are generally removed from the result.
     /// </summary>
-    public interface ITwCommentHandler
-        : ITwPluginModule
+    public interface ITwCommentPlugin
+        : ITwPlugin
     {
         /// <summary>
         /// Handles a wiki comment.

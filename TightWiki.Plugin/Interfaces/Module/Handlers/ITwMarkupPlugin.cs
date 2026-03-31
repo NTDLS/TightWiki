@@ -5,8 +5,8 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
     /// <summary>
     /// Handles basic markup/style instructions like bold, italic, underline, etc.
     /// </summary>
-    public interface ITwMarkupHandler
-        : ITwPluginModule
+    public interface ITwMarkupPlugin
+        : ITwPlugin
     {
         /// <summary>
         /// Handles basic markup instructions like bold, italic, underline, etc.

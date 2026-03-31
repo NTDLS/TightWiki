@@ -9,7 +9,7 @@ namespace TightWiki.Engine.Module.Handlers
     /// Handles wiki headings. These are automatically added to the table of contents.
     /// </summary>
     public class HeadingHandlerDescriptor
-        : HandlerDescriptor, ITwHeadingHandler
+        : HandlerDescriptor, ITwHeadingPlugin
     {
         public HeadingHandlerDescriptor(ITwHandlerDescriptor descriptor)
             : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)

@@ -11,7 +11,7 @@ namespace TightWiki.Plugin.Default.Handlers
     /// </summary>
     [TwPluginModule("Default markup handler", "Handles basic markup instructions like bold, italic, underline, etc.", 1000)]
     public class MarkupHandler
-        : ITwMarkupHandler
+        : ITwMarkupPlugin
     {
         /// <summary>
         /// Handles basic markup instructions like bold, italic, underline, etc.

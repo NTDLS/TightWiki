@@ -12,14 +12,14 @@ namespace TightWiki.Plugin.Interfaces
 
         ILogger<ITwEngine> Logger { get; }
 
-        List<ITwCommentHandler> CommentHandlers { get; }
-        List<ITwCompletionHandler> CompletionHandlers { get; }
-        List<ITwEmojiHandler> EmojiHandlers { get; }
-        List<ITwExceptionHandler> ExceptionHandlers { get; }
-        List<ITwExternalLinkHandler> ExternalLinkHandlers { get; }
-        List<ITwHeadingHandler> HeadingHandlers { get; }
-        List<ITwInternalLinkHandler> InternalLinkHandlers { get; }
-        List<ITwMarkupHandler> MarkupHandlers { get; }
+        List<ITwCommentPlugin> CommentHandlers { get; }
+        List<ITwCompletionPlugin> CompletionHandlers { get; }
+        List<ITwEmojiPlugin> EmojiHandlers { get; }
+        List<ITwExceptionPlugin> ExceptionHandlers { get; }
+        List<ITwExternalLinkPlugin> ExternalLinkHandlers { get; }
+        List<ITwHeadingPlugin> HeadingHandlers { get; }
+        List<ITwInternalLinkPlugin> InternalLinkHandlers { get; }
+        List<ITwMarkupPlugin> MarkupHandlers { get; }
 
         List<ITwFunctionDescriptor> StandardFunctions { get; }
         List<ITwFunctionDescriptor> ScopeFunctions { get; }

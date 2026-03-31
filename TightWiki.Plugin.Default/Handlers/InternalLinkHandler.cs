@@ -11,7 +11,7 @@ namespace TightWiki.Plugin.Default.Handlers
     /// </summary>
     [TwPluginModule("Default internal link handler", "Handles links from one wiki page to another.", 1000)]
     public class InternalLinkHandler
-        : ITwInternalLinkHandler
+        : ITwInternalLinkPlugin
     {
         /// <summary>
         /// Handles an internal wiki link.

@@ -5,8 +5,8 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
     /// <summary>
     /// Handles wiki completion events.
     /// </summary>
-    public interface ITwCompletionHandler
-        : ITwPluginModule
+    public interface ITwCompletionPlugin
+        : ITwPlugin
     {
         /// <summary>
         /// Handles wiki completion events. Is called when the wiki processing competes for a given page.

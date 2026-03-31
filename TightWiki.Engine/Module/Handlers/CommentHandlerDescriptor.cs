@@ -9,7 +9,7 @@ namespace TightWiki.Engine.Module.Handlers
     /// Handles wiki comments. These are generally removed from the result.
     /// </summary>
     public class CommentHandlerDescriptor
-        : HandlerDescriptor, ITwCommentHandler
+        : HandlerDescriptor, ITwCommentPlugin
     {
         public CommentHandlerDescriptor(ITwHandlerDescriptor descriptor)
             : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)

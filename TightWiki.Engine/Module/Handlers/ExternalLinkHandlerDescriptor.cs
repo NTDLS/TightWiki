@@ -9,7 +9,7 @@ namespace TightWiki.Engine.Module.Handlers
     /// Handles links the wiki to another site.
     /// </summary>
     public class ExternalLinkHandlerDescriptor
-        : HandlerDescriptor, ITwExternalLinkHandler
+        : HandlerDescriptor, ITwExternalLinkPlugin
     {
         public ExternalLinkHandlerDescriptor(ITwHandlerDescriptor descriptor)
             : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)

@@ -9,7 +9,7 @@ namespace TightWiki.Engine.Module.Handlers
     /// Handles wiki completion events.
     /// </summary>
     public class CompletionHandlerDescriptor
-        : HandlerDescriptor, ITwCompletionHandler
+        : HandlerDescriptor, ITwCompletionPlugin
     {
         public CompletionHandlerDescriptor(ITwHandlerDescriptor descriptor)
             : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)

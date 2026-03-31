@@ -24,14 +24,14 @@ namespace TightWiki.Engine
         public List<PluginModule> EngineModules { get; private set; }
         public ITwDatabaseManager DatabaseManager { get; private set; }
 
-        public List<ITwCommentHandler> CommentHandlers { get; private set; } = new();
-        public List<ITwCompletionHandler> CompletionHandlers { get; private set; } = new();
-        public List<ITwEmojiHandler> EmojiHandlers { get; private set; } = new();
-        public List<ITwExceptionHandler> ExceptionHandlers { get; private set; } = new();
-        public List<ITwExternalLinkHandler> ExternalLinkHandlers { get; private set; } = new();
-        public List<ITwHeadingHandler> HeadingHandlers { get; private set; } = new();
-        public List<ITwInternalLinkHandler> InternalLinkHandlers { get; private set; } = new();
-        public List<ITwMarkupHandler> MarkupHandlers { get; private set; } = new();
+        public List<ITwCommentPlugin> CommentHandlers { get; private set; } = new();
+        public List<ITwCompletionPlugin> CompletionHandlers { get; private set; } = new();
+        public List<ITwEmojiPlugin> EmojiHandlers { get; private set; } = new();
+        public List<ITwExceptionPlugin> ExceptionHandlers { get; private set; } = new();
+        public List<ITwExternalLinkPlugin> ExternalLinkHandlers { get; private set; } = new();
+        public List<ITwHeadingPlugin> HeadingHandlers { get; private set; } = new();
+        public List<ITwInternalLinkPlugin> InternalLinkHandlers { get; private set; } = new();
+        public List<ITwMarkupPlugin> MarkupHandlers { get; private set; } = new();
 
         public List<ITwFunctionDescriptor> PostProcessingFunctions { get; private set; } = new();
         public List<ITwFunctionDescriptor> ProcessingFunctions { get; private set; } = new();
@@ -55,7 +55,7 @@ namespace TightWiki.Engine
                     Attribute = t.GetCustomAttribute<TwPluginModuleAttribute>()
                 })
                 .Where(x => x.Attribute != null)
-                .Where(x => typeof(ITwPluginModule).IsAssignableFrom(x.Type))
+                .Where(x => typeof(ITwPlugin).IsAssignableFrom(x.Type))
                 //This is where we instantiate the function modules, so we can later
                 //  invoke their functions without needing to instantiate them again.
                 .Select(x => new PluginModule(x.Type, x.Attribute.EnsureNotNull()))

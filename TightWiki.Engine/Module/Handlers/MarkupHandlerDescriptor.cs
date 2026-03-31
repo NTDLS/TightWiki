@@ -9,7 +9,7 @@ namespace TightWiki.Engine.Module.Handlers
     /// Handles basic markup/style instructions like bold, italic, underline, etc.
     /// </summary>
     public class MarkupHandlerDescriptor
-        : HandlerDescriptor, ITwMarkupHandler
+        : HandlerDescriptor, ITwMarkupPlugin
     {
         public MarkupHandlerDescriptor(ITwHandlerDescriptor descriptor)
             : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)

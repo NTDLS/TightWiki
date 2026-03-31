@@ -9,7 +9,7 @@ namespace TightWiki.Engine.Module.Handlers
     /// Handles wiki emojis.
     /// </summary>
     public class EmojiHandlerDescriptor
-        : HandlerDescriptor, ITwEmojiHandler
+        : HandlerDescriptor, ITwEmojiPlugin
     {
         public EmojiHandlerDescriptor(ITwHandlerDescriptor descriptor)
             : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)

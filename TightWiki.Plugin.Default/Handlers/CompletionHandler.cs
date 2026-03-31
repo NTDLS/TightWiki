@@ -11,7 +11,7 @@ namespace TightWiki.Plugin.Default.Handlers
     /// </summary>
     [TwPluginModule("Default completion handler", "Handles wiki completion events.", 1000)]
     public class CompletionHandler
-        : ITwCompletionHandler
+        : ITwCompletionPlugin
     {
         /// <summary>
         /// Handles wiki completion events. Is called when the wiki processing completes for a given page.

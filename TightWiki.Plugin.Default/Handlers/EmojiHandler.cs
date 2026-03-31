@@ -11,7 +11,7 @@ namespace TightWiki.Plugin.Default.Handlers
     /// </summary>
     [TwPluginModule("Default emoji handler", "Handles wiki emojis.", 1000)]
     public class EmojiHandler
-        : ITwEmojiHandler
+        : ITwEmojiPlugin
     {
         /// <summary>
         /// Handles an emoji instruction.

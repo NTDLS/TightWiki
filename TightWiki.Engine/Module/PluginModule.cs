@@ -10,13 +10,13 @@ namespace TightWiki.Engine.Module
     {
         public Type DeclaringType { get; private set; }
         public TwPluginModuleAttribute Attribute { get; private set; }
-        public ITwPluginModule Instance { get; private set; }
+        public ITwPlugin Instance { get; private set; }
 
         public PluginModule(Type declaringType, TwPluginModuleAttribute attribute)
         {
             DeclaringType = declaringType;
             Attribute = attribute;
-            Instance = ((ITwPluginModule?)Activator.CreateInstance(declaringType)).EnsureNotNull();
+            Instance = ((ITwPlugin?)Activator.CreateInstance(declaringType)).EnsureNotNull();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace TightWiki.Plugin.Default.Handlers
     /// </summary>
     [TwPluginModule("Default comment handler", "Handles wiki comments.", 1000)]
     public class CommentHandler
-        : ITwCommentHandler
+        : ITwCommentPlugin
     {
         /// <summary>
         /// Handles a wiki comment.

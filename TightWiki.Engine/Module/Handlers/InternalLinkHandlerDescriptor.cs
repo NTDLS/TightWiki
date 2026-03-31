@@ -10,7 +10,7 @@ namespace TightWiki.Engine.Module.Handlers
     /// Handles links from one wiki page to another.
     /// </summary>
     public class InternalLinkHandlerDescriptor
-        : HandlerDescriptor, ITwInternalLinkHandler
+        : HandlerDescriptor, ITwInternalLinkPlugin
     {
         public InternalLinkHandlerDescriptor(ITwHandlerDescriptor descriptor)
             : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)

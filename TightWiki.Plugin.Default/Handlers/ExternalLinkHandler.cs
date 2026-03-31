@@ -11,7 +11,7 @@ namespace TightWiki.Plugin.Default.Handlers
     /// </summary>
     [TwPluginModule("Default external link handler", "Handles links the wiki to another site.", 1000)]
     public class ExternalLinkHandler
-        : ITwExternalLinkHandler
+        : ITwExternalLinkPlugin
     {
         /// <summary>
         /// Handles an internal wiki link.
