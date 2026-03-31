@@ -7,7 +7,6 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
     /// Handles exceptions thrown by the wiki engine.
     /// </summary>
     public interface ITwExceptionPlugin
-        : ITwPlugin
     {
         /// <summary>
         /// Called when an exception is thrown by the wiki engine.

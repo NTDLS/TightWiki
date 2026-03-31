@@ -10,7 +10,6 @@ namespace TightWiki.Plugin.Default.Functions
 {
     [TwPlugin("Processing Instructions Functions", "Built-in scope functions.", 1000)]
     public class ScopeFunctions
-        : ITwPlugin
     {
         [TwScopeFunctionPlugin("Code", "Renders a block of code with optional syntax highlighting.", true)]
         public async Task<TwPluginResult> Code(ITwEngineState state, string scopeBody,

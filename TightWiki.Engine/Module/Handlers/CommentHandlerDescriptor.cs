@@ -12,7 +12,7 @@ namespace TightWiki.Engine.Module.Handlers
         : HandlerDescriptor, ITwCommentPlugin
     {
         public CommentHandlerDescriptor(ITwHandlerDescriptor descriptor)
-            : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
+            : base(descriptor.Plugin, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
         {
         }
 
@@ -23,7 +23,7 @@ namespace TightWiki.Engine.Module.Handlers
         /// <param name="text">The comment text</param>
         public async Task<TwPluginResult> Handle(ITwEngineState state, string text)
         {
-            var result = (Task<TwPluginResult>)Method.Invoke(EngineModule.Instance, [state, text]).EnsureNotNull();
+            var result = (Task<TwPluginResult>)Method.Invoke(Plugin.Instance, [state, text]).EnsureNotNull();
             return await result;
         }
     }

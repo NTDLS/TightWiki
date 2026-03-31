@@ -3,7 +3,6 @@ using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Handlers;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
-using TightWiki.Plugin.Interfaces.Module.Handlers;
 
 namespace TightWiki.Plugin.Default.Handlers
 {
@@ -12,7 +11,6 @@ namespace TightWiki.Plugin.Default.Handlers
     /// </summary>
     [TwPlugin("Default exception handler", "Handles exceptions thrown by the wiki engine.", 1000)]
     public class ExceptionHandler
-        : ITwExceptionPlugin
     {
         /// <summary>
         /// Called when an exception is thrown by the wiki engine.

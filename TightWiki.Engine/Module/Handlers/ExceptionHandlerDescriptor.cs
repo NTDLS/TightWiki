@@ -13,7 +13,7 @@ namespace TightWiki.Engine.Module.Handlers
         : HandlerDescriptor, ITwExceptionPlugin
     {
         public ExceptionHandlerDescriptor(ITwHandlerDescriptor descriptor)
-            : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
+            : base(descriptor.Plugin, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
         {
         }
 
@@ -25,7 +25,7 @@ namespace TightWiki.Engine.Module.Handlers
         /// <param name="ex">Optional exception, in the case that this was an actual exception.</param>
         public async Task<TwPluginResult> Handle(ITwEngineState state, LogLevel level, string text, Exception? ex = null)
         {
-            var result = (Task<TwPluginResult>)Method.Invoke(EngineModule.Instance, [state, level, text, ex]).EnsureNotNull();
+            var result = (Task<TwPluginResult>)Method.Invoke(Plugin.Instance, [state, level, text, ex]).EnsureNotNull();
             return await result;
         }
     }

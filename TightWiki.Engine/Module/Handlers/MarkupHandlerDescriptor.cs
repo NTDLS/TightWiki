@@ -12,7 +12,7 @@ namespace TightWiki.Engine.Module.Handlers
         : HandlerDescriptor, ITwMarkupPlugin
     {
         public MarkupHandlerDescriptor(ITwHandlerDescriptor descriptor)
-            : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
+            : base(descriptor.Plugin, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
         {
         }
 
@@ -24,7 +24,7 @@ namespace TightWiki.Engine.Module.Handlers
         /// <param name="scopeBody">The body of text to apply the style to.</param>
         public async Task<TwPluginResult> Handle(ITwEngineState state, char sequence, string scopeBody)
         {
-            var result = (Task<TwPluginResult>)Method.Invoke(EngineModule.Instance, [state, sequence, scopeBody]).EnsureNotNull();
+            var result = (Task<TwPluginResult>)Method.Invoke(Plugin.Instance, [state, sequence, scopeBody]).EnsureNotNull();
             return await result;
         }
     }

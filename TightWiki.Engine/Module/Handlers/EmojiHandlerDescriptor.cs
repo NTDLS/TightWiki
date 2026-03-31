@@ -12,7 +12,7 @@ namespace TightWiki.Engine.Module.Handlers
         : HandlerDescriptor, ITwEmojiPlugin
     {
         public EmojiHandlerDescriptor(ITwHandlerDescriptor descriptor)
-            : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
+            : base(descriptor.Plugin, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
         {
         }
 
@@ -24,7 +24,7 @@ namespace TightWiki.Engine.Module.Handlers
         /// <param name="scale">The desired 1-100 scale factor for the emoji.</param>
         public async Task<TwPluginResult> Handle(ITwEngineState state, string key, int scale)
         {
-            var result = (Task<TwPluginResult>)Method.Invoke(EngineModule.Instance, [state, key, scale]).EnsureNotNull();
+            var result = (Task<TwPluginResult>)Method.Invoke(Plugin.Instance, [state, key, scale]).EnsureNotNull();
             return await result;
         }
     }

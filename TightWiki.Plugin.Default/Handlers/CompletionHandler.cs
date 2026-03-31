@@ -2,7 +2,6 @@
 using TightWiki.Plugin.Attributes.Handlers;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
-using TightWiki.Plugin.Interfaces.Module.Handlers;
 
 namespace TightWiki.Plugin.Default.Handlers
 {
@@ -11,7 +10,6 @@ namespace TightWiki.Plugin.Default.Handlers
     /// </summary>
     [TwPlugin("Default completion handler", "Handles wiki completion events.", 1000)]
     public class CompletionHandler
-        : ITwCompletionPlugin
     {
         /// <summary>
         /// Handles wiki completion events. Is called when the wiki processing completes for a given page.

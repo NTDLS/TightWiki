@@ -35,7 +35,7 @@ namespace TightWiki.Engine.Module.Function
         public async Task<TwPluginResult> Execute()
         {
             var parameters = Parameters.Select(o => o.Value).ToArray();
-            var result = ((Task<TwPluginResult>?)Descriptor.Method.Invoke(Descriptor.EngineModule.Instance, parameters)).EnsureNotNull();
+            var result = ((Task<TwPluginResult>?)Descriptor.Method.Invoke(Descriptor.Plugin.Instance, parameters)).EnsureNotNull();
             return await result;
         }
 

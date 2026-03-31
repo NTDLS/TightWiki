@@ -9,7 +9,6 @@ namespace TightWiki.Plugin.Default.Functions
 {
     [TwPlugin("Post Processing Instruction Functions", "Built-in post processing instruction functions.", 1000)]
     public class PostProcessingInstructionFunctions
-        : ITwPlugin
     {
         [TwPostProcessingInstructionFunctionPlugin("Tags", "Displays list of tag links for the tags that are included on the current page.")]
         public async Task<TwPluginResult> Tags(ITwEngineState state,

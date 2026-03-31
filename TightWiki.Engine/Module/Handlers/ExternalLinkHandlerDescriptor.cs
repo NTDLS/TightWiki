@@ -12,7 +12,7 @@ namespace TightWiki.Engine.Module.Handlers
         : HandlerDescriptor, ITwExternalLinkPlugin
     {
         public ExternalLinkHandlerDescriptor(ITwHandlerDescriptor descriptor)
-            : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
+            : base(descriptor.Plugin, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
         {
         }
 
@@ -26,7 +26,7 @@ namespace TightWiki.Engine.Module.Handlers
         /// <param name="imageScale">The 0-100 image scale factor for the given image.</param>
         public async Task<TwPluginResult> Handle(ITwEngineState state, string link, string? text, string? image)
         {
-            var result = (Task<TwPluginResult>)Method.Invoke(EngineModule.Instance, [state, link, text, image]).EnsureNotNull();
+            var result = (Task<TwPluginResult>)Method.Invoke(Plugin.Instance, [state, link, text, image]).EnsureNotNull();
             return await result;
         }
     }

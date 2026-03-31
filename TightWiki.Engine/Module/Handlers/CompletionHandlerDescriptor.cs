@@ -12,7 +12,7 @@ namespace TightWiki.Engine.Module.Handlers
         : HandlerDescriptor, ITwCompletionPlugin
     {
         public CompletionHandlerDescriptor(ITwHandlerDescriptor descriptor)
-            : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
+            : base(descriptor.Plugin, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
         {
         }
 
@@ -22,7 +22,7 @@ namespace TightWiki.Engine.Module.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         public async Task<TwPluginResult> Handle(ITwEngineState state)
         {
-            var result = (Task<TwPluginResult>)Method.Invoke(EngineModule.Instance, [state]).EnsureNotNull();
+            var result = (Task<TwPluginResult>)Method.Invoke(Plugin.Instance, [state]).EnsureNotNull();
             return await result;
         }
     }

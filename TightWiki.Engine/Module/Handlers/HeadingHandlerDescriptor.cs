@@ -12,7 +12,7 @@ namespace TightWiki.Engine.Module.Handlers
         : HandlerDescriptor, ITwHeadingPlugin
     {
         public HeadingHandlerDescriptor(ITwHandlerDescriptor descriptor)
-            : base(descriptor.EngineModule, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
+            : base(descriptor.Plugin, descriptor.Method, descriptor.Attribute, descriptor.ModuleAttribute)
         {
         }
 
@@ -25,7 +25,7 @@ namespace TightWiki.Engine.Module.Handlers
         /// <param name="text">The text for the self link.</param>
         public async Task<TwPluginResult> Handle(ITwEngineState state, int depth, string link, string text)
         {
-            var result = (Task<TwPluginResult>)Method.Invoke(EngineModule.Instance, [state, depth, link, text]).EnsureNotNull();
+            var result = (Task<TwPluginResult>)Method.Invoke(Plugin.Instance, [state, depth, link, text]).EnsureNotNull();
             return await result;
         }
     }

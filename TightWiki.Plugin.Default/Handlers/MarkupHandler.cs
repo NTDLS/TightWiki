@@ -2,7 +2,6 @@
 using TightWiki.Plugin.Attributes.Handlers;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
-using TightWiki.Plugin.Interfaces.Module.Handlers;
 
 namespace TightWiki.Plugin.Default.Handlers
 {
@@ -11,7 +10,6 @@ namespace TightWiki.Plugin.Default.Handlers
     /// </summary>
     [TwPlugin("Default markup handler", "Handles basic markup instructions like bold, italic, underline, etc.", 1000)]
     public class MarkupHandler
-        : ITwMarkupPlugin
     {
         /// <summary>
         /// Handles basic markup instructions like bold, italic, underline, etc.

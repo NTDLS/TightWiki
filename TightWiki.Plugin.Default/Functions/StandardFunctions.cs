@@ -14,7 +14,6 @@ namespace TightWiki.Plugin.Default.Functions
 {
     [TwPlugin("Standard Functions", "Built-in standard functions.", 1000)]
     public class StandardFunctions
-        : ITwPlugin
     {
         #region Helpers.
 

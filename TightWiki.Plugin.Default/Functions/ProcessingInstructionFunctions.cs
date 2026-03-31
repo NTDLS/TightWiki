@@ -8,7 +8,6 @@ namespace TightWiki.Plugin.Default.Functions
 {
     [TwPlugin("Processing Instruction Functions", "Built-in processing instruction functions.", 1000)]
     public class ProcessingInstructionFunctions
-        : ITwPlugin
     {
         //Associates tags with a page. These are saved with the page and can also be displayed.
         [TwProcessingInstructionFunctionPlugin("Tags", "Associates tags with a page. These are saved with the page and can also be displayed.")]
