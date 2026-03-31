@@ -1,11 +1,11 @@
-﻿using TightWiki.Engine.Library.Interfaces;
+﻿using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Test.Library
 {
     public class NoOpCompletionHandler
-        : ICompletionHandler
+    //: ITwCompletionHandler
     {
-        public async Task Complete(ITightEngineState state)
+        public async Task Handle(ITwEngineState state)
         {
         }
     }

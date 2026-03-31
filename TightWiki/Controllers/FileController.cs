@@ -4,34 +4,30 @@ using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Web;
-using TightWiki.Caching;
-using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
-using TightWiki.Models;
-using TightWiki.Models.DataModels;
-using TightWiki.Models.ViewModels.File;
-using TightWiki.Repository;
-using static TightWiki.Library.Images;
+using TightWiki.Library.Caching;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Repository;
+using TightWiki.Plugin.Models;
+using TightWiki.ViewModels.File;
+using static TightWiki.Library.ImagesUtility;
 
 namespace TightWiki.Controllers
 {
     [Route("File")]
-    public class FileController
-        : WikiControllerBase<FileController>
+    public class FileController(
+            ILogger<ITwEngine> logger,
+            ITwEmojiRepository emojiRepository,
+            ITwPageRepository pageRepository,
+            ITwSharedLocalizationText localizer,
+            SignInManager<IdentityUser> signInManager,
+            TwConfiguration wikiConfiguration,
+            UserManager<IdentityUser> userManager,
+            ITwDatabaseManager databaseManager
+        )
+        : TwController<FileController>(logger, signInManager, userManager, localizer, wikiConfiguration, databaseManager)
     {
-        private readonly ILogger<ITightEngine> _logger;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
-
-        public FileController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
-            : base(logger, signInManager, userManager, localizer, wikiConfiguration)
-        {
-            _logger = logger;
-            _signInManager = signInManager;
-            _userManager = userManager;
-        }
-
         /// <summary>
         /// Gets an image attached to a page.
         /// </summary>
@@ -43,19 +39,19 @@ namespace TightWiki.Controllers
         {
             try
             {
-                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-                var fileNavigation = new NamespaceNavigation(givenFileNavigation);
+                var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
+                var fileNavigation = new TwNamespaceNavigation(givenFileNavigation);
 
                 var scale = GetQueryValue<int?>("Scale");
                 var maxWidth = GetQueryValue<int?>("MaxWidth");
 
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, scale, maxWidth]);
-                if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
+                var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, scale, maxWidth]);
+                if (MemCache.TryGet<TwImageCacheItem>(cacheKey, out var cached))
                 {
                     return File(cached.Bytes, cached.ContentType);
                 }
 
-                var file = await PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
+                var file = await pageRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
                 if (file != null)
                 {
                     if (file.ContentType == "image/x-icon")
@@ -102,8 +98,8 @@ namespace TightWiki.Controllers
                             using var image = ResizeImage(img, width, height);
                             using var ms = new MemoryStream();
                             file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
-                            var cacheItem = new ImageCacheItem(ms.ToArray(), file.ContentType);
-                            WikiCache.Set(cacheKey, cacheItem);
+                            var cacheItem = new TwImageCacheItem(ms.ToArray(), file.ContentType);
+                            MemCache.Set(cacheKey, cacheItem);
                             return File(cacheItem.Bytes, cacheItem.ContentType);
                         }
                     }
@@ -118,8 +114,8 @@ namespace TightWiki.Controllers
                         using var image = ResizeImage(img, width, height);
                         using var ms = new MemoryStream();
                         file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
-                        var cacheItem = new ImageCacheItem(ms.ToArray(), file.ContentType);
-                        WikiCache.Set(cacheKey, cacheItem);
+                        var cacheItem = new TwImageCacheItem(ms.ToArray(), file.ContentType);
+                        MemCache.Set(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
                     else
@@ -159,19 +155,19 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-                var fileNavigation = new NamespaceNavigation(givenFileNavigation);
+                var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
+                var fileNavigation = new TwNamespaceNavigation(givenFileNavigation);
 
                 var scale = GetQueryValue<int?>("Scale");
                 var maxWidth = GetQueryValue<int?>("MaxWidth");
 
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, scale, maxWidth]);
-                if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
+                var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, scale, maxWidth]);
+                if (MemCache.TryGet<TwImageCacheItem>(cacheKey, out var cached))
                 {
                     return File(cached.Bytes, cached.ContentType);
                 }
 
-                var file = await PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
+                var file = await pageRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
                 if (file != null)
                 {
                     var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(file.Data)));
@@ -203,12 +199,12 @@ namespace TightWiki.Controllers
                             width += difference;
                         }
 
-                        using var image = Images.ResizeImage(img, width, height);
+                        using var image = ImagesUtility.ResizeImage(img, width, height);
                         using var ms = new MemoryStream();
                         image.SaveAsPng(ms);
 
-                        var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
-                        WikiCache.Set(cacheKey, cacheItem);
+                        var cacheItem = new TwImageCacheItem(ms.ToArray(), "image/png");
+                        MemCache.Set(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
                     //Enforce max width if specified.
@@ -219,12 +215,12 @@ namespace TightWiki.Controllers
                         int width = Math.Max(1, (int)Math.Round(img.Width * widthScale));
                         int height = Math.Max(1, (int)Math.Round(img.Height * widthScale));
 
-                        using var image = Images.ResizeImage(img, width, height);
+                        using var image = ImagesUtility.ResizeImage(img, width, height);
                         using var ms = new MemoryStream();
                         image.SaveAsPng(ms);
 
-                        var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
-                        WikiCache.Set(cacheKey, cacheItem);
+                        var cacheItem = new TwImageCacheItem(ms.ToArray(), "image/png");
+                        MemCache.Set(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
                     else
@@ -232,8 +228,8 @@ namespace TightWiki.Controllers
                         using var ms = new MemoryStream();
                         img.SaveAsPng(ms);
 
-                        var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
-                        WikiCache.Set(cacheKey, cacheItem);
+                        var cacheItem = new TwImageCacheItem(ms.ToArray(), "image/png");
+                        MemCache.Set(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
                 }
@@ -270,10 +266,10 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-                var fileNavigation = new NamespaceNavigation(givenFileNavigation);
+                var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
+                var fileNavigation = new TwNamespaceNavigation(givenFileNavigation);
 
-                var file = await PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
+                var file = await pageRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
 
                 if (file != null)
                 {
@@ -309,14 +305,14 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-                var fileNavigation = new NamespaceNavigation(givenFileNavigation);
+                var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
+                var fileNavigation = new TwNamespaceNavigation(givenFileNavigation);
 
                 var model = new PageFileRevisionsViewModel()
                 {
                     PageNavigation = pageNavigation.Canonical,
                     FileNavigation = fileNavigation.Canonical,
-                    Revisions = await PageFileRepository.GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged
+                    Revisions = await pageRepository.GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged
                         (pageNavigation.Canonical, fileNavigation.Canonical, GetQueryValue("page", 1))
                 };
 
@@ -348,12 +344,12 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+                var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
 
-                var page = await PageRepository.GetPageRevisionByNavigation(pageNavigation);
+                var page = await pageRepository.GetPageRevisionByNavigation(pageNavigation);
                 if (page != null)
                 {
-                    var pageFiles = await PageFileRepository.GetPageFilesInfoByPageId(page.Id);
+                    var pageFiles = await pageRepository.GetPageFilesInfoByPageId(page.Id);
 
                     return View(new FileAttachmentViewModel
                     {
@@ -394,9 +390,9 @@ namespace TightWiki.Controllers
                 }
                 try
                 {
-                    var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+                    var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
 
-                    var page = (await PageRepository.GetPageInfoByNavigation(pageNavigation.Canonical)).EnsureNotNull();
+                    var page = (await pageRepository.GetPageInfoByNavigation(pageNavigation.Canonical)).EnsureNotNull();
 
                     foreach (IFormFile file in postedFiles)
                     {
@@ -412,13 +408,13 @@ namespace TightWiki.Controllers
 
                                 var fileName = HttpUtility.UrlDecode(file.FileName);
 
-                                await PageFileRepository.UpsertPageFile(new PageFileAttachment()
+                                await pageRepository.UpsertPageFile(new TwPageFileAttachment()
                                 {
                                     Data = Utility.ConvertHttpFileToBytes(file),
                                     CreatedDate = DateTime.UtcNow,
                                     PageId = page.Id,
                                     Name = fileName,
-                                    FileNavigation = Navigation.Clean(fileName),
+                                    FileNavigation = TwNavigation.Clean(fileName),
                                     Size = fileSize,
                                     ContentType = Utility.GetMimeType(fileName)
                                 }, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
@@ -429,7 +425,7 @@ namespace TightWiki.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Failed to upload file");
+                    Logger.LogError(ex, "Failed to upload file");
                     return StatusCode(500, new { success = false, message = Localize("An error occurred: {0}", ex.Message) });
                 }
             }
@@ -457,9 +453,9 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+                var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
 
-                var page = (await PageRepository.GetPageInfoByNavigation(pageNavigation.Canonical)).EnsureNotNull();
+                var page = (await pageRepository.GetPageInfoByNavigation(pageNavigation.Canonical)).EnsureNotNull();
 
                 if (fileData != null)
                 {
@@ -473,13 +469,13 @@ namespace TightWiki.Controllers
 
                         var fileName = HttpUtility.UrlDecode(fileData.FileName);
 
-                        await PageFileRepository.UpsertPageFile(new PageFileAttachment()
+                        await pageRepository.UpsertPageFile(new TwPageFileAttachment()
                         {
                             Data = Utility.ConvertHttpFileToBytes(fileData),
                             CreatedDate = DateTime.UtcNow,
                             PageId = page.Id,
                             Name = fileName,
-                            FileNavigation = Navigation.Clean(fileName),
+                            FileNavigation = TwNavigation.Clean(fileName),
                             Size = fileSize,
                             ContentType = Utility.GetMimeType(fileName)
                         }, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
@@ -514,9 +510,9 @@ namespace TightWiki.Controllers
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
 
-                await PageFileRepository.DetachPageRevisionAttachment(
-                    new NamespaceNavigation(givenPageNavigation).Canonical,
-                    new NamespaceNavigation(givenFileNavigation).Canonical, pageRevision);
+                await pageRepository.DetachPageRevisionAttachment(
+                    new TwNamespaceNavigation(givenPageNavigation).Canonical,
+                    new TwNamespaceNavigation(givenFileNavigation).Canonical, pageRevision);
 
                 return Content(Localize("Success"));
             }
@@ -535,7 +531,7 @@ namespace TightWiki.Controllers
         {
             try
             {
-                var emojis = await EmojiRepository.AutoCompleteEmoji(q ?? string.Empty);
+                var emojis = await emojiRepository.AutoCompleteEmoji(q ?? string.Empty);
 
                 return Json(emojis.Select(o => new
                 {
@@ -560,7 +556,7 @@ namespace TightWiki.Controllers
         {
             try
             {
-                var emojiNavigation = Navigation.Clean(givenEmojiNavigation);
+                var emojiNavigation = TwNavigation.Clean(givenEmojiNavigation);
 
                 if (string.IsNullOrEmpty(emojiNavigation) == false)
                 {
@@ -571,25 +567,25 @@ namespace TightWiki.Controllers
                     if (emoji != null)
                     {
                         //Do we have this scale cached already?
-                        var scaledImageCacheKey = WikiCacheKey.Build(WikiCache.Category.Emoji, [shortcut, givenScale]);
-                        if (WikiCache.TryGet<ImageCacheItem>(scaledImageCacheKey, out var cachedEmoji))
+                        var scaledImageCacheKey = MemCacheKey.Build(MemCache.Category.Emoji, [shortcut, givenScale]);
+                        if (MemCache.TryGet<TwImageCacheItem>(scaledImageCacheKey, out var cachedEmoji))
                         {
                             return File(cachedEmoji.Bytes, cachedEmoji.ContentType);
                         }
 
-                        var imageCacheKey = WikiCacheKey.Build(WikiCache.Category.Emoji, [shortcut]);
-                        emoji.ImageData = WikiCache.Get<byte[]>(imageCacheKey);
+                        var imageCacheKey = MemCacheKey.Build(MemCache.Category.Emoji, [shortcut]);
+                        emoji.ImageData = MemCache.Get<byte[]>(imageCacheKey);
                         if (emoji.ImageData == null)
                         {
                             //We don't get the bytes by default, that would be a lot of RAM for all the thousands of images.
-                            emoji.ImageData = (await EmojiRepository.GetEmojiByName(emoji.Name))?.ImageData;
+                            emoji.ImageData = (await emojiRepository.GetEmojiByName(emoji.Name))?.ImageData;
 
                             if (emoji.ImageData == null)
                             {
                                 return NotFound(Localize("Emoji {0} was not found", emojiNavigation));
                             }
 
-                            WikiCache.Set(imageCacheKey, emoji.ImageData);
+                            MemCache.Set(imageCacheKey, emoji.ImageData);
                         }
 
                         if (emoji.ImageData != null)
@@ -626,18 +622,18 @@ namespace TightWiki.Controllers
                             if (emoji.MimeType?.ToLowerInvariant() == "image/gif")
                             {
                                 var resized = ResizeGifImage(decompressedImageBytes, Width, Height);
-                                var itemCache = new ImageCacheItem(resized, "image/gif");
-                                WikiCache.Set(scaledImageCacheKey, itemCache);
+                                var itemCache = new TwImageCacheItem(resized, "image/gif");
+                                MemCache.Set(scaledImageCacheKey, itemCache);
                                 return File(itemCache.Bytes, itemCache.ContentType);
                             }
                             else
                             {
-                                using var image = Images.ResizeImage(img, Width, Height);
+                                using var image = ImagesUtility.ResizeImage(img, Width, Height);
                                 using var ms = new MemoryStream();
                                 image.SaveAsPng(ms);
 
-                                var itemCache = new ImageCacheItem(ms.ToArray(), "image/png");
-                                WikiCache.Set(scaledImageCacheKey, itemCache);
+                                var itemCache = new TwImageCacheItem(ms.ToArray(), "image/png");
+                                MemCache.Set(scaledImageCacheKey, itemCache);
 
                                 return File(itemCache.Bytes, itemCache.ContentType);
                             }

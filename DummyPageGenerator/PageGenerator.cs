@@ -1,32 +1,23 @@
-﻿using Microsoft.AspNetCore.Identity;
-using NTDLS.Helpers;
-using System.Security.Claims;
-using System.Text;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
-using TightWiki.Models.DataModels;
-using TightWiki.Repository;
-using static TightWiki.Library.Constants;
-
-namespace DummyPageGenerator
+﻿namespace DummyPageGenerator
 {
+    /*
     internal class PageGenerator
     {
-        private readonly ISharedLocalizationText _localizer;
+        private readonly ITwSharedLocalizationText _localizer;
         private readonly object _lockObject = new();
-        private List<WikiPage> _pagePool;
+        private List<TwPage> _pagePool;
         private readonly Random _random;
         private readonly List<string> _namespaces;
         private readonly List<string> _tags;
         private readonly List<string> _fileNames;
         private List<string> _recentPageNames = new();
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly List<AccountProfile> _users;
+        private readonly List<TwAccountProfile> _users;
 
-        public List<AccountProfile> Users => _users;
+        public List<TwAccountProfile> Users => _users;
         public Random Random => _random;
 
-        public PageGenerator(ISharedLocalizationText localizer, UserManager<IdentityUser> userManager)
+        public PageGenerator(ITwSharedLocalizationText localizer, UserManager<IdentityUser> userManager)
         {
             _localizer = localizer;
             _userManager = userManager;
@@ -61,7 +52,7 @@ namespace DummyPageGenerator
             while (true)
             {
                 var randomAccountName = string.Join(" ", WordsRepository.GetRandomWords(2));
-                if (!await UsersRepository.DoesProfileAccountExist(Navigation.Clean(randomAccountName)))
+                if (!await UsersRepository.DoesProfileAccountExist(TwNavigation.Clean(randomAccountName)))
                 {
                     return randomAccountName;
                 }
@@ -197,7 +188,7 @@ namespace DummyPageGenerator
         /// Creates a random page on the wiki.
         /// </summary>
         /// <param name="userId"></param>
-        public async Task GeneratePage(ITightEngine tightEngine, Guid userId)
+        public async Task GeneratePage(ITwEngine tightEngine, Guid userId)
         {
             try
             {
@@ -239,7 +230,7 @@ namespace DummyPageGenerator
                 body.AppendLine($"##related");
                 body.AppendLine("\r\n");
 
-                var page = new WikiPage()
+                var page = new TwPage()
                 {
                     Name = pageName,
                     Body = body.ToString(),
@@ -250,7 +241,7 @@ namespace DummyPageGenerator
                     Description = string.Join(' ', WordsRepository.GetRandomWords(_random.Next(3, 5))),
                 };
 
-                var localizer = new VerbatimLocalizationText();
+                var localizer = new TwVerbatimLocalizationText();
 
                 int newPageId = await RepositoryHelpers.UpsertPage(tightEngine, localizer, page);
 
@@ -269,7 +260,7 @@ namespace DummyPageGenerator
             }
         }
 
-        private WikiPage GetRandomPage()
+        private TwPage GetRandomPage()
         {
             lock (_pagePool)
             {
@@ -277,7 +268,7 @@ namespace DummyPageGenerator
             }
         }
 
-        private void InsertPagePool(WikiPage page)
+        private void InsertPagePool(TwPage page)
         {
             lock (_pagePool)
             {
@@ -289,7 +280,7 @@ namespace DummyPageGenerator
         /// Modifies a random page on the wiki.
         /// </summary>
         /// <param name="userId"></param>
-        public async Task ModifyRandomPages(ITightEngine engine, Guid userId)
+        public async Task ModifyRandomPages(ITwEngine engine, Guid userId)
         {
             var pageToModify = GetRandomPage();
 
@@ -339,13 +330,13 @@ namespace DummyPageGenerator
                 //throw new Exception("Could not save the attached file, too large");
             }
 
-            await PageFileRepository.UpsertPageFile(new PageFileAttachment()
+            await PageFileRepository.UpsertPageFile(new TwPageFileAttachment()
             {
                 Data = fileData,
                 CreatedDate = DateTime.UtcNow,
                 PageId = pageId,
                 Name = fileName,
-                FileNavigation = Navigation.Clean(fileName),
+                FileNavigation = TwNavigation.Clean(fileName),
                 Size = fileData.Length,
                 ContentType = Utility.GetMimeType(fileName)
             }, userId);
@@ -390,4 +381,5 @@ namespace DummyPageGenerator
             }
         }
     }
+    */
 }

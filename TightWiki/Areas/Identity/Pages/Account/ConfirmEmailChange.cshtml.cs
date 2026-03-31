@@ -6,24 +6,24 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
-using TightWiki.Models;
+using TightWiki.Pages;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
-    public class ConfirmEmailChangeModel : PageModelBase
+    public class ConfirmEmailChangeModel : TwPageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly ILogger<ITightEngine> _logger;
-        private readonly ISharedLocalizationText _localizer;
+        private readonly ILogger<ITwEngine> _logger;
+        private readonly ITwSharedLocalizationText _localizer;
 
         public ConfirmEmailChangeModel(
-            ILogger<ITightEngine> logger,
+            ILogger<ITwEngine> logger,
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
-            : base(logger, signInManager, localizer, wikiConfiguration)
+            SignInManager<IdentityUser> signInManager, ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration, ITwDatabaseManager databaseManager)
+            : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
             _logger = logger;
             _userManager = userManager;

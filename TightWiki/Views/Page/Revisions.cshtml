@@ -1,13 +1,16 @@
 ﻿@using TightWiki
-@using TightWiki.Models
-@using TightWiki.Library
-@inject ISharedLocalizationText Localizer
-@inject TightWikiConfiguration WikiConfiguration
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
 
-@model TightWiki.Models.ViewModels.Page.RevisionsViewModel
+@using TightWiki.Plugin.Library
+@using TightWiki.ViewModels.Page
+@inject ITwSharedLocalizationText Localizer
+@inject TwConfiguration WikiConfiguration
+
+@model RevisionsViewModel
 @{
     Layout = "_Layout";
-    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
@@ -32,7 +35,7 @@
 {
     <div class="card shadow-sm">
         <div class="card-body pb-0">
-            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
+            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
         </div>
 
         <div class="table-responsive">
@@ -41,19 +44,19 @@
                     <tr>
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "Revision")">
                                 @Localizer["Revision"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">
                                 @Localizer["Modified By"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">
                                 @Localizer["Modified Date"]
                             </a>
                         </th>
@@ -120,7 +123,7 @@
         </div>
 
         <div class="card-body pt-3">
-            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
+            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
         </div>
     </div>
 }

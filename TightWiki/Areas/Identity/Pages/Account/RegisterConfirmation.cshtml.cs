@@ -6,24 +6,23 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
-using TightWiki.Library.Interfaces;
-using TightWiki.Models;
+using TightWiki.Pages;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class RegisterConfirmationModel : PageModelBase
+    public class RegisterConfirmationModel : TwPageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IWikiEmailSender _emailSender;
-        private readonly ILogger<ITightEngine> _logger;
+        private readonly ITwEmailSender _emailSender;
+        private readonly ILogger<ITwEngine> _logger;
 
-        public RegisterConfirmationModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, IWikiEmailSender emailSender,
-            ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
-                        : base(logger, signInManager, localizer, wikiConfiguration)
+        public RegisterConfirmationModel(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager, ITwEmailSender emailSender,
+            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration, ITwDatabaseManager databaseManager)
+                        : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
             _logger = logger;
             _userManager = userManager;

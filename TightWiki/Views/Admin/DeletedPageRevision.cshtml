@@ -1,13 +1,14 @@
 ﻿@using TightWiki
-@using TightWiki.Models
-@using TightWiki.Library
-@inject ISharedLocalizationText Localizer
-@inject TightWikiConfiguration WikiConfiguration
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
+@using TightWiki.ViewModels.Admin
+@inject ITwSharedLocalizationText Localizer
+@inject TwConfiguration WikiConfiguration
 
-@model TightWiki.Models.ViewModels.Page.DeletedPageRevisionViewModel
+@model DeletedPageRevisionViewModel
 @{
     Layout = "_Layout";
-    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <div class="card shadow-sm border-warning mb-3">
@@ -23,7 +24,7 @@
         </div>
 
         <div class="d-flex flex-wrap gap-2">
-            @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
+            @TwConfirmActionHelper.GenerateWarnButton(
                 WikiConfiguration.BasePath,
                 Localizer["This will restore the deleted revision. Continue?"].Value,
                 Localizer["Restore This Revision"].Value,

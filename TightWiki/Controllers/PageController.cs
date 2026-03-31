@@ -9,25 +9,38 @@ using SixLabors.ImageSharp;
 using System.Globalization;
 using System.Text;
 using System.Xml.Serialization;
-using TightWiki.Caching;
 using TightWiki.Engine;
-using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
-using TightWiki.Models;
-using TightWiki.Models.DataModels;
-using TightWiki.Models.Requests;
-using TightWiki.Models.ViewModels.Page;
-using TightWiki.Repository;
-using static TightWiki.Library.Constants;
-using static TightWiki.Library.Images;
+using TightWiki.Library.Caching;
+using TightWiki.Library.Security;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Repository;
+using TightWiki.Plugin.Library;
+using TightWiki.Plugin.Models;
+using TightWiki.RequestModels;
+using TightWiki.ViewModels.Page;
+using static TightWiki.Library.ImagesUtility;
+using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Controllers
 {
     [Route("")]
-    public class PageController(ITightEngine tightEngine, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, ISideBySideDiffBuilder diffBuilder,
-        ILogger<ITightEngine> logger, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
-        : WikiControllerBase<PageController>(logger, signInManager, userManager, localizer, wikiConfiguration)
+    public class PageController(
+            ILogger<ITwEngine> logger,
+            ISideBySideDiffBuilder diffBuilder,
+            ITwConfigurationRepository configurationRepository,
+            ITwEngine tightEngine,
+            ITwPageRepository pageRepository,
+            ITwSharedLocalizationText localizer,
+            ITwStatisticsRepository statisticsRepository,
+            ITwUsersRepository usersRepository,
+            SignInManager<IdentityUser> signInManager,
+            TwConfiguration wikiConfiguration,
+            UserManager<IdentityUser> userManager,
+            ITwDatabaseManager databaseManager
+        )
+        : TwController<PageController>(logger, signInManager, userManager, localizer, wikiConfiguration, databaseManager)
     {
         [AllowAnonymous]
         [Route("/robots.txt")]
@@ -61,9 +74,9 @@ namespace TightWiki.Controllers
         {
             try
             {
-                var hitCounterThrottle = await ConfigurationRepository.Get(WikiConfigurationGroup.Performance, "Hit Counter Throttle (Seconds)", 0);
-                var cacheKey = WikiCacheKey.Build(WikiCache.Category.Session, [pageId, "PageView", GetPageViewViewerKey()]);
-                if (WikiCache.Contains(cacheKey))
+                var hitCounterThrottle = await configurationRepository.Get(WikiConfigurationGroup.Performance, "Hit Counter Throttle (Seconds)", 0);
+                var cacheKey = MemCacheKey.Build(MemCache.Category.Session, [pageId, "PageView", GetPageViewViewerKey()]);
+                if (MemCache.Contains(cacheKey))
                 {
                     return;
                 }
@@ -72,7 +85,7 @@ namespace TightWiki.Controllers
                 {
                     try
                     {
-                        await StatisticsRepository.IncrementPageViewCount(pageId);
+                        await statisticsRepository.IncrementPageViewCount(pageId);
                     }
                     catch (Exception ex)
                     {
@@ -81,7 +94,7 @@ namespace TightWiki.Controllers
                 });
 
                 //Just store a value (in this case a DateTime) so that we can test for it later.
-                WikiCache.Set(cacheKey, DateTime.UtcNow, TimeSpan.FromSeconds(hitCounterThrottle));
+                MemCache.Set(cacheKey, DateTime.UtcNow, TimeSpan.FromSeconds(hitCounterThrottle));
             }
             catch (Exception ex)
             {
@@ -94,7 +107,7 @@ namespace TightWiki.Controllers
         {
             if (User.Identity?.IsAuthenticated == true && SessionState.Profile != null)
             {
-                return Security.Helpers.Sha1($"user:{SessionState.Profile.UserId}");
+                return SecurityUtility.Sha1($"user:{SessionState.Profile.UserId}");
             }
 
             var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
@@ -102,7 +115,7 @@ namespace TightWiki.Controllers
             //  so lets bake in the user agent as well to help differentiate viewers.
             var userAgent = Request.Headers.UserAgent.ToString();
 
-            return Security.Helpers.Sha1($"anon:{ip}:{userAgent}");
+            return SecurityUtility.Sha1($"anon:{ip}:{userAgent}");
         }
 
         [HttpGet("{givenCanonical}/{pageRevision:int?}")]
@@ -120,14 +133,14 @@ namespace TightWiki.Controllers
             try
             {
                 var model = new PageDisplayViewModel();
-                var navigation = new NamespaceNavigation(givenCanonical);
+                var navigation = new TwNamespaceNavigation(givenCanonical);
 
-                var page = await PageRepository.GetPageRevisionByNavigation(navigation.Canonical, pageRevision);
+                var page = await pageRepository.GetPageRevisionByNavigation(navigation.Canonical, pageRevision);
                 if (page != null)
                 {
                     await TryIncrementPageView(page.Id);
 
-                    var instructions = await PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
+                    var instructions = await pageRepository.GetPageProcessingInstructionsByPageId(page.Id);
                     model.Revision = page.Revision;
                     model.MostCurrentRevision = page.MostCurrentRevision;
                     model.Name = page.Name;
@@ -148,12 +161,12 @@ namespace TightWiki.Controllers
                             queryKey += $"{query.Key}:{query.Value}";
                         }
 
-                        var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
-                        if (WikiCache.TryGet<PageCache>(cacheKey, out var cached))
+                        var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
+                        if (MemCache.TryGet<TwPageCache>(cacheKey, out var cached))
                         {
                             model.Body = cached.Body;
                             SessionState.PageTitle = cached.PageTitle;
-                            WikiCache.Set(cacheKey, cached); //Update the cache expiration.
+                            MemCache.Set(cacheKey, cached); //Update the cache expiration.
                         }
                         else
                         {
@@ -163,12 +176,12 @@ namespace TightWiki.Controllers
                             model.Body = state.HtmlResult;
                             if (state.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
                             {
-                                var toBeCached = new PageCache(state.HtmlResult)
+                                var toBeCached = new TwPageCache(state.HtmlResult)
                                 {
                                     PageTitle = state.PageTitle
                                 };
 
-                                WikiCache.Set(cacheKey, toBeCached); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
+                                MemCache.Set(cacheKey, toBeCached); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
                             }
                         }
                     }
@@ -181,18 +194,18 @@ namespace TightWiki.Controllers
 
                     if (WikiConfiguration.EnablePageComments && WikiConfiguration.ShowCommentsOnPageFooter && model.HideFooterComments == false)
                     {
-                        var comments = await PageRepository.GetPageCommentsPaged(navigation.Canonical, 1);
+                        var comments = await pageRepository.GetPageCommentsPaged(navigation.Canonical, 1);
 
                         foreach (var comment in comments)
                         {
-                            model.Comments.Add(new PageComment
+                            model.Comments.Add(new TwPageComment
                             {
                                 PaginationPageCount = comment.PaginationPageCount,
                                 UserNavigation = comment.UserNavigation,
                                 Id = comment.Id,
                                 UserName = comment.UserName,
                                 UserId = comment.UserId,
-                                Body = WikifierLite.Process(WikiConfiguration, comment.Body),
+                                Body = WikiEngineLite.Process(WikiConfiguration, comment.Body),
                                 CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
                             });
                         }
@@ -200,9 +213,9 @@ namespace TightWiki.Controllers
                 }
                 else if (pageRevision != null)
                 {
-                    var notExistPageName = await ConfigurationRepository.Get<string>(WikiConfigurationGroup.Customization, "Revision Does Not Exists Page");
-                    string notExistPageNavigation = NamespaceNavigation.CleanAndValidate(notExistPageName);
-                    var notExistsPage = (await PageRepository.GetPageRevisionByNavigation(notExistPageNavigation)).EnsureNotNull();
+                    var notExistPageName = await configurationRepository.Get<string>(WikiConfigurationGroup.Customization, "Revision Does Not Exists Page");
+                    string notExistPageNavigation = TwNamespaceNavigation.CleanAndValidate(notExistPageName);
+                    var notExistsPage = (await pageRepository.GetPageRevisionByNavigation(notExistPageNavigation)).EnsureNotNull();
 
                     await SessionState.SetPageId(null, pageRevision);
 
@@ -220,9 +233,9 @@ namespace TightWiki.Controllers
                 }
                 else
                 {
-                    var notExistPageName = await ConfigurationRepository.Get<string>(WikiConfigurationGroup.Customization, "Page Not Exists Page");
-                    string notExistPageNavigation = NamespaceNavigation.CleanAndValidate(notExistPageName);
-                    var notExistsPage = (await PageRepository.GetPageRevisionByNavigation(notExistPageNavigation)).EnsureNotNull();
+                    var notExistPageName = await configurationRepository.Get<string>(WikiConfigurationGroup.Customization, "Page Not Exists Page");
+                    string notExistPageNavigation = TwNamespaceNavigation.CleanAndValidate(notExistPageName);
+                    var notExistsPage = (await pageRepository.GetPageRevisionByNavigation(notExistPageNavigation)).EnsureNotNull();
 
                     await SessionState.SetPageId(null, null);
 
@@ -258,7 +271,7 @@ namespace TightWiki.Controllers
         {
             try
             {
-                var pages = await PageRepository.AutoCompletePage(q);
+                var pages = await pageRepository.AutoCompletePage(q);
 
                 return Json(pages.Select(o => new
                 {
@@ -284,7 +297,7 @@ namespace TightWiki.Controllers
                 {
                     var model = new PageSearchViewModel()
                     {
-                        Pages = await PageRepository.PageSearchPaged(Utility.SplitToTokens(searchString), GetQueryValue("page", 1)),
+                        Pages = await pageRepository.PageSearchPaged(Utility.SplitToTokens(searchString), GetQueryValue("page", 1)),
                         SearchString = searchString
                     };
 
@@ -317,7 +330,7 @@ namespace TightWiki.Controllers
                 {
                     model = new PageSearchViewModel()
                     {
-                        Pages = await PageRepository.PageSearchPaged(Utility.SplitToTokens(searchString), GetQueryValue("page", 1)),
+                        Pages = await pageRepository.PageSearchPaged(Utility.SplitToTokens(searchString), GetQueryValue("page", 1)),
                         SearchString = searchString
                     };
 
@@ -378,9 +391,9 @@ namespace TightWiki.Controllers
                 if (SessionState.IsAuthenticated)
                 {
                     var userId = SessionState.Profile.EnsureNotNull().UserId;
-                    var profile = await UsersRepository.GetAccountProfileByUserId(userId);
+                    var profile = await usersRepository.GetAccountProfileByUserId(userId);
                     profile.Language = culture;
-                    await UsersRepository.UpdateProfile(profile);
+                    await usersRepository.UpdateProfile(profile);
                 }
 
                 Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
@@ -423,9 +436,9 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+                var pageNavigation = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
 
-                var pageInfo = await PageRepository.GetPageInfoByNavigation(pageNavigation);
+                var pageInfo = await pageRepository.GetPageInfoByNavigation(pageNavigation);
                 if (pageInfo == null)
                 {
                     return NotFound();
@@ -437,27 +450,27 @@ namespace TightWiki.Controllers
                     if (await SessionState.HoldsPermission(givenCanonical, WikiPermission.Moderate))
                     {
                         //Moderators and administrators can delete comments that they do not own.
-                        await PageRepository.DeletePageCommentById(pageInfo.Id, int.Parse(deleteAction));
+                        await pageRepository.DeletePageCommentById(pageInfo.Id, int.Parse(deleteAction));
                     }
                     else
                     {
-                        await PageRepository.DeletePageCommentByUserAndId(pageInfo.Id, SessionState.Profile.EnsureNotNull().UserId, int.Parse(deleteAction));
+                        await pageRepository.DeletePageCommentByUserAndId(pageInfo.Id, SessionState.Profile.EnsureNotNull().UserId, int.Parse(deleteAction));
                     }
                 }
 
                 var model = new PageCommentsViewModel();
 
-                var comments = await PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryValue("page", 1));
+                var comments = await pageRepository.GetPageCommentsPaged(pageNavigation, GetQueryValue("page", 1));
                 foreach (var comment in comments)
                 {
-                    model.Comments.Add(new PageComment
+                    model.Comments.Add(new TwPageComment
                     {
                         PaginationPageCount = comment.PaginationPageCount,
                         UserNavigation = comment.UserNavigation,
                         Id = comment.Id,
                         UserName = comment.UserName,
                         UserId = comment.UserId,
-                        Body = WikifierLite.Process(WikiConfiguration, comment.Body),
+                        Body = WikiEngineLite.Process(WikiConfiguration, comment.Body),
                         CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
                     });
                 }
@@ -500,32 +513,32 @@ namespace TightWiki.Controllers
 
                 string? errorMessage = null;
 
-                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+                var pageNavigation = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
 
-                var pageInfo = await PageRepository.GetPageInfoByNavigation(pageNavigation);
+                var pageInfo = await pageRepository.GetPageInfoByNavigation(pageNavigation);
                 if (pageInfo == null)
                 {
                     return NotFound();
                 }
 
-                await PageRepository.InsertPageComment(pageInfo.Id, SessionState.Profile.EnsureNotNull().UserId, model.Comment);
+                await pageRepository.InsertPageComment(pageInfo.Id, SessionState.Profile.EnsureNotNull().UserId, model.Comment);
 
                 model = new PageCommentsViewModel()
                 {
                     ErrorMessage = errorMessage.DefaultWhenNull(string.Empty)
                 };
 
-                var comments = await PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryValue("page", 1));
+                var comments = await pageRepository.GetPageCommentsPaged(pageNavigation, GetQueryValue("page", 1));
                 foreach (var comment in comments)
                 {
-                    model.Comments.Add(new PageComment
+                    model.Comments.Add(new TwPageComment
                     {
                         PaginationPageCount = comment.PaginationPageCount,
                         UserNavigation = comment.UserNavigation,
                         Id = comment.Id,
                         UserName = comment.UserName,
                         UserId = comment.UserId,
-                        Body = WikifierLite.Process(WikiConfiguration, comment.Body),
+                        Body = WikiEngineLite.Process(WikiConfiguration, comment.Body),
                         CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
                     });
                 }
@@ -554,13 +567,13 @@ namespace TightWiki.Controllers
         {
             try
             {
-                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+                var pageNavigation = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
 
-                var page = await PageRepository.GetPageRevisionByNavigation(pageNavigation, null, true);
+                var page = await pageRepository.GetPageRevisionByNavigation(pageNavigation, null, true);
 
                 if (page != null)
                 {
-                    await RepositoryHelpers.RefreshPageMetadata(tightEngine, Localizer, page, SessionState);
+                    await pageRepository.RefreshPageMetadata(tightEngine, Localizer, page, SessionState);
                 }
 
                 return Redirect($"{WikiConfiguration.BasePath}/{pageNavigation}");
@@ -591,10 +604,10 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+                var pageNavigation = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
 
-                var thisRev = await PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision);
-                var prevRev = await PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision - 1);
+                var thisRev = await pageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision);
+                var prevRev = await pageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision - 1);
 
                 if (thisRev != null)
                 {
@@ -610,7 +623,7 @@ namespace TightWiki.Controllers
                     DiffModel = diffBuilder.BuildDiffModel(prevRev?.Body ?? string.Empty, thisRev?.Body ?? string.Empty),
                     ModifiedDate = SessionState.LocalizeDateTime(thisRev?.ModifiedDate ?? DateTime.MinValue),
                     ChangeSummary = thisRev?.ChangeSummary ?? string.Empty,
-                    ChangeAnalysis = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "")
+                    ChangeAnalysis = TwDifferentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "")
                 };
 
                 return View(model);
@@ -640,7 +653,7 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+                var pageNavigation = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
 
                 var pageNumber = GetQueryValue("page", 1);
                 var orderBy = GetQueryValue<string>("OrderBy");
@@ -648,7 +661,7 @@ namespace TightWiki.Controllers
 
                 var model = new RevisionsViewModel()
                 {
-                    Revisions = await PageRepository.GetPageRevisionsInfoByNavigationPaged(pageNavigation, pageNumber, orderBy, orderByDirection)
+                    Revisions = await pageRepository.GetPageRevisionsInfoByNavigationPaged(pageNavigation, pageNumber, orderBy, orderByDirection)
                 };
 
                 model.PaginationPageCount = (model.Revisions.FirstOrDefault()?.PaginationPageCount ?? 0);
@@ -661,9 +674,9 @@ namespace TightWiki.Controllers
 
                 foreach (var p in model.Revisions)
                 {
-                    var thisRev = await PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision);
-                    var prevRev = await PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision - 1);
-                    p.ChangeAnalysis = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
+                    var thisRev = await pageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision);
+                    var prevRev = await pageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision - 1);
+                    p.ChangeAnalysis = TwDifferentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
                 }
 
                 if (model.Revisions != null && model.Revisions.Count > 0)
@@ -698,10 +711,10 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+                var pageNavigation = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
 
-                var page = await PageRepository.GetPageRevisionByNavigation(pageNavigation);
-                var instructions = await PageRepository.GetPageProcessingInstructionsByPageId(page.EnsureNotNull().Id);
+                var page = await pageRepository.GetPageRevisionByNavigation(pageNavigation);
+                var instructions = await pageRepository.GetPageProcessingInstructionsByPageId(page.EnsureNotNull().Id);
                 if (instructions.Contains(WikiInstruction.Protect))
                 {
                     return NotifyOfError(Localize("The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion."));
@@ -710,9 +723,9 @@ namespace TightWiki.Controllers
                 bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNull());
                 if (confirmAction == true && page != null)
                 {
-                    await PageRepository.MovePageToDeletedById(page.Id, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
-                    WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
-                    WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Id]));
+                    await pageRepository.MovePageToDeletedById(page.Id, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
+                    MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.Page, [page.Navigation]));
+                    MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.Page, [page.Id]));
                     return NotifyOfSuccess(Localize("The page has been deleted."), $"/Home");
                 }
 
@@ -739,12 +752,12 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
-                var page = (await PageRepository.GetPageRevisionByNavigation(pageNavigation)).EnsureNotNull();
+                var pageNavigation = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
+                var page = (await pageRepository.GetPageRevisionByNavigation(pageNavigation)).EnsureNotNull();
 
                 var model = new PageDeleteViewModel()
                 {
-                    CountOfAttachments = await PageRepository.GetCountOfPageAttachmentsById(page.Id),
+                    CountOfAttachments = await pageRepository.GetCountOfPageAttachmentsById(page.Id),
                     PageName = page.Name,
                     MostCurrentRevision = page.Revision,
                     PageRevision = page.Revision
@@ -752,7 +765,7 @@ namespace TightWiki.Controllers
 
                 await SessionState.SetPageId(page.Id);
 
-                var instructions = await PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
+                var instructions = await pageRepository.GetPageProcessingInstructionsByPageId(page.Id);
                 if (instructions.Contains(WikiInstruction.Protect))
                 {
                     return NotifyOfError(Localize("The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion."));
@@ -785,13 +798,13 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+                var pageNavigation = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
 
                 bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNullOrEmpty());
                 if (confirmAction == true)
                 {
-                    var page = (await PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision)).EnsureNotNull();
-                    await RepositoryHelpers.UpsertPage(tightEngine, Localizer, page, SessionState);
+                    var page = (await pageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision)).EnsureNotNull();
+                    await pageRepository.UpsertPage(tightEngine, Localizer, page, SessionState);
                     return NotifyOfSuccess(Localize("The page has been reverted."), $"/{pageNavigation}");
                 }
 
@@ -818,13 +831,13 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+                var pageNavigation = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
 
-                var mostCurrentPage = (await PageRepository.GetPageRevisionByNavigation(pageNavigation)).EnsureNotNull();
+                var mostCurrentPage = (await pageRepository.GetPageRevisionByNavigation(pageNavigation)).EnsureNotNull();
                 mostCurrentPage.CreatedDate = SessionState.LocalizeDateTime(mostCurrentPage.CreatedDate);
                 mostCurrentPage.ModifiedDate = SessionState.LocalizeDateTime(mostCurrentPage.ModifiedDate);
 
-                var revisionPage = (await PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision)).EnsureNotNull();
+                var revisionPage = (await pageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision)).EnsureNotNull();
                 revisionPage.CreatedDate = SessionState.LocalizeDateTime(revisionPage.CreatedDate);
                 revisionPage.ModifiedDate = SessionState.LocalizeDateTime(revisionPage.ModifiedDate);
 
@@ -874,7 +887,7 @@ namespace TightWiki.Controllers
                 try
                 {
                     //If the page exists, user must have read access to preview since we will show the existing page content with the new content.
-                    var existingPage = PageRepository.GetPageRevisionByNavigation(request.PageNavigation);
+                    var existingPage = pageRepository.GetPageRevisionByNavigation(request.PageNavigation);
                     if (existingPage != null)
                     {
                         SessionState.RequirePermission(request.PageNavigation, WikiPermission.Read);
@@ -886,7 +899,7 @@ namespace TightWiki.Controllers
                 }
                 */
 
-                var page = new WikiPage()
+                var page = new TwPage()
                 {
                     Body = request.Body,
                     Name = request.Name,
@@ -929,14 +942,14 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+                var pageNavigation = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
 
-                var featureTemplates = await PageRepository.GetAllFeatureTemplates();
+                var featureTemplates = await pageRepository.GetAllFeatureTemplates();
 
-                var page = await PageRepository.GetPageRevisionByNavigation(pageNavigation);
+                var page = await pageRepository.GetPageRevisionByNavigation(pageNavigation);
                 if (page != null)
                 {
-                    var instructions = await PageRepository.GetPageProcessingInstructionsByPageId(page.EnsureNotNull().Id);
+                    var instructions = await pageRepository.GetPageProcessingInstructionsByPageId(page.EnsureNotNull().Id);
                     if (instructions.Contains(WikiInstruction.Protect) && !await SessionState.HoldsPermission(givenCanonical, WikiPermission.Moderate))
                     {
                         return NotifyOfError(Localize("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed."));
@@ -949,7 +962,7 @@ namespace TightWiki.Controllers
                         Id = page.Id,
                         Body = page.Body,
                         Name = page.Name,
-                        Navigation = NamespaceNavigation.CleanAndValidate(page.Navigation),
+                        Navigation = TwNamespaceNavigation.CleanAndValidate(page.Navigation),
                         Description = page.Description,
                         FeatureTemplates = featureTemplates
                     });
@@ -958,14 +971,14 @@ namespace TightWiki.Controllers
                 {
                     var pageName = GetQueryValue<string>("Name").DefaultWhenNullOrEmpty(pageNavigation);
 
-                    string templateName = (await ConfigurationRepository.Get<string>(WikiConfigurationGroup.Customization, "New Page Template")).EnsureNotNull();
-                    string templateNavigation = NamespaceNavigation.CleanAndValidate(templateName);
-                    var templatePage = await PageRepository.GetPageRevisionByNavigation(templateNavigation);
+                    string templateName = (await configurationRepository.Get<string>(WikiConfigurationGroup.Customization, "New Page Template")).EnsureNotNull();
+                    string templateNavigation = TwNamespaceNavigation.CleanAndValidate(templateName);
+                    var templatePage = await pageRepository.GetPageRevisionByNavigation(templateNavigation);
 
-                    var templates = await PageRepository.GetAllTemplatePages();
+                    var templates = await pageRepository.GetAllTemplatePages();
 
                     if (templatePage == null)
-                        templatePage = new WikiPage();
+                        templatePage = new TwPage();
                     else
                         templates.Insert(0, templatePage);
 
@@ -973,7 +986,7 @@ namespace TightWiki.Controllers
                     {
                         Body = templatePage.Body,
                         Name = pageName?.Replace('_', ' ') ?? string.Empty,
-                        Navigation = NamespaceNavigation.CleanAndValidate(pageNavigation),
+                        Navigation = TwNamespaceNavigation.CleanAndValidate(pageNavigation),
                         Templates = templates,
                         FeatureTemplates = featureTemplates
                     });
@@ -999,7 +1012,7 @@ namespace TightWiki.Controllers
                     return View(model);
                 }
 
-                model.FeatureTemplates = await PageRepository.GetAllFeatureTemplates();
+                model.FeatureTemplates = await pageRepository.GetAllFeatureTemplates();
 
                 if (WikiConfiguration.ShowChangeSummaryWhenEditing
                     && WikiConfiguration.RequireChangeSummaryWhenEditing
@@ -1024,7 +1037,7 @@ namespace TightWiki.Controllers
 
                 if (model.Id == 0) //Saving a new page.
                 {
-                    var navigation = NamespaceNavigation.CleanAndValidate(model.Name);
+                    var navigation = TwNamespaceNavigation.CleanAndValidate(model.Name);
 
                     try
                     {
@@ -1034,7 +1047,7 @@ namespace TightWiki.Controllers
                     {
                         return NotifyOfError(ex.GetBaseException().Message, "/");
                     }
-                    var page = new WikiPage()
+                    var page = new TwPage()
                     {
                         CreatedDate = DateTime.UtcNow,
                         CreatedByUserId = SessionState.Profile.EnsureNotNull().UserId,
@@ -1047,13 +1060,13 @@ namespace TightWiki.Controllers
                         Description = model.Description ?? ""
                     };
 
-                    if (await PageRepository.GetPageInfoByNavigation(page.Navigation) != null)
+                    if (await pageRepository.GetPageInfoByNavigation(page.Navigation) != null)
                     {
                         ModelState.AddModelError("Name", Localize("The page name you entered already exists."));
                         return View(model);
                     }
 
-                    page.Id = await RepositoryHelpers.UpsertPage(tightEngine, Localizer, page, SessionState);
+                    page.Id = await pageRepository.UpsertPage(tightEngine, Localizer, page, SessionState);
 
                     await SessionState.SetPageId(page.Id);
 
@@ -1061,7 +1074,7 @@ namespace TightWiki.Controllers
                 }
                 else
                 {
-                    var navigation = NamespaceNavigation.CleanAndValidate(model.Name);
+                    var navigation = TwNamespaceNavigation.CleanAndValidate(model.Name);
 
                     try
                     {
@@ -1071,8 +1084,8 @@ namespace TightWiki.Controllers
                     {
                         return NotifyOfError(ex.GetBaseException().Message, "/");
                     }
-                    var page = (await PageRepository.GetPageRevisionById(model.Id)).EnsureNotNull();
-                    var instructions = await PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
+                    var page = (await pageRepository.GetPageRevisionById(model.Id)).EnsureNotNull();
+                    var instructions = await pageRepository.GetPageProcessingInstructionsByPageId(page.Id);
                     if (instructions.Contains(WikiInstruction.Protect) && !await SessionState.HoldsPermission(navigation, WikiPermission.Moderate))
                     {
                         return NotifyOfError(Localize("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed."));
@@ -1084,7 +1097,7 @@ namespace TightWiki.Controllers
 
                     if (!page.Navigation.Equals(model.Navigation, StringComparison.InvariantCultureIgnoreCase))
                     {
-                        if (await PageRepository.GetPageInfoByNavigation(model.Navigation) != null)
+                        if (await pageRepository.GetPageInfoByNavigation(model.Navigation) != null)
                         {
                             ModelState.AddModelError("Name", Localize("The page name you entered already exists."));
                             return View(model);
@@ -1098,10 +1111,10 @@ namespace TightWiki.Controllers
                     page.Body = model.Body ?? "";
                     page.Name = model.Name;
                     page.ChangeSummary = model.ChangeSummary ?? string.Empty;
-                    page.Navigation = NamespaceNavigation.CleanAndValidate(model.Name);
+                    page.Navigation = TwNamespaceNavigation.CleanAndValidate(model.Name);
                     page.Description = model.Description ?? "";
 
-                    await RepositoryHelpers.UpsertPage(tightEngine, Localizer, page, SessionState);
+                    await pageRepository.UpsertPage(tightEngine, Localizer, page, SessionState);
 
                     await SessionState.SetPageId(page.Id);
 
@@ -1109,8 +1122,8 @@ namespace TightWiki.Controllers
 
                     if (string.IsNullOrWhiteSpace(originalNavigation) == false)
                     {
-                        WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [originalNavigation]));
-                        WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Id]));
+                        MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.Page, [originalNavigation]));
+                        MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.Page, [page.Id]));
                         return Redirect($"{WikiConfiguration.BasePath}/{page.Navigation}/Edit");
                     }
 
@@ -1130,7 +1143,7 @@ namespace TightWiki.Controllers
         {
             try
             {
-                var template = await PageRepository.GetPageRevisionById(id);
+                var template = await pageRepository.GetPageRevisionById(id);
                 if (template == null)
                     return Json(new { body = "" });
                 return Json(new { body = template.Body });
@@ -1157,19 +1170,19 @@ namespace TightWiki.Controllers
         {
             try
             {
-                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-                var fileNavigation = new NamespaceNavigation(givenFileNavigation);
+                var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
+                var fileNavigation = new TwNamespaceNavigation(givenFileNavigation);
 
                 var scale = GetQueryValue<int?>("Scale");
                 var maxWidth = GetQueryValue<int?>("MaxWidth");
 
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, pageRevision, scale, maxWidth]);
-                if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
+                var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Page, [givenPageNavigation, givenFileNavigation, pageRevision, scale, maxWidth]);
+                if (MemCache.TryGet<TwImageCacheItem>(cacheKey, out var cached))
                 {
                     return File(cached.Bytes, cached.ContentType);
                 }
 
-                var file = await PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
+                var file = await pageRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
 
                 if (file != null)
                 {
@@ -1215,8 +1228,8 @@ namespace TightWiki.Controllers
                             using var image = ResizeImage(img, width, height);
                             using var ms = new MemoryStream();
                             file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
-                            var cacheItem = new ImageCacheItem(ms.ToArray(), file.ContentType);
-                            WikiCache.Set(cacheKey, cacheItem);
+                            var cacheItem = new TwImageCacheItem(ms.ToArray(), file.ContentType);
+                            MemCache.Set(cacheKey, cacheItem);
                             return File(cacheItem.Bytes, cacheItem.ContentType);
                         }
                     }
@@ -1228,12 +1241,12 @@ namespace TightWiki.Controllers
                         int width = Math.Max(1, (int)Math.Round(img.Width * widthScale));
                         int height = Math.Max(1, (int)Math.Round(img.Height * widthScale));
 
-                        using var image = Images.ResizeImage(img, width, height);
+                        using var image = ImagesUtility.ResizeImage(img, width, height);
                         using var ms = new MemoryStream();
                         image.SaveAsPng(ms);
 
-                        var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
-                        WikiCache.Set(cacheKey, cacheItem);
+                        var cacheItem = new TwImageCacheItem(ms.ToArray(), "image/png");
+                        MemCache.Set(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
                     else
@@ -1273,12 +1286,12 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-                var fileNavigation = new NamespaceNavigation(givenFileNavigation);
+                var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
+                var fileNavigation = new TwNamespaceNavigation(givenFileNavigation);
 
                 string givenScale = GetQueryValue("Scale", "100");
 
-                var file = await PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
+                var file = await pageRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
                 if (file != null)
                 {
                     var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(file.Data)));
@@ -1308,7 +1321,7 @@ namespace TightWiki.Controllers
                             width += 16 - width;
                         }
 
-                        using var image = Images.ResizeImage(img, width, height);
+                        using var image = ImagesUtility.ResizeImage(img, width, height);
                         using var ms = new MemoryStream();
                         image.SaveAsPng(ms);
                         return File(ms.ToArray(), "image/png");
@@ -1352,10 +1365,10 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-                var fileNavigation = new NamespaceNavigation(givenFileNavigation);
+                var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
+                var fileNavigation = new TwNamespaceNavigation(givenFileNavigation);
 
-                var file = await PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
+                var file = await pageRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
 
                 if (file != null)
                 {
@@ -1392,9 +1405,9 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var navigation = new NamespaceNavigation(givenCanonical);
+                var navigation = new TwNamespaceNavigation(givenCanonical);
 
-                var page = await PageRepository.GetPageRevisionByNavigation(navigation.Canonical);
+                var page = await pageRepository.GetPageRevisionByNavigation(navigation.Canonical);
                 if (page == null)
                 {
                     return NotFound();
@@ -1402,7 +1415,7 @@ namespace TightWiki.Controllers
 
                 var sr = new StringWriter();
                 var writer = new System.Xml.XmlTextWriter(sr);
-                var serializer = new XmlSerializer(typeof(WikiPage));
+                var serializer = new XmlSerializer(typeof(TwPage));
                 serializer.Serialize(writer, page);
 
                 return File(Encoding.UTF8.GetBytes(sr.ToString()), "text/xml", $"{givenCanonical}.xml");

@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
-using TightWiki.Models;
+using TightWiki.Pages;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Areas.Identity.Pages
 {
@@ -19,7 +19,7 @@ namespace TightWiki.Areas.Identity.Pages
     [AllowAnonymous]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class ErrorModel
-        : PageModelBase
+        : TwPageModel
     {
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -42,9 +42,9 @@ namespace TightWiki.Areas.Identity.Pages
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
         }
 
-        public ErrorModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-            ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
-            : base(logger, signInManager, localizer, wikiConfiguration)
+        public ErrorModel(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
+            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration, ITwDatabaseManager databaseManager)
+            : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
 
         }

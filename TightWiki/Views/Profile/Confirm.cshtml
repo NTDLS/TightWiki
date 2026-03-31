@@ -1,10 +1,12 @@
 ﻿@using TightWiki
-@using TightWiki.Models
-@using TightWiki.Library
-@inject ISharedLocalizationText Localizer
-@inject TightWikiConfiguration WikiConfiguration
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
+@using TightWiki.Plugin.Library
+@using TightWiki.ViewModels.Profile
+@inject ITwSharedLocalizationText Localizer
+@inject TwConfiguration WikiConfiguration
 
-@model TightWiki.Models.ViewModels.Profile.ConfirmViewModel
+@model ConfirmViewModel
 @{
     Layout = "_Layout";
 }

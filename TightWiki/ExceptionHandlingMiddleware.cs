@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using TightWiki.Exceptions;
-using TightWiki.Models;
+using TightWiki.Plugin;
 
 namespace TightWiki
 {
@@ -12,10 +12,10 @@ namespace TightWiki
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
-        private readonly TightWikiConfiguration _wikiConfiguration;
+        private readonly TwConfiguration _wikiConfiguration;
 
         public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger,
-             TightWikiConfiguration wikiConfiguration)
+             TwConfiguration wikiConfiguration)
         {
             _wikiConfiguration = wikiConfiguration;
             _next = next;

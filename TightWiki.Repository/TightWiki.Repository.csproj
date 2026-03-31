@@ -394,18 +394,13 @@
 
 	<ItemGroup>
 		<PackageReference Include="DuoVia.FuzzyStrings" Version="2.1.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.5" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.5" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\TightWiki.Caching\TightWiki.Caching.csproj" />
-		<ProjectReference Include="..\TightWiki.Engine.Library\TightWiki.Engine.Library.csproj" />
-		<ProjectReference Include="..\TightWiki.Models\TightWiki.Models.csproj" />
-		<ProjectReference Include="..\TightWiki.Security\TightWiki.Security.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Folder Include="Scripts\Initialization\PreInitialization\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />
 	</ItemGroup>
 </Project>

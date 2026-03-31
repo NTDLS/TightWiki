@@ -1,33 +1,52 @@
-﻿using Microsoft.Extensions.Logging;
-using TightWiki.Models.DataModels;
-using static TightWiki.Library.Constants;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using NTDLS.SqliteDapperWrapper;
+using TightWiki.Library.Extensions;
+using TightWiki.Plugin.Interfaces.Repository;
+using TightWiki.Plugin.Models;
+using TightWiki.Repository.Helpers;
+using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Repository
 {
-    public static class LoggingRepository
+    public class LoggingRepository
+        : ITwLoggingRepository
     {
-        public static async Task PurgeLogs()
+        readonly private ITwConfigurationRepository _configurationRepository;
+        public SqliteManagedFactory LoggingFactory { get; private set; }
+
+        public LoggingRepository(IConfiguration configuration, ITwConfigurationRepository configurationRepository)
         {
-            await ManagedDataStorage.Logging.ExecuteAsync("PurgeLogs.sql");
+            _configurationRepository = configurationRepository;
+            var configDatabaseFile = configurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);
+            var connectionString = configuration.GetDatabaseConnectionString("LoggingConnection", "logging.db", configDatabaseFile);
+            LoggingFactory = new SqliteManagedFactory(connectionString);
+
+            CreateTablesIfNotExist().Wait();
         }
 
-        public static async Task CreateTablesIfNotExist()
+        public async Task PurgeLogs()
         {
-            if (!ManagedDataStorage.Logging.DoesTableExist("Severity"))
+            await LoggingFactory.ExecuteAsync("PurgeLogs.sql");
+        }
+
+        public async Task CreateTablesIfNotExist()
+        {
+            if (!LoggingFactory.DoesTableExist("Severity"))
             {
-                await ManagedDataStorage.Logging.ExecuteAsync(@"Scripts\CreateSeverityTable.sql");
+                await LoggingFactory.ExecuteAsync(@"Scripts\CreateSeverityTable.sql");
             }
 
-            if (!ManagedDataStorage.Logging.DoesTableExist("Log"))
+            if (!LoggingFactory.DoesTableExist("Log"))
             {
-                await ManagedDataStorage.Logging.ExecuteAsync(@"Scripts\CreateLogTable.sql");
+                await LoggingFactory.ExecuteAsync(@"Scripts\CreateLogTable.sql");
             }
         }
 
-        public static async Task WriteException(string? text = null, string? exceptionText = null, string? stackTrace = null)
+        public async Task WriteException(string? text = null, string? exceptionText = null, string? stackTrace = null)
             => await WriteLog(LogLevel.Error, text, exceptionText, stackTrace);
 
-        public static async Task WriteLog(LogLevel severity, string? text = null, string? exceptionText = null, string? stackTrace = null)
+        public async Task WriteLog(LogLevel severity, string? text = null, string? exceptionText = null, string? stackTrace = null)
         {
             if (severity >= LogLevel.Warning)
             {
@@ -43,11 +62,11 @@ namespace TightWiki.Repository
                 CreatedDate = DateTime.UtcNow,
             };
 
-            await ManagedDataStorage.Logging.ExecuteAsync("InsertLog.sql", param);
+            await LoggingFactory.ExecuteAsync("InsertLog.sql", param);
         }
 
         /*
-        public static void WriteException(Exception ex)
+        public void WriteException(Exception ex)
         {
             var stackTrace = new StackTrace();
             var method = stackTrace.GetFrame(1)?.GetMethod();
@@ -55,21 +74,21 @@ namespace TightWiki.Repository
             WriteLog(WikiSeverity.Error, message, ex.Message, ex.StackTrace);
         }
 
-        public static void WriteException(Exception ex, string text)
+        public void WriteException(Exception ex, string text)
         {
             WriteLog(WikiSeverity.Error, text, ex.Message, ex.StackTrace);
         }
         */
 
-        public static async Task<int> GetExceptionCount()
+        public async Task<int> GetExceptionCount()
         {
-            return await ManagedDataStorage.Logging.ExecuteScalarAsync<int>("GetExceptionCount.sql");
+            return await LoggingFactory.ExecuteScalarAsync<int>("GetExceptionCount.sql");
         }
 
-        public static async Task<List<WikiLogEntry>> GetLogEntriesPaged(int pageNumber,
+        public async Task<List<TwLogEntry>> GetLogEntriesPaged(int pageNumber,
             string? orderBy = null, string? orderByDirection = null)
         {
-            var paginationSize = await ConfigurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -78,17 +97,17 @@ namespace TightWiki.Repository
             };
 
             var query = RepositoryHelpers.TransposeOrderby("GetLogEntriesPaged.sql", orderBy, orderByDirection);
-            return await ManagedDataStorage.Logging.QueryAsync<WikiLogEntry>(query, param);
+            return await LoggingFactory.QueryAsync<TwLogEntry>(query, param);
         }
 
-        public static async Task<WikiLogEntry> GetLogEntryById(int id)
+        public async Task<TwLogEntry> GetLogEntryById(int id)
         {
             var param = new
             {
                 Id = id
             };
 
-            return await ManagedDataStorage.Logging.QuerySingleAsync<WikiLogEntry>("GetLogEntryById.sql", param);
+            return await LoggingFactory.QuerySingleAsync<TwLogEntry>("GetLogEntryById.sql", param);
         }
     }
 }

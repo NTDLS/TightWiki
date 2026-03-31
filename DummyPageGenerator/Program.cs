@@ -1,34 +1,21 @@
-﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using Dapper;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using NTDLS.DelegateThreadPooling;
-using TightWiki.Engine;
-using TightWiki.Engine.Implementation.Handlers;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
-using TightWiki.Repository;
+﻿using TightWiki.Plugin.Interfaces;
 
 namespace DummyPageGenerator
 {
     internal class Program
     {
         public class NoOpCompletionHandler
-            : ICompletionHandler
+        //: ITwCompletionHandler
         {
-            public async Task Complete(ITightEngineState state)
+            public async Task Handle(ITwEngineState state)
             {
             }
         }
 
         static async Task Main(string[] args)
         {
-            SqlMapper.AddTypeHandler(new GuidTypeHandler());
+            /*
+            SqlMapper.AddTypeHandler(new TwGuidTypeHandler());
 
             var host = Host.CreateDefaultBuilder(args)
                        .ConfigureAppConfiguration((context, config) =>
@@ -39,16 +26,16 @@ namespace DummyPageGenerator
                        .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                        .ConfigureContainer<ContainerBuilder>(containerBuilder =>
                        {
-                           containerBuilder.RegisterType<MarkupHandler>().As<IMarkupHandler>().SingleInstance();
-                           containerBuilder.RegisterType<HeadingHandler>().As<IHeadingHandler>().SingleInstance();
-                           containerBuilder.RegisterType<CommentHandler>().As<ICommentHandler>().SingleInstance();
-                           containerBuilder.RegisterType<EmojiHandler>().As<IEmojiHandler>().SingleInstance();
-                           containerBuilder.RegisterType<ExternalLinkHandler>().As<IExternalLinkHandler>().SingleInstance();
-                           containerBuilder.RegisterType<InternalLinkHandler>().As<IInternalLinkHandler>().SingleInstance();
-                           containerBuilder.RegisterType<ExceptionHandler>().As<IExceptionHandler>().SingleInstance();
-                           containerBuilder.RegisterType<NoOpCompletionHandler>().As<ICompletionHandler>().SingleInstance();
+                           containerBuilder.RegisterType<MarkupHandler>().As<ITwMarkupHandler>().SingleInstance();
+                           containerBuilder.RegisterType<HeadingHandler>().As<ITwHeadingHandler>().SingleInstance();
+                           containerBuilder.RegisterType<CommentHandler>().As<ITwCommentHandler>().SingleInstance();
+                           containerBuilder.RegisterType<EmojiHandler>().As<ITwEmojiHandler>().SingleInstance();
+                           containerBuilder.RegisterType<ExternalLinkHandler>().As<ITwExternalLinkHandler>().SingleInstance();
+                           containerBuilder.RegisterType<InternalLinkHandler>().As<ITwInternalLinkHandler>().SingleInstance();
+                           containerBuilder.RegisterType<ExceptionHandler>().As<ITwExceptionHandler>().SingleInstance();
+                           containerBuilder.RegisterType<NoOpCompletionHandler>().As<ITwCompletionHandler>().SingleInstance();
 
-                           containerBuilder.RegisterType<TightEngine>().As<ITightEngine>().SingleInstance();
+                           containerBuilder.RegisterType<TwEngine>().As<ITwEngine>().SingleInstance();
                        }).Build();
 
 
@@ -57,7 +44,7 @@ namespace DummyPageGenerator
 
             services.AddLogging(configure => configure.AddConsole());
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<TwApplicationDbContext>(options =>
                 options.UseSqlite(configuration.GetConnectionString("UsersConnection")));
 
             ManagedDataStorage.Pages.SetConnectionString(configuration.GetConnectionString("PagesConnection"));
@@ -72,7 +59,7 @@ namespace DummyPageGenerator
 
             // Register Identity services
             services.AddIdentity<IdentityUser, IdentityRole>()
-                    .AddEntityFrameworkStores<ApplicationDbContext>()
+                    .AddEntityFrameworkStores<TwApplicationDbContext>()
                     .AddDefaultTokenProviders();
 
             var serviceProvider = services.BuildServiceProvider();
@@ -84,7 +71,7 @@ namespace DummyPageGenerator
 
             //await ConfigurationRepository.ReloadEverything();
 
-            var pg = new PageGenerator(new VerbatimLocalizationText(), userManager);
+            var pg = new PageGenerator(new TwVerbatimLocalizationText(), userManager);
 
             var pool = new DelegateThreadPool();
 
@@ -97,7 +84,7 @@ namespace DummyPageGenerator
                     workload.Enqueue(async () =>
                     {
                         using var scope = host.Services.CreateScope();
-                        var engine = scope.ServiceProvider.GetRequiredService<TightEngine>();
+                        var engine = scope.ServiceProvider.GetRequiredService<TwEngine>();
 
                         //Create a new page:
                         await pg.GeneratePage(engine, user.UserId);
@@ -113,6 +100,7 @@ namespace DummyPageGenerator
 
                 workload.WaitForCompletion();
             }
+            */
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using NTDLS.SqliteDapperWrapper;
 using System.Text;
-using TightWiki.Models.DataModels.Defaults;
+using TightWiki.Plugin.Models.Defaults;
 
 namespace GenerateSeedData
 {
@@ -37,7 +37,7 @@ namespace GenerateSeedData
             Console.WriteLine("Generating: DefaultConfiguration.");
 
             defaults.Execute(@"Scripts\RecreateDefaultConfigurationTable.sql");
-            var configurations = configDb.Query<DefaultConfiguration>(@"Scripts\GetDefaultConfiguration.sql");
+            var configurations = configDb.Query<TwDefaultConfiguration>(@"Scripts\GetDefaultConfiguration.sql");
             foreach (var t in configurations)
             {
                 sb.Clear();
@@ -53,7 +53,7 @@ namespace GenerateSeedData
             Console.WriteLine("Generating: DefaultThemes.");
 
             defaults.Execute(@"Scripts\RecreateDefaultThemesTable.sql");
-            var themes = configDb.Query<DefaultTheme>(@"Scripts\GetDefaultThemes.sql");
+            var themes = configDb.Query<TwDefaultTheme>(@"Scripts\GetDefaultThemes.sql");
             foreach (var t in themes)
             {
                 sb.Clear();
@@ -69,7 +69,7 @@ namespace GenerateSeedData
             Console.WriteLine("Generating: DefaultFeatureTemplates.");
 
             defaults.Execute(@"Scripts\RecreateDefaultFeatureTemplatesTable.sql");
-            var templates = pagesDb.Query<DefaultFeatureTemplate>(@"Scripts\GetFeatureTemplates.sql");
+            var templates = pagesDb.Query<TwDefaultFeatureTemplate>(@"Scripts\GetFeatureTemplates.sql");
             foreach (var t in templates)
             {
                 sb.Clear();
@@ -85,7 +85,7 @@ namespace GenerateSeedData
             Console.WriteLine("Generating: DefaultWikiPages.");
 
             defaults.Execute(@"Scripts\RecreateDefaultWikiPagesTable.sql");
-            var wikiPages = pagesDb.Query<DefaultWikiPage>(@"Scripts\GetDefaultDefaultWikiPages.sql");
+            var wikiPages = pagesDb.Query<TwDefaultWikiPage>(@"Scripts\GetDefaultDefaultWikiPages.sql");
             foreach (var page in wikiPages)
             {
                 sb.Clear();

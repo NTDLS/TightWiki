@@ -1,10 +1,11 @@
 ﻿@page
-@using TightWiki.Library
-@inject ISharedLocalizationText Localizer
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
+@inject ITwSharedLocalizationText Localizer
 
 @model AccessDeniedModel
 @{
-    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>

@@ -1,11 +1,11 @@
 @inject SignInManager<IdentityUser> SignInManager
-
-@using TightWiki.Library
-@inject ISharedLocalizationText Localizer
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
+@inject ITwSharedLocalizationText Localizer
 
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
-    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 <ul class="nav nav-pills flex-column">
     <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">@Localizer["Email"]</a></li>

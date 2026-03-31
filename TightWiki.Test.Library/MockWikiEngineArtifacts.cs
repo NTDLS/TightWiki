@@ -1,40 +1,20 @@
-﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using Dapper;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using NTDLS.Helpers;
-using System.Security.Claims;
-using System.Text;
-using TightWiki.Engine;
-using TightWiki.Engine.Implementation.Handlers;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
-using TightWiki.Models.DataModels;
-using TightWiki.Repository;
-using TightWiki.Repository.Extensions;
-using static TightWiki.Library.Constants;
-
-namespace TightWiki.Test.Library
+﻿namespace TightWiki.Test.Library
 {
+    /*
     public class MockWikiEngineArtifacts
     {
-        public ITightEngine Engine { get; private set; }
+        public ITwEngine Engine { get; private set; }
         public SignInManager<IdentityUser> SignInManager { get; private set; }
         public UserManager<IdentityUser> UserManager { get; private set; }
         public IUserStore<IdentityUser> UserStore { get; private set; }
-        public VerbatimLocalizationText Localizer { get; private set; }
+        public TwVerbatimLocalizationText Localizer { get; private set; }
 
         public MockWikiEngineArtifacts()
         {
-            SqlMapper.AddTypeHandler(new GuidTypeHandler());
+            SqlMapper.AddTypeHandler(new TwGuidTypeHandler());
 
             //Creating localizer.
-            Localizer = new VerbatimLocalizationText();
+            Localizer = new TwVerbatimLocalizationText();
 
             //Creating host builder.
             var host = Host.CreateDefaultBuilder()
@@ -46,15 +26,15 @@ namespace TightWiki.Test.Library
                        .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                        .ConfigureContainer<ContainerBuilder>(containerBuilder =>
                        {
-                           containerBuilder.RegisterType<MarkupHandler>().As<IMarkupHandler>().SingleInstance();
-                           containerBuilder.RegisterType<HeadingHandler>().As<IHeadingHandler>().SingleInstance();
-                           containerBuilder.RegisterType<CommentHandler>().As<ICommentHandler>().SingleInstance();
-                           containerBuilder.RegisterType<EmojiHandler>().As<IEmojiHandler>().SingleInstance();
-                           containerBuilder.RegisterType<ExternalLinkHandler>().As<IExternalLinkHandler>().SingleInstance();
-                           containerBuilder.RegisterType<InternalLinkHandler>().As<IInternalLinkHandler>().SingleInstance();
-                           containerBuilder.RegisterType<ExceptionHandler>().As<IExceptionHandler>().SingleInstance();
-                           containerBuilder.RegisterType<NoOpCompletionHandler>().As<ICompletionHandler>().SingleInstance();
-                           containerBuilder.RegisterType<TightEngine>().As<ITightEngine>().SingleInstance();
+                           containerBuilder.RegisterType<MarkupHandler>().As<ITwMarkupHandler>().SingleInstance();
+                           containerBuilder.RegisterType<HeadingHandler>().As<ITwHeadingHandler>().SingleInstance();
+                           containerBuilder.RegisterType<CommentHandler>().As<ITwCommentHandler>().SingleInstance();
+                           containerBuilder.RegisterType<EmojiHandler>().As<ITwEmojiHandler>().SingleInstance();
+                           containerBuilder.RegisterType<ExternalLinkHandler>().As<ITwExternalLinkHandler>().SingleInstance();
+                           containerBuilder.RegisterType<InternalLinkHandler>().As<ITwInternalLinkHandler>().SingleInstance();
+                           containerBuilder.RegisterType<ExceptionHandler>().As<ITwExceptionHandler>().SingleInstance();
+                           containerBuilder.RegisterType<NoOpCompletionHandler>().As<ITwCompletionHandler>().SingleInstance();
+                           containerBuilder.RegisterType<TwEngine>().As<ITwEngine>().SingleInstance();
                        }).Build();
 
             //Resolving config services.
@@ -62,24 +42,27 @@ namespace TightWiki.Test.Library
 
             //Setting database contexts.
             ManagedDataStorage.Config.SetConnectionString(configuration.GetDatabaseConnectionString("ConfigConnection", "config.db"));
-            ManagedDataStorage.Logging.SetConnectionString(configuration.GetDatabaseConnectionString("LoggingConnection", "logging.db"));
-            ManagedDataStorage.Pages.SetConnectionString(configuration.GetDatabaseConnectionString("PagesConnection", "pages.db"));
-            ManagedDataStorage.DeletedPages.SetConnectionString(configuration.GetDatabaseConnectionString("DeletedPagesConnection", "deletedpages.db"));
-            ManagedDataStorage.DeletedPageRevisions.SetConnectionString(configuration.GetDatabaseConnectionString("DeletedPageRevisionsConnection", "deletedpagerevisions.db"));
-            ManagedDataStorage.Statistics.SetConnectionString(configuration.GetDatabaseConnectionString("StatisticsConnection", "statistics.db"));
-            ManagedDataStorage.Emoji.SetConnectionString(configuration.GetDatabaseConnectionString("EmojiConnection", "emoji.db"));
-            ManagedDataStorage.Users.SetConnectionString(configuration.GetDatabaseConnectionString("UsersConnection", "users.db"));
+
+            var configDatabaseFile = configurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);
+
+            ManagedDataStorage.Logging.SetConnectionString(configuration.GetDatabaseConnectionString("LoggingConnection", "logging.db", configDatabaseFile));
+            ManagedDataStorage.Pages.SetConnectionString(configuration.GetDatabaseConnectionString("PagesConnection", "pages.db", configDatabaseFile));
+            ManagedDataStorage.DeletedPages.SetConnectionString(configuration.GetDatabaseConnectionString("DeletedPagesConnection", "deletedpages.db", configDatabaseFile));
+            ManagedDataStorage.DeletedPageRevisions.SetConnectionString(configuration.GetDatabaseConnectionString("DeletedPageRevisionsConnection", "deletedpagerevisions.db", configDatabaseFile));
+            ManagedDataStorage.Statistics.SetConnectionString(configuration.GetDatabaseConnectionString("StatisticsConnection", "statistics.db", configDatabaseFile));
+            ManagedDataStorage.Emoji.SetConnectionString(configuration.GetDatabaseConnectionString("EmojiConnection", "emoji.db", configDatabaseFile));
+            ManagedDataStorage.Users.SetConnectionString(configuration.GetDatabaseConnectionString("UsersConnection", "users.db", configDatabaseFile));
 
             var services = new ServiceCollection();
 
             services.AddLogging(configure => configure.AddConsole());
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<TwApplicationDbContext>(options =>
                 options.UseSqlite(ManagedDataStorage.Users.Ephemeral(o => o.NativeConnection.ConnectionString)));
 
             //Register identity services.
             services.AddIdentity<IdentityUser, IdentityRole>()
-                    .AddEntityFrameworkStores<ApplicationDbContext>()
+                    .AddEntityFrameworkStores<TwApplicationDbContext>()
                     .AddDefaultTokenProviders();
 
             //Build service provider.
@@ -89,7 +72,7 @@ namespace TightWiki.Test.Library
             SignInManager = serviceProvider.GetRequiredService<SignInManager<IdentityUser>>();
             UserManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
             UserStore = serviceProvider.GetRequiredService<IUserStore<IdentityUser>>();
-            Engine = host.Services.GetRequiredService<ITightEngine>();
+            Engine = host.Services.GetRequiredService<ITwEngine>();
 
             //Loading all settings.
             //ConfigurationRepository.ReloadEverything().Wait();
@@ -99,7 +82,7 @@ namespace TightWiki.Test.Library
         {
             try
             {
-                var profile = await UsersRepository.GetAccountProfileByNavigation(Navigation.Clean(createdByAccountNavigaion));
+                var profile = await UsersRepository.GetAccountProfileByNavigation(TwNavigation.Clean(createdByAccountNavigaion));
                 var body = new StringBuilder();
 
                 body.AppendLine($"##title");
@@ -120,7 +103,7 @@ namespace TightWiki.Test.Library
                 body.AppendLine($"##related");
                 body.AppendLine("\r\n");
 
-                var page = new WikiPage()
+                var page = new TwPage()
                 {
                     Name = navigation,
                     Body = body.ToString(),
@@ -131,7 +114,7 @@ namespace TightWiki.Test.Library
                     Description = "This is just a test page.",
                 };
 
-                var localizer = new VerbatimLocalizationText();
+                var localizer = new TwVerbatimLocalizationText();
                 int newPageId = await RepositoryHelpers.UpsertPage(Engine, localizer, page);
 
                 var fileName = "testFile.txt";
@@ -151,13 +134,13 @@ namespace TightWiki.Test.Library
                 //    throw new Exception("Could not save the attached file, too large");
             }
 
-            await PageFileRepository.UpsertPageFile(new PageFileAttachment()
+            await PageFileRepository.UpsertPageFile(new TwPageFileAttachment()
             {
                 Data = fileData,
                 CreatedDate = DateTime.UtcNow,
                 PageId = pageId,
                 Name = fileName,
-                FileNavigation = Navigation.Clean(fileName),
+                FileNavigation = TwNavigation.Clean(fileName),
                 Size = fileData.Length,
                 ContentType = Utility.GetMimeType(fileName)
             }, userId);
@@ -192,6 +175,6 @@ namespace TightWiki.Test.Library
 
             await SecurityRepository.UpsertUserClaims(UserManager, user, claimsToAdd);
         }
-
     }
+    */
 }

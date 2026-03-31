@@ -2,19 +2,26 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
-using TightWiki.Models;
-using TightWiki.Models.ViewModels.Page;
-using TightWiki.Repository;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Engine;
+using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Repository;
+using TightWiki.ViewModels.Page;
 
 namespace TightWiki.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class TagsController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
-        : WikiControllerBase<TagsController>(logger, signInManager, userManager, localizer, wikiConfiguration)
+    public class TagsController(
+            ILogger<ITwEngine> logger,
+            ITwPageRepository pageRepository,
+            ITwSharedLocalizationText localizer,
+            SignInManager<IdentityUser> signInManager,
+            TwConfiguration wikiConfiguration,
+            UserManager<IdentityUser> userManager,
+            ITwDatabaseManager databaseManager
+        )
+        : TwController<TagsController>(logger, signInManager, userManager, localizer, wikiConfiguration, databaseManager)
     {
         [AllowAnonymous]
         [HttpGet("Browse/{givenCanonical}")]
@@ -32,10 +39,10 @@ namespace TightWiki.Controllers
                 }
                 SessionState.Page.Name = Localize("Tags");
 
-                givenCanonical = NamespaceNavigation.CleanAndValidate(givenCanonical);
+                givenCanonical = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
 
                 string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
-                var pages = (await PageRepository.GetPageInfoByTag(givenCanonical)).OrderBy(o => o.Name).ToList();
+                var pages = (await pageRepository.GetPageInfoByTag(givenCanonical)).OrderBy(o => o.Name).ToList();
                 var glossaryHtml = new StringBuilder();
                 var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpperInvariant()).Distinct();
 
@@ -71,10 +78,10 @@ namespace TightWiki.Controllers
                     glossaryHtml.Append("</ul>");
                 }
 
-                var model = new BrowseViewModel
+                var model = new BrowseViewModel()
                 {
                     AssociatedPages = glossaryHtml.ToString(),
-                    TagCloud = await TagCloudBuilder.Build(WikiConfiguration.BasePath, givenCanonical, 100)
+                    TagCloud = await TwTagCloudBuilder.Build(pageRepository, WikiConfiguration.BasePath, givenCanonical, 100)
                 };
 
                 return View(model);

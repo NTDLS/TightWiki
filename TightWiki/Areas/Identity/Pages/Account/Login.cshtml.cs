@@ -9,23 +9,23 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Security.Claims;
-using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Extensions;
-using TightWiki.Library;
-using TightWiki.Models;
-using TightWiki.Repository;
-using TightWiki.Security;
-using static TightWiki.Library.Constants;
+using TightWiki.Library.Security;
+using TightWiki.Pages;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Repository;
+using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
     public class LoginInputModel
     {
-        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        [Required]
         public string Username { get; set; }
 
-        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
-        [DataType(DataType.Password, ErrorMessageResourceName = "DataTypeAttribute_EmptyDataTypeString", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Display(Name = "Remember me?")]
@@ -33,24 +33,36 @@ namespace TightWiki.Areas.Identity.Pages.Account
     }
 
     public class LoginModel
-        : PageModelBase
+        : TwPageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<ITightEngine> _logger;
-        private readonly ISharedLocalizationText _localizer;
+        private readonly ILogger<ITwEngine> _logger;
+        private readonly ITwSharedLocalizationText _localizer;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ITwConfigurationRepository _configurationRepository;
+        private readonly ITwUsersRepository _usersRepository;
 
-        public LoginModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, ISharedLocalizationText localizer,
-            IHttpContextAccessor httpContextAccessor, TightWikiConfiguration wikiConfiguration)
-            : base(logger, signInManager, localizer, wikiConfiguration)
+        public LoginModel(
+                ILogger<ITwEngine> logger,
+                SignInManager<IdentityUser> signInManager,
+                UserManager<IdentityUser> userManager,
+                ITwSharedLocalizationText localizer,
+                IHttpContextAccessor httpContextAccessor,
+                TwConfiguration wikiConfiguration,
+                ITwConfigurationRepository configurationRepository,
+                ITwUsersRepository usersRepository,
+                ITwDatabaseManager databaseManager
+            )
+            : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
             _httpContextAccessor = httpContextAccessor;
             _localizer = localizer;
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
+            _configurationRepository = configurationRepository;
+            _usersRepository = usersRepository;
         }
 
         [BindProperty]
@@ -86,7 +98,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-                var ldapAuthenticationConfiguration = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.LDAPAuthentication);
+                var ldapAuthenticationConfiguration = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.LDAPAuthentication);
 
                 ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{WikiConfiguration.BasePath}/");
 
@@ -126,7 +138,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                                 var foundUser = await _userManager.FindByLoginAsync(loginInfo.LoginProvider, loginInfo.ProviderKey);
 
-                                if (foundUser != null && await UsersRepository.GetBasicProfileByUserId(Guid.Parse(foundUser.Id)) != null)
+                                if (foundUser != null && await _usersRepository.GetBasicProfileByUserId(Guid.Parse(foundUser.Id)) != null)
                                 {
                                     await SignInManager.SignInAsync(foundUser, Input.RememberMe);
                                     return Redirect(returnUrl);
@@ -171,7 +183,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                                     }
 
                                     // Check if the user has a profile, if not, redirect to the supplemental info page.
-                                    if (await UsersRepository.GetBasicProfileByUserId(Guid.Parse(foundUser.Id)) == null)
+                                    if (await _usersRepository.GetBasicProfileByUserId(Guid.Parse(foundUser.Id)) == null)
                                     {
                                         if (WikiConfiguration.AllowSignup != true)
                                         {
@@ -221,7 +233,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                 if (Guid.TryParse(userIdString, out var userId))
                 {
-                    var profile = await UsersRepository.GetBasicProfileByUserId(userId);
+                    var profile = await _usersRepository.GetBasicProfileByUserId(userId);
                     if (profile != null)
                     {
                         Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
@@ -240,7 +252,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             }
             catch (Exception ex)
             {
-                Logger.LogError("Error updating user culture cookie: {Message}", ex.Message);
+                _logger.LogError("Error updating user culture cookie: {Message}", ex.Message);
             }
         }
     }

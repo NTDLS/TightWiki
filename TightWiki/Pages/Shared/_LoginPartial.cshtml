@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using TightWiki.Library
-@inject ISharedLocalizationText Localizer
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
+@inject ITwSharedLocalizationText Localizer
 
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager

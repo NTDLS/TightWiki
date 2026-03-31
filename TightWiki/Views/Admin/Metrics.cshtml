@@ -1,15 +1,17 @@
 @using TightWiki
+@using TightWiki.Plugin
+@using TightWiki.Library.Caching
+@using TightWiki.Plugin.Interfaces
+@using TightWiki.ViewModels.Admin
 @using System.Globalization
 @using System.Runtime.InteropServices;
-@using TightWiki.Models
-@using TightWiki.Library
-@inject ISharedLocalizationText Localizer
-@inject TightWikiConfiguration WikiConfiguration
+@inject ITwSharedLocalizationText Localizer
+@inject TwConfiguration WikiConfiguration
 
-@model TightWiki.Models.ViewModels.Admin.MetricsViewModel
+@model MetricsViewModel
 @{
     Layout = "_Layout";
-    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
@@ -31,7 +33,7 @@
             <i class="bi bi-speedometer2 me-2"></i>@Localizer["System Metrics"]
         </span>
 
-        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
+        @Html.Raw(TwConfirmActionHelper.GenerateWarnButton(
             WikiConfiguration.BasePath,
             Localizer["Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?"].Value,
             Localizer["Purge Memory Cache"].Value,
@@ -113,7 +115,7 @@
                 </tr>
                 <tr>
                     <th scope="row">@Localizer["Exceptions"]</th>
-                    <td><a class="text-decoration-none" href="@WikiConfiguration.BasePath/Admin/Exceptions">@Model.Metrics.Exceptions.ToString("N0")</a></td>
+                    <td><a class="text-decoration-none" href="@WikiConfiguration.BasePath/Admin/Exceptions">@Model.Exceptions.ToString("N0")</a></td>
                     <th scope="row">&nbsp;</th>
                     <td>&nbsp;</td>
                 </tr>
@@ -142,12 +144,12 @@
             </thead>
             <tbody>
                 <tr>
-                    <td class="text-end">@TightWiki.Caching.WikiCache.CacheItemCount.ToString("N0")</td>
-                    <td class="text-end">@TightWiki.Caching.WikiCache.CacheSets.ToString("N0")</td>
-                    <td class="text-end">@TightWiki.Caching.WikiCache.CacheGets.ToString("N0")</td>
-                    <td class="text-end">@TightWiki.Caching.WikiCache.CacheHits.ToString("N0")</td>
-                    <td class="text-end">@TightWiki.Caching.WikiCache.CacheMisses.ToString("N0")</td>
-                    <td class="text-end">@NTDLS.Helpers.Formatters.FileSize((long)TightWiki.Caching.WikiCache.CacheMemoryLimit)</td>
+                    <td class="text-end">@MemCache.CacheItemCount.ToString("N0")</td>
+                    <td class="text-end">@MemCache.CacheSets.ToString("N0")</td>
+                    <td class="text-end">@MemCache.CacheGets.ToString("N0")</td>
+                    <td class="text-end">@MemCache.CacheHits.ToString("N0")</td>
+                    <td class="text-end">@MemCache.CacheMisses.ToString("N0")</td>
+                    <td class="text-end">@NTDLS.Helpers.Formatters.FileSize((long)MemCache.CacheMemoryLimit)</td>
                 </tr>
             </tbody>
         </table>

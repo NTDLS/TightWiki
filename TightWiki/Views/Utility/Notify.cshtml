@@ -1,9 +1,12 @@
-﻿@using TightWiki.Library
-@using TightWiki.Models
-@inject ISharedLocalizationText Localizer
-@inject TightWikiConfiguration WikiConfiguration
+﻿@using TightWiki
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
+@using TightWiki.Plugin.Library
+@using TightWiki.ViewModels.Utility
+@inject ITwSharedLocalizationText Localizer
+@inject TwConfiguration WikiConfiguration
 
-@model TightWiki.Models.ViewModels.Utility.NotifyViewModel
+@model NotifyViewModel
 @{
     Layout = "_Layout";
     bool _isFirst = true;

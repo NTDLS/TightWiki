@@ -4,11 +4,12 @@ using NTDLS.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Security.Claims;
-using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
-using TightWiki.Models;
-using TightWiki.Repository;
-using static TightWiki.Library.Constants;
+using TightWiki.Pages;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Repository;
+using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -20,7 +21,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
 
         [Display(Name = "Display Name")]
-        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        [Required]
         public string AccountName { get; set; } = string.Empty;
 
         [Display(Name = "First Name")]
@@ -30,38 +31,48 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public string? LastName { get; set; } = string.Empty;
 
         [Display(Name = "Time-Zone")]
-        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        [Required]
         public string TimeZone { get; set; } = string.Empty;
 
         [Display(Name = "Country")]
-        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        [Required]
         public string Country { get; set; } = string.Empty;
 
         [Display(Name = "Language")]
-        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        [Required]
         public string Language { get; set; } = string.Empty;
     }
 
 
-    public class ExternalLoginSupplementalModel : PageModelBase
+    public class ExternalLoginSupplementalModel : TwPageModel
     {
         [BindProperty]
         public string? ReturnUrl { get; set; }
 
         private UserManager<IdentityUser> _userManager;
-        private readonly ILogger<ITightEngine> _logger;
-        private readonly ISharedLocalizationText _localizer;
+        private readonly ILogger<ITwEngine> _logger;
+        private readonly ITwSharedLocalizationText _localizer;
+        private readonly ITwConfigurationRepository _configurationRepository;
+        private readonly ITwUsersRepository _usersRepository;
 
         public ExternalLoginSupplementalModel(
-            ILogger<ITightEngine> logger,
-            SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore, ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
-            : base(logger, signInManager, localizer, wikiConfiguration)
+                ILogger<ITwEngine> logger,
+                SignInManager<IdentityUser> signInManager,
+                UserManager<IdentityUser> userManager,
+                IUserStore<IdentityUser> userStore,
+                ITwSharedLocalizationText localizer,
+                TwConfiguration wikiConfiguration,
+                ITwConfigurationRepository configurationRepository,
+                ITwUsersRepository usersRepository,
+                ITwDatabaseManager databaseManager
+            )
+            : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
             _logger = logger;
             _userManager = userManager;
             _localizer = localizer;
+            _configurationRepository = configurationRepository;
+            _usersRepository = usersRepository;
         }
 
         [BindProperty]
@@ -93,7 +104,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             Input.Countries = CountryItem.GetAll();
             Input.Languages = LanguageItem.GetAll();
 
-            var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
+            var membershipConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
 
             if (string.IsNullOrEmpty(Input.TimeZone))
                 Input.TimeZone = membershipConfig.Value<string>("Default TimeZone").EnsureNotNull();
@@ -128,7 +139,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     ModelState.AddModelError("Input.AccountName", _localizer["Display Name is required."]);
                     return Page();
                 }
-                else if (await UsersRepository.DoesProfileAccountExist(Input.AccountName))
+                else if (await _usersRepository.DoesProfileAccountExist(Input.AccountName))
                 {
                     ModelState.AddModelError("Input.AccountName", _localizer["Display Name is already in use."]);
                     return Page();
@@ -159,9 +170,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     return NotifyOfError(_localizer["An error occurred while adding the login."]);
                 }
 
-                var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
-                await UsersRepository.CreateProfile(Guid.Parse(user.Id), Input.AccountName);
-                await UsersRepository.AddRoleMemberByname(Guid.Parse(user.Id), membershipConfig.Value<string>("Default Signup Role").EnsureNotNull());
+                var membershipConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
+                await _usersRepository.CreateProfile(Guid.Parse(user.Id), Input.AccountName);
+                await _usersRepository.AddRoleMemberByname(Guid.Parse(user.Id), membershipConfig.Value<string>("Default Signup Role").EnsureNotNull());
 
                 var claimsToAdd = new List<Claim>
                 {
@@ -172,7 +183,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     new ("lastname", Input.LastName ?? ""),
                 };
 
-                await SecurityRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
+                await _usersRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
 
                 await SignInManager.SignInAsync(user, isPersistent: false);
             }

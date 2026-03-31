@@ -3,16 +3,17 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.Extensions.Options
 @using TightWiki
-@using TightWiki.Engine.Library.Interfaces
-@using TightWiki.Library
-@using TightWiki.Models
-@using static TightWiki.Library.Constants
-@inject ISharedLocalizationText Localizer
-@inject ITightEngine TightEngine
-@inject TightWikiConfiguration WikiConfiguration
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
+@using TightWiki.Plugin.Interfaces.Repository
+@using static TightWiki.Plugin.TwConstants
+@inject ITwSharedLocalizationText Localizer
+@inject ITwEngine TightEngine
+@inject TwConfiguration WikiConfiguration
+@inject ITwUsersRepository UsersRepository
 
 @{
-    var sessionState = ViewData["SessionState"] as SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
 
     string navBarClass = $"navbar navbar-expand-sm {(WikiConfiguration.FixedMenuPosition ? "fixed-top" : "")} navbar-light bg-white border-bottom shadow-sm";
     var isPageProtected = sessionState.PageInstructions.Contains(WikiInstruction.Protect);
@@ -142,7 +143,7 @@
                 <div id="mainNavbar" class="collapse navbar-collapse">
                     <ul class="navbar-nav me-auto mb-2 mb-sm-0">
 
-                        @foreach (TightWiki.Models.DataModels.MenuItem item in WikiConfiguration.MenuItems)
+                        @foreach (var item in WikiConfiguration.MenuItems)
                         {
                             if (item.Link.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) ||
                                 item.Link.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
@@ -325,7 +326,7 @@
         <main role="main" class="pb-3">
             @Html.Raw(WikiConfiguration.HTMLPreBody)
 
-            @if (await TightWiki.Repository.UsersRepository.AdminPasswordStatus() != WikiAdminPasswordChangeState.HasBeenChanged)
+            @if (await UsersRepository.AdminPasswordStatus() != WikiAdminPasswordChangeState.HasBeenChanged)
             {
                 <div class="card shadow-sm border-warning mb-3">
                     <div class="card-header bg-warning-subtle border-warning">
@@ -336,7 +337,7 @@
                     <div class="card-body">
                         <strong>@Localizer["Current admin login"]:</strong><br />
                         <span class="ms-3"><strong>@Localizer["Username"]:</strong> "admin@tightwiki.com"</span><br />
-                        <span class="ms-3"><strong>@Localizer["Password"]:</strong> "@TightWiki.Library.Constants.DEFAULTPASSWORD"</span>
+                        <span class="ms-3"><strong>@Localizer["Password"]:</strong> "@TwConstants.DEFAULTPASSWORD"</span>
                     </div>
                 </div>
             }

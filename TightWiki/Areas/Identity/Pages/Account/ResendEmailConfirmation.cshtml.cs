@@ -9,35 +9,43 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
-using TightWiki.Library.Interfaces;
-using TightWiki.Models;
-using TightWiki.Repository;
-using static TightWiki.Library.Constants;
+using TightWiki.Pages;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Repository;
+using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class ResendEmailConfirmationModel : PageModelBase
+    public class ResendEmailConfirmationModel : TwPageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IWikiEmailSender _emailSender;
-        private readonly ILogger<ITightEngine> _logger;
-        private readonly ISharedLocalizationText _localizer;
+        private readonly ITwEmailSender _emailSender;
+        private readonly ILogger<ITwEngine> _logger;
+        private readonly ITwSharedLocalizationText _localizer;
+        private readonly ITwConfigurationRepository _configurationRepository;
+        private readonly ITwUsersRepository _usersRepository;
 
         public ResendEmailConfirmationModel(
-            ILogger<ITightEngine> logger,
-            SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager,
-            IWikiEmailSender emailSender,
-            ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
-                        : base(logger, signInManager, localizer, wikiConfiguration)
+                ILogger<ITwEngine> logger,
+                SignInManager<IdentityUser> signInManager,
+                UserManager<IdentityUser> userManager,
+                ITwEmailSender emailSender,
+                ITwSharedLocalizationText localizer,
+                TwConfiguration wikiConfiguration,
+                ITwConfigurationRepository configurationRepository,
+                ITwUsersRepository usersRepository,
+                ITwDatabaseManager databaseManager
+            )
+            : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
             _logger = logger;
             _userManager = userManager;
             _emailSender = emailSender;
             _localizer = localizer;
+            _configurationRepository = configurationRepository;
+            _usersRepository = usersRepository;
         }
 
         /// <summary>
@@ -57,8 +65,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
-            [EmailAddress(ErrorMessageResourceName = "EmailAddressAttribute_Invalid", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+            [Required]
+            [EmailAddress]
             public string Email { get; set; }
         }
 
@@ -107,12 +115,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     values: new { area = "Identity", userId = userId, code = encodedCode },
                     protocol: Request.Scheme);
 
-                var configEmailTemplate = await ConfigurationRepository.Get<string>(WikiConfigurationGroup.Membership, "Template: Account Verification Email");
+                var configEmailTemplate = await _configurationRepository.Get<string>(WikiConfigurationGroup.Membership, "Template: Account Verification Email");
                 var emailTemplate = new StringBuilder(configEmailTemplate);
-                var basicConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
+                var basicConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
                 var siteName = basicConfig.Value<string>("Name");
                 var address = basicConfig.Value<string>("Address");
-                var profile = await UsersRepository.GetAccountProfileByUserId(Guid.Parse(userId));
+                var profile = await _usersRepository.GetAccountProfileByUserId(Guid.Parse(userId));
 
                 var emailSubject = "Confirm your email";
                 emailTemplate.Replace("##SUBJECT##", emailSubject);

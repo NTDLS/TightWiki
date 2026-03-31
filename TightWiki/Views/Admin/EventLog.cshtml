@@ -1,13 +1,15 @@
-@model TightWiki.Models.ViewModels.Admin.EventLogViewModel
 @using TightWiki
-@using TightWiki.Library
-@using TightWiki.Models
-@inject ISharedLocalizationText Localizer
-@inject TightWikiConfiguration WikiConfiguration
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
+@using TightWiki.Plugin.Library
+@using TightWiki.ViewModels.Admin
+@inject ITwSharedLocalizationText Localizer
+@inject TwConfiguration WikiConfiguration
 
+@model EventLogViewModel
 @{
     Layout = "_Layout";
-    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
@@ -27,7 +29,7 @@
             <i class="bi bi-journal-text me-2"></i>@Localizer["Log Entries"]
         </span>
 
-        @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
+        @TwConfirmActionHelper.GenerateWarnButton(
             WikiConfiguration.BasePath,
             @Localizer["This will permanently purge all event logs. Continue?"].Value,
             @Localizer["Purge Event Log"].Value,
@@ -38,7 +40,7 @@
     @if (Model.LogEntries.Count > 0)
     {
         <div class="card-body pb-0">
-            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
+            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
         </div>
 
         <div class="table-responsive">
@@ -49,7 +51,7 @@
                         <th scope="col">@Localizer["Text"]</th>
                         <th scope="col" class="text-nowrap" style="width: 1%;">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "CreatedDate")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "CreatedDate")">
                                 @Localizer["Date/Time"]
                             </a>
                         </th>
@@ -112,7 +114,7 @@
         </div>
 
         <div class="card-body pt-3">
-            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
+            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
         </div>
     }
     else

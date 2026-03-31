@@ -1,14 +1,14 @@
 ﻿@using TightWiki
-@using TightWiki.Library
-@using TightWiki.Models
-@using static TightWiki.Library.Constants
-@inject ISharedLocalizationText Localizer
-@inject TightWikiConfiguration WikiConfiguration
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
+@using TightWiki.ViewModels.Admin
+@inject ITwSharedLocalizationText Localizer
+@inject TwConfiguration WikiConfiguration
 
-@model TightWiki.Models.ViewModels.Admin.DatabaseViewModel
+@model DatabaseViewModel
 @{
     Layout = "_Layout";
-    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
@@ -70,7 +70,7 @@
 
                             <td>
                                 <div class="d-flex flex-wrap gap-2">
-                                    @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(
+                                    @TwConfirmActionHelper.GenerateSafeButton(
                                         WikiConfiguration.BasePath,
                                         Localizer["This will optimize the database indexes and structure. Continue?"].Value,
                                         Localizer["Optimize"].Value,
@@ -78,7 +78,7 @@
                                         Context.Request.Path.Value,
                                         @class: "btn btn-primary btn-sm d-inline-flex align-items-center")
 
-                                    @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(
+                                    @TwConfirmActionHelper.GenerateSafeButton(
                                         WikiConfiguration.BasePath,
                                         Localizer["This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?"].Value,
                                         Localizer["Vacuum"].Value,
@@ -86,7 +86,7 @@
                                         Context.Request.Path.Value,
                                         @class: "btn btn-primary btn-sm d-inline-flex align-items-center")
 
-                                    @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(
+                                    @TwConfirmActionHelper.GenerateSafeButton(
                                         WikiConfiguration.BasePath,
                                         Localizer["This will check the database integrity and validate all foreign keys. Continue?"].Value,
                                         Localizer["Verify"].Value,
@@ -101,7 +101,7 @@
 
                                     @if (info.Name == "Config")
                                     {
-                                        @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
+                                        @TwConfirmActionHelper.GenerateWarnButton(
                                             WikiConfiguration.BasePath,
                                             Localizer["This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?"].Value,
                                             Localizer["Configuration"].Value,
@@ -109,7 +109,7 @@
                                             Context.Request.Path.Value,
                                             @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
 
-                                        @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
+                                        @TwConfirmActionHelper.GenerateWarnButton(
                                             WikiConfiguration.BasePath,
                                             Localizer["This will restore all default themes, overwriting any customizations you may have made in the database. Continue?"].Value,
                                             Localizer["Themes"].Value,
@@ -119,7 +119,7 @@
                                     }
                                     else if (info.Name == "Pages")
                                     {
-                                        @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
+                                        @TwConfirmActionHelper.GenerateWarnButton(
                                             WikiConfiguration.BasePath,
                                             Localizer["This will restore all Wiki Help namespace pages. Continue?"].Value,
                                             Localizer["Wiki Help Pages"].Value,
@@ -127,7 +127,7 @@
                                             Context.Request.Path.Value,
                                             @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
 
-                                        @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
+                                        @TwConfirmActionHelper.GenerateWarnButton(
                                             WikiConfiguration.BasePath,
                                             Localizer["This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?"].Value,
                                             Localizer["Built-in Pages"].Value,
@@ -135,7 +135,7 @@
                                             Context.Request.Path.Value,
                                             @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
 
-                                        @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
+                                        @TwConfirmActionHelper.GenerateWarnButton(
                                             WikiConfiguration.BasePath,
                                             Localizer["This will restore all Include namespace pages. Continue?"].Value,
                                             Localizer["Include Pages"].Value,
@@ -143,7 +143,7 @@
                                             Context.Request.Path.Value,
                                             @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
 
-                                        @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
+                                        @TwConfirmActionHelper.GenerateWarnButton(
                                             WikiConfiguration.BasePath,
                                             Localizer["This will restore all Feature Templates, overwriting any customizations you may have made. Continue?"].Value,
                                             Localizer["Feature Templates"].Value,

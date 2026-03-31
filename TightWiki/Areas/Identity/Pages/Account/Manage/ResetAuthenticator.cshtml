@@ -1,13 +1,13 @@
 ﻿@page
-
-@using TightWiki.Library
-@inject ISharedLocalizationText Localizer
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
+@inject ITwSharedLocalizationText Localizer
 
 @model ResetAuthenticatorModel
 @{
     ViewData["Title"]= Localizer["Reset authenticator key"].Value;
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
-    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <partial name="_StatusMessage" for="StatusMessage" />

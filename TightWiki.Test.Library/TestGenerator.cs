@@ -1,12 +1,12 @@
-﻿using TightWiki.Engine.Library.Interfaces;
+﻿using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Test.Library
 {
     public class TestGenerator
     {
-        private readonly ITightEngine _engine;
+        private readonly ITwEngine _engine;
 
-        public TestGenerator(ITightEngine engine)
+        public TestGenerator(ITwEngine engine)
         {
             _engine = engine;
         }

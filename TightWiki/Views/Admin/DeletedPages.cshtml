@@ -1,13 +1,15 @@
-﻿@model TightWiki.Models.ViewModels.Admin.DeletedPagesViewModel
-@using TightWiki
-@using TightWiki.Library
-@using TightWiki.Models
-@inject ISharedLocalizationText Localizer
-@inject TightWikiConfiguration WikiConfiguration
+﻿@using TightWiki
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
+@using TightWiki.Plugin.Library
+@using TightWiki.ViewModels.Admin
+@inject ITwSharedLocalizationText Localizer
+@inject TwConfiguration WikiConfiguration
 
+@model DeletedPagesViewModel
 @{
     Layout = "_Layout";
-    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
@@ -27,7 +29,7 @@
             <i class="bi bi-trash me-2"></i>@Localizer["Deleted Page Queue"]
         </span>
 
-        @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(
+        @TwConfirmActionHelper.GenerateDangerButton(
             WikiConfiguration.BasePath,
             Localizer["This will permanently purge all deleted pages. Continue?"].Value,
             Localizer["Purge Deleted Pages"].Value,
@@ -60,7 +62,7 @@
 {
     <div class="card shadow-sm">
         <div class="card-body pb-0">
-            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
+            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
         </div>
 
         <div class="table-responsive">
@@ -69,7 +71,7 @@
                     <tr>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
-                                   href="?@QueryStringConverter.OrderHelper(sessionState, "Page")">
+                                   href="?@TwQueryStringConverter.OrderHelper(sessionState, "Page")">
                                 @Localizer["Page"]
                             </a>
                         </th>
@@ -100,7 +102,7 @@
 
                             <td class="text-nowrap">
                                 <div class="d-flex gap-2">
-                                    @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(
+                                    @TwConfirmActionHelper.GenerateSafeButton(
                                         WikiConfiguration.BasePath,
                                         Localizer["This will restore the deleted page and all of its history. Continue?"].Value,
                                         Localizer["Restore"].Value,
@@ -108,7 +110,7 @@
                                         Context.Request.Path.Value,
                                         @class: "btn btn-sm btn-outline-primary d-inline-flex align-items-center")
 
-                                    @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(
+                                    @TwConfirmActionHelper.GenerateDangerButton(
                                         WikiConfiguration.BasePath,
                                         Localizer["This will permanently delete the specified page, all revisions and attachments. Continue?"].Value,
                                         Localizer["Purge"].Value,
@@ -124,7 +126,7 @@
         </div>
 
         <div class="card-body pt-3">
-            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
+            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
         </div>
     </div>
 }

@@ -12,16 +12,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NTDLS.Helpers;
-using TightWiki.Email;
 using TightWiki.Engine;
-using TightWiki.Engine.Implementation.Handlers;
-using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
-using TightWiki.Library.Interfaces;
-using TightWiki.Repository;
-using TightWiki.Repository.Extensions;
+using TightWiki.Library.Dummy;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Repository;
+using TightWiki.Repository.Helpers;
 using TightWiki.Translations;
-using static TightWiki.Library.Constants;
+using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki
 {
@@ -33,50 +32,26 @@ namespace TightWiki
 
             var builder = WebApplication.CreateBuilder(args);
 
+            var databaseManager = new DatabaseManager(builder.Configuration);
+            bool wasDatabaseUpgraded = await databaseManager.ApplyDatabaseUpgradeScripts(databaseManager.Logger);
+
             //This is the minimum log level for the database logger, which is used for logging application events and errors to the database.
             var minimumLogLevel = Enum.Parse<LogLevel>(builder.Configuration.GetValue("EventLogLevel", LogLevel.Information.ToString()));
 
-            ManagedDataStorage.Config.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("ConfigConnection", "config.db"));
-            ManagedDataStorage.Logging.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("LoggingConnection", "logging.db"));
-
             builder.Logging.ClearProviders();
-            builder.Logging.AddProvider(new DatabaseLoggerProvider(minimumLogLevel));
+            builder.Logging.AddProvider(new DatabaseLoggerProvider(databaseManager.LoggingRepository, minimumLogLevel));
 
-            ManagedDataStorage.Pages.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("PagesConnection", "pages.db"));
-            ManagedDataStorage.DeletedPages.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("DeletedPagesConnection", "deletedpages.db"));
-            ManagedDataStorage.DeletedPageRevisions.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("DeletedPageRevisionsConnection", "deletedpagerevisions.db"));
-            ManagedDataStorage.Statistics.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("StatisticsConnection", "statistics.db"));
-            ManagedDataStorage.Emoji.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("EmojiConnection", "emoji.db"));
-            ManagedDataStorage.Users.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("UsersConnection", "users.db"));
-
-            var independentLogger = new DatabaseLogger("", LogLevel.Information);
-
-            var userConnectionString = ManagedDataStorage.Users.Ephemeral(o => o.NativeConnection.ConnectionString);
+            var userConnectionString = databaseManager.UsersRepository.UsersFactory.Ephemeral(o => o.NativeConnection.ConnectionString);
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(userConnectionString));
 
-            await LoggingRepository.CreateTablesIfNotExist();
-
-            //Upgrade database if needed and create defaults database if needed. This is done at the very beginning before
-            //  almost anything else to ensure the database is in the correct state for the rest of the application to work with.
-            //
-            // Default data is seeded further down after the injection of ILogger, UserManager, and ITightEngine,
-            //  via a call to DatabaseUpgrade.ApplyAllSeedData()
-            var wasDatabaseUpgraded = await DatabaseUpgrade.ApplyDatabaseUpgradeScripts(independentLogger);
-
-            var defaultsDatabasePath = await DatabaseUpgrade.CreateDefaultsDatabase(independentLogger, builder.Configuration, wasDatabaseUpgraded);
-            if (defaultsDatabasePath != null)
-            {
-                ManagedDataStorage.Defaults.SetConnectionString(defaultsDatabasePath);
-            }
-
-            var wikiConfiguration = await WikiConfigurationFactory.Create(builder.Configuration);
+            var wikiConfigurationManager = new Repository.Helpers.ConfigurationManager(builder.Configuration, databaseManager);
 
             // Add DiffPlex services.
             builder.Services.AddScoped<IDiffer, Differ>();
             builder.Services.AddScoped<ISideBySideDiffBuilder>(sp =>
                 new SideBySideDiffBuilder(sp.GetRequiredService<IDiffer>()));
 
-            var membershipConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
+            var membershipConfig = await databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
             var requireConfirmedAccount = membershipConfig.Value<bool>("Require Email Verification");
 
             // Add services to the container.
@@ -85,7 +60,7 @@ namespace TightWiki
             // Adds support for controllers and views
             builder.Services.AddControllersWithViews(config =>
                 {
-                    config.ModelBinderProviders.Insert(0, new InvariantDecimalModelBinderProvider());
+                    config.ModelBinderProviders.Insert(0, new TwInvariantDecimalModelBinderProvider());
                 })
                 .AddDataAnnotationsLocalization()
                 .AddXmlSerializerFormatters()
@@ -96,7 +71,7 @@ namespace TightWiki
                 options.ResourcesPath = "";
             });
 
-            builder.Services.AddScoped<ISharedLocalizationText, SharedLocalizationText>();
+            builder.Services.AddScoped<ITwSharedLocalizationText, SharedLocalizationText>();
 
             builder.Services.AddRazorPages();
 
@@ -120,16 +95,24 @@ namespace TightWiki
                 };
             });
             builder.Services.AddSingleton<RequestLocalizationOptions>();
-            builder.Services.AddSingleton(wikiConfiguration);
-
-            builder.Services.AddSingleton<IWikiEmailSender, WikiEmailSender>();
+            //builder.Services.AddSingleton<ITwManagedDataStorage>(dataStuff);
+            builder.Services.AddSingleton(wikiConfigurationManager);
+            builder.Services.AddSingleton(wikiConfigurationManager.Configuration);
+            builder.Services.AddSingleton<ITwEmailSender, EmailSender>();
+            builder.Services.AddSingleton<ITwConfigurationRepository>(databaseManager.ConfigurationRepository);
+            builder.Services.AddSingleton<ITwLoggingRepository>(databaseManager.LoggingRepository);
+            builder.Services.AddSingleton<ITwEmojiRepository>(databaseManager.EmojiRepository);
+            builder.Services.AddSingleton<ITwStatisticsRepository>(databaseManager.StatisticsRepository);
+            builder.Services.AddSingleton<ITwPageRepository>(databaseManager.PageRepository);
+            builder.Services.AddSingleton<ITwUsersRepository>(databaseManager.UsersRepository);
+            builder.Services.AddSingleton<ITwDatabaseManager>(databaseManager);
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = requireConfirmedAccount)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            var externalAuthenticationConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.ExternalAuthentication);
-            var basicConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
-            var cookiesConfig = await ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Cookies);
+            var externalAuthenticationConfig = await databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.ExternalAuthentication);
+            var basicConfig = await databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
+            var cookiesConfig = await databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Cookies);
 
             var authentication = builder.Services.AddAuthentication()
                 .AddCookie("CookieAuth", options =>
@@ -137,7 +120,7 @@ namespace TightWiki
                     options.Cookie.Name = basicConfig.Value<string>("Name").EnsureNotNull();
                     options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
                     options.Cookie.SameSite = SameSiteMode.Lax;
-                    options.LoginPath = $"{wikiConfiguration.BasePath}/Identity/Account/Login";
+                    options.LoginPath = $"{wikiConfigurationManager.Configuration.BasePath}/Identity/Account/Login";
                     options.ExpireTimeSpan = TimeSpan.FromHours(cookiesConfig.Value<int>("Expiration Hours"));
                     options.SlidingExpiration = true;
                     options.Cookie.IsEssential = true;
@@ -156,7 +139,7 @@ namespace TightWiki
                 }
                 else
                 {
-                    await LoggingRepository.WriteException($"Cannot read/write to the specified path for persistent keys: {persistKeysPath}. Check the configuration and path permission.");
+                    await databaseManager.LoggingRepository.WriteException($"Cannot read/write to the specified path for persistent keys: {persistKeysPath}. Check the configuration and path permission.");
                 }
             }
 
@@ -176,7 +159,7 @@ namespace TightWiki
                         {
                             OnRemoteFailure = context =>
                             {
-                                context.Response.Redirect($"{wikiConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
+                                context.Response.Redirect($"{wikiConfigurationManager.Configuration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
                                 context.HandleResponse();
                                 return Task.CompletedTask;
                             }
@@ -201,7 +184,7 @@ namespace TightWiki
                         {
                             OnRemoteFailure = context =>
                             {
-                                context.Response.Redirect($"{wikiConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
+                                context.Response.Redirect($"{wikiConfigurationManager.Configuration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
                                 context.HandleResponse();
                                 return Task.CompletedTask;
                             }
@@ -244,7 +227,7 @@ namespace TightWiki
                         {
                             OnRemoteFailure = context =>
                             {
-                                context.Response.Redirect($"{wikiConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString("OIDC login was canceled.")}");
+                                context.Response.Redirect($"{wikiConfigurationManager.Configuration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString("OIDC login was canceled.")}");
                                 context.HandleResponse();
                                 return Task.CompletedTask;
                             }
@@ -253,32 +236,25 @@ namespace TightWiki
                 }
             }
 
+            var pluginFolder = Path.Combine(Environment.CurrentDirectory, "Plugins");
+            PluginLoader.LoadPlugins(databaseManager.Logger, pluginFolder);
+
             builder.Services.AddControllersWithViews();
 
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
             builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
             {
-                containerBuilder.RegisterType<MarkupHandler>().As<IMarkupHandler>().SingleInstance();
-                containerBuilder.RegisterType<HeadingHandler>().As<IHeadingHandler>().SingleInstance();
-                containerBuilder.RegisterType<CommentHandler>().As<ICommentHandler>().SingleInstance();
-                containerBuilder.RegisterType<EmojiHandler>().As<IEmojiHandler>().SingleInstance();
-                containerBuilder.RegisterType<ExternalLinkHandler>().As<IExternalLinkHandler>().SingleInstance();
-                containerBuilder.RegisterType<InternalLinkHandler>().As<IInternalLinkHandler>().SingleInstance();
-                containerBuilder.RegisterType<ExceptionHandler>().As<IExceptionHandler>().SingleInstance();
-                containerBuilder.RegisterType<CompletionHandler>().As<ICompletionHandler>().SingleInstance();
-
-                containerBuilder.RegisterType<TightEngine>().As<ITightEngine>().SingleInstance();
+                containerBuilder.RegisterType<WikiEngine>().As<ITwEngine>().SingleInstance();
             });
-
 
             builder.Services.ConfigureApplicationCookie(options =>
             {
-                if (!string.IsNullOrEmpty(wikiConfiguration.BasePath))
+                if (!string.IsNullOrEmpty(wikiConfigurationManager.Configuration.BasePath))
                 {
-                    options.LoginPath = new PathString($"{wikiConfiguration.BasePath}/Identity/Account/Login");
-                    options.LogoutPath = new PathString($"{wikiConfiguration.BasePath}/Identity/Account/Logout");
-                    options.AccessDeniedPath = new PathString($"{wikiConfiguration.BasePath}/Identity/Account/AccessDenied");
-                    options.Cookie.Path = wikiConfiguration.BasePath; // Ensure the cookie is scoped to the sub-site path.
+                    options.LoginPath = new PathString($"{wikiConfigurationManager.Configuration.BasePath}/Identity/Account/Login");
+                    options.LogoutPath = new PathString($"{wikiConfigurationManager.Configuration.BasePath}/Identity/Account/Logout");
+                    options.AccessDeniedPath = new PathString($"{wikiConfigurationManager.Configuration.BasePath}/Identity/Account/AccessDenied");
+                    options.Cookie.Path = wikiConfigurationManager.Configuration.BasePath; // Ensure the cookie is scoped to the sub-site path.
                 }
                 else
                 {
@@ -308,16 +284,16 @@ namespace TightWiki
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            if (!string.IsNullOrEmpty(wikiConfiguration.BasePath))
+            if (!string.IsNullOrEmpty(wikiConfigurationManager.Configuration.BasePath))
             {
-                app.UsePathBase(wikiConfiguration.BasePath);
+                app.UsePathBase(wikiConfigurationManager.Configuration.BasePath);
 
                 // Redirect root requests to basePath (something like '/TightWiki').
                 app.Use(async (context, next) =>
                 {
                     if (context.Request.Path == "/")
                     {
-                        context.Response.Redirect(wikiConfiguration.BasePath);
+                        context.Response.Redirect(wikiConfigurationManager.Configuration.BasePath);
                         return;
                     }
                     await next();
@@ -327,7 +303,7 @@ namespace TightWiki
                 {
                     OnPrepareResponse = ctx =>
                     {
-                        ctx.Context.Request.PathBase = wikiConfiguration.BasePath;
+                        ctx.Context.Request.PathBase = wikiConfigurationManager.Configuration.BasePath;
                     }
                 });
             }
@@ -362,13 +338,13 @@ namespace TightWiki
                 var services = scope.ServiceProvider;
                 var logger = services.GetRequiredService<ILogger<Program>>();
                 var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
-                var tightEngine = services.GetRequiredService<ITightEngine>();
+                var tightEngine = services.GetRequiredService<ITwEngine>();
 
                 if (wasDatabaseUpgraded)
                 {
                     try
                     {
-                        await DatabaseUpgrade.ApplyAllSeedData(logger, new VerbatimLocalizationText(), userManager, tightEngine,
+                        await databaseManager.ApplyAllSeedData(new TwVerbatimLocalizationText(), userManager, tightEngine,
                             [WikiDefaultDataType.Themes,
                             WikiDefaultDataType.Configurations,
                             WikiDefaultDataType.FeatureTemplates,
@@ -382,7 +358,7 @@ namespace TightWiki
 
                 try
                 {
-                    SecurityRepository.ValidateEncryptionAndCreateAdminUser(userManager);
+                    databaseManager.UsersRepository.ValidateEncryptionAndCreateAdminUser(userManager);
                 }
                 catch (Exception ex)
                 {

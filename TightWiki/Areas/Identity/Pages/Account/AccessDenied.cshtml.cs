@@ -3,9 +3,9 @@
 #nullable disable
 
 using Microsoft.AspNetCore.Identity;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
-using TightWiki.Models;
+using TightWiki.Pages;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -13,7 +13,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
     ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
     ///     directly from your code. This API may change or be removed in future releases.
     /// </summary>
-    public class AccessDeniedModel : PageModelBase
+    public class AccessDeniedModel : TwPageModel
     {
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -22,9 +22,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public void OnGet()
         {
         }
-        public AccessDeniedModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-            ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
-            : base(logger, signInManager, localizer, wikiConfiguration)
+        public AccessDeniedModel(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
+            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration, ITwDatabaseManager databaseManager)
+            : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
 
         }

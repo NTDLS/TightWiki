@@ -1,9 +1,8 @@
-﻿using NTDLS.SqliteDapperWrapper;
-
-namespace DummyPageGenerator
+﻿namespace DummyPageGenerator
 {
     public static class WordsRepository
     {
+        /*
         public static SqliteManagedFactory Words { get; private set; } = new();
 
         public static int GetWordsCount()
@@ -32,5 +31,6 @@ namespace DummyPageGenerator
 
             return result;
         }
+        */
     }
 }

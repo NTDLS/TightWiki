@@ -1,17 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Library;
-using TightWiki.Models;
+using TightWiki.Plugin;
+using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Pages
 {
-    public class PrivacyModel : PageModelBase
+    public class PrivacyModel : TwPageModel
     {
-        private readonly ILogger<ITightEngine> _logger;
+        private readonly ILogger<ITwEngine> _logger;
 
-        public PrivacyModel(SignInManager<IdentityUser> signInManager, ILogger<ITightEngine> logger,
-            ISharedLocalizationText localizer, TightWikiConfiguration wikiConfiguration)
-            : base(logger, signInManager, localizer, wikiConfiguration)
+        public PrivacyModel(SignInManager<IdentityUser> signInManager, ILogger<ITwEngine> logger,
+            ITwSharedLocalizationText localizer, TwConfiguration wikiConfiguration, ITwDatabaseManager databaseManager)
+            : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
         {
             _logger = logger;
         }
