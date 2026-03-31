@@ -13,9 +13,13 @@
 
 	<ItemGroup>
 		<Compile Remove="keys\**" />
+		<Compile Remove="Plugins\**" />
 		<Content Remove="keys\**" />
+		<Content Remove="Plugins\**" />
 		<EmbeddedResource Remove="keys\**" />
+		<EmbeddedResource Remove="Plugins\**" />
 		<None Remove="keys\**" />
+		<None Remove="Plugins\**" />
 	</ItemGroup>
 
 	<ItemGroup>
