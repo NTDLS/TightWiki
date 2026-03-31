@@ -1,15 +1,14 @@
 ﻿namespace TightWiki.Plugin.Attributes.Functions
 {
     /// <summary>
-    /// Specifies that a method represents a standard function in TightWiki, providing metadata such as a user-friendly
-    /// name, description, and evaluation behavior.
+    /// Specifies that a method implements a post-processing instruction function for TightWiki syntax parsing.
     /// </summary>
-    /// <remarks>Apply this attribute to methods to designate them as standard functions within the TightWiki
-    /// system. The attribute enables the system to identify, describe, and control the evaluation order of functions,
-    /// particularly for those that require special handling or early evaluation.</remarks>
+    /// <remarks>Apply this attribute to methods that define custom post-processing instruction functions,
+    /// which are invoked during the parsing of TightWiki content. These functions can be used to extend or modify the
+    /// behavior of the parser by handling specific instruction patterns.</remarks>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class TwStandardFunctionAttribute
-            : Attribute, ITwFunctionDescriptorAttribute
+    public class TwPostProcessingInstructionFunctionPluginAttribute
+            : Attribute, ITwFunctionPluginAttribute
     {
         /// <summary>
         /// The user-friendly display name of the function.
@@ -33,11 +32,10 @@
         /// <summary>
         /// Creates a new instance of the attribute with the specified name and description.
         /// </summary>
-        public TwStandardFunctionAttribute(string name, string description, bool isFirstChance = false)
+        public TwPostProcessingInstructionFunctionPluginAttribute(string name, string description)
         {
             Name = name;
             Description = description;
-            IsFirstChance = isFirstChance;
         }
     }
 }

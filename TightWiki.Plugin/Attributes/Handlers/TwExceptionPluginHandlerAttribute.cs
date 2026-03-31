@@ -1,11 +1,11 @@
 ﻿namespace TightWiki.Plugin.Attributes.Handlers
 {
     /// <summary>
-    /// Specifies that a method is a completion handler for the wikification workflow.
+    /// Attribute to mark a method as a exception handler in the TightWiki plugin system.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class TwCompletionHandlerAttribute
-            : Attribute, ITwHandlerDescriptorAttribute
+    public class TwExceptionPluginHandlerAttribute
+            : Attribute, ITwPluginHandlerAttribute
     {
         /// <summary>
         /// The user-friendly display name of the hander.
@@ -19,7 +19,7 @@
         /// <summary>
         /// Creates a new instance of the attribute with the specified name and description.
         /// </summary>
-        public TwCompletionHandlerAttribute(string name, string description)
+        public TwExceptionPluginHandlerAttribute(string name, string description)
         {
             Name = name;
             Description = description;

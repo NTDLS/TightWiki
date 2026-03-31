@@ -9,7 +9,7 @@ namespace TightWiki.Plugin.Default.Handlers
     /// <summary>
     /// Handles links from one wiki page to another.
     /// </summary>
-    [TwPluginModule("Default internal link handler", "Handles links from one wiki page to another.", 1000)]
+    [TwPlugin("Default internal link handler", "Handles links from one wiki page to another.", 1000)]
     public class InternalLinkHandler
         : ITwInternalLinkPlugin
     {
@@ -22,7 +22,7 @@ namespace TightWiki.Plugin.Default.Handlers
         /// <param name="linkText">The text which should be show in the absence of an image.</param>
         /// <param name="image">The image that should be shown.</param>
         /// <param name="imageScale">The 0-100 image scale factor for the given image.</param>
-        [TwInternalLinkHandler("Default internal link handler", "Handles links from one wiki page to another.")]
+        [TwInternalLinkPluginHandler("Default internal link handler", "Handles links from one wiki page to another.")]
         public async Task<TwPluginResult> Handle(ITwEngineState state, TwNamespaceNavigation pageNavigation,
             string pageName, string linkText, string? image, int imageScale)
         {

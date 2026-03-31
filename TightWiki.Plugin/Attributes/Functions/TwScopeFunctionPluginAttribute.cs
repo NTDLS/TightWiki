@@ -7,8 +7,8 @@
     /// which are invoked during the parsing of TightWiki content. These functions can be used to extend or modify the
     /// behavior of the parser by handling specific scope patterns.</remarks>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class TwScopeFunctionAttribute
-            : Attribute, ITwFunctionDescriptorAttribute
+    public class TwScopeFunctionPluginAttribute
+            : Attribute, ITwFunctionPluginAttribute
     {
         /// <summary>
         /// The user-friendly display name of the function.
@@ -32,7 +32,7 @@
         /// <summary>
         /// Creates a new instance of the attribute with the specified name and description.
         /// </summary>
-        public TwScopeFunctionAttribute(string name, string description, bool isFirstChance = false)
+        public TwScopeFunctionPluginAttribute(string name, string description, bool isFirstChance = false)
         {
             Name = name;
             Description = description;

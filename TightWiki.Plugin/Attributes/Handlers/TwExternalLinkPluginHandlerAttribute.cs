@@ -1,11 +1,11 @@
 ﻿namespace TightWiki.Plugin.Attributes.Handlers
 {
     /// <summary>
-    /// Attribute to mark a method as a exception handler in the TightWiki plugin system.
+    /// Attribute to mark a method as an external hyperlink handler in the TightWiki plugin system.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class TwExceptionHandlerAttribute
-            : Attribute, ITwHandlerDescriptorAttribute
+    public class TwExternalLinkPluginHandlerAttribute
+            : Attribute, ITwPluginHandlerAttribute
     {
         /// <summary>
         /// The user-friendly display name of the hander.
@@ -19,7 +19,7 @@
         /// <summary>
         /// Creates a new instance of the attribute with the specified name and description.
         /// </summary>
-        public TwExceptionHandlerAttribute(string name, string description)
+        public TwExternalLinkPluginHandlerAttribute(string name, string description)
         {
             Name = name;
             Description = description;

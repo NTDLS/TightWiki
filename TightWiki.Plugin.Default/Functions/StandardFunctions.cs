@@ -12,7 +12,7 @@ using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Plugin.Default.Functions
 {
-    [TwPluginModule("Standard Functions", "Built-in standard functions.", 1000)]
+    [TwPlugin("Standard Functions", "Built-in standard functions.", 1000)]
     public class StandardFunctions
         : ITwPlugin
     {
@@ -43,7 +43,7 @@ namespace TightWiki.Plugin.Default.Functions
 
         #endregion
 
-        [TwStandardFunction("ProfileGlossary", "Creates a glossary of all user profiles.")]
+        [TwStandardFunctionPlugin("ProfileGlossary", "Creates a glossary of all user profiles.")]
         public async Task<TwPluginResult> ProfileGlossary(ITwEngineState state, int pageSize = 100, string? searchToken = null)
         {
             if (!state.Engine.WikiConfiguration.EnablePublicProfiles)
@@ -88,7 +88,7 @@ namespace TightWiki.Plugin.Default.Functions
         }
 
         //Creates a list of all user profiles.
-        [TwStandardFunction("ProfileList", "Creates a list of all user profiles.")]
+        [TwStandardFunctionPlugin("ProfileList", "Creates a list of all user profiles.")]
         public async Task<TwPluginResult> ProfileList(ITwEngineState state, int pageSize = 100, string? searchToken = null)
         {
             if (!state.Engine.WikiConfiguration.EnablePublicProfiles)
@@ -122,7 +122,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwStandardFunction("Attachments", "Creates a list of all attachments for a page.")]
+        [TwStandardFunctionPlugin("Attachments", "Creates a list of all attachments for a page.")]
         public async Task<TwPluginResult> Attachments(ITwEngineState state,
             TightWikiListStyle styleName = TightWikiListStyle.Full, int pageSize = 5, bool pageSelector = true, string? pageName = null)
         {
@@ -166,7 +166,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwStandardFunction("Revisions", "Creates a list of all revisions for a page.")]
+        [TwStandardFunctionPlugin("Revisions", "Creates a list of all revisions for a page.")]
         public async Task<TwPluginResult> Revisions(ITwEngineState state,
             TightWikiListStyle styleName = TightWikiListStyle.Full, int pageSize = 5, bool pageSelector = true, string? pageName = null)
         {
@@ -215,7 +215,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwStandardFunction("Seq", "Inserts a sequence into the document.")]
+        [TwStandardFunctionPlugin("Seq", "Inserts a sequence into the document.")]
         public async Task<TwPluginResult> Seq(ITwEngineState state, string key = "Default")
         {
             var sequences = state.GetStateValue("_sequences", new Dictionary<string, int>());
@@ -233,14 +233,14 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwStandardFunction("EditLink", "Creates an edit link for the current page.")]
+        [TwStandardFunctionPlugin("EditLink", "Creates an edit link for the current page.")]
         public async Task<TwPluginResult> EditLink(ITwEngineState state, string linkText = "edit")
         {
             return new TwPluginResult($"<a href=\"{state.Engine.WikiConfiguration.BasePath}"
                 + TwNamespaceNavigation.CleanAndValidate($"/{state.Page.Navigation}/Edit") + $"\">{linkText}</a>");
         }
 
-        [TwStandardFunction("Inject", "Injects an un-processed wiki body into the calling page.", true)]
+        [TwStandardFunctionPlugin("Inject", "Injects an un-processed wiki body into the calling page.", true)]
         public async Task<TwPluginResult> Inject(ITwEngineState state, string pageName)
         {
 
@@ -256,7 +256,7 @@ namespace TightWiki.Plugin.Default.Functions
 
         }
 
-        [TwStandardFunction("Include", "Includes a processed wiki body into the calling page.", true)]
+        [TwStandardFunctionPlugin("Include", "Includes a processed wiki body into the calling page.", true)]
         public async Task<TwPluginResult> include(ITwEngineState state, string pageName)
         {
             var page = await GetPageFromNavigation(state.Engine.DatabaseManager.PageRepository, pageName);
@@ -275,7 +275,7 @@ namespace TightWiki.Plugin.Default.Functions
             throw new Exception($"The include page was not found: [{pageName}]");
         }
 
-        [TwStandardFunction("Set", "Sets a wiki variable.")]
+        [TwStandardFunctionPlugin("Set", "Sets a wiki variable.")]
         public async Task<TwPluginResult> Set(ITwEngineState state, string key, string value)
         {
             if (!state.Variables.TryAdd(key, value))
@@ -289,7 +289,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwStandardFunction("Get", "Gets a wiki variable.")]
+        [TwStandardFunctionPlugin("Get", "Gets a wiki variable.")]
         public async Task<TwPluginResult> Get(ITwEngineState state, string key)
         {
             if (state.Variables.TryGetValue(key, out var variable))
@@ -300,13 +300,13 @@ namespace TightWiki.Plugin.Default.Functions
             throw new Exception($"The wiki variable {key} is not defined. It should be set with ##Set() before calling Get().");
         }
 
-        [TwStandardFunction("Color", "Applies a color to the given text.")]
+        [TwStandardFunctionPlugin("Color", "Applies a color to the given text.")]
         public async Task<TwPluginResult> color(ITwEngineState state, string color, string text)
         {
             return new TwPluginResult($"<font color=\"{color}\">{text}</font>");
         }
 
-        [TwStandardFunction("Tag", "Associates tags with a page. These are saved with the page and can also be displayed.")]
+        [TwStandardFunctionPlugin("Tag", "Associates tags with a page. These are saved with the page and can also be displayed.")]
         public async Task<TwPluginResult> Tag(ITwEngineState state, params string[] tags) //##tag(pipe|separated|list|of|tags)
         {
             state.Tags.AddRange(tags);
@@ -318,7 +318,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwStandardFunction("Image", "Displays an image that is attached to the page.")]
+        [TwStandardFunctionPlugin("Image", "Displays an image that is attached to the page.")]
         public async Task<TwPluginResult> Image(ITwEngineState state,
             string name, int? scale = null, string? altText = null, string? @class = null, int? maxWidth = null)
         {
@@ -380,7 +380,7 @@ namespace TightWiki.Plugin.Default.Functions
             }
         }
 
-        [TwStandardFunction("File", "Displays a file download link.")]
+        [TwStandardFunctionPlugin("File", "Displays a file download link.")]
         public async Task<TwPluginResult> File(ITwEngineState state, string name, string linkText, bool showSize = false)
         {
             bool explicitNamespace = name.Contains("::");
@@ -432,7 +432,7 @@ namespace TightWiki.Plugin.Default.Functions
             throw new Exception($"File not found [{name}]");
         }
 
-        [TwStandardFunction("RecentlyModified", "Creates a list of pages that have been recently modified.")]
+        [TwStandardFunctionPlugin("RecentlyModified", "Creates a list of pages that have been recently modified.")]
         public async Task<TwPluginResult> RecentlyModified(ITwEngineState state,
             int top = 1000, TightWikiListStyle styleName = TightWikiListStyle.Full, bool showNamespace = false)
         {
@@ -470,7 +470,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwStandardFunction("NamespaceGlossary", "Creates a glossary of pages in the specified namespace.")]
+        [TwStandardFunctionPlugin("NamespaceGlossary", "Creates a glossary of pages in the specified namespace.")]
         public async Task<TwPluginResult> NamespaceGlossary(ITwEngineState state,
             string[] namespaces, int top = 1000, TightWikiListStyle styleName = TightWikiListStyle.Full, bool showNamespace = false)
         {
@@ -524,7 +524,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwStandardFunction("NamespaceList", "Creates a list of pages by searching the page tags.")]
+        [TwStandardFunctionPlugin("NamespaceList", "Creates a list of pages by searching the page tags.")]
         public async Task<TwPluginResult> NamespaceList(ITwEngineState state,
             string[] namespaces, int top = 1000, TightWikiListStyle styleName = TightWikiListStyle.Full, bool showNamespace = false)
         {
@@ -564,7 +564,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwStandardFunction("TagGlossary", "Creates a glossary of pages with the specified comma separated tags.")]
+        [TwStandardFunctionPlugin("TagGlossary", "Creates a glossary of pages with the specified comma separated tags.")]
         public async Task<TwPluginResult> TagGlossary(ITwEngineState state,
             string[] pageTags, int top = 1000, TightWikiListStyle styleName = TightWikiListStyle.Full, bool showNamespace = false)
         {
@@ -618,7 +618,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwStandardFunction("TextGlossary", "Creates a glossary by searching page's body text for the specified comma separated list of words.")]
+        [TwStandardFunctionPlugin("TextGlossary", "Creates a glossary by searching page's body text for the specified comma separated list of words.")]
         public async Task<TwPluginResult> TextGlossary(ITwEngineState state,
             string searchPhrase, int top = 1000, TightWikiListStyle styleName = TightWikiListStyle.Full, bool showNamespace = false)
         {
@@ -673,7 +673,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwStandardFunction("SearchList", "Creates a list of pages by searching the page body for the specified text.")]
+        [TwStandardFunctionPlugin("SearchList", "Creates a list of pages by searching the page body for the specified text.")]
         public async Task<TwPluginResult> SearchList(ITwEngineState state,
             string searchPhrase, TightWikiListStyle styleName = TightWikiListStyle.Full, int pageSize = 5,
             bool pageSelector = true, bool allowFuzzyMatching = false, bool showNamespace = false)
@@ -722,7 +722,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwStandardFunction("TagList", "Creates a list of pages by searching the page tags.")]
+        [TwStandardFunctionPlugin("TagList", "Creates a list of pages by searching the page tags.")]
         public async Task<TwPluginResult> TagList(ITwEngineState state,
             string[] pageTags, int top = 1000, TightWikiListStyle styleName = TightWikiListStyle.Full, bool showNamespace = false)
         {
@@ -761,7 +761,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwStandardFunction("Similar", "Displays a list of other related pages based on tags.")]
+        [TwStandardFunctionPlugin("Similar", "Displays a list of other related pages based on tags.")]
         public async Task<TwPluginResult> Similar(ITwEngineState state,
             int similarity = 80, TightWikiTabularStyle styleName = TightWikiTabularStyle.Full, int pageSize = 10, bool pageSelector = true)
         {
@@ -807,7 +807,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwStandardFunction("Related", "Displays a list of other related pages based incoming links.")]
+        [TwStandardFunctionPlugin("Related", "Displays a list of other related pages based incoming links.")]
         public async Task<TwPluginResult> Related(ITwEngineState state,
             TightWikiTabularStyle styleName = TightWikiTabularStyle.Full, int pageSize = 10, bool pageSelector = true)
         {
@@ -853,7 +853,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwStandardFunction("LastModifiedBy", "Displays the name of the person last modified the current page.")]
+        [TwStandardFunctionPlugin("LastModifiedBy", "Displays the name of the person last modified the current page.")]
         public async Task<TwPluginResult> LastModifiedBy(ITwEngineState state)
         {
             return new TwPluginResult(state.Page.ModifiedByUserName)
@@ -862,7 +862,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwStandardFunction("PageRevisionCount", "Displays the total number of revisions for the current page.")]
+        [TwStandardFunctionPlugin("PageRevisionCount", "Displays the total number of revisions for the current page.")]
         public async Task<TwPluginResult> PageRevisionCount(ITwEngineState state)
         {
             return new TwPluginResult($"{state.Page.MostCurrentRevision:n0}")
@@ -871,7 +871,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwStandardFunction("CreatedBy", "Displays the name of the person who created the current page.")]
+        [TwStandardFunctionPlugin("CreatedBy", "Displays the name of the person who created the current page.")]
         public async Task<TwPluginResult> CreatedBy(ITwEngineState state)
         {
             return new TwPluginResult(state.Page.CreatedByUserName)
@@ -880,7 +880,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwStandardFunction("PageviewCount", "Displays the total number views for the current page.")]
+        [TwStandardFunctionPlugin("PageviewCount", "Displays the total number views for the current page.")]
         public async Task<TwPluginResult> PageviewCount(ITwEngineState state)
         {
             int totalPageCount = await state.Engine.DatabaseManager.StatisticsRepository.GetPageTotalViewCount(state.Page.Id);
@@ -890,7 +890,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwStandardFunction("PageURL", "Displays the URL for the current page.")]
+        [TwStandardFunctionPlugin("PageURL", "Displays the URL for the current page.")]
         public async Task<TwPluginResult> PageURL(ITwEngineState state, TightWikiLinkStyle styleName = TightWikiLinkStyle.Link)
         {
 
@@ -919,7 +919,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult();
         }
 
-        [TwStandardFunction("PageId", "Displays the ID of the current page.")]
+        [TwStandardFunctionPlugin("PageId", "Displays the ID of the current page.")]
         public async Task<TwPluginResult> PageId(ITwEngineState state)
         {
             return new TwPluginResult($"{state.Page.Id}")
@@ -928,7 +928,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwStandardFunction("PageCommentCount", "Displays the total number of comments for the current page.")]
+        [TwStandardFunctionPlugin("PageCommentCount", "Displays the total number of comments for the current page.")]
         public async Task<TwPluginResult> PageCommentCount(ITwEngineState state)
         {
             int totalCommentCount = await state.Engine.DatabaseManager.PageRepository.GetTotalPageCommentCount(state.Page.Id);
@@ -938,7 +938,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwStandardFunction("LastModified", "Displays the date and time that the current page was last modified.")]
+        [TwStandardFunctionPlugin("LastModified", "Displays the date and time that the current page was last modified.")]
         public async Task<TwPluginResult> LastModified(ITwEngineState state)
         {
             if (state.Session == null)
@@ -958,7 +958,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(string.Empty);
         }
 
-        [TwStandardFunction("Created", "Displays the date and time that the current page was created.")]
+        [TwStandardFunctionPlugin("Created", "Displays the date and time that the current page was created.")]
         public async Task<TwPluginResult> Created(ITwEngineState state)
         {
             if (state.Session == null)
@@ -978,7 +978,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(string.Empty);
         }
 
-        [TwStandardFunction("DotNetVersion", "Displays the .NET version that TightWiki is running on.")]
+        [TwStandardFunctionPlugin("DotNetVersion", "Displays the .NET version that TightWiki is running on.")]
         public async Task<TwPluginResult> DotNetVersion(ITwEngineState state)
         {
             return new TwPluginResult(System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription)
@@ -987,7 +987,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwStandardFunction("AppVersion", "Displays the version of the wiki engine.")]
+        [TwStandardFunctionPlugin("AppVersion", "Displays the version of the wiki engine.")]
         public async Task<TwPluginResult> AppVersion(ITwEngineState state)
         {
             var version = string.Join('.', (Assembly.GetExecutingAssembly()
@@ -999,7 +999,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwStandardFunction("Name", "Displays the title of the current page.")]
+        [TwStandardFunctionPlugin("Name", "Displays the title of the current page.")]
         public async Task<TwPluginResult> Name(ITwEngineState state)
         {
             return new TwPluginResult(state.Page.Title)
@@ -1008,7 +1008,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwStandardFunction("SiteName", "Displays the title of the site.")]
+        [TwStandardFunctionPlugin("SiteName", "Displays the title of the site.")]
         public async Task<TwPluginResult> SiteName(ITwEngineState state)
         {
             return new TwPluginResult(state.Engine.WikiConfiguration.Name)
@@ -1017,7 +1017,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwStandardFunction("Title", "Displays the title of the current page in title form.")]
+        [TwStandardFunctionPlugin("Title", "Displays the title of the current page in title form.")]
         public async Task<TwPluginResult> Title(ITwEngineState state)
         {
             return new TwPluginResult($"<h1>{state.Page.Title}</h1>")
@@ -1026,7 +1026,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwStandardFunction("Description", "Displays the description of the current page.")]
+        [TwStandardFunctionPlugin("Description", "Displays the description of the current page.")]
         public async Task<TwPluginResult> Description(ITwEngineState state)
         {
             return new TwPluginResult($"{state.Page.Description}")
@@ -1035,7 +1035,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwStandardFunction("Namespace", "Displays the namespace of the current page.")]
+        [TwStandardFunctionPlugin("Namespace", "Displays the namespace of the current page.")]
         public async Task<TwPluginResult> @Namespace(ITwEngineState state)
         {
             return new TwPluginResult(state.Page.Namespace ?? string.Empty)
@@ -1044,7 +1044,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwStandardFunction("Snippet", "Displays the value of a snippet.")]
+        [TwStandardFunctionPlugin("Snippet", "Displays the value of a snippet.")]
         public async Task<TwPluginResult> Snippet(ITwEngineState state, string name)
         {
             if (state.Snippets.TryGetValue(name, out string? value))
@@ -1057,13 +1057,13 @@ namespace TightWiki.Plugin.Default.Functions
             }
         }
 
-        [TwStandardFunction("BR", "Inserts a line break into the page.")]
+        [TwStandardFunctionPlugin("BR", "Inserts a line break into the page.")]
         public async Task<TwPluginResult> BR(ITwEngineState state, int count = 1) => await NewLine(state, count);
 
-        [TwStandardFunction("NL", "Inserts a line break into the page.")]
+        [TwStandardFunctionPlugin("NL", "Inserts a line break into the page.")]
         public async Task<TwPluginResult> NL(ITwEngineState state, int count = 1) => await NewLine(state, count);
 
-        [TwStandardFunction("NewLine", "Inserts a line break into the page.")]
+        [TwStandardFunctionPlugin("NewLine", "Inserts a line break into the page.")]
         public async Task<TwPluginResult> NewLine(ITwEngineState state, int count = 1) //##NewLine([optional:default=1]count)
         {
             var lineBreaks = new StringBuilder();
@@ -1074,19 +1074,19 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(lineBreaks.ToString());
         }
 
-        [TwStandardFunction("HR", "Inserts a horizontal rule into the page.")]
+        [TwStandardFunctionPlugin("HR", "Inserts a horizontal rule into the page.")]
         public async Task<TwPluginResult> HR(ITwEngineState state, int height = 1)
         {
             return new TwPluginResult($"<hr class=\"my-{height}\">");
         }
 
-        [TwStandardFunction("Navigation", "Displays the navigation text for the current page.")]
+        [TwStandardFunctionPlugin("Navigation", "Displays the navigation text for the current page.")]
         public async Task<TwPluginResult> Navigation(ITwEngineState state)
         {
             return new TwPluginResult(state.Page.Navigation);
         }
 
-        [TwStandardFunction("SystemEmojiList", "Displays a list of emojis for the specified category.")]
+        [TwStandardFunctionPlugin("SystemEmojiList", "Displays a list of emojis for the specified category.")]
         public async Task<TwPluginResult> SystemEmojiList(ITwEngineState state)
         {
             StringBuilder html = new();
@@ -1129,7 +1129,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwStandardFunction("SystemEmojiCategoryList", "Displays a list of emoji categories.")]
+        [TwStandardFunctionPlugin("SystemEmojiCategoryList", "Displays a list of emoji categories.")]
         public async Task<TwPluginResult> SystemEmojiCategoryList(ITwEngineState state)
         {
             var categories = await state.Engine.DatabaseManager.EmojiRepository.GetEmojiCategoriesGrouped();

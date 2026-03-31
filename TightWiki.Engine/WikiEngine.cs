@@ -52,7 +52,7 @@ namespace TightWiki.Engine
                 .Select(t => new
                 {
                     Type = t,
-                    Attribute = t.GetCustomAttribute<TwPluginModuleAttribute>()
+                    Attribute = t.GetCustomAttribute<TwPluginAttribute>()
                 })
                 .Where(x => x.Attribute != null)
                 .Where(x => typeof(ITwPlugin).IsAssignableFrom(x.Type))
@@ -61,35 +61,35 @@ namespace TightWiki.Engine
                 .Select(x => new PluginModule(x.Type, x.Attribute.EnsureNotNull()))
                 .ToList();
 
-            foreach (var item in BuildFunctionDescriptors<TwStandardFunctionAttribute>(EngineModules))
+            foreach (var item in BuildFunctionDescriptors<TwStandardFunctionPluginAttribute>(EngineModules))
                 StandardFunctions.Add(item);
-            foreach (var item in BuildFunctionDescriptors<TwScopeFunctionAttribute>(EngineModules))
+            foreach (var item in BuildFunctionDescriptors<TwScopeFunctionPluginAttribute>(EngineModules))
                 ScopeFunctions.Add(item);
-            foreach (var item in BuildFunctionDescriptors<TwProcessingInstructionFunctionAttribute>(EngineModules))
+            foreach (var item in BuildFunctionDescriptors<TwProcessingInstructionFunctionPluginAttribute>(EngineModules))
                 ProcessingFunctions.Add(item);
-            foreach (var item in BuildFunctionDescriptors<TwPostProcessingInstructionFunctionAttribute>(EngineModules))
+            foreach (var item in BuildFunctionDescriptors<TwPostProcessingInstructionFunctionPluginAttribute>(EngineModules))
                 PostProcessingFunctions.Add(item);
 
-            foreach (var item in BuildHandlerDescriptors<TwCompletionHandlerAttribute>(EngineModules))
+            foreach (var item in BuildHandlerDescriptors<TwCompletionPluginHandlerAttribute>(EngineModules))
                 CompletionHandlers.Add(new CompletionHandlerDescriptor(item));
-            foreach (var item in BuildHandlerDescriptors<TwEmojiHandlerAttribute>(EngineModules))
+            foreach (var item in BuildHandlerDescriptors<TwEmojiPluginHandlerAttribute>(EngineModules))
                 EmojiHandlers.Add(new EmojiHandlerDescriptor(item));
-            foreach (var item in BuildHandlerDescriptors<TwExceptionHandlerAttribute>(EngineModules))
+            foreach (var item in BuildHandlerDescriptors<TwExceptionPluginHandlerAttribute>(EngineModules))
                 ExceptionHandlers.Add(new ExceptionHandlerDescriptor(item));
-            foreach (var item in BuildHandlerDescriptors<TwExternalLinkHandlerAttribute>(EngineModules))
+            foreach (var item in BuildHandlerDescriptors<TwExternalLinkPluginHandlerAttribute>(EngineModules))
                 ExternalLinkHandlers.Add(new ExternalLinkHandlerDescriptor(item));
-            foreach (var item in BuildHandlerDescriptors<TwHeadingHandlerAttribute>(EngineModules))
+            foreach (var item in BuildHandlerDescriptors<TwHeadingPluginHandlerAttribute>(EngineModules))
                 HeadingHandlers.Add(new HeadingHandlerDescriptor(item));
-            foreach (var item in BuildHandlerDescriptors<TwInternalLinkHandlerAttribute>(EngineModules))
+            foreach (var item in BuildHandlerDescriptors<TwInternalLinkPluginHandlerAttribute>(EngineModules))
                 InternalLinkHandlers.Add(new InternalLinkHandlerDescriptor(item));
-            foreach (var item in BuildHandlerDescriptors<TwMarkupHandlerAttribute>(EngineModules))
+            foreach (var item in BuildHandlerDescriptors<TwMarkupPluginHandlerAttribute>(EngineModules))
                 MarkupHandlers.Add(new MarkupHandlerDescriptor(item));
-            foreach (var item in BuildHandlerDescriptors<TwCommentHandlerAttribute>(EngineModules))
+            foreach (var item in BuildHandlerDescriptors<TwCommentPluginHandlerAttribute>(EngineModules))
                 CommentHandlers.Add(new CommentHandlerDescriptor(item));
         }
 
         private static List<FunctionDescriptor> BuildFunctionDescriptors<TFunctionAttribute>(List<PluginModule> pluginModules)
-            where TFunctionAttribute : Attribute, ITwFunctionDescriptorAttribute
+            where TFunctionAttribute : Attribute, ITwFunctionPluginAttribute
         {
             return pluginModules
                 .SelectMany(module => module.DeclaringType
@@ -99,7 +99,7 @@ namespace TightWiki.Engine
                 {
                     x.Method,
                     x.Module,
-                    PluginAttribute = x.Method.DeclaringType?.GetCustomAttribute<TwPluginModuleAttribute>(),
+                    PluginAttribute = x.Method.DeclaringType?.GetCustomAttribute<TwPluginAttribute>(),
                     Attribute = x.Method.GetCustomAttribute<TFunctionAttribute>()
                 })
                 .Where(x => x.Attribute != null && x.PluginAttribute != null)
@@ -117,7 +117,7 @@ namespace TightWiki.Engine
         }
 
         private static List<HandlerDescriptor> BuildHandlerDescriptors<TFunctionAttribute>(List<PluginModule> pluginModules)
-            where TFunctionAttribute : Attribute, ITwHandlerDescriptorAttribute
+            where TFunctionAttribute : Attribute, ITwPluginHandlerAttribute
         {
             return pluginModules
                 .SelectMany(module => module.DeclaringType
@@ -127,7 +127,7 @@ namespace TightWiki.Engine
                 {
                     x.Method,
                     x.Module,
-                    PluginAttribute = x.Method.DeclaringType?.GetCustomAttribute<TwPluginModuleAttribute>(),
+                    PluginAttribute = x.Method.DeclaringType?.GetCustomAttribute<TwPluginAttribute>(),
                     Attribute = x.Method.GetCustomAttribute<TFunctionAttribute>()
                 })
                 .Where(x => x.Attribute != null && x.PluginAttribute != null)

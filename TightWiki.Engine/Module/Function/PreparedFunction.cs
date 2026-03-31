@@ -47,7 +47,7 @@ namespace TightWiki.Engine.Module.Function
         {
             var descriptor = descriptors.SingleOrDefault(o =>
                 o.Method.Name.Equals(parsedFunction.Name, StringComparison.InvariantCultureIgnoreCase)
-                && o.Attribute is ITwFunctionDescriptorAttribute attr
+                && o.Attribute is ITwFunctionPluginAttribute attr
                 && attr.Demarcation == parsedFunction.Demarcation)
                 ?? throw new Exception($"Function ({parsedFunction.Name}) does not have a defined descriptor.");
 
@@ -69,7 +69,7 @@ namespace TightWiki.Engine.Module.Function
             preparedFunction.Parameters.Add(new NamedParameter(descriptor.Parameters[descriptorArgIndex].Name.EnsureNotNull(), state));
             descriptorArgIndex++;
 
-            if (descriptor.Attribute is TwScopeFunctionAttribute)
+            if (descriptor.Attribute is TwScopeFunctionPluginAttribute)
             {
                 //For scope functions, the second parameter must be the bodyText.
                 preparedFunction.Parameters.Add(new NamedParameter(descriptor.Parameters[descriptorArgIndex].Name.EnsureNotNull(), parsedFunction.BodyText ?? string.Empty));

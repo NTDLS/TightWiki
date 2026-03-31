@@ -9,7 +9,7 @@ namespace TightWiki.Plugin.Default.Handlers
     /// <summary>
     /// Handles basic markup/style instructions like bold, italic, underline, etc.
     /// </summary>
-    [TwPluginModule("Default markup handler", "Handles basic markup instructions like bold, italic, underline, etc.", 1000)]
+    [TwPlugin("Default markup handler", "Handles basic markup instructions like bold, italic, underline, etc.", 1000)]
     public class MarkupHandler
         : ITwMarkupPlugin
     {
@@ -19,7 +19,7 @@ namespace TightWiki.Plugin.Default.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="sequence">The sequence of symbols that were found to denotate this markup instruction,</param>
         /// <param name="scopeBody">The body of text to apply the style to.</param>
-        [TwMarkupHandler("Default markup handler", "Handles basic markup instructions like bold, italic, underline, etc.")]
+        [TwMarkupPluginHandler("Default markup handler", "Handles basic markup instructions like bold, italic, underline, etc.")]
         public async Task<TwPluginResult> Handle(ITwEngineState state, char sequence, string scopeBody)
         {
             switch (sequence)

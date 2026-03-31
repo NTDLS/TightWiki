@@ -18,13 +18,13 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
         /// Attributes of the handler, containing information such as the demarcation and description.
         /// This is used to match a handler call to its descriptor and for documentation purposes.
         /// </summary>
-        ITwHandlerDescriptorAttribute Attribute { get; }
+        ITwPluginHandlerAttribute Attribute { get; }
 
         /// <summary>
         /// The attribute of the module that contains the handler, containing information
         /// such as the module name, description, and the order of execution of the module in relation to other modules.
         /// </summary>
-        TwPluginModuleAttribute ModuleAttribute { get; }
+        TwPluginAttribute ModuleAttribute { get; }
 
         /// <summary>
         /// List of parameters that the handler accepts, containing information such as the parameter type and name.

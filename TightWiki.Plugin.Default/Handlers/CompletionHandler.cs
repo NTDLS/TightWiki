@@ -9,7 +9,7 @@ namespace TightWiki.Plugin.Default.Handlers
     /// <summary>
     /// Handles wiki completion events.
     /// </summary>
-    [TwPluginModule("Default completion handler", "Handles wiki completion events.", 1000)]
+    [TwPlugin("Default completion handler", "Handles wiki completion events.", 1000)]
     public class CompletionHandler
         : ITwCompletionPlugin
     {
@@ -17,7 +17,7 @@ namespace TightWiki.Plugin.Default.Handlers
         /// Handles wiki completion events. Is called when the wiki processing completes for a given page.
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
-        [TwCompletionHandler("Default completion handler", "Handles wiki completion events.")]
+        [TwCompletionPluginHandler("Default completion handler", "Handles wiki completion events.")]
         public async Task<TwPluginResult> Handle(ITwEngineState state)
         {
             if (state.Engine.WikiConfiguration.RecordCompilationMetrics)

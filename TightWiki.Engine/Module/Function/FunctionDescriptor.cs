@@ -18,13 +18,13 @@ namespace TightWiki.Engine.Module.Function
         /// Attributes of the function, containing information such as the demarcation and description.
         /// This is used to match a function call to its descriptor and for documentation purposes.
         /// </summary>
-        public ITwFunctionDescriptorAttribute Attribute { get; }
+        public ITwFunctionPluginAttribute Attribute { get; }
 
         /// <summary>
         /// The attribute of the module that contains the function, containing information
         /// such as the module name, description, and the order of execution of the module in relation to other modules.
         /// </summary>
-        public TwPluginModuleAttribute ModuleAttribute { get; }
+        public TwPluginAttribute ModuleAttribute { get; }
 
         /// <summary>
         /// List of parameters that the function accepts, containing information such as the parameter type and name.
@@ -40,7 +40,7 @@ namespace TightWiki.Engine.Module.Function
         public ITwEngineModule EngineModule { get; }
 
         public FunctionDescriptor(PluginModule engineModule, MethodInfo method,
-            ITwFunctionDescriptorAttribute attribute, TwPluginModuleAttribute moduleAttribute)
+            ITwFunctionPluginAttribute attribute, TwPluginAttribute moduleAttribute)
         {
             EngineModule = engineModule;
             Method = method;

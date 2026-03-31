@@ -1,11 +1,11 @@
 ﻿namespace TightWiki.Plugin.Attributes.Handlers
 {
     /// <summary>
-    /// Attribute to mark a method as an internal hyperlink handler in the TightWiki plugin system.
+    /// Attribute to mark a method as a Emoji handler in the TightWiki plugin system.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class TwInternalLinkHandlerAttribute
-            : Attribute, ITwHandlerDescriptorAttribute
+    public class TwEmojiPluginHandlerAttribute
+            : Attribute, ITwPluginHandlerAttribute
     {
         /// <summary>
         /// The user-friendly display name of the hander.
@@ -19,7 +19,7 @@
         /// <summary>
         /// Creates a new instance of the attribute with the specified name and description.
         /// </summary>
-        public TwInternalLinkHandlerAttribute(string name, string description)
+        public TwEmojiPluginHandlerAttribute(string name, string description)
         {
             Name = name;
             Description = description;

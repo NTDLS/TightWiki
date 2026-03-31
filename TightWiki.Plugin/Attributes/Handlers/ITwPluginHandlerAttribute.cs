@@ -5,7 +5,7 @@
     /// in the TightWiki plugin system. This interface provides a common structure for handler attributes,
     /// ensuring that they all include a friendly name and an optional description.
     /// </summary>
-    public interface ITwHandlerDescriptorAttribute
+    public interface ITwPluginHandlerAttribute
     {
         /// <summary>
         /// The user-friendly display name of the hander.

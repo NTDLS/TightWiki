@@ -10,7 +10,7 @@ namespace TightWiki.Plugin.Default.Handlers
     /// <summary>
     /// Handles exceptions thrown by the wiki engine.
     /// </summary>
-    [TwPluginModule("Default exception handler", "Handles exceptions thrown by the wiki engine.", 1000)]
+    [TwPlugin("Default exception handler", "Handles exceptions thrown by the wiki engine.", 1000)]
     public class ExceptionHandler
         : ITwExceptionPlugin
     {
@@ -20,7 +20,7 @@ namespace TightWiki.Plugin.Default.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="ex">Optional exception, in the case that this was an actual exception.</param>
         /// <param name="customText">Text that accompanies the exception.</param>
-        [TwExceptionHandler("Default exception handler", "Handles exceptions thrown by the wiki engine.")]
+        [TwExceptionPluginHandler("Default exception handler", "Handles exceptions thrown by the wiki engine.")]
         public async Task<TwPluginResult> Handle(ITwEngineState state, LogLevel level, string text, Exception? ex = null)
         {
             if (ex != null)

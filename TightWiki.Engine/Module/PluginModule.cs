@@ -9,10 +9,10 @@ namespace TightWiki.Engine.Module
         : ITwEngineModule
     {
         public Type DeclaringType { get; private set; }
-        public TwPluginModuleAttribute Attribute { get; private set; }
+        public TwPluginAttribute Attribute { get; private set; }
         public ITwPlugin Instance { get; private set; }
 
-        public PluginModule(Type declaringType, TwPluginModuleAttribute attribute)
+        public PluginModule(Type declaringType, TwPluginAttribute attribute)
         {
             DeclaringType = declaringType;
             Attribute = attribute;

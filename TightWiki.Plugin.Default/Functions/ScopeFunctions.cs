@@ -8,11 +8,11 @@ using TightWiki.Plugin.Styler;
 
 namespace TightWiki.Plugin.Default.Functions
 {
-    [TwPluginModule("Processing Instructions Functions", "Built-in scope functions.", 1000)]
+    [TwPlugin("Processing Instructions Functions", "Built-in scope functions.", 1000)]
     public class ScopeFunctions
         : ITwPlugin
     {
-        [TwScopeFunction("Code", "Renders a block of code with optional syntax highlighting.", true)]
+        [TwScopeFunctionPlugin("Code", "Renders a block of code with optional syntax highlighting.", true)]
         public async Task<TwPluginResult> Code(ITwEngineState state, string scopeBody,
             TightWikiCodeLanguage codeLanguage = TightWikiCodeLanguage.Auto)
         {
@@ -43,12 +43,12 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwScopeFunction("Table", "Renders a table with optional border and header row.")]
+        [TwScopeFunctionPlugin("Table", "Renders a table with optional border and header row.")]
         public async Task<TwPluginResult> Table(ITwEngineState state, string scopeBody,
             bool hasBorder = true, bool isFirstRowHeader = true)
             => await BaseTable(state, scopeBody, hasBorder, isFirstRowHeader);
 
-        [TwScopeFunction("StripedTable", "Renders a striped table with optional border and header row.")]
+        [TwScopeFunctionPlugin("StripedTable", "Renders a striped table with optional border and header row.")]
         public async Task<TwPluginResult> StripedTable(ITwEngineState state, string scopeBody,
             bool hasBorder = true, bool isFirstRowHeader = true)
             => await BaseTable(state, scopeBody, hasBorder, isFirstRowHeader);
@@ -116,7 +116,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwScopeFunction("Bullets", "Renders a list of bullets with optional nesting.")]
+        [TwScopeFunctionPlugin("Bullets", "Renders a list of bullets with optional nesting.")]
         public async Task<TwPluginResult> Bullets(ITwEngineState state, string scopeBody,
             TightWikiBulletStyle type = TightWikiBulletStyle.Unordered)
         {
@@ -206,7 +206,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwScopeFunction("DefineSnippet", "Defines a reusable snippet of content.")]
+        [TwScopeFunctionPlugin("DefineSnippet", "Defines a reusable snippet of content.")]
         public async Task<TwPluginResult> DefineSnippet(ITwEngineState state, string scopeBody,
             string name)
         {
@@ -220,7 +220,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwScopeFunction("Alert", "Renders an alert box with optional style and title.")]
+        [TwScopeFunctionPlugin("Alert", "Renders an alert box with optional style and title.")]
         public async Task<TwPluginResult> Alert(ITwEngineState state, string scopeBody,
             TightWikiBootstrapStyle styleName = TightWikiBootstrapStyle.Default, string titleText = "")
         {
@@ -233,7 +233,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwScopeFunction("Order", "Orders a list of items in ascending or descending order.")]
+        [TwScopeFunctionPlugin("Order", "Orders a list of items in ascending or descending order.")]
         public async Task<TwPluginResult> Order(ITwEngineState state, string scopeBody,
             TightWikiOrder direction = TightWikiOrder.Ascending)
         {
@@ -253,7 +253,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwScopeFunction("Jumbotron", "Renders a jumbotron with optional style and title.")]
+        [TwScopeFunctionPlugin("Jumbotron", "Renders a jumbotron with optional style and title.")]
         public async Task<TwPluginResult> Jumbotron(ITwEngineState state, string scopeBody,
             TightWikiBootstrapStyle styleName = TightWikiBootstrapStyle.Secondary, string? titleText = null)
         {
@@ -268,7 +268,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwScopeFunction("Foreground", "Renders text with a specified foreground color.")]
+        [TwScopeFunctionPlugin("Foreground", "Renders text with a specified foreground color.")]
         public async Task<TwPluginResult> Foreground(ITwEngineState state, string scopeBody,
             TightWikiBootstrapStyle styleName = TightWikiBootstrapStyle.Default)
         {
@@ -279,7 +279,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwScopeFunction("Background", "Renders text with a specified background color.")]
+        [TwScopeFunctionPlugin("Background", "Renders text with a specified background color.")]
         public async Task<TwPluginResult> Background(ITwEngineState state, string scopeBody,
             TightWikiBootstrapStyle styleName = TightWikiBootstrapStyle.Default)
         {
@@ -290,7 +290,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwScopeFunction("Collapse", "Renders a collapsible section with optional link text.")]
+        [TwScopeFunctionPlugin("Collapse", "Renders a collapsible section with optional link text.")]
         public async Task<TwPluginResult> Collapse(ITwEngineState state, string scopeBody, string linkText = "Show")
         {
             var html = new StringBuilder();
@@ -302,7 +302,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwScopeFunction("Callout", "Renders a callout box with optional style and title.")]
+        [TwScopeFunctionPlugin("Callout", "Renders a callout box with optional style and title.")]
         public async Task<TwPluginResult> Callout(ITwEngineState state, string scopeBody,
             TightWikiBootstrapStyle styleName = TightWikiBootstrapStyle.Default, string? titleText = null)
         {
@@ -315,7 +315,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwScopeFunction("Card", "Renders a card with optional style and title.")]
+        [TwScopeFunctionPlugin("Card", "Renders a card with optional style and title.")]
         public async Task<TwPluginResult> Card(ITwEngineState state, string scopeBody,
             TightWikiBootstrapStyle styleName = TightWikiBootstrapStyle.Default, string? titleText = null)
         {
@@ -336,7 +336,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwScopeFunction("BlockQuote", "Renders a blockquote with optional alignment and caption.")]
+        [TwScopeFunctionPlugin("BlockQuote", "Renders a blockquote with optional alignment and caption.")]
         public async Task<TwPluginResult> BlockQuote(ITwEngineState state, string scopeBody,
             TightWikiAlignStyle styleName = TightWikiAlignStyle.Start, string? caption = null)
         {
@@ -357,7 +357,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwScopeFunction("Figure", "Renders a figure with optional alignment and caption.")]
+        [TwScopeFunctionPlugin("Figure", "Renders a figure with optional alignment and caption.")]
         public async Task<TwPluginResult> Figure(ITwEngineState state, string scopeBody,
             TightWikiAlignStyle styleName = TightWikiAlignStyle.Default, string? caption = null)
         {

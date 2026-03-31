@@ -9,7 +9,7 @@ namespace TightWiki.Plugin.Default.Handlers
     /// <summary>
     /// Handles wiki comments. These are generally removed from the result.
     /// </summary>
-    [TwPluginModule("Default comment handler", "Handles wiki comments.", 1000)]
+    [TwPlugin("Default comment handler", "Handles wiki comments.", 1000)]
     public class CommentHandler
         : ITwCommentPlugin
     {
@@ -18,7 +18,7 @@ namespace TightWiki.Plugin.Default.Handlers
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="text">The comment text</param>
-        [TwCommentHandler("Default comment handler", "Handles wiki comments.")]
+        [TwCommentPluginHandler("Default comment handler", "Handles wiki comments.")]
         public async Task<TwPluginResult> Handle(ITwEngineState state, string text)
         {
             return new TwPluginResult() { Instructions = [HandlerResultInstruction.TruncateTrailingLine] };

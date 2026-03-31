@@ -7,11 +7,11 @@ using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Default.Functions
 {
-    [TwPluginModule("Post Processing Instruction Functions", "Built-in post processing instruction functions.", 1000)]
+    [TwPlugin("Post Processing Instruction Functions", "Built-in post processing instruction functions.", 1000)]
     public class PostProcessingInstructionFunctions
         : ITwPlugin
     {
-        [TwPostProcessingInstructionFunction("Tags", "Displays list of tag links for the tags that are included on the current page.")]
+        [TwPostProcessingInstructionFunctionPlugin("Tags", "Displays list of tag links for the tags that are included on the current page.")]
         public async Task<TwPluginResult> Tags(ITwEngineState state,
             TightWikiTabularStyle styleName)
         {
@@ -40,7 +40,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwPostProcessingInstructionFunction("TagCloud", "Displays a tag cloud for the specified page tag.")]
+        [TwPostProcessingInstructionFunctionPlugin("TagCloud", "Displays a tag cloud for the specified page tag.")]
         public async Task<TwPluginResult> TagCloud(ITwEngineState state,
             string pageTag, int top = 1000)
         {
@@ -48,7 +48,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html);
         }
 
-        [TwPostProcessingInstructionFunction("SearchCloud", "Displays a search cloud for the specified search phrase.")]
+        [TwPostProcessingInstructionFunctionPlugin("SearchCloud", "Displays a search cloud for the specified search phrase.")]
         public async Task<TwPluginResult> SearchCloud(ITwEngineState state,
             string searchPhrase, int top = 1000)
         {
@@ -58,7 +58,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html);
         }
 
-        [TwPostProcessingInstructionFunction("Toc", "Displays a table of contents for the page based on the header tags.")]
+        [TwPostProcessingInstructionFunctionPlugin("Toc", "Displays a table of contents for the page based on the header tags.")]
         public async Task<TwPluginResult> Toc(ITwEngineState state,
             bool alphabetized = false)
         {

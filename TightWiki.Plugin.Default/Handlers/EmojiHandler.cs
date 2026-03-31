@@ -9,7 +9,7 @@ namespace TightWiki.Plugin.Default.Handlers
     /// <summary>
     /// Handles wiki emojis.
     /// </summary>
-    [TwPluginModule("Default emoji handler", "Handles wiki emojis.", 1000)]
+    [TwPlugin("Default emoji handler", "Handles wiki emojis.", 1000)]
     public class EmojiHandler
         : ITwEmojiPlugin
     {
@@ -19,7 +19,7 @@ namespace TightWiki.Plugin.Default.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="key">The lookup key for the given emoji.</param>
         /// <param name="scale">The desired 1-100 scale factor for the emoji.</param>
-        [TwEmojiHandler("Default emoji handler", "Handles wiki emojis.")]
+        [TwEmojiPluginHandler("Default emoji handler", "Handles wiki emojis.")]
         public async Task<TwPluginResult> Handle(ITwEngineState state, string key, int scale)
         {
             var emoji = state.Engine.WikiConfiguration.Emojis.FirstOrDefault(o => o.Shortcut == key);

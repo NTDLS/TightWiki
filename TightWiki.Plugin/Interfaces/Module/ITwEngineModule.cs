@@ -16,7 +16,7 @@ namespace TightWiki.Plugin.Interfaces.Module
         /// <summary>
         /// The attribute of the plugin module class, containing information such as the module name, description, and order.
         /// </summary>
-        TwPluginModuleAttribute Attribute { get; }
+        TwPluginAttribute Attribute { get; }
 
         /// <summary>
         /// An instance of the plugin module class, used to invoke any functions or handlers that it contains.

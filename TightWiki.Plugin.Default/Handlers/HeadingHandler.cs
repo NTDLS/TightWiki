@@ -9,7 +9,7 @@ namespace TightWiki.Plugin.Default.Handlers
     /// <summary>
     /// Handles wiki headings. These are automatically added to the table of contents.
     /// </summary>
-    [TwPluginModule("Default heading handler", "Handles wiki headings. These are automatically added to the table of contents.", 1000)]
+    [TwPlugin("Default heading handler", "Handles wiki headings. These are automatically added to the table of contents.", 1000)]
     public class HeadingHandler
         : ITwHeadingPlugin
     {
@@ -20,7 +20,7 @@ namespace TightWiki.Plugin.Default.Handlers
         /// <param name="depth">The size of the header, also used for table of table of contents indentation.</param>
         /// <param name="link">The self link reference.</param>
         /// <param name="text">The text for the self link.</param>
-        [TwHeadingHandler("Default heading handler", "Handles wiki headings.")]
+        [TwHeadingPluginHandler("Default heading handler", "Handles wiki headings.")]
         public async Task<TwPluginResult> Handle(ITwEngineState state, int depth, string link, string text)
         {
             depth = Math.Clamp(depth, 1, 6);

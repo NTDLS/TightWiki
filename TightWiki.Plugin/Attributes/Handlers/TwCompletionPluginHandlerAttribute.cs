@@ -1,11 +1,11 @@
 ﻿namespace TightWiki.Plugin.Attributes.Handlers
 {
     /// <summary>
-    /// Attribute to mark a method as an external hyperlink handler in the TightWiki plugin system.
+    /// Specifies that a method is a completion handler for the wikification workflow.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class TwExternalLinkHandlerAttribute
-            : Attribute, ITwHandlerDescriptorAttribute
+    public class TwCompletionPluginHandlerAttribute
+            : Attribute, ITwPluginHandlerAttribute
     {
         /// <summary>
         /// The user-friendly display name of the hander.
@@ -19,7 +19,7 @@
         /// <summary>
         /// Creates a new instance of the attribute with the specified name and description.
         /// </summary>
-        public TwExternalLinkHandlerAttribute(string name, string description)
+        public TwCompletionPluginHandlerAttribute(string name, string description)
         {
             Name = name;
             Description = description;

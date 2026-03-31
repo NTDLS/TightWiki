@@ -1,14 +1,14 @@
 ﻿namespace TightWiki.Plugin.Attributes.Functions
 {
     /// <summary>
-    /// Specifies that a method implements a post-processing instruction function for TightWiki syntax parsing.
+    /// Specifies that a method implements a processing instruction function for TightWiki syntax parsing.
     /// </summary>
-    /// <remarks>Apply this attribute to methods that define custom post-processing instruction functions,
-    /// which are invoked during the parsing of TightWiki content. These functions can be used to extend or modify the
-    /// behavior of the parser by handling specific instruction patterns.</remarks>
+    /// <remarks>Apply this attribute to methods that define custom processing instruction functions in
+    /// TightWiki. Processing instruction functions can be used to extend or modify the behavior of the parser by
+    /// handling special wiki syntax constructs.</remarks>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class TwPostProcessingInstructionFunctionAttribute
-            : Attribute, ITwFunctionDescriptorAttribute
+    public class TwProcessingInstructionFunctionPluginAttribute
+            : Attribute, ITwFunctionPluginAttribute
     {
         /// <summary>
         /// The user-friendly display name of the function.
@@ -27,12 +27,12 @@
         /// <summary>
         /// The prefix used to demarcate the function in the wiki syntax, such as "##", "@@", etc for TightWiki functions.
         /// </summary>
-        public string Demarcation { get; } = "##";
+        public string Demarcation { get; } = "@@";
 
         /// <summary>
         /// Creates a new instance of the attribute with the specified name and description.
         /// </summary>
-        public TwPostProcessingInstructionFunctionAttribute(string name, string description)
+        public TwProcessingInstructionFunctionPluginAttribute(string name, string description)
         {
             Name = name;
             Description = description;

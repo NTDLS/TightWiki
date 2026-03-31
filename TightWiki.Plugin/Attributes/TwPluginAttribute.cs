@@ -5,7 +5,7 @@
     /// The class can contain functions and handlers that will be registered and executed by the engine.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class TwPluginModuleAttribute
+    public class TwPluginAttribute
     : Attribute
     {
         /// <summary>
@@ -25,7 +25,7 @@
         /// <summary>
         /// Creates a new instance of the attribute with the specified name and description.
         /// </summary>
-        public TwPluginModuleAttribute(string name, string description, int order)
+        public TwPluginAttribute(string name, string description, int order)
         {
             Name = name;
             Description = description;

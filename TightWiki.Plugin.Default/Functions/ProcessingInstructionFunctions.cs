@@ -6,12 +6,12 @@ using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Plugin.Default.Functions
 {
-    [TwPluginModule("Processing Instruction Functions", "Built-in processing instruction functions.", 1000)]
+    [TwPlugin("Processing Instruction Functions", "Built-in processing instruction functions.", 1000)]
     public class ProcessingInstructionFunctions
         : ITwPlugin
     {
         //Associates tags with a page. These are saved with the page and can also be displayed.
-        [TwProcessingInstructionFunction("Tags", "Associates tags with a page. These are saved with the page and can also be displayed.")]
+        [TwProcessingInstructionFunctionPlugin("Tags", "Associates tags with a page. These are saved with the page and can also be displayed.")]
         public async Task<TwPluginResult> Tags(ITwEngineState state,
             string[] pageTags) //##tag(pipe|separated|list|of|tags)
         {
@@ -24,7 +24,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwProcessingInstructionFunction("Title", "Sets the title of the page.")]
+        [TwProcessingInstructionFunctionPlugin("Title", "Sets the title of the page.")]
         public async Task<TwPluginResult> Title(ITwEngineState state,
             string pageTitle)
         {
@@ -36,7 +36,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwProcessingInstructionFunction("HideFooterLastModified", "Hides the last modified information in the footer.")]
+        [TwProcessingInstructionFunctionPlugin("HideFooterLastModified", "Hides the last modified information in the footer.")]
         public async Task<TwPluginResult> HideFooterLastModified(ITwEngineState state)
         {
             state.ProcessingInstructions.Add(WikiInstruction.HideFooterLastModified);
@@ -47,7 +47,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwProcessingInstructionFunction("HideFooterComments", "Hides the comments section in the footer.")]
+        [TwProcessingInstructionFunctionPlugin("HideFooterComments", "Hides the comments section in the footer.")]
         public async Task<TwPluginResult> HideFooterComments(ITwEngineState state)
         {
             state.ProcessingInstructions.Add(WikiInstruction.HideFooterComments);
@@ -57,7 +57,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwProcessingInstructionFunction("NoCache", "Prevents the page from being cached.")]
+        [TwProcessingInstructionFunctionPlugin("NoCache", "Prevents the page from being cached.")]
         public async Task<TwPluginResult> NoCache(ITwEngineState state)
         {
             state.ProcessingInstructions.Add(WikiInstruction.NoCache);
@@ -67,7 +67,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwProcessingInstructionFunction("Deprecate", "Marks the page as deprecated.")]
+        [TwProcessingInstructionFunctionPlugin("Deprecate", "Marks the page as deprecated.")]
         public async Task<TwPluginResult> Deprecate(ITwEngineState state)
         {
             if (state.NestDepth == 0)
@@ -81,7 +81,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwProcessingInstructionFunction("Protect", "Protects the page from being altered by non-moderators.")]
+        [TwProcessingInstructionFunctionPlugin("Protect", "Protects the page from being altered by non-moderators.")]
         public async Task<TwPluginResult> Protect(ITwEngineState state, bool isSilent)
         {
             if (state.NestDepth == 0)
@@ -98,7 +98,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwProcessingInstructionFunction("Template", "Marks the page as a template.")]
+        [TwProcessingInstructionFunctionPlugin("Template", "Marks the page as a template.")]
         public async Task<TwPluginResult> Template(ITwEngineState state)
         {
             if (state.NestDepth == 0)
@@ -112,7 +112,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwProcessingInstructionFunction("Review", "Flags the page for review.")]
+        [TwProcessingInstructionFunctionPlugin("Review", "Flags the page for review.")]
         public async Task<TwPluginResult> Review(ITwEngineState state)
         {
             if (state.NestDepth == 0)
@@ -126,7 +126,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwProcessingInstructionFunction("Include", "Marks the page as an include.")]
+        [TwProcessingInstructionFunctionPlugin("Include", "Marks the page as an include.")]
         public async Task<TwPluginResult> Include(ITwEngineState state)
         {
             if (state.NestDepth == 0)
@@ -140,7 +140,7 @@ namespace TightWiki.Plugin.Default.Functions
             };
         }
 
-        [TwProcessingInstructionFunction("Draft", "Marks the page as a draft.")]
+        [TwProcessingInstructionFunctionPlugin("Draft", "Marks the page as a draft.")]
         public async Task<TwPluginResult> Draft(ITwEngineState state)
         {
             if (state.NestDepth == 0)

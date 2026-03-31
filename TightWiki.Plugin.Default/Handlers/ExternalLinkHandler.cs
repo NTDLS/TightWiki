@@ -9,7 +9,7 @@ namespace TightWiki.Plugin.Default.Handlers
     /// <summary>
     /// Handles links the wiki to another site.
     /// </summary>
-    [TwPluginModule("Default external link handler", "Handles links the wiki to another site.", 1000)]
+    [TwPlugin("Default external link handler", "Handles links the wiki to another site.", 1000)]
     public class ExternalLinkHandler
         : ITwExternalLinkPlugin
     {
@@ -21,7 +21,7 @@ namespace TightWiki.Plugin.Default.Handlers
         /// <param name="text">The text which should be show in the absence of an image.</param>
         /// <param name="image">The image that should be shown.</param>
         /// <param name="imageScale">The 0-100 image scale factor for the given image.</param>
-        [TwExternalLinkHandler("Default external link handler", "Handles links the wiki to another site.")]
+        [TwExternalLinkPluginHandler("Default external link handler", "Handles links the wiki to another site.")]
         public async Task<TwPluginResult> Handle(ITwEngineState state, string link, string? text, string? image)
         {
             if (string.IsNullOrEmpty(image))

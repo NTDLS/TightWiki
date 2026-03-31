@@ -7,7 +7,7 @@
     /// These properties provide metadata about the function, which can be used for documentation, user interfaces,
     /// or other purposes within the TightWiki plugin system.
     /// </summary>
-    public interface ITwFunctionDescriptorAttribute
+    public interface ITwFunctionPluginAttribute
     {
         /// <summary>
         /// The user-friendly display name of the function.
