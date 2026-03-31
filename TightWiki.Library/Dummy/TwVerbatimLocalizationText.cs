@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Localization;
 using TightWiki.Plugin.Interfaces;
 
-namespace TightWiki.Plugin.Dummy
+namespace TightWiki.Library.Dummy
 {
     public class TwVerbatimLocalizationText
         : ITwSharedLocalizationText

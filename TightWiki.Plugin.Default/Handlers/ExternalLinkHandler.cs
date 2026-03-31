@@ -1,4 +1,5 @@
 ﻿using TightWiki.Plugin.Attributes;
+using TightWiki.Plugin.Attributes.Handlers;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Module.Handlers;

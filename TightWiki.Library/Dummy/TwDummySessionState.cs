@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
+using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 
-namespace TightWiki.Plugin.Dummy
+namespace TightWiki.Library.Dummy
 {
     public class TwDummySessionState
         : ITwSessionState
