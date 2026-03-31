@@ -1,15 +1,27 @@
-﻿namespace TightWiki.Plugin.Attributes.Functions
+﻿namespace TightWiki.Plugin.Attributes.Handlers
 {
+    /// <summary>
+    /// Specifies that a method is a completion handler for the wikification workflow.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class TwCompletionHandlerAttribute
             : Attribute, ITwHandlerDescriptorAttribute
     {
-        public string FriendlyName { get; }
-        public string? Description { get; }
+        /// <summary>
+        /// The user-friendly display name of the hander.
+        /// </summary>
+        public string Name { get; }
+        /// <summary>
+        /// The user-friendly display description of the hander.
+        /// </summary>
+        public string Description { get; }
 
-        public TwCompletionHandlerAttribute(string friendlyName, string? description = null)
+        /// <summary>
+        /// Creates a new instance of the attribute with the specified name and description.
+        /// </summary>
+        public TwCompletionHandlerAttribute(string name, string description)
         {
-            FriendlyName = friendlyName;
+            Name = name;
             Description = description;
         }
     }

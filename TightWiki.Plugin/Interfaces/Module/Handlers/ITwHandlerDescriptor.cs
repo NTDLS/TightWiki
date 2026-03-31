@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using TightWiki.Plugin.Attributes;
-using TightWiki.Plugin.Attributes.Functions;
+using TightWiki.Plugin.Attributes.Handlers;
 
 namespace TightWiki.Plugin.Interfaces.Module.Handlers
 {

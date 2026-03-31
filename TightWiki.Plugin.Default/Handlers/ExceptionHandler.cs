@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using TightWiki.Plugin.Attributes;
-using TightWiki.Plugin.Attributes.Functions;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Module.Handlers;

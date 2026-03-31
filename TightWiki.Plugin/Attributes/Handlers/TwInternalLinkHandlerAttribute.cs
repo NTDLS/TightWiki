@@ -1,15 +1,27 @@
-﻿namespace TightWiki.Plugin.Attributes.Functions
+﻿namespace TightWiki.Plugin.Attributes.Handlers
 {
+    /// <summary>
+    /// Attribute to mark a method as an internal hyperlink handler in the TightWiki plugin system.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class TwInternalLinkHandlerAttribute
             : Attribute, ITwHandlerDescriptorAttribute
     {
-        public string FriendlyName { get; }
-        public string? Description { get; }
+        /// <summary>
+        /// The user-friendly display name of the hander.
+        /// </summary>
+        public string Name { get; }
+        /// <summary>
+        /// The user-friendly display description of the hander.
+        /// </summary>
+        public string Description { get; }
 
-        public TwInternalLinkHandlerAttribute(string friendlyName, string? description = null)
+        /// <summary>
+        /// Creates a new instance of the attribute with the specified name and description.
+        /// </summary>
+        public TwInternalLinkHandlerAttribute(string name, string description)
         {
-            FriendlyName = friendlyName;
+            Name = name;
             Description = description;
         }
     }
