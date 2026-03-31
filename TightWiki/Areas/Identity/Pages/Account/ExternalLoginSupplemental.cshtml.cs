@@ -104,7 +104,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             Input.Countries = CountryItem.GetAll();
             Input.Languages = LanguageItem.GetAll();
 
-            var membershipConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
+            var membershipConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Membership);
 
             if (string.IsNullOrEmpty(Input.TimeZone))
                 Input.TimeZone = membershipConfig.Value<string>("Default TimeZone").EnsureNotNull();
@@ -170,7 +170,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     return NotifyOfError(_localizer["An error occurred while adding the login."]);
                 }
 
-                var membershipConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
+                var membershipConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Membership);
                 await _usersRepository.CreateProfile(Guid.Parse(user.Id), Input.AccountName);
                 await _usersRepository.AddRoleMemberByname(Guid.Parse(user.Id), membershipConfig.Value<string>("Default Signup Role").EnsureNotNull());
 

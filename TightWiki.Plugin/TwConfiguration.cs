@@ -10,7 +10,7 @@ namespace TightWiki.Plugin
         /// The base path of the wiki, used for generating links.
         /// </summary>
         public string BasePath { get; set; } = string.Empty;
-        public TwTheme SystemTheme { get; set; } = new();
+        public Models.TwTheme SystemTheme { get; set; } = new();
         public bool IsDebug { get; set; }
         public bool AllowSignup { get; set; }
         public bool EnableLDAPAuthentication { get; set; }

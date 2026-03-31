@@ -58,7 +58,7 @@ namespace TightWiki.Engine.Module.Function
                 var trimmedArguments = match.ToString().Substring(argumentStartIndex);
                 arguments = ParseArguments(trimmedArguments);
 
-                if (ParseDemarcation(functionDemarcation) == WikiFunctionType.Scoped)
+                if (ParseDemarcation(functionDemarcation) == TwFunctionType.Scoped)
                 {
                     bodyText = functionCall.Substring(parseEndIndex, (functionCall.Length - parseEndIndex) - functionDemarcation.Length).Trim();
                 }
@@ -88,7 +88,7 @@ namespace TightWiki.Engine.Module.Function
 
                 functionName = functionCall.Substring(functionDemarcation.Length, skippedCharsCount - functionDemarcation.Length).ToLowerInvariant().TrimStart(['{', '#', '@']).Trim();
 
-                if (ParseDemarcation(functionDemarcation) == WikiFunctionType.Scoped)
+                if (ParseDemarcation(functionDemarcation) == TwFunctionType.Scoped)
                 {
                     //From the end of the function name, to the end of the while string, less the length of the demarcation.
                     bodyText = functionCall.Substring(skippedCharsCount, (functionCall.Length - skippedCharsCount) - functionDemarcation.Length).Trim();
@@ -103,13 +103,13 @@ namespace TightWiki.Engine.Module.Function
             return new ParsedFunction(functionDemarcation, functionName, arguments, bodyText);
         }
 
-        private static WikiFunctionType ParseDemarcation(string demarcation)
+        private static TwFunctionType ParseDemarcation(string demarcation)
         {
             return demarcation switch
             {
-                "##" => WikiFunctionType.Standard,
-                "{{" => WikiFunctionType.Scoped,
-                "@@" => WikiFunctionType.Instruction,
+                "##" => TwFunctionType.Standard,
+                "{{" => TwFunctionType.Scoped,
+                "@@" => TwFunctionType.Instruction,
                 _ => throw new Exception("Invalid demarcation string."),
             };
         }

@@ -98,7 +98,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-                var ldapAuthenticationConfiguration = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.LDAPAuthentication);
+                var ldapAuthenticationConfiguration = await _configurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.LDAPAuthentication);
 
                 ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{WikiConfiguration.BasePath}/");
 

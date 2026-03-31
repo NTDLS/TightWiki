@@ -97,7 +97,7 @@ namespace TightWiki.Controllers
         {
             try
             {
-                var defaultDataType = Enum.Parse<WikiDefaultDataType>(defaultData);
+                var defaultDataType = Enum.Parse<TwDefaultDataType>(defaultData);
 
                 try
                 {
@@ -343,7 +343,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -359,7 +359,7 @@ namespace TightWiki.Controllers
                     {
                         Pages = await pageRepository.GetAllPagesByInstructionPaged(GetQueryValue("page", 1), instruction),
                         Instruction = instruction,
-                        Instructions = typeof(WikiInstruction).GetProperties().Select(o => o.Name).ToList()
+                        Instructions = typeof(TwInstruction).GetProperties().Select(o => o.Name).ToList()
                     };
 
                     model.PaginationPageCount = (model.Pages.FirstOrDefault()?.PaginationPageCount ?? 0);
@@ -380,7 +380,7 @@ namespace TightWiki.Controllers
                 {
                     Pages = new(),
                     Instruction = string.Empty,
-                    Instructions = typeof(WikiInstruction).GetProperties().Select(o => o.Name).ToList()
+                    Instructions = typeof(TwInstruction).GetProperties().Select(o => o.Name).ToList()
                 });
             }
             catch (Exception ex)
@@ -402,7 +402,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -442,7 +442,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -478,7 +478,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -528,7 +528,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -583,7 +583,7 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
 
                 var pageNavigation = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -619,7 +619,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -668,7 +668,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -705,7 +705,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -759,7 +759,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -816,7 +816,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -852,7 +852,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -888,7 +888,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -920,7 +920,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -949,7 +949,7 @@ namespace TightWiki.Controllers
                                 var state = await tightEngine.Transform(Localizer, SessionState, page, page.Revision);
                                 page.Body = state.HtmlResult;
 
-                                if (state.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
+                                if (state.ProcessingInstructions.Contains(TwInstruction.NoCache) == false)
                                 {
                                     MemCache.Set(cacheKey, state.HtmlResult); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
                                 }
@@ -979,7 +979,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -1009,7 +1009,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -1038,7 +1038,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -1067,7 +1067,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -1096,7 +1096,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -1125,7 +1125,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -1183,7 +1183,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -1615,7 +1615,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -1653,7 +1653,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(null, WikiPermission.Moderate);
+                    await SessionState.RequirePermission(null, Plugin.TwPermission.Moderate);
                 }
                 catch (Exception ex)
                 {
@@ -2008,7 +2008,7 @@ namespace TightWiki.Controllers
         public async Task<IActionResult> TestLdap([FromBody] LdapTestRequest req)
         {
             var ldapAuthenticationConfiguration = await
-                configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.LDAPAuthentication);
+                configurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.LDAPAuthentication);
 
             try
             {

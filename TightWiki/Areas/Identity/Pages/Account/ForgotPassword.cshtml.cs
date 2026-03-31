@@ -88,10 +88,10 @@ namespace TightWiki.Areas.Identity.Pages.Account
                         values: new { area = "Identity", encodedCode },
                         protocol: Request.Scheme);
 
-                    var configEmailTemplate = await _configurationRepository.Get<string>(WikiConfigurationGroup.Membership, "Template: Reset Password Email");
+                    var configEmailTemplate = await _configurationRepository.Get<string>(TwConfigGroup.Membership, "Template: Reset Password Email");
 
                     var emailTemplate = new StringBuilder(configEmailTemplate);
-                    var basicConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
+                    var basicConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Basic);
                     var siteName = basicConfig.Value<string>("Name");
                     var address = basicConfig.Value<string>("Address");
                     var profile = await _usersRepository.GetAccountProfileByUserId(Guid.Parse(user.Id));

@@ -39,7 +39,7 @@ namespace TightWiki.Plugin.Default.Handlers
             }
             else
             {
-                return new TwPluginResult(key) { Instructions = [HandlerResultInstruction.DisallowNestedProcessing] };
+                return new TwPluginResult(key) { Instructions = [TwResultInstruction.DisallowNestedProcessing] };
             }
         }
     }

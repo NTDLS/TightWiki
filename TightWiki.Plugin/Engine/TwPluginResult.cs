@@ -14,7 +14,7 @@
         /// <summary>
         /// Collection of instructions defining how the plugin result should be processed.
         /// </summary>
-        public List<HandlerResultInstruction> Instructions { get; set; } = new();
+        public List<TwResultInstruction> Instructions { get; set; } = new();
 
         /// <summary>
         /// Creates a default instance of <see cref="TwPluginResult"/> with empty content and no instructions.

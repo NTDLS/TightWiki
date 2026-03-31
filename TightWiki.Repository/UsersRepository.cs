@@ -169,7 +169,7 @@ namespace TightWiki.Repository
             }).EnsureNotNull();
         }
 
-        public async Task<List<TwApparentPermission>> GetApparentRolePermissions(WikiRoles role)
+        public async Task<List<TwApparentPermission>> GetApparentRolePermissions(TwRoles role)
             => await GetApparentRolePermissions(role.ToString());
 
         public async Task<List<TwApparentPermission>> GetApparentRolePermissions(string roleName)
@@ -186,23 +186,23 @@ namespace TightWiki.Repository
             })).EnsureNotNull();
         }
 
-        public async Task<List<TwPermissionDisposition>> GetAllPermissionDispositions()
+        public async Task<List<Plugin.Models.TwPermissionDisposition>> GetAllPermissionDispositions()
         {
             var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Security);
 
             return (await MemCache.AddOrGetAsync(cacheKey, async () =>
             {
-                return await UsersFactory.QueryAsync<TwPermissionDisposition>(@"Scripts\GetAllPermissionDispositions.sql");
+                return await UsersFactory.QueryAsync<Plugin.Models.TwPermissionDisposition>(@"Scripts\GetAllPermissionDispositions.sql");
             })).EnsureNotNull();
         }
 
-        public async Task<List<TwPermission>> GetAllPermissions()
+        public async Task<List<Plugin.Models.TwPermission>> GetAllPermissions()
         {
             var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Security);
 
             return (await MemCache.AddOrGetAsync(cacheKey, async () =>
             {
-                return await UsersFactory.QueryAsync<TwPermission>(@"Scripts\GetAllPermissions.sql");
+                return await UsersFactory.QueryAsync<Plugin.Models.TwPermission>(@"Scripts\GetAllPermissions.sql");
             })).EnsureNotNull();
         }
 
@@ -212,7 +212,7 @@ namespace TightWiki.Repository
             {
                 using var users_db = o.Attach("pages.db", "pages_db");
 
-                pageSize ??= await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+                pageSize ??= await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
                 var param = new
                 {
@@ -228,7 +228,7 @@ namespace TightWiki.Repository
 
         public async Task<List<TwAccountProfile>> GetAllPublicProfilesPaged(int pageNumber, int? pageSize = null, string? searchToken = null)
         {
-            pageSize ??= await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            pageSize ??= await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -292,7 +292,7 @@ namespace TightWiki.Repository
 
         public async Task<List<TwAccountProfile>> GetRoleMembersPaged(int roleId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
-            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -311,7 +311,7 @@ namespace TightWiki.Repository
             {
                 using var users_db = o.Attach("pages.db", "pages_db");
 
-                pageSize ??= await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+                pageSize ??= await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
                 var param = new
                 {
@@ -327,7 +327,7 @@ namespace TightWiki.Repository
 
         public async Task<List<TwAccountRoleMembership>> GetAccountRoleMembershipPaged(Guid userId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
-            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -345,7 +345,7 @@ namespace TightWiki.Repository
 
         public async Task<List<TwAccountProfile>> GetAllUsersPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null, string? searchToken = null)
         {
-            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -511,27 +511,27 @@ namespace TightWiki.Repository
             MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.User, [userId]));
         }
 
-        public async Task<WikiAdminPasswordChangeState> AdminPasswordStatus()
+        public async Task<TwAdminPasswordChangeState> AdminPasswordStatus()
         {
             var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Configuration);
 
             if (MemCache.Get<bool?>(cacheKey) == true)
             {
-                return WikiAdminPasswordChangeState.HasBeenChanged;
+                return TwAdminPasswordChangeState.HasBeenChanged;
             }
 
             var result = await UsersFactory.ExecuteScalarAsync<bool?>("IsAdminPasswordChanged.sql");
             if (result == true)
             {
                 MemCache.Set(cacheKey, true);
-                return WikiAdminPasswordChangeState.HasBeenChanged;
+                return TwAdminPasswordChangeState.HasBeenChanged;
             }
             if (result == null)
             {
-                return WikiAdminPasswordChangeState.NeedsToBeSet;
+                return TwAdminPasswordChangeState.NeedsToBeSet;
             }
 
-            return WikiAdminPasswordChangeState.IsDefault;
+            return TwAdminPasswordChangeState.IsDefault;
         }
 
         public async Task SetAdminPasswordClear()
@@ -558,23 +558,23 @@ namespace TightWiki.Repository
                 await SetAdminPasswordClear();
             }
 
-            if (await AdminPasswordStatus() == WikiAdminPasswordChangeState.NeedsToBeSet)
+            if (await AdminPasswordStatus() == TwAdminPasswordChangeState.NeedsToBeSet)
             {
-                var user = await userManager.FindByNameAsync(TwConstants.DEFAULTUSERNAME);
+                var user = await userManager.FindByNameAsync(Constants.DEFAULTUSERNAME);
                 if (user == null)
                 {
-                    var creationResult = await userManager.CreateAsync(new IdentityUser(TwConstants.DEFAULTUSERNAME), TwConstants.DEFAULTPASSWORD);
+                    var creationResult = await userManager.CreateAsync(new IdentityUser(Constants.DEFAULTUSERNAME), Constants.DEFAULTPASSWORD);
                     if (!creationResult.Succeeded)
                     {
                         throw new Exception(string.Join("\r\n", creationResult.Errors.Select(o => o.Description)));
                     }
 
-                    user = await userManager.FindByNameAsync(TwConstants.DEFAULTUSERNAME);
+                    user = await userManager.FindByNameAsync(Constants.DEFAULTUSERNAME);
                 }
 
                 user.EnsureNotNull();
 
-                user.Email = TwConstants.DEFAULTUSERNAME; // Ensure email is set or updated
+                user.Email = Constants.DEFAULTUSERNAME; // Ensure email is set or updated
                 user.EmailConfirmed = true;
                 var emailUpdateResult = await userManager.UpdateAsync(user);
                 if (!emailUpdateResult.Succeeded)
@@ -582,7 +582,7 @@ namespace TightWiki.Repository
                     throw new Exception(string.Join("\r\n", emailUpdateResult.Errors.Select(o => o.Description)));
                 }
 
-                var membershipConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
+                var membershipConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Membership);
 
                 var claimsToAdd = new List<Claim>
                     {
@@ -595,7 +595,7 @@ namespace TightWiki.Repository
                 await UpsertUserClaims(userManager, user, claimsToAdd);
 
                 var token = await userManager.GeneratePasswordResetTokenAsync(user.EnsureNotNull());
-                var result = await userManager.ResetPasswordAsync(user, token, TwConstants.DEFAULTPASSWORD);
+                var result = await userManager.ResetPasswordAsync(user, token, Constants.DEFAULTPASSWORD);
                 if (!result.Succeeded)
                 {
                     throw new Exception(string.Join("\r\n", emailUpdateResult.Errors.Select(o => o.Description)));
@@ -603,14 +603,14 @@ namespace TightWiki.Repository
 
                 await SetAdminPasswordIsDefault();
 
-                var existingProfileUserId = GetUserAccountIdByNavigation(TwNavigation.Clean(TwConstants.DEFAULTACCOUNT));
+                var existingProfileUserId = GetUserAccountIdByNavigation(TwNavigation.Clean(Constants.DEFAULTACCOUNT));
                 if (existingProfileUserId == null)
                 {
-                    await CreateProfile(Guid.Parse(user.Id), TwConstants.DEFAULTACCOUNT);
+                    await CreateProfile(Guid.Parse(user.Id), Constants.DEFAULTACCOUNT);
                 }
                 else
                 {
-                    await SetProfileUserId(TwConstants.DEFAULTACCOUNT, Guid.Parse(user.Id));
+                    await SetProfileUserId(Constants.DEFAULTACCOUNT, Guid.Parse(user.Id));
                 }
             }
         }

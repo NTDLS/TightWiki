@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using TightWiki.Library;
 using TightWiki.Pages;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
@@ -135,7 +136,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            if (profile.AccountName.Equals(TwConstants.DEFAULTACCOUNT, StringComparison.InvariantCultureIgnoreCase))
+            if (profile.AccountName.Equals(Constants.DEFAULTACCOUNT, StringComparison.InvariantCultureIgnoreCase))
             {
                 await _usersRepository.SetAdminPasswordIsChanged();
             }

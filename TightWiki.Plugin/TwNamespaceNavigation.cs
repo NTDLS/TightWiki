@@ -18,18 +18,27 @@ namespace TightWiki.Plugin
         private string _page = string.Empty;
         private readonly bool _lowerCase = false;
 
+        /// <summary>
+        /// Namespace part of the given canonical.
+        /// </summary>
         public string Namespace
         {
             get => _namespace;
             set => _namespace = CleanAndValidate(value.Replace("::", "_")).Trim();
         }
 
+        /// <summary>
+        /// The page name part of the given canonical.
+        /// </summary>
         public string Page
         {
             get => _page;
             set => _page = CleanAndValidate(value.Replace("::", "_")).Trim();
         }
 
+        /// <summary>
+        /// The full web-friendly page::canonical_path of the given canonical.
+        /// </summary>
         public string Canonical
         {
             get
@@ -78,6 +87,9 @@ namespace TightWiki.Plugin
             Canonical = givenCanonical;
         }
 
+        /// <summary>
+        /// The full web-friendly page::canonical_path of the given canonical.
+        /// </summary>
         public override string ToString()
         {
             return Canonical;

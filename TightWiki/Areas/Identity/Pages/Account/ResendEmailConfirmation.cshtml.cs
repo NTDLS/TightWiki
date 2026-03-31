@@ -115,9 +115,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     values: new { area = "Identity", userId = userId, code = encodedCode },
                     protocol: Request.Scheme);
 
-                var configEmailTemplate = await _configurationRepository.Get<string>(WikiConfigurationGroup.Membership, "Template: Account Verification Email");
+                var configEmailTemplate = await _configurationRepository.Get<string>(TwConfigGroup.Membership, "Template: Account Verification Email");
                 var emailTemplate = new StringBuilder(configEmailTemplate);
-                var basicConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
+                var basicConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Basic);
                 var siteName = basicConfig.Value<string>("Name");
                 var address = basicConfig.Value<string>("Address");
                 var profile = await _usersRepository.GetAccountProfileByUserId(Guid.Parse(userId));

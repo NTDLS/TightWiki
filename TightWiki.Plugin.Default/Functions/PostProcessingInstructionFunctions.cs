@@ -12,14 +12,14 @@ namespace TightWiki.Plugin.Default.Functions
     {
         [TwPostProcessingInstructionFunctionPlugin("Tags", "Displays list of tag links for the tags that are included on the current page.", 1000)]
         public async Task<TwPluginResult> Tags(ITwEngineState state,
-            TightWikiTabularStyle styleName)
+            TwTabularStyle styleName)
         {
             var html = new StringBuilder();
 
             switch (styleName)
             {
-                case TightWikiTabularStyle.List:
-                case TightWikiTabularStyle.Full:
+                case TwTabularStyle.List:
+                case TwTabularStyle.Full:
                     html.Append("<ul>");
                     foreach (var tag in state.Tags)
                     {
@@ -27,7 +27,7 @@ namespace TightWiki.Plugin.Default.Functions
                     }
                     html.Append("</ul>");
                     break;
-                case TightWikiTabularStyle.Flat:
+                case TwTabularStyle.Flat:
                     foreach (var tag in state.Tags)
                     {
                         if (html.Length > 0) html.Append(" | ");

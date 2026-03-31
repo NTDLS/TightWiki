@@ -18,7 +18,7 @@ namespace TightWiki.Library
         {
             try
             {
-                var values = await configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Email);
+                var values = await configurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Email);
                 var smtpPassword = values.Value<string>("Password");
                 var smtpUsername = values.Value<string>("Username");
                 var smtpAddress = values.Value<string>("Address");

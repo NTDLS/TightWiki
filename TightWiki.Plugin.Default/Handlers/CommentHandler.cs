@@ -19,7 +19,7 @@ namespace TightWiki.Plugin.Default.Handlers
         [TwCommentPluginHandler("Default comment handler", "Handles wiki comments.", 1000)]
         public async Task<TwPluginResult> Handle(ITwEngineState state, string text)
         {
-            return new TwPluginResult() { Instructions = [HandlerResultInstruction.TruncateTrailingLine] };
+            return new TwPluginResult() { Instructions = [TwResultInstruction.TruncateTrailingLine] };
         }
     }
 }

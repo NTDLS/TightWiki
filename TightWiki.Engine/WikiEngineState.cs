@@ -53,11 +53,14 @@ namespace TightWiki.Engine
         public int? Revision { get; }
         public IQueryCollection QueryString { get; }
         public ITwSessionState? Session { get; }
-        public HashSet<WikiMatchType> OmitMatches { get; private set; } = new();
+        public HashSet<TwMatchType> OmitMatches { get; private set; } = new();
         public int NestDepth { get; private set; } //Used for recursion.
         public ILogger<ITwEngine> Logger { get; private set; }
 
         #endregion
+
+        private static string NewIdentiferTag()
+            => $"{Constants.TagStart}{Guid.NewGuid():N}{Constants.TagEnd}";
 
         /// <summary>
         /// Used to store values for handlers that needs to survive only a single wiki processing session.
@@ -108,7 +111,7 @@ namespace TightWiki.Engine
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
         /// <param name="nestDepth">The current depth of recursion.</param>
         internal WikiEngineState(ILogger<ITwEngine> logger, ITwEngine engine, ITwSharedLocalizationText localizer, ITwSessionState? session,
-            ITwPage page, int? revision = null, WikiMatchType[]? omitMatches = null, int nestDepth = 0)
+            ITwPage page, int? revision = null, TwMatchType[]? omitMatches = null, int nestDepth = 0)
         {
             Localizer = localizer;
             Logger = logger;
@@ -171,7 +174,7 @@ namespace TightWiki.Engine
                 //  can't build a table-of-contents until we have parsed the entire page and
                 //  identified all the headings.
                 await TransformPostProcessingFunctions(pageContent);
-                TransformWhitespace(pageContent);
+                TransformNewlines(pageContent);
 
                 if (PageTitle != null)
                 {
@@ -294,8 +297,8 @@ namespace TightWiki.Engine
         /// breaks and "<br />" for hard breaks.</param>
         public void SwapInLineBreaks(TwString pageContent, string? overrideValue = null)
         {
-            pageContent.Replace(TwConstants.SoftBreak, overrideValue ?? "\r\n");
-            pageContent.Replace(TwConstants.HardBreak, overrideValue ?? "<br />");
+            pageContent.Replace(Constants.SoftBreak, overrideValue ?? "\r\n");
+            pageContent.Replace(Constants.HardBreak, overrideValue ?? "<br />");
         }
 
         /// <summary>
@@ -321,9 +324,9 @@ namespace TightWiki.Engine
                     {
                         wasHandled = true;
                         var result = await handler.Handle(this, symbol, body);
-                        if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
+                        if (!result.Instructions.Contains(TwResultInstruction.Skip))
                         {
-                            StoreHandlerResult(result, WikiMatchType.Markup, pageContent, match.Value);
+                            StoreHandlerResult(result, TwMatchType.Markup, pageContent, match.Value);
                             break;
                         }
                     }
@@ -353,7 +356,7 @@ namespace TightWiki.Engine
                     string value = match.Value.Substring(headingMarkers).Trim();
                     double fontSize = 2.2 - (7 - headingMarkers) * 0.2;
                     string markup = $"<span class=\"mb-0\" style=\"font-size: {fontSize}rem;\">{value}</span>\r\n";
-                    StoreMatch(WikiMatchType.Markup, pageContent, match.Value, markup);
+                    StoreMatch(TwMatchType.Markup, pageContent, match.Value, markup);
                 }
             }
         }
@@ -374,7 +377,7 @@ namespace TightWiki.Engine
             {
                 string value = match.Value.Substring(2, match.Value.Length - 4);
                 value = HttpUtility.HtmlEncode(value);
-                StoreMatch(WikiMatchType.Literal, pageContent, match.Value, value.Replace("\r", "").Trim().Replace("\n", $"{TwConstants.HardBreak}"), false);
+                StoreMatch(TwMatchType.Literal, pageContent, match.Value, value.Replace("\r", "").Trim().Replace("\n", $"{Constants.HardBreak}"), false);
             }
         }
 
@@ -468,7 +471,7 @@ namespace TightWiki.Engine
 
                     var preparedFunction = PreparedFunction.Create(this, Engine.ScopeFunctions, parsedFunction);
                     var result = await preparedFunction.Execute();
-                    StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
+                    StoreHandlerResult(result, TwMatchType.StandardFunction, pageContent, match.Value);
                 }
                 catch (Exception ex)
                 {
@@ -506,11 +509,11 @@ namespace TightWiki.Engine
                     foreach (var handler in Engine.HeadingHandlers)
                     {
                         var result = await handler.Handle(this, headingMarkers - 1, link, text);
-                        if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
+                        if (!result.Instructions.Contains(TwResultInstruction.Skip))
                         {
                             wasHandled = true;
                             TableOfContents.Add(new TwTableOfContentsTag(headingMarkers - 1, match.Index, link, text));
-                            StoreHandlerResult(result, WikiMatchType.Heading, pageContent, match.Value);
+                            StoreHandlerResult(result, TwMatchType.Heading, pageContent, match.Value);
                             break;
                         }
                     }
@@ -533,10 +536,10 @@ namespace TightWiki.Engine
                 foreach (var handler in Engine.CommentHandlers)
                 {
                     var result = await handler.Handle(this, match.Value);
-                    if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
+                    if (!result.Instructions.Contains(TwResultInstruction.Skip))
                     {
                         wasHandled = true;
-                        StoreHandlerResult(result, WikiMatchType.Comment, pageContent, match.Value);
+                        StoreHandlerResult(result, TwMatchType.Comment, pageContent, match.Value);
                         break;
                     }
                 }
@@ -568,10 +571,10 @@ namespace TightWiki.Engine
                 foreach (var handler in Engine.EmojiHandlers)
                 {
                     var result = await handler.Handle(this, $"%%{key}%%", scale);
-                    if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
+                    if (!result.Instructions.Contains(TwResultInstruction.Skip))
                     {
                         wasHandled = true;
-                        StoreHandlerResult(result, WikiMatchType.Emoji, pageContent, match.Value);
+                        StoreHandlerResult(result, TwMatchType.Emoji, pageContent, match.Value);
                         break;
                     }
                 }
@@ -604,14 +607,14 @@ namespace TightWiki.Engine
                         Variables[key] = value;
                     }
 
-                    var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, "");
+                    var identifier = StoreMatch(TwMatchType.Variable, pageContent, match.Value, "");
                     pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
                 }
                 else
                 {
                     if (Variables.TryGetValue(key, out string? value))
                     {
-                        var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, value);
+                        var identifier = StoreMatch(TwMatchType.Variable, pageContent, match.Value, value);
                         pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
 
                     }
@@ -661,10 +664,10 @@ namespace TightWiki.Engine
                 foreach (var handler in Engine.ExternalLinkHandlers)
                 {
                     var result = await handler.Handle(this, link, text, image);
-                    if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
+                    if (!result.Instructions.Contains(TwResultInstruction.Skip))
                     {
                         wasHandled = true;
-                        StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value);
+                        StoreHandlerResult(result, TwMatchType.Link, pageContent, match.Value);
                         break;
                     }
                 }
@@ -709,10 +712,10 @@ namespace TightWiki.Engine
                 foreach (var handler in Engine.ExternalLinkHandlers)
                 {
                     var result = await handler.Handle(this, link, text, image);
-                    if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
+                    if (!result.Instructions.Contains(TwResultInstruction.Skip))
                     {
                         wasHandled = true;
-                        StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value);
+                        StoreHandlerResult(result, TwMatchType.Link, pageContent, match.Value);
                         break;
                     }
                 }
@@ -794,11 +797,11 @@ namespace TightWiki.Engine
                 foreach (var handler in Engine.InternalLinkHandlers)
                 {
                     var result = await handler.Handle(this, pageNavigation, pageName.Trim(':'), text, image, imageScale);
-                    if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
+                    if (!result.Instructions.Contains(TwResultInstruction.Skip))
                     {
                         wasHandled = true;
                         OutgoingLinks.Add(new TwPageReference(pageName, pageNavigation.Canonical));
-                        StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value);
+                        StoreHandlerResult(result, TwMatchType.Link, pageContent, match.Value);
                         break;
                     }
                 }
@@ -826,7 +829,7 @@ namespace TightWiki.Engine
                 {
                     var preparedFunction = PreparedFunction.Create(this, Engine.ProcessingFunctions, parsedFunction);
                     var result = await preparedFunction.Execute();
-                    StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
+                    StoreHandlerResult(result, TwMatchType.StandardFunction, pageContent, match.Value);
                 }
                 catch (Exception ex)
                 {
@@ -867,7 +870,7 @@ namespace TightWiki.Engine
 
                     var preparedFunction = PreparedFunction.Create(this, Engine.StandardFunctions, parsedFunction);
                     var result = await preparedFunction.Execute();
-                    StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
+                    StoreHandlerResult(result, TwMatchType.StandardFunction, pageContent, match.Value);
                 }
                 catch (Exception ex)
                 {
@@ -895,7 +898,7 @@ namespace TightWiki.Engine
                 {
                     var preparedFunction = PreparedFunction.Create(this, Engine.PostProcessingFunctions, parsedFunction);
                     var result = await preparedFunction.Execute();
-                    StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
+                    StoreHandlerResult(result, TwMatchType.StandardFunction, pageContent, match.Value);
                 }
                 catch (Exception ex)
                 {
@@ -905,9 +908,9 @@ namespace TightWiki.Engine
             }
         }
 
-        private static void TransformWhitespace(TwString pageContent)
+        private static void TransformNewlines(TwString pageContent)
         {
-            string identifier = $"TwBegin{Guid.NewGuid()}TwEnd";
+            var identifier = NewIdentiferTag();
 
             //Replace new-lines with single character new line:
             pageContent.Replace("\r\n", "\n");
@@ -924,18 +927,18 @@ namespace TightWiki.Engine
 
         #region Utility.
 
-        private void StoreHandlerResult(TwPluginResult result, WikiMatchType matchType, TwString pageContent, string matchValue)
+        private void StoreHandlerResult(TwPluginResult result, TwMatchType matchType, TwString pageContent, string matchValue)
         {
-            if (result.Instructions.Contains(HandlerResultInstruction.Skip))
+            if (result.Instructions.Contains(TwResultInstruction.Skip))
             {
                 return;
             }
 
-            bool allowNestedDecode = !result.Instructions.Contains(HandlerResultInstruction.DisallowNestedProcessing);
+            bool allowNestedDecode = !result.Instructions.Contains(TwResultInstruction.DisallowNestedProcessing);
 
             string identifier;
 
-            if (result.Instructions.Contains(HandlerResultInstruction.OnlyReplaceFirstMatch))
+            if (result.Instructions.Contains(TwResultInstruction.OnlyReplaceFirstMatch))
             {
                 identifier = StoreFirstMatch(matchType, pageContent, matchValue, result.Content, allowNestedDecode);
             }
@@ -948,7 +951,7 @@ namespace TightWiki.Engine
             {
                 switch (instruction)
                 {
-                    case HandlerResultInstruction.TruncateTrailingLine:
+                    case TwResultInstruction.TruncateTrailingLine:
                         pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
                         break;
                 }
@@ -981,13 +984,13 @@ namespace TightWiki.Engine
             ErrorCount++;
             _matchesStoredPerIteration++;
 
-            string identifier = $"TwBegin{Guid.NewGuid()}TwEnd";
+            var identifier = NewIdentiferTag();
 
             var matchSet = new MatchSet()
             {
                 Content = $"<i><font size=\"3\" color=\"#BB0000\">{{{value}}}</font></a>",
                 AllowNestedDecode = false,
-                MatchType = WikiMatchType.Error
+                MatchType = TwMatchType.Error
             };
 
             Matches.Add(identifier, matchSet);
@@ -996,12 +999,12 @@ namespace TightWiki.Engine
             return identifier;
         }
 
-        private string StoreMatch(WikiMatchType matchType, TwString pageContent, string match, string value, bool allowNestedDecode = true)
+        private string StoreMatch(TwMatchType matchType, TwString pageContent, string match, string value, bool allowNestedDecode = true)
         {
             MatchCount++;
             _matchesStoredPerIteration++;
 
-            string identifier = $"TwBegin{Guid.NewGuid()}TwEnd";
+            var identifier = NewIdentiferTag();
 
             var matchSet = new MatchSet()
             {
@@ -1016,12 +1019,12 @@ namespace TightWiki.Engine
             return identifier;
         }
 
-        private string StoreFirstMatch(WikiMatchType matchType, TwString pageContent, string match, string value, bool allowNestedDecode = true)
+        private string StoreFirstMatch(TwMatchType matchType, TwString pageContent, string match, string value, bool allowNestedDecode = true)
         {
             MatchCount++;
             _matchesStoredPerIteration++;
 
-            string identifier = $"TwBegin{Guid.NewGuid()}TwEnd";
+            var identifier = NewIdentiferTag();
 
             var matchSet = new MatchSet()
             {

@@ -23,34 +23,34 @@
         {
         }
 
-        public static readonly Dictionary<TightWikiBootstrapStyle, TwBorderStyler> ForegroundStyles = new()
+        public static readonly Dictionary<TwBootstrapStyle, TwBorderStyler> ForegroundStyles = new()
         {
-            { TightWikiBootstrapStyle.Primary, new TwBorderStyler("text-primary", "") },
-            { TightWikiBootstrapStyle.Secondary, new TwBorderStyler("text-secondary", "") },
-            { TightWikiBootstrapStyle.Success, new TwBorderStyler("text-success", "") },
-            { TightWikiBootstrapStyle.Danger, new TwBorderStyler("text-danger", "") },
-            { TightWikiBootstrapStyle.Warning, new TwBorderStyler("text-warning", "") },
-            { TightWikiBootstrapStyle.Info, new TwBorderStyler("text-info", "") },
-            { TightWikiBootstrapStyle.Light, new TwBorderStyler("text-light", "") },
-            { TightWikiBootstrapStyle.Dark, new TwBorderStyler("text-dark", "") },
-            { TightWikiBootstrapStyle.Muted, new TwBorderStyler("text-muted", "") },
-            { TightWikiBootstrapStyle.White, new TwBorderStyler("text-white", "bg-dark") }
+            { TwBootstrapStyle.Primary, new TwBorderStyler("text-primary", "") },
+            { TwBootstrapStyle.Secondary, new TwBorderStyler("text-secondary", "") },
+            { TwBootstrapStyle.Success, new TwBorderStyler("text-success", "") },
+            { TwBootstrapStyle.Danger, new TwBorderStyler("text-danger", "") },
+            { TwBootstrapStyle.Warning, new TwBorderStyler("text-warning", "") },
+            { TwBootstrapStyle.Info, new TwBorderStyler("text-info", "") },
+            { TwBootstrapStyle.Light, new TwBorderStyler("text-light", "") },
+            { TwBootstrapStyle.Dark, new TwBorderStyler("text-dark", "") },
+            { TwBootstrapStyle.Muted, new TwBorderStyler("text-muted", "") },
+            { TwBootstrapStyle.White, new TwBorderStyler("text-white", "bg-dark") }
         };
 
-        public static readonly Dictionary<TightWikiBootstrapStyle, TwBorderStyler> BorderStyles = new()
+        public static readonly Dictionary<TwBootstrapStyle, TwBorderStyler> BorderStyles = new()
         {
-            { TightWikiBootstrapStyle.Muted, new TwBorderStyler("text-muted", "") },
-            { TightWikiBootstrapStyle.Primary, new TwBorderStyler("text-dark", "border-primary") },
-            { TightWikiBootstrapStyle.Secondary, new TwBorderStyler("text-dark", "border-secondary") },
-            { TightWikiBootstrapStyle.Info, new TwBorderStyler("text-dark", "border-info") },
-            { TightWikiBootstrapStyle.Success, new TwBorderStyler("text-dark", "border-success") },
-            { TightWikiBootstrapStyle.Warning, new TwBorderStyler("text-dark", "border-warning") },
-            { TightWikiBootstrapStyle.Danger, new TwBorderStyler("text-dark", "border-danger") },
-            { TightWikiBootstrapStyle.Light, new TwBorderStyler("text-dark", "border-light") },
-            { TightWikiBootstrapStyle.Dark, new TwBorderStyler("text-dark", "border-dark") }
+            { TwBootstrapStyle.Muted, new TwBorderStyler("text-muted", "") },
+            { TwBootstrapStyle.Primary, new TwBorderStyler("text-dark", "border-primary") },
+            { TwBootstrapStyle.Secondary, new TwBorderStyler("text-dark", "border-secondary") },
+            { TwBootstrapStyle.Info, new TwBorderStyler("text-dark", "border-info") },
+            { TwBootstrapStyle.Success, new TwBorderStyler("text-dark", "border-success") },
+            { TwBootstrapStyle.Warning, new TwBorderStyler("text-dark", "border-warning") },
+            { TwBootstrapStyle.Danger, new TwBorderStyler("text-dark", "border-danger") },
+            { TwBootstrapStyle.Light, new TwBorderStyler("text-dark", "border-light") },
+            { TwBootstrapStyle.Dark, new TwBorderStyler("text-dark", "border-dark") }
         };
 
-        public static TwBorderStyler GetBorderStyle(TightWikiBootstrapStyle style)
+        public static TwBorderStyler GetBorderStyle(TwBootstrapStyle style)
         {
             if (BorderStyles.TryGetValue(style, out var html))
             {
@@ -60,7 +60,7 @@
             return new TwBorderStyler();
         }
 
-        public static TwBorderStyler GetForegroundStyle(TightWikiBootstrapStyle style)
+        public static TwBorderStyler GetForegroundStyle(TwBootstrapStyle style)
         {
             if (ForegroundStyles.TryGetValue(style, out var html))
             {

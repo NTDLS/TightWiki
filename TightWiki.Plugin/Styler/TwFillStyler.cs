@@ -23,34 +23,34 @@
         {
         }
 
-        public static readonly Dictionary<TightWikiBootstrapStyle, TwFillStyler> ForegroundStyles = new()
+        public static readonly Dictionary<TwBootstrapStyle, TwFillStyler> ForegroundStyles = new()
         {
-            { TightWikiBootstrapStyle.Primary, new TwFillStyler("text-primary", "") },
-            { TightWikiBootstrapStyle.Secondary, new TwFillStyler("text-secondary", "") },
-            { TightWikiBootstrapStyle.Success, new TwFillStyler("text-success", "") },
-            { TightWikiBootstrapStyle.Danger, new TwFillStyler("text-danger", "") },
-            { TightWikiBootstrapStyle.Warning, new TwFillStyler("text-warning", "") },
-            { TightWikiBootstrapStyle.Info, new TwFillStyler("text-info", "") },
-            { TightWikiBootstrapStyle.Light, new TwFillStyler("text-light", "") },
-            { TightWikiBootstrapStyle.Dark, new TwFillStyler("text-dark", "") },
-            { TightWikiBootstrapStyle.Muted, new TwFillStyler("text-muted", "") },
-            { TightWikiBootstrapStyle.White, new TwFillStyler("text-white", "bg-dark") }
+            { TwBootstrapStyle.Primary, new TwFillStyler("text-primary", "") },
+            { TwBootstrapStyle.Secondary, new TwFillStyler("text-secondary", "") },
+            { TwBootstrapStyle.Success, new TwFillStyler("text-success", "") },
+            { TwBootstrapStyle.Danger, new TwFillStyler("text-danger", "") },
+            { TwBootstrapStyle.Warning, new TwFillStyler("text-warning", "") },
+            { TwBootstrapStyle.Info, new TwFillStyler("text-info", "") },
+            { TwBootstrapStyle.Light, new TwFillStyler("text-light", "") },
+            { TwBootstrapStyle.Dark, new TwFillStyler("text-dark", "") },
+            { TwBootstrapStyle.Muted, new TwFillStyler("text-muted", "") },
+            { TwBootstrapStyle.White, new TwFillStyler("text-white", "bg-dark") }
         };
 
-        public static readonly Dictionary<TightWikiBootstrapStyle, TwFillStyler> BackgroundStyles = new()
+        public static readonly Dictionary<TwBootstrapStyle, TwFillStyler> BackgroundStyles = new()
         {
-            { TightWikiBootstrapStyle.Muted, new TwFillStyler("text-muted", "") },
-            { TightWikiBootstrapStyle.Primary, new TwFillStyler("text-white", "bg-primary") },
-            { TightWikiBootstrapStyle.Secondary, new TwFillStyler("text-white", "bg-secondary") },
-            { TightWikiBootstrapStyle.Info, new TwFillStyler("text-white", "bg-info") },
-            { TightWikiBootstrapStyle.Success, new TwFillStyler("text-white", "bg-success") },
-            { TightWikiBootstrapStyle.Warning, new TwFillStyler("bg-warning", "") },
-            { TightWikiBootstrapStyle.Danger, new TwFillStyler("text-white", "bg-danger") },
-            { TightWikiBootstrapStyle.Light, new TwFillStyler("text-black", "bg-light") },
-            { TightWikiBootstrapStyle.Dark, new TwFillStyler("text-white", "bg-dark") }
+            { TwBootstrapStyle.Muted, new TwFillStyler("text-muted", "") },
+            { TwBootstrapStyle.Primary, new TwFillStyler("text-white", "bg-primary") },
+            { TwBootstrapStyle.Secondary, new TwFillStyler("text-white", "bg-secondary") },
+            { TwBootstrapStyle.Info, new TwFillStyler("text-white", "bg-info") },
+            { TwBootstrapStyle.Success, new TwFillStyler("text-white", "bg-success") },
+            { TwBootstrapStyle.Warning, new TwFillStyler("bg-warning", "") },
+            { TwBootstrapStyle.Danger, new TwFillStyler("text-white", "bg-danger") },
+            { TwBootstrapStyle.Light, new TwFillStyler("text-black", "bg-light") },
+            { TwBootstrapStyle.Dark, new TwFillStyler("text-white", "bg-dark") }
         };
 
-        public static TwFillStyler GetBackgroundStyle(TightWikiBootstrapStyle style)
+        public static TwFillStyler GetBackgroundStyle(TwBootstrapStyle style)
         {
             if (BackgroundStyles.TryGetValue(style, out var html))
             {
@@ -60,7 +60,7 @@
             return new TwFillStyler();
         }
 
-        public static TwFillStyler GetForegroundStyle(TightWikiBootstrapStyle style)
+        public static TwFillStyler GetForegroundStyle(TwBootstrapStyle style)
         {
             if (ForegroundStyles.TryGetValue(style, out var html))
             {

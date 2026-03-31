@@ -13,15 +13,15 @@
         {
         }
 
-        public static readonly Dictionary<TightWikiAlignStyle, TwAlignStyler> AlignStyles = new()
+        public static readonly Dictionary<TwAlignStyle, TwAlignStyler> AlignStyles = new()
         {
-            { TightWikiAlignStyle.Default, new TwAlignStyler("") },
-            { TightWikiAlignStyle.Start, new TwAlignStyler("text-start") },
-            { TightWikiAlignStyle.Center, new TwAlignStyler("text-center") },
-            { TightWikiAlignStyle.End, new TwAlignStyler("text-end") },
+            { TwAlignStyle.Default, new TwAlignStyler("") },
+            { TwAlignStyle.Start, new TwAlignStyler("text-start") },
+            { TwAlignStyle.Center, new TwAlignStyler("text-center") },
+            { TwAlignStyle.End, new TwAlignStyler("text-end") },
         };
 
-        public static TwAlignStyler GetStyle(TightWikiAlignStyle style)
+        public static TwAlignStyler GetStyle(TwAlignStyle style)
         {
             if (AlignStyles.TryGetValue(style, out var html))
             {

@@ -31,7 +31,7 @@ namespace TightWiki.Plugin.Default.Handlers
                     break;
             }
 
-            return new TwPluginResult() { Instructions = [HandlerResultInstruction.Skip] };
+            return new TwPluginResult() { Instructions = [TwResultInstruction.Skip] };
         }
     }
 }

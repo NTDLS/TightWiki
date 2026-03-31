@@ -28,7 +28,7 @@ namespace TightWiki.Plugin.Default.Handlers
 
             if (page == null)
             {
-                if (state.Session != null && await state.Session.HoldsPermission(pageNavigation.Canonical, WikiPermission.Create))
+                if (state.Session != null && await state.Session.HoldsPermission(pageNavigation.Canonical, TwPermission.Create))
                 {
                     if (image != null)
                     {
@@ -53,7 +53,7 @@ namespace TightWiki.Plugin.Default.Handlers
 
                         return new TwPluginResult(href)
                         {
-                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                            Instructions = [TwResultInstruction.DisallowNestedProcessing]
                         };
                     }
                     else if (linkText != null)
@@ -63,7 +63,7 @@ namespace TightWiki.Plugin.Default.Handlers
 
                         return new TwPluginResult(href)
                         {
-                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                            Instructions = [TwResultInstruction.DisallowNestedProcessing]
                         };
                     }
                     else
@@ -98,14 +98,14 @@ namespace TightWiki.Plugin.Default.Handlers
 
                         return new TwPluginResult(mockHref)
                         {
-                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                            Instructions = [TwResultInstruction.DisallowNestedProcessing]
                         };
                     }
                     else if (linkText != null)
                     {
                         return new TwPluginResult(linkText)
                         {
-                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                            Instructions = [TwResultInstruction.DisallowNestedProcessing]
                         };
                     }
                     else
@@ -145,7 +145,7 @@ namespace TightWiki.Plugin.Default.Handlers
 
                 return new TwPluginResult(href)
                 {
-                    Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                    Instructions = [TwResultInstruction.DisallowNestedProcessing]
                 };
             }
         }

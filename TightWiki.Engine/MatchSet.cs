@@ -5,7 +5,7 @@
         /// <summary>
         /// The type of match that was found.
         /// </summary>
-        public WikiMatchType MatchType { get; set; }
+        public TwMatchType MatchType { get; set; }
 
         /// <summary>
         /// The resulting content of the wiki processing.

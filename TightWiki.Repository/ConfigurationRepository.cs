@@ -2,10 +2,10 @@
 using NTDLS.Helpers;
 using NTDLS.SqliteDapperWrapper;
 using System.Data;
+using TightWiki.Library;
 using TightWiki.Library.Caching;
 using TightWiki.Library.Extensions;
 using TightWiki.Library.Security;
-using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Models;
 using TightWiki.Repository.Helpers;
@@ -105,7 +105,7 @@ namespace TightWiki.Repository
             try
             {
                 value = SecurityUtility.DecryptString(SecurityUtility.MachineKey, value);
-                if (value == TwConstants.CRYPTOCHECK)
+                if (value == Constants.CRYPTOCHECK)
                 {
                     return true;
                 }
@@ -124,7 +124,7 @@ namespace TightWiki.Repository
         {
             var param = new
             {
-                Content = SecurityUtility.EncryptString(SecurityUtility.MachineKey, TwConstants.CRYPTOCHECK)
+                Content = SecurityUtility.EncryptString(SecurityUtility.MachineKey, Constants.CRYPTOCHECK)
             };
 
             await ConfigFactory.QueryFirstOrDefaultAsync<string>("SetCryptoCheck.sql", param);

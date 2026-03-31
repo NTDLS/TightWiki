@@ -31,7 +31,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
+                    await SessionState.RequirePermission(givenCanonical, TwPermission.Read);
                 }
                 catch (Exception ex)
                 {

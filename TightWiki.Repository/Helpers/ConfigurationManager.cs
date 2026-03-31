@@ -28,21 +28,21 @@ namespace TightWiki.Repository.Helpers
 
             Configuration.IsDebug = Debugger.IsAttached;
 
-            var performanceConfig = await _databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Performance);
+            var performanceConfig = await _databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Performance);
             Configuration.PageCacheSeconds = performanceConfig.Value<int>("Page Cache Time (Seconds)");
             Configuration.RecordCompilationMetrics = performanceConfig.Value<bool>("Record Compilation Metrics");
             Configuration.CacheMemoryLimitMB = performanceConfig.Value<int>("Cache Memory Limit MB");
 
             MemCache.Initialize(Configuration.CacheMemoryLimitMB, TimeSpan.FromSeconds(Configuration.PageCacheSeconds));
 
-            var basicConfig = await _databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
-            var customizationConfig = await _databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Customization);
-            var htmlConfig = await _databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.HTMLLayout);
-            var functionalityConfig = await _databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Functionality);
-            var membershipConfig = await _databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
-            var searchConfig = await _databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Search);
-            var filesAndAttachmentsConfig = await _databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.FilesAndAttachments);
-            var ldapAuthentication = await _databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.LDAPAuthentication);
+            var basicConfig = await _databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Basic);
+            var customizationConfig = await _databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Customization);
+            var htmlConfig = await _databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.HTMLLayout);
+            var functionalityConfig = await _databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Functionality);
+            var membershipConfig = await _databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Membership);
+            var searchConfig = await _databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Search);
+            var filesAndAttachmentsConfig = await _databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.FilesAndAttachments);
+            var ldapAuthentication = await _databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.LDAPAuthentication);
             Configuration.EnableLDAPAuthentication = ldapAuthentication.Value("LDAP : Enable LDAP Authentication", false);
 
             Configuration.Address = basicConfig?.Value<string>("Address") ?? string.Empty;

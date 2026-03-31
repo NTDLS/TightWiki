@@ -17,8 +17,8 @@ namespace TightWiki
     public class TwSessionState
         : ITwSessionState
     {
-        private readonly string _denyString = WikiPermissionDisposition.Deny.ToString();
-        private readonly string _allowString = WikiPermissionDisposition.Allow.ToString();
+        private readonly string _denyString = Plugin.TwPermissionDisposition.Deny.ToString();
+        private readonly string _allowString = Plugin.TwPermissionDisposition.Allow.ToString();
 
         private ITwDatabaseManager? _databaseManager;
         public IQueryCollection? QueryString { get; set; }
@@ -29,7 +29,7 @@ namespace TightWiki
         public bool IsAuthenticated { get; set; }
         public ITwAccountProfile? Profile { get; set; }
         public bool IsAdministrator { get; set; }
-        public TwTheme UserTheme { get; set; } = new();
+        public Plugin.Models.TwTheme UserTheme { get; set; } = new();
         public List<TwApparentPermission> Permissions { get; set; } = new();
 
         #endregion
@@ -146,7 +146,7 @@ namespace TightWiki
                 }
             }
 
-            Permissions = await _databaseManager.UsersRepository.GetApparentRolePermissions(WikiRoles.Anonymous);
+            Permissions = await _databaseManager.UsersRepository.GetApparentRolePermissions(TwRoles.Anonymous);
         }
 
         /// <summary>
@@ -182,26 +182,26 @@ namespace TightWiki
         /// Returns true if the user holds any of the the given permissions for the current page.
         /// This is only applicable after SetPageId() has been called, to this is intended to be used in views NOT controllers.
         /// </summary>
-        public async Task<bool> HoldsPermission(WikiPermission[] permissions)
+        public async Task<bool> HoldsPermission(Plugin.TwPermission[] permissions)
             => await HoldsPermission(Page?.Navigation, permissions);
 
         /// <summary>
         /// Returns true if the user holds the given permission for the current page.
         /// This is only applicable after SetPageId() has been called, to this is intended to be used in views NOT controllers.
         /// </summary>
-        public async Task<bool> HoldsPermission(WikiPermission permission)
+        public async Task<bool> HoldsPermission(Plugin.TwPermission permission)
             => await HoldsPermission(Page?.Navigation, permission);
 
         /// <summary>
         /// Returns true if the user holds the given permission for given page.
         /// </summary>
-        public async Task<bool> HoldsPermission(string? givenCanonical, WikiPermission permission)
+        public async Task<bool> HoldsPermission(string? givenCanonical, Plugin.TwPermission permission)
             => await HoldsPermission(givenCanonical, [permission]);
 
         /// <summary>
         /// Returns true if the user holds any of the given permission for given page.
         /// </summary>
-        public async Task<bool> HoldsPermission(string? givenCanonical, WikiPermission[] permissions)
+        public async Task<bool> HoldsPermission(string? givenCanonical, Plugin.TwPermission[] permissions)
         {
             if (_databaseManager == null)
                 throw new Exception("Database manager is not set on session state.");
@@ -232,7 +232,7 @@ namespace TightWiki
                     //If the permission is explicitly denied, we move to the next permission because permission could
                     //  have been denied on a namespace but explicitly allowed on a page (and yes, we test in that order).
                     //Also note that we do not pass the page when the permission is Create - because that would make no sense.
-                    if (EvaluatePermission(permission, permission == WikiPermission.Create ? null : page) == true)
+                    if (EvaluatePermission(permission, permission == Plugin.TwPermission.Create ? null : page) == true)
                     {
                         return true;
                     }
@@ -241,7 +241,7 @@ namespace TightWiki
             });
         }
 
-        private bool? EvaluatePermission(WikiPermission permission, TwPage? page)
+        private bool? EvaluatePermission(Plugin.TwPermission permission, TwPage? page)
         {
             string permissionString = permission.ToString();
 
@@ -328,7 +328,7 @@ namespace TightWiki
         /// <summary>
         /// Throws an exception if the user does not hold any of the given permission for given page.
         /// </summary>
-        public async Task RequirePermission(string? givenCanonical, WikiPermission[] permissions)
+        public async Task RequirePermission(string? givenCanonical, Plugin.TwPermission[] permissions)
         {
             if (!await HoldsPermission(givenCanonical, permissions))
             {
@@ -341,7 +341,7 @@ namespace TightWiki
         /// <summary>
         /// Throws an exception if the user does not hold the given permission for given page.
         /// </summary>
-        public async Task RequirePermission(string? givenCanonical, WikiPermission permission)
+        public async Task RequirePermission(string? givenCanonical, Plugin.TwPermission permission)
         {
             if (!await HoldsPermission(givenCanonical, permission))
             {

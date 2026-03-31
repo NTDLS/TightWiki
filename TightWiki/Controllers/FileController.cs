@@ -149,7 +149,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+                    await SessionState.RequirePermission(givenPageNavigation, Plugin.TwPermission.Read);
                 }
                 catch (Exception ex)
                 {
@@ -260,7 +260,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+                    await SessionState.RequirePermission(givenPageNavigation, Plugin.TwPermission.Read);
                 }
                 catch (Exception ex)
                 {
@@ -299,7 +299,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+                    await SessionState.RequirePermission(givenPageNavigation, Plugin.TwPermission.Read);
                 }
                 catch (Exception ex)
                 {
@@ -338,7 +338,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+                    await SessionState.RequirePermission(givenPageNavigation, Plugin.TwPermission.Read);
                 }
                 catch (Exception ex)
                 {
@@ -382,7 +382,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenPageNavigation, [WikiPermission.Create, WikiPermission.Edit]);
+                    await SessionState.RequirePermission(givenPageNavigation, [Plugin.TwPermission.Create, Plugin.TwPermission.Edit]);
                 }
                 catch (Exception ex)
                 {
@@ -447,7 +447,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenPageNavigation, [WikiPermission.Create, WikiPermission.Edit]);
+                    await SessionState.RequirePermission(givenPageNavigation, [Plugin.TwPermission.Create, Plugin.TwPermission.Edit]);
                 }
                 catch (Exception ex)
                 {
@@ -503,7 +503,7 @@ namespace TightWiki.Controllers
             {
                 try
                 {
-                    await SessionState.RequirePermission(givenPageNavigation, WikiPermission.Delete);
+                    await SessionState.RequirePermission(givenPageNavigation, Plugin.TwPermission.Delete);
                 }
                 catch (Exception ex)
                 {

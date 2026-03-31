@@ -12,7 +12,7 @@ namespace TightWiki.Plugin.Interfaces.Repository
 
         Task<TwConfigurationEntries> GetConfigurationEntryValuesByGroupName(string groupName);
 
-        Task<List<TwTheme>> GetAllThemes();
+        Task<List<Models.TwTheme>> GetAllThemes();
 
         Task<TwWikiDatabaseStatistics> GetWikiDatabaseMetrics();
 

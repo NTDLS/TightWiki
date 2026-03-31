@@ -51,7 +51,7 @@ namespace TightWiki
             builder.Services.AddScoped<ISideBySideDiffBuilder>(sp =>
                 new SideBySideDiffBuilder(sp.GetRequiredService<IDiffer>()));
 
-            var membershipConfig = await databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
+            var membershipConfig = await databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Membership);
             var requireConfirmedAccount = membershipConfig.Value<bool>("Require Email Verification");
 
             // Add services to the container.
@@ -110,9 +110,9 @@ namespace TightWiki
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = requireConfirmedAccount)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            var externalAuthenticationConfig = await databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.ExternalAuthentication);
-            var basicConfig = await databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
-            var cookiesConfig = await databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Cookies);
+            var externalAuthenticationConfig = await databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.ExternalAuthentication);
+            var basicConfig = await databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Basic);
+            var cookiesConfig = await databaseManager.ConfigurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Cookies);
 
             var authentication = builder.Services.AddAuthentication()
                 .AddCookie("CookieAuth", options =>
@@ -345,10 +345,10 @@ namespace TightWiki
                     try
                     {
                         await databaseManager.ApplyAllSeedData(new TwVerbatimLocalizationText(), userManager, tightEngine,
-                            [WikiDefaultDataType.Themes,
-                            WikiDefaultDataType.Configurations,
-                            WikiDefaultDataType.FeatureTemplates,
-                            WikiDefaultDataType.WikiHelpPages]);
+                            [TwDefaultDataType.Themes,
+                            TwDefaultDataType.Configurations,
+                            TwDefaultDataType.FeatureTemplates,
+                            TwDefaultDataType.HelpPages]);
                     }
                     catch (Exception ex)
                     {

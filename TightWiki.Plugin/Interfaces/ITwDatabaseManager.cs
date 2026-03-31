@@ -16,7 +16,7 @@ namespace TightWiki.Plugin.Interfaces
         ITwStatisticsRepository StatisticsRepository { get; }
         ITwUsersRepository UsersRepository { get; }
 
-        Task ApplyAllSeedData(ITwSharedLocalizationText localizer, UserManager<IdentityUser> userManager, ITwEngine tightEngine, WikiDefaultDataType[] defaultDataTypes);
+        Task ApplyAllSeedData(ITwSharedLocalizationText localizer, UserManager<IdentityUser> userManager, ITwEngine tightEngine, TwDefaultDataType[] defaultDataTypes);
 
         #region Database admin.
 

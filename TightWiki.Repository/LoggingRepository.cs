@@ -88,7 +88,7 @@ namespace TightWiki.Repository
         public async Task<List<TwLogEntry>> GetLogEntriesPaged(int pageNumber,
             string? orderBy = null, string? orderByDirection = null)
         {
-            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             var param = new
             {

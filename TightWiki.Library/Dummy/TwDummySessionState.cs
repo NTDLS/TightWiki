@@ -11,19 +11,19 @@ namespace TightWiki.Library.Dummy
 
         public ITwAccountProfile? Profile { get; set; }
 
-        public Task<bool> HoldsPermission(WikiPermission[] permissions) => Task.FromResult(true);
+        public Task<bool> HoldsPermission(TwPermission[] permissions) => Task.FromResult(true);
 
-        public Task<bool> HoldsPermission(WikiPermission permission) => Task.FromResult(true);
+        public Task<bool> HoldsPermission(TwPermission permission) => Task.FromResult(true);
 
-        public Task<bool> HoldsPermission(string? givenCanonical, WikiPermission permission) => Task.FromResult(true);
+        public Task<bool> HoldsPermission(string? givenCanonical, TwPermission permission) => Task.FromResult(true);
 
-        public Task<bool> HoldsPermission(string? givenCanonical, WikiPermission[] permissions) => Task.FromResult(true);
+        public Task<bool> HoldsPermission(string? givenCanonical, TwPermission[] permissions) => Task.FromResult(true);
 
         public Task RequireAuthorizedPermission() => Task.CompletedTask;
 
-        public Task RequirePermission(string? givenCanonical, WikiPermission[] permissions) => Task.CompletedTask;
+        public Task RequirePermission(string? givenCanonical, TwPermission[] permissions) => Task.CompletedTask;
 
-        public Task RequirePermission(string? givenCanonical, WikiPermission permission) => Task.CompletedTask;
+        public Task RequirePermission(string? givenCanonical, TwPermission permission) => Task.CompletedTask;
 
         public Task RequireAdminPermission() => Task.CompletedTask;
 

@@ -16,7 +16,7 @@ namespace TightWiki.Plugin.Interfaces
         ITwEngine Engine { get; }
         ITwPage Page { get; }
         int? Revision { get; }
-        public HashSet<WikiMatchType> OmitMatches { get; }
+        public HashSet<TwMatchType> OmitMatches { get; }
         public int NestDepth { get; } //Used for recursion.
 
         #endregion

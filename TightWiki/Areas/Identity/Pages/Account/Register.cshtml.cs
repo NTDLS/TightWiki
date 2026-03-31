@@ -120,7 +120,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             Input.Countries = CountryItem.GetAll();
             Input.Languages = LanguageItem.GetAll();
 
-            var membershipConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
+            var membershipConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Membership);
 
             if (string.IsNullOrEmpty(Input.TimeZone))
                 Input.TimeZone = membershipConfig.Value<string>("Default TimeZone").EnsureNotNull();
@@ -198,7 +198,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                         var userId = await _userManager.GetUserIdAsync(user);
 
-                        var membershipConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
+                        var membershipConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Membership);
                         await _usersRepository.CreateProfile(Guid.Parse(userId), Input.AccountName);
                         await _usersRepository.AddRoleMemberByname(Guid.Parse(user.Id), membershipConfig.Value<string>("Default Signup Role").EnsureNotNull());
 
@@ -224,9 +224,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
                                 values: new { area = "Identity", userId = userId, code = encodedCode, returnUrl = ReturnUrl },
                                 protocol: Request.Scheme);
 
-                            var configEmailTemplate = await _configurationRepository.Get<string>(WikiConfigurationGroup.Membership, "Template: Account Verification Email");
+                            var configEmailTemplate = await _configurationRepository.Get<string>(TwConfigGroup.Membership, "Template: Account Verification Email");
                             var emailTemplate = new StringBuilder(configEmailTemplate);
-                            var basicConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Basic);
+                            var basicConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Basic);
                             var siteName = basicConfig.Value<string>("Name");
                             var address = basicConfig.Value<string>("Address");
                             var profile = await _usersRepository.GetAccountProfileByUserId(Guid.Parse(userId));

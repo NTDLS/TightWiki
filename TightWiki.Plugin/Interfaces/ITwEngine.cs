@@ -26,6 +26,6 @@ namespace TightWiki.Plugin.Interfaces
         List<ITwFunctionDescriptor> ProcessingFunctions { get; }
         List<ITwFunctionDescriptor> PostProcessingFunctions { get; }
 
-        Task<ITwEngineState> Transform(ITwSharedLocalizationText localizer, ITwSessionState? sessionState, ITwPage page, int? revision = null, WikiMatchType[]? omitMatches = null);
+        Task<ITwEngineState> Transform(ITwSharedLocalizationText localizer, ITwSessionState? sessionState, ITwPage page, int? revision = null, TwMatchType[]? omitMatches = null);
     }
 }

@@ -91,7 +91,7 @@ namespace TightWiki.Repository
         public async Task<List<TwPageRevision>> GetPageRevisionsInfoByNavigationPaged(
             string navigation, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
-            pageSize ??= await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            pageSize ??= await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -244,7 +244,7 @@ namespace TightWiki.Repository
                 return new List<TwPage>();
             }
 
-            pageSize ??= await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            pageSize ??= await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
             allowFuzzyMatching ??= await _configurationRepository.Get<bool>("Search", "Allow Fuzzy Matching");
 
             var meteredSearchTokens = await GetMeteredPageSearchTokens(searchTerms, allowFuzzyMatching == true);
@@ -271,7 +271,7 @@ namespace TightWiki.Repository
 
         public async Task<List<TwRelatedPage>> GetSimilarPagesPaged(int pageId, int similarity, int pageNumber, int? pageSize = null)
         {
-            pageSize ??= await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            pageSize ??= await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -286,7 +286,7 @@ namespace TightWiki.Repository
 
         public async Task<List<TwRelatedPage>> GetRelatedPagesPaged(int pageId, int pageNumber, int? pageSize = null)
         {
-            pageSize ??= await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            pageSize ??= await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -352,7 +352,7 @@ namespace TightWiki.Repository
 
         public async Task<List<TwPageComment>> GetPageCommentsPaged(string navigation, int pageNumber)
         {
-            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Page, [navigation, pageNumber, paginationSize]);
 
@@ -375,7 +375,7 @@ namespace TightWiki.Repository
 
         public async Task<List<TwNonexistentPage>> GetMissingPagesPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null)
         {
-            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -418,7 +418,7 @@ namespace TightWiki.Repository
 
         public async Task<List<TwPage>> GetAllPagesByInstructionPaged(int pageNumber, string? instruction = null)
         {
-            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -475,7 +475,7 @@ namespace TightWiki.Repository
         public async Task<List<TwPage>> GetAllNamespacePagesPaged(int pageNumber, string namespaceName,
             string? orderBy = null, string? orderByDirection = null)
         {
-            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -499,7 +499,7 @@ namespace TightWiki.Repository
         public async Task<List<TwPage>> GetAllPagesPaged(int pageNumber,
             string? orderBy = null, string? orderByDirection = null, List<string>? searchTerms = null)
         {
-            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -539,7 +539,7 @@ namespace TightWiki.Repository
         public async Task<List<TwPage>> GetAllDeletedPagesPaged(int pageNumber, string? orderBy = null,
             string? orderByDirection = null, List<string>? searchTerms = null)
         {
-            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -570,7 +570,7 @@ namespace TightWiki.Repository
 
         public async Task<List<TwNamespaceStat>> GetAllNamespacesPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null)
         {
-            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -737,7 +737,7 @@ namespace TightWiki.Repository
         public async Task RefreshPageMetadata(ITwEngine wikifier, ITwSharedLocalizationText localizer, TwPage page, ITwSessionState? sessionState = null)
         {
             //We omit function calls from the tokenization process because they are too dynamic for static searching.
-            var state = await wikifier.Transform(localizer, sessionState, page, null, [WikiMatchType.StandardFunction]);
+            var state = await wikifier.Transform(localizer, sessionState, page, null, [TwMatchType.StandardFunction]);
 
             await UpdatePageTags(page.Id, state.Tags);
             await UpdatePageProcessingInstructions(page.Id, state.ProcessingInstructions);
@@ -779,7 +779,7 @@ namespace TightWiki.Repository
 
         internal async Task<List<WeightedSearchToken>> ComputeParsedPageTokens(string content, double weightMultiplier)
         {
-            var searchConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
+            var searchConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Membership);
 
             var exclusionWords = searchConfig?.Value<string>("Word Exclusions")?
                 .Split([',', ';'], StringSplitOptions.RemoveEmptyEntries).Distinct() ?? new List<string>();
@@ -1129,7 +1129,7 @@ namespace TightWiki.Repository
         public async Task<List<TwDeletedPageRevision>> GetDeletedPageRevisionsByIdPaged(int pageId, int pageNumber,
             string? orderBy = null, string? orderByDirection = null)
         {
-            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -1333,7 +1333,7 @@ namespace TightWiki.Repository
         public async Task<List<TwOrphanedPageAttachment>> GetOrphanedPageAttachmentsPaged(
             int pageNumber, string? orderBy = null, string? orderByDirection = null)
         {
-            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -1360,7 +1360,7 @@ namespace TightWiki.Repository
 
         public async Task<List<TwPageFileAttachmentInfo>> GetPageFilesInfoByPageNavigationAndPageRevisionPaged(string pageNavigation, int pageNumber, int? pageSize = null, int? pageRevision = null)
         {
-            pageSize ??= await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            pageSize ??= await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -1416,7 +1416,7 @@ namespace TightWiki.Repository
 
         public async Task<List<TwPageFileAttachmentInfo>> GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged(string pageNavigation, string fileNavigation, int pageNumber)
         {
-            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             var param = new
             {

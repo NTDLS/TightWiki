@@ -135,7 +135,7 @@ namespace TightWiki.Repository
         public async Task<List<TwEmoji>> GetAllEmojisPaged(int pageNumber,
             string? orderBy = null, string? orderByDirection = null, List<string>? categories = null)
         {
-            var paginationSize = await _configurationRepository.Get<int>(WikiConfigurationGroup.Customization, "Pagination Size");
+            var paginationSize = await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             if (categories == null || categories.Count == 0)
             {

@@ -528,7 +528,7 @@ namespace TightWiki.Controllers
                             throw new Exception(string.Join("<br />\r\n", result.Errors.Select(o => o.Description)));
                         }
 
-                        if (model.AccountProfile.AccountName.Equals(TwConstants.DEFAULTACCOUNT, StringComparison.InvariantCultureIgnoreCase))
+                        if (model.AccountProfile.AccountName.Equals(Constants.DEFAULTACCOUNT, StringComparison.InvariantCultureIgnoreCase))
                         {
                             await usersRepository.SetAdminPasswordIsChanged();
                         }
@@ -681,9 +681,9 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                var membershipConfig = await configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Membership);
+                var membershipConfig = await configurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Membership);
                 var defaultSignupRole = membershipConfig.Value<string>("Default Signup Role").EnsureNotNull();
-                var customizationConfig = await configurationRepository.GetConfigurationEntryValuesByGroupName(WikiConfigurationGroup.Customization);
+                var customizationConfig = await configurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Customization);
 
                 var model = new AccountProfileViewModel()
                 {

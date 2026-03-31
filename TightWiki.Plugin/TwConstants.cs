@@ -2,15 +2,7 @@
 {
     public static class TwConstants
     {
-        public const string SoftBreak = "<!--SoftBreak-->"; //These will remain as \r\n in the final HTML.
-        public const string HardBreak = "<!--HardBreak-->"; //These will remain as <br /> in the final HTML.
-
-        public const string CRYPTOCHECK = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        public const string DEFAULTUSERNAME = "admin@tightwiki.com";
-        public const string DEFAULTACCOUNT = "admin";
-        public const string DEFAULTPASSWORD = "2Tight2Wiki@";
-
-        public static class WikiInstruction
+        public static class TwInstruction
         {
             public static string Deprecate { get; } = "Deprecate";
             public static string Protect { get; } = "Protect";
@@ -23,7 +15,7 @@
             public static string HideFooterLastModified { get; } = "HideFooterLastModified";
         }
 
-        public static class WikiConfigurationGroup
+        public static class TwConfigGroup
         {
             public const string Basic = "Basic";
             public const string Cookies = "Cookies";
@@ -40,71 +32,7 @@
         }
     }
 
-    public enum WikiDefaultDataType
-    {
-        Configurations,
-        Themes,
-        WikiHelpPages,
-        WikiBuiltinPages,
-        WikiIncludePages,
-        FeatureTemplates = 5
-    }
-
-    public enum WikiPermissionDisposition
-    {
-        Allow,
-        Deny
-    }
-
-    public enum WikiRoles
-    {
-        Administrator,
-        Member,
-        Contributor,
-        Moderator,
-        Anonymous
-    }
-
-    public enum WikiPermission
-    {
-        Read,
-        Edit,
-        Delete,
-        Moderate,
-        Create
-    }
-
-    public enum WikiTheme
-    {
-        Light,
-        Dark
-    }
-
-    public enum WikiAdminPasswordChangeState
-    {
-        /// <summary>
-        /// The password has not been changed, display a big warning.
-        /// </summary>
-        IsDefault,
-        /// <summary>
-        /// All is well!
-        /// </summary>
-        HasBeenChanged,
-        /// <summary>
-        /// The default password status does not exist and the password needs to be set to default.
-        /// </summary>
-        NeedsToBeSet
-    }
-
-
-    public enum WikiFunctionType
-    {
-        Standard,
-        Scoped,
-        Instruction
-    }
-
-    public enum WikiMatchType
+    public enum TwMatchType
     {
         ScopeFunction,
         Emoji,
@@ -119,7 +47,13 @@
         Literal
     }
 
-    public enum HandlerResultInstruction
+    public enum TwPermissionDisposition
+    {
+        Allow,
+        Deny
+    }
+
+    public enum TwResultInstruction
     {
         /// <summary>
         /// Does not process the match, allowing it to be processed by another handler.
@@ -140,7 +74,7 @@
         OnlyReplaceFirstMatch
     }
 
-    public enum TightWikiAlignStyle
+    public enum TwAlignStyle
     {
         Default,
         Start,
@@ -148,7 +82,7 @@
         End
     }
 
-    public enum TightWikiBootstrapStyle
+    public enum TwBootstrapStyle
     {
         Default,
         Primary,
@@ -163,39 +97,39 @@
         White
     }
 
-    public enum TightWikiOrder
+    public enum TwOrder
     {
         Ascending,
         Descending,
     }
 
-    public enum TightWikiBulletStyle
+    public enum TwBulletStyle
     {
         Ordered,
         Unordered
     }
 
-    public enum TightWikiListStyle
+    public enum TwListStyle
     {
         Full,
         List
     }
 
-    public enum TightWikiTabularStyle
+    public enum TwTabularStyle
     {
         Full,
         List,
         Flat
     }
 
-    public enum TightWikiLinkStyle
+    public enum TwLinkStyle
     {
         Text,
         Link,
         LinkName
     }
 
-    public enum TightWikiCodeLanguage
+    public enum TwCodeLanguage
     {
         Auto,
         Wiki,
@@ -231,5 +165,62 @@
         Rust,
         Sql,
         Typescript
+    }
+
+    public enum TwDefaultDataType
+    {
+        Configurations,
+        Themes,
+        HelpPages,
+        BuiltinPages,
+        IncludePages,
+        FeatureTemplates = 5
+    }
+
+    public enum TwRoles
+    {
+        Administrator,
+        Member,
+        Contributor,
+        Moderator,
+        Anonymous
+    }
+
+    public enum TwPermission
+    {
+        Read,
+        Edit,
+        Delete,
+        Moderate,
+        Create
+    }
+
+    public enum TwTheme
+    {
+        Light,
+        Dark
+    }
+
+    public enum TwAdminPasswordChangeState
+    {
+        /// <summary>
+        /// The password has not been changed, display a big warning.
+        /// </summary>
+        IsDefault,
+        /// <summary>
+        /// All is well!
+        /// </summary>
+        HasBeenChanged,
+        /// <summary>
+        /// The default password status does not exist and the password needs to be set to default.
+        /// </summary>
+        NeedsToBeSet
+    }
+
+    public enum TwFunctionType
+    {
+        Standard,
+        Scoped,
+        Instruction
     }
 }

@@ -33,10 +33,10 @@ namespace TightWiki.Plugin.Interfaces.Repository
         /// Gets the apparent account permissions for a user combined with the permissions of all roles that user is a member of.
         /// </summary>
         Task<List<TwApparentPermission>> GetApparentAccountPermissions(Guid userId);
-        Task<List<TwApparentPermission>> GetApparentRolePermissions(WikiRoles role);
+        Task<List<TwApparentPermission>> GetApparentRolePermissions(TwRoles role);
         Task<List<TwApparentPermission>> GetApparentRolePermissions(string roleName);
-        Task<List<TwPermissionDisposition>> GetAllPermissionDispositions();
-        Task<List<TwPermission>> GetAllPermissions();
+        Task<List<Models.TwPermissionDisposition>> GetAllPermissionDispositions();
+        Task<List<Models.TwPermission>> GetAllPermissions();
         Task<List<TwRolePermission>> GetRolePermissionsPaged(int roleId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null);
         Task<List<TwAccountProfile>> GetAllPublicProfilesPaged(int pageNumber, int? pageSize = null, string? searchToken = null);
         Task AnonymizeProfile(Guid userId);
@@ -61,7 +61,7 @@ namespace TightWiki.Plugin.Interfaces.Repository
         Task<TwProfileAvatar?> GetProfileAvatarByNavigation(string navigation);
         Task UpdateProfile(TwAccountProfile item);
         Task UpdateProfileAvatar(Guid userId, byte[] imageData, string contentType);
-        Task<WikiAdminPasswordChangeState> AdminPasswordStatus();
+        Task<TwAdminPasswordChangeState> AdminPasswordStatus();
         Task SetAdminPasswordClear();
         Task SetAdminPasswordIsChanged();
         Task SetAdminPasswordIsDefault();

@@ -387,7 +387,7 @@
 
 <script>
     const emojiApi = '@(WikiConfiguration.BasePath)/File/AutoCompleteEmoji';
-    const editMode = @(Model?.Id > 0 && @sessionState.HoldsPermission(WikiPermission.Create).Result ? "true" : "false");
+    const editMode = @(Model?.Id > 0 && @sessionState.HoldsPermission(TwPermission.Create).Result ? "true" : "false");
     var editor;
     var featureInsertModalTable;
     var insertEmojiModal;
@@ -1022,7 +1022,7 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
-                    @if (await sessionState.HoldsPermission(WikiPermission.Read))
+                    @if (await sessionState.HoldsPermission(TwPermission.Read))
                     {
                         if (Model?.Id > 0)
                         {
@@ -1213,7 +1213,7 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
-                    @if (Model?.Id > 0 && await sessionState.HoldsPermission(WikiPermission.Read))
+                    @if (Model?.Id > 0 && await sessionState.HoldsPermission(TwPermission.Read))
                     {
                         <a href="@WikiConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success" role="button">@Localizer["View"]</a>
                         <a href="@WikiConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary" role="button">@Localizer["Export"]</a>
@@ -1228,7 +1228,7 @@
     <div class="card shadow-lg">
         <div class="card-header"><h3>@Localizer["Attachments"]</h3></div>
         <div class="card-body">
-            @if (Model?.Id > 0 && await sessionState.HoldsPermission(WikiPermission.Create))
+            @if (Model?.Id > 0 && await sessionState.HoldsPermission(TwPermission.Create))
             {
                 <div id="dropSection" class="dropSection">
                     <span class="d-inline-block">@Localizer["Drop file attachments here or click to upload manually."]</span>

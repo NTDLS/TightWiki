@@ -26,14 +26,14 @@ namespace TightWiki.Plugin.Default.Handlers
             {
                 return new TwPluginResult($"<a href=\"{link}\">{text}</a>")
                 {
-                    Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                    Instructions = [TwResultInstruction.DisallowNestedProcessing]
                 };
             }
             else
             {
                 return new TwPluginResult($"<a href=\"{link}\"><img src=\"{image}\" border =\"0\"></a>")
                 {
-                    Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                    Instructions = [TwResultInstruction.DisallowNestedProcessing]
                 };
             }
         }
