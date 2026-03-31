@@ -6,6 +6,6 @@ namespace TightWiki.Plugin.Interfaces.Module
     {
         Type DeclaringType { get; }
         TwPluginModuleAttribute Attribute { get; }
-        Interfaces.ITwPluginModule Instance { get; }
+        Interfaces.ITwDisabiguation Instance { get; }
     }
 }
