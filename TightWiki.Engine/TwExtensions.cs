@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using TightWiki.Plugin.Engine.Function;
 
-namespace TightWiki.Plugin.Library
+namespace TightWiki.Engine
 {
     public static class TwExtensions
     {
