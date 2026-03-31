@@ -30,7 +30,7 @@
         /// <param name="name">The user-friendly display name of the plugin.</param>
         /// <param name="description">The user-friendly display description of the plugin.</param>
         /// <param name="precedence">The order in which the functions and handlers in the plugin should be registered and executed.</param>
-        public TwPluginAttribute(string name, string description, int precedence)
+        public TwPluginAttribute(string name, string description, int precedence = 1)
         {
             Name = name;
             Description = description;

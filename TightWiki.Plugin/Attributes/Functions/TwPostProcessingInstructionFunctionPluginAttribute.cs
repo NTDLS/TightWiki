@@ -41,7 +41,7 @@
         /// <param name="name">The user-friendly display name of the function.</param>
         /// <param name="description">The user-friendly display description of the function.</param>
         /// <param name="precedence">The order in which the function should be executed.</param>
-        public TwPostProcessingInstructionFunctionPluginAttribute(string name, string description, int precedence)
+        public TwPostProcessingInstructionFunctionPluginAttribute(string name, string description, int precedence = 1)
         {
             Name = name;
             Description = description;

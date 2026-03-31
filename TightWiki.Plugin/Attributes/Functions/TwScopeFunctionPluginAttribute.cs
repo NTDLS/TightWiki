@@ -45,7 +45,7 @@
         /// <param name="description">The user-friendly display description of the function.</param>
         /// <param name="precedence">The order in which the function should be executed.</param>
         /// <param name="isFirstChance">Indicates whether this function is a first-chance function, meaning it should be executed before all other functions.</param>
-        public TwScopeFunctionPluginAttribute(string name, string description, int precedence, bool isFirstChance = false)
+        public TwScopeFunctionPluginAttribute(string name, string description, int precedence = 1, bool isFirstChance = false)
         {
             Name = name;
             Description = description;

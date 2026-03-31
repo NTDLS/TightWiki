@@ -5,12 +5,12 @@ using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Models;
 
-namespace TightWiki.Plugin.Default.Functions
+namespace TightWiki.Plugin.Default
 {
-    [TwPlugin("Post Processing Instructions", "Built-in post processing instruction functions.", 1000)]
+    [TwPlugin("Default Post-Processing Instructions", "Built-in post processing instruction functions.")]
     public class PostProcessingInstructionFunctions
     {
-        [TwPostProcessingInstructionFunctionPlugin("Tags", "Displays list of tag links for the tags that are included on the current page.", 1000)]
+        [TwPostProcessingInstructionFunctionPlugin("Tags", "Displays list of tag links for the tags that are included on the current page.")]
         public async Task<TwPluginResult> Tags(ITwEngineState state,
             TwTabularStyle styleName)
         {
@@ -39,7 +39,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwPostProcessingInstructionFunctionPlugin("TagCloud", "Displays a tag cloud for the specified page tag.", 1000)]
+        [TwPostProcessingInstructionFunctionPlugin("TagCloud", "Displays a tag cloud for the specified page tag.")]
         public async Task<TwPluginResult> TagCloud(ITwEngineState state,
             string pageTag, int top = 1000)
         {
@@ -47,7 +47,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html);
         }
 
-        [TwPostProcessingInstructionFunctionPlugin("SearchCloud", "Displays a search cloud for the specified search phrase.", 1000)]
+        [TwPostProcessingInstructionFunctionPlugin("SearchCloud", "Displays a search cloud for the specified search phrase.")]
         public async Task<TwPluginResult> SearchCloud(ITwEngineState state,
             string searchPhrase, int top = 1000)
         {
@@ -57,7 +57,7 @@ namespace TightWiki.Plugin.Default.Functions
             return new TwPluginResult(html);
         }
 
-        [TwPostProcessingInstructionFunctionPlugin("Toc", "Displays a table of contents for the page based on the header tags.", 1000)]
+        [TwPostProcessingInstructionFunctionPlugin("Toc", "Displays a table of contents for the page based on the header tags.")]
         public async Task<TwPluginResult> Toc(ITwEngineState state,
             bool alphabetized = false)
         {

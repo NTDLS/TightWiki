@@ -4,12 +4,12 @@ using TightWiki.Plugin.Attributes.Handlers;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 
-namespace TightWiki.Plugin.Default.Handlers
+namespace TightWiki.Plugin.Default
 {
     /// <summary>
-    /// Handles wiki comments. These are generally removed from the result.
+    /// Handler functions for various wiki operations.
     /// </summary>
-    [TwPlugin("Default handlers", "Handles various TightWiki instructions.", 1000)]
+    [TwPlugin("Default Handlers", "Handles various TightWiki instructions.", 1)]
     public class Handlers
     {
         /// <summary>
@@ -17,18 +17,17 @@ namespace TightWiki.Plugin.Default.Handlers
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="text">The comment text</param>
-        [TwCommentPluginHandler("Default comment handler", "Handles wiki comments.", 1000)]
+        [TwCommentPluginHandler("Default comment handler", "Handles wiki comments.", 1)]
         public async Task<TwPluginResult> Handle(ITwEngineState state, string text)
         {
             return new TwPluginResult() { Instructions = [TwResultInstruction.TruncateTrailingLine] };
         }
 
-
         /// <summary>
         /// Handles wiki completion events. Is called when the wiki processing completes for a given page.
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
-        [TwCompletionPluginHandler("Default completion handler", "Handles wiki completion events.", 1000)]
+        [TwCompletionPluginHandler("Default completion handler", "Handles wiki completion events.", 1)]
         public async Task<TwPluginResult> Handle(ITwEngineState state)
         {
             if (state.Engine.WikiConfiguration.RecordCompilationMetrics)
@@ -52,7 +51,7 @@ namespace TightWiki.Plugin.Default.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="key">The lookup key for the given emoji.</param>
         /// <param name="scale">The desired 1-100 scale factor for the emoji.</param>
-        [TwEmojiPluginHandler("Default emoji handler", "Handles wiki emojis.", 1000)]
+        [TwEmojiPluginHandler("Default emoji handler", "Handles wiki emojis.", 1)]
         public async Task<TwPluginResult> Handle(ITwEngineState state, string key, int scale)
         {
             var emoji = state.Engine.WikiConfiguration.Emojis.FirstOrDefault(o => o.Shortcut == key);
@@ -84,7 +83,7 @@ namespace TightWiki.Plugin.Default.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="ex">Optional exception, in the case that this was an actual exception.</param>
         /// <param name="customText">Text that accompanies the exception.</param>
-        [TwExceptionPluginHandler("Default exception handler", "Handles exceptions thrown by the wiki engine.", 1000)]
+        [TwExceptionPluginHandler("Default exception handler", "Handles exceptions thrown by the wiki engine.", 1)]
         public async Task<TwPluginResult> Handle(ITwEngineState state, LogLevel level, string text, Exception? ex = null)
         {
             if (ex != null)
@@ -107,7 +106,7 @@ namespace TightWiki.Plugin.Default.Handlers
         /// <param name="text">The text which should be show in the absence of an image.</param>
         /// <param name="image">The image that should be shown.</param>
         /// <param name="imageScale">The 0-100 image scale factor for the given image.</param>
-        [TwExternalLinkPluginHandler("Default external link handler", "Handles links the wiki to another site.", 1000)]
+        [TwExternalLinkPluginHandler("Default external link handler", "Handles links the wiki to another site.", 1)]
         public async Task<TwPluginResult> Handle(ITwEngineState state, string link, string? text, string? image)
         {
             if (string.IsNullOrEmpty(image))
@@ -133,7 +132,7 @@ namespace TightWiki.Plugin.Default.Handlers
         /// <param name="depth">The size of the header, also used for table of table of contents indentation.</param>
         /// <param name="link">The self link reference.</param>
         /// <param name="text">The text for the self link.</param>
-        [TwHeadingPluginHandler("Default heading handler", "Handles wiki headings.", 1000)]
+        [TwHeadingPluginHandler("Default heading handler", "Handles wiki headings.", 1)]
         public async Task<TwPluginResult> Handle(ITwEngineState state, int depth, string link, string text)
         {
             depth = Math.Clamp(depth, 1, 6);
@@ -147,7 +146,7 @@ namespace TightWiki.Plugin.Default.Handlers
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="sequence">The sequence of symbols that were found to denotate this markup instruction,</param>
         /// <param name="scopeBody">The body of text to apply the style to.</param>
-        [TwMarkupPluginHandler("Default markup handler", "Handles basic markup instructions like bold, italic, underline, etc.", 1000)]
+        [TwMarkupPluginHandler("Default markup handler", "Handles basic markup instructions like bold, italic, underline, etc.", 1)]
         public async Task<TwPluginResult> Handle(ITwEngineState state, char sequence, string scopeBody)
         {
             switch (sequence)
@@ -173,7 +172,7 @@ namespace TightWiki.Plugin.Default.Handlers
         /// <param name="linkText">The text which should be show in the absence of an image.</param>
         /// <param name="image">The image that should be shown.</param>
         /// <param name="imageScale">The 0-100 image scale factor for the given image.</param>
-        [TwInternalLinkPluginHandler("Default internal link handler", "Handles links from one wiki page to another.", 1000)]
+        [TwInternalLinkPluginHandler("Default internal link handler", "Handles links from one wiki page to another.", 1)]
         public async Task<TwPluginResult> Handle(ITwEngineState state, TwNamespaceNavigation pageNavigation,
             string pageName, string linkText, string? image, int imageScale)
         {

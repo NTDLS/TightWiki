@@ -14,6 +14,7 @@ using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using TightWiki.ViewModels.Admin;
 using TightWiki.ViewModels.Utility;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static TightWiki.Plugin.TwConstants;
 using TwPermission = TightWiki.Plugin.TwPermission;
 
@@ -1684,7 +1685,7 @@ namespace TightWiki.Controllers
                         Name = function.Name,
                         Description = function.Description,
                         Precedence = function.Precedence,
-                        Type = "Function"
+                        Type = function.GetType()
                     });
                 }
 
@@ -1695,7 +1696,7 @@ namespace TightWiki.Controllers
                         Name = handler.Name,
                         Description = handler.Description,
                         Precedence = handler.Precedence,
-                        Type = "Handler"
+                        Type = handler.GetType()
                     });
                 }
 
