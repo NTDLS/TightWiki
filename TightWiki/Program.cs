@@ -18,7 +18,6 @@ using TightWiki.Plugin;
 using TightWiki.Plugin.Dummy;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Repository;
-using TightWiki.Plugin.Library;
 using TightWiki.Repository.Helpers;
 using TightWiki.Translations;
 using static TightWiki.Plugin.TwConstants;

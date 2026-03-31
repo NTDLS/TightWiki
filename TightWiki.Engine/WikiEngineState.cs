@@ -10,7 +10,6 @@ using TightWiki.Plugin;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Engine.Function;
 using TightWiki.Plugin.Interfaces;
-using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 
 namespace TightWiki.Engine

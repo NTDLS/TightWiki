@@ -9,7 +9,6 @@ using TightWiki.Extensions;
 using TightWiki.Library.Caching;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
-using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using TightWiki.Translations;
 

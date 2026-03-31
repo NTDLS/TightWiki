@@ -17,14 +17,14 @@ namespace TightWiki.Plugin.Engine.Function
         /// </summary>
         public string Name { get; private set; }
 
-        public TwEngineFunctionDescriptor Descriptor { get; set; }
+        public ITwEngineFunctionDescriptor Descriptor { get; set; }
 
         /// <summary>
         /// The arguments supplied by the caller.
         /// </summary>
         public List<NamedParameter> Parameters { get; private set; } = new();
 
-        public PreparedFunction(TwEngineFunctionDescriptor descriptor, ParsedFunction parsedFunction)
+        public PreparedFunction(ITwEngineFunctionDescriptor descriptor, ParsedFunction parsedFunction)
         {
             Descriptor = descriptor;
             Name = descriptor.Method.Name;
@@ -41,7 +41,7 @@ namespace TightWiki.Plugin.Engine.Function
         /// Parsed a function call, its parameters and matches it to a defined function and its descriptor.
         /// </summary>
         public static PreparedFunction Create(ITwEngineState state,
-            List<TwEngineFunctionDescriptor> descriptors, ParsedFunction parsedFunction)
+            List<ITwEngineFunctionDescriptor> descriptors, ParsedFunction parsedFunction)
         {
             var descriptor = descriptors.SingleOrDefault(o =>
                 o.Method.Name.Equals(parsedFunction.Name, StringComparison.InvariantCultureIgnoreCase)

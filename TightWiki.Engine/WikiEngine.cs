@@ -31,10 +31,10 @@ namespace TightWiki.Engine
         public List<TwMarkupHandlerDescriptor> MarkupHandlers { get; private set; }
 
 
-        public List<TwEngineFunctionDescriptor> PostProcessingFunctions { get; private set; }
-        public List<TwEngineFunctionDescriptor> ProcessingFunctions { get; private set; }
-        public List<TwEngineFunctionDescriptor> ScopeFunctions { get; private set; }
-        public List<TwEngineFunctionDescriptor> StandardFunctions { get; private set; }
+        public List<ITwEngineFunctionDescriptor> PostProcessingFunctions { get; private set; } = new();
+        public List<ITwEngineFunctionDescriptor> ProcessingFunctions { get; private set; } = new();
+        public List<ITwEngineFunctionDescriptor> ScopeFunctions { get; private set; } = new();
+        public List<ITwEngineFunctionDescriptor> StandardFunctions { get; private set; } = new();
 
 
         public WikiEngine(
@@ -60,10 +60,17 @@ namespace TightWiki.Engine
                 .Select(x => new TwEnginePluginModule(x.Type, x.Attribute.EnsureNotNull()))
                 .ToList();
 
-            StandardFunctions = BuildFunctionDescriptors<TwStandardFunctionAttribute>(EngineModules);
-            ScopeFunctions = BuildFunctionDescriptors<TwScopeFunctionAttribute>(EngineModules);
-            ProcessingFunctions = BuildFunctionDescriptors<TwProcessingInstructionFunctionAttribute>(EngineModules);
-            PostProcessingFunctions = BuildFunctionDescriptors<TwPostProcessingInstructionFunctionAttribute>(EngineModules);
+            foreach (var item in BuildFunctionDescriptors<TwStandardFunctionAttribute>(EngineModules))
+                StandardFunctions.Add(item);
+
+            foreach (var item in BuildFunctionDescriptors<TwScopeFunctionAttribute>(EngineModules))
+                ScopeFunctions.Add(item);
+
+            foreach (var item in BuildFunctionDescriptors<TwProcessingInstructionFunctionAttribute>(EngineModules))
+                ProcessingFunctions.Add(item);
+
+            foreach (var item in BuildFunctionDescriptors<TwPostProcessingInstructionFunctionAttribute>(EngineModules))
+                PostProcessingFunctions.Add(item);
 
             CompletionHandlers = BuildHandlerDescriptors<TwCompletionHandlerAttribute>(EngineModules)
                 .Select(o => new TwCompletionHandlerDescriptor(o)).ToList();
