@@ -23,7 +23,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="11.0.0" />
 		<PackageReference Include="DiffPlex" Version="1.9.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="10.0.5" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="10.0.5" />
