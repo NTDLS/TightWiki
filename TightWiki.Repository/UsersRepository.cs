@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using MimeKit.Encodings;
 using NTDLS.Helpers;
 using NTDLS.SqliteDapperWrapper;
 using System.Security.Claims;

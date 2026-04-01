@@ -1,5 +1,4 @@
 ﻿using NTDLS.Helpers;
-using System.Xml.Linq;
 using TightWiki.Library.Dummy;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Attributes.Functions;

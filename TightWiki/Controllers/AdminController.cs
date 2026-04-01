@@ -14,7 +14,6 @@ using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using TightWiki.ViewModels.Admin;
 using TightWiki.ViewModels.Utility;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using static TightWiki.Plugin.TwConstants;
 using TwPermission = TightWiki.Plugin.TwPermission;
 
