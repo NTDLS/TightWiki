@@ -366,6 +366,15 @@ namespace TightWiki
                 }
             }
 
+            /*
+            using (var scope = app.Services.CreateScope())
+            {
+                var tightEngine = scope.ServiceProvider.GetRequiredService<ITwEngine>();
+                var selfDocument = new SelfDocument(tightEngine);
+                await selfDocument.CreateNotExisting();
+            }
+            */
+
             app.Run();
         }
 

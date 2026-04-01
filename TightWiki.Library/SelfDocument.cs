@@ -93,7 +93,7 @@ namespace TightWiki.Library
 
             if (functionType == "Instruction Function")
             {
-                topic = $"Wiki Help :: {descriptor.Method.Name} - Instruction";
+                topic = $"Wiki Help :: {descriptor.Method.Name} Instruction";
             }
 
             string navigation = TwNamespaceNavigation.CleanAndValidate(topic);
@@ -122,7 +122,7 @@ namespace TightWiki.Library
                 html.AppendLine("");
                 html.AppendLine("");
                 html.AppendLine("==Prototype");
-                html.Append($"##Color(${{keywordColor}}, **#{{ {descriptor.FunctionAttribute.Demarcation}{descriptor.Method.Name} }}#**)");
+                html.Append($"##Color(${{keywordColor}}, **#{{ {(descriptor.FunctionAttribute.Demarcation == "{{" ? "" : descriptor.FunctionAttribute.Demarcation)}{descriptor.Method.Name} }}#**)");
                 if (funcParams.Count == 0)
                 {
                     html.AppendLine("()");
@@ -133,7 +133,7 @@ namespace TightWiki.Library
                     foreach (var p in funcParams)
                     {
                         html.Append($"##Color(${{keywordColor}}, {GetParameterTypeWikiName(p.ParameterType)}{(p.ParameterType.IsArray ? ":Infinite" : "")})");
-                        if (p.HasDefaultValue)
+                        if (!p.HasDefaultValue)
                         {
                             html.Append($" [##Color(${{identifierColor}}, {p.Name})]");
                         }
@@ -160,11 +160,14 @@ namespace TightWiki.Library
 
                 foreach (var p in funcParams)
                 {
-                    html.AppendLine($"**Name:** ##Color(${{identifierColor}}, {p.Name}) ##Color(${{metaColor}}, {(p.HasDefaultValue ? "[Required]" : "{Optional}")})");
+                    html.AppendLine($"**Name:** ##Color(${{identifierColor}}, {p.Name}) ##Color(${{metaColor}}, {(!p.HasDefaultValue ? "[Required]" : "{Optional}")})");
                     html.AppendLine($">**Type:** ##Color(${{keywordColor}}, {GetParameterTypeWikiName(p.ParameterType)}{(p.ParameterType.IsArray ? ":Infinite" : "")})");
                     if (p.HasDefaultValue)
                     {
-                        html.AppendLine($">**Default:** ##Color(${{identifierColor}}, {p.DefaultValue})");
+                        if (!string.IsNullOrEmpty(p.DefaultValue?.ToString()))
+                        {
+                            html.AppendLine($">**Default:** ##Color(${{identifierColor}}, {p.DefaultValue})");
+                        }
                     }
                     if (p.ParameterType.IsEnum)
                     {

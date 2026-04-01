@@ -10,53 +10,6 @@ namespace TightWiki.Plugin.Default
     [TwPlugin("Default Post-Processing Instructions", "Built-in post processing instruction functions.")]
     public class PostProcessingInstructionFunctions
     {
-        [TwPostProcessingInstructionFunctionPlugin("Tags", "Displays list of tag links for the tags that are included on the current page.")]
-        public async Task<TwPluginResult> Tags(ITwEngineState state,
-            TwTabularStyle styleName)
-        {
-            var html = new StringBuilder();
-
-            switch (styleName)
-            {
-                case TwTabularStyle.List:
-                case TwTabularStyle.Full:
-                    html.Append("<ul>");
-                    foreach (var tag in state.Tags)
-                    {
-                        html.Append($"<li><a href=\"{state.Engine.WikiConfiguration.BasePath}/Tags/Browse/{tag}\">{tag}</a>");
-                    }
-                    html.Append("</ul>");
-                    break;
-                case TwTabularStyle.Flat:
-                    foreach (var tag in state.Tags)
-                    {
-                        if (html.Length > 0) html.Append(" | ");
-                        html.Append($"<a href=\"{state.Engine.WikiConfiguration.BasePath}/Tags/Browse/{tag}\">{tag}</a>");
-                    }
-                    break;
-            }
-
-            return new TwPluginResult(html.ToString());
-        }
-
-        [TwPostProcessingInstructionFunctionPlugin("TagCloud", "Displays a tag cloud for the specified page tag.")]
-        public async Task<TwPluginResult> TagCloud(ITwEngineState state,
-            string pageTag, int top = 1000)
-        {
-            string html = await TwTagCloudBuilder.Build(state.Engine.DatabaseManager.PageRepository, state.Engine.WikiConfiguration.BasePath, pageTag, top);
-            return new TwPluginResult(html);
-        }
-
-        [TwPostProcessingInstructionFunctionPlugin("SearchCloud", "Displays a search cloud for the specified search phrase.")]
-        public async Task<TwPluginResult> SearchCloud(ITwEngineState state,
-            string searchPhrase, int top = 1000)
-        {
-            var tokens = searchPhrase.Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
-
-            string html = await TwSearchCloudBuilder.Build(state.Engine.DatabaseManager.PageRepository, state.Engine.WikiConfiguration.BasePath, tokens, top);
-            return new TwPluginResult(html);
-        }
-
         [TwPostProcessingInstructionFunctionPlugin("Toc", "Displays a table of contents for the page based on the header tags.")]
         public async Task<TwPluginResult> Toc(ITwEngineState state,
             bool alphabetized = false)
