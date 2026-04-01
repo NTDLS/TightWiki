@@ -305,18 +305,6 @@ namespace TightWiki.Plugin.Default
             return new TwPluginResult($"<font color=\"{color}\">{text}</font>");
         }
 
-        [TwStandardFunctionPlugin("Tag", "Associates tags with a page. These are saved with the page and can also be displayed.")]
-        public async Task<TwPluginResult> Tag(ITwEngineState state, params string[] tags) //##tag(pipe|separated|list|of|tags)
-        {
-            state.Tags.AddRange(tags);
-            state.Tags = state.Tags.Distinct().ToList();
-
-            return new TwPluginResult(string.Empty)
-            {
-                Instructions = [TwResultInstruction.TruncateTrailingLine]
-            };
-        }
-
         [TwStandardFunctionPlugin("Image", "Displays an image that is attached to the page.")]
         public async Task<TwPluginResult> Image(ITwEngineState state,
             string name, int? scale = null, string? altText = null, string? @class = null, int? maxWidth = null)

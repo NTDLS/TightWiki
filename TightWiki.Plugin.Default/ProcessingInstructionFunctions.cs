@@ -12,7 +12,7 @@ namespace TightWiki.Plugin.Default
         //Associates tags with a page. These are saved with the page and can also be displayed.
         [TwProcessingInstructionFunctionPlugin("Tags", "Associates tags with a page. These are saved with the page and can also be displayed.")]
         public async Task<TwPluginResult> Tags(ITwEngineState state,
-            string[] pageTags) //##tag(pipe|separated|list|of|tags)
+            string[] pageTags)
         {
             state.Tags.AddRange(pageTags);
             state.Tags = state.Tags.Distinct().ToList();
