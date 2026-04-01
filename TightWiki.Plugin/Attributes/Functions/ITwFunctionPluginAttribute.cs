@@ -1,4 +1,6 @@
-﻿namespace TightWiki.Plugin.Attributes.Functions
+﻿using TightWiki.Plugin.Interfaces;
+
+namespace TightWiki.Plugin.Attributes.Functions
 {
     /// <summary>
     /// Base interface for function descriptor attributes.
@@ -8,17 +10,8 @@
     /// or other purposes within the TightWiki plugin system.
     /// </summary>
     public interface ITwFunctionPluginAttribute
+        : ITwPluginAttribute
     {
-        /// <summary>
-        /// The user-friendly display name of the function.
-        /// </summary>
-        string Name { get; }
-
-        /// <summary>
-        /// The user-friendly display description of the function.
-        /// </summary>
-        string Description { get; }
-
         /// <summary>
         /// Indicates whether this function is a first-chance function.
         /// These functions are evaluated before any other functions, allowing them to
@@ -30,11 +23,5 @@
         /// The prefix used to demarcate the function in the wiki syntax, such as "##", "@@", etc for TightWiki functions.
         /// </summary>
         string Demarcation { get; }
-
-        /// <summary>
-        /// The order in which the functions and handlers in the plugin module should be registered and executed.
-        /// Lower values indicate higher priority.
-        /// </summary>
-        public int Precedence { get; }
     }
 }

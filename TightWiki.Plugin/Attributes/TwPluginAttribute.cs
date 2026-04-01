@@ -1,4 +1,6 @@
-﻿namespace TightWiki.Plugin.Attributes
+﻿using TightWiki.Plugin.Interfaces;
+
+namespace TightWiki.Plugin.Attributes
 {
     /// <summary>
     /// Attribute to mark a class as a plugin module in the TightWiki plugin system.
@@ -6,7 +8,7 @@
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class TwPluginAttribute
-    : Attribute
+        : Attribute, ITwPluginAttribute
     {
         /// <summary>
         /// The user-friendly display name of the plugin module.

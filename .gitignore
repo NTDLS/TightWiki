@@ -144,3 +144,5 @@ TightWiki.Plugin.Default/obj/
 TightWiki/Plugins/
 
 TightWiki.Plugin.Example/obj/
+
+TightWiki.Plugin.Example/bin/

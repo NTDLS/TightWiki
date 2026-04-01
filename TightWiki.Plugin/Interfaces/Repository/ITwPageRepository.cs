@@ -97,9 +97,6 @@ namespace TightWiki.Plugin.Interfaces.Repository
         /// <summary>
         /// Rebuilds the page and writes all aspects to the database.
         /// </summary>
-        /// <param name="sessionState"></param>
-        /// <param name="query"></param>
-        /// <param name="page"></param>
         Task RefreshPageMetadata(ITwEngine wikifier, ITwSharedLocalizationText localizer, TwPage page, ITwSessionState? sessionState = null);
 
         Task<List<TwAggregatedSearchToken>> ParsePageTokens(ITwEngineState state);
