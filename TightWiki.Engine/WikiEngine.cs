@@ -13,6 +13,7 @@ using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Module;
 using TightWiki.Plugin.Interfaces.Module.Function;
 using TightWiki.Plugin.Interfaces.Module.Handlers;
+using TightWiki.Plugin.Models;
 
 namespace TightWiki.Engine
 {
@@ -199,6 +200,24 @@ namespace TightWiki.Engine
         public async Task<ITwEngineState> Transform(ITwSharedLocalizationText localizer, ITwSessionState? session, ITwPage page, int? revision = null, TwMatchType[]? omitMatches = null)
         {
             var childState = new WikiEngineState(Logger, this, localizer, session, page, revision, omitMatches);
+            return await childState.Transform();
+        }
+
+        /// <summary>
+        /// Transforms the content for the given string markup.
+        /// </summary>
+        /// <param name="localizer">The localization text provider.</param>
+        /// <param name="session">The users current state, used for localization.</param>
+        /// <param name="markup">The markup content that is being processed.</param>
+        public async Task<ITwEngineState> Transform(ITwSharedLocalizationText localizer, ITwSessionState? session, string markup)
+        {
+            var page = new TwPage()
+            {
+                Body = markup,
+                Name = "adhoc"
+            };
+
+            var childState = new WikiEngineState(Logger, this, localizer, session, page);
             return await childState.Transform();
         }
     }
