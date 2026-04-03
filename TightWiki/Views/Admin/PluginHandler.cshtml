@@ -7,7 +7,7 @@
 @inject ITwSharedLocalizationText Localizer
 @inject TwConfiguration WikiConfiguration
 
-@model PluginModuleViewModel
+@model PluginHandlerViewModel
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -17,7 +17,7 @@
     <div>
         <h3 class="mb-1">@Localizer["Plugin"]</h3>
         <div class="text-muted">
-            @Localizer["Global configuration for plugin."]
+            @Localizer["Global configuration for plugin handler."]
         </div>
     </div>
 </div>
@@ -25,7 +25,7 @@
 <div class="card shadow-sm">
     <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <span class="fw-semibold">
-            <i class="bi bi-plug me-2"></i>@Localizer["Plugin module"]
+            <i class="bi bi-plug me-2"></i>@Localizer["Plugin Handler"]
         </span>
     </div>
 

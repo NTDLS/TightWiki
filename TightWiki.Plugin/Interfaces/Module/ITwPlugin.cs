@@ -28,7 +28,7 @@ namespace TightWiki.Plugin.Interfaces.Module
         /// <summary>
         /// List of all functions that are defined in the plugin.
         /// </summary>
-        List<ITwFunctionPluginAttribute> Functions { get; set; }
+        List<ITwPluginFunctionAttribute> Functions { get; set; }
 
         /// <summary>
         /// List of all handlers that are defined in the plugin.

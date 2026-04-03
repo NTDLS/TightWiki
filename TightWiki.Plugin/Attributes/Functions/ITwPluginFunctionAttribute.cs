@@ -9,7 +9,7 @@ namespace TightWiki.Plugin.Attributes.Functions
     /// These properties provide metadata about the function, which can be used for documentation, user interfaces,
     /// or other purposes within the TightWiki plugin system.
     /// </summary>
-    public interface ITwFunctionPluginAttribute
+    public interface ITwPluginFunctionAttribute
         : ITwPluginAttribute
     {
         /// <summary>

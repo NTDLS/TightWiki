@@ -18,7 +18,7 @@ namespace TightWiki.Plugin.Interfaces.Module.Function
         /// Attributes of the function, containing information such as the demarcation and description.
         /// This is used to match a function call to its descriptor and for documentation purposes.
         /// </summary>
-        ITwFunctionPluginAttribute FunctionAttribute { get; }
+        ITwPluginFunctionAttribute FunctionAttribute { get; }
 
         /// <summary>
         /// The attribute of the module that contains the function, containing information

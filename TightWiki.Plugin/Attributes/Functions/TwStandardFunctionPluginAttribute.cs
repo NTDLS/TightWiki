@@ -9,7 +9,7 @@
     /// particularly for those that require special handling or early evaluation.</remarks>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class TwStandardFunctionPluginAttribute
-            : Attribute, ITwFunctionPluginAttribute
+            : Attribute, ITwPluginFunctionAttribute
     {
         /// <summary>
         /// The user-friendly display name of the function.

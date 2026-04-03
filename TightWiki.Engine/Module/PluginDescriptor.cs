@@ -16,7 +16,7 @@ namespace TightWiki.Engine.Module
         /// <summary>
         /// List of all functions that are defined in the plugin.
         /// </summary>
-        public List<ITwFunctionPluginAttribute> Functions { get; set; } = new();
+        public List<ITwPluginFunctionAttribute> Functions { get; set; } = new();
 
         /// <summary>
         /// List of all handlers that are defined in the plugin.

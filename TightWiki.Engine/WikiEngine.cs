@@ -131,7 +131,7 @@ namespace TightWiki.Engine
         }
 
         private static List<FunctionDescriptor> BuildFunctionDescriptors<TFunctionAttribute>(List<ITwPlugin> pluginModules)
-            where TFunctionAttribute : Attribute, ITwFunctionPluginAttribute
+            where TFunctionAttribute : Attribute, ITwPluginFunctionAttribute
         {
             return pluginModules
                 .SelectMany(module => module.DeclaringType

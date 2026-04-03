@@ -2,7 +2,7 @@
 
 namespace TightWiki.ViewModels.Admin
 {
-    public class PluginModuleViewModel
+    public class PluginClassViewModel
         : TwViewModel
     {
         public TwPlugin? Plugin { get; set; }

@@ -8,7 +8,7 @@
     /// handling special wiki syntax constructs.</remarks>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class TwProcessingInstructionFunctionPluginAttribute
-            : Attribute, ITwFunctionPluginAttribute
+            : Attribute, ITwPluginFunctionAttribute
     {
         /// <summary>
         /// The user-friendly display name of the function.

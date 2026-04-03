@@ -8,7 +8,7 @@
     /// behavior of the parser by handling specific instruction patterns.</remarks>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class TwPostProcessingInstructionFunctionPluginAttribute
-            : Attribute, ITwFunctionPluginAttribute
+            : Attribute, ITwPluginFunctionAttribute
     {
         /// <summary>
         /// The user-friendly display name of the function.

@@ -7,7 +7,7 @@ using TightWiki.Plugin.Interfaces.Module.Function;
 namespace TightWiki.Engine.Module.Function
 {
     public class FunctionDescriptor(ITwPlugin plugin, MethodInfo method,
-        ITwFunctionPluginAttribute attribute, TwPluginAttribute pluginAttribute)
+        ITwPluginFunctionAttribute attribute, TwPluginAttribute pluginAttribute)
                 : ITwFunctionDescriptor
     {
         /// <summary>
@@ -19,7 +19,7 @@ namespace TightWiki.Engine.Module.Function
         /// Attributes of the function, containing information such as the demarcation and description.
         /// This is used to match a function call to its descriptor and for documentation purposes.
         /// </summary>
-        public ITwFunctionPluginAttribute FunctionAttribute { get; } = attribute;
+        public ITwPluginFunctionAttribute FunctionAttribute { get; } = attribute;
 
         /// <summary>
         /// The attribute of the module that contains the function, containing information

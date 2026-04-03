@@ -41,7 +41,7 @@ namespace TightWiki.Engine.Module.Function
         {
             var descriptor = descriptors.SingleOrDefault(o =>
                 o.Method.Name.Equals(parsedFunction.Name, StringComparison.InvariantCultureIgnoreCase)
-                && o.FunctionAttribute is ITwFunctionPluginAttribute attr
+                && o.FunctionAttribute is ITwPluginFunctionAttribute attr
                 && attr.Demarcation == parsedFunction.Demarcation)
                 ?? throw new Exception($"Function ({parsedFunction.Name}) does not have a defined descriptor.");
 

@@ -1646,8 +1646,8 @@ namespace TightWiki.Controllers
         }
 
         [Authorize]
-        [HttpGet("Plugin/{name}")]
-        public async Task<ActionResult> PluginModule(string name)
+        [HttpGet("PluginClass/{pluginName}")]
+        public async Task<ActionResult> PluginClass(string pluginName)
         {
             try
             {
@@ -1659,17 +1659,17 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                SessionState.Page.Name = Localize("Plugins");
+                SessionState.Page.Name = Localize("Plugin Class");
 
                 var plugin = tightEngine.Plugins
-                    .FirstOrDefault(o => o.Attribute.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+                    .FirstOrDefault(o => o.Attribute.Name.Equals(pluginName, StringComparison.InvariantCultureIgnoreCase));
 
                 if (plugin == null)
                 {
-                    return View(new PluginModuleViewModel());
+                    return View(new PluginClassViewModel());
                 }
 
-                var model = new PluginModuleViewModel();
+                var model = new PluginClassViewModel();
 
                 model.Plugin = new TwPlugin()
                 {
@@ -1707,6 +1707,151 @@ namespace TightWiki.Controllers
                 throw;
             }
         }
+
+        [Authorize]
+        [HttpGet("PluginFunction/{pluginName}/{pluginFunctionName}")]
+        public async Task<ActionResult> PluginFunction(string pluginName, string pluginFunctionName)
+        {
+            try
+            {
+                try
+                {
+                    await SessionState.RequireAdminPermission();
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                SessionState.Page.Name = Localize("Plugin Class");
+
+                var plugin = tightEngine.Plugins
+                    .FirstOrDefault(o => o.Attribute.Name.Equals(pluginName, StringComparison.InvariantCultureIgnoreCase));
+
+
+                if (plugin == null)
+                {
+                    return View(new PluginFunctionViewModel());
+                }
+
+                var function = plugin.Functions
+                    .FirstOrDefault(o => o.Name.Equals(pluginFunctionName, StringComparison.InvariantCultureIgnoreCase));
+
+                //var handler = plugin.Handlers
+                    //.FirstOrDefault(o => o.Name.Equals(pluginFunctionName, StringComparison.InvariantCultureIgnoreCase));
+
+                var model = new PluginFunctionViewModel();
+
+                model.Plugin = new TwPlugin()
+                {
+                    Name = plugin.Attribute.Name ?? string.Empty,
+                    Description = plugin.Attribute.Description ?? string.Empty
+                };
+
+                /*
+                foreach (var function in plugin.Functions)
+                {
+                    model.Contents.Add(new TwPluginContent()
+                    {
+                        Name = function.Name,
+                        Description = function.Description,
+                        Precedence = function.Precedence,
+                        Type = function.GetType()
+                    });
+                }
+
+                foreach (var handler in plugin.Handlers)
+                {
+                    model.Contents.Add(new TwPluginContent()
+                    {
+                        Name = handler.Name,
+                        Description = handler.Description,
+                        Precedence = handler.Precedence,
+                        Type = handler.GetType()
+                    });
+                }
+                */
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An error occurred while retrieving plugin.");
+                throw;
+            }
+        }
+
+        [Authorize]
+        [HttpGet("PluginHandler/{pluginName}/{pluginFunctionName}")]
+        public async Task<ActionResult> PluginHandler(string pluginName, string pluginFunctionName)
+        {
+            try
+            {
+                try
+                {
+                    await SessionState.RequireAdminPermission();
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                SessionState.Page.Name = Localize("Plugin Class");
+
+                var plugin = tightEngine.Plugins
+                    .FirstOrDefault(o => o.Attribute.Name.Equals(pluginName, StringComparison.InvariantCultureIgnoreCase));
+
+
+                if (plugin == null)
+                {
+                    return View(new PluginHandlerViewModel());
+                }
+
+                var function = plugin.Functions
+                    .FirstOrDefault(o => o.Name.Equals(pluginFunctionName, StringComparison.InvariantCultureIgnoreCase));
+
+                //var handler = plugin.Handlers
+                //.FirstOrDefault(o => o.Name.Equals(pluginFunctionName, StringComparison.InvariantCultureIgnoreCase));
+
+                var model = new PluginHandlerViewModel();
+
+                model.Plugin = new TwPlugin()
+                {
+                    Name = plugin.Attribute.Name ?? string.Empty,
+                    Description = plugin.Attribute.Description ?? string.Empty
+                };
+
+                /*
+                foreach (var function in plugin.Functions)
+                {
+                    model.Contents.Add(new TwPluginContent()
+                    {
+                        Name = function.Name,
+                        Description = function.Description,
+                        Precedence = function.Precedence,
+                        Type = function.GetType()
+                    });
+                }
+
+                foreach (var handler in plugin.Handlers)
+                {
+                    model.Contents.Add(new TwPluginContent()
+                    {
+                        Name = handler.Name,
+                        Description = handler.Description,
+                        Precedence = handler.Precedence,
+                        Type = handler.GetType()
+                    });
+                }
+                */
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An error occurred while retrieving plugin.");
+                throw;
+            }
+        }
+
 
         #endregion
 
