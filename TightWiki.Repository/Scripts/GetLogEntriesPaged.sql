@@ -12,6 +12,10 @@ SELECT
 			(Count(0) + (@PageSize - 1)) / @PageSize
 		FROM
 			Log as P
+		INNER JOIN Severity as S
+			ON P.SeverityId = S.Id
+		WHERE
+			(@Severity IS NULL OR S.Name = @Severity)
 	) as PaginationPageCount
 FROM
 	Log as L
