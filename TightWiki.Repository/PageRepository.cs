@@ -1,5 +1,4 @@
 ﻿using DuoVia.FuzzyStrings;
-using MailKit.Search;
 using Microsoft.Extensions.Configuration;
 using NTDLS.Helpers;
 using NTDLS.SqliteDapperWrapper;

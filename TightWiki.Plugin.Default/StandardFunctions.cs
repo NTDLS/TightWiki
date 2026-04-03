@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Primitives;
-using NTDLS.Helpers;
+﻿using NTDLS.Helpers;
 using System.Reflection;
 using System.Text;
 using TightWiki.Plugin.Attributes;
