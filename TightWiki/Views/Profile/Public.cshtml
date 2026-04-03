@@ -10,20 +10,19 @@
 @{
     Layout = "_Layout";
 }
-
-<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
-    <div>
-        <h3 class="mb-1">
-            @Localizer["Profile"]
-        </h3>
-        <div class="text-muted">
-            @Localizer["Public profile information."]
-        </div>
-    </div>
-</div>
-
 @if (!string.IsNullOrWhiteSpace(Model.Navigation))
 {
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+        <div>
+            <h3 class="mb-1">
+                @Localizer["Profile"]
+            </h3>
+            <div class="text-muted">
+                @Localizer["Public profile information."]
+            </div>
+        </div>
+    </div>
+
     <div class="card shadow-sm mb-4">
         <div class="card-body">
             <div class="row g-4">
