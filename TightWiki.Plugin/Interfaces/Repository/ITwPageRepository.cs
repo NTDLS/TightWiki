@@ -22,6 +22,7 @@ namespace TightWiki.Plugin.Interfaces.Repository
         Task<string?> GetPageNavigationByPageId(int pageId);
         Task<List<TwPage>> GetTopRecentlyModifiedPagesInfo(int topCount);
         Task<List<TwPage>> GetTopRecentlyCreatedPagesInfo(int topCount);
+        Task<List<TwPage>> GetTopViewedPagesInfo(int topCount);
         Task<List<TwPage>> PageSearch(List<string> searchTerms);
         Task<List<TwPage>> PageSearchPaged(List<string> searchTerms, int pageNumber, int? pageSize = null, bool? allowFuzzyMatching = null);
         Task<List<TwRelatedPage>> GetSimilarPagesPaged(int pageId, int similarity, int pageNumber, int? pageSize = null);

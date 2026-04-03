@@ -467,9 +467,74 @@ namespace TightWiki.Plugin.Default
             throw new Exception($"File not found [{name}]");
         }
 
+        [TwStandardFunctionPlugin("MostViewed", "Creates a list of pages that have been most viewed.")]
+        public async Task<TwPluginResult> MostViewed(ITwEngineState state,
+            int top = 100, TwListStyle styleName = TwListStyle.Full, bool showNamespace = false)
+        {
+            var pages = (await state.Engine.DatabaseManager.PageRepository.GetTopViewedPagesInfo(top))
+                .OrderByDescending(o => o.TotalViewCount).ThenBy(o => o.Title).ToList();
+
+            if (pages.Count == 0)
+            {
+                return new TwPluginResult(string.Empty);
+            }
+
+            var html = new StringBuilder();
+
+            if (styleName == TwListStyle.Full)
+            {
+                html.Append("""<div class="tw-recent-pages">""");
+                foreach (var page in pages)
+                {
+                    html.Append($"""<div class="border-bottom">""");
+
+                    html.Append($"""<a href="{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}" class="d-block text-reset py-2">""");
+                    html.Append("""<span class="fw-semibold text-truncate">""");
+                    html.Append(showNamespace ? page.Name : page.Title);
+                    html.Append("""</span>""");
+                    html.Append("""<span class="small text-body-secondary text-nowrap ms-2">""");
+                    html.Append($"({page.TotalViewCount:n0})");
+                    html.Append("""</span>""");
+                    html.Append("""</a>""");
+
+                    if (!string.IsNullOrWhiteSpace(page.Description))
+                    {
+                        html.Append("""<div class="small text-body-secondary text-truncate">""");
+                        html.Append($"""{page.Description}""");
+                        html.Append("""</div>""");
+                    }
+                    html.Append("""</div>""");
+                }
+
+                html.Append("""</div>""");
+            }
+            else if (styleName == TwListStyle.List)
+            {
+                html.Append("<ul>");
+                foreach (var page in pages)
+                {
+                    if (showNamespace)
+                    {
+                        html.Append($"<li><a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\">{page.Name} ({page.TotalViewCount:n0})</a>");
+                    }
+                    else
+                    {
+                        html.Append($"<li><a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\">{page.Title} ({page.TotalViewCount:n0})</a>");
+                    }
+                    html.Append("</li>");
+                }
+                html.Append("</ul>");
+            }
+
+            return new TwPluginResult(html.ToString())
+            {
+                Instructions = [TwResultInstruction.DisallowNestedProcessing]
+            };
+        }
+
         [TwStandardFunctionPlugin("RecentlyModified", "Creates a list of pages that have been recently modified.")]
         public async Task<TwPluginResult> RecentlyModified(ITwEngineState state,
-            int top = 1000, TwListStyle styleName = TwListStyle.Full, bool showNamespace = false)
+            int top = 100, TwListStyle styleName = TwListStyle.Full, bool showNamespace = false)
         {
             if (state.Session == null)
             {
@@ -528,12 +593,9 @@ namespace TightWiki.Plugin.Default
                         html.Append($"<li><a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
                     }
 
-                    if (styleName == TwListStyle.Full)
+                    if (page?.Description?.Length > 0)
                     {
-                        if (page?.Description?.Length > 0)
-                        {
-                            html.Append(" - " + page.Description);
-                        }
+                        html.Append(" - " + page.Description);
                     }
                     html.Append("</li>");
                 }
@@ -607,12 +669,9 @@ namespace TightWiki.Plugin.Default
                         html.Append($"<li><a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
                     }
 
-                    if (styleName == TwListStyle.Full)
+                    if (page?.Description?.Length > 0)
                     {
-                        if (page?.Description?.Length > 0)
-                        {
-                            html.Append(" - " + page.Description);
-                        }
+                        html.Append(" - " + page.Description);
                     }
                     html.Append("</li>");
                 }

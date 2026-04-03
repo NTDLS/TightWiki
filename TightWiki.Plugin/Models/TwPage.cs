@@ -74,6 +74,7 @@ namespace TightWiki.Plugin.Models
         public string CreatedByUserName { get; set; } = string.Empty;
         public string ModifiedByUserName { get; set; } = string.Empty;
 
+        public int TotalViewCount { get; set; }
 
         public int PaginationPageCount { get; set; }
         public decimal Match { get; set; }

@@ -17,5 +17,6 @@
         string CreatedByUserName { get; }
         bool IsHistoricalVersion { get; }
         bool Exists { get; }
+        int TotalViewCount { get; set; }
     }
 }

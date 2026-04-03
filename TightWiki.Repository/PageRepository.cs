@@ -1,4 +1,5 @@
 ﻿using DuoVia.FuzzyStrings;
+using MailKit.Search;
 using Microsoft.Extensions.Configuration;
 using NTDLS.Helpers;
 using NTDLS.SqliteDapperWrapper;
@@ -131,6 +132,20 @@ namespace TightWiki.Repository
             };
 
             return await PagesFactory.ExecuteScalarAsync<string>("GetPageNavigationByPageId.sql", param);
+        }
+
+        public async Task<List<TwPage>> GetTopViewedPagesInfo(int topCount)
+        {
+            var param = new
+            {
+                TopCount = topCount
+            };
+
+            return await PagesFactory.EphemeralAsync(async o =>
+            {
+                using var statistics_db = o.Attach("statistics.db", "statistics_db");
+                return await o.QueryAsync<TwPage>("GetTopViewedPagesInfo.sql", param);
+            });
         }
 
         public async Task<List<TwPage>> GetTopRecentlyModifiedPagesInfo(int topCount)
