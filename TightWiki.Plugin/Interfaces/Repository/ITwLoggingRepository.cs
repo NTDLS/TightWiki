@@ -19,7 +19,8 @@ namespace TightWiki.Plugin.Interfaces.Repository
         Task WriteException(string? text = null, string? exceptionText = null, string? stackTrace = null);
         Task WriteLog(LogLevel severity, string? text = null, string? exceptionText = null, string? stackTrace = null);
         Task<int> GetExceptionCount();
-        Task<List<TwLogEntry>> GetLogEntriesPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null);
+        Task<List<TwLogEntry>> GetLogEntriesPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null, string? severity = null);
         Task<TwLogEntry> GetLogEntryById(int id);
+        Task<List<TwEventLogSeverity>> GetSeverities();
     }
 }

@@ -89,15 +89,21 @@ namespace TightWiki.Repository
             return await LoggingFactory.ExecuteScalarAsync<int>("GetExceptionCount.sql");
         }
 
+        public async Task<List<TwEventLogSeverity>> GetSeverities()
+        {
+            return await LoggingFactory.QueryAsync<TwEventLogSeverity>("GetSeverities.sql");
+        }
+
         public async Task<List<TwLogEntry>> GetLogEntriesPaged(int pageNumber,
-            string? orderBy = null, string? orderByDirection = null)
+            string? orderBy = null, string? orderByDirection = null, string? severity = null)
         {
             var paginationSize = await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
 
             var param = new
             {
                 PageNumber = pageNumber,
-                PageSize = paginationSize
+                PageSize = paginationSize,
+                Severity = severity
             };
 
             var query = RepositoryHelpers.TransposeOrderby("GetLogEntriesPaged.sql", orderBy, orderByDirection);

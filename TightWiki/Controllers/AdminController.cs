@@ -2008,8 +2008,8 @@ namespace TightWiki.Controllers
         #region EventLog.
 
         [Authorize]
-        [HttpGet("EventLog")]
-        public async Task<ActionResult> EventLog()
+        [HttpGet("EventLog/{severity?}")]
+        public async Task<ActionResult> EventLog(string? severity = null)
         {
             try
             {
@@ -2029,7 +2029,9 @@ namespace TightWiki.Controllers
 
                 var model = new EventLogViewModel()
                 {
-                    LogEntries = await loggingRepository.GetLogEntriesPaged(pageNumber, orderBy, orderByDirection)
+                    Severities = await loggingRepository.GetSeverities(),
+                    LogEntries = await loggingRepository.GetLogEntriesPaged(pageNumber, orderBy, orderByDirection, severity),
+                    SelectedSeverityName = severity
                 };
 
                 model.PaginationPageCount = (model.LogEntries.FirstOrDefault()?.PaginationPageCount ?? 0);

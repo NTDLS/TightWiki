@@ -17,6 +17,8 @@ FROM
 	Log as L
 INNER JOIN Severity as S
 	ON L.SeverityId = S.Id
+WHERE
+	(@Severity IS NULL OR S.Name = @Severity)
 --CUSTOM_ORDER_BEGIN::
 --CONFIG::
 /*

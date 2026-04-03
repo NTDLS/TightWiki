@@ -169,6 +169,7 @@
 
 	<ItemGroup>
 		<EmbeddedResource Include="Defaults\defaults.db" />
+		<EmbeddedResource Include="Scripts\GetSeverities.sql" />
 		<EmbeddedResource Include="Scripts\CreateSeverityTable.sql" />
 		<EmbeddedResource Include="Scripts\CreateLogTable.sql" />
 		<EmbeddedResource Include="Scripts\AddAccountMembership.sql" />
@@ -213,6 +214,7 @@
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.31.1\^001^Statistics^NewStatsStructure.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.31.2\^001^Pages^AddTagNavigation.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.31.3\^001^Statistics^NewStatsStructure.sql" />
+		<EmbeddedResource Include="Scripts\Initialization\Versions\2.34.4\^001^Logging^ChangeCollation.sql" />
 		<EmbeddedResource Include="Scripts\InsertRole.sql" />
 		<EmbeddedResource Include="Scripts\DoesRoleExist.sql" />
 		<EmbeddedResource Include="Scripts\InsertAccountPermission.sql" />

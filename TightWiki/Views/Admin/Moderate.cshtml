@@ -23,34 +23,24 @@
     </div>
 </div>
 
-<div class="card shadow-sm mb-3">
-    <div class="card-header">
-        <span class="fw-semibold">
-            <i class="bi bi-funnel me-2"></i>@Localizer["Filter"]
-        </span>
-    </div>
+@using (Html.BeginForm(FormMethod.Get, new { @class = "mb-3" }))
+{
+    <div class="border rounded-3 bg-body-tertiary px-3 py-2">
+        <div class="d-flex flex-column flex-md-row align-items-md-center gap-2">
+            <div class="d-flex align-items-center gap-2 flex-grow-1">
+                <label for="instructionDropdown" class="fw-semibold text-nowrap mb-0">
+                    <i class="bi bi-funnel me-1"></i>@Localizer["Filter"]
+                </label>
 
-    <div class="card-body">
-        @using (Html.BeginForm(FormMethod.Get))
-        {
-            <div class="row g-2 align-items-center">
-                <div class="col-12 col-md">
-                    @Html.DropDownListFor(
-                        m => m.Instruction,
-                        new SelectList(Model.Instructions),
-                        Localizer["Select an instruction"].Value,
-                        new { @class = "form-select", id = "instructionDropdown" })
-                </div>
-
-                <div class="col-12 col-md-auto">
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="bi bi-arrow-clockwise me-1"></i>@Localizer["Refresh"]
-                    </button>
-                </div>
+                @Html.DropDownListFor(
+                    m => m.Instruction,
+                    new SelectList(Model.Instructions),
+                    Localizer["Select an instruction"].Value,
+                    new { @class = "form-select", id = "instructionDropdown" })
             </div>
-        }
+        </div>
     </div>
-</div>
+}
 
 @if (Model.Pages.Count > 0)
 {
