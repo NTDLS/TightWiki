@@ -148,6 +148,16 @@ namespace TightWiki.Repository
             });
         }
 
+        public async Task<List<TwPage>> GetTopEditedPagesInfo(int topCount)
+        {
+            var param = new
+            {
+                TopCount = topCount
+            };
+
+            return await PagesFactory.QueryAsync<TwPage>("GetTopEditedPagesInfo.sql", param);
+        }
+
         public async Task<List<TwPage>> GetTopRecentlyModifiedPagesInfo(int topCount)
         {
             var param = new

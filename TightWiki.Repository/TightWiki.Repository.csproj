@@ -187,6 +187,7 @@
 		<EmbeddedResource Include="Scripts\Defaults\Merge\MergeTheme.sql" />
 		<EmbeddedResource Include="Scripts\Defaults\Merge\MergeConfigurationGroup.sql" />
 		<EmbeddedResource Include="Scripts\GetTopRecentlyCreatedPagesInfo.sql" />
+		<EmbeddedResource Include="Scripts\GetTopEditedPagesInfo.sql" />
 		<EmbeddedResource Include="Scripts\GetTopViewedPagesInfo.sql" />
 		<EmbeddedResource Include="Scripts\GetTotalPageCommentCount.sql" />
 		<EmbeddedResource Include="Scripts\DeleteRole.sql" />
