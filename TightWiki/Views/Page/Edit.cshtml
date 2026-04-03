@@ -986,7 +986,7 @@
                 body: JSON.stringify({
                     body: body,
                     name: pageName,
-                    pageNavigation: '@sessionState.PageNavigation'
+                    pageNavigation: editMode == true ? '@sessionState.PageNavigation' : ''
                 })
             });
 
