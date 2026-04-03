@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Options;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Globalization;
 using System.Text;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using TightWiki.Engine;
 using TightWiki.Library;
@@ -883,37 +885,41 @@ namespace TightWiki.Controllers
                     });
                 }
 
-                //We're really only showing the text that was passed in, so this check is wholly unnecessary.
-                /*
                 try
                 {
-                    //If the page exists, user must have read access to preview since we will show the existing page content with the new content.
-                    var existingPage = pageRepository.GetPageRevisionByNavigation(request.PageNavigation);
-                    if (existingPage != null)
+                    TwPage? page = null;
+
+                    if (!string.IsNullOrWhiteSpace(request.PageNavigation))
                     {
-                        SessionState.RequirePermission(request.PageNavigation, WikiPermission.Read);
+                        page = await pageRepository.GetPageRevisionByNavigation(request.PageNavigation);
+                        if (page != null)
+                        {
+                            await SessionState.RequirePermission(request.PageNavigation, TwPermission.Read);
+                        }
                     }
+
+                    page ??= new TwPage();
+                    page.Body = request.Body;
+                    page.Name = request.Name;
+                    page.Navigation = request.PageNavigation;
+
+                    var state = await tightEngine.Transform(Localizer, SessionState, page);
+
+                    return Json(new
+                    {
+                        success = true,
+                        html = state.HtmlResult
+                    });
+
                 }
                 catch (Exception ex)
                 {
-                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                    return Json(new
+                    {
+                        success = false,
+                        html = ex.GetBaseException().Message
+                    });
                 }
-                */
-
-                var page = new TwPage()
-                {
-                    Body = request.Body,
-                    Name = request.Name,
-                    Navigation = request.PageNavigation,
-                };
-
-                var state = await tightEngine.Transform(Localizer, SessionState, page);
-
-                return Json(new
-                {
-                    success = true,
-                    html = state.HtmlResult
-                });
             }
             catch (Exception ex)
             {
