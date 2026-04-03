@@ -6,10 +6,10 @@ using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Styler;
 
-namespace TightWiki.Plugin.Default
+namespace TightWiki.Plugin.Default.ScopeFunctions
 {
-    [TwPlugin("Default Scope Functions", "Built-in scope functions.")]
-    public class ScopeFunctions
+    [TwPlugin("Presentation Functions", "Built-in scope functions.")]
+    public class PresentationFunctions
     {
         [TwScopeFunctionPlugin("Code", "Renders a block of code with optional syntax highlighting.", isFirstChance: true)]
         public async Task<TwPluginResult> Code(ITwEngineState state, string scopeBody,
@@ -202,136 +202,6 @@ namespace TightWiki.Plugin.Default
                     }
                     break;
             }
-            return new TwPluginResult(html.ToString());
-        }
-
-        [TwScopeFunctionPlugin("DefineSnippet", "Defines a reusable snippet of content.")]
-        public async Task<TwPluginResult> DefineSnippet(ITwEngineState state, string scopeBody,
-            string name)
-        {
-            var html = new StringBuilder();
-
-            if (!state.Snippets.TryAdd(name, scopeBody))
-            {
-                state.Snippets[name] = scopeBody;
-            }
-
-            return new TwPluginResult(html.ToString());
-        }
-
-        [TwScopeFunctionPlugin("Alert", "Renders an alert box with optional style and title.")]
-        public async Task<TwPluginResult> Alert(ITwEngineState state, string scopeBody,
-            TwBootstrapStyle styleName = TwBootstrapStyle.Default, string titleText = "")
-        {
-            var html = new StringBuilder();
-
-            var style = styleName == TwBootstrapStyle.Default ? "" : $"alert-{styleName.ToString().ToLowerInvariant()}";
-
-            if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h3>{titleText}</h3>{scopeBody}";
-            html.Append($"<div class=\"alert {style} shadow-lg\">{scopeBody}</div>");
-            return new TwPluginResult(html.ToString());
-        }
-
-        [TwScopeFunctionPlugin("Order", "Orders a list of items in ascending or descending order.")]
-        public async Task<TwPluginResult> Order(ITwEngineState state, string scopeBody,
-            TwOrder direction = TwOrder.Ascending)
-        {
-            var html = new StringBuilder();
-
-            var lines = scopeBody.Split("\n").Select(o => o.Trim()).ToList();
-
-            switch (direction)
-            {
-                case TwOrder.Ascending:
-                    html.Append(string.Join("\r\n", lines.OrderBy(o => o)));
-                    break;
-                case TwOrder.Descending:
-                    html.Append(string.Join("\r\n", lines.OrderByDescending(o => o)));
-                    break;
-            }
-            return new TwPluginResult(html.ToString());
-        }
-
-        [TwScopeFunctionPlugin("Jumbotron", "Renders a jumbotron with optional style and title.")]
-        public async Task<TwPluginResult> Jumbotron(ITwEngineState state, string scopeBody,
-            TwBootstrapStyle styleName = TwBootstrapStyle.Secondary, string? titleText = null)
-        {
-            var html = new StringBuilder();
-
-            var fillStyle = TwFillStyler.GetBackgroundStyle(styleName);
-
-            html.Append($"<div class=\"mt-4 p-5 {fillStyle.ForegroundStyle} {fillStyle.BackgroundStyle} rounded\">");
-            if (!string.IsNullOrEmpty(titleText)) html.Append($"<h1>{titleText}</h1>");
-            html.Append($"<p>{scopeBody}</p>");
-            html.Append($"</div>");
-            return new TwPluginResult(html.ToString());
-        }
-
-        [TwScopeFunctionPlugin("Foreground", "Renders text with a specified foreground color.")]
-        public async Task<TwPluginResult> Foreground(ITwEngineState state, string scopeBody,
-            TwBootstrapStyle styleName = TwBootstrapStyle.Default)
-        {
-            var html = new StringBuilder();
-
-            var style = TwFillStyler.GetForegroundStyle(styleName).Swap();
-            html.Append($"<p class=\"{style.ForegroundStyle} {style.BackgroundStyle}\">{scopeBody}</p>");
-            return new TwPluginResult(html.ToString());
-        }
-
-        [TwScopeFunctionPlugin("Background", "Renders text with a specified background color.")]
-        public async Task<TwPluginResult> Background(ITwEngineState state, string scopeBody,
-            TwBootstrapStyle styleName = TwBootstrapStyle.Default)
-        {
-            var html = new StringBuilder();
-
-            var style = TwFillStyler.GetBackgroundStyle(styleName).Swap();
-            html.Append($"<div class=\"p-3 mb-2 {style.ForegroundStyle} {style.BackgroundStyle}\">{scopeBody}</div>");
-            return new TwPluginResult(html.ToString());
-        }
-
-        [TwScopeFunctionPlugin("Collapse", "Renders a collapsible section with optional link text.")]
-        public async Task<TwPluginResult> Collapse(ITwEngineState state, string scopeBody, string linkText = "Show")
-        {
-            var html = new StringBuilder();
-
-            string uid = "A" + Guid.NewGuid().ToString().Replace("-", "");
-            html.Append($"<a data-bs-toggle=\"collapse\" href=\"#{uid}\" role=\"button\" aria-expanded=\"false\" aria-controls=\"{uid}\">{linkText}</a>");
-            html.Append($"<div class=\"collapse\" id=\"{uid}\">");
-            html.Append($"<div class=\"card card-body\"><p class=\"card-text\">{scopeBody}</p></div></div>");
-            return new TwPluginResult(html.ToString());
-        }
-
-        [TwScopeFunctionPlugin("Callout", "Renders a callout box with optional style and title.")]
-        public async Task<TwPluginResult> Callout(ITwEngineState state, string scopeBody,
-            TwBootstrapStyle styleName = TwBootstrapStyle.Default, string? titleText = null)
-        {
-            var html = new StringBuilder();
-
-            html.Append($"<div class=\"bd-callout bd-callout-{styleName.ToString().ToLowerInvariant()} shadow-lg\">");
-            if (!string.IsNullOrWhiteSpace(titleText)) html.Append($"<h4>{titleText}</h4>");
-            html.Append($"{scopeBody}");
-            html.Append($"</div>");
-            return new TwPluginResult(html.ToString());
-        }
-
-        [TwScopeFunctionPlugin("Card", "Renders a card with optional style and title.")]
-        public async Task<TwPluginResult> Card(ITwEngineState state, string scopeBody,
-            TwBootstrapStyle styleName = TwBootstrapStyle.Default, string? titleText = null)
-        {
-            var html = new StringBuilder();
-
-            var borderStyle = TwBorderStyler.GetBorderStyle(styleName);
-            var fillStyle = TwFillStyler.GetBackgroundStyle(styleName);
-
-            html.Append($"<div class=\"card {borderStyle.ForegroundStyle} {borderStyle.BorderStyle} shadow-lg mb-3\">");
-            if (string.IsNullOrEmpty(titleText) == false)
-            {
-                html.Append($"<div class=\"card-header {fillStyle.ForegroundStyle} {fillStyle.BackgroundStyle}\">{titleText}</div>");
-            }
-            html.Append("<div class=\"card-body\">");
-            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-            html.Append("</div>");
-            html.Append("</div>");
             return new TwPluginResult(html.ToString());
         }
 

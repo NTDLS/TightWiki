@@ -4,68 +4,11 @@ using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using static TightWiki.Plugin.TwConstants;
 
-namespace TightWiki.Plugin.Default
+namespace TightWiki.Plugin.Default.ProcessingInstructionFunctions
 {
-    [TwPlugin("Default Processing Instructions", "Built-in processing instruction functions.")]
-    public class ProcessingInstructionFunctions
+    [TwPlugin("Page Classification & Editorial State", "Built-in processing instruction functions.")]
+    public class ClassificationFunctions
     {
-        //Associates tags with a page. These are saved with the page and can also be displayed.
-        [TwProcessingInstructionFunctionPlugin("Tags", "Associates tags with a page. These are saved with the page and can also be displayed.")]
-        public async Task<TwPluginResult> Tags(ITwEngineState state,
-            string[] pageTags)
-        {
-            state.Tags.AddRange(pageTags);
-            state.Tags = state.Tags.Distinct().ToList();
-
-            return new TwPluginResult(string.Empty)
-            {
-                Instructions = [TwResultInstruction.TruncateTrailingLine]
-            };
-        }
-
-        [TwProcessingInstructionFunctionPlugin("Title", "Sets the title of the page.")]
-        public async Task<TwPluginResult> Title(ITwEngineState state,
-            string pageTitle)
-        {
-            state.PageTitle = pageTitle;
-
-            return new TwPluginResult(string.Empty)
-            {
-                Instructions = [TwResultInstruction.TruncateTrailingLine]
-            };
-        }
-
-        [TwProcessingInstructionFunctionPlugin("HideFooterLastModified", "Hides the last modified information in the footer.")]
-        public async Task<TwPluginResult> HideFooterLastModified(ITwEngineState state)
-        {
-            state.ProcessingInstructions.Add(TwInstruction.HideFooterLastModified);
-
-            return new TwPluginResult(string.Empty)
-            {
-                Instructions = [TwResultInstruction.TruncateTrailingLine]
-            };
-        }
-
-        [TwProcessingInstructionFunctionPlugin("HideFooterComments", "Hides the comments section in the footer.")]
-        public async Task<TwPluginResult> HideFooterComments(ITwEngineState state)
-        {
-            state.ProcessingInstructions.Add(TwInstruction.HideFooterComments);
-            return new TwPluginResult(string.Empty)
-            {
-                Instructions = [TwResultInstruction.TruncateTrailingLine]
-            };
-        }
-
-        [TwProcessingInstructionFunctionPlugin("NoCache", "Prevents the page from being cached.")]
-        public async Task<TwPluginResult> NoCache(ITwEngineState state)
-        {
-            state.ProcessingInstructions.Add(TwInstruction.NoCache);
-            return new TwPluginResult(string.Empty)
-            {
-                Instructions = [TwResultInstruction.TruncateTrailingLine]
-            };
-        }
-
         [TwProcessingInstructionFunctionPlugin("Deprecate", "Marks the page as deprecated.")]
         public async Task<TwPluginResult> Deprecate(ITwEngineState state)
         {
@@ -73,23 +16,6 @@ namespace TightWiki.Plugin.Default
             {
                 state.ProcessingInstructions.Add(TwInstruction.Deprecate);
                 state.Headers.Add("<div class=\"alert alert-danger\">This page has been deprecated and will eventually be deleted.</div>");
-            }
-            return new TwPluginResult(string.Empty)
-            {
-                Instructions = [TwResultInstruction.TruncateTrailingLine]
-            };
-        }
-
-        [TwProcessingInstructionFunctionPlugin("Protect", "Protects the page from being altered by non-moderators.")]
-        public async Task<TwPluginResult> Protect(ITwEngineState state, bool isSilent)
-        {
-            if (state.NestDepth == 0)
-            {
-                state.ProcessingInstructions.Add(TwInstruction.Protect);
-                if (isSilent == false)
-                {
-                    state.Headers.Add("<div class=\"alert alert-info\">This page has been protected and can not be changed by non-moderators.</div>");
-                }
             }
             return new TwPluginResult(string.Empty)
             {
