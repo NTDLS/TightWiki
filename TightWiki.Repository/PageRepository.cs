@@ -143,6 +143,16 @@ namespace TightWiki.Repository
             return await PagesFactory.QueryAsync<TwPage>("GetTopRecentlyModifiedPagesInfo.sql", param);
         }
 
+        public async Task<List<TwPage>> GetTopRecentlyCreatedPagesInfo(int topCount)
+        {
+            var param = new
+            {
+                TopCount = topCount
+            };
+
+            return await PagesFactory.QueryAsync<TwPage>("GetTopRecentlyCreatedPagesInfo.sql", param);
+        }
+
         private async Task<List<TwPageSearchToken>> GetFuzzyPageSearchTokens(List<TwPageToken> tokens, double minimumMatchScore)
         {
             return await PagesFactory.EphemeralAsync(async o =>

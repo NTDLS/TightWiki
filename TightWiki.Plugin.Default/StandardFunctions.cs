@@ -1,4 +1,5 @@
-﻿using NTDLS.Helpers;
+﻿using Microsoft.Extensions.Primitives;
+using NTDLS.Helpers;
 using System.Reflection;
 using System.Text;
 using TightWiki.Plugin.Attributes;
@@ -470,12 +471,50 @@ namespace TightWiki.Plugin.Default
         public async Task<TwPluginResult> RecentlyModified(ITwEngineState state,
             int top = 1000, TwListStyle styleName = TwListStyle.Full, bool showNamespace = false)
         {
+            if (state.Session == null)
+            {
+                throw new Exception($"Localization is not supported without SessionState.");
+            }
+
             var pages = (await state.Engine.DatabaseManager.PageRepository.GetTopRecentlyModifiedPagesInfo(top))
                 .OrderByDescending(o => o.ModifiedDate).ThenBy(o => o.Title).ToList();
 
+            if (pages.Count == 0)
+            {
+                return new TwPluginResult(string.Empty);
+            }
+
             var html = new StringBuilder();
 
-            if (pages.Count > 0)
+            if (styleName == TwListStyle.Full)
+            {
+                html.Append("""<div class="tw-recent-pages">""");
+                foreach (var page in pages)
+                {
+                    var localized = state.Session.LocalizeDateTime(state.Page.ModifiedDate);
+                    html.Append($"""<div class="border-bottom">""");
+
+                    html.Append($"""<a href="{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}" class="d-block text-reset py-2">""");
+                    html.Append("""<span class="fw-semibold text-truncate">""");
+                    html.Append(showNamespace ? page.Name : page.Title);
+                    html.Append("""</span>""");
+                    html.Append("""<span class="small text-body-secondary text-nowrap ms-2">""");
+                    html.Append($"({localized.ToShortDateString()} {localized.ToShortTimeString()})");
+                    html.Append("""</span>""");
+                    html.Append("""</a>""");
+
+                    if (!string.IsNullOrWhiteSpace(page.Description))
+                    {
+                        html.Append("""<div class="small text-body-secondary text-truncate">""");
+                        html.Append($"""{page.Description}""");
+                        html.Append("""</div>""");
+                    }
+                    html.Append("""</div>""");
+                }
+
+                html.Append("""</div>""");
+            }
+            else if (styleName == TwListStyle.List)
             {
                 html.Append("<ul>");
                 foreach (var page in pages)
@@ -501,7 +540,89 @@ namespace TightWiki.Plugin.Default
                 html.Append("</ul>");
             }
 
-            return new TwPluginResult(html.ToString());
+            return new TwPluginResult(html.ToString())
+            {
+                Instructions = [TwResultInstruction.DisallowNestedProcessing]
+            };
+        }
+
+        [TwStandardFunctionPlugin("RecentlyCreated", "Creates a list of pages that have been recently created.")]
+        public async Task<TwPluginResult> RecentlyCreated(ITwEngineState state,
+            int top = 100, TwListStyle styleName = TwListStyle.Full, bool showNamespace = false)
+        {
+            if (state.Session == null)
+            {
+                throw new Exception($"Localization is not supported without SessionState.");
+            }
+
+            var pages = (await state.Engine.DatabaseManager.PageRepository.GetTopRecentlyModifiedPagesInfo(top))
+                .OrderByDescending(o => o.ModifiedDate).ThenBy(o => o.Title).ToList();
+
+            if (pages.Count == 0)
+            {
+                return new TwPluginResult(string.Empty);
+            }
+
+            var html = new StringBuilder();
+
+            if (styleName == TwListStyle.Full)
+            {
+                html.Append("""<div class="tw-recent-pages">""");
+                foreach (var page in pages)
+                {
+                    var localized = state.Session.LocalizeDateTime(state.Page.CreatedDate);
+                    html.Append($"""<div class="border-bottom">""");
+
+                    html.Append($"""<a href="{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}" class="d-block text-reset py-2">""");
+                    html.Append("""<span class="fw-semibold text-truncate">""");
+                    html.Append(showNamespace ? page.Name : page.Title);
+                    html.Append("""</span>""");
+                    html.Append("""<span class="small text-body-secondary text-nowrap ms-2">""");
+                    html.Append($"({localized.ToShortDateString()} {localized.ToShortTimeString()})");
+                    html.Append("""</span>""");
+                    html.Append("""</a>""");
+
+                    if (!string.IsNullOrWhiteSpace(page.Description))
+                    {
+                        html.Append("""<div class="small text-body-secondary text-truncate">""");
+                        html.Append($"""{page.Description}""");
+                        html.Append("""</div>""");
+                    }
+                    html.Append("""</div>""");
+                }
+
+                html.Append("""</div>""");
+            }
+            else if (styleName == TwListStyle.List)
+            {
+                html.Append("<ul>");
+                foreach (var page in pages)
+                {
+                    if (showNamespace)
+                    {
+                        html.Append($"<li><a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\">{page.Name}</a>");
+                    }
+                    else
+                    {
+                        html.Append($"<li><a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
+                    }
+
+                    if (styleName == TwListStyle.Full)
+                    {
+                        if (page?.Description?.Length > 0)
+                        {
+                            html.Append(" - " + page.Description);
+                        }
+                    }
+                    html.Append("</li>");
+                }
+                html.Append("</ul>");
+            }
+
+            return new TwPluginResult(html.ToString())
+            {
+                Instructions = [TwResultInstruction.DisallowNestedProcessing]
+            };
         }
 
         [TwStandardFunctionPlugin("NamespaceGlossary", "Creates a glossary of pages in the specified namespace.")]
@@ -717,9 +838,36 @@ namespace TightWiki.Plugin.Default
             var searchTokens = searchPhrase.Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
 
             var pages = await state.Engine.DatabaseManager.PageRepository.PageSearchPaged(searchTokens, pageNumber, pageSize, allowFuzzyMatching);
+
+            if (pages.Count == 0)
+            {
+                return new TwPluginResult(string.Empty);
+            }
+
             var html = new StringBuilder();
 
-            if (pages.Count > 0)
+            if (styleName == TwListStyle.Full)
+            {
+                foreach (var page in pages)
+                {
+                    html.Append($"""<div class="border-bottom">""");
+
+                    html.Append($"""<a href="{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}" class="d-block text-reset py-2">""");
+                    html.Append("""<span class="fw-semibold text-truncate">""");
+                    html.Append(showNamespace ? page.Name : page.Title);
+                    html.Append("""</span>""");
+                    html.Append("""</a>""");
+
+                    if (!string.IsNullOrWhiteSpace(page.Description))
+                    {
+                        html.Append("""<div class="small text-body-secondary text-truncate">""");
+                        html.Append($"""{page.Description}""");
+                        html.Append("""</div>""");
+                    }
+                    html.Append("""</div>""");
+                }
+            }
+            else if (styleName == TwListStyle.List)
             {
                 html.Append("<ul>");
 
@@ -733,18 +881,8 @@ namespace TightWiki.Plugin.Default
                     {
                         html.Append($"<li><a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
                     }
-
-                    if (styleName == TwListStyle.Full)
-                    {
-                        if (page?.Description?.Length > 0)
-                        {
-                            html.Append(" - " + page.Description);
-                        }
-                    }
-
                     html.Append("</li>");
                 }
-
                 html.Append("</ul>");
             }
 
@@ -753,7 +891,10 @@ namespace TightWiki.Plugin.Default
                 html.Append(TwPageSelectorGenerator.Generate(state.QueryString, pages.FirstOrDefault()?.PaginationPageCount ?? 1, refTag));
             }
 
-            return new TwPluginResult(html.ToString());
+            return new TwPluginResult(html.ToString())
+            {
+                Instructions = [TwResultInstruction.DisallowNestedProcessing]
+            };
         }
 
         [TwStandardFunctionPlugin("TagList", "Creates a list of pages by searching the page tags.")]
@@ -824,12 +965,24 @@ namespace TightWiki.Plugin.Default
                     }
                     break;
                 case TwTabularStyle.Full:
-                    html.Append("<ul>");
                     foreach (var page in pages)
                     {
-                        html.Append($"<li><a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a> - {page.Description}");
+                        html.Append($"""<div class="border-bottom">""");
+
+                        html.Append($"""<a href="{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}" class="d-block text-reset py-2">""");
+                        html.Append("""<span class="fw-semibold text-truncate">""");
+                        html.Append(page.Name);
+                        html.Append("""</span>""");
+                        html.Append("""</a>""");
+
+                        if (!string.IsNullOrWhiteSpace(page.Description))
+                        {
+                            html.Append("""<div class="small text-body-secondary text-truncate">""");
+                            html.Append($"""{page.Description}""");
+                            html.Append("""</div>""");
+                        }
+                        html.Append("""</div>""");
                     }
-                    html.Append("</ul>");
                     break;
             }
 
@@ -870,12 +1023,24 @@ namespace TightWiki.Plugin.Default
                     }
                     break;
                 case TwTabularStyle.Full:
-                    html.Append("<ul>");
                     foreach (var page in pages)
                     {
-                        html.Append($"<li><a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a> - {page.Description}");
+                        html.Append($"""<div class="border-bottom">""");
+
+                        html.Append($"""<a href="{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}" class="d-block text-reset py-2">""");
+                        html.Append("""<span class="fw-semibold text-truncate">""");
+                        html.Append(page.Name);
+                        html.Append("""</span>""");
+                        html.Append("""</a>""");
+
+                        if (!string.IsNullOrWhiteSpace(page.Description))
+                        {
+                            html.Append("""<div class="small text-body-secondary text-truncate">""");
+                            html.Append($"""{page.Description}""");
+                            html.Append("""</div>""");
+                        }
+                        html.Append("""</div>""");
                     }
-                    html.Append("</ul>");
                     break;
             }
 

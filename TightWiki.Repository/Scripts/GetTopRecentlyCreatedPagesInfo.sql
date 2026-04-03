@@ -11,6 +11,6 @@ SELECT
 FROM
 	[Page] as P
 ORDER BY
-	P.ModifiedDate DESC,
+	P.CreatedDate DESC,
 	P.[Name] ASC
 LIMIT @TopCount
