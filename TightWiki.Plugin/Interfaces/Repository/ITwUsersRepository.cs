@@ -55,7 +55,8 @@ namespace TightWiki.Plugin.Interfaces.Repository
         Task<TwAccountProfile> GetAccountProfileByUserId(Guid userId, bool forceReCache = false);
         Task SetProfileUserId(string navigation, Guid userId);
         Task<Guid?> GetUserAccountIdByNavigation(string navigation);
-        Task<TwAccountProfile> GetAccountProfileByNavigation(string? navigation);
+        Task<TwAccountProfile?> GetAccountProfileByNavigation(string? navigation);
+
         Task<TwAccountProfile?> GetProfileByAccountNameOrEmailAndPasswordHash(string accountNameOrEmail, string passwordHash);
         Task<TwAccountProfile?> GetProfileByAccountNameOrEmailAndPassword(string accountNameOrEmail, string password);
         Task<TwProfileAvatar?> GetProfileAvatarByNavigation(string navigation);

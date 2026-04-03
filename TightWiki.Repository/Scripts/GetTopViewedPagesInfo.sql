@@ -16,4 +16,4 @@ INNER JOIN [Page] as P
 ORDER BY
 	Stats.TotalViewCount DESC,
 	P.[Name] ASC
-LIMIT @TopCount
+LIMIT @TopCount;

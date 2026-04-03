@@ -449,14 +449,14 @@ namespace TightWiki.Repository
             return await UsersFactory.QueryFirstOrDefaultAsync<Guid>("GetUserAccountIdByNavigation.sql", param);
         }
 
-        public async Task<TwAccountProfile> GetAccountProfileByNavigation(string? navigation)
+        public async Task<TwAccountProfile?> GetAccountProfileByNavigation(string? navigation)
         {
             var param = new
             {
                 Navigation = navigation
             };
 
-            return await UsersFactory.QuerySingleAsync<TwAccountProfile>("GetAccountProfileByNavigation.sql", param);
+            return await UsersFactory.QuerySingleOrDefaultAsync<TwAccountProfile>("GetAccountProfileByNavigation.sql", param);
         }
 
         public async Task<TwAccountProfile?> GetProfileByAccountNameOrEmailAndPasswordHash(string accountNameOrEmail, string passwordHash)

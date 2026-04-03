@@ -414,7 +414,8 @@ namespace TightWiki.Controllers
 
                 navigation = TwNavigation.Clean(navigation);
 
-                var profile = await usersRepository.GetAccountProfileByNavigation(navigation);
+                var profile = await usersRepository.GetAccountProfileByNavigation(navigation)
+                    ?? throw new Exception(Localize("Account not found."));
 
                 var model = new AccountRolesViewModel()
                 {
@@ -461,11 +462,13 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
+
+                var accountProfile = await usersRepository.GetAccountProfileByNavigation(TwNavigation.Clean(navigation))
+                    ?? throw new Exception(Localize("Account not found."));
+
                 var model = new AccountProfileViewModel()
                 {
-                    AccountProfile = AccountProfileAccountViewModel.FromDataModel(
-                        await usersRepository.GetAccountProfileByNavigation(TwNavigation.Clean(navigation))),
-
+                    AccountProfile = AccountProfileAccountViewModel.FromDataModel(accountProfile),
                     Credential = new CredentialViewModel(),
                     Themes = await configurationRepository.GetAllThemes(),
                     TimeZones = TimeZoneItem.GetAll(),
@@ -906,7 +909,8 @@ namespace TightWiki.Controllers
                 }
                 if (model.UserSelection == true)
                 {
-                    var profile = await usersRepository.GetAccountProfileByNavigation(navigation);
+                    var profile = await usersRepository.GetAccountProfileByNavigation(navigation)
+                        ?? throw new Exception(Localize("Account not found."));
 
                     var user = UserManager.FindByIdAsync(profile.UserId.ToString()).Result;
                     if (user == null)
