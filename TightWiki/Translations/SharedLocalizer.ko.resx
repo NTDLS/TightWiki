@@ -2671,4 +2671,10 @@
   <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
     <value>위키의 바닥글로, 모든 페이지 맨 아래에 표시됩니다. 이 필드는 마크업을 지원합니다.</value>
   </data>
+  <data name="Account not found." xml:space="preserve">
+    <value>계정을 찾을 수 없습니다.</value>
+  </data>
+  <data name="Select a severity" xml:space="preserve">
+    <value>심각도를 선택하세요</value>
+  </data>
 </root>

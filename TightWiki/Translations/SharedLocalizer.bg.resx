@@ -2671,4 +2671,10 @@
   <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
     <value>Долният колонтитул на уикито, показва се в долната част на всички страници. Този полета поддържа маркиране.</value>
   </data>
+  <data name="Account not found." xml:space="preserve">
+    <value>Профилът не е намерен.</value>
+  </data>
+  <data name="Select a severity" xml:space="preserve">
+    <value>Изберете степен на сериозност</value>
+  </data>
 </root>

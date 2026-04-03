@@ -2671,4 +2671,10 @@
   <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
     <value>Нижня частина вікі, вона відображається в нижній частині всіх сторінок. Це поле підтримує розмітку.</value>
   </data>
+  <data name="Account not found." xml:space="preserve">
+    <value>Обліковий запис не знайдено.</value>
+  </data>
+  <data name="Select a severity" xml:space="preserve">
+    <value>Виберіть рівень серйозності</value>
+  </data>
 </root>

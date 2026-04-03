@@ -2671,4 +2671,10 @@
   <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
     <value>Stopka wiki, wyświetlana na dole wszystkich stron. To pole obsługuje formatowanie.</value>
   </data>
+  <data name="Account not found." xml:space="preserve">
+    <value>Konto nie zostało odnalezione.</value>
+  </data>
+  <data name="Select a severity" xml:space="preserve">
+    <value>Wybierz poziom powagi</value>
+  </data>
 </root>

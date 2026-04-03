@@ -2671,4 +2671,10 @@
   <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
     <value>De voettekst van de wiki, dit wordt onderaan alle pagina's weergegeven. Dit veld ondersteunt opmaak.</value>
   </data>
+  <data name="Account not found." xml:space="preserve">
+    <value>Account niet gevonden.</value>
+  </data>
+  <data name="Select a severity" xml:space="preserve">
+    <value>Selecteer een ernst</value>
+  </data>
 </root>

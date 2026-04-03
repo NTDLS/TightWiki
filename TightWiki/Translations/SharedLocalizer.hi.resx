@@ -2671,4 +2671,10 @@
   <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
     <value>विकी का फुटर, यह सभी पृष्ठों के नीचे दिखाया जाता है। यह फ़ील्ड मार्कअप का समर्थन करता है।</value>
   </data>
+  <data name="Account not found." xml:space="preserve">
+    <value>खाता नहीं मिला।</value>
+  </data>
+  <data name="Select a severity" xml:space="preserve">
+    <value>तीव्रता चुनें</value>
+  </data>
 </root>

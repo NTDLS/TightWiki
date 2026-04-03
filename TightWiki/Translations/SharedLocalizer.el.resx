@@ -2671,4 +2671,10 @@
   <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
     <value>Το κάτω μέρος του wiki, εμφανίζεται στο κάτω μέρος όλων των σελίδων. Αυτό το πεδίο υποστηρίζει μορφοποίηση.</value>
   </data>
+  <data name="Account not found." xml:space="preserve">
+    <value>Ο λογαριασμός δεν βρέθηκε.</value>
+  </data>
+  <data name="Select a severity" xml:space="preserve">
+    <value>Επιλέξτε σοβαρότητα</value>
+  </data>
 </root>

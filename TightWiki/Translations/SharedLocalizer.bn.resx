@@ -2671,4 +2671,10 @@
   <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
     <value>উইকির ফুটার, এটি সমস্ত পৃষ্ঠার নিচে দেখানো হয়। এই ক্ষেত্রটি মার্কআপ সমর্থন করে।</value>
   </data>
+  <data name="Account not found." xml:space="preserve">
+    <value>অ্যাকাউন্ট খুঁজে পাওয়া যায়নি।</value>
+  </data>
+  <data name="Select a severity" xml:space="preserve">
+    <value>একটি গুরুত্ব নির্বাচন করুন</value>
+  </data>
 </root>

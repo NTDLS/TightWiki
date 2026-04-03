@@ -2671,4 +2671,10 @@
   <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
     <value>Vikinin alt bilgisi, bu bütün səhifələrin aşağısında göstərilir. Bu sahə markup-u dəstəkləyir.</value>
   </data>
+  <data name="Account not found." xml:space="preserve">
+    <value>Hesab tapılmadı.</value>
+  </data>
+  <data name="Select a severity" xml:space="preserve">
+    <value>Bir çox aşağı seçin</value>
+  </data>
 </root>

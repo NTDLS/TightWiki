@@ -2671,4 +2671,10 @@
   <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
     <value>Fótur vefsíðunnar, þetta er sýnt neðst á öllum síðum. Þetta reit styður markup.</value>
   </data>
+  <data name="Account not found." xml:space="preserve">
+    <value>Reikningur finnst ekki.</value>
+  </data>
+  <data name="Select a severity" xml:space="preserve">
+    <value>Veldu alvarleikastig</value>
+  </data>
 </root>

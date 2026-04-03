@@ -2671,4 +2671,10 @@
   <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
     <value>Subsolul wiki-ului, acesta este afișat în partea de jos a tuturor paginilor. Acest câmp suportă marcajul.</value>
   </data>
+  <data name="Account not found." xml:space="preserve">
+    <value>Contul nu a fost găsit.</value>
+  </data>
+  <data name="Select a severity" xml:space="preserve">
+    <value>Selectează o severitate</value>
+  </data>
 </root>

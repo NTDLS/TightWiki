@@ -2671,4 +2671,10 @@
   <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
     <value>Footer wiki, ini dipaparkan di bahagian bawah semua halaman. Medan ini menyokong markup.</value>
   </data>
+  <data name="Account not found." xml:space="preserve">
+    <value>Akaun tidak ditemui.</value>
+  </data>
+  <data name="Select a severity" xml:space="preserve">
+    <value>Pilih tahap keparahan</value>
+  </data>
 </root>

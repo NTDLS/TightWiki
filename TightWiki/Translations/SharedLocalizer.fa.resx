@@ -2671,4 +2671,10 @@
   <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
     <value>پایین صفحه ویکی، این قسمت در پایین تمامی صفحات نشان داده می‌شود. این فیلد از قالب‌بندی پشتیبانی می‌کند.</value>
   </data>
+  <data name="Account not found." xml:space="preserve">
+    <value>حساب کاربری یافت نشد.</value>
+  </data>
+  <data name="Select a severity" xml:space="preserve">
+    <value>یک درجه شدت را انتخاب کنید</value>
+  </data>
 </root>

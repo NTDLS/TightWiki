@@ -2671,4 +2671,10 @@
   <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
     <value>Noga wikija, prikazuje se na dnu vseh strani. To polje podpira označevanje.</value>
   </data>
+  <data name="Account not found." xml:space="preserve">
+    <value>Računa ni bilo mogoče najti.</value>
+  </data>
+  <data name="Select a severity" xml:space="preserve">
+    <value>Izberi resnost</value>
+  </data>
 </root>

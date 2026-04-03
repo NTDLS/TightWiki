@@ -2662,4 +2662,10 @@
   <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
     <value>Fotnoten i wikien, dette vises nederst på alle sider. Dette feltet støtter markup.</value>
   </data>
+  <data name="Account not found." xml:space="preserve">
+    <value>Konto ikke funnet.</value>
+  </data>
+  <data name="Select a severity" xml:space="preserve">
+    <value>Velg en alvorlighetsgrad</value>
+  </data>
 </root>

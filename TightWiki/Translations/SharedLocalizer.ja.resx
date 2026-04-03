@@ -2671,4 +2671,10 @@
   <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
     <value>ウィキのフッターで、すべてのページの下部に表示されます。このフィールドはマークアップをサポートしています。</value>
   </data>
+  <data name="Account not found." xml:space="preserve">
+    <value>アカウントが見つかりません。</value>
+  </data>
+  <data name="Select a severity" xml:space="preserve">
+    <value>重大度を選択してください</value>
+  </data>
 </root>

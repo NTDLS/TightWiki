@@ -2671,4 +2671,10 @@
   <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
     <value>Викидің төменгі колонтитулы, бұл барлық беттердің төменгі жағында көрсетіледі. Бұл өріс маркалау тіліне қолдау көрсетеді.</value>
   </data>
+  <data name="Account not found." xml:space="preserve">
+    <value>Аккаунт табылмаған.</value>
+  </data>
+  <data name="Select a severity" xml:space="preserve">
+    <value>Қауіптылық деңгейін таңдау</value>
+  </data>
 </root>

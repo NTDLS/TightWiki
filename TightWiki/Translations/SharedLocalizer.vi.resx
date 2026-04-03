@@ -2671,4 +2671,10 @@
   <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
     <value>Chân trang của wiki, hiển thị ở cuối tất cả các trang. Trường này hỗ trợ đánh dấu cấu hình.</value>
   </data>
+  <data name="Account not found." xml:space="preserve">
+    <value>Tài khoản không tìm thấy.</value>
+  </data>
+  <data name="Select a severity" xml:space="preserve">
+    <value>Chọn mức độ nghiêm trọng</value>
+  </data>
 </root>
