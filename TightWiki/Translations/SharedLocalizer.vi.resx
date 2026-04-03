@@ -2668,4 +2668,7 @@
   <data name="There are no plugins configured." xml:space="preserve">
     <value>Không có tiện ích mở rộng nào được cấu hình.</value>
   </data>
+  <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
+    <value>Chân trang của wiki, hiển thị ở cuối tất cả các trang. Trường này hỗ trợ đánh dấu cấu hình.</value>
+  </data>
 </root>

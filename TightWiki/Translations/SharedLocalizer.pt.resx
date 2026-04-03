@@ -2668,4 +2668,7 @@
   <data name="There are no plugins configured." xml:space="preserve">
     <value>Não há plugins configurados.</value>
   </data>
+  <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
+    <value>O rodapé da wiki, que é exibido na parte inferior de todas as páginas. Este campo suporta marcação.</value>
+  </data>
 </root>

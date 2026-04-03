@@ -2668,4 +2668,7 @@
   <data name="There are no plugins configured." xml:space="preserve">
     <value>Nu există plugin-uri configurate.</value>
   </data>
+  <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
+    <value>Subsolul wiki-ului, acesta este afișat în partea de jos a tuturor paginilor. Acest câmp suportă marcajul.</value>
+  </data>
 </root>

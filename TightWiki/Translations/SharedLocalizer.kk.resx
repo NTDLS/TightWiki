@@ -2668,4 +2668,7 @@
   <data name="There are no plugins configured." xml:space="preserve">
     <value>Байланыстырылған плагиндер жоқ.</value>
   </data>
+  <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
+    <value>Викидің төменгі колонтитулы, бұл барлық беттердің төменгі жағында көрсетіледі. Бұл өріс маркалау тіліне қолдау көрсетеді.</value>
+  </data>
 </root>

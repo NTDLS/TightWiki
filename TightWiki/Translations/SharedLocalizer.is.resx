@@ -2668,4 +2668,7 @@
   <data name="There are no plugins configured." xml:space="preserve">
     <value>Engar viðbætur eru stilltar.</value>
   </data>
+  <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
+    <value>Fótur vefsíðunnar, þetta er sýnt neðst á öllum síðum. Þetta reit styður markup.</value>
+  </data>
 </root>

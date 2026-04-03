@@ -2668,4 +2668,7 @@
   <data name="There are no plugins configured." xml:space="preserve">
     <value>Няма конфигурирани плъгини.</value>
   </data>
+  <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
+    <value>Долният колонтитул на уикито, показва се в долната част на всички страници. Този полета поддържа маркиране.</value>
+  </data>
 </root>

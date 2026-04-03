@@ -2668,4 +2668,7 @@
   <data name="There are no plugins configured." xml:space="preserve">
     <value>尚未配置任何插件。</value>
   </data>
+  <data name="The footer of the wiki, this is shown at the bottom of all pages. This field supports markup." xml:space="preserve">
+    <value>維基的頁腳，這會顯示在所有頁面的底部。此欄位支援標記語言。</value>
+  </data>
 </root>
