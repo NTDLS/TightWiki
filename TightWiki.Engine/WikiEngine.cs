@@ -69,63 +69,63 @@ namespace TightWiki.Engine
 
             foreach (var item in BuildFunctionDescriptors<TwStandardFunctionPluginAttribute>(Plugins))
             {
-                item.Plugin.Functions.Add(item.FunctionAttribute);
+                item.Plugin.Functions.Add(item);
                 StandardFunctions.Add(item);
             }
             foreach (var item in BuildFunctionDescriptors<TwScopeFunctionPluginAttribute>(Plugins))
             {
-                item.Plugin.Functions.Add(item.FunctionAttribute);
+                item.Plugin.Functions.Add(item);
                 ScopeFunctions.Add(item);
             }
             foreach (var item in BuildFunctionDescriptors<TwProcessingInstructionFunctionPluginAttribute>(Plugins))
             {
-                item.Plugin.Functions.Add(item.FunctionAttribute);
+                item.Plugin.Functions.Add(item);
                 ProcessingFunctions.Add(item);
             }
             foreach (var item in BuildFunctionDescriptors<TwPostProcessingInstructionFunctionPluginAttribute>(Plugins))
             {
-                item.Plugin.Functions.Add(item.FunctionAttribute);
+                item.Plugin.Functions.Add(item);
                 PostProcessingFunctions.Add(item);
             }
 
             foreach (var item in BuildHandlerDescriptors<TwCompletionPluginHandlerAttribute>(Plugins))
             {
-                item.Plugin.Handlers.Add(item.HandlerAttribute);
+                item.Plugin.Handlers.Add(item);
                 CompletionHandlers.Add(new CompletionHandlerDescriptor(item));
             }
             foreach (var item in BuildHandlerDescriptors<TwEmojiPluginHandlerAttribute>(Plugins))
             {
-                item.Plugin.Handlers.Add(item.HandlerAttribute);
+                item.Plugin.Handlers.Add(item);
                 EmojiHandlers.Add(new EmojiHandlerDescriptor(item));
             }
             foreach (var item in BuildHandlerDescriptors<TwExceptionPluginHandlerAttribute>(Plugins))
             {
-                item.Plugin.Handlers.Add(item.HandlerAttribute);
+                item.Plugin.Handlers.Add(item);
                 ExceptionHandlers.Add(new ExceptionHandlerDescriptor(item));
             }
             foreach (var item in BuildHandlerDescriptors<TwExternalLinkPluginHandlerAttribute>(Plugins))
             {
-                item.Plugin.Handlers.Add(item.HandlerAttribute);
+                item.Plugin.Handlers.Add(item);
                 ExternalLinkHandlers.Add(new ExternalLinkHandlerDescriptor(item));
             }
             foreach (var item in BuildHandlerDescriptors<TwHeadingPluginHandlerAttribute>(Plugins))
             {
-                item.Plugin.Handlers.Add(item.HandlerAttribute);
+                item.Plugin.Handlers.Add(item);
                 HeadingHandlers.Add(new HeadingHandlerDescriptor(item));
             }
             foreach (var item in BuildHandlerDescriptors<TwInternalLinkPluginHandlerAttribute>(Plugins))
             {
-                item.Plugin.Handlers.Add(item.HandlerAttribute);
+                item.Plugin.Handlers.Add(item);
                 InternalLinkHandlers.Add(new InternalLinkHandlerDescriptor(item));
             }
             foreach (var item in BuildHandlerDescriptors<TwMarkupPluginHandlerAttribute>(Plugins))
             {
-                item.Plugin.Handlers.Add(item.HandlerAttribute);
+                item.Plugin.Handlers.Add(item);
                 MarkupHandlers.Add(new MarkupHandlerDescriptor(item));
             }
             foreach (var item in BuildHandlerDescriptors<TwCommentPluginHandlerAttribute>(Plugins))
             {
-                item.Plugin.Handlers.Add(item.HandlerAttribute);
+                item.Plugin.Handlers.Add(item);
                 CommentHandlers.Add(new CommentHandlerDescriptor(item));
             }
         }

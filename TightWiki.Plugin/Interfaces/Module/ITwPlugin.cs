@@ -1,6 +1,6 @@
 using TightWiki.Plugin.Attributes;
-using TightWiki.Plugin.Attributes.Functions;
-using TightWiki.Plugin.Attributes.Handlers;
+using TightWiki.Plugin.Interfaces.Module.Function;
+using TightWiki.Plugin.Interfaces.Module.Handlers;
 
 namespace TightWiki.Plugin.Interfaces.Module
 {
@@ -28,11 +28,11 @@ namespace TightWiki.Plugin.Interfaces.Module
         /// <summary>
         /// List of all functions that are defined in the plugin.
         /// </summary>
-        List<ITwPluginFunctionAttribute> Functions { get; set; }
+        List<ITwFunctionDescriptor> Functions { get; set; }
 
         /// <summary>
         /// List of all handlers that are defined in the plugin.
         /// </summary>
-        List<ITwPluginHandlerAttribute> Handlers { get; set; }
+        List<ITwHandlerDescriptor> Handlers { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using NTDLS.Helpers;
+using System.Text;
 using TightWiki.Library.Dummy;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Attributes.Functions;
@@ -15,6 +16,41 @@ namespace TightWiki.Library
     {
         private readonly TwVerbatimLocalizationText _localizer = new();
 
+        public static string GetFunctionSignature(ITwFunctionDescriptor function)
+        {
+            var sb = new StringBuilder();
+
+            int skipCount;
+            if (function.FunctionAttribute is TwScopeFunctionPluginAttribute)
+            {
+                skipCount = 2; //State and body.
+            }
+            else
+            {
+                skipCount = 1; //State.
+            }
+
+            sb.Append($"""<span class="text-secondary">{function.FunctionAttribute.Demarcation}</span><span class="text-secondary fw-bold">{function.FunctionAttribute.Name}</span>""");
+            sb.Append('(');
+
+            var parameters = function.Parameters.Skip(skipCount).ToList();
+
+            for (int i = 0; i < parameters.Count; i++)
+            {
+                var p = parameters[i];
+                sb.Append($"""<span><span class="text-primary">{GetParameterTypeWikiName(p.ParameterType)}</span> {p.Name}</span>""");
+                if (i < parameters.Count - 1)
+                {
+                    sb.Append(", ");
+                }
+            }
+
+            sb.Append(')');
+            sb.Append("</span>");
+
+            return sb.ToString();
+        }
+
         public async Task CreateNotExisting()
         {
             foreach (var function in engine.StandardFunctions)
@@ -27,7 +63,7 @@ namespace TightWiki.Library
                 await GenerateFunctionDocumentation(function);
         }
 
-        private string GetParameterTypeWikiName(Type type)
+        public static string GetParameterTypeWikiName(Type type)
         {
             if (type.IsEnum)
             {

@@ -1681,10 +1681,10 @@ namespace TightWiki.Controllers
                 {
                     model.Contents.Add(new TwPluginContent()
                     {
-                        Name = function.Name,
-                        Description = function.Description,
-                        Precedence = function.Precedence,
-                        Type = function.GetType()
+                        Name = function.FunctionAttribute.Name,
+                        Description = function.FunctionAttribute.Description,
+                        Precedence = function.FunctionAttribute.Precedence,
+                        Type = function.FunctionAttribute.GetType()
                     });
                 }
 
@@ -1692,10 +1692,10 @@ namespace TightWiki.Controllers
                 {
                     model.Contents.Add(new TwPluginContent()
                     {
-                        Name = handler.Name,
-                        Description = handler.Description,
-                        Precedence = handler.Precedence,
-                        Type = handler.GetType()
+                        Name = handler.HandlerAttribute.Name,
+                        Description = handler.HandlerAttribute.Description,
+                        Precedence = handler.HandlerAttribute.Precedence,
+                        Type = handler.HandlerAttribute.GetType()
                     });
                 }
 
@@ -1727,49 +1727,19 @@ namespace TightWiki.Controllers
                 var plugin = tightEngine.Plugins
                     .FirstOrDefault(o => o.Attribute.Name.Equals(pluginName, StringComparison.InvariantCultureIgnoreCase));
 
-
                 if (plugin == null)
                 {
                     return View(new PluginFunctionViewModel());
                 }
 
                 var function = plugin.Functions
-                    .FirstOrDefault(o => o.Name.Equals(pluginFunctionName, StringComparison.InvariantCultureIgnoreCase));
+                    .FirstOrDefault(o => o.FunctionAttribute.Name.Equals(pluginFunctionName, StringComparison.InvariantCultureIgnoreCase));
 
-                //var handler = plugin.Handlers
-                    //.FirstOrDefault(o => o.Name.Equals(pluginFunctionName, StringComparison.InvariantCultureIgnoreCase));
-
-                var model = new PluginFunctionViewModel();
-
-                model.Plugin = new TwPlugin()
+                var model = new PluginFunctionViewModel()
                 {
-                    Name = plugin.Attribute.Name ?? string.Empty,
-                    Description = plugin.Attribute.Description ?? string.Empty
+                     Plugin = plugin,
+                     Function = function
                 };
-
-                /*
-                foreach (var function in plugin.Functions)
-                {
-                    model.Contents.Add(new TwPluginContent()
-                    {
-                        Name = function.Name,
-                        Description = function.Description,
-                        Precedence = function.Precedence,
-                        Type = function.GetType()
-                    });
-                }
-
-                foreach (var handler in plugin.Handlers)
-                {
-                    model.Contents.Add(new TwPluginContent()
-                    {
-                        Name = handler.Name,
-                        Description = handler.Description,
-                        Precedence = handler.Precedence,
-                        Type = handler.GetType()
-                    });
-                }
-                */
 
                 return View(model);
             }
@@ -1805,11 +1775,8 @@ namespace TightWiki.Controllers
                     return View(new PluginHandlerViewModel());
                 }
 
-                var function = plugin.Functions
-                    .FirstOrDefault(o => o.Name.Equals(pluginFunctionName, StringComparison.InvariantCultureIgnoreCase));
-
-                //var handler = plugin.Handlers
-                //.FirstOrDefault(o => o.Name.Equals(pluginFunctionName, StringComparison.InvariantCultureIgnoreCase));
+                var handler = plugin.Handlers
+                    .FirstOrDefault(o => o.HandlerAttribute.Name.Equals(pluginFunctionName, StringComparison.InvariantCultureIgnoreCase));
 
                 var model = new PluginHandlerViewModel();
 
