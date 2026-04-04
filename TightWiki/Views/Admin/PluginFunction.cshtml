@@ -132,4 +132,33 @@
             }
         </div>
     </div>
+
+    @if (Model.Function != null )
+    {
+        int skipCount;
+        if (Model.Function.FunctionAttribute is TwScopeFunctionPluginAttribute)
+        {
+            skipCount = 2; //State and body.
+        }
+        else
+        {
+            skipCount = 1; //State.
+        }
+
+        @if(Model.Function.Parameters.Skip(skipCount).Count() > 0)
+        {
+
+        <div class="card shadow-sm mt-2">
+            <div class="card-header d-flex align-items-center gap-2">
+                <i class="bi bi-gear"></i>
+                <span class="fw-semibold">@Localizer["Parameters"]</span>
+            </div>
+
+            <div class="card-body">
+                @Html.Raw(TightWiki.Library.SelfDocument.GetFunctionSignatureDetailed(Model.Function))
+            </div>
+        </div>
+        }
+    }
+
 }
