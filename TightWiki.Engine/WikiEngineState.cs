@@ -821,13 +821,16 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformProcessingInstructions().Matches(pageContent.ToString()));
 
+            var processingFunctions = Engine.ProcessingFunctions
+                .Where(o => o.FunctionAttribute.IsPostProcess == false).ToList();
+
             foreach (var match in orderedMatches)
             {
                 var parsedFunction = ParsedFunction.Create(match.Value);
 
                 try
                 {
-                    var preparedFunction = PreparedFunction.Create(this, Engine.ProcessingFunctions, parsedFunction);
+                    var preparedFunction = PreparedFunction.Create(this, processingFunctions, parsedFunction);
                     var result = await preparedFunction.Execute();
                     StoreHandlerResult(result, TwMatchType.StandardFunction, pageContent, match.Value);
                 }
@@ -854,21 +857,25 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    if (Engine.PostProcessingFunctions.TryGetFunctionDescriptor(parsedFunction, out _))
+                    var preparedFunction = PreparedFunction.Create(this, Engine.StandardFunctions, parsedFunction);
+
+                    if (!Engine.StandardFunctions.TryGetFunctionDescriptor(parsedFunction, out var function))
                     {
-                        //This IS a function, but it is meant to be parsed at the end of processing.
-                        continue;
+                        throw new Exception($"The function {parsedFunction.Name} is not recognized.");
                     }
 
-                    if (onlyProcessFirstChanceFunctions
-                        && Engine.StandardFunctions.TryGetFunctionDescriptor(parsedFunction, out var function)
-                        && function.FunctionAttribute.IsFirstChance == false)
+                    if (onlyProcessFirstChanceFunctions && function.FunctionAttribute.IsFirstChance == false)
                     {
                         //We are only processing "first chance" functions, so skip processing this function.
                         continue;
                     }
 
-                    var preparedFunction = PreparedFunction.Create(this, Engine.StandardFunctions, parsedFunction);
+                    if (function.FunctionAttribute.IsPostProcess)
+                    {
+                        //This IS a function, but it is meant to be parsed at the end of processing.
+                        continue;
+                    }
+
                     var result = await preparedFunction.Execute();
                     StoreHandlerResult(result, TwMatchType.StandardFunction, pageContent, match.Value);
                 }
@@ -890,13 +897,16 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformPostProcess().Matches(pageContent.ToString()));
 
+            var postProcessingFunctions = Engine.StandardFunctions
+                .Where(o => o.FunctionAttribute.IsPostProcess == true).ToList();
+
             foreach (var match in orderedMatches)
             {
                 var parsedFunction = ParsedFunction.Create(match.Value);
 
                 try
                 {
-                    var preparedFunction = PreparedFunction.Create(this, Engine.PostProcessingFunctions, parsedFunction);
+                    var preparedFunction = PreparedFunction.Create(this, postProcessingFunctions, parsedFunction);
                     var result = await preparedFunction.Execute();
                     StoreHandlerResult(result, TwMatchType.StandardFunction, pageContent, match.Value);
                 }

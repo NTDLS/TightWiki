@@ -28,6 +28,11 @@
         public bool IsFirstChance { get; } = false;
 
         /// <summary>
+        /// Indicates that the function is a post-process function, which is evaluated after all other functions have been processed.
+        /// </summary>
+        public bool IsPostProcess { get; } = false;
+
+        /// <summary>
         /// The prefix used to demarcate the function in the wiki syntax, such as "##", "@@", etc for TightWiki functions.
         /// </summary>
         public string Demarcation { get; } = "{{";

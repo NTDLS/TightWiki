@@ -35,6 +35,7 @@ namespace TightWiki.Plugin.Interfaces
         /// </summary>
         public Task RequirePermission(string? givenCanonical, TwPermission permission);
 
+        /// <summary>
         /// Throws an exception if the user does not hold any of the given permission for given page.
         /// </summary>
         public Task RequirePermission(string? givenCanonical, TwPermission[] permissions);

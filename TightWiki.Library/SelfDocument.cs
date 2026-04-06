@@ -111,8 +111,6 @@ namespace TightWiki.Library
                 await GenerateFunctionDocumentation(function);
             foreach (var function in engine.ScopeFunctions)
                 await GenerateFunctionDocumentation(function);
-            foreach (var function in engine.PostProcessingFunctions)
-                await GenerateFunctionDocumentation(function);
             foreach (var function in engine.ProcessingFunctions)
                 await GenerateFunctionDocumentation(function);
         }
@@ -161,11 +159,7 @@ namespace TightWiki.Library
 
             string functionType = "Function";
 
-            if (descriptor.FunctionAttribute is TwPostProcessingInstructionFunctionPluginAttribute)
-            {
-                functionType = "Instruction Function";
-            }
-            else if (descriptor.FunctionAttribute is TwProcessingInstructionFunctionPluginAttribute)
+            if (descriptor.FunctionAttribute is TwProcessingInstructionFunctionPluginAttribute)
             {
                 functionType = "Instruction Function";
             }

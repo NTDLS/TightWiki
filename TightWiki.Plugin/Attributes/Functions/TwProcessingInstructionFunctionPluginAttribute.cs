@@ -28,6 +28,11 @@
         public bool IsFirstChance { get; } = false;
 
         /// <summary>
+        /// Indicates that the function is a post-process function, which is evaluated after all other functions have been processed.
+        /// </summary>
+        public bool IsPostProcess { get; } = false;
+
+        /// <summary>
         /// The prefix used to demarcate the function in the wiki syntax, such as "##", "@@", etc for TightWiki functions.
         /// </summary>
         public string Demarcation { get; } = "@@";
@@ -44,10 +49,12 @@
         /// <param name="name">The user-friendly display name of the function.</param>
         /// <param name="description">The user-friendly display description of the function.</param>
         /// <param name="precedence">The order in which the function should be executed.</param>
-        public TwProcessingInstructionFunctionPluginAttribute(string name, string description, int precedence = 1)
+        /// <param name="isPostProcess">Indicates whether this function is a post-process function, meaning it should be executed after all other functions.</param>
+        public TwProcessingInstructionFunctionPluginAttribute(string name, string description, int precedence = 1, bool isPostProcess = false)
         {
             Name = name;
             Description = description;
+            IsPostProcess = isPostProcess;
             Precedence = precedence;
         }
     }

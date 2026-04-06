@@ -35,7 +35,6 @@ namespace TightWiki.Engine
         public List<ITwInternalLinkPlugin> InternalLinkHandlers { get; private set; } = new();
         public List<ITwMarkupPlugin> MarkupHandlers { get; private set; } = new();
 
-        public List<ITwFunctionDescriptor> PostProcessingFunctions { get; private set; } = new();
         public List<ITwFunctionDescriptor> ProcessingFunctions { get; private set; } = new();
         public List<ITwFunctionDescriptor> ScopeFunctions { get; private set; } = new();
         public List<ITwFunctionDescriptor> StandardFunctions { get; private set; } = new();
@@ -81,11 +80,6 @@ namespace TightWiki.Engine
             {
                 item.Plugin.Functions.Add(item);
                 ProcessingFunctions.Add(item);
-            }
-            foreach (var item in BuildFunctionDescriptors<TwPostProcessingInstructionFunctionPluginAttribute>(Plugins))
-            {
-                item.Plugin.Functions.Add(item);
-                PostProcessingFunctions.Add(item);
             }
 
             foreach (var item in BuildHandlerDescriptors<TwCompletionPluginHandlerAttribute>(Plugins))

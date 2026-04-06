@@ -5,12 +5,12 @@ using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Models;
 
-namespace TightWiki.Plugin.Default
+namespace TightWiki.Plugin.Default.StandardFunctions
 {
     [TwPlugin("Default Post-Processing Instructions", "Built-in post processing instruction functions.")]
-    public class PostProcessingInstructionFunctions
+    public class PostProcessingFunctions
     {
-        [TwPostProcessingInstructionFunctionPlugin("Toc", "Displays a table of contents for the page based on the header tags.")]
+        [TwStandardFunctionPlugin("TOC", "Displays a table of contents for the page based on the header tags.", isPostProcess: true)]
         public async Task<TwPluginResult> Toc(ITwEngineState state,
             bool alphabetized = false)
         {

@@ -82,11 +82,7 @@
 
                     <tr>
                         <td class="text-nowrap text-center align-middle">
-                            @if (content.Type == typeof(TwPostProcessingInstructionFunctionPluginAttribute))
-                            {
-                                <i class="bi bi-cpu-fill text-primary" data-bs-toggle="tooltip" title="Post-processing function"></i>
-                            }
-                            else if (content.Type == typeof(TwProcessingInstructionFunctionPluginAttribute))
+                            @if (content.Type == typeof(TwProcessingInstructionFunctionPluginAttribute))
                             {
                                 <i class="bi bi-cpu text-primary" data-bs-toggle="tooltip" title="Processing function"></i>
                             }
@@ -101,34 +97,6 @@
                             else if (content.Type == typeof(TwMarkupPluginHandlerAttribute))
                             {
                                 <i class="bi bi-code-slash text-muted" data-bs-toggle="tooltip" title="Markup handler"></i>
-                            }
-                            else if (content.Type == typeof(TwHeadingPluginHandlerAttribute))
-                            {
-                                <i class="bi bi-type-h1 text-muted" data-bs-toggle="tooltip" title="Heading handler"></i>
-                            }
-                            else if (content.Type == typeof(TwCommentPluginHandlerAttribute))
-                            {
-                                <i class="bi bi-chat-left-dots text-muted" data-bs-toggle="tooltip" title="Comment handler"></i>
-                            }
-                            else if (content.Type == typeof(TwCompletionPluginHandlerAttribute))
-                            {
-                                <i class="bi bi-magic text-muted" data-bs-toggle="tooltip" title="Completion handler"></i>
-                            }
-                            else if (content.Type == typeof(TwEmojiPluginHandlerAttribute))
-                            {
-                                <i class="bi bi-emoji-smile text-muted" data-bs-toggle="tooltip" title="Emoji handler"></i>
-                            }
-                            else if (content.Type == typeof(TwExceptionPluginHandlerAttribute))
-                            {
-                                <i class="bi bi-exclamation-triangle text-danger" data-bs-toggle="tooltip" title="Exception handler"></i>
-                            }
-                            else if (content.Type == typeof(TwExternalLinkPluginHandlerAttribute))
-                            {
-                                <i class="bi bi-box-arrow-up-right text-info" data-bs-toggle="tooltip" title="External link handler"></i>
-                            }
-                            else if (content.Type == typeof(TwInternalLinkPluginHandlerAttribute))
-                            {
-                                <i class="bi bi-link-45deg text-info" data-bs-toggle="tooltip" title="Internal link handler"></i>
                             }
                             else
                             {

@@ -6,7 +6,7 @@ namespace TightWiki.ViewModels.Admin
         : TwViewModel
     {
         public List<TwLogEntry> LogEntries { get; set; } = new();
-        public List<TwEventLogSeverity> Severities{ get; set; } = new();
+        public List<TwEventLogSeverity> Severities { get; set; } = new();
         public int PaginationPageCount { get; set; }
         public string? SelectedSeverityName { get; set; }
     }

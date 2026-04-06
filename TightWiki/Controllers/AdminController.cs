@@ -1722,7 +1722,7 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                SessionState.Page.Name = Localize("Plugin Class");
+                SessionState.Page.Name = Localize("Plugin Function");
 
                 var plugin = tightEngine.Plugins
                     .FirstOrDefault(o => o.Attribute.Name.Equals(pluginName, StringComparison.InvariantCultureIgnoreCase));
@@ -1737,8 +1737,8 @@ namespace TightWiki.Controllers
 
                 var model = new PluginFunctionViewModel()
                 {
-                     Plugin = plugin,
-                     Function = function
+                    Plugin = plugin,
+                    Function = function
                 };
 
                 return View(model);
@@ -1751,8 +1751,8 @@ namespace TightWiki.Controllers
         }
 
         [Authorize]
-        [HttpGet("PluginHandler/{pluginName}/{pluginFunctionName}")]
-        public async Task<ActionResult> PluginHandler(string pluginName, string pluginFunctionName)
+        [HttpGet("PluginHandler/{pluginName}/{pluginHandlerName}")]
+        public async Task<ActionResult> PluginHandler(string pluginName, string pluginHandlerName)
         {
             try
             {
@@ -1764,11 +1764,10 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                SessionState.Page.Name = Localize("Plugin Class");
+                SessionState.Page.Name = Localize("Handler Class");
 
                 var plugin = tightEngine.Plugins
                     .FirstOrDefault(o => o.Attribute.Name.Equals(pluginName, StringComparison.InvariantCultureIgnoreCase));
-
 
                 if (plugin == null)
                 {
@@ -1776,39 +1775,13 @@ namespace TightWiki.Controllers
                 }
 
                 var handler = plugin.Handlers
-                    .FirstOrDefault(o => o.HandlerAttribute.Name.Equals(pluginFunctionName, StringComparison.InvariantCultureIgnoreCase));
+                    .FirstOrDefault(o => o.HandlerAttribute.Name.Equals(pluginHandlerName, StringComparison.InvariantCultureIgnoreCase));
 
-                var model = new PluginHandlerViewModel();
-
-                model.Plugin = new TwPlugin()
+                var model = new PluginHandlerViewModel()
                 {
-                    Name = plugin.Attribute.Name ?? string.Empty,
-                    Description = plugin.Attribute.Description ?? string.Empty
+                    Plugin = plugin,
+                    Handler = handler
                 };
-
-                /*
-                foreach (var function in plugin.Functions)
-                {
-                    model.Contents.Add(new TwPluginContent()
-                    {
-                        Name = function.Name,
-                        Description = function.Description,
-                        Precedence = function.Precedence,
-                        Type = function.GetType()
-                    });
-                }
-
-                foreach (var handler in plugin.Handlers)
-                {
-                    model.Contents.Add(new TwPluginContent()
-                    {
-                        Name = handler.Name,
-                        Description = handler.Description,
-                        Precedence = handler.Precedence,
-                        Type = handler.GetType()
-                    });
-                }
-                */
 
                 return View(model);
             }
@@ -1818,7 +1791,6 @@ namespace TightWiki.Controllers
                 throw;
             }
         }
-
 
         #endregion
 

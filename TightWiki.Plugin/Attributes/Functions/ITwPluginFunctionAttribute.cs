@@ -20,6 +20,11 @@ namespace TightWiki.Plugin.Attributes.Functions
         bool IsFirstChance { get; }
 
         /// <summary>
+        /// Indicates that the function is a post-process function, which is evaluated after all other functions have been processed.
+        /// </summary>
+        bool IsPostProcess { get; }
+
+        /// <summary>
         /// The prefix used to demarcate the function in the wiki syntax, such as "##", "@@", etc for TightWiki functions.
         /// </summary>
         string Demarcation { get; }
