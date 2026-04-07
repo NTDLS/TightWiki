@@ -33,7 +33,6 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
         /// </summary>
         public List<TwPluginRegularExpressionAttribute> Expressions { get; }
 
-
         /// <summary>
         /// List of parameters that the handler accepts, containing information such as the parameter type and name.
         /// Same as method.GetParameters().ToList(), but done here to avoid having to call GetParameters() multiple times, which can be expensive.
@@ -47,6 +46,13 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
         /// </summary>
         ITwPlugin Plugin { get; }
 
+        /// <summary>
+        /// Processes the specified match string within the given engine state and returns the result asynchronously.
+        /// </summary>
+        /// <param name="state">The current engine state used to evaluate and process the match. Cannot be null.</param>
+        /// <param name="match">The input string to match and process. Cannot be null.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a TwPluginResult describing the
+        /// outcome of the processing.</returns>
         Task<TwPluginResult> Handle(ITwEngineState state, string match);
     }
 }
