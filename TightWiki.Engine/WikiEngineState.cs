@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
 using TightWiki.Library;
 using TightWiki.Library.Security;
 using TightWiki.Plugin;
@@ -153,13 +152,6 @@ namespace TightWiki.Engine
 
                 pageContent.Replace("\r\n", "\n");
 
-                //The order of transformations is important, the first thing we need to do is transform
-                //  literals so that the content inside them is not transformed by any other handlers
-                //  and is displayed verbatim on the page. For example, if we have a code block with
-                //  some wiki markup inside it, we don't want that wiki markup to be transformed,
-                //  we want it to be displayed as-is.
-                //TransformLiterals(pageContent);
-
                 //Now we transform all other handlers, we loop through them until we have no more matches
                 //  to transform because some handlers can introduce new wiki markup that needs to be
                 //  transformed. For example, if we have a template that includes other templates, we
@@ -230,14 +222,8 @@ namespace TightWiki.Engine
             await TransformScopeFunctions(pageContent, true); //First pass for "first chance" functions.
             await TransformStandardFunctions(pageContent, true); //First pass for "first chance" functions.
 
-            //await TransformComments(pageContent);
-            //await TransformHeadings(pageContent);
-
             await TransformScopeFunctions(pageContent, false); //Second pass for all functions.
-            //await TransformVariables(pageContent);
-            //await TransformLinks(pageContent);
             await TransformMarkup(pageContent);
-            //await TransformEmoji(pageContent);
 
             await TransformStandardFunctions(pageContent, false); //Second pass for all functions.
             await TransformProcessingInstructionFunctions(pageContent);
@@ -299,26 +285,6 @@ namespace TightWiki.Engine
         {
             pageContent.Replace(Constants.SoftBreak, overrideValue ?? "\r\n");
             pageContent.Replace(Constants.HardBreak, overrideValue ?? "<br />");
-        }
-
-        /// <summary>
-        /// Transform inline and multi-line literal blocks. These are blocks where the content
-        /// will not be wikified and contain code that is encoded to display verbatim on the page.
-        /// </summary>
-        private void TransformLiterals(TwString pageContent)
-        {
-            //TODO: May need to do the same thing we did with TransformBlocks() to match all these if they need to be nested.
-
-            //Transform literal strings, even encodes HTML so that it displays verbatim.
-            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
-                PrecompiledRegex.TransformLiterals().Matches(pageContent.ToString()));
-
-            foreach (var match in orderedMatches)
-            {
-                string value = match.Value.Substring(2, match.Value.Length - 4);
-                value = HttpUtility.HtmlEncode(value);
-                StoreMatch(TwMatchType.Literal, pageContent, match.Value, value.Replace("\r", "").Trim().Replace("\n", $"{Constants.HardBreak}"), false);
-            }
         }
 
         /// <summary>
@@ -393,7 +359,7 @@ namespace TightWiki.Engine
         {
             // {{([\\S\\s]*)}}
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
-                PrecompiledRegex.TransformBlock().Matches(pageContent.ToString()));
+                PrecompiledRegex.ScopeFunctionBlock().Matches(pageContent.ToString()));
 
             foreach (var match in orderedMatches)
             {
@@ -428,16 +394,14 @@ namespace TightWiki.Engine
                 .ThenBy(h => h.HandlerAttribute.Precedence)
                 .ToList();
 
-
             foreach (var handler in handlers)
             {
-                if (handler.Method.Name == "HandleExternalLinks")
-                {
-                }
-
                 foreach (var expression in handler.Expressions)
                 {
-                    var regex = new Regex(expression);
+                    RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
+                            | (expression.Multiline ? RegexOptions.Multiline : RegexOptions.None);
+
+                    var regex = new Regex(expression.Pattern, options);
 
                     var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(regex.Matches(pageContent.ToString()));
 
@@ -451,33 +415,7 @@ namespace TightWiki.Engine
                     }
                 }
             }
-
-            /*
-
-            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
-                PrecompiledRegex.TransformComments().Matches(pageContent.ToString()));
-
-            foreach (var match in orderedMatches)
-            {
-                bool wasHandled = false;
-                foreach (var handler in Engine.CommentHandlers)
-                {
-                    var result = await handler.Handle(this, match.Value);
-                    if (!result.Instructions.Contains(TwResultInstruction.Skip))
-                    {
-                        wasHandled = true;
-                        StoreHandlerResult(result, TwMatchType.Comment, pageContent, match.Value);
-                        break;
-                    }
-                }
-                if (!wasHandled)
-                {
-                    await StoreWikiError(pageContent, match.Value, $"No commet tag handler processed the instruction: \"{match.Value}\".");
-                }
-            }
-            */
         }
-
 
         /// <summary>
         /// Transform processing instructions are used to flag pages for specific needs such as deletion, review, draft, etc.
@@ -486,7 +424,7 @@ namespace TightWiki.Engine
         {
             // <code>(\\@\\@[\\w-]+\\(\\))|(\\@\\@[\\w-]+\\(.*?\\))|(\\@\\@[\\w-]+)</code><br/>
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
-                PrecompiledRegex.TransformProcessingInstructions().Matches(pageContent.ToString()));
+                PrecompiledRegex.ProcessingInstructionBlock().Matches(pageContent.ToString()));
 
             var processingFunctions = Engine.ProcessingFunctions
                 .Where(o => o.FunctionAttribute.IsPostProcess == false).ToList();
@@ -516,7 +454,7 @@ namespace TightWiki.Engine
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
-                PrecompiledRegex.TransformFunctions().Matches(pageContent.ToString()));
+                PrecompiledRegex.StandardFunctionBlock().Matches(pageContent.ToString()));
 
             foreach (var match in orderedMatches)
             {
@@ -562,7 +500,7 @@ namespace TightWiki.Engine
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
-                PrecompiledRegex.TransformPostProcess().Matches(pageContent.ToString()));
+                PrecompiledRegex.PostProcessBlock().Matches(pageContent.ToString()));
 
             var postProcessingFunctions = Engine.StandardFunctions
                 .Where(o => o.FunctionAttribute.IsPostProcess == true).ToList();

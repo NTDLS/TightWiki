@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using NTDLS.Helpers;
 using System.Reflection;
 using TightWiki.Engine.Module;
@@ -98,7 +97,7 @@ namespace TightWiki.Engine
                 var expressionAttributes = item.Method.GetCustomAttributes<TwPluginRegularExpressionAttribute>();
                 if (expressionAttributes.Any())
                 {
-                    item.Expressions.AddRange(expressionAttributes.Select(a => a.Expression));
+                    item.Expressions.AddRange(expressionAttributes);
                 }
 
                 Console.WriteLine(item.HandlerAttribute.Name);

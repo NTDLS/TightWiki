@@ -31,7 +31,8 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
         /// Regex expression that is used to match the handler call in the markup.
         /// This is used to determine which handler to call when a handler call is encountered in the markup.
         /// </summary>
-        public List<string> Expressions { get; }
+        public List<TwPluginRegularExpressionAttribute> Expressions { get; }
+
 
         /// <summary>
         /// List of parameters that the handler accepts, containing information such as the parameter type and name.

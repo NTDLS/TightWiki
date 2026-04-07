@@ -11,15 +11,22 @@
         /// <summary>
         /// The regular expression to be used by the plugin.
         /// </summary>
-        public string Expression { get; }
+        public string Pattern { get; }
+
+        /// <summary>
+        /// Whether the regex will be matched in multi-line mode or not.
+        /// </summary>
+        public bool Multiline { get; set; }
 
         /// <summary>
         /// Creates a new instance of the attribute with the specified regular expression.
         /// </summary>
         /// <param name="expression">The regular expression to be used by the plugin.</param>
-        public TwPluginRegularExpressionAttribute(string expression)
+        /// <param name="multiline">Whether the regex will be matched in multi-line mode or not.</param>
+        public TwPluginRegularExpressionAttribute(string expression, bool multiline = false)
         {
-            Expression = expression;
+            Pattern = expression;
+            Multiline = multiline;
         }
     }
 }
