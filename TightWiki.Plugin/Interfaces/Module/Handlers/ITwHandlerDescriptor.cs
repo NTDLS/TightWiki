@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Handlers;
+using TightWiki.Plugin.Engine;
 
 namespace TightWiki.Plugin.Interfaces.Module.Handlers
 {
@@ -27,6 +28,12 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
         TwPluginAttribute PluginAttribute { get; }
 
         /// <summary>
+        /// Regex expression that is used to match the handler call in the markup.
+        /// This is used to determine which handler to call when a handler call is encountered in the markup.
+        /// </summary>
+        public List<string> Expressions { get; }
+
+        /// <summary>
         /// List of parameters that the handler accepts, containing information such as the parameter type and name.
         /// Same as method.GetParameters().ToList(), but done here to avoid having to call GetParameters() multiple times, which can be expensive.
         /// </summary>
@@ -38,5 +45,7 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
         /// or fields of the class that may be needed for the function's execution.
         /// </summary>
         ITwPlugin Plugin { get; }
+
+        Task<TwPluginResult> Handle(ITwEngineState state, string match);
     }
 }

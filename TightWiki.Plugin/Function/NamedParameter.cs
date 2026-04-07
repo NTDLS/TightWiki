@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Engine.Module.Function
+﻿namespace TightWiki.Plugin.Function
 {
     public class NamedParameter(string name, object? value)
     {

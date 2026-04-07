@@ -1,8 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Web;
 using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Handlers;
 using TightWiki.Plugin.Engine;
+using TightWiki.Plugin.Function;
 using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Default
 {
@@ -17,7 +20,8 @@ namespace TightWiki.Plugin.Default
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="text">The comment text</param>
-        [TwCommentPluginHandler("Default comment handler", "Handles wiki comments.", 1)]
+        [TwMarkupPluginHandler("Default comment handler", "Handles wiki comments.", precedence: 10)]
+        [TwPluginRegularExpression("(\\%\\%.+?\\%\\%)")]
         public async Task<TwPluginResult> Handle(ITwEngineState state, string text)
         {
             return new TwPluginResult() { Instructions = [TwResultInstruction.TruncateTrailingLine] };
@@ -49,11 +53,39 @@ namespace TightWiki.Plugin.Default
         /// Handles an emoji instruction.
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
-        /// <param name="key">The lookup key for the given emoji.</param>
-        /// <param name="scale">The desired 1-100 scale factor for the emoji.</param>
-        [TwEmojiPluginHandler("Default emoji handler", "Handles wiki emojis.", 1)]
-        public async Task<TwPluginResult> Handle(ITwEngineState state, string key, int scale)
+        [TwMarkupPluginHandler("Default emoji handler", "Handles wiki emojis.", precedence: 60)]
+        [TwPluginRegularExpression("(\\$\\{.+?\\})")]
+        public async Task<TwPluginResult> HandleEmojis(ITwEngineState state, string match)
         {
+            /*
+            string key = match.Trim().ToLowerInvariant().Trim('%');
+            int scale = 100;
+
+            var parts = key.Split(',');
+            if (parts.Length > 1)
+            {
+                key = parts[0]; //Image key;
+                scale = int.Parse(parts[1]); //Image scale.
+            }
+
+            bool wasHandled = false;
+            foreach (var handler in Engine.EmojiHandlers)
+            {
+                var result = await handler.Handle(this, $"%%{key}%%", scale);
+                if (!result.Instructions.Contains(TwResultInstruction.Skip))
+                {
+                    wasHandled = true;
+                    StoreHandlerResult(result, TwMatchType.Emoji, pageContent, match);
+                    break;
+                }
+            }
+            if (!wasHandled)
+            {
+                await StoreWikiError(pageContent, match, $"No emoji tag handler processed the instruction: \"{match}\".");
+            }
+
+
+
             var emoji = state.Engine.WikiConfiguration.Emojis.FirstOrDefault(o => o.Shortcut == key);
 
             if (state.Engine.WikiConfiguration.Emojis.Exists(o => o.Shortcut == key))
@@ -75,6 +107,8 @@ namespace TightWiki.Plugin.Default
             {
                 return new TwPluginResult(key) { Instructions = [TwResultInstruction.DisallowNestedProcessing] };
             }
+            */
+            return new TwPluginResult();
         }
 
         /// <summary>
@@ -106,9 +140,35 @@ namespace TightWiki.Plugin.Default
         /// <param name="text">The text which should be show in the absence of an image.</param>
         /// <param name="image">The image that should be shown.</param>
         /// <param name="imageScale">The 0-100 image scale factor for the given image.</param>
-        [TwExternalLinkPluginHandler("Default external link handler", "Handles links the wiki to another site.", 1)]
-        public async Task<TwPluginResult> Handle(ITwEngineState state, string link, string? text, string? image)
+        [TwMarkupPluginHandler("Default external link handler", "Handles links the wiki to another site.", precedence: 40)]
+        [TwPluginRegularExpression("(\\[\\[http\\:\\/\\/.+?\\]\\])")]
+        [TwPluginRegularExpression("(\\[\\[https\\:\\/\\/.+?\\]\\])")]
+        public async Task<TwPluginResult> HandleExternalLinks(ITwEngineState state, string match)
         {
+
+            string link = match.Substring(2, match.Length - 4).Trim();
+            var args = ParsedFunction.ParseArgumentsAddParenthesis(link);
+
+            string? text = null;
+            string? image = null;
+
+            if (args.Count > 1)
+            {
+                text = args[1];
+                link = args[0];
+                string imageTag = "image:";
+
+                if (text.StartsWith(imageTag, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    image = text.Substring(imageTag.Length).Trim();
+                    text = null;
+                }
+            }
+            else
+            {
+                text = link;
+            }
+
             if (string.IsNullOrEmpty(image))
             {
                 return new TwPluginResult($"<a href=\"{link}\">{text}</a>")
@@ -125,19 +185,58 @@ namespace TightWiki.Plugin.Default
             }
         }
 
+        [TwMarkupPluginHandler("Default literals handler", "Handles literal strings.", precedence: 1)]
+        [TwPluginRegularExpression("{{([\\S\\s]*)}}")]
+        public async Task<TwPluginResult> HandleLiterals(ITwEngineState state, string match)
+        {
+            string value = match.Substring(2, match.Length - 4);
+            value = HttpUtility.HtmlEncode(value);
+
+            return new TwPluginResult(value)
+            {
+                Instructions = [TwResultInstruction.DisallowNestedProcessing]
+            };
+        }
+
+
         /// <summary>
-        /// Handles wiki headings. These are automatically added to the table of contents.
+        /// Transform headings. These are the basic HTML H1-H6 headings but they are saved for the building of the table of contents.
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="depth">The size of the header, also used for table of table of contents indentation.</param>
         /// <param name="link">The self link reference.</param>
         /// <param name="text">The text for the self link.</param>
-        [TwHeadingPluginHandler("Default heading handler", "Handles wiki headings.", 1)]
-        public async Task<TwPluginResult> Handle(ITwEngineState state, int depth, string link, string text)
+        [TwMarkupPluginHandler("Default heading handler", "Handles wiki headings.", precedence: 20)]
+        [TwPluginRegularExpression("^(={2,7}.*)")]
+        public async Task<TwPluginResult> HandleWikiHeadings(ITwEngineState state, string match)
         {
-            depth = Math.Clamp(depth, 1, 6);
-            string html = $"""<div class="tw-heading tw-heading-{depth}" id="{link}"><a href="#{link}">{text}</a></div>""";
-            return new TwPluginResult(html);
+
+            int headingMarkers = 0;
+            foreach (char c in match)
+            {
+                if (c != '=')
+                {
+                    break;
+                }
+                headingMarkers++;
+            }
+            if (headingMarkers >= 2)
+            {
+                string link = state.TocName + "_" + state.TableOfContents.Count.ToString();
+                string text = match.Substring(headingMarkers).Trim().Trim(['=']).Trim();
+
+                int depth = headingMarkers - 1;
+
+                depth = Math.Clamp(depth, 1, 6);
+                state.TableOfContents.Add(new TwTableOfContentsTag(headingMarkers - 1, state.TableOfContents.Count, link, text));
+                string html = $"""<div class="tw-heading tw-heading-{depth}" id="{link}"><a href="#{link}">{text}</a></div>""";
+                return new TwPluginResult(html);
+            }
+
+            return new TwPluginResult()
+            {
+                Instructions = [TwResultInstruction.Skip]
+            };
         }
 
         /// <summary>
@@ -146,22 +245,102 @@ namespace TightWiki.Plugin.Default
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="sequence">The sequence of symbols that were found to denotate this markup instruction,</param>
         /// <param name="scopeBody">The body of text to apply the style to.</param>
-        [TwMarkupPluginHandler("Default markup handler", "Handles basic markup instructions like bold, italic, underline, etc.", 1)]
-        public async Task<TwPluginResult> Handle(ITwEngineState state, char sequence, string scopeBody)
+        [TwMarkupPluginHandler("Default markup handler", "Handles basic markup instructions like bold, italic, underline, etc.", precedence: 50)]
+        [TwPluginRegularExpression(@"\~\~(.*?)\~\~")]
+        [TwPluginRegularExpression(@"\*\*(.*?)\*\*")]
+        [TwPluginRegularExpression(@"__(.*?)__")]
+        [TwPluginRegularExpression(@"\/\/(.*?)\/\/")]
+        [TwPluginRegularExpression(@"\!\!(.*?)\!\!")]
+        public async Task<TwPluginResult> HandleMarkup(ITwEngineState state, string match)
         {
+            char sequence = match[0];
+            string body = match.Substring(2, match.Length - 4);
+
             switch (sequence)
             {
-                case '~': return new TwPluginResult($"<strike>{scopeBody}</strike>");
-                case '*': return new TwPluginResult($"<strong>{scopeBody}</strong>");
-                case '_': return new TwPluginResult($"<u>{scopeBody}</u>");
-                case '/': return new TwPluginResult($"<i>{scopeBody}</i>");
-                case '!': return new TwPluginResult($"<mark>{scopeBody}</mark>");
+                case '~': return new TwPluginResult($"<strike>{body}</strike>");
+                case '*': return new TwPluginResult($"<strong>{body}</strong>");
+                case '_': return new TwPluginResult($"<u>{body}</u>");
+                case '/': return new TwPluginResult($"<i>{body}</i>");
+                case '!': return new TwPluginResult($"<mark>{body}</mark>");
                 default:
                     break;
             }
 
             return new TwPluginResult() { Instructions = [TwResultInstruction.Skip] };
         }
+
+        /// <summary>
+        /// Handles basic markup instructions like bold, italic, underline, etc.
+        /// </summary>
+        /// <param name="state">Reference to the wiki state object</param>
+        /// <param name="sequence">The sequence of symbols that were found to denotate this markup instruction,</param>
+        /// <param name="scopeBody">The body of text to apply the style to.</param>
+        [TwMarkupPluginHandler("Default upsize handler", "Handles upsize markup.", precedence: 1)]
+        [TwPluginRegularExpression(@"\^{2,}.*")]
+        public async Task<TwPluginResult> HandleUpsize(ITwEngineState state, string match)
+        {
+            int headingMarkers = 0;
+            foreach (char c in match)
+            {
+                if (c != '^')
+                {
+                    break;
+                }
+                headingMarkers++;
+            }
+            if (headingMarkers >= 2)
+            {
+                string value = match.Substring(headingMarkers).Trim();
+                double fontSize = 2.2 - (7 - headingMarkers) * 0.2;
+                string markup = $"<span class=\"mb-0\" style=\"font-size: {fontSize}rem;\">{value}</span>\r\n";
+                return new TwPluginResult(markup);
+            }
+
+            return new TwPluginResult() { Instructions = [TwResultInstruction.Skip] };
+        }
+
+        [TwMarkupPluginHandler("Default variable handler", "Handles variable markup.", precedence: 30)]
+        [TwPluginRegularExpression(@"(\$\{.+?\})")]
+        public async Task<TwPluginResult> HandleVariable(ITwEngineState state, string match)
+        {
+            string key = match.Trim(['{', '}', ' ', '\t', '$']);
+            if (key.Contains('='))
+            {
+                var sections = key.Split('=');
+                key = sections[0].Trim();
+                var value = sections[1].Trim();
+
+                if (!state.Variables.TryAdd(key, value))
+                {
+                    state.Variables[key] = value;
+                }
+                return new TwPluginResult() { Instructions = [TwResultInstruction.TruncateTrailingLine] };
+            }
+            else
+            {
+                if (state.Variables.TryGetValue(key, out string? value))
+                {
+                    return new TwPluginResult(value) { Instructions = [TwResultInstruction.TruncateTrailingLine] };
+                }
+                else
+                {
+                    throw new Exception($"The wiki variable {key} is not defined. It should be set with ##Set() before calling Get().");
+                }
+            }
+        }
+
+
+        internal static string GetPageNamePart(string navigation)
+        {
+            var parts = navigation.Trim(':').Trim().Split("::");
+            if (parts.Length > 1)
+            {
+                return string.Join('_', parts.Skip(1));
+            }
+            return navigation.Trim(':');
+        }
+
 
         /// <summary>
         /// Handles an internal wiki link.
@@ -172,11 +351,74 @@ namespace TightWiki.Plugin.Default
         /// <param name="linkText">The text which should be show in the absence of an image.</param>
         /// <param name="image">The image that should be shown.</param>
         /// <param name="imageScale">The 0-100 image scale factor for the given image.</param>
-        [TwInternalLinkPluginHandler("Default internal link handler", "Handles links from one wiki page to another.", 1)]
-        public async Task<TwPluginResult> Handle(ITwEngineState state, TwNamespaceNavigation pageNavigation,
-            string pageName, string linkText, string? image, int imageScale)
+        [TwMarkupPluginHandler("Default internal link handler", "Handles links from one wiki page to another.", precedence: 50)]
+        [TwPluginRegularExpression("(\\[\\[.+?\\]\\])")]
+        public async Task<TwPluginResult> HandleInternalLinks(ITwEngineState state, string match)
         {
+            string keyword = match.Substring(2, match.Length - 4);
+
+            var args = ParsedFunction.ParseArgumentsAddParenthesis(keyword);
+
+            string pageName;
+            string text;
+            string? image = null;
+            int imageScale = 100;
+
+            if (args.Count == 1)
+            {
+                //Page navigation only.
+                text = GetPageNamePart(args[0]); //Text will be page name since we have an image.
+                pageName = args[0];
+            }
+            else if (args.Count >= 2)
+            {
+                //Page navigation and explicit text (possibly image).
+                pageName = args[0];
+
+                string imageTag = "image:";
+                if (args[1].StartsWith(imageTag, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    image = args[1].Substring(imageTag.Length).Trim();
+                    text = GetPageNamePart(args[0]); //Text will be page name since we have an image.
+                }
+                else
+                {
+                    text = args[1]; //Explicit text.
+                }
+
+                if (args.Count >= 3)
+                {
+                    //Get the specified image scale.
+                    if (int.TryParse(args[2], out imageScale) == false)
+                    {
+                        imageScale = 100;
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception($"Invalid internal link syntax: \"{match}\".");
+            }
+
+            pageName = pageName.Trim(':');
+            var pageNavigation = new TwNamespaceNavigation(pageName);
             var page = await state.Engine.DatabaseManager.PageRepository.GetPageRevisionByNavigation(pageNavigation);
+
+
+            if (pageName.Trim().StartsWith("::"))
+            {
+                //The user explicitly specified the root (unnamed) namespace. 
+            }
+            else if (string.IsNullOrEmpty(pageNavigation.Namespace))
+            {
+                //No namespace was specified, use the current page namespace.
+                pageNavigation.Namespace = page.Namespace;
+            }
+            else
+            {
+                //Use the namespace that the user explicitly specified.
+            }
+
 
             if (page == null)
             {
@@ -200,7 +442,7 @@ namespace TightWiki.Plugin.Default
                         else
                         {
                             //The image is located on this page, but this page does not exist.
-                            href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/Page/Create?Name={pageName}\">{linkText}</a>";
+                            href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/Page/Create?Name={pageName}\">{text}</a>";
                         }
 
                         return new TwPluginResult(href)
@@ -208,9 +450,9 @@ namespace TightWiki.Plugin.Default
                             Instructions = [TwResultInstruction.DisallowNestedProcessing]
                         };
                     }
-                    else if (linkText != null)
+                    else if (text != null)
                     {
-                        var href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/Page/Create?Name={pageName}\">{linkText}</a>"
+                        var href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/Page/Create?Name={pageName}\">{text}</a>"
                             + "<font color=\"#cc0000\" size=\"2\">?</font>";
 
                         return new TwPluginResult(href)
@@ -253,9 +495,9 @@ namespace TightWiki.Plugin.Default
                             Instructions = [TwResultInstruction.DisallowNestedProcessing]
                         };
                     }
-                    else if (linkText != null)
+                    else if (text != null)
                     {
-                        return new TwPluginResult(linkText)
+                        return new TwPluginResult(text)
                         {
                             Instructions = [TwResultInstruction.DisallowNestedProcessing]
                         };
@@ -292,7 +534,7 @@ namespace TightWiki.Plugin.Default
                 else
                 {
                     //Just a plain ol' internal page link.
-                    href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\">{linkText}</a>";
+                    href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\">{text}</a>";
                 }
 
                 return new TwPluginResult(href)

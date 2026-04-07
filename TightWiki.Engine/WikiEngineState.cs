@@ -4,11 +4,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-using TightWiki.Engine.Module.Function;
 using TightWiki.Library;
 using TightWiki.Library.Security;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Engine;
+using TightWiki.Plugin.Function;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Models;
 
@@ -22,7 +22,7 @@ namespace TightWiki.Engine
 
         private string _queryTokenHash = "c03a1c9e-da83-479b-87e8-21d7906bd866";
         private int _matchesStoredPerIteration = 0;
-        private readonly string _tocName = "TOC_" + new Random().Next(0, 1000000).ToString();
+        public string TocName { get; } = "TOC_" + new Random().Next(0, 1000000).ToString();
         private readonly Dictionary<string, object> _handlerState = new();
 
         #region Public properties.
@@ -158,7 +158,7 @@ namespace TightWiki.Engine
                 //  and is displayed verbatim on the page. For example, if we have a code block with
                 //  some wiki markup inside it, we don't want that wiki markup to be transformed,
                 //  we want it to be displayed as-is.
-                TransformLiterals(pageContent);
+                //TransformLiterals(pageContent);
 
                 //Now we transform all other handlers, we loop through them until we have no more matches
                 //  to transform because some handlers can introduce new wiki markup that needs to be
@@ -230,14 +230,14 @@ namespace TightWiki.Engine
             await TransformScopeFunctions(pageContent, true); //First pass for "first chance" functions.
             await TransformStandardFunctions(pageContent, true); //First pass for "first chance" functions.
 
-            await TransformComments(pageContent);
-            await TransformHeadings(pageContent);
+            //await TransformComments(pageContent);
+            //await TransformHeadings(pageContent);
 
             await TransformScopeFunctions(pageContent, false); //Second pass for all functions.
-            await TransformVariables(pageContent);
-            await TransformLinks(pageContent);
+            //await TransformVariables(pageContent);
+            //await TransformLinks(pageContent);
             await TransformMarkup(pageContent);
-            await TransformEmoji(pageContent);
+            //await TransformEmoji(pageContent);
 
             await TransformStandardFunctions(pageContent, false); //Second pass for all functions.
             await TransformProcessingInstructionFunctions(pageContent);
@@ -299,66 +299,6 @@ namespace TightWiki.Engine
         {
             pageContent.Replace(Constants.SoftBreak, overrideValue ?? "\r\n");
             pageContent.Replace(Constants.HardBreak, overrideValue ?? "<br />");
-        }
-
-        /// <summary>
-        /// Transform basic markup such as bold, italics, underline, etc. for single and multi-line.
-        /// </summary>
-        private async Task TransformMarkup(TwString pageContent)
-        {
-            var symbols = WikiUtility.GetApplicableSymbols(pageContent.ToString());
-
-            foreach (var symbol in symbols)
-            {
-                var sequence = new string(symbol, 2);
-                var escapedSequence = Regex.Escape(sequence);
-
-                var rgx = new Regex(@$"{escapedSequence}(.*?){escapedSequence}", RegexOptions.IgnoreCase);
-                var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
-                foreach (var match in orderedMatches)
-                {
-                    string body = match.Value.Substring(sequence.Length, match.Value.Length - sequence.Length * 2);
-
-                    bool wasHandled = false;
-                    foreach (var handler in Engine.MarkupHandlers)
-                    {
-                        wasHandled = true;
-                        var result = await handler.Handle(this, symbol, body);
-                        if (!result.Instructions.Contains(TwResultInstruction.Skip))
-                        {
-                            StoreHandlerResult(result, TwMatchType.Markup, pageContent, match.Value);
-                            break;
-                        }
-                    }
-                    if (!wasHandled)
-                    {
-                        await StoreWikiError(pageContent, match.Value, $"No markup tag handler processed the instruction: \"{match.Value}\".");
-                    }
-                }
-            }
-
-            var sizeUpOrderedMatches = WikiUtility.OrderMatchesByLengthDescending(
-                PrecompiledRegex.TransformHeaderMarkup().Matches(pageContent.ToString()));
-
-            foreach (var match in sizeUpOrderedMatches)
-            {
-                int headingMarkers = 0;
-                foreach (char c in match.Value)
-                {
-                    if (c != '^')
-                    {
-                        break;
-                    }
-                    headingMarkers++;
-                }
-                if (headingMarkers >= 2)
-                {
-                    string value = match.Value.Substring(headingMarkers).Trim();
-                    double fontSize = 2.2 - (7 - headingMarkers) * 0.2;
-                    string markup = $"<span class=\"mb-0\" style=\"font-size: {fontSize}rem;\">{value}</span>\r\n";
-                    StoreMatch(TwMatchType.Markup, pageContent, match.Value, markup);
-                }
-            }
         }
 
         /// <summary>
@@ -481,52 +421,39 @@ namespace TightWiki.Engine
             }
         }
 
-        /// <summary>
-        /// Transform headings. These are the basic HTML H1-H6 headings but they are saved for the building of the table of contents.
-        /// </summary>
-        private async Task TransformHeadings(TwString pageContent)
+        private async Task TransformMarkup(TwString pageContent)
         {
-            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
-                PrecompiledRegex.TransformSectionHeadings().Matches(pageContent.ToString()));
+            var handlers = Engine.MarkupHandlers
+                .OrderBy(h => h.PluginAttribute.Precedence)
+                .ThenBy(h => h.HandlerAttribute.Precedence)
+                .ToList();
 
-            foreach (var match in orderedMatches)
+
+            foreach (var handler in handlers)
             {
-                int headingMarkers = 0;
-                foreach (char c in match.Value)
+                if (handler.Method.Name == "HandleExternalLinks")
                 {
-                    if (c != '=')
-                    {
-                        break;
-                    }
-                    headingMarkers++;
                 }
-                if (headingMarkers >= 2)
-                {
-                    string link = _tocName + "_" + TableOfContents.Count.ToString();
-                    string text = match.Value.Substring(headingMarkers).Trim().Trim(['=']).Trim();
 
-                    bool wasHandled = false;
-                    foreach (var handler in Engine.HeadingHandlers)
+                foreach (var expression in handler.Expressions)
+                {
+                    var regex = new Regex(expression);
+
+                    var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(regex.Matches(pageContent.ToString()));
+
+                    foreach (var match in orderedMatches)
                     {
-                        var result = await handler.Handle(this, headingMarkers - 1, link, text);
+                        var result = await handler.Handle(this, match.Value);
                         if (!result.Instructions.Contains(TwResultInstruction.Skip))
                         {
-                            wasHandled = true;
-                            TableOfContents.Add(new TwTableOfContentsTag(headingMarkers - 1, match.Index, link, text));
-                            StoreHandlerResult(result, TwMatchType.Heading, pageContent, match.Value);
-                            break;
+                            StoreHandlerResult(result, TwMatchType.Comment, pageContent, match.Value);
                         }
-                    }
-                    if (!wasHandled)
-                    {
-                        await StoreWikiError(pageContent, match.Value, $"No heading tag handler processed the instruction: \"{match.Value}\".");
                     }
                 }
             }
-        }
 
-        private async Task TransformComments(TwString pageContent)
-        {
+            /*
+
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformComments().Matches(pageContent.ToString()));
 
@@ -548,269 +475,9 @@ namespace TightWiki.Engine
                     await StoreWikiError(pageContent, match.Value, $"No commet tag handler processed the instruction: \"{match.Value}\".");
                 }
             }
+            */
         }
 
-        private async Task TransformEmoji(TwString pageContent)
-        {
-            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
-                PrecompiledRegex.TransformEmoji().Matches(pageContent.ToString()));
-
-            foreach (var match in orderedMatches)
-            {
-                string key = match.Value.Trim().ToLowerInvariant().Trim('%');
-                int scale = 100;
-
-                var parts = key.Split(',');
-                if (parts.Length > 1)
-                {
-                    key = parts[0]; //Image key;
-                    scale = int.Parse(parts[1]); //Image scale.
-                }
-
-                bool wasHandled = false;
-                foreach (var handler in Engine.EmojiHandlers)
-                {
-                    var result = await handler.Handle(this, $"%%{key}%%", scale);
-                    if (!result.Instructions.Contains(TwResultInstruction.Skip))
-                    {
-                        wasHandled = true;
-                        StoreHandlerResult(result, TwMatchType.Emoji, pageContent, match.Value);
-                        break;
-                    }
-                }
-                if (!wasHandled)
-                {
-                    await StoreWikiError(pageContent, match.Value, $"No emoji tag handler processed the instruction: \"{match.Value}\".");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Transform variables.
-        /// </summary>
-        private async Task TransformVariables(TwString pageContent)
-        {
-            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
-                PrecompiledRegex.TransformVariables().Matches(pageContent.ToString()));
-
-            foreach (var match in orderedMatches)
-            {
-                string key = match.Value.Trim(['{', '}', ' ', '\t', '$']);
-                if (key.Contains('='))
-                {
-                    var sections = key.Split('=');
-                    key = sections[0].Trim();
-                    var value = sections[1].Trim();
-
-                    if (!Variables.TryAdd(key, value))
-                    {
-                        Variables[key] = value;
-                    }
-
-                    var identifier = StoreMatch(TwMatchType.Variable, pageContent, match.Value, "");
-                    pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                }
-                else
-                {
-                    if (Variables.TryGetValue(key, out string? value))
-                    {
-                        var identifier = StoreMatch(TwMatchType.Variable, pageContent, match.Value, value);
-                        pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-
-                    }
-                    else
-                    {
-                        throw new Exception($"The wiki variable {key} is not defined. It should be set with ##Set() before calling Get().");
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Transform links, these can be internal Wiki links or external links.
-        /// </summary>
-        private async Task TransformLinks(TwString pageContent)
-        {
-            //Parse external explicit links. eg. [[http://test.net]].
-            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
-                PrecompiledRegex.TransformExplicitHTTPLinks().Matches(pageContent.ToString()));
-
-            foreach (var match in orderedMatches)
-            {
-                string link = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                var args = ParsedFunction.ParseArgumentsAddParenthesis(link);
-
-                string? text = null;
-                string? image = null;
-
-                if (args.Count > 1)
-                {
-                    text = args[1];
-                    link = args[0];
-                    string imageTag = "image:";
-
-                    if (text.StartsWith(imageTag, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        image = text.Substring(imageTag.Length).Trim();
-                        text = null;
-                    }
-                }
-                else
-                {
-                    text = link;
-                }
-
-                bool wasHandled = false;
-                foreach (var handler in Engine.ExternalLinkHandlers)
-                {
-                    var result = await handler.Handle(this, link, text, image);
-                    if (!result.Instructions.Contains(TwResultInstruction.Skip))
-                    {
-                        wasHandled = true;
-                        StoreHandlerResult(result, TwMatchType.Link, pageContent, match.Value);
-                        break;
-                    }
-                }
-                if (!wasHandled)
-                {
-                    await StoreWikiError(pageContent, match.Value, $"No external link tag handler processed the instruction: \"{match.Value}\".");
-                }
-            }
-
-            //Parse external explicit links. eg. [[https://test.net]].
-            orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
-                PrecompiledRegex.TransformExplicitHTTPsLinks().Matches(pageContent.ToString()));
-
-            foreach (var match in orderedMatches)
-            {
-                string link = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                var args = ParsedFunction.ParseArgumentsAddParenthesis(link);
-
-                string? text = null;
-                string? image = null;
-
-                if (args.Count > 1)
-                {
-                    link = args[0];
-                    text = args[1];
-
-                    string imageTag = "image:";
-                    image = null;
-
-                    if (text.StartsWith(imageTag, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        image = text.Substring(imageTag.Length).Trim();
-                        text = null;
-                    }
-                }
-                else
-                {
-                    text = link;
-                }
-
-                bool wasHandled = false;
-                foreach (var handler in Engine.ExternalLinkHandlers)
-                {
-                    var result = await handler.Handle(this, link, text, image);
-                    if (!result.Instructions.Contains(TwResultInstruction.Skip))
-                    {
-                        wasHandled = true;
-                        StoreHandlerResult(result, TwMatchType.Link, pageContent, match.Value);
-                        break;
-                    }
-                }
-                if (!wasHandled)
-                {
-                    await StoreWikiError(pageContent, match.Value, $"No external link tag handler processed the instruction: \"{match.Value}\".");
-                }
-            }
-
-            //Parse internal links. eg [[About Us]], [[About Us, Learn about us]], etc..
-            orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
-                PrecompiledRegex.TransformInternalDynamicLinks().Matches(pageContent.ToString()));
-
-            foreach (var match in orderedMatches)
-            {
-                string keyword = match.Value.Substring(2, match.Value.Length - 4);
-
-                var args = ParsedFunction.ParseArgumentsAddParenthesis(keyword);
-
-                string pageName;
-                string text;
-                string? image = null;
-                int imageScale = 100;
-
-                if (args.Count == 1)
-                {
-                    //Page navigation only.
-                    text = WikiUtility.GetPageNamePart(args[0]); //Text will be page name since we have an image.
-                    pageName = args[0];
-                }
-                else if (args.Count >= 2)
-                {
-                    //Page navigation and explicit text (possibly image).
-                    pageName = args[0];
-
-                    string imageTag = "image:";
-                    if (args[1].StartsWith(imageTag, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        image = args[1].Substring(imageTag.Length).Trim();
-                        text = WikiUtility.GetPageNamePart(args[0]); //Text will be page name since we have an image.
-                    }
-                    else
-                    {
-                        text = args[1]; //Explicit text.
-                    }
-
-                    if (args.Count >= 3)
-                    {
-                        //Get the specified image scale.
-                        if (int.TryParse(args[2], out imageScale) == false)
-                        {
-                            imageScale = 100;
-                        }
-                    }
-                }
-                else
-                {
-                    await StoreWikiError(pageContent, match.Value, $"The external link contains no page name: \"{match.Value}\".");
-                    continue;
-                }
-
-                var pageNavigation = new TwNamespaceNavigation(pageName);
-
-                if (pageName.Trim().StartsWith("::"))
-                {
-                    //The user explicitly specified the root (unnamed) namespace. 
-                }
-                else if (string.IsNullOrEmpty(pageNavigation.Namespace))
-                {
-                    //No namespace was specified, use the current page namespace.
-                    pageNavigation.Namespace = Page.Namespace;
-                }
-                else
-                {
-                    //Use the namespace that the user explicitly specified.
-                }
-
-                bool wasHandled = false;
-                foreach (var handler in Engine.InternalLinkHandlers)
-                {
-                    var result = await handler.Handle(this, pageNavigation, pageName.Trim(':'), text, image, imageScale);
-                    if (!result.Instructions.Contains(TwResultInstruction.Skip))
-                    {
-                        wasHandled = true;
-                        OutgoingLinks.Add(new TwPageReference(pageName, pageNavigation.Canonical));
-                        StoreHandlerResult(result, TwMatchType.Link, pageContent, match.Value);
-                        break;
-                    }
-                }
-                if (!wasHandled)
-                {
-                    await StoreWikiError(pageContent, match.Value, $"No internal link tag handler processed the instruction: \"{match.Value}\".");
-                }
-            }
-        }
 
         /// <summary>
         /// Transform processing instructions are used to flag pages for specific needs such as deletion, review, draft, etc.

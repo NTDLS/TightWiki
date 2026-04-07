@@ -13,14 +13,9 @@ namespace TightWiki.Plugin.Interfaces
         ITwDatabaseManager DatabaseManager { get; }
         ILogger<ITwEngine> Logger { get; }
 
-        List<ITwCommentPlugin> CommentHandlers { get; }
         List<ITwCompletionPlugin> CompletionHandlers { get; }
-        List<ITwEmojiPlugin> EmojiHandlers { get; }
         List<ITwExceptionPlugin> ExceptionHandlers { get; }
-        List<ITwExternalLinkPlugin> ExternalLinkHandlers { get; }
-        List<ITwHeadingPlugin> HeadingHandlers { get; }
-        List<ITwInternalLinkPlugin> InternalLinkHandlers { get; }
-        List<ITwMarkupPlugin> MarkupHandlers { get; }
+        List<ITwHandlerDescriptor> MarkupHandlers { get; }
 
         List<ITwFunctionDescriptor> StandardFunctions { get; }
         List<ITwFunctionDescriptor> ScopeFunctions { get; }

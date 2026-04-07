@@ -7,7 +7,7 @@ using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Module.Function;
 
-namespace TightWiki.Engine.Module.Function
+namespace TightWiki.Plugin.Function
 {
     /// <summary>
     /// Contains information about an actual function call, its supplied parameters, and is matched with a defined function.

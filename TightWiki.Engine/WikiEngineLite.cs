@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using TightWiki.Engine.Module.Function;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Engine;
+using TightWiki.Plugin.Function;
 
 namespace TightWiki.Engine
 {

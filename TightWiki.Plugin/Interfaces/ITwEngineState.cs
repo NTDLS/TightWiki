@@ -50,6 +50,11 @@ namespace TightWiki.Plugin.Interfaces
         #endregion
 
         /// <summary>
+        /// Link tag to use for table of contents entries.
+        /// </summary>
+        string TocName { get; }
+
+        /// <summary>
         /// Used to store values for handlers that needs to survive only a single wiki processing session.
         /// </summary>
         public void SetStateValue<T>(string key, T value);

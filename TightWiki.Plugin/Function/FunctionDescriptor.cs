@@ -4,7 +4,7 @@ using TightWiki.Plugin.Attributes.Functions;
 using TightWiki.Plugin.Interfaces.Module;
 using TightWiki.Plugin.Interfaces.Module.Function;
 
-namespace TightWiki.Engine.Module.Function
+namespace TightWiki.Plugin.Function
 {
     public class FunctionDescriptor(ITwPlugin plugin, MethodInfo method,
         ITwPluginFunctionAttribute attribute, TwPluginAttribute pluginAttribute)
