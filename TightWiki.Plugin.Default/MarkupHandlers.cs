@@ -28,7 +28,7 @@ namespace TightWiki.Plugin.Default
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="match">The matched string from the regular expression</param>
         [TwMarkupPluginHandler("Default literals handler", "Handles literal strings.", precedence: 10)]
-        [TwPluginRegularExpression("{{([\\S\\s]*)}}")]
+        [TwPluginRegularExpression(@"\#\{([\S\s]*?)\}\#")]
         public async Task<TwPluginResult> HandleLiterals(ITwEngineState state, string match)
         {
             string value = match.Substring(2, match.Length - 4);
@@ -46,7 +46,7 @@ namespace TightWiki.Plugin.Default
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="match">The matched string from the regular expression</param>
         [TwMarkupPluginHandler("Default comment handler", "Handles wiki comments.", precedence: 20)]
-        [TwPluginRegularExpression("(\\%\\%.+?\\%\\%)")]
+        [TwPluginRegularExpression(@"\;\;.*")]
         public async Task<TwPluginResult> HandleComment(ITwEngineState state, string text)
         {
             return new TwPluginResult() { Instructions = [TwResultInstruction.TruncateTrailingLine] };
@@ -58,7 +58,7 @@ namespace TightWiki.Plugin.Default
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="match">The matched string from the regular expression</param>
         [TwMarkupPluginHandler("Default heading handler", "Handles wiki headings.", precedence: 30)]
-        [TwPluginRegularExpression("^(={2,7}.*)", multiline: true)]
+        [TwPluginRegularExpression(@"^(={2,7}.*)", multiline: true)]
         public async Task<TwPluginResult> HandleWikiHeadings(ITwEngineState state, string match)
         {
 
@@ -131,8 +131,8 @@ namespace TightWiki.Plugin.Default
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="match">The matched string from the regular expression</param>
         [TwMarkupPluginHandler("Default external link handler", "Handles links the wiki to another site.", precedence: 50)]
-        [TwPluginRegularExpression("(\\[\\[http\\:\\/\\/.+?\\]\\])")]
-        [TwPluginRegularExpression("(\\[\\[https\\:\\/\\/.+?\\]\\])")]
+        [TwPluginRegularExpression(@"(\[\[http\:\/\/.+?\]\])")]
+        [TwPluginRegularExpression(@"(\[\[https\:\/\/.+?\]\])")]
         public async Task<TwPluginResult> HandleExternalLinks(ITwEngineState state, string match)
         {
 
@@ -181,7 +181,7 @@ namespace TightWiki.Plugin.Default
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="match">The matched string from the regular expression</param>
         [TwMarkupPluginHandler("Default internal link handler", "Handles links from one wiki page to another.", precedence: 60)]
-        [TwPluginRegularExpression("(\\[\\[.+?\\]\\])")]
+        [TwPluginRegularExpression(@"(\[\[.+?\]\])")]
         public async Task<TwPluginResult> HandleInternalLinks(ITwEngineState state, string match)
         {
             static string GetPageNamePart(string navigation)
@@ -417,7 +417,7 @@ namespace TightWiki.Plugin.Default
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="match">The matched string from the regular expression</param>
         [TwMarkupPluginHandler("Default emoji handler", "Handles wiki emojis.", precedence: 80)]
-        [TwPluginRegularExpression("(\\$\\{.+?\\})")]
+        [TwPluginRegularExpression(@"(\%\%.+?\%\%)")]
         public async Task<TwPluginResult> HandleEmojis(ITwEngineState state, string match)
         {
             string key = match.Trim().ToLowerInvariant().Trim('%');
