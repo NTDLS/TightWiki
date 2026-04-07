@@ -184,6 +184,9 @@ namespace TightWiki.Plugin.Default
         [TwPluginRegularExpression(@"(\[\[.+?\]\])")]
         public async Task<TwPluginResult> HandleInternalLinks(ITwEngineState state, string match)
         {
+            /// <summary>
+            /// Skips the namespace and returns just the page name part of the navigation.
+            /// </summary>
             static string GetPageNamePart(string navigation)
             {
                 var parts = navigation.Trim(':').Trim().Split("::");

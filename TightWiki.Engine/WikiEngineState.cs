@@ -359,7 +359,7 @@ namespace TightWiki.Engine
         private async Task TransformScopeFunctionBlock(TwString pageContent, bool onlyProcessFirstChanceFunctions)
         {
             // {{([\\S\\s]*)}}
-            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = OrderMatchesByLengthDescending(
                 PrecompiledRegex.ScopeFunctionBlock().Matches(pageContent.ToString()));
 
             foreach (var match in orderedMatches)
@@ -404,7 +404,7 @@ namespace TightWiki.Engine
 
                     var regex = new Regex(expression.Pattern, options);
 
-                    var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(regex.Matches(pageContent.ToString()));
+                    var orderedMatches = OrderMatchesByLengthDescending(regex.Matches(pageContent.ToString()));
 
                     foreach (var match in orderedMatches)
                     {
@@ -424,7 +424,7 @@ namespace TightWiki.Engine
         private async Task TransformProcessingInstructionFunctions(TwString pageContent)
         {
             // <code>(\\@\\@[\\w-]+\\(\\))|(\\@\\@[\\w-]+\\(.*?\\))|(\\@\\@[\\w-]+)</code><br/>
-            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = OrderMatchesByLengthDescending(
                 PrecompiledRegex.ProcessingInstructionBlock().Matches(pageContent.ToString()));
 
             var processingFunctions = Engine.ProcessingFunctions
@@ -454,7 +454,7 @@ namespace TightWiki.Engine
         private async Task TransformStandardFunctions(TwString pageContent, bool onlyProcessFirstChanceFunctions)
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
-            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = OrderMatchesByLengthDescending(
                 PrecompiledRegex.StandardFunctionBlock().Matches(pageContent.ToString()));
 
             foreach (var match in orderedMatches)
@@ -500,7 +500,7 @@ namespace TightWiki.Engine
         private async Task TransformPostProcessingFunctions(TwString pageContent)
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
-            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = OrderMatchesByLengthDescending(
                 PrecompiledRegex.PostProcessBlock().Matches(pageContent.ToString()));
 
             var postProcessingFunctions = Engine.StandardFunctions
@@ -542,6 +542,36 @@ namespace TightWiki.Engine
         }
 
         #region Utility.
+
+        internal static string WarningCard(string header, string exceptionText)
+        {
+            var html = new StringBuilder();
+
+            html.AppendLine("<div class=\"card bg-warning mb-3\">");
+            html.AppendLine($"  <div class=\"card-header\"><strong>{header}</strong></div>");
+            html.AppendLine("  <div class=\"card-body\">");
+            html.AppendLine($"    <p class=\"card-text mb-0\">{exceptionText}</p>");
+            html.AppendLine("  </div>");
+            html.AppendLine("</div>");
+
+            return html.ToString();
+        }
+
+        internal static List<OrderedMatch> OrderMatchesByLengthDescending(MatchCollection matches)
+        {
+            var result = new List<OrderedMatch>();
+
+            foreach (Match match in matches)
+            {
+                result.Add(new OrderedMatch
+                {
+                    Value = match.Value,
+                    Index = match.Index
+                });
+            }
+
+            return result.OrderByDescending(o => o.Value.Length).ToList();
+        }
 
         private void StoreHandlerResult(TwPluginResult result, TwMatchType matchType, TwString pageContent, string matchValue)
         {
@@ -587,7 +617,7 @@ namespace TightWiki.Engine
             }
 
             ErrorCount++;
-            HtmlResult = WikiUtility.WarningCard("Wiki Parser Exception", ex.Message);
+            HtmlResult = WarningCard("Wiki Parser Exception", ex.Message);
         }
 
         private async Task<string> StoreWikiError(TwString pageContent, string match, string value)
@@ -669,5 +699,7 @@ namespace TightWiki.Engine
         }
 
         #endregion
+
+
     }
 }
