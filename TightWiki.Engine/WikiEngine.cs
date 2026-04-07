@@ -2,13 +2,13 @@
 using NTDLS.Helpers;
 using System.Reflection;
 using TightWiki.Engine.Module;
+using TightWiki.Engine.Module.Function;
 using TightWiki.Engine.Module.Handlers;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Functions;
 using TightWiki.Plugin.Attributes.Handlers;
 using TightWiki.Plugin.Engine;
-using TightWiki.Plugin.Function;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Module;
 using TightWiki.Plugin.Interfaces.Module.Function;
@@ -100,7 +100,6 @@ namespace TightWiki.Engine
                     item.Expressions.AddRange(expressionAttributes);
                 }
 
-                Console.WriteLine(item.HandlerAttribute.Name);
                 item.Plugin.Handlers.Add(item);
                 MarkupHandlers.Add(item);
             }

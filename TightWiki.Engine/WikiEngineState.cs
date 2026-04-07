@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.RegularExpressions;
+using TightWiki.Engine.Module.Function;
 using TightWiki.Library;
 using TightWiki.Library.Security;
 using TightWiki.Plugin;

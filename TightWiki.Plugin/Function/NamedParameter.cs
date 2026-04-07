@@ -16,6 +16,7 @@
         /// Name of the parameter.
         /// </summary>
         public string Name { get; set; } = name;
+
         /// <summary>
         /// Value of the parameter.
         /// </summary>
