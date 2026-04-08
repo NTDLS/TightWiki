@@ -26,24 +26,7 @@
 {
     <div class="card shadow-sm">
         <div class="card-header d-flex align-items-center gap-2">
-            @switch (Model.Handler?.HandlerAttribute.GetType())
-            {
-                case Type t when t == typeof(TwProcessingInstructionFunctionPluginAttribute):
-                    <i class="bi bi-cpu text-primary" data-bs-toggle="tooltip" title="Processing function"></i>
-                    break;
-                case Type t when t == typeof(TwScopeFunctionPluginAttribute):
-                    <i class="bi bi-bounding-box text-primary" data-bs-toggle="tooltip" title="Scope function"></i>
-                    break;
-                case Type t when t == typeof(TwStandardFunctionPluginAttribute):
-                    <i class="bi bi-gear text-primary" data-bs-toggle="tooltip" title="Standard function"></i>
-                    break;
-                case Type t when t == typeof(TwMarkupPluginHandlerAttribute):
-                    <i class="bi bi-code-slash text-muted" data-bs-toggle="tooltip" title="Markup handler"></i>
-                    break;
-                default:
-                    <i class="bi bi-question-circle" data-bs-toggle="tooltip" title="Unknown type"></i>
-                    break;
-            }
+            <i class="bi bi-code-slash text-muted" data-bs-toggle="tooltip" title="Markup handler"></i>
             @Localizer["Plugin Handler"]
         </div>
 
@@ -75,66 +58,38 @@
                 </div>
             </div>
 
-@*             <div class="d-flex ms-2 mb-1">
-                <div class="fw-semibold" style="width:140px;">
-                    @Localizer["Demarcation"]
-                </div>
-                <div>
-                    @Model.Handler?.HandlerAttribute.Demarcation
-                </div>
-            </div>
-
             <div class="d-flex ms-2 mb-1">
                 <div class="fw-semibold" style="width:140px;">
-                    @Localizer["Is First Chance?"]
+                    @Localizer["Is Lite Permissiable?"]
                 </div>
                 <div>
-                    @Model.Handler?.HandlerAttribute.IsFirstChance
+                    @Model.Handler?.HandlerAttribute.IsLitePermissiable
                 </div>
-            </div> *@
-
-            @if (Model.Handler != null)
-            {
-                <div class="mt-3 pt-2 border-top">
-                    <div class="small text-body-secondary mb-1">
-                        <i class="bi bi-code-slash me-1"></i>
-                        @Localizer["Handler Signature"]
-                    </div>
-
-                    <div class="font-monospace px-2 py-1">
-                        
-                    </div>
-                </div>
-            }
+            </div>
         </div>
     </div>
 
-    @if (Model.Handler != null)
+    @if (Model.Handler?.ExpressionAttributes.Count > 0)
     {
-        int skipCount;
-        if (Model.Handler.HandlerAttribute is TwScopeFunctionPluginAttribute)
-        {
-            skipCount = 2; //State and body.
-        }
-        else
-        {
-            skipCount = 1; //State.
-        }
-
-        @if (Model.Handler.Parameters.Skip(skipCount).Count() > 0)
-        {
-
-            <div class="card shadow-sm mt-2">
-                <div class="card-header d-flex align-items-center gap-2">
-                    <i class="bi bi-gear"></i>
-                    <span class="fw-semibold">@Localizer["Parameters"]</span>
-                </div>
-
-                <div class="card-body">
-                    
-                </div>
+        <div class="card shadow-sm mt-2">
+            <div class="card-header d-flex align-items-center gap-2">
+                <i class="bi bi-braces"></i>
+                <span class="fw-semibold">@Localizer["Expressions"]</span>
             </div>
-        }
-    }
 
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    @foreach (var exprAttr in Model.Handler.ExpressionAttributes)
+                    {
+                        <li class="list-group-item">
+                            <code class="d-block bg-light border rounded px-2 py-1 small">
+                                @exprAttr.Pattern
+                            </code>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
 }
+

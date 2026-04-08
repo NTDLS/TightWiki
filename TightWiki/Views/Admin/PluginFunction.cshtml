@@ -37,10 +37,6 @@
                 case Type t when t == typeof(TwStandardFunctionPluginAttribute):
                     <i class="bi bi-gear text-primary" data-bs-toggle="tooltip" title="Standard function"></i>
                     break;
-                case Type t when t == typeof(TwMarkupPluginHandlerAttribute):
-                    <i class="bi bi-code-slash text-muted" data-bs-toggle="tooltip" title="Markup handler"></i>
-                    break;
-
                 default:
                     <i class="bi bi-question-circle" data-bs-toggle="tooltip" title="Unknown type"></i>
                     break;
@@ -91,6 +87,15 @@
                 </div>
                 <div>
                     @Model.Function?.FunctionAttribute.IsFirstChance
+                </div>
+            </div>
+
+            <div class="d-flex ms-2 mb-1">
+                <div class="fw-semibold" style="width:140px;">
+                    @Localizer["Is Lite Permissiable?"]
+                </div>
+                <div>
+                    @Model.Function?.FunctionAttribute.IsLitePermissiable
                 </div>
             </div>
 

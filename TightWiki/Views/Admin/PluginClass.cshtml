@@ -23,32 +23,29 @@
 </div>
 
 <div class="card shadow-sm">
-    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
-        <span class="fw-semibold">
-            <i class="bi bi-plug me-2"></i>@Localizer["Plugin Class"]
-        </span>
+    <div class="card-header d-flex align-items-center gap-2">
+        <i class="bi bi-plug me-2"></i>@Localizer["Plugin Class"]
     </div>
 
-    <div class="col-12 row align-items-center">
-        <label class="col-auto col-form-label fw-semibold ms-2 pe-2">
-            @Localizer["Name"]
-        </label>
-        <div class="col-auto">
-            <div class="form-control-plaintext p-0">
+    <div class="card-body">
+        <div class="d-flex ms-2 mb-1">
+            <div class="fw-semibold" style="width:140px;">
+                @Localizer["Name"]
+            </div>
+            <div>
                 @Model.Plugin?.Name
             </div>
         </div>
-    </div>
 
-    <div class="col-12 row align-items-center">
-        <label class="col-auto col-form-label fw-semibold ms-2 pe-2">
-            @Localizer["Description"]
-        </label>
-        <div class="col-auto">
-            <div class="form-control-plaintext p-0">
+        <div class="d-flex ms-2 mb-1">
+            <div class="fw-semibold" style="width:140px;">
+                @Localizer["Description"]
+            </div>
+            <div>
                 @Model.Plugin?.Description
             </div>
         </div>
+
     </div>
 </div>
 
