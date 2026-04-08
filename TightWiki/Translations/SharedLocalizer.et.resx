@@ -2677,4 +2677,43 @@
   <data name="Select a severity" xml:space="preserve">
     <value>Vali tõsidus</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>Plugina klass</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>Plugina funktsioon</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>Juhteklass</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>Globaalselt konfiguratsioon plugina klassile.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>Globaalselt konfiguratsioon plugina funktsioonile.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>Piirejoon</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>Kas esimene võimalus?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>Kas Lite Permissible?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>Funktsiooni signeatuur</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parameetrid</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>Global configuration for plugin handler.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>Plugina käsitsemine</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>Väljendid</value>
+  </data>
 </root>

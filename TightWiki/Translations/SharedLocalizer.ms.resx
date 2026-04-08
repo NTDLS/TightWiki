@@ -2677,4 +2677,43 @@
   <data name="Select a severity" xml:space="preserve">
     <value>Pilih tahap keparahan</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>Kelas Pemalam</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>Fungsi Pemalam</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>Kelas Pengendali</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>konfigurasi global untuk kelas pemalam.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>konfigurasi global untuk fungsi pemalam.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>Pembatasan</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>Adakah Peluang Pertama?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>Adakah Izin Lite?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>Titik Tanda Tangan Fungsi</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>konfigurasi global untuk pengendali pemalam.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>Pengendali Pemalam</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>Ekspresi</value>
+  </data>
 </root>

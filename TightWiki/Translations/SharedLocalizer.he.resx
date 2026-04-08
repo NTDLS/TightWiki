@@ -2677,4 +2677,43 @@
   <data name="Select a severity" xml:space="preserve">
     <value>בחר חומרה</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>מחלקת תוספים</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>פונקציית תוסף</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>מחלקת מטפל</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>קונפיגורציה גלובלית למחלקת התוספים.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>קונפיגורציה גלובלית לפונקציית התוסף.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>הפרדה</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>האם זו הפעם הראשונה?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>האם רשיון קל?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>חתימת פונקציה</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>פרמטרים</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>קונפיגורציה גלובלית למחלקת המטפל בתוסף.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>מטפל תוספים</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>ביטויים</value>
+  </data>
 </root>

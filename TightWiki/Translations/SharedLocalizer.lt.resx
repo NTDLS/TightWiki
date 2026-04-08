@@ -2677,4 +2677,43 @@
   <data name="Select a severity" xml:space="preserve">
     <value>Pasirinkite sunkumo lygį</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>Įskiepio klasė</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>Įskiepio funkcija</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>Valdymo klasė</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>GLOBALINĖ KONfigūracija įskiepio klasei.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>GLOBALINĖ KONfigūracija įskiepio funkcijai.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>Žymėjimas</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>Ar pirmoji galimybė?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>Ar leidžiama naudoti Lite?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>Funkcijos parašas</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parametrai</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>Globalinė konfigūracija įskiepio valdymui.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>Įskiepio valdymo klase</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>Išraiškos</value>
+  </data>
 </root>

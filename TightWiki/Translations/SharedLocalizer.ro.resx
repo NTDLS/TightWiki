@@ -2677,4 +2677,43 @@
   <data name="Select a severity" xml:space="preserve">
     <value>Selectează o severitate</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>Clasă de plugin</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>Funcție de plugin</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>Clasă de handler</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>Configurație globală pentru clasa de plugin.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>Configurație globală pentru funcția de plugin.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>Demarcație</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>Este Prima Șansă?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>Este Permisibil Lite?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>Semnătura funcției</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parametri</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>Configurație globală pentru handlerul de plugin.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>Handler de plugin</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>Expresii</value>
+  </data>
 </root>

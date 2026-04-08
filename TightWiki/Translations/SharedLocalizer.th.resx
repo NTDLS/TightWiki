@@ -2677,4 +2677,43 @@
   <data name="Select a severity" xml:space="preserve">
     <value>เลือกความรุนแรง</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>คลาสปลั๊กอิน</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>ฟังก์ชันปลั๊กอิน</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>คลาสตัวจัดการ</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>การกำหนดค่าระบบสำหรับคลาสปลั๊กอิน</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>การกำหนดค่าระบบสำหรับฟังก์ชันปลั๊กอิน</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>การแบ่งเขต</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>เป็นโอกาสแรกหรือไม่?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>อนุญาตให้น้อยหรือไม่?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>ลายเซ็นต์ของฟังก์ชัน</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>พารามิเตอร์</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>การกำหนดค่าระบบสำหรับตัวจัดการปลั๊กอิน</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>ตัวจัดการปลั๊กอิน</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>นิพจน์</value>
+  </data>
 </root>

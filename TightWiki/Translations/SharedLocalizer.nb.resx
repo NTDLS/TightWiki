@@ -2668,4 +2668,43 @@
   <data name="Select a severity" xml:space="preserve">
     <value>Velg en alvorlighetsgrad</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>Plugin-Klasse</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>Plugin-Funksjon</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>Håndteringsklasse</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>Global konfigurasjon for plugin-klasse.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>Global konfigurasjon for plugin-funksjon.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>Markering</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>Er Første Sjansen?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>Er Lite Tillatelig?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>Funksjonssignatur</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parametere</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>Global konfigurasjon for plugin-håndterer.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>Plugin Håndterer</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>Uttrykk</value>
+  </data>
 </root>

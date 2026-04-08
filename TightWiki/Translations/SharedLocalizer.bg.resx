@@ -2677,4 +2677,43 @@
   <data name="Select a severity" xml:space="preserve">
     <value>Изберете степен на сериозност</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>Клас на приставка</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>Функция на приставка</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>Клас на обработчика</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>Глобална конфигурация за класа на приставката.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>Глобална конфигурация за функцията на приставката.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>Обозначение</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>Първа възможност?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>Разрешена ли е Lite?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>Подпис на функцията</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Параметри</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>Глобална конфигурация за обработчика на приставката.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>Обработчик на приставката</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>Изрази</value>
+  </data>
 </root>

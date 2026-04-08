@@ -2677,4 +2677,43 @@
   <data name="Select a severity" xml:space="preserve">
     <value>شدت کا انتخاب کریں</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>پلگ ان کلاس</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>پلگ ان فنکشن</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>ہینڈلر کلاس</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>پلگ ان کلاس کے لیے عالمی ترتیب</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>پلگ ان فنکشن کے لیے عالمی ترتیب</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>حد بندی</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>کیا یہ پہلی موقع ہے؟</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>کیا لائٹ اجازت قابل قبول ہے؟</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>فنکشن دستخط</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>پیرامیٹرز</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>پلگ ان ہینڈلر کے لیے عالمی ترتیب</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>پلگ ان ہینڈلر</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>اظہارات</value>
+  </data>
 </root>

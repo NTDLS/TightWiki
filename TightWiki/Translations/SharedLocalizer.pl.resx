@@ -2677,4 +2677,43 @@
   <data name="Select a severity" xml:space="preserve">
     <value>Wybierz poziom powagi</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>Klasa wtyczki</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>Funkcja wtyczki</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>Klasa obsługi</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>Globalna konfiguracja dla klasy wtyczki.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>Globalna konfiguracja dla funkcji wtyczki.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>Oddzielenie</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>Czy to pierwsza szansa?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>Czy dozwolone jest lekkie uprawnienie?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>Sygnatura funkcji</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parametry</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>Globalna konfiguracja dla obsługi wtyczki.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>Obsługa wtyczki</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>Wyrażenia</value>
+  </data>
 </root>

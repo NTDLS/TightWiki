@@ -2677,4 +2677,43 @@
   <data name="Select a severity" xml:space="preserve">
     <value>Odaberite težinu</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>Klasa dodatka</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>Funkcija dodatka</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>Klasa upravitelja</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>Globalna konfiguracija za klasu dodatka.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>Globalna konfiguracija za funkciju dodatka.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>Označavanje</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>Je li Prva Prilika?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>Je li Liten Dozvoljen?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>Potpis funkcije</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parametri</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>Globalna konfiguracija za upravitelja dodatka.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>Upravitelj dodatka</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>Izrazi</value>
+  </data>
 </root>

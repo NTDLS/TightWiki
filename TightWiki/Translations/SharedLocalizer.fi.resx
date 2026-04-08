@@ -2677,4 +2677,43 @@
   <data name="Select a severity" xml:space="preserve">
     <value>Valitse vakavuus</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>Liitännäsklassi</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>Liitännäistoiminto</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>käsittelijäluokka</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>Yleiskokoonpano liitännäsklassille.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>Yleiskokoonpano liitännäistoiminnolle.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>Rajaaminen</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>Onko Ensimmäinen Mahdollisuus?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>Onko Kevyt SALLITTAVA?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>Toimintokuvauksen allekirjoitus</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parametrit</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>Yleiskokoonpano liitännäishallinnan.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>Liitännäishallinta</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>Ilmaisut</value>
+  </data>
 </root>
