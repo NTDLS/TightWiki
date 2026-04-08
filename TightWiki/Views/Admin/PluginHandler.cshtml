@@ -82,9 +82,20 @@
                     @foreach (var exprAttr in Model.Handler.ExpressionAttributes)
                     {
                         <li class="list-group-item">
-                            <code class="d-block bg-light border rounded px-2 py-1 small">
-                                @exprAttr.Pattern
-                            </code>
+                            <div class="d-flex align-items-center justify-content-between gap-2">
+                                <code class="bg-light border rounded px-2 py-1 small text-break flex-grow-1">
+                                    @exprAttr.Pattern
+                                </code>
+
+                                @if (exprAttr.Multiline)
+                                {
+                                    <span class="badge text-bg-primary">MULTILINE</span>
+                                }
+                                else
+                                {
+                                    <span class="badge text-bg-secondary">SINGLE</span>
+                                }
+                            </div>
                         </li>
                     }
                 </ul>
