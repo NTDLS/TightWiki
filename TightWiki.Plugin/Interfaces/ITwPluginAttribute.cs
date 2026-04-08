@@ -22,5 +22,10 @@
         /// Lower values indicate higher priority.
         /// </summary>
         public int Precedence { get; }
+
+        /// <summary>
+        /// Indicates that the function can be used by the lite wiki engine.
+        /// </summary>
+        bool IsLitePermissiable { get; }
     }
 }

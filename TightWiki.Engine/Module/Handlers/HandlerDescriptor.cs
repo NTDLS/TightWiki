@@ -42,7 +42,7 @@ namespace TightWiki.Engine.Module.Handlers
         /// </summary>
         public ITwPlugin Plugin { get; }
 
-        public List<TwPluginRegularExpressionAttribute> Expressions { get; } = new();
+        public List<TwPluginRegularExpressionAttribute> ExpressionAttributes { get; } = new();
 
         public HandlerDescriptor(ITwPlugin plugin, MethodInfo method,
             ITwPluginHandlerAttribute handlerAttribute, TwPluginAttribute pluginAttribute)

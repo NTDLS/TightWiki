@@ -26,9 +26,8 @@ namespace TightWiki.Engine
         public List<ITwPlugin> Plugins { get; private set; } = new();
         public ITwDatabaseManager DatabaseManager { get; private set; }
 
-        public List<ITwCommentPlugin> CommentHandlers { get; private set; } = new();
-        public List<ITwCompletionPlugin> CompletionHandlers { get; private set; } = new();
-        public List<ITwExceptionPlugin> ExceptionHandlers { get; private set; } = new();
+        public List<ITwCompletionDescriptor> CompletionHandlers { get; private set; } = new();
+        public List<ITwExceptionDescriptor> ExceptionHandlers { get; private set; } = new();
         public List<ITwHandlerDescriptor> MarkupHandlers { get; private set; } = new();
 
         public List<ITwFunctionDescriptor> ProcessingFunctions { get; private set; } = new();
@@ -94,12 +93,6 @@ namespace TightWiki.Engine
 
             foreach (var item in BuildHandlerDescriptors<TwMarkupPluginHandlerAttribute>(Plugins))
             {
-                var expressionAttributes = item.Method.GetCustomAttributes<TwPluginRegularExpressionAttribute>();
-                if (expressionAttributes.Any())
-                {
-                    item.Expressions.AddRange(expressionAttributes);
-                }
-
                 item.Plugin.Handlers.Add(item);
                 MarkupHandlers.Add(item);
             }
@@ -117,9 +110,9 @@ namespace TightWiki.Engine
                     x.Method,
                     x.Module,
                     PluginAttribute = x.Method.DeclaringType?.GetCustomAttribute<TwPluginAttribute>(),
-                    Attribute = x.Method.GetCustomAttribute<TFunctionAttribute>()
+                    FunctionAttribute = x.Method.GetCustomAttribute<TFunctionAttribute>()
                 })
-                .Where(x => x.Attribute != null && x.PluginAttribute != null)
+                .Where(x => x.FunctionAttribute != null && x.PluginAttribute != null)
                 .Select(x =>
                 {
                     if (x.PluginAttribute == null)
@@ -128,15 +121,15 @@ namespace TightWiki.Engine
                         throw new InvalidOperationException($"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
                     return x;
                 })
-                .Select(x => new FunctionDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull(), x.PluginAttribute.EnsureNotNull()))
+                .Select(x => new FunctionDescriptor(x.Module, x.Method, x.FunctionAttribute.EnsureNotNull(), x.PluginAttribute.EnsureNotNull()))
                 .OrderByDescending(o => o.FunctionAttribute.IsFirstChance)
                 .ThenBy(o => o.PluginAttribute.Precedence)
                 .ThenBy(o => o.FunctionAttribute.Precedence)
                 .ToList();
         }
 
-        private static List<MarkupHandlerDescriptor> BuildHandlerDescriptors<TFunctionAttribute>(List<ITwPlugin> pluginModules)
-            where TFunctionAttribute : Attribute, ITwPluginHandlerAttribute
+        private static List<MarkupHandlerDescriptor> BuildHandlerDescriptors<THandlerAttribute>(List<ITwPlugin> pluginModules)
+            where THandlerAttribute : Attribute, ITwPluginHandlerAttribute
         {
             return pluginModules
                 .SelectMany(module => module.DeclaringType
@@ -147,9 +140,10 @@ namespace TightWiki.Engine
                     x.Method,
                     x.Module,
                     PluginAttribute = x.Method.DeclaringType?.GetCustomAttribute<TwPluginAttribute>(),
-                    Attribute = x.Method.GetCustomAttribute<TFunctionAttribute>()
+                    HandlerAttribute = x.Method.GetCustomAttribute<THandlerAttribute>(),
+                    ExpressionAttributes = x.Method.GetCustomAttributes<TwPluginRegularExpressionAttribute>().ToList()
                 })
-                .Where(x => x.Attribute != null && x.PluginAttribute != null)
+                .Where(x => x.HandlerAttribute != null && x.PluginAttribute != null)
                 .Select(x =>
                 {
                     if (x.PluginAttribute == null)
@@ -158,7 +152,8 @@ namespace TightWiki.Engine
                         throw new InvalidOperationException($"Function '{x.Method.Name}' on '{x.Method.DeclaringType?.Name}' must return Task<HandlerResult>.");
                     return x;
                 })
-                .Select(x => new MarkupHandlerDescriptor(x.Module, x.Method, x.Attribute.EnsureNotNull(), x.PluginAttribute.EnsureNotNull()))
+                .Select(x => new MarkupHandlerDescriptor(x.Module, x.Method,
+                    x.HandlerAttribute.EnsureNotNull(), x.PluginAttribute.EnsureNotNull(), x.ExpressionAttributes))
                 .OrderBy(o => o.PluginAttribute.Precedence)
                 .ThenBy(o => o.HandlerAttribute.Precedence)
                 .ToList();
@@ -193,6 +188,24 @@ namespace TightWiki.Engine
             };
 
             var childState = new WikiEngineState(Logger, this, localizer, session, page);
+            return await childState.Transform();
+        }
+
+        /// <summary>
+        /// Transforms the content for the given string markup using the lite wiki engine.
+        /// </summary>
+        /// <param name="localizer">The localization text provider.</param>
+        /// <param name="session">The users current state, used for localization.</param>
+        /// <param name="markup">The markup content that is being processed.</param>
+        public async Task<ITwEngineState> TransformLite(ITwSharedLocalizationText localizer, ITwSessionState? session, string markup)
+        {
+            var page = new TwPage()
+            {
+                Body = markup,
+                Name = "adhoc"
+            };
+
+            var childState = new WikiEngineState(Logger, this, localizer, session, page, isLite: true);
             return await childState.Transform();
         }
     }

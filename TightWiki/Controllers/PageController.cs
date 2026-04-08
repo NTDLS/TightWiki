@@ -9,7 +9,6 @@ using SixLabors.ImageSharp;
 using System.Globalization;
 using System.Text;
 using System.Xml.Serialization;
-using TightWiki.Engine;
 using TightWiki.Library;
 using TightWiki.Library.Caching;
 using TightWiki.Library.Security;
@@ -206,7 +205,7 @@ namespace TightWiki.Controllers
                                 Id = comment.Id,
                                 UserName = comment.UserName,
                                 UserId = comment.UserId,
-                                Body = WikiEngineLite.Process(WikiConfiguration, comment.Body),
+                                Body = (await tightEngine.TransformLite(Localizer, SessionState, comment.Body)).HtmlResult,
                                 CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
                             });
                         }
@@ -471,7 +470,7 @@ namespace TightWiki.Controllers
                         Id = comment.Id,
                         UserName = comment.UserName,
                         UserId = comment.UserId,
-                        Body = WikiEngineLite.Process(WikiConfiguration, comment.Body),
+                        Body = (await tightEngine.TransformLite(Localizer, SessionState, comment.Body)).HtmlResult,
                         CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
                     });
                 }
@@ -539,7 +538,7 @@ namespace TightWiki.Controllers
                         Id = comment.Id,
                         UserName = comment.UserName,
                         UserId = comment.UserId,
-                        Body = WikiEngineLite.Process(WikiConfiguration, comment.Body),
+                        Body = (await tightEngine.TransformLite(Localizer, SessionState, comment.Body)).HtmlResult,
                         CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
                     });
                 }

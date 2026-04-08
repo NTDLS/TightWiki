@@ -17,6 +17,7 @@ namespace TightWiki.Engine
     public class WikiEngineState
         : ITwEngineState
     {
+        public bool IsLite { get; private set; } = false;
         public ITwEngine Engine { get; private set; }
         public ITwSharedLocalizationText Localizer { get; private set; }
 
@@ -111,8 +112,9 @@ namespace TightWiki.Engine
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
         /// <param name="nestDepth">The current depth of recursion.</param>
         internal WikiEngineState(ILogger<ITwEngine> logger, ITwEngine engine, ITwSharedLocalizationText localizer, ITwSessionState? session,
-            ITwPage page, int? revision = null, TwMatchType[]? omitMatches = null, int nestDepth = 0)
+            ITwPage page, int? revision = null, TwMatchType[]? omitMatches = null, int nestDepth = 0, bool isLite = false)
         {
+            IsLite = isLite;
             Localizer = localizer;
             Logger = logger;
             QueryString = session?.QueryString ?? new EmptyQueryCollection();
@@ -362,6 +364,9 @@ namespace TightWiki.Engine
             var orderedMatches = OrderMatchesByLengthDescending(
                 PrecompiledRegex.ScopeFunctionBlock().Matches(pageContent.ToString()));
 
+            var scopeFunctions = Engine.ScopeFunctions
+                .Where(o => IsLite == false || o.FunctionAttribute.IsLitePermissiable == true).ToList();
+
             foreach (var match in orderedMatches)
             {
                 var parsedFunction = ParsedFunction.Create(match.Value);
@@ -369,14 +374,14 @@ namespace TightWiki.Engine
                 try
                 {
                     if (onlyProcessFirstChanceFunctions
-                        && Engine.ScopeFunctions.TryGetFunctionDescriptor(parsedFunction, out var function)
+                        && scopeFunctions.TryGetFunctionDescriptor(parsedFunction, out var function)
                         && function.FunctionAttribute.IsFirstChance == false)
                     {
                         //We are only processing "first chance" functions, so skip processing this function.
                         continue;
                     }
 
-                    var preparedFunction = PreparedFunction.Create(this, Engine.ScopeFunctions, parsedFunction);
+                    var preparedFunction = PreparedFunction.Create(this, scopeFunctions, parsedFunction);
                     var result = await preparedFunction.Execute();
                     StoreHandlerResult(result, TwMatchType.StandardFunction, pageContent, match.Value);
                 }
@@ -391,13 +396,14 @@ namespace TightWiki.Engine
         private async Task TransformMarkup(TwString pageContent)
         {
             var handlers = Engine.MarkupHandlers
+                .Where(o => IsLite == false || o.HandlerAttribute.IsLitePermissiable == true)
                 .OrderBy(h => h.PluginAttribute.Precedence)
                 .ThenBy(h => h.HandlerAttribute.Precedence)
                 .ToList();
 
             foreach (var handler in handlers)
             {
-                foreach (var expression in handler.Expressions)
+                foreach (var expression in handler.ExpressionAttributes)
                 {
                     RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
                             | (expression.Multiline ? RegexOptions.Multiline : RegexOptions.None);
@@ -457,26 +463,24 @@ namespace TightWiki.Engine
             var orderedMatches = OrderMatchesByLengthDescending(
                 PrecompiledRegex.StandardFunctionBlock().Matches(pageContent.ToString()));
 
+            var standardFunctions = Engine.StandardFunctions
+                .Where(o => IsLite == false || o.FunctionAttribute.IsLitePermissiable == true).ToList();
+
             foreach (var match in orderedMatches)
             {
                 var parsedFunction = ParsedFunction.Create(match.Value);
 
                 try
                 {
-                    var preparedFunction = PreparedFunction.Create(this, Engine.StandardFunctions, parsedFunction);
+                    var preparedFunction = PreparedFunction.Create(this, standardFunctions, parsedFunction);
 
-                    if (!Engine.StandardFunctions.TryGetFunctionDescriptor(parsedFunction, out var function))
-                    {
-                        throw new Exception($"The function {parsedFunction.Name} is not recognized.");
-                    }
-
-                    if (onlyProcessFirstChanceFunctions && function.FunctionAttribute.IsFirstChance == false)
+                    if (onlyProcessFirstChanceFunctions && preparedFunction.Descriptor.FunctionAttribute.IsFirstChance == false)
                     {
                         //We are only processing "first chance" functions, so skip processing this function.
                         continue;
                     }
 
-                    if (function.FunctionAttribute.IsPostProcess)
+                    if (preparedFunction.Descriptor.FunctionAttribute.IsPostProcess)
                     {
                         //This IS a function, but it is meant to be parsed at the end of processing.
                         continue;

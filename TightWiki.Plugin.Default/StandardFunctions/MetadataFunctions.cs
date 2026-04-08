@@ -97,7 +97,6 @@ namespace TightWiki.Plugin.Default.StandardFunctions
         }
 
 
-
         [TwStandardFunctionPlugin("LastModified", "Displays the date and time that the current page was last modified.")]
         public async Task<TwPluginResult> LastModified(ITwEngineState state)
         {

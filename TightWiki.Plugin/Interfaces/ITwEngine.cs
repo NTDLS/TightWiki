@@ -13,15 +13,38 @@ namespace TightWiki.Plugin.Interfaces
         ITwDatabaseManager DatabaseManager { get; }
         ILogger<ITwEngine> Logger { get; }
 
-        List<ITwCompletionPlugin> CompletionHandlers { get; }
-        List<ITwExceptionPlugin> ExceptionHandlers { get; }
+        List<ITwCompletionDescriptor> CompletionHandlers { get; }
+        List<ITwExceptionDescriptor> ExceptionHandlers { get; }
         List<ITwHandlerDescriptor> MarkupHandlers { get; }
 
         List<ITwFunctionDescriptor> StandardFunctions { get; }
         List<ITwFunctionDescriptor> ScopeFunctions { get; }
         List<ITwFunctionDescriptor> ProcessingFunctions { get; }
 
-        Task<ITwEngineState> Transform(ITwSharedLocalizationText localizer, ITwSessionState? sessionState, ITwPage page, int? revision = null, TwMatchType[]? omitMatches = null);
+        /// <summary>
+        /// Transforms the content for the given page.
+        /// </summary>
+        /// <param name="localizer">The localization text provider.</param>
+        /// <param name="session">The users current state, used for localization.</param>
+        /// <param name="page">The page that is being processed.</param>
+        /// <param name="revision">The revision of the page that is being processed.</param>
+        /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
+        Task<ITwEngineState> Transform(ITwSharedLocalizationText localizer, ITwSessionState? session, ITwPage page, int? revision = null, TwMatchType[]? omitMatches = null);
+
+        /// <summary>
+        /// Transforms the content for the given string markup.
+        /// </summary>
+        /// <param name="localizer">The localization text provider.</param>
+        /// <param name="session">The users current state, used for localization.</param>
+        /// <param name="markup">The markup content that is being processed.</param>
         Task<ITwEngineState> Transform(ITwSharedLocalizationText localizer, ITwSessionState? session, string markup);
+
+        /// <summary>
+        /// Transforms the content for the given string markup using the lite wiki engine.
+        /// </summary>
+        /// <param name="localizer">The localization text provider.</param>
+        /// <param name="session">The users current state, used for localization.</param>
+        /// <param name="markup">The markup content that is being processed.</param>
+        Task<ITwEngineState> TransformLite(ITwSharedLocalizationText localizer, ITwSessionState? session, string markup);
     }
 }

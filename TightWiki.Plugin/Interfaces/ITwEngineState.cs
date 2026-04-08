@@ -6,6 +6,12 @@ using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Interfaces
 {
+    /// <summary>
+    /// Interface representing the state of the wiki engine during the processing of a wiki page.
+    /// This interface provides access to various parameters, state information, and results related
+    /// to the current wiki processing session. It is designed to be used by plugins and custom functions
+    /// to interact with the wiki engine and manipulate the processing flow as needed.
+    /// </summary>
     public interface ITwEngineState
     {
         #region Parameters.
@@ -21,6 +27,16 @@ namespace TightWiki.Plugin.Interfaces
 
         #endregion
 
+        /// <summary>
+        /// Whether or not the current processing session is being executed in "lite mode", which is a
+        /// subset of the full wiki engine functionality that is designed for comments and other contexts
+        /// where performance is critical and certain features are not needed or desired.
+        /// </summary>
+        bool IsLite { get; }
+
+        /// <summary>
+        /// Logger instance for the current engine state. This allows plugins and custom functions to log information, warnings, and errors during wiki processing.
+        /// </summary>
         public ILogger<ITwEngine> Logger { get; }
 
         #region State.

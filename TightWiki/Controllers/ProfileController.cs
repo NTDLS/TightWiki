@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Security.Claims;
-using TightWiki.Engine;
 using TightWiki.Library;
 using TightWiki.Library.Caching;
 using TightWiki.Plugin;
@@ -25,6 +24,7 @@ namespace TightWiki.Controllers
             ILogger<ITwEngine> logger,
             ITwConfigurationRepository configurationRepository,
             ITwPageRepository pageRepository,
+            ITwEngine tightEngine,
             ITwSharedLocalizationText localizer,
             ITwUsersRepository usersRepository,
             IWebHostEnvironment environment,
@@ -235,7 +235,7 @@ namespace TightWiki.Controllers
                     TimeZone = accountProfile.TimeZone,
                     Language = accountProfile.Language,
                     Country = accountProfile.Country,
-                    Biography = WikiEngineLite.Process(WikiConfiguration, accountProfile.Biography),
+                    Biography = (await tightEngine.TransformLite(Localizer, SessionState, accountProfile.Biography ?? string.Empty)).HtmlResult,
                     Avatar = accountProfile.Avatar
                 };
 
