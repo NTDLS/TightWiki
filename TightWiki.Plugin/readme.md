@@ -11,22 +11,54 @@ Plugins built (the .DLL) needs to be placed into the `Plugins` folder of the Tig
 Decorate your class with the `TwPlugin` attribute to define a plugin, and decorate your methods with the one of the TightWiki function attributes to define functions that can be called from TightWiki pages.
 
 ```
-[TwPlugin("My Custom Plugin", "Custom functions written by me.", 1)]
-public class MyCustomPlugin
+[TwStandardFunctionPlugin("DotNetVersion", "Displays the .NET version that TightWiki is running on.")]
+public async Task<TwPluginResult> DotNetVersion(ITwEngineState state)
 {
-    [TwStandardFunctionPlugin("Hello function", "Writes hello to the page.", 1)]
-    public async Task<TwPluginResult> HelloWorld(ITwEngineState state, int count)
+    return new TwPluginResult(System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription)
     {
-        var stringBuilder = new StringBuilder();
-
-        for(int i = 0; i < count; i++)
-        {
-            stringBuilder.AppendLine($"Hello World {i + 1}!");
-        }
-
-        return new TwPluginResult(stringBuilder.ToString());
-    }
+        Instructions = [TwResultInstruction.DisallowNestedProcessing]
+    };
 }
+
+[TwScopeFunctionPlugin("Alert", "Renders an alert box with optional style and title.")]
+public async Task<TwPluginResult> Alert(ITwEngineState state, string scopeBody,
+    TwBootstrapStyle styleName = TwBootstrapStyle.Default, string titleText = "")
+{
+    var html = new StringBuilder();
+
+    var style = styleName == TwBootstrapStyle.Default ? "" : $"alert-{styleName.ToString().ToLowerInvariant()}";
+
+    if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h3>{titleText}</h3>{scopeBody}";
+    html.Append($"<div class=\"alert {style} shadow-lg\">{scopeBody}</div>");
+    return new TwPluginResult(html.ToString());
+}
+
+[TwMarkupPluginHandler("Default markup handler",
+    "Handles basic markup instructions like bold, italic, underline, etc.")]
+[TwPluginRegularExpression(@"\~\~(.*?)\~\~")]
+[TwPluginRegularExpression(@"\*\*(.*?)\*\*")]
+[TwPluginRegularExpression(@"__(.*?)__")]
+[TwPluginRegularExpression(@"\/\/(.*?)\/\/")]
+[TwPluginRegularExpression(@"\!\!(.*?)\!\!")]
+public async Task<TwPluginResult> HandleMarkup(ITwEngineState state, string match)
+{
+    char sequence = match[0];
+    string body = match.Substring(2, match.Length - 4);
+
+    switch (sequence)
+    {
+        case '~': return new TwPluginResult($"<strike>{body}</strike>");
+        case '*': return new TwPluginResult($"<strong>{body}</strong>");
+        case '_': return new TwPluginResult($"<u>{body}</u>");
+        case '/': return new TwPluginResult($"<i>{body}</i>");
+        case '!': return new TwPluginResult($"<mark>{body}</mark>");
+        default:
+            break;
+    }
+
+    return new TwPluginResult() { Instructions = [TwResultInstruction.Skip] };
+}
+
 ```
 
 ## Method Attributes
@@ -41,22 +73,12 @@ public class MyCustomPlugin
  - Function called when a standard function has been parsed in the wiki markup.
 
 ### Handlers
-- __TwCommentPluginHandler__
-  - Function called when a comment has been parsed in the wiki markup.
 - __TwCompletionPluginHandler__
   - Function called when the wiki engine has completed processing a page.
-- __TwEmojiPluginHandler__
-  - Function called when an emoji has been parsed in the wiki markup.
 - __TwExceptionPluginHandler__
   - Function called when an exception has been encountered during processing.
-- __TwExternalLinkPluginHandler__
-  - Function called when an external link has been parsed in the wiki markup.
-- __TwHeadingPluginHandler__
-  - Function called when a heading has been parsed in the wiki markup.
-- __TwInternalLinkPluginHandler__
-  - Function called when an internal link has been parsed in the wiki markup.
 - __TwMarkupPluginHandler__
-  - Function called when a markup element has been parsed in the wiki markup.
+  - Function to handle custom wiki markup. The function will be called when the wiki engine encounters markup specified by the TwPluginRegularExpression attribute.
 
 ## Contributing
 Contributions to TightWiki.Plugin are welcome! If you have an idea for a new feature or have found a bug, please open an issue or submit a pull request on the GitHub repository.
