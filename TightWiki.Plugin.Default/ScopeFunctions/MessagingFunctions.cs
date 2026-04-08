@@ -46,6 +46,5 @@ namespace TightWiki.Plugin.Default.ScopeFunctions
             html.Append($"<div class=\"card card-body\"><p class=\"card-text\">{scopeBody}</p></div></div>");
             return new TwPluginResult(html.ToString());
         }
-
     }
 }

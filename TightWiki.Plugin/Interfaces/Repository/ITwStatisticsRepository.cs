@@ -8,6 +8,9 @@ namespace TightWiki.Plugin.Interfaces.Repository
     /// </summary>
     public interface ITwStatisticsRepository
     {
+        /// <summary>
+        /// SQLite factory that is used to access the database.
+        /// </summary>
         SqliteManagedFactory StatisticsFactory { get; }
 
         Task IncrementPageViewCount(int pageId);

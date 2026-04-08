@@ -56,7 +56,8 @@
         /// <param name="precedence">The order in which the function should be executed.</param>
         /// <param name="isPostProcess">Indicates whether this function is a post-process function, meaning it should be executed after all other functions.</param>
         /// <param name="isLitePermissiable">Indicates that the function can be used by the lite wiki engine.</param>
-        public TwProcessingInstructionFunctionPluginAttribute(string name, string description, int precedence = 1, bool isPostProcess = false, bool isLitePermissiable = false)
+        public TwProcessingInstructionFunctionPluginAttribute(string name, string description,
+            int precedence = 1, bool isPostProcess = false, bool isLitePermissiable = false)
         {
             Name = name;
             Description = description;

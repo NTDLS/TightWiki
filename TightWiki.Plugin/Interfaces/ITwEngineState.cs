@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
+using System.Xml;
 using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Models;
+using static System.Net.WebRequestMethods;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TightWiki.Plugin.Interfaces
 {
@@ -34,57 +37,59 @@ namespace TightWiki.Plugin.Interfaces
         /// </summary>
         bool IsLite { get; }
 
-        /// <summary>
         /// Logger instance for the current engine state. This allows plugins and custom functions to log information, warnings, and errors during wiki processing.
-        /// </summary>
         public ILogger<ITwEngine> Logger { get; }
 
         #region State.
 
-        /// <summary>
         /// Custom page title set by a call to @@Title("...")
-        /// </summary>
         public string? PageTitle { get; set; }
 
+        /// Variables defined during wiki processing, either through plugin handlers or standard functions.
         Dictionary<string, string> Variables { get; }
+
+        /// Snippets defined during wiki processing, either through plugin handlers or standard functions.
         Dictionary<string, string> Snippets { get; }
+
+        /// Tags defined during wiki processing, either through plugin handlers or standard functions.
         List<string> Tags { get; set; }
+        /// Processing instructions defined during wiki processing, either through plugin handlers or standard functions.
         List<string> ProcessingInstructions { get; }
+        /// Outgoing links defined during wiki processing, either through plugin handlers or standard functions.
         List<TwPageReference> OutgoingLinks { get; }
+        /// Table of contents entries defined during wiki processing, either through plugin handlers or standard functions.
         List<TwTableOfContentsTag> TableOfContents { get; }
+        /// A list of headers (like page alerts) that need to be displayed in the final output, defined during wiki processing either through plugin handlers or standard functions.
         List<string> Headers { get; }
 
         #endregion
 
         #region Results.
 
+        /// The final HTML result of the wiki processing.
         string HtmlResult { get; }
+        /// Gets the total time taken to process the operation.
         TimeSpan ProcessingTime { get; }
+        /// Gets the total number of errors encountered.
         int ErrorCount { get; }
+        /// Gets the number of matches found by the operation.
         int MatchCount { get; }
 
         #endregion
 
-        /// <summary>
         /// Link tag to use for table of contents entries.
-        /// </summary>
         string TocName { get; }
 
-        /// <summary>
         /// Used to store values for handlers that needs to survive only a single wiki processing session.
-        /// </summary>
         public void SetStateValue<T>(string key, T value);
 
-        /// <summary>
         /// Used to get values for handlers that needs to survive only a single wiki processing session.
-        /// </summary>
         public bool TryGetStateValue<T>(string key, [MaybeNullWhen(false)] out T? outValue);
 
-        /// <summary>
         /// Used to get values for handlers that needs to survive only a single wiki processing session.
-        /// </summary>
         public T GetStateValue<T>(string key, T defaultValue);
 
+        /// Generates a unique token that can be used for HTTP query parameters to avoid collisions during processing.
         string GetNextHttpQueryToken();
 
         /// <summary>
@@ -99,9 +104,8 @@ namespace TightWiki.Plugin.Interfaces
         /// Replaces placeholders in the specified page content with previously stored match values.
         /// </summary>
         /// <param name="pageContent">The page content in which placeholders will be replaced. Cannot be null.</param>
-        /// <param name="forceDecode">If true, matches are replaced even if they are set to not allow nested decode.
+        /// <param name="forceNestedDecode">If true, matches are replaced even if they are set to not allow nested decode.
         /// ForceDecode is typically only executed at the end of all processing but is made available here for special use cases by custom functions.
-        /// <see cref="WikiMatchSet.AllowNestedDecode"/></param>
         public void SwapInStoredMatches(TwString pageContent, bool forceNestedDecode);
 
         /// <summary>

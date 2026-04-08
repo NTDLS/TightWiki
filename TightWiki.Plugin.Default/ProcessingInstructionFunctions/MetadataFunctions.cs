@@ -5,7 +5,7 @@ using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Plugin.Default.ProcessingInstructionFunctions
 {
-    [TwPlugin("Page Metadata", "Built-in processing instruction functions.")]
+    [TwPlugin("Page Metadata", "Built-in instruction functions.")]
     public class MetadataFunctions
     {
         //Associates tags with a page. These are saved with the page and can also be displayed.

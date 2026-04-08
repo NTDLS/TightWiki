@@ -1,4 +1,4 @@
-﻿using TightWiki.Plugin.Caching;
+﻿using TightWiki.Plugin.Interfaces;
 using static TightWiki.Library.Caching.MemCache;
 
 namespace TightWiki.Library.Caching

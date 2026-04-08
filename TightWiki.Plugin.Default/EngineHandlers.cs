@@ -10,14 +10,14 @@ namespace TightWiki.Plugin.Default
     /// <summary>
     /// Handler functions for various wiki operations.
     /// </summary>
-    [TwPlugin("Exception and Completion Handlers", "Handles compilation completion and exceptions for the engine.", 1)]
+    [TwPlugin("Exception and Completion Handlers", "Built-in completion and exception handlers.", 1)]
     public class EngineHandlers
     {
         /// <summary>
         /// Handles wiki completion events. Is called when the wiki processing completes for a given page.
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
-        [TwCompletionPluginHandler("Default completion handler", "Handles wiki completion events.", 1)]
+        [TwCompletionPluginHandler("Default completion handler", "Handles compile completion events.", 1)]
         public async Task<TwPluginResult> HandleCompletion(ITwEngineState state)
         {
             if (state.Engine.WikiConfiguration.RecordCompilationMetrics)
@@ -42,7 +42,7 @@ namespace TightWiki.Plugin.Default
         /// <param name="level">Log level of the exception.</param>
         /// <param name="text">Text that accompanies the exception.</param>
         /// <param name="ex">Optional exception, in the case that this was an actual exception.</param>
-        [TwExceptionPluginHandler("Default exception handler", "Handles exceptions thrown by the wiki engine.", 1)]
+        [TwExceptionPluginHandler("Default exception handler", "Handles exceptions thrown by the engine.", 1)]
         public async Task<TwPluginResult> HandleException(ITwEngineState state, LogLevel level, string text, Exception? ex = null)
         {
             if (ex != null)

@@ -6,7 +6,7 @@ using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Plugin.Default.ProcessingInstructionFunctions
 {
-    [TwPlugin("Security & Access Control", "Built-in processing instruction functions.")]
+    [TwPlugin("Security & Access Control", "Built-in instruction functions.")]
     public class SecurityFunctions
     {
         [TwProcessingInstructionFunctionPlugin("Protect", "Protects the page from being altered by non-moderators.")]

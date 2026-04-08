@@ -8,8 +8,19 @@ namespace TightWiki.Plugin.Interfaces.Repository
     /// </summary>
     public interface ITwPageRepository
     {
+        /// <summary>
+        /// SQLite factory that is used to access the database.
+        /// </summary>
         SqliteManagedFactory PagesFactory { get; }
+
+        /// <summary>
+        /// SQLite factory that is used to access the database.
+        /// </summary>
         SqliteManagedFactory DeletedPagesFactory { get; }
+
+        /// <summary>
+        /// SQLite factory that is used to access the database.
+        /// </summary>
         SqliteManagedFactory DeletedPageRevisionsFactory { get; }
 
         Task<List<TwPage>> AutoCompletePage(string? searchText);

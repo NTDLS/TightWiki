@@ -369,7 +369,7 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                var parsedFunction = ParsedFunction.Create(match.Value);
+                var parsedFunction = ParsedFunction.Parse(match.Value);
 
                 try
                 {
@@ -438,7 +438,7 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                var parsedFunction = ParsedFunction.Create(match.Value);
+                var parsedFunction = ParsedFunction.Parse(match.Value);
 
                 try
                 {
@@ -468,7 +468,7 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                var parsedFunction = ParsedFunction.Create(match.Value);
+                var parsedFunction = ParsedFunction.Parse(match.Value);
 
                 try
                 {
@@ -512,7 +512,7 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                var parsedFunction = ParsedFunction.Create(match.Value);
+                var parsedFunction = ParsedFunction.Parse(match.Value);
 
                 try
                 {

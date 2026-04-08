@@ -12,6 +12,9 @@ namespace TightWiki.Plugin.Interfaces.Repository
     /// </summary>
     public interface ITwLoggingRepository
     {
+        /// <summary>
+        /// SQLite factory that is used to access the database.
+        /// </summary>
         SqliteManagedFactory LoggingFactory { get; }
 
         Task PurgeLogs();

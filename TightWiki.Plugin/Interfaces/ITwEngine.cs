@@ -5,20 +5,63 @@ using TightWiki.Plugin.Interfaces.Module.Handlers;
 
 namespace TightWiki.Plugin.Interfaces
 {
+    /// <summary>
+    /// Defines the contract for a wiki engine that processes, transforms, and manages wiki content, plugins, and
+    /// related components.
+    /// </summary>
+    /// <remarks>The interface exposes core services and collections required for wiki content processing,
+    /// including configuration, plugin management, database access, logging, and extensibility points for content
+    /// transformation and exception handling. Implementations are expected to provide thread-safe access to these
+    /// members if used concurrently.</remarks>
     public interface ITwEngine
     {
+        /// <summary>
+        /// Gets the configuration settings for the wiki integration.
+        /// </summary>
         TwConfiguration WikiConfiguration { get; }
+
+        /// <summary>
+        /// Gets the collection of plugins currently loaded by the application.
+        /// </summary>
+        /// <remarks>The returned list provides access to all plugins that have been registered and are
+        /// available for use. The collection is read-only.</remarks>
         List<ITwPlugin> Plugins { get; }
 
+        /// <summary>
+        /// Gets the database manager used to perform database operations.
+        /// </summary>
         ITwDatabaseManager DatabaseManager { get; }
+        /// <summary>
+        /// Gets the logger instance used for logging diagnostic and operational information for the engine.
+        /// </summary>
         ILogger<ITwEngine> Logger { get; }
 
+        /// <summary>
+        /// Gets the collection of completion handlers associated with the current instance.
+        /// </summary>
         List<ITwCompletionDescriptor> CompletionHandlers { get; }
+        /// <summary>
+        /// Gets the collection of exception handlers associated with this instance.
+        /// </summary>
         List<ITwExceptionDescriptor> ExceptionHandlers { get; }
+        /// <summary>
+        /// Gets the collection of handler descriptors used to process markup elements.
+        /// </summary>
         List<ITwHandlerDescriptor> MarkupHandlers { get; }
 
+        /// <summary>
+        /// Gets the collection of Standard Function descriptors for loaded plugins.
+        /// </summary>
         List<ITwFunctionDescriptor> StandardFunctions { get; }
+
+        /// <summary>
+        /// Gets the collection of Scope Function descriptors for loaded plugins.
+        /// </summary>
         List<ITwFunctionDescriptor> ScopeFunctions { get; }
+
+        /// <summary>
+        /// Gets the collection of Processing Function descriptors for loaded plugins.
+        /// </summary>
         List<ITwFunctionDescriptor> ProcessingFunctions { get; }
 
         /// <summary>

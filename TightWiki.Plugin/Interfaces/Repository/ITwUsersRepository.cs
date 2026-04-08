@@ -11,6 +11,9 @@ namespace TightWiki.Plugin.Interfaces.Repository
     /// </summary>
     public interface ITwUsersRepository
     {
+        /// <summary>
+        /// SQLite factory that is used to access the database.
+        /// </summary>
         SqliteManagedFactory UsersFactory { get; }
 
         Task<bool> IsAccountAMemberOfRole(Guid userId, int roleId, bool forceReCache = false);
@@ -56,7 +59,6 @@ namespace TightWiki.Plugin.Interfaces.Repository
         Task SetProfileUserId(string navigation, Guid userId);
         Task<Guid?> GetUserAccountIdByNavigation(string navigation);
         Task<TwAccountProfile?> GetAccountProfileByNavigation(string? navigation);
-
         Task<TwAccountProfile?> GetProfileByAccountNameOrEmailAndPasswordHash(string accountNameOrEmail, string passwordHash);
         Task<TwAccountProfile?> GetProfileByAccountNameOrEmailAndPassword(string accountNameOrEmail, string password);
         Task<TwProfileAvatar?> GetProfileAvatarByNavigation(string navigation);

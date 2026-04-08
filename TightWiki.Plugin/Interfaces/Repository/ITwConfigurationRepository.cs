@@ -8,6 +8,9 @@ namespace TightWiki.Plugin.Interfaces.Repository
     /// </summary>
     public interface ITwConfigurationRepository
     {
+        /// <summary>
+        /// SQLite factory that is used to access the database.
+        /// </summary>
         SqliteManagedFactory ConfigFactory { get; }
 
         Task<TwConfigurationEntries> GetConfigurationEntryValuesByGroupName(string groupName);

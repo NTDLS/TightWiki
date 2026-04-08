@@ -6,7 +6,7 @@ using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Plugin.Default.ProcessingInstructionFunctions
 {
-    [TwPlugin("Page Classification & Editorial State", "Built-in processing instruction functions.")]
+    [TwPlugin("Page Classification & Editorial State", "Built-in instruction functions.")]
     public class ClassificationFunctions
     {
         [TwProcessingInstructionFunctionPlugin("Deprecate", "Marks the page as deprecated.")]

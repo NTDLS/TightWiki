@@ -11,7 +11,7 @@ namespace TightWiki.Plugin.Default
     /// <summary>
     /// Handler functions for various wiki operations.
     /// </summary>
-    [TwPlugin("Markup Handlers", "Handles various wiki markup tags.", 1)]
+    [TwPlugin("Markup Handlers", "Built-in markup handlers.", 1)]
     public class MarkupHandlers
     {
         //The order of transformations is important and is set by the precedence parameter
@@ -23,11 +23,13 @@ namespace TightWiki.Plugin.Default
 
         /// <summary>
         /// Handles a literal string. This is used to prevent wiki processing on a given string.
-        /// For example, {{[[This will not be processed as a link]]}}.
+        /// For example, #{this will be rendered verbatim}#.
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="match">The matched string from the regular expression</param>
-        [TwMarkupPluginHandler("Default literals handler", "Handles literal strings.", precedence: 10, isLitePermissiable: true)]
+        [TwMarkupPluginHandler("Default literals handler",
+            "Handles a literal string. This is used to prevent wiki processing on a given string.",
+            precedence: 10, isLitePermissiable: true)]
         [TwPluginRegularExpression(@"\#\{([\S\s]*?)\}\#")]
         public async Task<TwPluginResult> HandleLiterals(ITwEngineState state, string match)
         {
@@ -41,11 +43,13 @@ namespace TightWiki.Plugin.Default
         }
 
         /// <summary>
-        /// Handles a wiki comment.
+        /// Comments are not rendered on the page and are used for adding notes to the wiki source that are not visible to readers.
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="match">The matched string from the regular expression</param>
-        [TwMarkupPluginHandler("Default comment handler", "Handles wiki comments.", precedence: 20)]
+        [TwMarkupPluginHandler("Default comment handler",
+            "Comments are not rendered on the page and are used for adding notes to the wiki source that are not visible to readers.",
+            precedence: 20)]
         [TwPluginRegularExpression(@"\;\;.*")]
         public async Task<TwPluginResult> HandleComment(ITwEngineState state, string text)
         {
@@ -57,7 +61,9 @@ namespace TightWiki.Plugin.Default
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="match">The matched string from the regular expression</param>
-        [TwMarkupPluginHandler("Default heading handler", "Handles wiki headings.", precedence: 30)]
+        [TwMarkupPluginHandler("Default heading handler",
+            "Transform headings. These are the basic HTML H1-H6 headings but they are saved for the building of the table of contents",
+            precedence: 30)]
         [TwPluginRegularExpression(@"^(={2,7}.*)", multiline: true)]
         public async Task<TwPluginResult> HandleWikiHeadings(ITwEngineState state, string match)
         {
@@ -91,11 +97,14 @@ namespace TightWiki.Plugin.Default
         }
 
         /// <summary>
-        /// Handles variable markup instructions like ${variable}.
+        /// Gets or sets a wiki variable. Variables are stored in the wiki state and can be used to store temporary values during the processing of a page.
+        /// They can be set with syntax like ${variableName=value} and retrieved with syntax like ${variableName}.
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="match">The matched string from the regular expression</param>
-        [TwMarkupPluginHandler("Default variable handler", "Handles variable markup.", precedence: 40)]
+        [TwMarkupPluginHandler("Default variable handler",
+            "Gets or sets a wiki variable. Variables are stored in the wiki state and can be used to store temporary values during the processing of a page.",
+            precedence: 40)]
         [TwPluginRegularExpression(@"(\$\{.+?\})")]
         public async Task<TwPluginResult> HandleVariable(ITwEngineState state, string match)
         {
@@ -126,11 +135,14 @@ namespace TightWiki.Plugin.Default
         }
 
         /// <summary>
-        /// Handles an internal wiki link.
+        /// Handles an external link. External links are links from the wiki to another site.
+        /// They are specified with a full URL and optional link text or image, for example: [[http://example.com|Example Site]] or [[http://example.com|image:http://example.com/image.png]].
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="match">The matched string from the regular expression</param>
-        [TwMarkupPluginHandler("Default external link handler", "Handles links the wiki to another site.", precedence: 50, isLitePermissiable: true)]
+        [TwMarkupPluginHandler("Default external link handler",
+            "Handles an external link. External links are links from the wiki to another site.",
+            precedence: 50, isLitePermissiable: true)]
         [TwPluginRegularExpression(@"(\[\[http\:\/\/.+?\]\])")]
         [TwPluginRegularExpression(@"(\[\[https\:\/\/.+?\]\])")]
         public async Task<TwPluginResult> HandleExternalLinks(ITwEngineState state, string match)
@@ -176,11 +188,14 @@ namespace TightWiki.Plugin.Default
         }
 
         /// <summary>
-        /// Handles an internal wiki link.
+        /// Handles an internal link. Internal links are links from one wiki page to another.
+        /// They can also include optional link text or an image, for example: [[PageName|Link Text]] or [[PageName|image:http://example.com/image.png]].
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="match">The matched string from the regular expression</param>
-        [TwMarkupPluginHandler("Default internal link handler", "Handles links from one wiki page to another.", precedence: 60, isLitePermissiable: true)]
+        [TwMarkupPluginHandler("Default internal link handler",
+            "Handles an internal link. Internal links are links from one wiki page to another.",
+            precedence: 60, isLitePermissiable: true)]
         [TwPluginRegularExpression(@"(\[\[.+?\]\])")]
         public async Task<TwPluginResult> HandleInternalLinks(ITwEngineState state, string match)
         {
@@ -257,7 +272,6 @@ namespace TightWiki.Plugin.Default
             {
                 //Use the namespace that the user explicitly specified.
             }
-
 
             if (page == null)
             {
@@ -383,13 +397,13 @@ namespace TightWiki.Plugin.Default
             }
         }
 
-
         /// <summary>
         /// Handles basic markup instructions like bold, italic, underline, etc.
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="match">The matched string from the regular expression</param>
-        [TwMarkupPluginHandler("Default markup handler", "Handles basic markup instructions like bold, italic, underline, etc.",
+        [TwMarkupPluginHandler("Default markup handler",
+            "Handles basic markup instructions like bold, italic, underline, etc.",
             precedence: 70, isLitePermissiable: true)]
         [TwPluginRegularExpression(@"\~\~(.*?)\~\~")]
         [TwPluginRegularExpression(@"\*\*(.*?)\*\*")]
@@ -416,11 +430,13 @@ namespace TightWiki.Plugin.Default
         }
 
         /// <summary>
-        /// Handles an emoji instruction.
+        /// Handles wiki emojis. Emojis are specified with a shortcut wrapped in double percent signs, for example: %%smile%%.
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="match">The matched string from the regular expression</param>
-        [TwMarkupPluginHandler("Default emoji handler", "Handles wiki emojis.", precedence: 80, isLitePermissiable: true)]
+        [TwMarkupPluginHandler("Default emoji handler",
+            "Handles wiki emojis. Emojis are specified with a shortcut wrapped in double percent signs, for example: %%smile%%.",
+            precedence: 80, isLitePermissiable: true)]
         [TwPluginRegularExpression(@"(\%\%.+?\%\%)")]
         public async Task<TwPluginResult> HandleEmojis(ITwEngineState state, string match)
         {
@@ -460,11 +476,14 @@ namespace TightWiki.Plugin.Default
         }
 
         /// <summary>
-        /// Handles basic markup instructions like bold, italic, underline, etc.
+        /// Handles upsize markup. Upsize markup is used to create headings that are not included in the table of contents.
+        /// They are specified with two or more carets followed by the heading text, for example: ^^Heading
         /// </summary>
         /// <param name="state">Reference to the wiki state object</param>
         /// <param name="match">The matched string from the regular expression</param>
-        [TwMarkupPluginHandler("Default upsize handler", "Handles upsize markup.", precedence: 90)]
+        [TwMarkupPluginHandler("Default upsize handler",
+            "Handles upsize markup. Upsize markup is used to create headings that are not included in the table of contents.",
+            precedence: 90)]
         [TwPluginRegularExpression(@"\^{2,}.*", multiline: true)]
         public async Task<TwPluginResult> HandleUpsize(ITwEngineState state, string match)
         {

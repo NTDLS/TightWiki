@@ -7,9 +7,24 @@ namespace TightWiki.Plugin.Function
     /// </summary>
     public class ParsedFunction(string demarcation, string name, List<string> arguments, string? bodyText)
     {
+        /// <summary>
+        /// The demarcation string that indicates the type of function.
+        /// </summary>
         public string Demarcation { get; set; } = demarcation;
+
+        /// <summary>
+        /// Name of the function being called, in lower case and without the demarcation characters.
+        /// </summary>
         public string Name { get; set; } = name;
-        public List<string> Arguments { get; set; } = arguments;
+
+        /// <summary>
+        /// Gets or sets the list of command-line arguments.
+        /// </summary>
+        public List<string> Arguments { get; private set; } = arguments;
+
+        /// <summary>
+        /// Gets the plain text content of the body.
+        /// </summary>
         public string? BodyText { get; } = bodyText;
 
         /// <summary>
@@ -26,7 +41,10 @@ namespace TightWiki.Plugin.Function
             return ParseArguments($"({paramString})");
         }
 
-        public static ParsedFunction Create(string functionCall)
+        /// <summary>
+        /// Parses a function call string into its name, type and arguments.
+        /// </summary>
+        public static ParsedFunction Parse(string functionCall)
         {
             string functionName = string.Empty;
             var arguments = new List<string>();

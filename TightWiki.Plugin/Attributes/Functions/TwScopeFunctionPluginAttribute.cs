@@ -31,7 +31,7 @@
         /// Indicates that the function is a post-process function, which is evaluated after all other functions have been processed.
         /// Not applicable to scope functions, but included for consistency with other function attributes.
         /// </summary>
-        public bool IsPostProcess { get; } = false;
+        public bool IsPostProcess  => throw new NotImplementedException();
 
         /// <summary>
         /// The prefix used to demarcate the function in the wiki syntax, such as "##", "@@", etc for TightWiki functions.
@@ -57,11 +57,13 @@
         /// <param name="precedence">The order in which the function should be executed.</param>
         /// <param name="isFirstChance">Indicates whether this function is a first-chance function, meaning it should be executed before all other functions.</param>
         /// <param name="isLitePermissiable">Indicates that the function can be used by the lite wiki engine.</param>
-        public TwScopeFunctionPluginAttribute(string name, string description, int precedence = 1, bool isFirstChance = false, bool isLitePermissiable = false)
+        public TwScopeFunctionPluginAttribute(string name, string description,
+            int precedence = 1, bool isFirstChance = false, bool isLitePermissiable = false)
         {
             Name = name;
             Description = description;
             Precedence = precedence;
+            IsFirstChance = isFirstChance;
             IsLitePermissiable = isLitePermissiable;
         }
     }

@@ -8,6 +8,9 @@ namespace TightWiki.Plugin.Interfaces.Repository
     /// </summary>
     public interface ITwEmojiRepository
     {
+        /// <summary>
+        /// SQLite factory that is used to access the database.
+        /// </summary>
         SqliteManagedFactory EmojiFactory { get; }
 
         Task<List<TwEmoji>> GetAllEmojis();

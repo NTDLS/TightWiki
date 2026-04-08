@@ -28,7 +28,6 @@
         /// </summary>
         public bool IsLitePermissiable => throw new NotImplementedException();
 
-
         /// <summary>
         /// Creates a new instance of the attribute with the specified name and description.
         /// </summary>

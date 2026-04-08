@@ -58,7 +58,8 @@
         /// <param name="isFirstChance">Indicates whether this function is a first-chance function, meaning it should be executed before all other functions.</param>
         /// <param name="isPostProcess">Indicates whether this function is a post-process function, meaning it should be executed after all other functions.</param>
         /// <param name="isLitePermissiable">Indicates that the function can be used by the lite wiki engine.</param>
-        public TwStandardFunctionPluginAttribute(string name, string description, int precedence = 1, bool isFirstChance = false, bool isPostProcess = false, bool isLitePermissiable = false)
+        public TwStandardFunctionPluginAttribute(string name, string description, int precedence = 1,
+            bool isFirstChance = false, bool isPostProcess = false, bool isLitePermissiable = false)
         {
             Name = name;
             Description = description;
