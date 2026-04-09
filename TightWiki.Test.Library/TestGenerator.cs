@@ -1,4 +1,6 @@
-﻿using TightWiki.Plugin.Interfaces;
+﻿using System.Reflection;
+using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Module.Function;
 
 namespace TightWiki.Test.Library
 {
@@ -11,13 +13,12 @@ namespace TightWiki.Test.Library
             _engine = engine;
         }
 
-        /*
-        public void Generate(FunctionPrototypeCollection collection)
+        public void Generate(List<ITwFunctionDescriptor> collection)
         {
             //Generate all combination for required parameters.
-            foreach (var prototype in collection.Items)
+            foreach (var prototype in collection)
             {
-                var requiredParams = prototype.Parameters.Where(o => o.IsRequired).ToList();
+                var requiredParams = prototype.Parameters.Where(o => o.HasDefaultValue == false).ToList();
 
                 var paramValueSets = requiredParams
                     .Select(p => GetValues(p))
@@ -28,23 +29,7 @@ namespace TightWiki.Test.Library
                 foreach (var combo in combinations)
                 {
                     var fArgs = string.Join(", ", combo.Select(FormatValue));
-                    Console.WriteLine($"{Descriptor.Demarcation}{prototype.ProperName}({fArgs})");
-                }
-            }
-
-            //Generate all combination for ALL parameters.
-            foreach (var prototype in collection.Items)
-            {
-                var paramValueSets = prototype.Parameters
-                    .Select(p => GetValues(p))
-                    .ToList();
-
-                var combinations = GetCombinations(paramValueSets);
-
-                foreach (var combo in combinations)
-                {
-                    var fArgs = string.Join(", ", combo.Select(FormatValue));
-                    Console.WriteLine($"{prototype.Demarcation}{prototype.ProperName}({fArgs})");
+                    Console.WriteLine($"{prototype.FunctionAttribute.Demarcation}{prototype.FunctionAttribute.Name}({fArgs})");
                 }
             }
         }
@@ -68,18 +53,21 @@ namespace TightWiki.Test.Library
             }
         }
 
-        private static List<object?> GetValues(PrototypeParameter p)
+        private static List<object?> GetValues(ParameterInfo p)
         {
-            if (p.AllowedValues.Any())
-                return p.AllowedValues.Cast<object?>().ToList();
-
-            return p.Type switch
+            if (p.ParameterType.IsArray)
             {
-                WikiFunctionParamType.String => new List<object?> { "test" },
-                WikiFunctionParamType.InfiniteString => new List<object?> { "test1", "test2" },
-                WikiFunctionParamType.Integer => new List<object?> { 0, 1 },
-                WikiFunctionParamType.Double => new List<object?> { 0.0, 1.5 },
-                WikiFunctionParamType.Boolean => new List<object?> { true, false },
+                return new List<object?>();
+            }
+
+
+            return p.ParameterType switch
+            {
+                Type stringType when stringType == typeof(string) => new List<object?> { "test" },
+                //Type infiniteStringType when infiniteStringType == typeof(string) => new List<object?> { "test1", "test2" },
+                Type intType when intType == typeof(int) => new List<object?> { 0, 1 },
+                Type doubleType when doubleType == typeof(double) => new List<object?> { 0.0 },
+                Type boolType when boolType == typeof(bool) => new List<object?> { true },
                 _ => new List<object?> { null }
             };
         }
@@ -95,6 +83,6 @@ namespace TightWiki.Test.Library
                 _ => value.ToString()
             } ?? throw new ArgumentException();
         }
-        */
+
     }
 }
