@@ -18,8 +18,5 @@
         /// Lower values indicate higher priority.
         /// </summary>
         public int Precedence { get; }
-
-        /// Indicates that the function can be used by the lite wiki engine.
-        bool IsLitePermissiable { get; }
     }
 }

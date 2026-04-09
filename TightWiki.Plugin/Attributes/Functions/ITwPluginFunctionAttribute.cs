@@ -13,13 +13,6 @@ namespace TightWiki.Plugin.Attributes.Functions
         : ITwPluginAttribute
     {
         /// <summary>
-        /// Indicates whether this function is a first-chance function.
-        /// These functions are evaluated before any other functions, allowing them to
-        /// short-circuit the evaluation process or provide special handling for certain cases.
-        /// </summary>
-        bool IsFirstChance { get; }
-
-        /// <summary>
         /// Indicates that the function is a post-process function, which is evaluated after all other functions have been processed.
         /// </summary>
         bool IsPostProcess { get; }
@@ -28,5 +21,15 @@ namespace TightWiki.Plugin.Attributes.Functions
         /// The prefix used to demarcate the function in the wiki syntax, such as "##", "@@", etc for TightWiki functions.
         /// </summary>
         string Demarcation { get; }
+
+        /// <summary>
+        /// Indicates whether this function is a first-chance function.
+        /// These functions are evaluated before any other functions, allowing them to
+        /// short-circuit the evaluation process or provide special handling for certain cases.
+        /// </summary>
+        bool IsFirstChance { get; }
+
+        /// Indicates that the function can be used by the lite wiki engine.
+        bool IsLitePermissiable { get; }
     }
 }

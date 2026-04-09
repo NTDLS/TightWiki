@@ -29,6 +29,11 @@
         public bool IsLitePermissiable => throw new NotImplementedException();
 
         /// <summary>
+        /// Not applicable to completion handlers, but included for consistency with other function and handler attributes.
+        /// </summary>
+        public bool IsFirstChance => throw new NotImplementedException();
+
+        /// <summary>
         /// Creates a new instance of the attribute with the specified name and description.
         /// </summary>
         /// <param name="name">The user-friendly display name of the handler.</param>

@@ -224,11 +224,12 @@ namespace TightWiki.Engine
             //  a first pass for those functions, then we do a second pass for the rest of the functions.
             await TransformScopeFunctions(pageContent, true); //First pass for "first chance" functions.
             await TransformStandardFunctions(pageContent, true); //First pass for "first chance" functions.
+            await TransformMarkup(pageContent, true);
 
             await TransformScopeFunctions(pageContent, false); //Second pass for all functions.
-            await TransformMarkup(pageContent);
-
             await TransformStandardFunctions(pageContent, false); //Second pass for all functions.
+            await TransformMarkup(pageContent, false);
+
             await TransformProcessingInstructionFunctions(pageContent);
 
             //Lastly, we swap in all the matches that we have stored throughout this iteration with
@@ -383,7 +384,7 @@ namespace TightWiki.Engine
 
                     var preparedFunction = PreparedFunction.Create(this, scopeFunctions, parsedFunction);
                     var result = await preparedFunction.Execute();
-                    StoreHandlerResult(result, TwMatchType.StandardFunction, pageContent, match.Value);
+                    StoreHandlerResult(result, TwMatchType.ScopeFunction, pageContent, match.Value);
                 }
                 catch (Exception ex)
                 {
@@ -393,7 +394,7 @@ namespace TightWiki.Engine
             }
         }
 
-        private async Task TransformMarkup(TwString pageContent)
+        private async Task TransformMarkup(TwString pageContent, bool onlyProcessFirstChanceHandlers)
         {
             var handlers = Engine.MarkupHandlers
                 .Where(o => IsLite == false || o.HandlerAttribute.IsLitePermissiable == true)
@@ -403,6 +404,12 @@ namespace TightWiki.Engine
 
             foreach (var handler in handlers)
             {
+                if (onlyProcessFirstChanceHandlers && handler.HandlerAttribute.IsFirstChance == false)
+                {
+                    //We are only processing "first chance" handlers, so skip processing this function.
+                    continue;
+                }
+
                 foreach (var expression in handler.ExpressionAttributes)
                 {
                     RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
@@ -417,7 +424,7 @@ namespace TightWiki.Engine
                         var result = await handler.Handle(this, match.Value);
                         if (!result.Instructions.Contains(TwResultInstruction.Skip))
                         {
-                            StoreHandlerResult(result, TwMatchType.Comment, pageContent, match.Value);
+                            StoreHandlerResult(result, TwMatchType.Markup, pageContent, match.Value);
                         }
                     }
                 }
@@ -444,7 +451,7 @@ namespace TightWiki.Engine
                 {
                     var preparedFunction = PreparedFunction.Create(this, processingFunctions, parsedFunction);
                     var result = await preparedFunction.Execute();
-                    StoreHandlerResult(result, TwMatchType.StandardFunction, pageContent, match.Value);
+                    StoreHandlerResult(result, TwMatchType.ProcessingInstruction, pageContent, match.Value);
                 }
                 catch (Exception ex)
                 {
@@ -518,7 +525,7 @@ namespace TightWiki.Engine
                 {
                     var preparedFunction = PreparedFunction.Create(this, postProcessingFunctions, parsedFunction);
                     var result = await preparedFunction.Execute();
-                    StoreHandlerResult(result, TwMatchType.StandardFunction, pageContent, match.Value);
+                    StoreHandlerResult(result, TwMatchType.PostProcessingFunction, pageContent, match.Value);
                 }
                 catch (Exception ex)
                 {
@@ -544,8 +551,6 @@ namespace TightWiki.Engine
             //Swap in the real line-breaks.
             pageContent.Replace(identifier, "<br />");
         }
-
-        #region Utility.
 
         internal static string WarningCard(string header, string exceptionText)
         {
@@ -701,9 +706,5 @@ namespace TightWiki.Engine
             _queryTokenHash = SecurityUtility.Sha256(SecurityUtility.EncryptString(SecurityUtility.MachineKey, _queryTokenHash));
             return $"H{SecurityUtility.Crc32(_queryTokenHash)}";
         }
-
-        #endregion
-
-
     }
 }
