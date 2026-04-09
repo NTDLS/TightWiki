@@ -1,6 +1,4 @@
-﻿using TightWiki.Plugin.Interfaces;
-
-namespace TightWiki.Plugin.Attributes.Functions
+﻿namespace TightWiki.Plugin.Attributes.Functions
 {
     /// <summary>
     /// Base interface for function descriptor attributes.

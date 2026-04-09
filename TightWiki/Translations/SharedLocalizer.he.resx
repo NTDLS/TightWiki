@@ -2716,4 +2716,25 @@
   <data name="Expressions" xml:space="preserve">
     <value>ביטויים</value>
   </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>עיבוד סופי?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>הזדמנות ראשונה?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>ויקי קל?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>חיפוש תגיות</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>ניווט</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>תגיות ייחודיות</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>משקל כולל</value>
+  </data>
 </root>

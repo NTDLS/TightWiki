@@ -2716,4 +2716,25 @@
   <data name="Expressions" xml:space="preserve">
     <value>Izrazi</value>
   </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>Post proces?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>Prva priložnost?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>Wiki Lite?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>Iskanje žetonov</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Napredno iskanje</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>Edinstveni žetoni</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>Skupna teža</value>
+  </data>
 </root>

@@ -31,9 +31,9 @@ namespace TightWiki.Plugin.Default
             "Handles a literal string. This is used to prevent wiki processing on a given string.",
             precedence: 10, isLitePermissiable: true, isFirstChance: true)]
         [TwPluginRegularExpression(@"\#\{([\S\s]*?)\}\#")]
-        public async Task<TwPluginResult> HandleLiterals(ITwEngineState state, string match)
+        public async Task<TwPluginResult> HandleLiterals(ITwEngineState state, TwOrderedMatch match)
         {
-            string value = match.Substring(2, match.Length - 4);
+            string value = match.Value.Substring(2, match.Value.Length - 4);
             value = HttpUtility.HtmlEncode(value);
 
             return new TwPluginResult(value)
@@ -51,7 +51,7 @@ namespace TightWiki.Plugin.Default
             "Comments are not rendered on the page and are used for adding notes to the wiki source that are not visible to readers.",
             precedence: 20, isFirstChance: true)]
         [TwPluginRegularExpression(@"\;\;.*")]
-        public async Task<TwPluginResult> HandleComment(ITwEngineState state, string text)
+        public async Task<TwPluginResult> HandleComment(ITwEngineState state, TwOrderedMatch match)
         {
             return new TwPluginResult() { Instructions = [TwResultInstruction.TruncateTrailingLine] };
         }
@@ -65,11 +65,10 @@ namespace TightWiki.Plugin.Default
             "Transform headings. These are the basic HTML H1-H6 headings but they are saved for the building of the table of contents",
             precedence: 30)]
         [TwPluginRegularExpression(@"^(={2,7}.*)", multiline: true)]
-        public async Task<TwPluginResult> HandleWikiHeadings(ITwEngineState state, string match)
+        public async Task<TwPluginResult> HandleWikiHeadings(ITwEngineState state, TwOrderedMatch match)
         {
-
             int headingMarkers = 0;
-            foreach (char c in match)
+            foreach (char c in match.Value)
             {
                 if (c != '=')
                 {
@@ -80,12 +79,12 @@ namespace TightWiki.Plugin.Default
             if (headingMarkers >= 2)
             {
                 string link = state.TocName + "_" + state.TableOfContents.Count.ToString();
-                string text = match.Substring(headingMarkers).Trim().Trim(['=']).Trim();
+                string text = match.Value.Substring(headingMarkers).Trim().Trim(['=']).Trim();
 
                 int depth = headingMarkers - 1;
 
                 depth = Math.Clamp(depth, 1, 6);
-                state.TableOfContents.Add(new TwTableOfContentsTag(headingMarkers - 1, state.TableOfContents.Count, link, text));
+                state.TableOfContents.Add(new TwTableOfContentsTag(headingMarkers - 1, match.Index, link, text));
                 string html = $"""<div class="tw-heading tw-heading-{depth}" id="{link}"><a href="#{link}">{text}</a></div>""";
                 return new TwPluginResult(html);
             }
@@ -106,9 +105,9 @@ namespace TightWiki.Plugin.Default
             "Gets or sets a wiki variable. Variables are stored in the wiki state and can be used to store temporary values during the processing of a page.",
             precedence: 40)]
         [TwPluginRegularExpression(@"(\$\{.+?\})")]
-        public async Task<TwPluginResult> HandleVariable(ITwEngineState state, string match)
+        public async Task<TwPluginResult> HandleVariable(ITwEngineState state, TwOrderedMatch match)
         {
-            string key = match.Trim(['{', '}', ' ', '\t', '$']);
+            string key = match.Value.Trim(['{', '}', ' ', '\t', '$']);
             if (key.Contains('='))
             {
                 var sections = key.Split('=');
@@ -145,10 +144,10 @@ namespace TightWiki.Plugin.Default
             precedence: 50, isLitePermissiable: true)]
         [TwPluginRegularExpression(@"(\[\[http\:\/\/.+?\]\])")]
         [TwPluginRegularExpression(@"(\[\[https\:\/\/.+?\]\])")]
-        public async Task<TwPluginResult> HandleExternalLinks(ITwEngineState state, string match)
+        public async Task<TwPluginResult> HandleExternalLinks(ITwEngineState state, TwOrderedMatch match)
         {
 
-            string link = match.Substring(2, match.Length - 4).Trim();
+            string link = match.Value.Substring(2, match.Value.Length - 4).Trim();
             var args = ParsedFunction.ParseArgumentsAddParenthesis(link);
 
             string? text = null;
@@ -197,7 +196,7 @@ namespace TightWiki.Plugin.Default
             "Handles an internal link. Internal links are links from one wiki page to another.",
             precedence: 60, isLitePermissiable: true)]
         [TwPluginRegularExpression(@"(\[\[.+?\]\])")]
-        public async Task<TwPluginResult> HandleInternalLinks(ITwEngineState state, string match)
+        public async Task<TwPluginResult> HandleInternalLinks(ITwEngineState state, TwOrderedMatch match)
         {
             /// <summary>
             /// Skips the namespace and returns just the page name part of the navigation.
@@ -212,7 +211,7 @@ namespace TightWiki.Plugin.Default
                 return navigation.Trim(':');
             }
 
-            string keyword = match.Substring(2, match.Length - 4);
+            string keyword = match.Value.Substring(2, match.Value.Length - 4);
             var args = ParsedFunction.ParseArgumentsAddParenthesis(keyword);
             string pageName;
             string text;
@@ -410,10 +409,10 @@ namespace TightWiki.Plugin.Default
         [TwPluginRegularExpression(@"__(.*?)__")]
         [TwPluginRegularExpression(@"\/\/(.*?)\/\/")]
         [TwPluginRegularExpression(@"\!\!(.*?)\!\!")]
-        public async Task<TwPluginResult> HandleMarkup(ITwEngineState state, string match)
+        public async Task<TwPluginResult> HandleMarkup(ITwEngineState state, TwOrderedMatch match)
         {
-            char sequence = match[0];
-            string body = match.Substring(2, match.Length - 4);
+            char sequence = match.Value[0];
+            string body = match.Value.Substring(2, match.Value.Length - 4);
 
             switch (sequence)
             {
@@ -438,9 +437,9 @@ namespace TightWiki.Plugin.Default
             "Handles wiki emojis. Emojis are specified with a shortcut wrapped in double percent signs, for example: %%smile%%.",
             precedence: 80, isLitePermissiable: true)]
         [TwPluginRegularExpression(@"(\%\%.+?\%\%)")]
-        public async Task<TwPluginResult> HandleEmojis(ITwEngineState state, string match)
+        public async Task<TwPluginResult> HandleEmojis(ITwEngineState state, TwOrderedMatch match)
         {
-            string key = match.Trim().ToLowerInvariant().Trim('%');
+            string key = match.Value.Trim().ToLowerInvariant().Trim('%');
             int scale = 100;
 
             var parts = key.Split(',');
@@ -485,10 +484,10 @@ namespace TightWiki.Plugin.Default
             "Handles upsize markup. Upsize markup is used to create headings that are not included in the table of contents.",
             precedence: 90)]
         [TwPluginRegularExpression(@"\^{2,}.*", multiline: true)]
-        public async Task<TwPluginResult> HandleUpsize(ITwEngineState state, string match)
+        public async Task<TwPluginResult> HandleUpsize(ITwEngineState state, TwOrderedMatch match)
         {
             int headingMarkers = 0;
-            foreach (char c in match)
+            foreach (char c in match.Value)
             {
                 if (c != '^')
                 {
@@ -498,7 +497,7 @@ namespace TightWiki.Plugin.Default
             }
             if (headingMarkers >= 2)
             {
-                string value = match.Substring(headingMarkers).Trim();
+                string value = match.Value.Substring(headingMarkers).Trim();
                 double fontSize = 2.2 - (7 - headingMarkers) * 0.2;
                 string markup = $"<span class=\"mb-0\" style=\"font-size: {fontSize}rem;\">{value}</span>\r\n";
                 return new TwPluginResult(markup);

@@ -53,6 +53,6 @@ namespace TightWiki.Plugin.Interfaces.Module.Handlers
         /// <param name="match">The input string to match and process. Cannot be null.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a TwPluginResult describing the
         /// outcome of the processing.</returns>
-        Task<TwPluginResult> Handle(ITwEngineState state, string match);
+        Task<TwPluginResult> Handle(ITwEngineState state, TwOrderedMatch match);
     }
 }

@@ -2716,4 +2716,25 @@
   <data name="Expressions" xml:space="preserve">
     <value>İfadələr</value>
   </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>Sonrakı İşlem?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>İlk Şans?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>Viki Lite?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>Axtarış Əlamətləri</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Naviqasiya</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>Unikal əlamətlər</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>Cəmi çəki</value>
+  </data>
 </root>

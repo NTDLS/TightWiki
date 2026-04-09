@@ -19,7 +19,7 @@ namespace TightWiki.Plugin.Interfaces.Repository
         /// <param name="groupName">The name of the configuration group.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the configuration entries for the specified group.</returns>
         Task<TwConfigurationEntries> GetConfigurationEntryValuesByGroupName(string groupName);
-        
+
         /// <summary>
         /// Gets all themes.
         /// </summary>

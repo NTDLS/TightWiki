@@ -2716,4 +2716,25 @@
   <data name="Expressions" xml:space="preserve">
     <value>Väljendid</value>
   </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>Pärastöö?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>Esimene võimalus?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>Wiki Lite?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>Otsingumärgid</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Navigatsioon</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>Unikaalsed märgid</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>Kogumass</value>
+  </data>
 </root>

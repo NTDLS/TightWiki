@@ -2716,4 +2716,25 @@
   <data name="Expressions" xml:space="preserve">
     <value>Ekspresi</value>
   </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>Proses Pasca?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>Peluang Pertama?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>Wiki Ringan?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>Carian Token</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Navigasi</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>Token Unik</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>Jumlah berat</value>
+  </data>
 </root>

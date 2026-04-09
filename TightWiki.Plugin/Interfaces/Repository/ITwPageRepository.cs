@@ -216,6 +216,11 @@ namespace TightWiki.Plugin.Interfaces.Repository
         Task<TwPage?> GetPageRevisionById(int pageId, int? revision = null);
 
         /// <summary>
+        /// Gets all search tokens by pageId.
+        /// </summary>
+        Task<List<TwPageToken>> GetSearchTokensByPageId(int pageId);
+
+        /// <summary>
         /// Saves the search tokens for a batch of pages.
         /// </summary>
         Task SavePageSearchTokens(List<TwPageToken> items);

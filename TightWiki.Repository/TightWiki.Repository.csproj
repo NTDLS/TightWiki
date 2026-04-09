@@ -247,6 +247,7 @@
 		<EmbeddedResource Include="Scripts\Initialization\SetVersionStateVersion.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\GetVersionStateVersion.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.23.1\^001^Pages^FeatureTemplate.sql" />
+		<EmbeddedResource Include="Scripts\GetSearchTokensByPageId.sql" />
 		<EmbeddedResource Include="Scripts\VacuumDatabase.sql" />
 		<EmbeddedResource Include="Scripts\OptimizeDatabase.sql" />
 		<EmbeddedResource Include="Scripts\IntegrityCheckDatabase.sql" />

@@ -11,7 +11,6 @@ namespace TightWiki.Engine.Module.Handlers
     public class CompletionHandlerDescriptor(ITwHandlerDescriptor descriptor)
         : HandlerDescriptor(descriptor.Plugin, descriptor.Method, descriptor.HandlerAttribute, descriptor.PluginAttribute), ITwCompletionDescriptor
     {
-
         /// <summary>
         /// Handles wiki completion events. Is called when the wiki processing competes for a given page.
         /// </summary>

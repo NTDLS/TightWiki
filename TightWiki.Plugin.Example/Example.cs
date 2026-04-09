@@ -68,10 +68,10 @@ namespace TightWiki.Plugin.Example
                 precedence: 70, isLitePermissiable: true)]
             [TwPluginRegularExpression(@"\&\&(.*?)\&\&")]
             [TwPluginRegularExpression(@"\$\$(.*?)\$\$")]
-            public async Task<TwPluginResult> HandleMarkup(ITwEngineState state, string match)
+            public async Task<TwPluginResult> HandleMarkup(ITwEngineState state, TwOrderedMatch match)
             {
-                char sequence = match[0];
-                string body = match.Substring(2, match.Length - 4);
+                char sequence = match.Value[0];
+                string body = match.Value.Substring(2, match.Value.Length - 4);
 
                 switch (sequence)
                 {

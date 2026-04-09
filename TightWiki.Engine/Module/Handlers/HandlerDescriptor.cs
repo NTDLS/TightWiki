@@ -1,5 +1,6 @@
 ﻿using NTDLS.Helpers;
 using System.Reflection;
+using TightWiki.Plugin;
 using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Handlers;
 using TightWiki.Plugin.Engine;
@@ -54,7 +55,7 @@ namespace TightWiki.Engine.Module.Handlers
             Parameters = method.GetParameters().ToList();
         }
 
-        public async Task<TwPluginResult> Handle(ITwEngineState state, string match)
+        public async Task<TwPluginResult> Handle(ITwEngineState state, TwOrderedMatch match)
         {
             var result = (Task<TwPluginResult>)Method.Invoke(Plugin.Instance, [state, match]).EnsureNotNull();
             return await result;

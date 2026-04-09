@@ -31,7 +31,7 @@
         /// Indicates that the function is a post-process function, which is evaluated after all other functions have been processed.
         /// Not applicable to scope functions, but included for consistency with other function attributes.
         /// </summary>
-        public bool IsPostProcess  => throw new NotImplementedException();
+        public bool IsPostProcess => false;
 
         /// <summary>
         /// The prefix used to demarcate the function in the wiki syntax, such as "##", "@@", etc for TightWiki functions.

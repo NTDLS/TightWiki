@@ -2716,4 +2716,25 @@
   <data name="Expressions" xml:space="preserve">
     <value>นิพจน์</value>
   </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>ขั้นตอนหลังการประมวลผล?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>โอกาสแรก?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>เวอร์ชันเบา Wiki?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>ค้นหาโทเค็น</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>นำทาง</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>โทเค็นที่ไม่ซ้ำกัน</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>น้ำหนักรวม</value>
+  </data>
 </root>

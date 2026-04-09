@@ -265,6 +265,45 @@ namespace TightWiki.Controllers
 
         #region Search.
 
+        [AllowAnonymous]
+        [HttpGet("{givenCanonical}/Tokens")]
+        public async Task<IActionResult> Tokens(string givenCanonical)
+        {
+            try
+            {
+                try
+                {
+                    await SessionState.RequirePermission(givenCanonical, TwPermission.Read);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                var pageNavigation = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
+
+                var pageInfo = await pageRepository.GetPageInfoByNavigation(pageNavigation);
+                if (pageInfo == null)
+                {
+                    return NotifyOfError("Page not found", "/");
+                }
+
+                var tokens = await pageRepository.GetSearchTokensByPageId(pageInfo.Id);
+                var model = new TokensViewModel()
+                {
+                    PageName = pageInfo.Name,
+                    Navigation = pageNavigation,
+                    Tokens = tokens.OrderByDescending(t => t.Weight).ToList()
+                };
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An error occured while retreving the page search tokens");
+                throw;
+            }
+        }
+
+
         [Authorize]
         [HttpGet("Page/AutoCompletePage")]
         public async Task<ActionResult> AutoCompletePage([FromQuery] string? q = null)

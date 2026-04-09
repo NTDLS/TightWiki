@@ -26,12 +26,12 @@
         /// <summary>
         /// Not applicable to completion handlers, but included for consistency with other function and handler attributes.
         /// </summary>
-        public bool IsLitePermissiable => throw new NotImplementedException();
+        public bool IsLitePermissiable => false;
 
         /// <summary>
         /// Not applicable to completion handlers, but included for consistency with other function and handler attributes.
         /// </summary>
-        public bool IsFirstChance => throw new NotImplementedException();
+        public bool IsFirstChance => false;
 
         /// <summary>
         /// Creates a new instance of the attribute with the specified name and description.

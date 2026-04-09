@@ -2716,4 +2716,25 @@
   <data name="Expressions" xml:space="preserve">
     <value>表達式</value>
   </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>後處理？</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>首次機會？</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>維基輕量版？</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>搜索標記</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>導航</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>獨特標記</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>總重量</value>
+  </data>
 </root>

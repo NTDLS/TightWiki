@@ -2716,4 +2716,25 @@
   <data name="Expressions" xml:space="preserve">
     <value>Выражения</value>
   </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>Обработка после</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>Первая возможность</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>Вики Лайт</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>Поиск токенов</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Навигация</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>Уникальные токены</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>Общий вес</value>
+  </data>
 </root>

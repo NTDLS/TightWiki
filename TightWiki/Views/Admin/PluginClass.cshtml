@@ -95,6 +95,14 @@
                             {
                                 <i class="bi bi-code-slash text-muted" data-bs-toggle="tooltip" title="Markup handler"></i>
                             }
+                            else if (content.Type == typeof(TwCompletionPluginHandlerAttribute))
+                            {
+                                <i class="bi bi-gear text-primary" data-bs-toggle="tooltip" title="Standard function"></i>
+                            }
+                            else if (content.Type == typeof(TwExceptionPluginHandlerAttribute))
+                            {
+                                <i class="bi bi-bug text-primary" data-bs-toggle="tooltip" title="Standard function"></i>
+                            }
                             else
                             {
                                 <i class="bi bi-question-circle" data-bs-toggle="tooltip" title="Unknown type"></i>

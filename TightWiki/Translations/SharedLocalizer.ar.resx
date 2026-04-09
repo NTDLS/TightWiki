@@ -2716,4 +2716,25 @@
   <data name="Expressions" xml:space="preserve">
     <value>تعابير</value>
   </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>البحث بعد المعالجة؟</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>فرصة أولى؟</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>ويكي لايت؟</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>بحث الرموز</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>التنقل</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>رموز فريدة</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>الوزن الإجمالي</value>
+  </data>
 </root>

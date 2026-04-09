@@ -4,13 +4,16 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>2.35.0</Version>
+		<Version>2.36.2</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Magick.NET-Q8-AnyCPU" Version="14.11.1" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.5" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
 		<PackageReference Include="System.DirectoryServices.Protocols" Version="10.0.5" />
 		<PackageReference Include="MailKit" Version="4.15.1" />
+		<PackageReference Include="System.Runtime.Caching" Version="10.0.5" />
 	</ItemGroup>
 
 	<ItemGroup>

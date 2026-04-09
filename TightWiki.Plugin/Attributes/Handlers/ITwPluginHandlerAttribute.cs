@@ -1,6 +1,4 @@
-﻿using TightWiki.Plugin.Interfaces;
-
-namespace TightWiki.Plugin.Attributes.Handlers
+﻿namespace TightWiki.Plugin.Attributes.Handlers
 {
     /// <summary>
     /// Base interface for attributes that describe handlers (e.g., markup handlers, heading handlers, etc.)

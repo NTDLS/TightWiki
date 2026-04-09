@@ -2716,4 +2716,25 @@
   <data name="Expressions" xml:space="preserve">
     <value>Ilmaisut</value>
   </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>Jälkikäsittely?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>Ensimmäinen mahdollisuus?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>Wiki Lite?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>Etsintänuket</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Navigointi</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>Ainutlaatuiset tunnukset</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>Kokonaipaino</value>
+  </data>
 </root>

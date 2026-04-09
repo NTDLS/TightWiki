@@ -2716,4 +2716,25 @@
   <data name="Expressions" xml:space="preserve">
     <value>প্রকাশনাসমূহ</value>
   </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>পোস্ট প্রসেস?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>প্রথম সুযোগ?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>উইকি লাইট?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>সার্চ টোকেন</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>নেভিগেশন</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>অনন্য টোকেন</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>মোট ওজন</value>
+  </data>
 </root>

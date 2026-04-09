@@ -2716,4 +2716,25 @@
   <data name="Expressions" xml:space="preserve">
     <value>Izteiksmes</value>
   </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>Pēcapstrāde?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>Pirmā iespēja?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>Wiki Lite?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>Meklēšanas tokeni</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>navigācija</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>Unikāli tokeni</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>Kopējā masa</value>
+  </data>
 </root>

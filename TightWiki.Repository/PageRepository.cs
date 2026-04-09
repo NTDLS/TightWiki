@@ -669,6 +669,12 @@ namespace TightWiki.Repository
             });
         }
 
+        public async Task<List<TwPageToken>> GetSearchTokensByPageId(int pageId)
+        {
+            return await PagesFactory.QueryAsync<TwPageToken>("GetSearchTokensByPageId.sql",
+                new { PageId = pageId });
+        }
+
         public async Task SavePageSearchTokens(List<TwPageToken> items)
         {
             await PagesFactory.EphemeralAsync(async o =>

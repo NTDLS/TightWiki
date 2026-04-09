@@ -2716,4 +2716,25 @@
   <data name="Expressions" xml:space="preserve">
     <value>Экспрессиялар</value>
   </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>Қазіргі өңдеу?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>Бірінші мүмкіндік?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>Wiki Light?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>Іздеу белгілерін</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Жол салу</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>Бірегей белгілер</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>Жалпы салмақ</value>
+  </data>
 </root>

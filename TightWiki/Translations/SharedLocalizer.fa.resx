@@ -2716,4 +2716,25 @@
   <data name="Expressions" xml:space="preserve">
     <value>عبارت‌ها</value>
   </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>پردازش پس از اجرا؟</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>اولین فرصت؟</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>ویکی لایت؟</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>نمونه‌های جستجو</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>ناوبری</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>نمونه‌های منحصربفرد</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>وزن کل</value>
+  </data>
 </root>

@@ -421,7 +421,7 @@ namespace TightWiki.Engine
 
                     foreach (var match in orderedMatches)
                     {
-                        var result = await handler.Handle(this, match.Value);
+                        var result = await handler.Handle(this, match);
                         if (!result.Instructions.Contains(TwResultInstruction.Skip))
                         {
                             StoreHandlerResult(result, TwMatchType.Markup, pageContent, match.Value);
@@ -566,13 +566,13 @@ namespace TightWiki.Engine
             return html.ToString();
         }
 
-        internal static List<OrderedMatch> OrderMatchesByLengthDescending(MatchCollection matches)
+        internal static List<TwOrderedMatch> OrderMatchesByLengthDescending(MatchCollection matches)
         {
-            var result = new List<OrderedMatch>();
+            var result = new List<TwOrderedMatch>();
 
             foreach (Match match in matches)
             {
-                result.Add(new OrderedMatch
+                result.Add(new TwOrderedMatch
                 {
                     Value = match.Value,
                     Index = match.Index

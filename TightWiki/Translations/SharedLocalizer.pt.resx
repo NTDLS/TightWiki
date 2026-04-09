@@ -2716,4 +2716,25 @@
   <data name="Expressions" xml:space="preserve">
     <value>Expressões</value>
   </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>Pós-processamento?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>Primeira Chance?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>Wiki Lite?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>Tokens de pesquisa</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Navegação</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>Tokens únicos</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>Peso total</value>
+  </data>
 </root>
