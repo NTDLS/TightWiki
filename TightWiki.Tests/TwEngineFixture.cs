@@ -1,24 +1,19 @@
-﻿namespace TightWiki.Tests
+﻿using Microsoft.Extensions.Configuration;
+using NTDLS.Helpers;
+using TightWiki.Test.Library;
+using Xunit.Abstractions;
+
+namespace TightWiki.Tests
 {
     public class TwEngineFixture
     {
-        /*
-        private readonly ITestOutputHelper _output;
-
         private static readonly Lock _lock = new Lock();
-        private static readonly string _emailAddress = "Testy@McTestface.net";
-        private static readonly string _accountName = "Testy McTestface";
-        private static readonly string _password = $"{_accountName}sP@ssW0rD!]";
-
         private static MockWikiEngineArtifacts? _engineArtifacts;
 
         public MockWikiEngineArtifacts EngineArtifacts => _engineArtifacts.EnsureNotNull();
-        public string UserName => _accountName.EnsureNotNull();
 
-        public TwEngineFixture(ITestOutputHelper output)
+        public TwEngineFixture()
         {
-            _output = output;
-
             if (_engineArtifacts == null)
             {
                 lock (_lock)
@@ -26,7 +21,7 @@
                     if (_engineArtifacts == null)
                     {
                         var configuration = new ConfigurationBuilder()
-                            .SetBasePath(Directory.GetCurrentDirectory()) // important
+                            .SetBasePath(Directory.GetCurrentDirectory())
                             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                             .Build();
 
@@ -48,42 +43,5 @@
                 }
             }
         }
-
-        public ITwSessionState CreateWikiSession()
-        {
-            return new TwDummySessionState();
-        }
-
-        public async Task<ITwEngineState> WikiTransform(string pageName, string body)
-        {
-            var navigation = new TwNamespaceNavigation(pageName);
-
-            var page = new TwPage()
-            {
-                Body = body,
-                Name = pageName,
-                Navigation = navigation.Canonical
-            };
-
-            return await EngineArtifacts.Engine.Transform(EngineArtifacts.Localizer, CreateWikiSession(), page);
-        }
-
-        private async Task CreateFixtureInstance()
-        {
-            _output.WriteLine($"Loadnig all settings.");
-            //await ConfigurationRepository.ReloadEverything();
-
-            _output.WriteLine($"Creating users and profiles.");
-            await EngineArtifacts.CreateUserAndProfile(_emailAddress, _accountName, _password);
-
-            _output.WriteLine($"Generating test pages.");
-            await GenerateTestPages();
-        }
-
-        private async Task GenerateTestPages()
-        {
-            await EngineArtifacts.CreatePage("Test :: Test Include", _accountName, ["Test", "Test Page", "Test Include"]);
-        }
-        */
     }
 }

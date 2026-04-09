@@ -16,6 +16,7 @@
 		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="10.0.5" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.5" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.5" />
+		<PackageReference Include="xunit.abstractions" Version="2.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>

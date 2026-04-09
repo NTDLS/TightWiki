@@ -34,7 +34,7 @@ namespace TightWiki.Controllers
             ITwUsersRepository usersRepository,
             SignInManager<IdentityUser> signInManager,
             TwConfiguration wikiConfiguration,
-            Repository.Helpers.ConfigurationManager configurationManager,
+            Repository.Helpers.WikiConfigurationManager configurationManager,
             UserManager<IdentityUser> userManager
         )
         : TwController<AdminController>(logger, signInManager, userManager, localizer, wikiConfiguration, databaseManager)

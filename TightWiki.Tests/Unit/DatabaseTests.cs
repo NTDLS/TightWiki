@@ -1,16 +1,20 @@
+using TightWiki.Plugin.Interfaces.Repository;
+
 namespace TightWiki.Tests.Unit
 {
     [Collection("Database Tests")]
-    public class DatabaseTests(/*TwEngineFixture fixture*/)
+    public class DatabaseTests(TwEngineFixture fixture)
         : IClassFixture<TwEngineFixture>
     {
-        /*
         [Fact(DisplayName = "Empty page statistics.")]
         public void EmptyPageStatistics()
         {
-            var pageStatisticsRowsExists = ManagedDataStorage.Statistics.ExecuteScalar<int>(@"Scripts\PageStatisticsRowsExists.sql");
+            var pageStatisticsRowsExists = fixture.EngineArtifacts.DatabaseManager.StatisticsRepository.StatisticsFactory
+                .ExecuteScalar<int>(@"Scripts\PageStatisticsRowsExists.sql");
             Assert.Equal(0, pageStatisticsRowsExists);
         }
+
+        /*
 
         [Fact(DisplayName = "Empty event log.")]
         public void EmptyEventLog()
