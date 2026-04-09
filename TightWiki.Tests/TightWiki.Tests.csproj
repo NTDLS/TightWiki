@@ -18,6 +18,8 @@
 	<ItemGroup>
 	  <None Remove="appsettings.Development.json" />
 	  <None Remove="appsettings.json" />
+	  <None Remove="Markup\Test.wiki" />
+	  <None Remove="Markup\Test.wiki.expected" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -34,6 +36,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <EmbeddedResource Include="Markup\Test.wiki" />
+	  <EmbeddedResource Include="Markup\Test.wiki.expected" />
 	  <EmbeddedResource Include="Scripts\EventLogRowsExists.sql" />
 	  <EmbeddedResource Include="Scripts\PageStatisticsRowsExists.sql" />
 	</ItemGroup>
