@@ -1,5 +1,3 @@
-using TightWiki.Plugin.Interfaces.Repository;
-
 namespace TightWiki.Tests.Unit
 {
     [Collection("Database Tests")]
@@ -9,20 +7,20 @@ namespace TightWiki.Tests.Unit
         [Fact(DisplayName = "Empty page statistics.")]
         public void EmptyPageStatistics()
         {
-            var pageStatisticsRowsExists = fixture.EngineArtifacts.DatabaseManager.StatisticsRepository.StatisticsFactory
+            var pageStatisticsRowsExists = fixture.Artifacts.DatabaseManager.StatisticsRepository.StatisticsFactory
                 .ExecuteScalar<int>(@"Scripts\PageStatisticsRowsExists.sql");
             Assert.Equal(0, pageStatisticsRowsExists);
         }
 
-        /*
-
         [Fact(DisplayName = "Empty event log.")]
         public void EmptyEventLog()
         {
-            var pageStatisticsRowsExists = ManagedDataStorage.Logging.ExecuteScalar<int>(@"Scripts\EventLogRowsExists.sql");
+            var pageStatisticsRowsExists = fixture.Artifacts.DatabaseManager.LoggingRepository.LoggingFactory
+                .ExecuteScalar<int>(@"Scripts\EventLogRowsExists.sql");
             Assert.Equal(0, pageStatisticsRowsExists);
         }
 
+        /*
 
         [Fact(DisplayName = "Engine test.")]
         public async Task EngineTest()

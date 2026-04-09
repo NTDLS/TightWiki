@@ -42,6 +42,8 @@ namespace TightWiki.Test.Library
             DatabaseManager = new DatabaseManager(configuration);
             WikiConfigurationManager = new WikiConfigurationManager(configuration, DatabaseManager);
 
+            PluginLoader.LoadPlugins(DatabaseManager.Logger, Environment.CurrentDirectory);
+
             //Creating host builder.
             var host = Host.CreateDefaultBuilder()
                        .ConfigureAppConfiguration((context, config) =>
@@ -57,7 +59,6 @@ namespace TightWiki.Test.Library
                            containerBuilder.RegisterInstance(configuration);
                            containerBuilder.RegisterInstance(WikiConfigurationManager);
                            containerBuilder.RegisterInstance(WikiConfigurationManager.WikiConfiguration);
-                           containerBuilder.RegisterType<WikiHelpers>();
                            containerBuilder.RegisterType<EmailSender>().As<ITwEmailSender>();
                            containerBuilder.RegisterInstance<ITwConfigurationRepository>(DatabaseManager.ConfigurationRepository);
                            containerBuilder.RegisterInstance<ITwLoggingRepository>(DatabaseManager.LoggingRepository);
@@ -91,9 +92,6 @@ namespace TightWiki.Test.Library
             UserManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
             UserStore = serviceProvider.GetRequiredService<IUserStore<IdentityUser>>();
             Engine = host.Services.GetRequiredService<ITwEngine>();
-
-            //Loading all settings.
-            //ConfigurationRepository.ReloadEverything().Wait();
         }
 
     }
