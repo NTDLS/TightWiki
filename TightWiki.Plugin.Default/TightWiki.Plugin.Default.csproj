@@ -18,7 +18,4 @@
 	<Target Name="CopyToOutputPlugins" AfterTargets="Build">
 		<Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(MSBuildProjectDirectory)\..\TightWiki\Plugins" SkipUnchangedFiles="false" />
 	</Target>
-	<Target Name="CopyToTestPlugins" AfterTargets="Build">
-		<Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(MSBuildProjectDirectory)\..\TightWiki.Tests\Plugins" SkipUnchangedFiles="false" />
-	</Target>
 </Project>

@@ -64,7 +64,7 @@ namespace TightWiki.Plugin.Default
         [TwMarkupPluginHandler("Default heading handler",
             "Transform headings. These are the basic HTML H1-H6 headings but they are saved for the building of the table of contents",
             precedence: 30)]
-        [TwPluginRegularExpression(@"^(={2,7}.*)", multiline: true)]
+        [TwPluginRegularExpression(@"^(={2,}.*)", multiline: true)]
         public async Task<TwPluginResult> HandleWikiHeadings(ITwEngineState state, TwOrderedMatch match)
         {
             int headingMarkers = 0;
@@ -499,7 +499,7 @@ namespace TightWiki.Plugin.Default
             {
                 string value = match.Value.Substring(headingMarkers).Trim();
                 double fontSize = 2.2 - (7 - headingMarkers) * 0.2;
-                string markup = $"<span class=\"mb-0\" style=\"font-size: {fontSize}rem;\">{value}</span>\r\n";
+                string markup = $"<span class=\"mb-0\" style=\"font-size: {fontSize:F1}rem;\">{value}</span>\r\n";
                 return new TwPluginResult(markup);
             }
 
