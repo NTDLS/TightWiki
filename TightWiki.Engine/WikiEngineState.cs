@@ -23,7 +23,7 @@ namespace TightWiki.Engine
 
         private string _queryTokenHash = "c03a1c9e-da83-479b-87e8-21d7906bd866";
         private int _matchesStoredPerIteration = 0;
-        public string TocName { get; } = "TOC_" + new Random().Next(0, 1000000).ToString();
+        public string TocName { get; private set; }
         private readonly Dictionary<string, object> _handlerState = new();
 
         #region Public properties.
@@ -123,6 +123,8 @@ namespace TightWiki.Engine
             Matches = new Dictionary<string, MatchSet>();
             Session = session;
             NestDepth = nestDepth;
+
+            TocName = $"TOC_{Math.Abs(SecurityUtility.Crc32(SecurityUtility.Sha1(page.Name))):X8}";
 
             if (omitMatches != null)
             {
