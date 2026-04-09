@@ -10,8 +10,19 @@ namespace TightWiki.Plugin.Attributes.Functions
     /// or other purposes within the TightWiki plugin system.
     /// </summary>
     public interface ITwPluginFunctionAttribute
-        : ITwPluginAttribute
     {
+        /// The user-friendly display name of the hander.
+        string Name { get; }
+
+        /// The user-friendly display description of the hander.
+        string Description { get; }
+
+        /// <summary>
+        /// The order in which the functions and handlers in the plugin module should be registered and executed.
+        /// Lower values indicate higher priority.
+        /// </summary>
+        public int Precedence { get; }
+
         /// <summary>
         /// Indicates that the function is a post-process function, which is evaluated after all other functions have been processed.
         /// </summary>

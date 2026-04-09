@@ -60,6 +60,15 @@
 
             <div class="d-flex ms-2 mb-1">
                 <div class="fw-semibold" style="width:140px;">
+                    @Localizer["Is First Chance?"]
+                </div>
+                <div>
+                    @Model.Handler?.HandlerAttribute.IsFirstChance
+                </div>
+            </div>
+
+            <div class="d-flex ms-2 mb-1">
+                <div class="fw-semibold" style="width:140px;">
                     @Localizer["Is Lite Permissiable?"]
                 </div>
                 <div>

@@ -8,8 +8,18 @@ namespace TightWiki.Plugin.Attributes.Handlers
     /// ensuring that they all include a friendly name and an optional description.
     /// </summary>
     public interface ITwPluginHandlerAttribute
-        : ITwPluginAttribute
     {
+        /// The user-friendly display name of the hander.
+        string Name { get; }
+
+        /// The user-friendly display description of the hander.
+        string Description { get; }
+
+        /// <summary>
+        /// The order in which the functions and handlers in the plugin module should be registered and executed.
+        /// Lower values indicate higher priority.
+        /// </summary>
+        public int Precedence { get; }
 
         /// <summary>
         /// Indicates whether this function is a first-chance function.

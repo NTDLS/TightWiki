@@ -8,7 +8,7 @@ namespace TightWiki.Plugin.Attributes
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class TwPluginAttribute
-        : Attribute, ITwPluginAttribute
+        : Attribute
     {
         /// <summary>
         /// The user-friendly display name of the plugin module.

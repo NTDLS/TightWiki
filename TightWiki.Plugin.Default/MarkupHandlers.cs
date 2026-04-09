@@ -29,7 +29,7 @@ namespace TightWiki.Plugin.Default
         /// <param name="match">The matched string from the regular expression</param>
         [TwMarkupPluginHandler("Default literals handler",
             "Handles a literal string. This is used to prevent wiki processing on a given string.",
-            precedence: 10, isLitePermissiable: true)]
+            precedence: 10, isLitePermissiable: true, isFirstChance: true)]
         [TwPluginRegularExpression(@"\#\{([\S\s]*?)\}\#")]
         public async Task<TwPluginResult> HandleLiterals(ITwEngineState state, string match)
         {
@@ -49,7 +49,7 @@ namespace TightWiki.Plugin.Default
         /// <param name="match">The matched string from the regular expression</param>
         [TwMarkupPluginHandler("Default comment handler",
             "Comments are not rendered on the page and are used for adding notes to the wiki source that are not visible to readers.",
-            precedence: 20)]
+            precedence: 20, isFirstChance: true)]
         [TwPluginRegularExpression(@"\;\;.*")]
         public async Task<TwPluginResult> HandleComment(ITwEngineState state, string text)
         {

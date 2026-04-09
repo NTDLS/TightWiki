@@ -222,13 +222,13 @@ namespace TightWiki.Engine
             //  needs to be processed before other functions because it can contain wiki markup that
             //  we don't want to transform, we want it to be displayed verbatim on the page. So we do
             //  a first pass for those functions, then we do a second pass for the rest of the functions.
+            await TransformMarkup(pageContent, true);
             await TransformScopeFunctions(pageContent, true); //First pass for "first chance" functions.
             await TransformStandardFunctions(pageContent, true); //First pass for "first chance" functions.
-            await TransformMarkup(pageContent, true);
 
+            await TransformMarkup(pageContent, false);
             await TransformScopeFunctions(pageContent, false); //Second pass for all functions.
             await TransformStandardFunctions(pageContent, false); //Second pass for all functions.
-            await TransformMarkup(pageContent, false);
 
             await TransformProcessingInstructionFunctions(pageContent);
 
