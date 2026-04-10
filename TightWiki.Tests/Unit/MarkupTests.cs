@@ -77,7 +77,7 @@ namespace TightWiki.Tests.Unit
             var result = await fixture.Artifacts.Engine.Transform(fixture.Artifacts.Localizer, session, input);
             Assert.Contains(expected, result.HtmlResult);
         }
-        
+
     }
 }
 

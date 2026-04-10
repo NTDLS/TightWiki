@@ -63,29 +63,29 @@
         public static class TwConfigGroup
         {
             /// <summary>Basic configuration settings, such as site name and description.</summary>
-            public const string Basic = "Basic";
+            public static string Basic { get; } = "Basic";
             /// <summary>Configuration settings related to cookies, such as expiration and consent behavior.</summary>
-            public const string Cookies = "Cookies";
+            public static string Cookies { get; } = "Cookies";
             /// <summary>Configuration settings related to search behavior and indexing.</summary>
-            public const string Search = "Search";
+            public static string Search { get; } = "Search";
             /// <summary>Configuration settings related to site functionality and feature flags.</summary>
-            public const string Functionality = "Functionality";
+            public static string Functionality { get; } = "Functionality";
             /// <summary>Configuration settings related to user membership, registration, and permissions.</summary>
-            public const string Membership = "Membership";
+            public static string Membership { get; } = "Membership";
             /// <summary>Configuration settings related to email functionality, such as SMTP server settings and email templates.</summary>
-            public const string Email = "Email";
+            public static string Email { get; } = "Email";
             /// <summary>Configuration settings related to the HTML layout and structure of the wiki.</summary>
-            public const string HTMLLayout = "HTML Layout";
+            public static string HTMLLayout { get; } = "HTML Layout";
             /// <summary>Configuration settings related to performance optimizations, such as caching and database tuning.</summary>
-            public const string Performance = "Performance";
+            public static string Performance { get; } = "Performance";
             /// <summary>Configuration settings related to site customization, such as themes and custom CSS.</summary>
-            public const string Customization = "Customization";
+            public static string Customization { get; } = "Customization";
             /// <summary>Configuration settings related to external authentication providers, such as OAuth and OpenID Connect.</summary>
-            public const string ExternalAuthentication = "External Authentication";
+            public static string ExternalAuthentication { get; } = "External Authentication";
             /// <summary>Configuration settings related to LDAP authentication, such as server URL and user search filters.</summary>
-            public const string LDAPAuthentication = "LDAP Authentication";
+            public static string LDAPAuthentication { get; } = "LDAP Authentication";
             /// <summary>Configuration settings related to file storage, such as storage location, maximum file size, and allowed file types.</summary>
-            public const string FilesAndAttachments = "Files and Attachments";
+            public static string FilesAndAttachments { get; } = "Files and Attachments";
         }
     }
 
@@ -372,17 +372,6 @@
         Moderate,
         /// <summary>Permission to create new content.</summary>
         Create
-    }
-
-    /// <summary>
-    /// Defines the visual theme of the wiki.
-    /// </summary>
-    public enum TwBaseTheme
-    {
-        /// <summary>Light color scheme.</summary>
-        Light,
-        /// <summary>Dark color scheme.</summary>
-        Dark
     }
 
     /// <summary>

@@ -1,9 +1,7 @@
 ﻿using System.Reflection;
 using TightWiki.Library.Dummy;
-using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Module.Function;
-using TightWiki.Plugin.Models;
 
 namespace TightWiki.Test.Library
 {

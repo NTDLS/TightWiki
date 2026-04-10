@@ -21,6 +21,6 @@ namespace TightWiki.Tests.Unit
             Assert.Equal(0, pageStatisticsRowsExists);
         }
         */
-    
+
     }
 }

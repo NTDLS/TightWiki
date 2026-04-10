@@ -582,7 +582,8 @@ namespace TightWiki.Repository.Helpers
                     throw;
                 }
             }
-            else {
+            else
+            {
                 Console.WriteLine($"Skipping: {fullUpdateScriptPath}");
             }
         }
