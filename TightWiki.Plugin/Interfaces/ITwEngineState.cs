@@ -142,8 +142,8 @@ namespace TightWiki.Plugin.Interfaces
         #endregion
 
         /// <summary>
-        /// The HTML tag name used to identify anything that needs a name. Use in concuntion with the GetNextStepNumber()
-        /// method to generate unique identifiers for tags during processing.
+        /// The HTML tag name used to identify anything that needs a name.
+        /// Use GetNextTagMarker to generate unique identifiers for tags during processing.
         /// </summary>
         string TagMarker { get; }
 
@@ -168,11 +168,6 @@ namespace TightWiki.Plugin.Interfaces
         /// Retrieves a typed value from the engine state by key, returning the specified default value if the key is not found.
         /// </summary>
         public T GetStateValue<T>(string key, T defaultValue);
-
-        /// <summary>
-        /// Generates a unique token safe for use in HTTP query parameters, avoiding collisions during processing.
-        /// </summary>
-        string GetNextHttpQueryToken();
 
         /// <summary>
         /// Transforms an included wiki page, processing any wiki markup injected by a function separately from the parent page.

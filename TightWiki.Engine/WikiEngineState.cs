@@ -21,12 +21,11 @@ namespace TightWiki.Engine
         public ITwEngine Engine { get; private set; }
         public ITwSharedLocalizationText Localizer { get; private set; }
 
-        private string _queryTokenHash = "c03a1c9e-da83-479b-87e8-21d7906bd866";
         private int _matchesStoredPerIteration = 0;
 
         /// <summary>
-        /// The HTML tag name used to identify anything that needs a name. Use in concuntion with the GetNextStepNumber()
-        /// method to generate unique identifiers for tags during processing.
+        /// The HTML tag name used to identify anything that needs a name.
+        /// Use GetNextTagMarker to generate unique identifiers for tags during processing.
         /// </summary>
         public string TagMarker { get; private set; }
         private readonly Dictionary<string, object> _handlerState = new();
@@ -711,17 +710,6 @@ namespace TightWiki.Engine
             pageContent.Append(pageContentCopy);
 
             return identifier;
-        }
-
-        /// <summary>
-        /// Used to generate unique and regenerable tokens so different wikification process can identify
-        ///     their own query strings. For instance, we can have more than one pager on a wiki page, this
-        /// allows each pager to track its own current page in the query string.
-        /// </summary>
-        public string GetNextHttpQueryToken()
-        {
-            _queryTokenHash = SecurityUtility.Sha256(SecurityUtility.EncryptString(SecurityUtility.MachineKey, _queryTokenHash));
-            return $"H{SecurityUtility.Crc32(_queryTokenHash)}";
         }
     }
 }

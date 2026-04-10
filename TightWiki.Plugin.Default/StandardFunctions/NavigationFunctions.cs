@@ -16,7 +16,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
         public async Task<TwPluginResult> Similar(ITwEngineState state,
             int similarity = 80, TwTabularStyle styleName = TwTabularStyle.Full, int pageSize = 10, bool pageSelector = true)
         {
-            string refTag = state.GetNextHttpQueryToken();
+            string refTag = state.GetNextTagMarker("Similar");
 
             int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
             var html = new StringBuilder();
@@ -74,7 +74,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
         public async Task<TwPluginResult> Related(ITwEngineState state,
             TwTabularStyle styleName = TwTabularStyle.Full, int pageSize = 10, bool pageSelector = true)
         {
-            string refTag = state.GetNextHttpQueryToken();
+            string refTag = state.GetNextTagMarker("Related");
 
             int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
             var html = new StringBuilder();

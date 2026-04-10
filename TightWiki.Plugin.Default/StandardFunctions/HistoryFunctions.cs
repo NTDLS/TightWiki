@@ -21,7 +21,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
                 throw new Exception($"Localization is not supported without SessionState.");
             }
 
-            string refTag = state.GetNextHttpQueryToken();
+            string refTag = state.GetNextTagMarker("Revisions");
 
             int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
 

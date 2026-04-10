@@ -131,7 +131,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
             string searchPhrase, TwListStyle styleName = TwListStyle.Full, int pageSize = 5,
             bool pageSelector = true, bool allowFuzzyMatching = false, bool showNamespace = false)
         {
-            string refTag = state.GetNextHttpQueryToken();
+            string refTag = state.GetNextTagMarker("SearchList");
             int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
             var searchTokens = searchPhrase.Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
 

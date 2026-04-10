@@ -16,7 +16,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
         public async Task<TwPluginResult> Attachments(ITwEngineState state,
             TwListStyle styleName = TwListStyle.Full, int pageSize = 5, bool pageSelector = true, string? pageName = null)
         {
-            string refTag = state.GetNextHttpQueryToken();
+            string refTag = state.GetNextTagMarker("Attachments");
 
             int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
 

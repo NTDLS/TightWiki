@@ -21,7 +21,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
             }
 
             var html = new StringBuilder();
-            string refTag = state.GetNextHttpQueryToken();
+            string refTag = state.GetNextTagMarker("ProfileGlossary");
             int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
             var profiles = await state.Engine.DatabaseManager.UsersRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
 
@@ -66,7 +66,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
             }
 
             var html = new StringBuilder();
-            string refTag = state.GetNextHttpQueryToken();
+            string refTag = state.GetNextTagMarker("ProfileList");
             int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
             var profiles = await state.Engine.DatabaseManager.UsersRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
 
