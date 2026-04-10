@@ -256,7 +256,6 @@ namespace TightWiki.Plugin.Default
 
             pageName = pageName.Trim(':');
             var pageNavigation = new TwNamespaceNavigation(pageName);
-            var page = await state.Engine.DatabaseManager.PageRepository.GetPageRevisionByNavigation(pageNavigation);
 
             if (pageName.Trim().StartsWith("::"))
             {
@@ -265,12 +264,14 @@ namespace TightWiki.Plugin.Default
             else if (string.IsNullOrEmpty(pageNavigation.Namespace))
             {
                 //No namespace was specified, use the current page namespace.
-                pageNavigation.Namespace = page?.Namespace ?? string.Empty;
+                pageNavigation.Namespace = state.Page?.Namespace ?? string.Empty;
             }
             else
             {
                 //Use the namespace that the user explicitly specified.
             }
+
+            var page = await state.Engine.DatabaseManager.PageRepository.GetPageRevisionByNavigation(pageNavigation);
 
             if (page == null)
             {
