@@ -8,9 +8,10 @@ namespace TightWiki.Test.CaseGenerator
         {
             var artifacts = new MockWikiEngineArtifacts();
 
-            var testGenerator = new TestGenerator(artifacts.Engine);
+            var testGenerator = new TestGenerator(artifacts);
 
-            testGenerator.Generate(artifacts.Engine.ProcessingFunctions);
+            //testGenerator.Generate(artifacts.Engine.ProcessingFunctions);
+            testGenerator.Generate(artifacts.Engine.StandardFunctions);
 
             //testGenerator.Generate(artifacts.Engine.StandardFunctionHandler.Descriptors);
         }

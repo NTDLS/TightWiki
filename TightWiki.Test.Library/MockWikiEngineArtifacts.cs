@@ -10,8 +10,10 @@ using Microsoft.Extensions.Logging;
 using TightWiki.Engine;
 using TightWiki.Library;
 using TightWiki.Library.Dummy;
+using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Repository;
+using TightWiki.Plugin.Models;
 using TightWiki.Repository.Helpers;
 
 namespace TightWiki.Test.Library
@@ -92,6 +94,27 @@ namespace TightWiki.Test.Library
             UserManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
             UserStore = serviceProvider.GetRequiredService<IUserStore<IdentityUser>>();
             Engine = host.Services.GetRequiredService<ITwEngine>();
+        }
+
+        public TwPage GetMockPage(string name, string body)
+        {
+            var profile = Engine.DatabaseManager.UsersRepository.GetAccountProfileByNavigation("admin").Result
+                ?? throw new Exception("Admin profile was not found.");
+
+            return new TwPage()
+            {
+                Name = name,
+                Body = body,
+                CreatedByUserId = profile.UserId,
+                ModifiedByUserId = profile.UserId,
+                CreatedDate = DateTime.Parse("1/1/2030 05:00:00"),
+                ModifiedDate = DateTime.Parse("1/1/2040 10:00:00"),
+                Description = $"The {name} page.",
+                Id = 1,
+                MostCurrentRevision = 1,
+                Revision = 1,
+                Navigation = TwNavigation.Clean(name),
+            };
         }
 
     }

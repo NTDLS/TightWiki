@@ -1,24 +1,27 @@
 ﻿using System.Reflection;
+using TightWiki.Library.Dummy;
+using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Module.Function;
+using TightWiki.Plugin.Models;
 
 namespace TightWiki.Test.Library
 {
-    public class TestGenerator
+    public class TestGenerator(MockWikiEngineArtifacts artifacts)
     {
-        private readonly ITwEngine _engine;
-
-        public TestGenerator(ITwEngine engine)
-        {
-            _engine = engine;
-        }
-
         public void Generate(List<ITwFunctionDescriptor> collection)
         {
+            var session = new TwDummySessionState();
+
+            var outputPath = "C:\\NTDLS\\TightWiki\\TightWiki.Tests\\Markup";
+
+            HashSet<string> generatedTests = new HashSet<string>();
+
             //Generate all combination for required parameters.
             foreach (var prototype in collection)
             {
-                var requiredParams = prototype.Parameters.Where(o => o.HasDefaultValue == false).ToList();
+                var requiredParams = prototype.Parameters
+                    .Where(o => o.ParameterType != typeof(ITwEngineState) && o.HasDefaultValue == false).ToList();
 
                 var paramValueSets = requiredParams
                     .Select(p => GetValues(p))
@@ -29,7 +32,30 @@ namespace TightWiki.Test.Library
                 foreach (var combo in combinations)
                 {
                     var fArgs = string.Join(", ", combo.Select(FormatValue));
-                    Console.WriteLine($"{prototype.FunctionAttribute.Demarcation}{prototype.FunctionAttribute.Name}({fArgs})");
+                    string markup = $"{prototype.FunctionAttribute.Demarcation}{prototype.FunctionAttribute.Name}({fArgs})";
+
+                    var body = $"##title\r\n##toc\r\n===Overview\r\n==Test Result\r\n{markup}";
+                    var page = artifacts.GetMockPage("Test", body);
+
+                    string testName = $"Test{prototype.FunctionAttribute.Name}";
+                    int suffix = 1;
+
+                    while (generatedTests.Contains(testName))
+                    {
+                        testName = $"Test{prototype.FunctionAttribute.Name}_{suffix}";
+                        suffix++;
+                    }
+
+                    generatedTests.Add(testName);
+
+                    Console.WriteLine(testName);
+                    //Console.WriteLine(markup);
+                    var processed = artifacts.Engine.Transform(artifacts.Localizer, session, page);
+                    //Console.WriteLine(processed.Result.HtmlResult);
+
+                    var wikiPath = Path.Combine(outputPath, $"{testName}.wiki");
+                    File.WriteAllText(wikiPath, body);
+                    File.WriteAllText($"{wikiPath}.expected", processed.Result.HtmlResult);
                 }
             }
         }
@@ -55,19 +81,22 @@ namespace TightWiki.Test.Library
 
         private static List<object?> GetValues(ParameterInfo p)
         {
-            if (p.ParameterType.IsArray)
+            if (p.ParameterType.IsEnum)
             {
-                return new List<object?>();
+                return Enum.GetValues(p.ParameterType)?.Cast<object?>().ToList() ?? [];
             }
 
+            if (p.ParameterType.IsArray)
+            {
+                return new List<object?> { "test1", "test2" };
+            }
 
             return p.ParameterType switch
             {
                 Type stringType when stringType == typeof(string) => new List<object?> { "test" },
-                //Type infiniteStringType when infiniteStringType == typeof(string) => new List<object?> { "test1", "test2" },
-                Type intType when intType == typeof(int) => new List<object?> { 0, 1 },
-                Type doubleType when doubleType == typeof(double) => new List<object?> { 0.0 },
-                Type boolType when boolType == typeof(bool) => new List<object?> { true },
+                Type intType when intType == typeof(int) => new List<object?> { 0, 1, 3 },
+                Type doubleType when doubleType == typeof(double) => new List<object?> { 0.5, 0.75, 1 },
+                Type boolType when boolType == typeof(bool) => new List<object?> { true, false },
                 _ => new List<object?> { null }
             };
         }
