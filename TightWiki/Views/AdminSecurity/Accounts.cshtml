@@ -135,18 +135,13 @@
                             <td>
                                 <div class="d-flex align-items-center gap-2 flex-wrap">
                                     <span class="text-break">@user.EmailAddress</span>
-
-                                    @if (user.EmailConfirmed == true)
+                                    @if (user.EmailConfirmed)
                                     {
-                                        <span class="badge border border-success text-success bg-light rounded-pill">
-                                            <i class="bi bi-check-circle-fill me-1"></i>@Localizer["Confirmed"]
-                                        </span>
+                                        <i class="bi bi-check-square-fill text-success" title="@Localizer["Confirmed"]"></i>
                                     }
                                     else
                                     {
-                                        <span class="badge border border-secondary text-secondary bg-light rounded-pill">
-                                            <i class="bi bi-dash-circle me-1"></i>@Localizer["Unconfirmed"]
-                                        </span>
+                                        <i class="bi bi-square text-secondary" title="@Localizer["Unconfirmed"]"></i>
                                     }
                                 </div>
                             </td>
