@@ -53,14 +53,14 @@ namespace TightWiki.Tests.Unit
         }
 
         [Theory]
-        [InlineData("==upsize1", "<div class=\"tw-heading tw-heading-1\" id=\"TOC_73C1768B_0\"><a href=\"#TOC_73C1768B_0\">upsize1</a></div>")]
-        [InlineData("===upsize2", "<div class=\"tw-heading tw-heading-2\" id=\"TOC_73C1768B_0\"><a href=\"#TOC_73C1768B_0\">upsize2</a></div>")]
-        [InlineData("====upsize3", "<div class=\"tw-heading tw-heading-3\" id=\"TOC_73C1768B_0\"><a href=\"#TOC_73C1768B_0\">upsize3</a></div>")]
-        [InlineData("=====upsize4", "<div class=\"tw-heading tw-heading-4\" id=\"TOC_73C1768B_0\"><a href=\"#TOC_73C1768B_0\">upsize4</a></div>")]
-        [InlineData("======upsize5", "<div class=\"tw-heading tw-heading-5\" id=\"TOC_73C1768B_0\"><a href=\"#TOC_73C1768B_0\">upsize5</a></div>")]
-        [InlineData("=======upsize6", "<div class=\"tw-heading tw-heading-6\" id=\"TOC_73C1768B_0\"><a href=\"#TOC_73C1768B_0\">upsize6</a></div>")]
-        [InlineData("========upsize7", "<div class=\"tw-heading tw-heading-6\" id=\"TOC_73C1768B_0\"><a href=\"#TOC_73C1768B_0\">upsize7</a></div>")]
-        [InlineData("==Top\r\ntest1\r\n==Middle\r\nMiddle\r\n===Bottom\r\nBottom", "<div class=\"tw-heading tw-heading-1\" id=\"TOC_73C1768B_2\"><a href=\"#TOC_73C1768B_2\">Top</a></div><br />test1<br /><div class=\"tw-heading tw-heading-1\" id=\"TOC_73C1768B_1\"><a href=\"#TOC_73C1768B_1\">Middle</a></div><br />Middle<br /><div class=\"tw-heading tw-heading-2\" id=\"TOC_73C1768B_0\"><a href=\"#TOC_73C1768B_0\">Bottom</a></div><br />Bottom")]
+        [InlineData("==upsize1", "<div class=\"tw-heading tw-heading-1\" id=\"Toc_Tw73C1768B_0\"><a href=\"#Toc_Tw73C1768B_0\">upsize1</a></div>")]
+        [InlineData("===upsize2", "<div class=\"tw-heading tw-heading-2\" id=\"Toc_Tw73C1768B_0\"><a href=\"#Toc_Tw73C1768B_0\">upsize2</a></div>")]
+        [InlineData("====upsize3", "<div class=\"tw-heading tw-heading-3\" id=\"Toc_Tw73C1768B_0\"><a href=\"#Toc_Tw73C1768B_0\">upsize3</a></div>")]
+        [InlineData("=====upsize4", "<div class=\"tw-heading tw-heading-4\" id=\"Toc_Tw73C1768B_0\"><a href=\"#Toc_Tw73C1768B_0\">upsize4</a></div>")]
+        [InlineData("======upsize5", "<div class=\"tw-heading tw-heading-5\" id=\"Toc_Tw73C1768B_0\"><a href=\"#Toc_Tw73C1768B_0\">upsize5</a></div>")]
+        [InlineData("=======upsize6", "<div class=\"tw-heading tw-heading-6\" id=\"Toc_Tw73C1768B_0\"><a href=\"#Toc_Tw73C1768B_0\">upsize6</a></div>")]
+        [InlineData("========upsize7", "<div class=\"tw-heading tw-heading-6\" id=\"Toc_Tw73C1768B_0\"><a href=\"#Toc_Tw73C1768B_0\">upsize7</a></div>")]
+        [InlineData("==Top\r\ntest1\r\n==Middle\r\nMiddle\r\n===Bottom\r\nBottom", "<div class=\"tw-heading tw-heading-1\" id=\"Toc_Tw73C1768B_2\"><a href=\"#Toc_Tw73C1768B_2\">Top</a></div><br />test1<br /><div class=\"tw-heading tw-heading-1\" id=\"Toc_Tw73C1768B_1\"><a href=\"#Toc_Tw73C1768B_1\">Middle</a></div><br />Middle<br /><div class=\"tw-heading tw-heading-2\" id=\"Toc_Tw73C1768B_0\"><a href=\"#Toc_Tw73C1768B_0\">Bottom</a></div><br />Bottom")]
         public async Task HeadingMarkup(string input, string expected)
         {
             var session = fixture.CreateWikiSession();
