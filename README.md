@@ -1,5 +1,7 @@
 # TightWiki
 
+[![Regression Tests](https://github.com/NTDLS/TightWiki/actions/workflows/Regression%20Tests.yml/badge.svg)](https://github.com/NTDLS/TightWiki/actions/workflows/Regression%20Tests.yml)
+
 For years I’ve worked at places where we just needed a simple to use, searchable, unobtrusive, no-nonsense, collaborative and free place to dump documentation.
 The first thing that comes to mind is a Wiki but for some reason I can never find anything that "checks all the boxes". Hopefully you'll find this one does for you.
 
