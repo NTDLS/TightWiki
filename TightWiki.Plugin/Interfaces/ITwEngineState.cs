@@ -142,9 +142,16 @@ namespace TightWiki.Plugin.Interfaces
         #endregion
 
         /// <summary>
-        /// The HTML anchor tag name used to identify table of contents entry positions within the page.
+        /// The HTML tag name used to identify anything that needs a name. Use in concuntion with the GetNextStepNumber()
+        /// method to generate unique identifiers for tags during processing.
         /// </summary>
-        string TocName { get; }
+        string TagMarker { get; }
+
+        /// <summary>
+        /// Gets the next string to use for generating unique tag identifiers during processing, incrementing the internal counter to ensure uniqueness.
+        /// </summary>
+        /// <param name="prefix">String to be prepended to the result</param>
+        public string GetNextTagMarker(string prefix);
 
         /// <summary>
         /// Stores a typed value in the engine state for the duration of the current wiki processing session.

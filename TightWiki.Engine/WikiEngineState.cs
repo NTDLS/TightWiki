@@ -23,7 +23,12 @@ namespace TightWiki.Engine
 
         private string _queryTokenHash = "c03a1c9e-da83-479b-87e8-21d7906bd866";
         private int _matchesStoredPerIteration = 0;
-        public string TocName { get; private set; }
+
+        /// <summary>
+        /// The HTML tag name used to identify anything that needs a name. Use in concuntion with the GetNextStepNumber()
+        /// method to generate unique identifiers for tags during processing.
+        /// </summary>
+        public string TagMarker { get; private set; }
         private readonly Dictionary<string, object> _handlerState = new();
 
         #region Public properties.
@@ -59,6 +64,16 @@ namespace TightWiki.Engine
         public ILogger<ITwEngine> Logger { get; private set; }
 
         #endregion
+
+        private int _stepNumber = 0;
+        /// <summary>
+        /// Gets the next string to use for generating unique tag identifiers during processing, incrementing the internal counter to ensure uniqueness.
+        /// </summary>
+        /// <param name="prefix">String to be prepended to the result</param>
+        public string GetNextTagMarker(string prefix)
+        {
+            return $"{prefix}_{TagMarker}_{_stepNumber++}";
+        }
 
         private static string NewIdentiferTag()
             => $"{Constants.TagStart}{Guid.NewGuid():N}{Constants.TagEnd}";
@@ -124,7 +139,7 @@ namespace TightWiki.Engine
             Session = session;
             NestDepth = nestDepth;
 
-            TocName = $"TOC_{Math.Abs(SecurityUtility.Crc32(SecurityUtility.Sha1(page.Name))):X8}";
+            TagMarker = $"Tw{Math.Abs(SecurityUtility.Crc32(SecurityUtility.Sha1(page.Name))):X8}";
 
             if (omitMatches != null)
             {

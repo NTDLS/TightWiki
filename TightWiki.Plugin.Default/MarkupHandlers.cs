@@ -78,7 +78,7 @@ namespace TightWiki.Plugin.Default
             }
             if (headingMarkers >= 2)
             {
-                string link = state.TocName + "_" + state.TableOfContents.Count.ToString();
+                string link = state.GetNextTagMarker("Toc");
                 string text = match.Value.Substring(headingMarkers).Trim().Trim(['=']).Trim();
 
                 int depth = headingMarkers - 1;
