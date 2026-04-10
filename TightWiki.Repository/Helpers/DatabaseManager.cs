@@ -555,6 +555,7 @@ namespace TightWiki.Repository.Helpers
 
             if (shouldExecute)
             {
+                Console.WriteLine(scriptName);
                 await databaseFactory.ExecuteAsync(scriptText);
             }
         }
