@@ -1,7 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Caching;
-using TightWiki.Plugin.Caching;
+using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Library.Caching
 {

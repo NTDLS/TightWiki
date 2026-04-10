@@ -40,12 +40,11 @@ namespace TightWiki.Plugin.Default.ScopeFunctions
         {
             var html = new StringBuilder();
 
-            string uid = "A" + Guid.NewGuid().ToString().Replace("-", "");
-            html.Append($"<a data-bs-toggle=\"collapse\" href=\"#{uid}\" role=\"button\" aria-expanded=\"false\" aria-controls=\"{uid}\">{linkText}</a>");
-            html.Append($"<div class=\"collapse\" id=\"{uid}\">");
+            string link = state.GetNextTagMarker("Collapse");
+            html.Append($"<a data-bs-toggle=\"collapse\" href=\"#{link}\" role=\"button\" aria-expanded=\"false\" aria-controls=\"{link}\">{linkText}</a>");
+            html.Append($"<div class=\"collapse\" id=\"{link}\">");
             html.Append($"<div class=\"card card-body\"><p class=\"card-text\">{scopeBody}</p></div></div>");
             return new TwPluginResult(html.ToString());
         }
-
     }
 }

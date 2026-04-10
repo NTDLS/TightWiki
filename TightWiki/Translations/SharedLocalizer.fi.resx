@@ -2677,4 +2677,64 @@
   <data name="Select a severity" xml:space="preserve">
     <value>Valitse vakavuus</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>Liitännäsklassi</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>Liitännäistoiminto</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>käsittelijäluokka</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>Yleiskokoonpano liitännäsklassille.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>Yleiskokoonpano liitännäistoiminnolle.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>Rajaaminen</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>Onko Ensimmäinen Mahdollisuus?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>Onko Kevyt SALLITTAVA?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>Toimintokuvauksen allekirjoitus</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parametrit</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>Yleiskokoonpano liitännäishallinnan.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>Liitännäishallinta</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>Ilmaisut</value>
+  </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>Jälkikäsittely?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>Ensimmäinen mahdollisuus?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>Wiki Lite?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>Etsintänuket</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Navigointi</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>Ainutlaatuiset tunnukset</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>Kokonaipaino</value>
+  </data>
 </root>

@@ -8,7 +8,7 @@
     /// handling special wiki syntax constructs.</remarks>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class TwProcessingInstructionFunctionPluginAttribute
-            : Attribute, ITwFunctionPluginAttribute
+            : Attribute, ITwPluginFunctionAttribute
     {
         /// <summary>
         /// The user-friendly display name of the function.
@@ -28,9 +28,19 @@
         public bool IsFirstChance { get; } = false;
 
         /// <summary>
+        /// Indicates that the function is a post-process function, which is evaluated after all other functions have been processed.
+        /// </summary>
+        public bool IsPostProcess { get; } = false;
+
+        /// <summary>
         /// The prefix used to demarcate the function in the wiki syntax, such as "##", "@@", etc for TightWiki functions.
         /// </summary>
         public string Demarcation { get; } = "@@";
+
+        /// <summary>
+        /// Indicates that the function can be used by the lite wiki engine.
+        /// </summary>
+        public bool IsLitePermissiable { get; } = false;
 
         /// <summary>
         /// The order in which the functions and handlers in the plugin module should be registered and executed.
@@ -44,11 +54,16 @@
         /// <param name="name">The user-friendly display name of the function.</param>
         /// <param name="description">The user-friendly display description of the function.</param>
         /// <param name="precedence">The order in which the function should be executed.</param>
-        public TwProcessingInstructionFunctionPluginAttribute(string name, string description, int precedence = 1)
+        /// <param name="isPostProcess">Indicates whether this function is a post-process function, meaning it should be executed after all other functions.</param>
+        /// <param name="isLitePermissiable">Indicates that the function can be used by the lite wiki engine.</param>
+        public TwProcessingInstructionFunctionPluginAttribute(string name, string description,
+            int precedence = 1, bool isPostProcess = false, bool isLitePermissiable = false)
         {
             Name = name;
             Description = description;
+            IsPostProcess = isPostProcess;
             Precedence = precedence;
+            IsLitePermissiable = isLitePermissiable;
         }
     }
 }

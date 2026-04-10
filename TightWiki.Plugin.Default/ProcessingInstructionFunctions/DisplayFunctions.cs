@@ -6,10 +6,9 @@ using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Plugin.Default.ProcessingInstructionFunctions
 {
-    [TwPlugin("Display Controls", "Built-in processing instruction functions.")]
+    [TwPlugin("Display Controls", "Built-in instruction functions.")]
     public class DisplayFunctions
     {
-
         [TwProcessingInstructionFunctionPlugin("HideFooterLastModified", "Hides the last modified information in the footer.")]
         public async Task<TwPluginResult> HideFooterLastModified(ITwEngineState state)
         {
@@ -30,6 +29,5 @@ namespace TightWiki.Plugin.Default.ProcessingInstructionFunctions
                 Instructions = [TwResultInstruction.TruncateTrailingLine]
             };
         }
-
     }
 }

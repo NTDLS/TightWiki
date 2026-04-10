@@ -199,7 +199,6 @@ namespace TightWiki.Plugin.Default.StandardFunctions
         public async Task<TwPluginResult> NamespaceList(ITwEngineState state,
             string[] namespaces, int top = 1000, TwListStyle styleName = TwListStyle.Full, bool showNamespace = false)
         {
-
             var pages = (await state.Engine.DatabaseManager.PageRepository.GetPageInfoByNamespaces(namespaces.ToList())).Take(top).OrderBy(o => o.Name).ToList();
             var html = new StringBuilder();
 
@@ -239,7 +238,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
         public async Task<TwPluginResult> NamespaceGlossary(ITwEngineState state,
             string[] namespaces, int top = 1000, TwListStyle styleName = TwListStyle.Full, bool showNamespace = false)
         {
-            string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
+            string glossaryName = state.GetNextTagMarker("Glossary");
             var pages = (await state.Engine.DatabaseManager.PageRepository.GetPageInfoByNamespaces(namespaces.ToList())).Take(top).OrderBy(o => o.Name).ToList();
             var html = new StringBuilder();
             var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpperInvariant()).Distinct();
@@ -293,7 +292,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
         public async Task<TwPluginResult> TagGlossary(ITwEngineState state,
             string[] pageTags, int top = 1000, TwListStyle styleName = TwListStyle.Full, bool showNamespace = false)
         {
-            string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
+            string glossaryName = state.GetNextTagMarker("Glossary");
 
             var pages = (await state.Engine.DatabaseManager.PageRepository.GetPageInfoByTags(pageTags)).Take(top).OrderBy(o => o.Name).ToList();
             var html = new StringBuilder();
@@ -347,7 +346,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
         public async Task<TwPluginResult> TextGlossary(ITwEngineState state,
             string searchPhrase, int top = 1000, TwListStyle styleName = TwListStyle.Full, bool showNamespace = false)
         {
-            string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
+            string glossaryName = state.GetNextTagMarker("Glossary");
             var searchTokens = searchPhrase.Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
 
             var pages = (await state.Engine.DatabaseManager.PageRepository.PageSearch(searchTokens)).Take(top).OrderBy(o => o.Name).ToList();

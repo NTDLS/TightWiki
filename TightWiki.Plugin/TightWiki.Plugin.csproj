@@ -4,7 +4,7 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>2.34.4</Version>
+		<Version>2.36.2</Version>
 
 		<Title>NTDLS.SqliteDapperWrapper</Title>
 		<Authors>NetworkDLS</Authors>
@@ -45,18 +45,15 @@
 			<PackagePath>\</PackagePath>
 		</None>
 	</ItemGroup>
+	
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.11.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.3.9" />
-		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.9" />
-		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.5" />
-		<PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.5" />
 		<PackageReference Include="NTDLS.Helpers" Version="1.3.19" />
 		<PackageReference Include="NTDLS.SqliteDapperWrapper" Version="1.4.2" />
-		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
-		<PackageReference Include="System.Runtime.Caching" Version="10.0.5" />
 	</ItemGroup>
 
 </Project>

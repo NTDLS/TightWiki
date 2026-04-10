@@ -2677,4 +2677,64 @@
   <data name="Select a severity" xml:space="preserve">
     <value>Veldu alvarleikastig</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>Viðbótarkennsl</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>Virkni viðbótar</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>Uppteknir</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>Almennt stilling fyrir viðbótarkennsl.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>Almennt stilling fyrir viðbótaraðgerð.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>Markmerking</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>Er Fyrsta tækifæri?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>Er létt leyfi yfirleitt?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>Undirskrift aðgerðar</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Fleiðir</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>Almennt stilling fyrir viðbótaraðlækingu.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>Viðbótaraðalið</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>Iðjur</value>
+  </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>Eftirvinnsla?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>Fyrsta tækifærið?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>Wiki Lite?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>Leitarorð</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Leit</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>Einstaka tákn</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>Heildarþyngd</value>
+  </data>
 </root>

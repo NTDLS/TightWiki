@@ -2,6 +2,11 @@
 
 namespace TightWiki.Plugin.Library
 {
+    /// <summary>
+    /// Provides methods for generating summaries of textual differences between two revisions.
+    /// </summary>
+    /// <remarks>This static class is intended for use in scenarios where a concise, human-readable summary of
+    /// line-level changes between two text revisions is required. All members are thread safe.</remarks>
     public static class TwDifferentiator
     {
         /// <summary>

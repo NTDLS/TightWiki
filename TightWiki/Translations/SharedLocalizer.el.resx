@@ -2677,4 +2677,64 @@
   <data name="Select a severity" xml:space="preserve">
     <value>Επιλέξτε σοβαρότητα</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>Κλάση插件</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>Λειτουργία plugin</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>Κλάση διαχειριστή</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>Παγκόσμια διαμόρφωση για την κλάση plugin.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>Παγκόσμια διαμόρφωση για τη λειτουργία plugin.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>Διαχωρισμός</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>Είναι Πρώτη Ευκαιρία;</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>Είναι Επιτρέψιμο Lite;</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>Υπογραφή λειτουργίας</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Παραμέτρους</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>Παγκόσμια διαμόρφωση για τον διαχειριστή plugin.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>Χειριστής Plugin</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>Εκφράσεις</value>
+  </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>Μετα-επεξεργασία;</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>Πρώτη Ευκαιρία;</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>Wiki Lite;</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>Αναζήτηση Δεικτών</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Πλοήγηση</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>Μοναδικοί δείκτες</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>Συνολό βάρος</value>
+  </data>
 </root>

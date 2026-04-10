@@ -2677,4 +2677,64 @@
   <data name="Select a severity" xml:space="preserve">
     <value>Виберіть рівень серйозності</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>Клас плагіна</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>Функція плагіна</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>Клас обробника</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>Глобальна конфігурація для класу плагіна.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>Глобальна конфігурація для функції плагіна.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>Розмежування</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>Чи є це Першим шансом?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>Чи допустиме Лайтове дозволення?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>Підпис функції</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Параметри</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>Глобальна конфігурація для обробника плагіна.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>Обробник плагіна</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>Вирази</value>
+  </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>Постобробка?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>Перший шанс?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>Wiki Lite?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>Пошук токенів</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Навігація</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>Унікальні токени</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>Загальна вага</value>
+  </data>
 </root>

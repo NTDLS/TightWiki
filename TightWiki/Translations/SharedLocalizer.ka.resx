@@ -2677,4 +2677,64 @@
   <data name="Select a severity" xml:space="preserve">
     <value>არჩევა სიმძიმის</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>პლაგინის კლასი</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>პლაგინის ფუნქცია</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>მქმედი კლასი</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>პლაგინის კლასისთვის გლობალური კონფიგურაცია.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>პლაგინის ფუნქციისთვის გლობალური კონფიგურაცია.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>შეიმსხურება</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>არის პირველი შემთხვევა?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>აღარ ლაით დაშვებული?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>მუშაობის ხელმოწერა</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>პარამეტრები</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>პლაგინის მიმღების გლობალური კონფიგურაცია.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>პლაგინის მიმღები</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>გამოხატულებები</value>
+  </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>შემდგომი პროცესი?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>პირველი შანსი?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>Wiki Lite?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>ძებნის ტოკენები</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>მიგნება</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>განხიერდი ტოკენები</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>სულ წონა</value>
+  </data>
 </root>

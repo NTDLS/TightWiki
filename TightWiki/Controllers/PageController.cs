@@ -9,7 +9,6 @@ using SixLabors.ImageSharp;
 using System.Globalization;
 using System.Text;
 using System.Xml.Serialization;
-using TightWiki.Engine;
 using TightWiki.Library;
 using TightWiki.Library.Caching;
 using TightWiki.Library.Security;
@@ -206,7 +205,7 @@ namespace TightWiki.Controllers
                                 Id = comment.Id,
                                 UserName = comment.UserName,
                                 UserId = comment.UserId,
-                                Body = WikiEngineLite.Process(WikiConfiguration, comment.Body),
+                                Body = (await tightEngine.TransformLite(Localizer, SessionState, comment.Body)).HtmlResult,
                                 CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
                             });
                         }
@@ -265,6 +264,45 @@ namespace TightWiki.Controllers
         #endregion
 
         #region Search.
+
+        [AllowAnonymous]
+        [HttpGet("{givenCanonical}/Tokens")]
+        public async Task<IActionResult> Tokens(string givenCanonical)
+        {
+            try
+            {
+                try
+                {
+                    await SessionState.RequirePermission(givenCanonical, TwPermission.Read);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                var pageNavigation = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
+
+                var pageInfo = await pageRepository.GetPageInfoByNavigation(pageNavigation);
+                if (pageInfo == null)
+                {
+                    return NotifyOfError("Page not found", "/");
+                }
+
+                var tokens = await pageRepository.GetSearchTokensByPageId(pageInfo.Id);
+                var model = new TokensViewModel()
+                {
+                    PageName = pageInfo.Name,
+                    Navigation = pageNavigation,
+                    Tokens = tokens.OrderByDescending(t => t.Weight).ToList()
+                };
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An error occured while retreving the page search tokens");
+                throw;
+            }
+        }
+
 
         [Authorize]
         [HttpGet("Page/AutoCompletePage")]
@@ -471,7 +509,7 @@ namespace TightWiki.Controllers
                         Id = comment.Id,
                         UserName = comment.UserName,
                         UserId = comment.UserId,
-                        Body = WikiEngineLite.Process(WikiConfiguration, comment.Body),
+                        Body = (await tightEngine.TransformLite(Localizer, SessionState, comment.Body)).HtmlResult,
                         CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
                     });
                 }
@@ -539,7 +577,7 @@ namespace TightWiki.Controllers
                         Id = comment.Id,
                         UserName = comment.UserName,
                         UserId = comment.UserId,
-                        Body = WikiEngineLite.Process(WikiConfiguration, comment.Body),
+                        Body = (await tightEngine.TransformLite(Localizer, SessionState, comment.Body)).HtmlResult,
                         CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
                     });
                 }

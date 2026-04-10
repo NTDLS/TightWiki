@@ -213,7 +213,7 @@ namespace TightWiki.Repository
 
             return (await MemCache.AddOrGetAsync(cacheKey, async () =>
             {
-                var minimumMatchScore = await _configurationRepository.Get<float>("Search", "Minimum Match Score");
+                var minimumMatchScore = await _configurationRepository.Get<float>(TwConfigGroup.Search, "Minimum Match Score");
 
                 var searchTokens = searchTerms.Select(o =>
                                     new TwPageToken
@@ -254,7 +254,7 @@ namespace TightWiki.Repository
                 return new List<TwPage>();
             }
 
-            bool allowFuzzyMatching = await _configurationRepository.Get<bool>("Search", "Allow Fuzzy Matching");
+            bool allowFuzzyMatching = await _configurationRepository.Get<bool>(TwConfigGroup.Search, "Allow Fuzzy Matching");
             var meteredSearchTokens = await GetMeteredPageSearchTokens(searchTerms, allowFuzzyMatching == true);
             if (meteredSearchTokens.Count == 0)
             {
@@ -282,7 +282,7 @@ namespace TightWiki.Repository
             }
 
             pageSize ??= await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
-            allowFuzzyMatching ??= await _configurationRepository.Get<bool>("Search", "Allow Fuzzy Matching");
+            allowFuzzyMatching ??= await _configurationRepository.Get<bool>(TwConfigGroup.Search, "Allow Fuzzy Matching");
 
             var meteredSearchTokens = await GetMeteredPageSearchTokens(searchTerms, allowFuzzyMatching == true);
             if (meteredSearchTokens.Count == 0)
@@ -669,6 +669,12 @@ namespace TightWiki.Repository
             });
         }
 
+        public async Task<List<TwPageToken>> GetSearchTokensByPageId(int pageId)
+        {
+            return await PagesFactory.QueryAsync<TwPageToken>("GetSearchTokensByPageId.sql",
+                new { PageId = pageId });
+        }
+
         public async Task SavePageSearchTokens(List<TwPageToken> items)
         {
             await PagesFactory.EphemeralAsync(async o =>
@@ -816,7 +822,7 @@ namespace TightWiki.Repository
 
         internal async Task<List<WeightedSearchToken>> ComputeParsedPageTokens(string content, double weightMultiplier)
         {
-            var searchConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Membership);
+            var searchConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Search);
 
             var exclusionWords = searchConfig?.Value<string>("Word Exclusions")?
                 .Split([',', ';'], StringSplitOptions.RemoveEmptyEntries).Distinct() ?? new List<string>();

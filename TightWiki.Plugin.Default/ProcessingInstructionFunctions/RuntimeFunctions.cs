@@ -6,10 +6,9 @@ using static TightWiki.Plugin.TwConstants;
 
 namespace TightWiki.Plugin.Default.ProcessingInstructionFunctions
 {
-    [TwPlugin("Caching & Runtime Behavior", "Built-in processing instruction functions.")]
+    [TwPlugin("Caching & Runtime Behavior", "Built-in instruction functions.")]
     public class RuntimeFunctions
     {
-
         [TwProcessingInstructionFunctionPlugin("NoCache", "Prevents the page from being cached.")]
         public async Task<TwPluginResult> NoCache(ITwEngineState state)
         {

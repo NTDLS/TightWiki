@@ -2677,4 +2677,64 @@
   <data name="Select a severity" xml:space="preserve">
     <value>Izaberite težinu</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>Класа додатка</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>Функција додатка</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>Класа обрађивача</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>Глобална конфигурација за класу додатка.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>Глобална конфигурација за функцију додатка.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>Одређење</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>Је ли прва шанса?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>Да ли је Лите дозвољен?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>Потпис функције</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Параметри</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>Глобална конфигурација за обрађивача додатка.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>Обрађивач додатка</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>Изражења</value>
+  </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>Обрада након рада?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>Прва шанса?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>Вики Лите?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>Токени за претрагу</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Навигација</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>Јединствени токени</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>Укупна тежина</value>
+  </data>
 </root>

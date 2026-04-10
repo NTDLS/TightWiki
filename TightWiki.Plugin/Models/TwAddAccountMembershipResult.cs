@@ -1,5 +1,8 @@
 ﻿namespace TightWiki.Plugin.Models
 {
+    /// <summary>
+    /// Represents the result of adding an account membership, including the role identifier and name.
+    /// </summary>
     public class TwAddAccountMembershipResult
     {
         /// <summary>

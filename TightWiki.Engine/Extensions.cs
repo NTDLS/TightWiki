@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using TightWiki.Engine.Module.Function;
+using TightWiki.Plugin.Function;
 using TightWiki.Plugin.Interfaces.Module.Function;
 
 namespace TightWiki.Engine

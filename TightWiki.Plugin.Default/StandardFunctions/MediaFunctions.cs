@@ -56,7 +56,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwStandardFunctionPlugin("Image", "Displays an image that is attached to the page.")]
+        [TwStandardFunctionPlugin("Image", "Displays an image that is attached to the page.", isLitePermissiable: true)]
         public async Task<TwPluginResult> Image(ITwEngineState state,
             string name, int? scale = null, string? altText = null, string? @class = null, int? maxWidth = null)
         {

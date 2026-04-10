@@ -3,17 +3,13 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Version>2.34.4</Version>
+		<Version>2.36.2</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
 		<DebugSymbols>False</DebugSymbols>
 		<DebugType>None</DebugType>
 	</PropertyGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.9" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />

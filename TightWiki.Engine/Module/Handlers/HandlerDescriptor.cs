@@ -1,6 +1,10 @@
-﻿using System.Reflection;
+﻿using NTDLS.Helpers;
+using System.Reflection;
+using TightWiki.Plugin;
 using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Handlers;
+using TightWiki.Plugin.Engine;
+using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Module;
 using TightWiki.Plugin.Interfaces.Module.Handlers;
 
@@ -39,6 +43,8 @@ namespace TightWiki.Engine.Module.Handlers
         /// </summary>
         public ITwPlugin Plugin { get; }
 
+        public List<TwPluginRegularExpressionAttribute> ExpressionAttributes { get; } = new();
+
         public HandlerDescriptor(ITwPlugin plugin, MethodInfo method,
             ITwPluginHandlerAttribute handlerAttribute, TwPluginAttribute pluginAttribute)
         {
@@ -47,6 +53,12 @@ namespace TightWiki.Engine.Module.Handlers
             Method = method;
             HandlerAttribute = handlerAttribute;
             Parameters = method.GetParameters().ToList();
+        }
+
+        public async Task<TwPluginResult> Handle(ITwEngineState state, TwOrderedMatch match)
+        {
+            var result = (Task<TwPluginResult>)Method.Invoke(Plugin.Instance, [state, match]).EnsureNotNull();
+            return await result;
         }
     }
 }

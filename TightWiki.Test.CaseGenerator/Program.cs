@@ -1,14 +1,19 @@
-﻿namespace TightWiki.Test.CaseGenerator
+﻿using TightWiki.Test.Library;
+
+namespace TightWiki.Test.CaseGenerator
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            //var artifacts = new MockWikiEngineArtifacts();
+            var artifacts = new MockWikiEngineArtifacts();
 
-            //var testGenerator = new TestGenerator(artifacts.Engine);
+            var testGenerator = new TestGenerator(artifacts);
 
-            //testGenerator.Generate(artifacts.Engine.ScopeFunctionHandler.Descriptors);
+            testGenerator.Generate(artifacts.Engine.ProcessingFunctions);
+            testGenerator.Generate(artifacts.Engine.StandardFunctions);
+            testGenerator.Generate(artifacts.Engine.ScopeFunctions);
+
             //testGenerator.Generate(artifacts.Engine.StandardFunctionHandler.Descriptors);
         }
     }

@@ -2677,4 +2677,64 @@
   <data name="Select a severity" xml:space="preserve">
     <value>یک درجه شدت را انتخاب کنید</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>کلاس پلاگین</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>عملکرد پلاگین</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>کلاس هندلر</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>پیکربندی سراسری برای کلاس پلاگین.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>پیکربندی سراسری برای عملکرد پلاگین.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>مرزگذاری</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>آیا اولین فرصت است؟</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>آیا مجاز است Lite؟</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>امضای تابع</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>پارامترها</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>پیکربندی سراسری برای هندلر پلاگین.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>هندلر پلاگین</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>عبارت‌ها</value>
+  </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>پردازش پس از اجرا؟</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>اولین فرصت؟</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>ویکی لایت؟</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>نمونه‌های جستجو</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>ناوبری</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>نمونه‌های منحصربفرد</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>وزن کل</value>
+  </data>
 </root>

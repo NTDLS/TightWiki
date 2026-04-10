@@ -2677,4 +2677,64 @@
   <data name="Select a severity" xml:space="preserve">
     <value>Bir çox aşağı seçin</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>Əlavə Sinfi</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>Əlavə Funksiyası</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>İşləyici Sinfi</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>Əlavə sinfi üçün qlobal konfiqurasiya.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>Əlavə funksiyası üçün qlobal konfiqurasiya.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>Ayırma</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>İlk İmkanmı?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>Yüngül İcazə olunurmu?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>Funksiya İmzası</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parametrlər</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>Əlavə işləyici üçün qlobal konfiqurasiya.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>Əlavə İşləyici</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>İfadələr</value>
+  </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>Sonrakı İşlem?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>İlk Şans?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>Viki Lite?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>Axtarış Əlamətləri</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Naviqasiya</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>Unikal əlamətlər</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>Cəmi çəki</value>
+  </data>
 </root>

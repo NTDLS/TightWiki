@@ -2677,4 +2677,64 @@
   <data name="Select a severity" xml:space="preserve">
     <value>重大度を選択してください</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>プラグインクラス</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>プラグイン機能</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>ハンドラクラス</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>プラグインクラスのグローバル設定。</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>プラグイン関数のグローバル設定。</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>境界線</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>最初のチャンスですか？</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>ライト許可は可能ですか？</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>関数シグネチャ</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>パラメータ</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>プラグインハンドラーのグローバル設定。</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>プラグインハンドラー</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>表現</value>
+  </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>後処理？</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>初回チャンス？</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>ウィキライト？</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>検索トークン</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>ナビゲーション</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>ユニークなトークン</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>合計重量</value>
+  </data>
 </root>

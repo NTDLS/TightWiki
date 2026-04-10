@@ -2677,4 +2677,64 @@
   <data name="Select a severity" xml:space="preserve">
     <value>একটি গুরুত্ব নির্বাচন করুন</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>প্লাগইন ক্লাস</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>প্লাগইন ফাংশন</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>হ্যান্ডলার ক্লাস</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>প্লাগইন ক্লাসের জন্য গ্লোবাল কনফিগারেশন।</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>প্লাগইন ফাংশনের জন্য গ্লোবাল কনফিগারেশন।</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>বিভাজন</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>প্রথম সুযোগ কি?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>লাইট পারমিসিবল কি?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>ফাংশনের স্বাক্ষর</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>পরামিতি</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>প্লাগইন হ্যান্ডলারের জন্য গ্লোবাল কনফিগারেশন।</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>প্লাগইন হ্যান্ডলার</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>প্রকাশনাসমূহ</value>
+  </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>পোস্ট প্রসেস?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>প্রথম সুযোগ?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>উইকি লাইট?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>সার্চ টোকেন</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>নেভিগেশন</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>অনন্য টোকেন</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>মোট ওজন</value>
+  </data>
 </root>

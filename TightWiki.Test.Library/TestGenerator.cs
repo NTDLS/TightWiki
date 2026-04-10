@@ -1,50 +1,92 @@
-﻿using TightWiki.Plugin.Interfaces;
+﻿using System.Collections.Immutable;
+using System.Reflection;
+using TightWiki.Library.Dummy;
+using TightWiki.Plugin.Attributes.Functions;
+using TightWiki.Plugin.Interfaces;
+using TightWiki.Plugin.Interfaces.Module.Function;
 
 namespace TightWiki.Test.Library
 {
-    public class TestGenerator
+    public class TestGenerator(MockWikiEngineArtifacts artifacts)
     {
-        private readonly ITwEngine _engine;
-
-        public TestGenerator(ITwEngine engine)
+        public void Generate(List<ITwFunctionDescriptor> collection)
         {
-            _engine = engine;
-        }
+            var session = new TwDummySessionState();
 
-        /*
-        public void Generate(FunctionPrototypeCollection collection)
-        {
+            var outputPath = "C:\\NTDLS\\TightWiki\\TightWiki.Tests\\Markup";
+
+            HashSet<string> generatedTests = new HashSet<string>();
+
             //Generate all combination for required parameters.
-            foreach (var prototype in collection.Items)
+            foreach (var prototype in collection)
             {
-                var requiredParams = prototype.Parameters.Where(o => o.IsRequired).ToList();
+                bool isScopeFunction = prototype.FunctionAttribute is TwScopeFunctionPluginAttribute;
 
-                var paramValueSets = requiredParams
-                    .Select(p => GetValues(p))
-                    .ToList();
+                var requiredParams = prototype.Parameters
+                    .Where(o => o.ParameterType != typeof(ITwEngineState) && o.HasDefaultValue == false).ToList();
 
-                var combinations = GetCombinations(paramValueSets);
+                var optionalParams = prototype.Parameters
+                    .Where(o => o.ParameterType != typeof(ITwEngineState) && o.HasDefaultValue == true).ToList();
 
-                foreach (var combo in combinations)
+                if (isScopeFunction)
                 {
-                    var fArgs = string.Join(", ", combo.Select(FormatValue));
-                    Console.WriteLine($"{Descriptor.Demarcation}{prototype.ProperName}({fArgs})");
+                    requiredParams = requiredParams.Skip(1).ToList();
                 }
-            }
 
-            //Generate all combination for ALL parameters.
-            foreach (var prototype in collection.Items)
-            {
-                var paramValueSets = prototype.Parameters
-                    .Select(p => GetValues(p))
+                // Build value sets for required params
+                var requiredValueSets = requiredParams.Select(p => GetValues(p)).ToList();
+
+                // For optional params, each one can be either omitted (sentinel) or one of its values.
+                // We use a sentinel to mean "stop here" when building the arg list.
+                var sentinel = new object();
+
+                var optionalValueSets = optionalParams
+                    .Select(p => new List<object?> { sentinel }.Concat(GetValues(p)).ToList())
                     .ToList();
 
-                var combinations = GetCombinations(paramValueSets);
+                var allValueSets = requiredValueSets.Concat(optionalValueSets).ToList();
+
+                var combinations = GetCombinations(allValueSets);
 
                 foreach (var combo in combinations)
                 {
-                    var fArgs = string.Join(", ", combo.Select(FormatValue));
-                    Console.WriteLine($"{prototype.Demarcation}{prototype.ProperName}({fArgs})");
+                    var trimmedCombo = combo
+                        .TakeWhile(v => v != sentinel)
+                        .ToList();
+
+                    var fArgs = string.Join(", ", trimmedCombo.Select(FormatValue));
+
+                    string markup = $"{prototype.FunctionAttribute.Demarcation}{prototype.FunctionAttribute.Name}({fArgs})";
+
+                    var body = $"##title\r\n##toc\r\n===Overview\r\n==Test Result\r\n{markup}\r\n";
+
+                    if (isScopeFunction)
+                    {
+                        //Add the closing marker for the scope functions.
+                        body += $"This is the body text for {prototype.FunctionAttribute.Name}\r\n";
+                        body += "}}\r\n";
+                    }
+
+                    var page = artifacts.GetMockPage("Test", body);
+
+                    int suffix = 1;
+                    string testName = $"Test{prototype.FunctionAttribute.Name}_{suffix:D6}";
+                    while (generatedTests.Contains(testName))
+                    {
+                        suffix++;
+                        testName = $"Test{prototype.FunctionAttribute.Name}_{suffix:D6}";
+                    }
+
+                    generatedTests.Add(testName);
+
+                    Console.WriteLine(testName);
+                    //Console.WriteLine(markup);
+                    var processed = artifacts.Engine.Transform(artifacts.Localizer, session, page);
+                    //Console.WriteLine(processed.Result.HtmlResult);
+
+                    var wikiPath = Path.Combine(outputPath, $"{testName}.wiki");
+                    File.WriteAllText(wikiPath, body);
+                    File.WriteAllText($"{wikiPath}.expected", processed.Result.HtmlResult);
                 }
             }
         }
@@ -68,18 +110,24 @@ namespace TightWiki.Test.Library
             }
         }
 
-        private static List<object?> GetValues(PrototypeParameter p)
+        private static List<object?> GetValues(ParameterInfo p)
         {
-            if (p.AllowedValues.Any())
-                return p.AllowedValues.Cast<object?>().ToList();
-
-            return p.Type switch
+            if (p.ParameterType.IsEnum)
             {
-                WikiFunctionParamType.String => new List<object?> { "test" },
-                WikiFunctionParamType.InfiniteString => new List<object?> { "test1", "test2" },
-                WikiFunctionParamType.Integer => new List<object?> { 0, 1 },
-                WikiFunctionParamType.Double => new List<object?> { 0.0, 1.5 },
-                WikiFunctionParamType.Boolean => new List<object?> { true, false },
+                return Enum.GetValues(p.ParameterType)?.Cast<object?>().ToList() ?? [];
+            }
+
+            if (p.ParameterType.IsArray)
+            {
+                return new List<object?> { "test1", "test2" };
+            }
+
+            return p.ParameterType switch
+            {
+                Type stringType when stringType == typeof(string) => new List<object?> { "test" },
+                Type intType when intType == typeof(int) => new List<object?> { 0, 1, 3 },
+                Type doubleType when doubleType == typeof(double) => new List<object?> { 0.5, 0.75, 1 },
+                Type boolType when boolType == typeof(bool) => new List<object?> { true, false },
                 _ => new List<object?> { null }
             };
         }
@@ -95,6 +143,6 @@ namespace TightWiki.Test.Library
                 _ => value.ToString()
             } ?? throw new ArgumentException();
         }
-        */
+
     }
 }

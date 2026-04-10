@@ -2677,4 +2677,64 @@
   <data name="Select a severity" xml:space="preserve">
     <value>Wählen Sie eine Schwere</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>Plugin-Klasse</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>Plugin-Funktion</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>Handler-Klasse</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>Globale Konfiguration für die Plugin-Klasse.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>Globale Konfiguration für die Plugin-Funktion.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>Abgrenzung</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>Ist erste Chance?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>Ist Lite Permissible?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>Funktionssignatur</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>Globale Konfiguration für den Plugin-Handler.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>Plugin-Handler</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>Ausdrücke</value>
+  </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>Nachbearbeitung?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>Erste Chance?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>Wiki Lite?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>Suchbegriffe</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Navigation</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>Einzigartige Tokens</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>Gesamtgewicht</value>
+  </data>
 </root>

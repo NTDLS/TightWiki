@@ -1,4 +1,5 @@
 ﻿using NTDLS.Helpers;
+using System.Text;
 using TightWiki.Library.Dummy;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Attributes.Functions;
@@ -15,19 +16,106 @@ namespace TightWiki.Library
     {
         private readonly TwVerbatimLocalizationText _localizer = new();
 
+        public static string GetFunctionSignature(ITwFunctionDescriptor function)
+        {
+            var sb = new StringBuilder();
+
+            int skipCount;
+            if (function.FunctionAttribute is TwScopeFunctionPluginAttribute)
+            {
+                skipCount = 2; //State and body.
+            }
+            else
+            {
+                skipCount = 1; //State.
+            }
+
+            sb.Append($"""<span class="text-secondary">{function.FunctionAttribute.Demarcation}</span><span class="fw-bold">{function.FunctionAttribute.Name}</span>""");
+            sb.Append('(');
+
+            var parameters = function.Parameters.Skip(skipCount).ToList();
+
+            for (int i = 0; i < parameters.Count; i++)
+            {
+                var p = parameters[i];
+                sb.Append($"""<span><span class="text-primary">{GetParameterTypeWikiName(p.ParameterType)}</span> {p.Name}</span>""");
+                if (i < parameters.Count - 1)
+                {
+                    sb.Append(", ");
+                }
+            }
+
+            sb.Append(')');
+
+            if (function.FunctionAttribute is TwScopeFunctionPluginAttribute)
+            {
+                sb.Append("<br>");
+                sb.Append("<div class=\"ps-3 text-body-secondary fst-italic\">...body content...</div>");
+                sb.Append("<span class=\"text-secondary\">}}</span>");
+            }
+
+            sb.Append("</span>");
+
+            return sb.ToString();
+        }
+
+        public static string GetFunctionSignatureDetailed(ITwFunctionDescriptor function)
+        {
+            var sb = new StringBuilder();
+
+            int skipCount;
+            if (function.FunctionAttribute is TwScopeFunctionPluginAttribute)
+            {
+                skipCount = 2; //State and body.
+            }
+            else
+            {
+                skipCount = 1; //State.
+            }
+
+            var parameters = function.Parameters.Skip(skipCount).ToList();
+
+            for (int i = 0; i < parameters.Count; i++)
+            {
+                var p = parameters[i];
+
+                sb.AppendLine("<ul>");
+
+                sb.AppendLine($"<li><span class=\"fw-bold\">Name:</span> <span class=\"\">{p.Name}</span> {(!p.HasDefaultValue ? "[Required]" : "{Optional}")}</li>");
+                sb.AppendLine("<ul>");
+                sb.AppendLine($"<li><span class=\"fw-bold\">Type:</span> <span class=\"text-primary\">{GetParameterTypeWikiName(p.ParameterType)}{(p.ParameterType.IsArray ? ":Infinite" : "")}</span></li>");
+                if (p.HasDefaultValue)
+                {
+                    if (!string.IsNullOrEmpty(p.DefaultValue?.ToString()))
+                    {
+                        sb.AppendLine($"<li><span class=\"fw-bold\">Default:</span> {p.DefaultValue}</li>");
+                    }
+                }
+                if (p.ParameterType.IsEnum)
+                {
+                    var enumValues = Enum.GetValues(p.ParameterType).Cast<Enum>().Select(x => x.ToString());
+
+                    sb.AppendLine($"<li><span class=\"fw-bold\">Values:</span> {string.Join(", ", enumValues)}</li>");
+                }
+
+                sb.AppendLine("</ul>");
+                sb.AppendLine("</ul>");
+            }
+
+            return sb.ToString();
+        }
+
         public async Task CreateNotExisting()
         {
             foreach (var function in engine.StandardFunctions)
                 await GenerateFunctionDocumentation(function);
             foreach (var function in engine.ScopeFunctions)
                 await GenerateFunctionDocumentation(function);
-            foreach (var function in engine.PostProcessingFunctions)
-                await GenerateFunctionDocumentation(function);
             foreach (var function in engine.ProcessingFunctions)
                 await GenerateFunctionDocumentation(function);
         }
 
-        private string GetParameterTypeWikiName(Type type)
+        public static string GetParameterTypeWikiName(Type type)
         {
             if (type.IsEnum)
             {
@@ -71,11 +159,7 @@ namespace TightWiki.Library
 
             string functionType = "Function";
 
-            if (descriptor.FunctionAttribute is TwPostProcessingInstructionFunctionPluginAttribute)
-            {
-                functionType = "Instruction Function";
-            }
-            else if (descriptor.FunctionAttribute is TwProcessingInstructionFunctionPluginAttribute)
+            if (descriptor.FunctionAttribute is TwProcessingInstructionFunctionPluginAttribute)
             {
                 functionType = "Instruction Function";
             }

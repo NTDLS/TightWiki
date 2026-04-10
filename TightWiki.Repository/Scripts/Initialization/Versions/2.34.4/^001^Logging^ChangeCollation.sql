@@ -1,20 +1,21 @@
-﻿BEGIN TRANSACTION;
+﻿DROP TABLE IF EXISTS "Log";
+DROP TABLE IF EXISTS "Severity";
 
-PRAGMA foreign_keys = OFF;
-
-CREATE TABLE "Severity_new" (
-    "Id"    INTEGER NOT NULL,
-    "Name"  TEXT NOT NULL COLLATE NOCASE UNIQUE,
-    PRIMARY KEY("Id" AUTOINCREMENT)
+CREATE TABLE "Severity" (
+	"Id"	INTEGER NOT NULL,
+	"Name"	TEXT NOT NULL UNIQUE COLLATE NOCASE,
+	PRIMARY KEY("Id" AUTOINCREMENT)
 );
+INSERT INTO Severity(Name) VALUES ('Trace'), ('Debug'), ('Information'), ('Warning'), ('Error'), ('Critical'), ('None');
 
-INSERT INTO Severity_new (Id, Name)
-SELECT Id, Name FROM Severity;
 
-DROP TABLE Severity;
-
-ALTER TABLE Severity_new RENAME TO Severity;
-
-PRAGMA foreign_keys = ON;
-
-COMMIT;
+CREATE TABLE "Log" (
+	"Id"	INTEGER,
+	"SeverityId"	INTEGER,
+	"Text"	text,
+	"ExceptionText"	text,
+	"StackTrace"	text,
+	"CreatedDate"	text,
+	PRIMARY KEY("Id" AUTOINCREMENT),
+	FOREIGN KEY("SeverityId") REFERENCES "Severity"("Id")
+);

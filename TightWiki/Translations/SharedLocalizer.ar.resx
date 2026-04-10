@@ -2677,4 +2677,64 @@
   <data name="Select a severity" xml:space="preserve">
     <value>اختر درجة الضرر</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>فئة الإضافة</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>وظيفة الإضافة</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>فئة المعالج</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>إعدادات عامة لفئة الإضافة.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>إعدادات عامة لوظيفة الإضافة.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>تمييز</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>هل هي الفرصة الأولى؟</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>هل هو تصريح بسيط؟</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>توقيع الوظيفة</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>المعلمات</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>إعدادات عامة لمعالج الإضافة.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>معالج الإضافة</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>تعابير</value>
+  </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>البحث بعد المعالجة؟</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>فرصة أولى؟</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>ويكي لايت؟</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>بحث الرموز</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>التنقل</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>رموز فريدة</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>الوزن الإجمالي</value>
+  </data>
 </root>

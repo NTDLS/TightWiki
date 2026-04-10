@@ -2677,4 +2677,64 @@
   <data name="Select a severity" xml:space="preserve">
     <value>심각도를 선택하세요</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>플러그인 클래스</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>플러그인 기능</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>핸들러 클래스</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>플러그인 클래스의 글로벌 구성.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>플러그인 기능의 글로벌 구성.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>구분</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>First Chance인가요?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>Lite Permissiable인가요?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>함수 서명</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>매개변수</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>플러그인 핸들러의 글로벌 구성.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>플러그인 핸들러</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>표현식</value>
+  </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>후처리?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>첫 번째 기회?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>위키 라이트?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>검색 토큰</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>내비게이션</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>고유 토큰</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>총 무게</value>
+  </data>
 </root>

@@ -2677,4 +2677,64 @@
   <data name="Select a severity" xml:space="preserve">
     <value>Bir şiddet seviyesi seçin</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>Eklenti Sınıfı</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>Eklenti Fonksiyonu</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>İşleyici Sınıfı</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>Plugin sınıfı için küresel yapılandırma.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>Plugin fonksiyonu için küresel yapılandırma.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>Sınırlandırma</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>İlk Şans mı?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>Lite İzinli mi?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>Fonksiyon İmzası</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parametreler</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>Plugin işleyicisi için küresel yapılandırma.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>Plugin İşleyici</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>İfadeler</value>
+  </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>İşlem Sonrası?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>İlk Fırsat?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>Viki Lite?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>Anahtar Kelimeleri Ara</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Gezinti</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>Eşsiz anahtar kelimeler</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>Toplam ağırlık</value>
+  </data>
 </root>

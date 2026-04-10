@@ -59,21 +59,29 @@ namespace TightWiki.Plugin.Example
             }
 
             /// <summary>
-            /// Writes a message indicating whether an emoji shortcut was found in the wiki configuration.
-            /// This is just an example of how you could write a custom handler for emojis, but in practice
-            /// you would likely want to return the actual emoji image or something similar instead of just a message.
+            /// Handles basic markup instructions like bold, italic, underline, etc.
             /// </summary>
             /// <param name="state">Reference to the wiki state object</param>
-            /// <param name="key">The lookup key for the given emoji.</param>
-            /// <param name="scale">The desired 1-100 scale factor for the emoji.</param>
-            [TwEmojiPluginHandler("Default emoji handler", "Handles wiki emojis.", 0)]
-            public async Task<TwPluginResult> Handle(ITwEngineState state, string key, int scale)
+            /// <param name="match">The matched string from the regular expression</param>
+            [TwMarkupPluginHandler("Custom markup handler",
+                "Handles custome markup instructions.",
+                precedence: 70, isLitePermissiable: true)]
+            [TwPluginRegularExpression(@"\&\&(.*?)\&\&")]
+            [TwPluginRegularExpression(@"\$\$(.*?)\$\$")]
+            public async Task<TwPluginResult> HandleMarkup(ITwEngineState state, TwOrderedMatch match)
             {
-                if (state.Engine.WikiConfiguration.Emojis.Any(o => o.Shortcut == key))
+                char sequence = match.Value[0];
+                string body = match.Value.Substring(2, match.Value.Length - 4);
+
+                switch (sequence)
                 {
-                    return new TwPluginResult("**Emoji found**");
+                    case '&': return new TwPluginResult($"<strike>{body}</strike>");
+                    case '$': return new TwPluginResult($"<strong>{body}</strong>");
+                    default:
+                        break;
                 }
-                return new TwPluginResult("**Emoji !!NOT!! found**");
+
+                return new TwPluginResult() { Instructions = [TwResultInstruction.Skip] };
             }
         }
     }

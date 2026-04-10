@@ -2677,4 +2677,64 @@
   <data name="Select a severity" xml:space="preserve">
     <value>Қауіптылық деңгейін таңдау</value>
   </data>
+  <data name="Plugin Class" xml:space="preserve">
+    <value>Қосымша сыныбы</value>
+  </data>
+  <data name="Plugin Function" xml:space="preserve">
+    <value>Қосымша функциясы</value>
+  </data>
+  <data name="Handler Class" xml:space="preserve">
+    <value>Жеке бағдарламашы сыныбы</value>
+  </data>
+  <data name="Global configuration for plugin class." xml:space="preserve">
+    <value>Қосымша сыбыбының ғаламдық конфигурациясы.</value>
+  </data>
+  <data name="Global configuration for plugin function." xml:space="preserve">
+    <value>Қосымша функциясының ғаламдық конфигурациясы.</value>
+  </data>
+  <data name="Demarcation" xml:space="preserve">
+    <value>Шекаралау</value>
+  </data>
+  <data name="Is First Chance?" xml:space="preserve">
+    <value>Бірінші мүмкіндік пе?</value>
+  </data>
+  <data name="Is Lite Permissiable?" xml:space="preserve">
+    <value>Лайт рұқсат етілген бе?</value>
+  </data>
+  <data name="Function Signature" xml:space="preserve">
+    <value>Функцияның қолтаңбасы</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Параметрлер</value>
+  </data>
+  <data name="Global configuration for plugin handler." xml:space="preserve">
+    <value>Қосымша өңдеушінің ғаламдық конфигурациясы.</value>
+  </data>
+  <data name="Plugin Handler" xml:space="preserve">
+    <value>Қосу өңдеуші</value>
+  </data>
+  <data name="Expressions" xml:space="preserve">
+    <value>Экспрессиялар</value>
+  </data>
+  <data name="Post Process?" xml:space="preserve">
+    <value>Қазіргі өңдеу?</value>
+  </data>
+  <data name="First Chance?" xml:space="preserve">
+    <value>Бірінші мүмкіндік?</value>
+  </data>
+  <data name="Wiki Lite?" xml:space="preserve">
+    <value>Wiki Light?</value>
+  </data>
+  <data name="Search Tokens" xml:space="preserve">
+    <value>Іздеу белгілерін</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Жол салу</value>
+  </data>
+  <data name="Unique tokens" xml:space="preserve">
+    <value>Бірегей белгілер</value>
+  </data>
+  <data name="Total weight" xml:space="preserve">
+    <value>Жалпы салмақ</value>
+  </data>
 </root>

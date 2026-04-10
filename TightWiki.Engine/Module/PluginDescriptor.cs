@@ -1,8 +1,8 @@
 ﻿using NTDLS.Helpers;
 using TightWiki.Plugin.Attributes;
-using TightWiki.Plugin.Attributes.Functions;
-using TightWiki.Plugin.Attributes.Handlers;
 using TightWiki.Plugin.Interfaces.Module;
+using TightWiki.Plugin.Interfaces.Module.Function;
+using TightWiki.Plugin.Interfaces.Module.Handlers;
 
 namespace TightWiki.Engine.Module
 {
@@ -16,11 +16,11 @@ namespace TightWiki.Engine.Module
         /// <summary>
         /// List of all functions that are defined in the plugin.
         /// </summary>
-        public List<ITwFunctionPluginAttribute> Functions { get; set; } = new();
+        public List<ITwFunctionDescriptor> Functions { get; set; } = new();
 
         /// <summary>
         /// List of all handlers that are defined in the plugin.
         /// </summary>
-        public List<ITwPluginHandlerAttribute> Handlers { get; set; } = new();
+        public List<ITwHandlerDescriptor> Handlers { get; set; } = new();
     }
 }
