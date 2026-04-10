@@ -21,7 +21,7 @@ namespace TightWiki.Plugin
         /// <summary>
         /// The default visual theme applied to the wiki UI.
         /// </summary>
-        public Models.TwTheme SystemTheme { get; set; } = new();
+        public TwTheme SystemTheme { get; set; } = new();
 
         /// <summary>
         /// Indicates whether the wiki is running in debug mode.

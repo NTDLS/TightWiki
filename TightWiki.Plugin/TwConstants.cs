@@ -377,7 +377,7 @@
     /// <summary>
     /// Defines the visual theme of the wiki.
     /// </summary>
-    public enum TwTheme
+    public enum TwBaseTheme
     {
         /// <summary>Light color scheme.</summary>
         Light,

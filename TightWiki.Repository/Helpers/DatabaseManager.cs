@@ -238,6 +238,7 @@ namespace TightWiki.Repository.Helpers
                 if (adminUserId == null)
                 {
                     Logger.LogWarning($"Admin user with ID {adminUserId} was not found in the identity database. A new admin user will be created.");
+                    Console.WriteLine($"Admin user with ID {adminUserId} was not found in the identity database. A new admin user will be created.");
 
                     //We couldn't find an admin user, so we will create a new one with a random password.
                     var user = new IdentityUser()
@@ -257,6 +258,7 @@ namespace TightWiki.Repository.Helpers
                         if (result.Succeeded)
                         {
                             Logger.LogInformation("Database upgrade user created a new account with password.");
+                            Console.WriteLine("Database upgrade user created a new account with password.");
 
                             adminUserId = Guid.Parse(await userManager.GetUserIdAsync(user));
 
@@ -272,11 +274,13 @@ namespace TightWiki.Repository.Helpers
             catch (Exception ex)
             {
                 Logger.LogError(ex, "An error occurred while ensuring the existence of an admin user for seeding default wiki pages. Default wiki page seeding will be skipped.");
+                Console.WriteLine($"An error occurred while ensuring the existence of an admin user for seeding default wiki pages: {ex.GetBaseException().Message}");
             }
 
             if (adminUserId == null)
             {
                 Logger.LogError("Database upgrade could not find or create an admin user, which is required for seeding default wiki pages. Default wiki page seeding will be skipped.");
+                Console.WriteLine("Database upgrade could not find or create an admin user, which is required for seeding default wiki pages. Default wiki page seeding will be skipped.");
                 return;
             }
 
@@ -287,6 +291,7 @@ namespace TightWiki.Repository.Helpers
             if (defaultDataTypes.Contains(TwDefaultDataType.Configurations))
             {
                 Logger.LogInformation("Seeding default configurations.");
+                Console.WriteLine("Seeding default configurations.");
 
                 try
                 {
@@ -304,6 +309,7 @@ namespace TightWiki.Repository.Helpers
                 catch (Exception ex)
                 {
                     Logger.LogError(ex, "An error occurred while seeding default configuration groups.");
+                    Console.WriteLine($"An error occurred while seeding default configuration groups: {ex.GetBaseException().Message}");
                 }
 
                 try
@@ -327,6 +333,7 @@ namespace TightWiki.Repository.Helpers
                 catch (Exception ex)
                 {
                     Logger.LogError(ex, "An error occurred while seeding default configuration entries.");
+                    Console.WriteLine($"An error occurred while seeding default configuration entries: {ex.GetBaseException().Message}");
                 }
             }
 
@@ -337,6 +344,7 @@ namespace TightWiki.Repository.Helpers
             if (defaultDataTypes.Contains(TwDefaultDataType.Themes))
             {
                 Logger.LogInformation("Seeding default themes.");
+                Console.WriteLine("Seeding default themes.");
                 try
                 {
                     var defaultThemes = DefaultsRepository.DefaultsFactory.Query<TwDefaultTheme>(@"Scripts\Defaults\GetDefaultThemes.sql");
@@ -358,6 +366,7 @@ namespace TightWiki.Repository.Helpers
                 catch (Exception ex)
                 {
                     Logger.LogError(ex, "An error occurred while seeding default themes.");
+                    Console.WriteLine($"An error occurred while seeding default themes: {ex.GetBaseException().Message}");
                 }
             }
 
@@ -370,6 +379,7 @@ namespace TightWiki.Repository.Helpers
                 || defaultDataTypes.Contains(TwDefaultDataType.BuiltinPages))
             {
                 Logger.LogInformation("Seeding default wiki pages.");
+                Console.WriteLine("Seeding default wiki pages.");
 
                 try
                 {
@@ -422,6 +432,7 @@ namespace TightWiki.Repository.Helpers
                 catch (Exception ex)
                 {
                     Logger.LogError(ex, "An error occurred while seeding default wiki help pages.");
+                    Console.WriteLine($"An error occurred while seeding default wiki help pages: {ex.GetBaseException().Message}");
                 }
             }
 
@@ -431,6 +442,9 @@ namespace TightWiki.Repository.Helpers
 
             if (defaultDataTypes.Contains(TwDefaultDataType.FeatureTemplates))
             {
+                Logger.LogInformation("Seeding default feature templates.");
+                Console.WriteLine("Seeding default feature templates.");
+
                 try
                 {
                     var defaultFeatureTemplates = DefaultsRepository.DefaultsFactory.Query<TwDefaultFeatureTemplate>(@"Scripts\Defaults\GetDefaultFeatureTemplates.sql");
@@ -450,6 +464,7 @@ namespace TightWiki.Repository.Helpers
                 catch (Exception ex)
                 {
                     Logger.LogError(ex, "An error occurred while seeding default feature templates.");
+                    Console.WriteLine($"An error occurred while seeding default feature templates: {ex.GetBaseException().Message}");
                 }
             }
 
@@ -458,7 +473,7 @@ namespace TightWiki.Repository.Helpers
 
         private async Task ProcessInitializationScript(ILogger logger, Assembly assembly, string fullUpdateScriptPath, string scriptName)
         {
-            Logger.LogInformation($"Executing initialization script: \"{fullUpdateScriptPath}\"");
+            Logger.LogInformation($"Processing initialization script: \"{fullUpdateScriptPath}\"");
 
             //Get the script text.
             using var stream = assembly.GetManifestResourceStream(fullUpdateScriptPath);
@@ -555,7 +570,20 @@ namespace TightWiki.Repository.Helpers
 
             if (shouldExecute)
             {
-                await databaseFactory.ExecuteAsync(scriptText);
+                Console.WriteLine($"Executing: {fullUpdateScriptPath}");
+
+                try
+                {
+                    await databaseFactory.ExecuteAsync(scriptText);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Execution failed: {ex.GetBaseException().Message}");
+                    throw;
+                }
+            }
+            else {
+                Console.WriteLine($"Skipping: {fullUpdateScriptPath}");
             }
         }
 
