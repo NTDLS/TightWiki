@@ -10,8 +10,9 @@ namespace TightWiki.Test.CaseGenerator
 
             var testGenerator = new TestGenerator(artifacts);
 
-            //testGenerator.Generate(artifacts.Engine.ProcessingFunctions);
+            testGenerator.Generate(artifacts.Engine.ProcessingFunctions);
             testGenerator.Generate(artifacts.Engine.StandardFunctions);
+            testGenerator.Generate(artifacts.Engine.ScopeFunctions);
 
             //testGenerator.Generate(artifacts.Engine.StandardFunctionHandler.Descriptors);
         }

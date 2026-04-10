@@ -1,5 +1,7 @@
-﻿using System.Reflection;
+﻿using System.Collections.Immutable;
+using System.Reflection;
 using TightWiki.Library.Dummy;
+using TightWiki.Plugin.Attributes.Functions;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Module.Function;
 
@@ -18,30 +20,61 @@ namespace TightWiki.Test.Library
             //Generate all combination for required parameters.
             foreach (var prototype in collection)
             {
+                bool isScopeFunction = prototype.FunctionAttribute is TwScopeFunctionPluginAttribute;
+
                 var requiredParams = prototype.Parameters
                     .Where(o => o.ParameterType != typeof(ITwEngineState) && o.HasDefaultValue == false).ToList();
 
-                var paramValueSets = requiredParams
-                    .Select(p => GetValues(p))
+                var optionalParams = prototype.Parameters
+                    .Where(o => o.ParameterType != typeof(ITwEngineState) && o.HasDefaultValue == true).ToList();
+
+                if (isScopeFunction)
+                {
+                    requiredParams = requiredParams.Skip(1).ToList();
+                }
+
+                // Build value sets for required params
+                var requiredValueSets = requiredParams.Select(p => GetValues(p)).ToList();
+
+                // For optional params, each one can be either omitted (sentinel) or one of its values.
+                // We use a sentinel to mean "stop here" when building the arg list.
+                var sentinel = new object();
+
+                var optionalValueSets = optionalParams
+                    .Select(p => new List<object?> { sentinel }.Concat(GetValues(p)).ToList())
                     .ToList();
 
-                var combinations = GetCombinations(paramValueSets);
+                var allValueSets = requiredValueSets.Concat(optionalValueSets).ToList();
+
+                var combinations = GetCombinations(allValueSets);
 
                 foreach (var combo in combinations)
                 {
-                    var fArgs = string.Join(", ", combo.Select(FormatValue));
+                    var trimmedCombo = combo
+                        .TakeWhile(v => v != sentinel)
+                        .ToList();
+
+                    var fArgs = string.Join(", ", trimmedCombo.Select(FormatValue));
+
                     string markup = $"{prototype.FunctionAttribute.Demarcation}{prototype.FunctionAttribute.Name}({fArgs})";
 
-                    var body = $"##title\r\n##toc\r\n===Overview\r\n==Test Result\r\n{markup}";
+                    var body = $"##title\r\n##toc\r\n===Overview\r\n==Test Result\r\n{markup}\r\n";
+
+                    if (isScopeFunction)
+                    {
+                        //Add the closing marker for the scope functions.
+                        body += $"This is the body text for {prototype.FunctionAttribute.Name}\r\n";
+                        body += "}}\r\n";
+                    }
+
                     var page = artifacts.GetMockPage("Test", body);
 
-                    string testName = $"Test{prototype.FunctionAttribute.Name}";
                     int suffix = 1;
-
+                    string testName = $"Test{prototype.FunctionAttribute.Name}_{suffix:D6}";
                     while (generatedTests.Contains(testName))
                     {
-                        testName = $"Test{prototype.FunctionAttribute.Name}_{suffix}";
                         suffix++;
+                        testName = $"Test{prototype.FunctionAttribute.Name}_{suffix:D6}";
                     }
 
                     generatedTests.Add(testName);
