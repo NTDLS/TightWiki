@@ -270,6 +270,7 @@ namespace TightWiki.Plugin.Default
             {
                 //Use the namespace that the user explicitly specified.
             }
+            state.OutgoingLinks.Add(new TwPageReference(pageName, pageNavigation.Canonical));
 
             var page = await state.Engine.DatabaseManager.PageRepository.GetPageRevisionByNavigation(pageNavigation);
 

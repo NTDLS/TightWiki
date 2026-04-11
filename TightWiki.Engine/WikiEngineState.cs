@@ -174,8 +174,6 @@ namespace TightWiki.Engine
                 await handler.Handle(this);
             }
 
-            Console.WriteLine($"{MatchCount:n0}");
-
             return this;
         }
 
