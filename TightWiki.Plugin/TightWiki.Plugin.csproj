@@ -4,7 +4,7 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>2.37.2</Version>
+		<Version>2.37.3</Version>
 
 		<Title>NTDLS.SqliteDapperWrapper</Title>
 		<Authors>NetworkDLS</Authors>

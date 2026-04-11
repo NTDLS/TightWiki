@@ -22,6 +22,8 @@ namespace TightWiki.Engine
         public ITwSharedLocalizationText Localizer { get; private set; }
 
         private int _matchesStoredPerIteration = 0;
+        private int _stepNumber = 0;
+        private HashSet<string> _storeAllMatchCache = new();
 
         /// <summary>
         /// The HTML tag name used to identify anything that needs a name.
@@ -63,59 +65,6 @@ namespace TightWiki.Engine
         public ILogger<ITwEngine> Logger { get; private set; }
 
         #endregion
-
-        private int _stepNumber = 0;
-        /// <summary>
-        /// Gets the next string to use for generating unique tag identifiers during processing, incrementing the internal counter to ensure uniqueness.
-        /// </summary>
-        /// <param name="prefix">String to be prepended to the result</param>
-        public string GetNextTagMarker(string prefix)
-        {
-            return $"{prefix}_{TagMarker}_{_stepNumber++}";
-        }
-
-        private static string NewIdentiferTag()
-            => $"{Constants.TagStart}{Guid.NewGuid():N}{Constants.TagEnd}";
-
-        /// <summary>
-        /// Used to store values for handlers that needs to survive only a single wiki processing session.
-        /// </summary>
-        public void SetStateValue<T>(string key, T value)
-        {
-            if (value == null)
-            {
-                return;
-            }
-            _handlerState[key] = value;
-        }
-
-        /// <summary>
-        /// Used to get values for handlers that needs to survive only a single wiki processing session.
-        /// </summary>
-        public T GetStateValue<T>(string key, T defaultValue)
-        {
-            if (_handlerState.TryGetValue(key, out var value))
-            {
-                return (T)value;
-            }
-            SetStateValue(key, defaultValue);
-            return defaultValue;
-        }
-
-        /// <summary>
-        /// Used to get values for handlers that needs to survive only a single wiki processing session.
-        /// </summary>
-        public bool TryGetStateValue<T>(string key, [MaybeNullWhen(false)] out T? outValue)
-        {
-            if (_handlerState.TryGetValue(key, out var value))
-            {
-                outValue = (T)value;
-                return true;
-            }
-
-            outValue = default;
-            return false;
-        }
 
         /// <summary>
         /// Creates a new instance of the TightEngineState class. Typically created by a call to TightEngine.Transform().
@@ -224,6 +173,8 @@ namespace TightWiki.Engine
             {
                 await handler.Handle(this);
             }
+
+            Console.WriteLine($"{MatchCount:n0}");
 
             return this;
         }
@@ -386,6 +337,14 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
+                if (_storeAllMatchCache.Contains(match.Value))
+                {
+                    //When we replace all matches, we keep track of the matches we have already
+                    //  replaced in a cache to avoid processing the same match multiple times in
+                    //  the same processing session since there is nothing left to replace,
+                    continue;
+                }
+
                 var parsedFunction = ParsedFunction.Parse(match.Value);
 
                 try
@@ -437,6 +396,14 @@ namespace TightWiki.Engine
 
                     foreach (var match in orderedMatches)
                     {
+                        if (_storeAllMatchCache.Contains(match.Value))
+                        {
+                            //When we replace all matches, we keep track of the matches we have already
+                            //  replaced in a cache to avoid processing the same match multiple times in
+                            //  the same processing session since there is nothing left to replace,
+                            continue;
+                        }
+
                         var result = await handler.Handle(this, match);
                         if (!result.Instructions.Contains(TwResultInstruction.Skip))
                         {
@@ -461,6 +428,14 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
+                if (_storeAllMatchCache.Contains(match.Value))
+                {
+                    //When we replace all matches, we keep track of the matches we have already
+                    //  replaced in a cache to avoid processing the same match multiple times in
+                    //  the same processing session since there is nothing left to replace,
+                    continue;
+                }
+
                 var parsedFunction = ParsedFunction.Parse(match.Value);
 
                 try
@@ -491,6 +466,14 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
+                if (_storeAllMatchCache.Contains(match.Value))
+                {
+                    //When we replace all matches, we keep track of the matches we have already
+                    //  replaced in a cache to avoid processing the same match multiple times in
+                    //  the same processing session since there is nothing left to replace,
+                    continue;
+                }
+
                 var parsedFunction = ParsedFunction.Parse(match.Value);
 
                 try
@@ -535,6 +518,14 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
+                if (_storeAllMatchCache.Contains(match.Value))
+                {
+                    //When we replace all matches, we keep track of the matches we have already
+                    //  replaced in a cache to avoid processing the same match multiple times in
+                    //  the same processing session since there is nothing left to replace,
+                    continue;
+                }
+
                 var parsedFunction = ParsedFunction.Parse(match.Value);
 
                 try
@@ -615,6 +606,7 @@ namespace TightWiki.Engine
             }
             else
             {
+                _storeAllMatchCache.Add(matchValue);
                 identifier = StoreMatch(matchType, pageContent, matchValue, result.Content, allowNestedDecode);
             }
 
@@ -710,6 +702,58 @@ namespace TightWiki.Engine
             pageContent.Append(pageContentCopy);
 
             return identifier;
+        }
+
+        /// <summary>
+        /// Gets the next string to use for generating unique tag identifiers during processing, incrementing the internal counter to ensure uniqueness.
+        /// </summary>
+        /// <param name="prefix">String to be prepended to the result</param>
+        public string GetNextTagMarker(string prefix)
+        {
+            return $"{prefix}_{TagMarker}_{_stepNumber++}";
+        }
+
+        private static string NewIdentiferTag()
+            => $"{Constants.TagStart}{Guid.NewGuid():N}{Constants.TagEnd}";
+
+        /// <summary>
+        /// Used to store values for handlers that needs to survive only a single wiki processing session.
+        /// </summary>
+        public void SetStateValue<T>(string key, T value)
+        {
+            if (value == null)
+            {
+                return;
+            }
+            _handlerState[key] = value;
+        }
+
+        /// <summary>
+        /// Used to get values for handlers that needs to survive only a single wiki processing session.
+        /// </summary>
+        public T GetStateValue<T>(string key, T defaultValue)
+        {
+            if (_handlerState.TryGetValue(key, out var value))
+            {
+                return (T)value;
+            }
+            SetStateValue(key, defaultValue);
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// Used to get values for handlers that needs to survive only a single wiki processing session.
+        /// </summary>
+        public bool TryGetStateValue<T>(string key, [MaybeNullWhen(false)] out T? outValue)
+        {
+            if (_handlerState.TryGetValue(key, out var value))
+            {
+                outValue = (T)value;
+                return true;
+            }
+
+            outValue = default;
+            return false;
         }
     }
 }
