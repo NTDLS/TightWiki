@@ -44,10 +44,11 @@ namespace TightWiki.Plugin.Library
         /// rendered.</param>
         /// <param name="queryToken">A token used to identify the page number parameter in the generated query string.</param>
         /// <param name="class">An optional CSS class to apply to the pagination control. If null, no additional class is added.</param>
+        /// <param name="anchor">Anchor to scroll to when the pager is clicked.</param>
         /// <returns>An <see cref="IHtmlContent"/> instance representing the rendered pagination control. Returns an empty
         /// content if <paramref name="totalPageCount"/> is null.</returns>
-        public static IHtmlContent Generate(IQueryCollection? queryString, int? totalPageCount, string queryToken, string? @class = null)
-            => Generate(string.Empty, TwQueryStringConverter.ToDictionary(queryString), totalPageCount, queryToken, @class);
+        public static IHtmlContent Generate(IQueryCollection? queryString, int? totalPageCount, string queryToken, string? @class = null, string? anchor = null)
+            => Generate(string.Empty, TwQueryStringConverter.ToDictionary(queryString), totalPageCount, queryToken, @class, anchor);
 
         /// <summary>
         /// Generates an HTML pagination control for navigating between pages in a web application.
@@ -61,9 +62,11 @@ namespace TightWiki.Plugin.Library
         /// <param name="totalPageCount">The total number of pages available. If null, pagination controls for next and last pages may be disabled.</param>
         /// <param name="queryToken">The name of the query string parameter that represents the current page number.</param>
         /// <param name="class">An optional CSS class to apply to the pagination container. Can be null.</param>
+        /// <param name="anchor">Anchor to scroll to when the pager is clicked.</param>
         /// <returns>An <see cref="IHtmlContent"/> instance containing the rendered HTML for the pagination control. Returns an
         /// empty HTML string if there is only one page and the current page is the first.</returns>
-        public static IHtmlContent Generate(string url, Dictionary<string, string>? queryString, int? totalPageCount, string queryToken, string? @class = null)
+        private static IHtmlContent Generate(string url, Dictionary<string, string>? queryString,
+            int? totalPageCount, string queryToken, string? @class = null, string? anchor = null)
         {
             int currentPage = 1;
 
@@ -88,28 +91,28 @@ namespace TightWiki.Plugin.Library
             lastPage.Remove(queryToken);
             lastPage.Add(queryToken, $"{totalPageCount}");
 
+            var fragment = anchor != null ? $"#{anchor}" : $"#{queryToken}";
+
             if ((totalPageCount ?? 0) > 1 || currentPage > 1)
             {
                 var html = $@"
-                    <div class='d-flex justify-content-center {@class ?? string.Empty}'>
-                        <div class='btn-group' role='group'>
-                            <a class='btn btn-outline-secondary {(currentPage > 1 ? "" : "disabled")}' href='{url}?{TwQueryStringConverter.FromCollection(firstPage)}'>
-                                <i class='bi bi-chevron-double-left'></i>
-                            </a>
-                            <a class='btn btn-outline-secondary {(currentPage > 1 ? "" : "disabled")}' href='{url}?{TwQueryStringConverter.FromCollection(prevPage)}'>
-                                <i class='bi bi-chevron-left'></i>
-                            </a>
-                            <a class='btn btn-outline-secondary {(currentPage < totalPageCount ? "" : "disabled")}' href='{url}?{TwQueryStringConverter.FromCollection(nextPage)}'>
-                                <i class='bi bi-chevron-right'></i>
-                            </a>
-                            <a class='btn btn-outline-secondary {(currentPage < totalPageCount ? "" : "disabled")}' href='{url}?{TwQueryStringConverter.FromCollection(lastPage)}'>
-                                <i class='bi bi-chevron-double-right'></i>
-                            </a>
-                        </div>
-                    </div>";
+                <div class='d-flex justify-content-center {@class ?? string.Empty}'>
+                    <div class='btn-group' role='group'>
+                        <a class='btn btn-outline-secondary {(currentPage > 1 ? "" : "disabled")}' href='{url}?{TwQueryStringConverter.FromCollection(firstPage)}{fragment}'>
+                            <i class='bi bi-chevron-double-left'></i>
+                        </a>
+                        <a class='btn btn-outline-secondary {(currentPage > 1 ? "" : "disabled")}' href='{url}?{TwQueryStringConverter.FromCollection(prevPage)}{fragment}'>
+                            <i class='bi bi-chevron-left'></i>
+                        </a>
+                        <a class='btn btn-outline-secondary {(currentPage < totalPageCount ? "" : "disabled")}' href='{url}?{TwQueryStringConverter.FromCollection(nextPage)}{fragment}'>
+                            <i class='bi bi-chevron-right'></i>
+                        </a>
+                        <a class='btn btn-outline-secondary {(currentPage < totalPageCount ? "" : "disabled")}' href='{url}?{TwQueryStringConverter.FromCollection(lastPage)}{fragment}'>
+                            <i class='bi bi-chevron-double-right'></i>
+                        </a>
+                    </div>
+                </div>";
 
-                //When used in a wiki page. the result of the pager will be subject of the wikifier and the new-lines will be processed as <br />.
-                //To avoid this, we remove all new-lines from the generated HTML.
                 return new HtmlString(html.Trim().Replace("\n", "").Replace("\r", ""));
             }
 

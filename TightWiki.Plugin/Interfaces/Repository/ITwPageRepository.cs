@@ -104,6 +104,11 @@ namespace TightWiki.Plugin.Interfaces.Repository
         Task<List<TwRelatedPage>> GetRelatedPagesPaged(int pageId, int pageNumber, int? pageSize = null);
 
         /// <summary>
+        /// Returns a paged list of pages that link to the specified page.
+        /// </summary>
+        Task<List<TwRelatedPage>> GetBacklinkPagesPaged(int pageId, int pageNumber, int? pageSize = null);
+
+        /// <summary>
         /// Clears the cached rendered content for the specified page.
         /// </summary>
         Task FlushPageCache(int pageId);

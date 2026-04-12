@@ -28,6 +28,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
             var navigation = TwNamespaceNavigation.CleanAndValidate(pageName ?? state.Page.Navigation);
             var revisions = await state.Engine.DatabaseManager.PageRepository.GetPageRevisionsInfoByNavigationPaged(navigation, pageNumber, null, null, pageSize);
             var html = new StringBuilder();
+            html.Append($"<div id=\"{refTag}\"></div>");
 
             if (revisions.Count > 0)
             {

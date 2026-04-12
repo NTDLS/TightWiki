@@ -335,6 +335,20 @@ namespace TightWiki.Repository
             return await PagesFactory.QueryAsync<TwRelatedPage>("GetRelatedPagesPaged.sql", param);
         }
 
+        public async Task<List<TwRelatedPage>> GetBacklinkPagesPaged(int pageId, int pageNumber, int? pageSize = null)
+        {
+            pageSize ??= await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
+
+            var param = new
+            {
+                PageId = pageId,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+
+            return await PagesFactory.QueryAsync<TwRelatedPage>("GetBacklinkPagesPaged.sql", param);
+        }
+
         public async Task FlushPageCache(int pageId)
         {
             var pageNavigation = await GetPageNavigationByPageId(pageId);

@@ -169,6 +169,7 @@
 
 	<ItemGroup>
 		<EmbeddedResource Include="Defaults\defaults.db" />
+		<EmbeddedResource Include="Scripts\GetBacklinkPagesPaged.sql" />
 		<EmbeddedResource Include="Scripts\GetSeverities.sql" />
 		<EmbeddedResource Include="Scripts\CreateSeverityTable.sql" />
 		<EmbeddedResource Include="Scripts\CreateLogTable.sql" />

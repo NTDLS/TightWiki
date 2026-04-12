@@ -23,6 +23,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
             var navigation = TwNamespaceNavigation.CleanAndValidate(pageName ?? state.Page.Navigation);
             var attachments = await state.Engine.DatabaseManager.PageRepository.GetPageFilesInfoByPageNavigationAndPageRevisionPaged(navigation, pageNumber, pageSize, state.Revision);
             var html = new StringBuilder();
+            html.Append($"<div id=\"{refTag}\"></div>");
 
             if (attachments.Count > 0)
             {

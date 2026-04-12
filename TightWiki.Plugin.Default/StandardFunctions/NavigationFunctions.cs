@@ -23,6 +23,8 @@ namespace TightWiki.Plugin.Default.StandardFunctions
 
             var pages = await state.Engine.DatabaseManager.PageRepository.GetSimilarPagesPaged(state.Page.Id, similarity, pageNumber, pageSize);
 
+            html.Append($"<div id=\"{refTag}\"></div>");
+
             switch (styleName)
             {
                 case TwTabularStyle.List:
@@ -70,7 +72,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
             return new TwPluginResult(html.ToString());
         }
 
-        [TwStandardFunctionPlugin("Related", "Displays a list of other related pages based incoming links.")]
+        [TwStandardFunctionPlugin("Related", "Displays a list of other related pages based incoming links (bi-directionally).")]
         public async Task<TwPluginResult> Related(ITwEngineState state,
             TwTabularStyle styleName = TwTabularStyle.Full, int pageSize = 10, bool pageSelector = true)
         {
@@ -81,6 +83,8 @@ namespace TightWiki.Plugin.Default.StandardFunctions
 
             var pages = await state.Engine.DatabaseManager.PageRepository.GetRelatedPagesPaged(state.Page.Id, pageNumber, pageSize);
 
+            html.Append($"<div id=\"{refTag}\"></div>");
+
             switch (styleName)
             {
                 case TwTabularStyle.List:
@@ -127,6 +131,66 @@ namespace TightWiki.Plugin.Default.StandardFunctions
 
             return new TwPluginResult(html.ToString());
         }
+
+        [TwStandardFunctionPlugin("Backlinks", "Displays a list of pages that link to the current page.")]
+        public async Task<TwPluginResult> Backlinks(ITwEngineState state,
+            TwTabularStyle styleName = TwTabularStyle.Full, int pageSize = 10, bool pageSelector = true)
+        {
+            string refTag = state.GetNextTagMarker("Backlinks");
+            int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
+            var html = new StringBuilder();
+
+            var pages = await state.Engine.DatabaseManager.PageRepository.GetBacklinkPagesPaged(state.Page.Id, pageNumber, pageSize);
+
+            html.Append($"<div id=\"{refTag}\"></div>");
+
+            switch (styleName)
+            {
+                case TwTabularStyle.List:
+                    html.Append("<ul>");
+                    foreach (var page in pages)
+                    {
+                        html.Append($"<li><a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
+                    }
+                    html.Append("</ul>");
+                    break;
+                case TwTabularStyle.Flat:
+                    foreach (var page in pages)
+                    {
+                        if (html.Length > 0) html.Append(" | ");
+                        html.Append($"<a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
+                    }
+                    break;
+                case TwTabularStyle.Full:
+                    foreach (var page in pages)
+                    {
+                        html.Append($"""<div class="border-bottom">""");
+
+                        html.Append($"""<a href="{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}" class="d-block text-reset py-2">""");
+                        html.Append("""<span class="fw-semibold text-truncate">""");
+                        html.Append(page.Name);
+                        html.Append("""</span>""");
+                        html.Append("""</a>""");
+
+                        if (!string.IsNullOrWhiteSpace(page.Description))
+                        {
+                            html.Append("""<div class="small text-body-secondary text-truncate">""");
+                            html.Append($"""{page.Description}""");
+                            html.Append("""</div>""");
+                        }
+                        html.Append("""</div>""");
+                    }
+                    break;
+            }
+
+            if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
+            {
+                html.Append(TwPageSelectorGenerator.Generate(state.QueryString, pages.First().PaginationPageCount, refTag));
+            }
+
+            return new TwPluginResult(html.ToString());
+        }
+
 
         [TwStandardFunctionPlugin("EditLink", "Creates an edit link for the current page.")]
         public async Task<TwPluginResult> EditLink(ITwEngineState state, string linkText = "edit")

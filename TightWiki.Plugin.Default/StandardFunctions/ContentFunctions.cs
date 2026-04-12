@@ -144,6 +144,8 @@ namespace TightWiki.Plugin.Default.StandardFunctions
 
             var html = new StringBuilder();
 
+            html.Append($"<div id=\"{refTag}\"></div>");
+
             if (styleName == TwListStyle.Full)
             {
                 foreach (var page in pages)

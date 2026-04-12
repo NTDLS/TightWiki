@@ -69,6 +69,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
             string refTag = state.GetNextTagMarker("ProfileList");
             int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
             var profiles = await state.Engine.DatabaseManager.UsersRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
+            html.Append($"<div id=\"{refTag}\"></div>");
 
             if (profiles.Count > 0)
             {

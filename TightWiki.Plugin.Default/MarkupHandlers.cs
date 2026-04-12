@@ -273,7 +273,6 @@ namespace TightWiki.Plugin.Default
             state.OutgoingLinks.Add(new TwPageReference(pageName, pageNavigation.Canonical));
 
             var page = await state.Engine.DatabaseManager.PageRepository.GetPageRevisionByNavigation(pageNavigation);
-
             if (page == null)
             {
                 if (state.Session != null && await state.Session.HoldsPermission(pageNavigation.Canonical, TwPermission.Create))
@@ -286,7 +285,7 @@ namespace TightWiki.Plugin.Default
                             || image.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
                         {
                             //The image is external.
-                            href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/Page/Create?Name={pageName}\"><img src=\"{state.Engine.WikiConfiguration.BasePath}{image}?Scale={imageScale}\" /></a>";
+                            href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/Page/Create?Name={pageName}\"><img src=\"{image}\" /></a>";
                         }
                         else if (image.Contains('/'))
                         {
@@ -296,7 +295,7 @@ namespace TightWiki.Plugin.Default
                         else
                         {
                             //The image is located on this page, but this page does not exist.
-                            href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/Page/Create?Name={pageName}\">{text}</a>";
+                            throw new Exception("Invalid link image was specified.");
                         }
 
                         return new TwPluginResult(href)
@@ -331,7 +330,7 @@ namespace TightWiki.Plugin.Default
                             || image.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
                         {
                             //The image is external.
-                            mockHref = $"<img src=\"{state.Engine.WikiConfiguration.BasePath}{image}?Scale={imageScale}\" />";
+                            mockHref = $"<img src=\"{image}\" />";
                         }
                         else if (image.Contains('/'))
                         {
@@ -341,7 +340,7 @@ namespace TightWiki.Plugin.Default
                         else
                         {
                             //The image is located on this page, but this page does not exist.
-                            mockHref = $"linkText";
+                            throw new Exception("Invalid link image was specified.");
                         }
 
                         return new TwPluginResult(mockHref)
@@ -372,17 +371,21 @@ namespace TightWiki.Plugin.Default
                         || image.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
                     {
                         //The image is external.
-                        href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\"><img src=\"{state.Engine.WikiConfiguration.BasePath}{image}\" /></a>";
+                        href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\"><img src=\"{image}\" /></a>";
                     }
                     else if (image.Contains('/'))
                     {
                         //The image is located on another page.
                         href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\"><img src=\"{state.Engine.WikiConfiguration.BasePath}/Page/Image/{image}?Scale={imageScale}\" /></a>";
                     }
-                    else
+                    else if (state.Page != null)
                     {
                         //The image is located on this page.
                         href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\"><img src=\"{state.Engine.WikiConfiguration.BasePath}/Page/Image/{state.Page.Navigation}/{image}?Scale={imageScale}\" /></a>";
+                    }
+                    else
+                    {
+                        throw new Exception("Invalid link image was specified.");
                     }
                 }
                 else
