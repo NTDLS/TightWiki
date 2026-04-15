@@ -13,9 +13,9 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="10.0.5" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.5" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.5" />
+		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="10.0.6" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.6" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.6" />
 		<PackageReference Include="xunit.abstractions" Version="2.0.3" />
 	</ItemGroup>
 

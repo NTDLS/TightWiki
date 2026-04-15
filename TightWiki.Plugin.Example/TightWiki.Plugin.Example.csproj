@@ -12,6 +12,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="TightWiki.Plugin" Version="2.36.2" />
+	  <PackageReference Include="TightWiki.Plugin" Version="2.37.5" />
 	</ItemGroup>
 </Project>

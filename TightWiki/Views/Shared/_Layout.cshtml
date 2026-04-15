@@ -79,40 +79,51 @@
 
     <script>
         $(function () {
-        localStorage.setItem('theme', '@sessionState.UserTheme.EditorTheme');
+            localStorage.setItem('theme', '@sessionState.UserTheme.EditorTheme');
 
-        $('nav')
-        .removeClass('navbar-light bg-white')
-        .addClass('@sessionState.UserTheme.ClassNavBar');
+            $('nav')
+            .removeClass('navbar-light bg-white')
+            .addClass('@sessionState.UserTheme.ClassNavBar');
 
-        $('a.nav-link')
-        .removeClass('text-dark')
-        .addClass('@sessionState.UserTheme.ClassNavLink');
+            $('a.nav-link')
+            .removeClass('text-dark')
+            .addClass('@sessionState.UserTheme.ClassNavLink');
 
-        $('a.dropdown-item')
-        .removeClass('text-dark')
-        .addClass('@sessionState.UserTheme.ClassDropdown');
+            $('a.dropdown-item')
+            .removeClass('text-dark')
+            .addClass('@sessionState.UserTheme.ClassDropdown');
 
-        $('.site-branding')
-        .removeClass('text-dark')
-        .addClass('@sessionState.UserTheme.ClassBranding');
+            $('.site-branding')
+            .removeClass('text-dark')
+            .addClass('@sessionState.UserTheme.ClassBranding');
 
-        @if (WikiConfiguration.FixedMenuPosition)
-        {
-            <text>
-                const navHeight = $('nav').outerHeight() + 20;
-                $('#mainContainer').css('margin-top', navHeight + 'px');
-            </text>
-        }
+            @if (WikiConfiguration.FixedMenuPosition)
+            {
+                <text>
+                    const navHeight = $('nav').outerHeight() + 20;
+                    $('#mainContainer').css('margin-top', navHeight + 'px');
+                    // Make mobile menu scrollable without affecting desktop nav.
+                    // Bootstrap only fires collapse events on mobile; on desktop the
+                    // navbar-collapse is always visible via CSS, so these handlers
+                    // never run there and the styles are never applied.
+                    $('#mainNavbar')
+                        .on('show.bs.collapse', function () {
+                            $(this).css({ 'max-height': 'calc(100vh - ' + navHeight + 'px)', 'overflow-y': 'auto' });
+                        })
+                        .on('hidden.bs.collapse', function () {
+                            $(this).css({ 'max-height': '', 'overflow-y': '' });
+                        });
+                </text>
+            }
 
-        setTimeout(function () {
-        document.querySelectorAll('.auto-dismiss-alert').forEach(function (alertElement) {
-        if (alertElement) {
-        alertElement.classList.remove('show');
-        setTimeout(() => alertElement.remove(), 300);
-        }
-        });
-        }, 5000);
+            setTimeout(function () {
+                document.querySelectorAll('.auto-dismiss-alert').forEach(function (alertElement) {
+                    if (alertElement) {
+                        alertElement.classList.remove('show');
+                        setTimeout(() => alertElement.remove(), 300);
+                    }
+                });
+            }, 5000);
         });
     </script>
 
