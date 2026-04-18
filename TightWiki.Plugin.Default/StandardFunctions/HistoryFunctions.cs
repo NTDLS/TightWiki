@@ -86,7 +86,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
                 html.Append("""<div class="tw-recent-pages">""");
                 foreach (var page in pages)
                 {
-                    var localized = state.Session.LocalizeDateTime(state.Page.ModifiedDate);
+                    var localized = state.Session.LocalizeDateTime(page.ModifiedDate);
                     html.Append($"""<div class="border-bottom">""");
 
                     html.Append($"""<a href="{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}" class="d-block text-reset py-2">""");
@@ -162,7 +162,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
                 html.Append("""<div class="tw-recent-pages">""");
                 foreach (var page in pages)
                 {
-                    var localized = state.Session.LocalizeDateTime(state.Page.CreatedDate);
+                    var localized = state.Session.LocalizeDateTime(page.CreatedDate);
                     html.Append($"""<div class="border-bottom">""");
 
                     html.Append($"""<a href="{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}" class="d-block text-reset py-2">""");
