@@ -13,8 +13,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Dapper" Version="2.1.72" />
-		<PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="10.0.6" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
+		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="10.0.7" />
 		<PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.2" />
 	</ItemGroup>
 </Project>
