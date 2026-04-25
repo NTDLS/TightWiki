@@ -51,25 +51,31 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 # Site Metrics
 We've beat the wiki up with more data than this, but this is our standard workload. ~45,000 pages, in ~400 namespaces, with ~250,000 revisions, created by ~1,000 users, manifesting ~5 million search tokens. The random fuzzy-match search time is 11 milliseconds. Not too shabby, right?
 
-![image](https://github.com/user-attachments/assets/02d9da1f-e164-44ce-aee9-0c42eedc4180)
+<img width="933" height="776" alt="image" src="https://github.com/user-attachments/assets/b2fc57b6-24b1-4f02-b2b0-3f6dc6730151" />
 
 # Multiple languages.
-<img width="938" height="470" alt="image" src="https://github.com/user-attachments/assets/c6725bde-11ee-450f-a025-2fbd79dbc08b" />
+<img width="927" height="557" alt="image" src="https://github.com/user-attachments/assets/8e99f359-320a-4696-b9a8-ead27ba5ed14" />
 
 # Page search (inexact fuzzy matching with weighted tokens)
-![image](https://github.com/user-attachments/assets/b3caf0eb-32cf-43ad-885d-b2c8d10ae1ef)
+<img width="929" height="610" alt="image" src="https://github.com/user-attachments/assets/657927c6-f669-4e37-bdea-530c0e12adda" />
 
 # Page History
-![image](https://github.com/user-attachments/assets/3dba0f07-5758-4039-9b2c-0b7a354e76f3)
+<img width="1006" height="776" alt="image" src="https://github.com/user-attachments/assets/c0da4f47-5ce7-49c0-855e-0fbd17a0c78a" />
+
+# Difference View
+<img width="1004" height="773" alt="image" src="https://github.com/user-attachments/assets/dd90febf-e476-4344-85a4-774dbf644cae" />
 
 # Example edit page
 ![image](https://github.com/user-attachments/assets/2e1205d2-fcd5-42aa-aa1a-ef35c5e9ac0a)
+
+#Snippets
+<img width="895" height="588" alt="image" src="https://github.com/user-attachments/assets/24b0d384-82d6-4a8d-acf5-030c44cd7578" />
 
 # Multiple Themes
 <img width="1022" height="702" alt="image" src="https://github.com/user-attachments/assets/af96a6b8-244c-4b9f-9e28-9aea9e35db7a" />
 
 # Emojis Configuration 
-![image](https://github.com/user-attachments/assets/3e78b853-d151-4ef4-ad7a-d4e68393643f)
+<img width="1009" height="772" alt="image" src="https://github.com/user-attachments/assets/5e169d21-c616-452f-a70d-5d18f1add01e" />
 
 # Role-based security
 ![image](https://github.com/user-attachments/assets/c8e84282-c4e3-4f57-8bca-60c7fe7df804)
