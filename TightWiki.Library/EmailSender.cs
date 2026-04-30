@@ -19,7 +19,7 @@ namespace TightWiki.Library
             try
             {
                 var values = await configurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Email);
-                var smtpPassword = values.Value<string>("Password");
+                var smtpPassword = values.Value<string>("Password") ?? string.Empty;
                 var smtpUsername = values.Value<string>("Username");
                 var smtpAddress = values.Value<string>("Address");
                 var smtpFromDisplayName = values.Value<string>("From Display Name");
