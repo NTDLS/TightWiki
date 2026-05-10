@@ -16,7 +16,7 @@ namespace TightWiki.Library
             => input.Split(substring, StringSplitOptions.None).Length - 1;
 
         public static int PadVersionString(string versionString, int padLength = 3)
-            => int.Parse(string.Join("", versionString.Split('.').Select(x => x.Trim().PadLeft(padLength, '0'))));
+            => int.Parse("1" + string.Join("", versionString.Split('.').Select(x => x.Trim().PadLeft(padLength, '0'))));
 
         public static string SanitizeAccountName(string fileName, char[]? extraInvalidCharacters = null)
         {

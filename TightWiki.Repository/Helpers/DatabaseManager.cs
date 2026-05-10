@@ -155,6 +155,10 @@ namespace TightWiki.Repository.Helpers
                             {
                                 await ProcessInitializationScript(logger, assembly, fullVersionedInitScriptPath, scriptName);
                             }
+                            else
+                            {
+                                //Console.WriteLine($"Skipped: {filesFolderVersion}");
+                            }
                         }
                     }
                 }
