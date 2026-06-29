@@ -2737,4 +2737,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>Trọng lượng tổng</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>Trang này đã bị người khác chỉnh sửa trong khi bạn đang chỉnh sửa. Vui lòng tải lại trang để lấy phiên bản mới nhất trước khi lưu.</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>Trang đã bị chỉnh sửa bởi người dùng khác.</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>Cũng đang chỉnh sửa:</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>Xung đột:</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>Trang này đã bị người khác chỉnh sửa trong khi bạn đang chỉnh sửa. Việc lưu đã bị vô hiệu hóa để bảo vệ các thay đổi của họ. Vui lòng tải lại trang để lấy phiên bản mới nhất.</value>
+  </data>
 </root>

@@ -2737,4 +2737,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>الوزن الإجمالي</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>تم تعديل هذه الصفحة بواسطة شخص آخر أثناء تحريرك لها. يرجى إعادة تحميل الصفحة للحصول على آخر إصدار قبل الحفظ.</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>تم تعديل الصفحة بواسطة مستخدم آخر.</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>كما يتم التحرير بواسطة:</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>تعارض:</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>تم تعديل هذه الصفحة بواسطة شخص آخر أثناء تحريرك لها. تم تعطيل الحفظ لحماية تغييراتهم. يرجى إعادة تحميل الصفحة للحصول على آخر إصدار.</value>
+  </data>
 </root>

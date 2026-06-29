@@ -2737,4 +2737,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>وزن کل</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>این صفحه در حین ویرایش توسط فرد دیگری تغییر یافته است. لطفاً صفحه را دوباره بارگذاری کنید تا جدیدترین نسخه را دریافت کنید قبل از ذخیره کردن.</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>صفحه توسط کاربر دیگری تغییر یافته است.</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>در حال ویرایش نیز:</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>تداخل:</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>این صفحه در حین ویرایش توسط فرد دیگری تغییر یافته است. ذخیره کردن غیرفعال شده است تا تغییرات آن‌ها حفظ شود. لطفاً صفحه را دوباره بارگذاری کنید تا جدیدترین نسخه را دریافت کنید.</value>
+  </data>
 </root>

@@ -2728,4 +2728,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>Total vekt</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>Denne siden ble endret av en annen mens du redigerte den. Vennligst last inn siden på nytt for å få den siste versjonen før du lagrer.</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>Siden er blitt endret av en annen bruker.</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>Også redigering:</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>Konflikt:</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>Denne siden ble endret av en annen mens du redigerte den. Lagringen er deaktivert for å beskytte endringene deres. Vennligst last inn siden på nytt for å få den siste versjonen.</value>
+  </data>
 </root>

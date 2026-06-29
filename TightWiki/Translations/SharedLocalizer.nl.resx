@@ -2737,4 +2737,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>Totale gewicht</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>Deze pagina is door iemand anders aangepast terwijl jij hem bewerkte. Laad de pagina opnieuw om de nieuwste versie te krijgen voordat je opslaat.</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>Pagina is door een andere gebruiker aangepast.</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>Bewerkt ook:</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>Conflict:</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>Deze pagina is door iemand anders aangepast terwijl jij hem bewerkte. Opslaan is uitgeschakeld om hun wijzigingen te beschermen. Laad de pagina opnieuw om de nieuwste versie te krijgen.</value>
+  </data>
 </root>

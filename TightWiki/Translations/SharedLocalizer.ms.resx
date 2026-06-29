@@ -2737,4 +2737,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>Jumlah berat</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>Laman ini telah diubah oleh orang lain semasa anda sedang menyuntingnya. Sila muat semula halaman untuk mendapatkan versi terkini sebelum menyimpan.</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>Laman telah diubah oleh pengguna lain.</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>Juga menyunting:</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>Pertindihan:</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>Laman ini telah diubah oleh orang lain semasa anda sedang menyuntingnya. Penyimpanan telah dinonaktifkan untuk melindungi perubahan mereka. Sila muat semula halaman untuk mendapatkan versi terkini.</value>
+  </data>
 </root>

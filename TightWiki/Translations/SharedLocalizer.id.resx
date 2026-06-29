@@ -2737,4 +2737,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>Bobot total</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>Halaman ini telah diubah orang lain saat Anda sedang mengeditnya. Harap muat ulang halaman untuk mendapatkan versi terbaru sebelum menyimpan.</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>Halaman telah diubah oleh pengguna lain.</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>Juga mengedit:</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>Konflik:</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>Halaman ini telah diubah orang lain saat Anda sedang mengeditnya. Penyimpanan telah dinonaktifkan untuk melindungi perubahan mereka. Harap muat ulang halaman untuk mendapatkan versi terbaru.</value>
+  </data>
 </root>

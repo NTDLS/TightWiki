@@ -2737,4 +2737,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>总重量</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>在你编辑时，其他人对本页面进行了修改。请刷新页面以获取最新版本，然后再保存。</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>页面已被其他用户修改。</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>同时编辑：</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>冲突：</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>在你编辑时，其他人对本页面进行了修改。为保护他们的更改，已禁用保存。请刷新页面以获取最新版本。</value>
+  </data>
 </root>

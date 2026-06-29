@@ -2737,4 +2737,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>Kokonaipaino</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>Tätä sivua muokkasi joku muu samalla kun muokkasit sitä. Lataa sivu uudelleen saadaksesi uusimman version ennen tallentamista.</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>Sivua on muokannut toinen käyttäjä.</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>Muokkaa myös:</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>Väliintulo:</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>Tätä sivua muokkasi joku muu samalla kun muokkaat sitä. Tallenna-toiminto on poistettu heidän muutostensa suojelemiseksi. Lataa sivu uudelleen saadaksesi uusimman version.</value>
+  </data>
 </root>

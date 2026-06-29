@@ -2737,4 +2737,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>মোট ওজন</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>এই পৃষ্ঠা টি অন্য কেউ পরিবর্তন করেছে যখন আপনি এটি সম্পাদনা করছিলেন। সংরক্ষণের আগে সর্বশেষ সংস্করণ পেতে দয়া করে পৃষ্ঠাটি পুনরায় লোড করুন।</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>অন্য একজন ব্যবহারকারী দ্বারা পৃষ্ঠাটি পরিবর্তন করা হয়েছে।</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>এছাড়াও সম্পাদিত হচ্ছে:</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>বিরোধ:</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>এই পৃষ্ঠা টি অন্য কেউ পরিবর্তন করেছে যখন আপনি এটি সম্পাদনা করছিলেন। তাদের পরিবর্তনগুলি সুরক্ষিত করতে সংরক্ষণ নিষ্ক্রিয় করা হয়েছে। সর্বশেষ সংস্করণ পেতে দয়া করে পৃষ্ঠাটি পুনরায় লোড করুন।</value>
+  </data>
 </root>

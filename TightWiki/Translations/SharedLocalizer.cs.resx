@@ -2737,4 +2737,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>Celková váha</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>Tuto stránku upravoval někdo jiný, zatímco jste ji editovali. Před uložením načtěte stránku znovu, abyste získali nejnovější verzi.</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>Stránka byla upravena jiným uživatelem.</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>Také upravující:</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>Konflikt:</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>Tuto stránku upravoval někdo jiný, zatímco jste ji editovali. Ukládání bylo zakázáno, aby se ochránily jejich změny. Opět načtěte stránku, abyste získali nejnovější verzi.</value>
+  </data>
 </root>

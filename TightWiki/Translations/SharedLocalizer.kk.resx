@@ -2737,4 +2737,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>Жалпы салмақ</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>Бұл бетті басқа біреу өңдеп жатқан кезде сіз редакцияладыңыз. Соңғы нұсқасын алу үшін бетті қайта жүктеп, содан кейін сақтаңыз.</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>Бетті басқа пайдаланушы өңдеп жатыр.</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>Сонымен қатар өңделуде:</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>Қақтығыс:</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>Бұл бетті басқа біреу өңдеп жатқан кезде сіз редакцияладыңыз. Олардың өзгерістерін қорғау үшін сақтау өшірілді. Соңғы нұсқасын алу үшін бетті қайта жүктеңіз.</value>
+  </data>
 </root>

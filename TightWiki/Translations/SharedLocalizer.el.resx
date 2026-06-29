@@ -2737,4 +2737,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>Συνολό βάρος</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>Αυτή η σελίδα τροποποιήθηκε από κάποιον άλλον ενώ την επεξεργαζόσασταν. Παρακαλώ φορτώστε ξανά τη σελίδα για να πάρετε την πιο πρόσφατη έκδοση προτού αποθηκεύσετε.</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>Η σελίδα έχει τροποποιηθεί από άλλον χρήστη.</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>Επεξεργασία επίσης:</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>Σύγκρουση:</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>Αυτή η σελίδα τροποποιήθηκε από κάποιον άλλον ενώ την επεξεργαζόσασταν. Η αποθήκευση έχει απενεργοποιηθεί για να προστατευθούν οι αλλαγές τους. Παρακαλώ φορτώστε ξανά τη σελίδα για να πάρετε την πιο πρόσφατη έκδοση.</value>
+  </data>
 </root>

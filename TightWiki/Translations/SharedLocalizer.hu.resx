@@ -2737,4 +2737,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>Összsúly</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>Ezt az oldalt más módosította valaki, amíg szerkesztette. Újratöltésével szerezze meg a legfrissebb verziót mentés előtt.</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>Az oldalt egy másik felhasználó módosította.</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>Szintén szerkesztés alatt:</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>Ütközés:</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>Ezt az oldalt más módosította valaki, amíg szerkesztette. A mentés le lett tiltva a változtatások védelme érdekében. Újratöltéssel szerezze meg a legfrissebb verziót.</value>
+  </data>
 </root>

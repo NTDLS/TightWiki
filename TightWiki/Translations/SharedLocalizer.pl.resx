@@ -2737,4 +2737,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>Łączna waga</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>Ta strona została zmodyfikowana przez kogoś innego podczas edycji. Odśwież stronę, aby pobrać najnowszą wersję przed zapisaniem.</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>Strona została zmodyfikowana przez innego użytkownika.</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>Również edytowane:</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>Konflikt:</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>Ta strona została zmodyfikowana przez kogoś innego podczas edycji. Zapisywanie zostało wyłączone, aby chronić ich zmiany. Odśwież stronę, aby pobrać najnowszą wersję.</value>
+  </data>
 </root>

@@ -2737,4 +2737,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>Загальна вага</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>Цю сторінку було змінено іншим користувачем під час вашого редагування. Будь ласка, оновіть сторінку, щоб отримати найновішу версію перед збереженням.</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>Сторінку було змінено іншим користувачем.</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>Також редагується:</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>Конфлікт:</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>Цю сторінку було змінено іншим користувачем під час вашого редагування. Збереження було відключено, щоб захистити їхні зміни. Будь ласка, оновіть сторінку, щоб отримати найновішу версію.</value>
+  </data>
 </root>

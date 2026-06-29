@@ -2737,4 +2737,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>Greutate totală</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>Această pagină a fost modificată de altcineva în timp ce o editați. Vă rugăm să reîncărcați pagina pentru a obține cea mai recentă versiune înainte de a salva.</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>Pagina a fost modificată de un alt utilizator.</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>De asemenea, se editează:</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>Conflict:</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>Această pagină a fost modificată de altcineva în timp ce o editați. Salvarea a fost dezactivată pentru a proteja modificările lor. Vă rugăm să reîncărcați pagina pentru a obține cea mai recentă versiune.</value>
+  </data>
 </root>

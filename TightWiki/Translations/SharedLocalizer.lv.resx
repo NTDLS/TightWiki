@@ -2737,4 +2737,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>Kopējā masa</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>Šo lapu kāds cits ir modificējis, kamēr jūs to rediģējāt. Lūdzu, ielādējiet lapu pēc jauninājumiem, pirms saglabājat.</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>Lapa ir modificēta cita lietotāja.</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>Vēl rediģē:</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>Konflikts:</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>Šo lapu kāds cits ir modificējis, kamēr jūs to rediģējāt. Lai aizsargātu viņu izmaiņas, ir atspējota saglabāšana. Lūdzu, ielādējiet lapu pēc jauninājumiem, pirms saglabājat.</value>
+  </data>
 </root>

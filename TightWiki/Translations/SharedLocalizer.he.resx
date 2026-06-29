@@ -2737,4 +2737,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>משקל כולל</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>עמוד זה שונה על ידי מישהו אחר בזמן שבחרת לערוך אותו. נא לטעון מחדש את העמוד כדי לקבל את הגרסה האחרונה לפני שמירת השינויים.</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>העמוד שונה על ידי משתמש אחר.</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>עריכה גם:</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>קונפליקט:</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>עמוד זה שונה על ידי מישהו אחר בזמן שניסית לערוך אותו. השמירה הושבתה כדי לשמור על השינויים שלהם. נא לטעון מחדש את העמוד כדי לקבל את הגרסה האחרונה.</value>
+  </data>
 </root>

@@ -2737,4 +2737,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>Cəmi çəki</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>Bu səhifə redaktə edərkən başqa biri tərəfindən dəyişdirildi. Ən son versiyanı əldə etmək üçün səhifəni yenidən yükləyin və sonra yadda saxlayın.</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>Bu səhifə başqa bir istifadəçi tərəfindən dəyişdirildi.</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>Həmçinin redaktə olunmaqdadır:</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>Qarşıdurma:</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>Bu səhifə redaktə edərkən başqa biri tərəfindən dəyişdirildi. Onların dəyişikliklərini qorumaq üçün yadda saxlama disabled edilib. Ən son versiyanı əldə etmək üçün səhifəni yenidən yükləyin.</value>
+  </data>
 </root>

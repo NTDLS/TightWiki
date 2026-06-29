@@ -2737,4 +2737,19 @@
   <data name="Total weight" xml:space="preserve">
     <value>Kogumass</value>
   </data>
+  <data name="This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving." xml:space="preserve">
+    <value>Seda lehte muudeti keegi teine, samal ajal kui sina seda redigeerisid. Laadige leht uuesti, et saada uusim versioon enne salvestamist.</value>
+  </data>
+  <data name="Page has been modified by another user." xml:space="preserve">
+    <value>Lehte on redigeerinud teine kasutaja.</value>
+  </data>
+  <data name="Also editing:" xml:space="preserve">
+    <value>Samuti redigeerib:</value>
+  </data>
+  <data name="Conflict:" xml:space="preserve">
+    <value>Konflikt:</value>
+  </data>
+  <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
+    <value>Seda lehte muudeti keegi teine, samal ajal kui sina seda redigeerisid. Tõrke vältimiseks on salvestamine keelatud. Laadige leht uuesti, et saada uusim versioon.</value>
+  </data>
 </root>
