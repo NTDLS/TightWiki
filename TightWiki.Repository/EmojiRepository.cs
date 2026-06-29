@@ -1,3 +1,4 @@
+using ImageMagick;
 using Microsoft.Extensions.Configuration;
 using NTDLS.SqliteDapperWrapper;
 using System.Runtime.Caching;
@@ -202,11 +203,11 @@ namespace TightWiki.Repository
                             {
                                 var scaledImageCacheKey = MemCacheKey.Build(MemCache.Category.Emoji, [emoji.Shortcut, "100"]);
                                 var decompressedImageBytes = Utility.Decompress(emoji.ImageData);
-                                var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(decompressedImageBytes));
+                                var img = new MagickImage(decompressedImageBytes);
 
                                 int customScalePercent = 100;
 
-                                var (Width, Height) = Utility.ScaleToMaxOf(img.Width, img.Height, defaultEmojiHeight);
+                                var (Width, Height) = ImagesUtility.ScaleToMaxOf((int)img.Width, (int)img.Height, defaultEmojiHeight);
 
                                 //Adjust to any specified scaling.
                                 Height = (int)(Height * (customScalePercent / 100.0));

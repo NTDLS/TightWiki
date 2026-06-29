@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
-using SixLabors.ImageSharp;
 using System.Security.Claims;
 using TightWiki.Library;
 using TightWiki.Library.Caching;

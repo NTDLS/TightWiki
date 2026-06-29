@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using NTDLS.Helpers;
-using SixLabors.ImageSharp;
 using System.Globalization;
 using System.Text;
 using System.Xml.Serialization;
