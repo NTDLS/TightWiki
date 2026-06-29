@@ -6,10 +6,13 @@ SELECT
 	P.Navigation,
 	P.CreatedByUserId,
 	P.CreatedDate,
-	P.ModifiedByUserId,
-	IFNULL(P.ModifiedDate, P.CreatedDate) as ModifiedDate
+	PR.ModifiedByUserId,
+	PR.ModifiedDate as ModifiedDate
 FROM
 	[Page] as P
+INNER JOIN [PageRevision] as PR
+	ON PR.PageId = P.Id
+    AND PR.Revision = P.Revision
 ORDER BY
 	P.ModifiedDate DESC,
 	P.[Name] ASC
