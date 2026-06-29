@@ -1107,9 +1107,18 @@
             @using (Html.BeginForm(FormMethod.Post, new { id = "pageEditForm" }))
             {
                 @Html.HiddenFor(x => x.Id)
+                @Html.HiddenFor(x => x.Revision)
+
+                @if (Model?.Id > 0)
+                {
+                    <div id="revisionConflictAlert" class="alert alert-danger d-none" role="alert">
+                        <strong>@Localizer["Conflict:"]</strong>
+                        @Localizer["This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version."]
+                    </div>
+                }
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
+                    <button id="saveButton" type="submit" class="btn btn-primary">@Localizer["Save"]</button>
                     @if (await sessionState.HoldsPermission(TwPermission.Read))
                     {
                         if (Model?.Id > 0)
@@ -1309,7 +1318,7 @@
                 <br />
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
+                    <button id="saveButtonBottom" type="submit" class="btn btn-primary">@Localizer["Save"]</button>
                     @if (Model?.Id > 0 && await sessionState.HoldsPermission(TwPermission.Read))
                     {
                         <a href="@WikiConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success" role="button">@Localizer["View"]</a>
