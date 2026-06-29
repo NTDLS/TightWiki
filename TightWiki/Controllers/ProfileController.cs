@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using ImageMagick;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -68,9 +69,9 @@ namespace TightWiki.Controllers
                 {
                     //Load the default avatar.
                     var filePath = Path.Combine(environment.WebRootPath, "Avatar.png");
-                    var image = Image.Load(filePath);
+                    var image = new MagickImage(filePath);
                     using var ms = new MemoryStream();
-                    image.SaveAsPng(ms);
+                    image.Write(ms, MagickFormat.Png);
                     avatar.ContentType = "image/png";
                     avatar.Bytes = ms.ToArray();
                 }
@@ -83,10 +84,10 @@ namespace TightWiki.Controllers
                         return File(avatar.Bytes, avatar.ContentType);
                     }
 
-                    var img = Image.Load(new MemoryStream(avatar.Bytes));
+                    var img = new MagickImage(new MemoryStream(avatar.Bytes));
 
-                    int width = img.Width;
-                    int height = img.Height;
+                    int width = (int)img.Width;
+                    int height = (int)img.Height;
 
                     int parsedScale = int.Parse(givenScale);
                     int parsedMax = int.Parse(givenMax);
@@ -103,7 +104,7 @@ namespace TightWiki.Controllers
                             parsedExact = 16;
                         }
 
-                        int diff = img.Width - parsedExact;
+                        int diff = (int)img.Width - parsedExact;
                         width = (int)(img.Width - diff);
                         height = (int)(img.Height - diff);
 
@@ -123,9 +124,9 @@ namespace TightWiki.Controllers
                             width += difference;
                         }
                     }
-                    else if (parsedMax != 0 && (img.Width > parsedMax || img.Height > parsedMax))
+                    else if (parsedMax != 0 && ((int)img.Width > parsedMax || (int)img.Height > parsedMax))
                     {
-                        int diff = img.Width - parsedMax;
+                        int diff = (int)img.Width - parsedMax;
                         width = (int)(img.Width - diff);
                         height = (int)(img.Height - diff);
 
@@ -178,7 +179,7 @@ namespace TightWiki.Controllers
                     }
                     else
                     {
-                        using var image = ResizeImage(img, width, height);
+                        using var image = ResizeImage(img, (uint)width, (uint)height);
                         using var ms = new MemoryStream();
                         string contentType = BestEffortConvertImage(image, ms, avatar.ContentType);
                         return File(ms.ToArray(), contentType);
@@ -362,7 +363,7 @@ namespace TightWiki.Controllers
                         try
                         {
                             var imageBytes = Utility.ConvertHttpFileToBytes(file);
-                            var image = Utility.CropImageToCenteredSquare(new MemoryStream(imageBytes));
+                            var image = ImagesUtility.CropImageToCenteredSquare(new MemoryStream(imageBytes));
                             await usersRepository.UpdateProfileAvatar(profile.UserId, image, "image/webp");
                         }
                         catch
