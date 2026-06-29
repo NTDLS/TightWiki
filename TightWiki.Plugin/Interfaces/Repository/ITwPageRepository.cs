@@ -458,5 +458,24 @@ namespace TightWiki.Plugin.Interfaces.Repository
         Task UpsertPageFile(TwPageFileAttachment item, Guid userId);
 
         #endregion
+
+        #region Current page editors.
+
+        /// <summary>
+        /// Records or refreshes the presence of a user actively editing a page.
+        /// </summary>
+        Task UpsertCurrentPageEditor(int pageId, Guid userId, string accountName);
+
+        /// <summary>
+        /// Removes the current-editor record for a user on a page (e.g. after saving).
+        /// </summary>
+        Task DeleteCurrentPageEditor(int pageId, Guid userId);
+
+        /// <summary>
+        /// Returns the account names of users who have been active on the page within the last <paramref name="windowMinutes"/> minutes.
+        /// </summary>
+        Task<List<string>> GetCurrentPageEditors(int pageId, int windowMinutes = 5);
+
+        #endregion
     }
 }
