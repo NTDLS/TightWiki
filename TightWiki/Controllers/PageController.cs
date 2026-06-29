@@ -59,6 +59,78 @@ namespace TightWiki.Controllers
             return Json(new { now = DateTime.UtcNow });
         }
 
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("Page/{pageId:int}/UpsertEditor")]
+        public async Task<JsonResult> UpsertPageEditor(int pageId)
+        {
+            try
+            {
+                var profile = SessionState.Profile.EnsureNotNull();
+                await pageRepository.UpsertCurrentPageEditor(pageId, profile.UserId, profile.AccountName);
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Failed to upsert page editor for page {PageId}.", pageId);
+                return Json(new { success = false });
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        [Route("Page/{pageId:int}/RemoveEditor")]
+        public async Task<JsonResult> RemovePageEditor(int pageId)
+        {
+            try
+            {
+                var profile = SessionState.Profile.EnsureNotNull();
+                await pageRepository.DeleteCurrentPageEditor(pageId, profile.UserId);
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Failed to remove page editor for page {PageId}.", pageId);
+                return Json(new { success = false });
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("Page/{pageId:int}/Editors")]
+        public async Task<JsonResult> GetPageEditors(int pageId)
+        {
+            try
+            {
+                var editors = await pageRepository.GetCurrentPageEditors(pageId);
+                return Json(new { success = true, editors });
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Failed to get page editors for page {PageId}.", pageId);
+                return Json(new { success = false, editors = Array.Empty<string>() });
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("Page/{pageId:int}/Revision")]
+        public async Task<JsonResult> GetPageRevision(int pageId)
+        {
+            try
+            {
+                var revision = await pageRepository.GetCurrentPageRevision(pageId);
+                return Json(new { success = true, revision });
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Failed to get current revision for page {PageId}.", pageId);
+                return Json(new { success = false, revision = -1 });
+            }
+        }
+
         #region Display.
 
         /// <summary>
