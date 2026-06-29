@@ -1638,5 +1638,32 @@ namespace TightWiki.Repository
         }
 
         #endregion
+
+        #region Current page editors.
+
+        public async Task UpsertCurrentPageEditor(int pageId, Guid userId, string accountName)
+            => await PagesFactory.ExecuteAsync("UpsertCurrentPageEditor.sql", new
+            {
+                PageId = pageId,
+                UserId = userId.ToString(),
+                AccountName = accountName,
+                UTCDate = DateTime.UtcNow.ToString("o")
+            });
+
+        public async Task DeleteCurrentPageEditor(int pageId, Guid userId)
+            => await PagesFactory.ExecuteAsync("DeleteCurrentPageEditor.sql", new
+            {
+                PageId = pageId,
+                UserId = userId.ToString()
+            });
+
+        public async Task<List<string>> GetCurrentPageEditors(int pageId, int windowMinutes = 5)
+            => await PagesFactory.QueryAsync<string>("GetCurrentPageEditors.sql", new
+            {
+                PageId = pageId,
+                ThresholdDate = DateTime.UtcNow.AddMinutes(-windowMinutes).ToString("o")
+            });
+
+        #endregion
     }
 }

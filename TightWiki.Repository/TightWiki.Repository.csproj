@@ -216,6 +216,7 @@
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.34.4\^001^Pages^AddTagNavigation.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.34.4\^001^Statistics^NewStatsStructure.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.34.4\^001^Logging^ChangeCollation.sql" />
+		<EmbeddedResource Include="Scripts\Initialization\Versions\2.38.0\^001^Pages^CurrentPageEditors.sql" />
 		<EmbeddedResource Include="Scripts\InsertRole.sql" />
 		<EmbeddedResource Include="Scripts\DoesRoleExist.sql" />
 		<EmbeddedResource Include="Scripts\InsertAccountPermission.sql" />
@@ -397,6 +398,9 @@
 		<EmbeddedResource Include="Scripts\UpdateProfileAvatar.sql" />
 		<EmbeddedResource Include="Scripts\UpdateSinglePageReference.sql" />
 		<EmbeddedResource Include="Scripts\UpsertEmojiCategories.sql" />
+		<EmbeddedResource Include="Scripts\UpsertCurrentPageEditor.sql" />
+		<EmbeddedResource Include="Scripts\DeleteCurrentPageEditor.sql" />
+		<EmbeddedResource Include="Scripts\GetCurrentPageEditors.sql" />
 	</ItemGroup>
 
 	<ItemGroup>
