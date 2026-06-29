@@ -7,6 +7,7 @@ namespace TightWiki.ViewModels.Page
         : TwViewModel
     {
         public int Id { get; set; }
+        public int Revision { get; set; }
 
         [Required]
         public string Name { get; set; } = string.Empty;

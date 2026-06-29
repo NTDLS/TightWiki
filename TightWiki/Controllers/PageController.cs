@@ -1074,6 +1074,7 @@ namespace TightWiki.Controllers
                     return View(new PageEditViewModel()
                     {
                         Id = page.Id,
+                        Revision = page.Revision,
                         Body = page.Body,
                         Name = page.Name,
                         Navigation = TwNamespaceNavigation.CleanAndValidate(page.Navigation),
@@ -1183,6 +1184,7 @@ namespace TightWiki.Controllers
                     page.Id = await pageRepository.UpsertPage(tightEngine, Localizer, page, SessionState);
 
                     await SessionState.SetPageId(page.Id);
+                    await pageRepository.DeleteCurrentPageEditor(page.Id, SessionState.Profile.EnsureNotNull().UserId);
 
                     return NotifyOfSuccess(Localize("The page has been created."), $"/{page.Navigation}/Edit");
                 }

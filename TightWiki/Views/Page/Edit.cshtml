@@ -437,12 +437,26 @@
 
     const pageEditForm = document.getElementById('pageEditForm');
     if (pageEditForm) {
-        pageEditForm.addEventListener('submit', function () {
+        pageEditForm.addEventListener('submit', function (e) {
+            @if (Model?.Id > 0)
+            {
+                <text>
+            if (_revisionConflict) {
+                e.preventDefault();
+                document.getElementById('revisionConflictAlert')?.classList.remove('d-none');
+                return;
+            }
+                </text>
+            }
             if (editor) {
                 editor.save();
             }
             clearBodyDirtyState();
             isSubmitting = true;
+            @if (Model?.Id > 0)
+            {
+                <text>removePageEditor();</text>
+            }
         });
     }
 
@@ -904,6 +918,18 @@
         });
 
         setInterval(ping, 60000);
+
+        @if (Model?.Id > 0)
+        {
+            <text>
+        upsertPageEditor();
+        pollPageEditors();
+        pollPageRevision();
+        setInterval(upsertPageEditor, 30000);
+        setInterval(pollPageEditors, 10000);
+        setInterval(pollPageRevision, 12000);
+            </text>
+        }
     });
 
     function getCurrentBodyValue() {
@@ -920,6 +946,10 @@
     }
 
     window.addEventListener('beforeunload', function (e) {
+        @if (Model?.Id > 0)
+        {
+            <text>removePageEditor();</text>
+        }
         if (!isSubmitting && isBodyDirty) {
             e.preventDefault();
             e.returnValue = '';
@@ -952,6 +982,64 @@
                 spans[0].classList.remove("invisible");
                 spans[1].classList.remove("invisible");
             });
+    }
+
+    @if (Model?.Id > 0)
+    {
+        <text>
+    const _pageEditorPageId = @Model.Id;
+    const _upsertEditorUrl = '@Url.Action("UpsertPageEditor", "Page", new { pageId = Model.Id })';
+    const _removeEditorUrl = '@Url.Action("RemovePageEditor", "Page", new { pageId = Model.Id })';
+    const _getEditorsUrl  = '@Url.Action("GetPageEditors", "Page", new { pageId = Model.Id })';
+    const _getRevisionUrl = '@Url.Action("GetPageRevision", "Page", new { pageId = Model.Id })';
+    const _currentAccountName = '@sessionState.Profile?.AccountName';
+    let _baseRevision = @Model.Revision;
+    let _revisionConflict = false;
+
+    function upsertPageEditor() {
+        fetch(_upsertEditorUrl + '?r=' + Math.random(), { method: 'POST', headers: { 'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value ?? '' } })
+            .catch(() => {});
+    }
+
+    function removePageEditor() {
+        navigator.sendBeacon(_removeEditorUrl);
+    }
+
+    function pollPageRevision() {
+        fetch(_getRevisionUrl + '?r=' + Math.random(), { method: 'GET' })
+            .then(r => r.json())
+            .then(result => {
+                if (!result.success || _revisionConflict) return;
+                if (result.revision !== _baseRevision) {
+                    _revisionConflict = true;
+                    document.getElementById('revisionConflictAlert')?.classList.remove('d-none');
+                    const saveBtns = [document.getElementById('saveButton'), document.getElementById('saveButtonBottom')];
+                    saveBtns.forEach(btn => { if (btn) { btn.disabled = true; btn.title = '@Localizer["Page has been modified by another user."]'; } });
+                }
+            })
+            .catch(() => {});
+    }
+
+    function pollPageEditors() {
+        fetch(_getEditorsUrl + '?r=' + Math.random(), { method: 'GET' })
+            .then(r => r.json())
+            .then(result => {
+                if (!result.success) return;
+                const others = (result.editors || []).filter(n => n !== _currentAccountName);
+                const panel = document.getElementById('activeEditorsPanel');
+                const list  = document.getElementById('activeEditorsList');
+                if (!panel || !list) return;
+                if (others.length > 0) {
+                    list.innerHTML = '<span class="me-1">@Localizer["Also editing:"]</span>'
+                        + others.map(n => `<span class="badge rounded-pill text-bg-secondary me-1">${n}</span>`).join('');
+                    panel.classList.remove('d-none');
+                } else {
+                    panel.classList.add('d-none');
+                }
+            })
+            .catch(() => {});
+    }
+        </text>
     }
 
     async function loadPreview() {
@@ -1036,6 +1124,15 @@
                     }
                     <span class="badge text-bg-danger invisible">@Localizer["Unauthorized"]</span>
                 </div>
+
+                @if (Model?.Id > 0)
+                {
+                    <div id="activeEditorsPanel" class="mt-2 d-none">
+                        <small class="text-muted">
+                            <span id="activeEditorsList"></span>
+                        </small>
+                    </div>
+                }
                 <br />
 
                 <div class="mb-3">
