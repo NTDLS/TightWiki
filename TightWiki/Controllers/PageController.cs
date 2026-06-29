@@ -1207,6 +1207,13 @@ namespace TightWiki.Controllers
                         return NotifyOfError(Localize("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed."));
                     }
 
+                    if (page.Revision != model.Revision)
+                    {
+                        model.FeatureTemplates = await pageRepository.GetAllFeatureTemplates();
+                        ModelState.AddModelError(string.Empty, Localize("This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving."));
+                        return View(model);
+                    }
+
                     string originalNavigation = string.Empty;
 
                     model.Navigation = navigation;
@@ -1233,7 +1240,9 @@ namespace TightWiki.Controllers
                     await pageRepository.UpsertPage(tightEngine, Localizer, page, SessionState);
 
                     await SessionState.SetPageId(page.Id);
+                    await pageRepository.DeleteCurrentPageEditor(page.Id, SessionState.Profile.EnsureNotNull().UserId);
 
+                    model.Revision = await pageRepository.GetCurrentPageRevision(page.Id);
                     model.SuccessMessage = Localize("The page was saved.");
 
                     if (string.IsNullOrWhiteSpace(originalNavigation) == false)
