@@ -1647,7 +1647,8 @@ namespace TightWiki.Repository
                 PageId = pageId,
                 UserId = userId.ToString(),
                 AccountName = accountName,
-                UTCDate = DateTime.UtcNow.ToString("o")
+                UTCDate = DateTime.UtcNow.ToString("o"),
+                DeleteThresholdDate = DateTime.UtcNow.AddDays(-1).ToString("o")
             });
 
         public async Task DeleteCurrentPageEditor(int pageId, Guid userId)
