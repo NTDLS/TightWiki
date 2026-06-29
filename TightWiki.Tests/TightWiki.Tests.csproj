@@ -39,14 +39,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="11.0.0" />
-		<PackageReference Include="coverlet.collector" Version="10.0.0">
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="11.0.1" />
+		<PackageReference Include="coverlet.collector" Version="10.0.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="10.0.7" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.7" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.5.1" />
+		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="10.0.9" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.9" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.7.0" />
 		<PackageReference Include="xunit" Version="2.9.3" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
 			<PrivateAssets>all</PrivateAssets>

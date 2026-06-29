@@ -578,7 +578,7 @@ namespace TightWiki.Controllers
                         try
                         {
                             var imageBytes = Utility.ConvertHttpFileToBytes(file);
-                            var image = Utility.CropImageToCenteredSquare(new MemoryStream(imageBytes));
+                            var image = ImagesUtility.CropImageToCenteredSquare(new MemoryStream(imageBytes));
                             await usersRepository.UpdateProfileAvatar(profile.UserId, image, "image/webp");
                         }
                         catch
@@ -828,7 +828,7 @@ namespace TightWiki.Controllers
                         try
                         {
                             var imageBytes = Utility.ConvertHttpFileToBytes(file);
-                            var image = Utility.CropImageToCenteredSquare(new MemoryStream(imageBytes));
+                            var image = ImagesUtility.CropImageToCenteredSquare(new MemoryStream(imageBytes));
                             await usersRepository.UpdateProfileAvatar(profile.UserId, image, "image/webp");
                         }
                         catch

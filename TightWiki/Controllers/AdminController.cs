@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ImageMagick;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NTDLS.DelegateThreadPooling;
@@ -1920,7 +1921,7 @@ namespace TightWiki.Controllers
                         try
                         {
                             emoji.ImageData = Utility.ConvertHttpFileToBytes(file);
-                            _ = SixLabors.ImageSharp.Image.Load(new MemoryStream(emoji.ImageData));
+                            _ = new MagickImage(emoji.ImageData); //Kisy validating the image data, will throw if invalid.
                             emoji.MimeType = file.ContentType;
                         }
                         catch
@@ -2033,7 +2034,7 @@ namespace TightWiki.Controllers
                         try
                         {
                             emoji.ImageData = Utility.ConvertHttpFileToBytes(file);
-                            var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(emoji.ImageData));
+                            var image = new MagickImage(emoji.ImageData);
                             emoji.MimeType = file.ContentType;
                         }
                         catch

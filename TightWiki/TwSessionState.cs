@@ -216,11 +216,18 @@ namespace TightWiki
             return await MemCache.AddOrGetAsync(cacheKey, async () =>
             {
                 TwPage? page = null;
+                string? inferredNamespace = null;
 
                 if (givenCanonical != null)
                 {
                     var navigation = new TwNamespaceNavigation(givenCanonical);
                     page = await _databaseManager.PageRepository.GetPageInfoByNavigation(navigation.Canonical);
+
+                    // Capture namespace from the URL so deny rules still apply even when the page doesn't exist.
+                    if (!string.IsNullOrEmpty(navigation.Namespace))
+                    {
+                        inferredNamespace = navigation.Namespace;
+                    }
                 }
 
                 foreach (var permission in permissions)
@@ -232,7 +239,8 @@ namespace TightWiki
                     //If the permission is explicitly denied, we move to the next permission because permission could
                     //  have been denied on a namespace but explicitly allowed on a page (and yes, we test in that order).
                     //Also note that we do not pass the page when the permission is Create - because that would make no sense.
-                    if (EvaluatePermission(permission, permission == Plugin.TwPermission.Create ? null : page) == true)
+                    if (EvaluatePermission(permission, permission == Plugin.TwPermission.Create ? null : page,
+                            permission == Plugin.TwPermission.Create ? null : inferredNamespace) == true)
                     {
                         return true;
                     }
@@ -241,9 +249,15 @@ namespace TightWiki
             });
         }
 
-        private bool? EvaluatePermission(Plugin.TwPermission permission, TwPage? page)
+        private bool? EvaluatePermission(Plugin.TwPermission permission, TwPage? page, string? inferredNamespace = null)
         {
             string permissionString = permission.ToString();
+
+            // Resolve the namespace to check: prefer the actual page's namespace, fall back to what we
+            // parsed from the URL so that deny rules are honoured even for non-existent pages.
+            string? effectiveNamespace = page != null
+                ? (string.IsNullOrEmpty(page.Namespace) ? null : page.Namespace)
+                : inferredNamespace;
 
             if (page != null)
             {
@@ -263,9 +277,15 @@ namespace TightWiki
                 {
                     return true;
                 }
+            }
 
+            //Check namespace-specific rules whenever we have a namespace (from the page or inferred from the URL).
+            //  A specific namespace deny overrides any wildcard allow, ensuring that:
+            //  allow Namespace:* + deny Namespace:Secure results in access to "Secure" being denied.
+            if (effectiveNamespace != null)
+            {
                 //Check to see the the user has been explicitly denied access to the current namespace.
-                if (Permissions.Any(o => o.Namespace?.Equals(page.Namespace, StringComparison.InvariantCultureIgnoreCase) == true
+                if (Permissions.Any(o => o.Namespace?.Equals(effectiveNamespace, StringComparison.InvariantCultureIgnoreCase) == true
                     && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
                     && o.PermissionDisposition.Equals(_denyString, StringComparison.InvariantCultureIgnoreCase)))
                 {
@@ -273,7 +293,7 @@ namespace TightWiki
                 }
 
                 //Check to see the the user has been explicitly granted access to the current namespace.
-                if (Permissions.Any(o => o.Namespace?.Equals(page.Namespace, StringComparison.InvariantCultureIgnoreCase) == true
+                if (Permissions.Any(o => o.Namespace?.Equals(effectiveNamespace, StringComparison.InvariantCultureIgnoreCase) == true
                     && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
                     && o.PermissionDisposition.Equals(_allowString, StringComparison.InvariantCultureIgnoreCase)))
                 {

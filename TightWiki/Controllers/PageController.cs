@@ -1,11 +1,11 @@
-﻿using DiffPlex.DiffBuilder;
+﻿using ImageMagick;
+using DiffPlex.DiffBuilder;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using NTDLS.Helpers;
-using SixLabors.ImageSharp;
 using System.Globalization;
 using System.Text;
 using System.Xml.Serialization;
@@ -19,7 +19,6 @@ using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
 using TightWiki.RequestModels;
 using TightWiki.ViewModels.Page;
-using static TightWiki.Library.ImagesUtility;
 using static TightWiki.Plugin.TwConstants;
 using TwPermission = TightWiki.Plugin.TwPermission;
 
@@ -1235,7 +1234,7 @@ namespace TightWiki.Controllers
                         return File(file.Data, file.ContentType);
                     }
 
-                    var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(file.Data));
+                    var img = new MagickImage(file.Data);
 
                     if (scale > 500)
                     {
@@ -1263,14 +1262,14 @@ namespace TightWiki.Controllers
 
                         if (file.ContentType.Equals("image/gif", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            var resized = ResizeGifImage(file.Data, width, height);
+                            var resized = ImagesUtility.ResizeGifImage(file.Data, width, height);
                             return File(resized, "image/gif");
                         }
                         else
                         {
-                            using var image = ResizeImage(img, width, height);
+                            using var image = ImagesUtility.ResizeImage(img, (uint)width, (uint)height);
                             using var ms = new MemoryStream();
-                            file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
+                            file.ContentType = ImagesUtility.BestEffortConvertImage(image, ms, file.ContentType);
                             var cacheItem = new TwImageCacheItem(ms.ToArray(), file.ContentType);
                             MemCache.Set(cacheKey, cacheItem);
                             return File(cacheItem.Bytes, cacheItem.ContentType);
@@ -1284,9 +1283,9 @@ namespace TightWiki.Controllers
                         int width = Math.Max(1, (int)Math.Round(img.Width * widthScale));
                         int height = Math.Max(1, (int)Math.Round(img.Height * widthScale));
 
-                        using var image = ImagesUtility.ResizeImage(img, width, height);
+                        using var image = ImagesUtility.ResizeImage(img, (uint)width, (uint)height);
                         using var ms = new MemoryStream();
-                        image.SaveAsPng(ms);
+                        image.Write(ms, MagickFormat.Png);
 
                         var cacheItem = new TwImageCacheItem(ms.ToArray(), "image/png");
                         MemCache.Set(cacheKey, cacheItem);
@@ -1337,7 +1336,7 @@ namespace TightWiki.Controllers
                 var file = await pageRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
                 if (file != null)
                 {
-                    var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(file.Data)));
+                    var img = new MagickImage(Utility.Decompress(file.Data));
 
                     int parsedScale = int.Parse(givenScale);
                     if (parsedScale > 500)
@@ -1364,15 +1363,15 @@ namespace TightWiki.Controllers
                             width += 16 - width;
                         }
 
-                        using var image = ImagesUtility.ResizeImage(img, width, height);
+                        using var image = ImagesUtility.ResizeImage(img, (uint)width, (uint)height);
                         using var ms = new MemoryStream();
-                        image.SaveAsPng(ms);
+                        image.Write(ms, MagickFormat.Png);
                         return File(ms.ToArray(), "image/png");
                     }
                     else
                     {
                         using var ms = new MemoryStream();
-                        img.SaveAsPng(ms);
+                        img.Write(ms, MagickFormat.Png);
                         return File(ms.ToArray(), "image/png");
                     }
                 }

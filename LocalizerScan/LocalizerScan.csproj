@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenAI" Version="2.10.0" />
+    <PackageReference Include="OpenAI" Version="2.11.0" />
   </ItemGroup>
 
   <ItemGroup>

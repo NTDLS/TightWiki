@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
 using System.IO.Compression;
 
 namespace TightWiki.Library
@@ -36,32 +34,6 @@ namespace TightWiki.Library
             return fileName.Replace("__", "_").Replace("__", "_");
         }
 
-        /// <summary>
-        /// Take a height and width and enforces a max on both dimensions while maintaining the ratio.
-        /// </summary>
-        public static (int Width, int Height) ScaleToMaxOf(int originalWidth, int originalHeight, int maxSize)
-        {
-            // Calculate aspect ratio
-            float aspectRatio = (float)originalWidth / originalHeight;
-
-            // Determine new dimensions based on the larger dimension
-            int newWidth, newHeight;
-            if (originalWidth > originalHeight)
-            {
-                // Scale down the width to the maxSize and calculate the height
-                newWidth = maxSize;
-                newHeight = (int)(maxSize / aspectRatio);
-            }
-            else
-            {
-                // Scale down the height to the maxSize and calculate the width
-                newHeight = maxSize;
-                newWidth = (int)(maxSize * aspectRatio);
-            }
-
-            return (newWidth, newHeight);
-        }
-
         public static List<string> SplitToTokens(string? tokenString)
         {
             var tokens = (tokenString ?? string.Empty).Trim().ToLowerInvariant()
@@ -80,34 +52,6 @@ namespace TightWiki.Library
             using var stream = image.OpenReadStream();
             using BinaryReader reader = new BinaryReader(stream);
             return reader.ReadBytes((int)image.Length);
-        }
-
-        /// <summary>
-        /// Crops an image to a centered square and returns the result as a byte array.
-        /// </summary>
-        /// <remarks>This method crops the input image to a square by centering the crop area and ensuring
-        /// the largest possible square is extracted. The resulting image is encoded in WebP format regardless of the
-        /// input format.</remarks>
-        /// <param name="imageBytes">The byte array representing the input image. The image must be in a format supported by the underlying image
-        /// processing library.</param>
-        /// <returns>A byte array containing the cropped image in WebP format. If the input image is already square, it is
-        /// returned unchanged in WebP format.</returns>
-        public static byte[] CropImageToCenteredSquare(MemoryStream inputStream)
-        {
-            using var image = Image.Load(inputStream);
-
-            if (image.Width != image.Height)
-            {
-                int size = Math.Min(image.Width, image.Height);
-                int x = (image.Width - size) / 2;
-                int y = (image.Height - size) / 2;
-
-                image.Mutate(ctx => ctx.Crop(new Rectangle(x, y, size, size)));
-            }
-
-            using var outputStream = new MemoryStream();
-            image.SaveAsWebp(outputStream);
-            return outputStream.ToArray();
         }
 
         public static byte[] Compress(byte[]? data)
