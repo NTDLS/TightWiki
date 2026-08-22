@@ -69,6 +69,16 @@ namespace TightWiki.Test.Library
             configurationBuilder.AddJsonFile("appsettings.Development.Postgres.json", optional: true, reloadOnChange: true);
 #endif
 
+            //Environment variables override any of the appsettings.*.json values added above - added last so it
+            //has the highest precedence among these sources (matches the standard ASP.NET Core
+            //appsettings -> environment variables ordering that WebApplication.CreateBuilder applies automatically
+            //for TightWiki/Program.cs; this fixture builds its own ConfigurationBuilder from scratch, so it needs
+            //this call explicitly). This is what lets CI point ConnectionStrings:TightWikiEfCore at an ephemeral
+            //LocalDB/Postgres service container via the ConnectionStrings__TightWikiEfCore environment variable
+            //without touching the committed, Docker-dev-oriented appsettings.Development.SqlServer.json/.Postgres.json
+            //files (Database-Providers-Testing-Plan.md chapter 5.1/5.4).
+            configurationBuilder.AddEnvironmentVariables();
+
             var configuration = configurationBuilder.Build();
 
 #if SQLITE_PROVIDER
