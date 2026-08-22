@@ -637,7 +637,7 @@ namespace TightWiki.Repository.Helpers
             var results = await Databases.Single(o => o.Name == databaseName)
                 .Factory.QueryAsync<string>("IntegrityCheckDatabase.sql");
 
-            return string.Join("\r\n", results) + ForeignKeyCheck(databaseName);
+            return string.Join("\r\n", results) + await ForeignKeyCheck(databaseName);
         }
 
         public async Task<string> ForeignKeyCheck(string databaseName)

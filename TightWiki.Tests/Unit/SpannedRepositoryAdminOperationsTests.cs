@@ -107,12 +107,15 @@ namespace TightWiki.Tests.Unit
         /// <list type="bullet">
         /// <item><description>SQLite (<c>DatabaseManager.IntegrityCheckDatabase</c>): <c>PRAGMA integrity_check</c>
         /// returns the single row "ok" on a healthy database. The method then unconditionally appends
-        /// <c>ForeignKeyCheck(databaseName)</c> - a pre-existing, documented bug (confirmed in
-        /// <c>SqlServerDatabaseManager.IntegrityCheckDatabase</c>'s own doc comment: "appends an unawaited
-        /// Task&lt;TResult&gt;'s ToString(), not the actual check result") that this task's own instructions forbid
-        /// fixing ("neuprav produkční kód") - so the real return value is "ok" immediately followed by
-        /// <c>Task&lt;string&gt;</c>'s default <see cref="object.ToString"/> output, not a clean "ok". This only
-        /// asserts the "ok" prefix, tolerating the trailing artifact rather than asserting exact equality.</description></item>
+        /// <c>await ForeignKeyCheck(databaseName)</c>, which on a healthy database returns
+        /// <see cref="string.Empty"/> (<c>PRAGMA foreign_key_check</c> reports zero rows - see
+        /// <see cref="ForeignKeyCheck_OnHealthySeededDatabase_ReportsNoViolations"/>'s own SQLite branch), so the
+        /// real return value is exactly "ok". Previously (before the fix tracked in
+        /// Database-Providers-Testing-Findings.md finding #3) that call was missing its <c>await</c>, so string
+        /// concatenation invoked <see cref="object.ToString"/> on the unawaited <see cref="Task{TResult}"/> itself
+        /// instead of its result, appending a literal "System.Threading.Tasks.Task`1[System.String]" after "ok".
+        /// This now asserts exact equality rather than merely a prefix, which fails against that pre-fix
+        /// behavior.</description></item>
         /// <item><description>SQL Server (<c>SqlServerDatabaseManager</c>): runs <c>DBCC CHECKDB</c>, returning the
         /// literal "DBCC CHECKDB completed - no corruption or structural issues found." on success.</description></item>
         /// <item><description>PostgreSQL (<c>PostgresDatabaseManager</c>): runs <c>amcheck</c>'s
@@ -146,7 +149,7 @@ namespace TightWiki.Tests.Unit
                         $"Expected either a clean amcheck result or the documented 'skipped' fallback message, but got: {result}");
                     break;
                 default: //SQLite reference (TightWiki.Repository.Helpers.DatabaseManager) - see this test's own doc comment.
-                    Assert.StartsWith("ok", result, StringComparison.OrdinalIgnoreCase);
+                    Assert.Equal("ok", result, StringComparer.OrdinalIgnoreCase);
                     break;
             }
         }
