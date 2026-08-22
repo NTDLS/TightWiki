@@ -62,6 +62,16 @@ jobs:
         env:
           ConnectionStrings__TightWikiEfCore: 'Server=(localdb)\mssqllocaldb;Database=TightWikiCI;Trusted_Connection=True;TrustServerCertificate=True;'
 
+      # Mechanical guardrail (Database-Providers-Testing-Plan.md chapter 3/7, T6): a SqlServer publish must not
+      # drag in any SQLite/Dapper DLL (TightWiki.csproj only references TightWiki.Repository - where Dapper/SQLite
+      # live - when DataProvider==Sqlite). Only meaningful for the SqlServer matrix leg; Verify-PublishOutput.ps1
+      # itself rejects -DataProvider Sqlite outright, so this step is intentionally skipped on that leg rather
+      # than made a no-op.
+      - name: Verify publish output
+        if: matrix.provider == 'SqlServer'
+        shell: pwsh
+        run: ./Verify-PublishOutput.ps1 -DataProvider SqlServer
+
   postgres:
     name: Postgres (ubuntu-latest)
     runs-on: ubuntu-latest
@@ -116,3 +126,10 @@ jobs:
         run: dotnet test --no-restore --verbosity normal -p:DataProvider=Postgres
         env:
           ConnectionStrings__TightWikiEfCore: "Host=localhost;Port=5432;Database=tightwiki_ci;User Id=tightwiki;Password=TightWiki_CI_2026!"
+
+      # Mechanical guardrail (Database-Providers-Testing-Plan.md chapter 3/7, T6) - see the matching comment on
+      # the windows job's "Verify publish output" step. This job only ever runs the Postgres leg, so no matrix
+      # condition is needed here.
+      - name: Verify publish output
+        shell: pwsh
+        run: ./Verify-PublishOutput.ps1 -DataProvider Postgres
