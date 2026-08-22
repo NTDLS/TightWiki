@@ -27,6 +27,9 @@ using TightWiki.Data.EfCore.SqlServer;
 #elif POSTGRES_PROVIDER
 using TightWiki.Data.EfCore.Postgres;
 #endif
+#if SQLSERVER_PROVIDER || POSTGRES_PROVIDER
+using static TightWiki.Plugin.TwConstants;
+#endif
 
 namespace TightWiki.Test.Library
 {
@@ -75,6 +78,43 @@ namespace TightWiki.Test.Library
 #elif POSTGRES_PROVIDER
             DatabaseManager = new PostgresDatabaseManager(configuration);
 #endif
+
+#if SQLSERVER_PROVIDER || POSTGRES_PROVIDER
+            //Mirrors TightWiki/Program.cs's bootstrap sequence for the EF Core providers. Unlike SQLite - where
+            //TwEngineFixture.cs copies pre-seeded .db files into place *before* this constructor even runs, so the
+            //schema/seed already exist by the time WikiConfigurationManager below is constructed - a SqlServer/
+            //Postgres run points at a live, possibly-empty database (Database-Providers-Testing-Plan.md chapter
+            //5.2/5.3): InitializeSchema() must create/migrate it, and - same as Program.cs - the DI-free half of
+            //the seed (SeedContentDataAsync) must run before WikiConfigurationManager's constructor below, because
+            //that constructor eagerly reads Config.Theme (WikiConfigurationManager.ReloadAll:
+            //.Single(o => o.Name == themeName)) and throws on a freshly migrated-but-unseeded database. This
+            //fixture builds its own Autofac container directly (no IHostBuilder), so - unlike Program.cs, which
+            //splits pre-/post-Build().Build() - there's no DI-timing constraint forcing a two-call split beyond
+            //what SeedContentDataAsync/ApplyAllSeedData themselves require (the latter needs a
+            //UserManager&lt;IdentityUser&gt;, only available after the ServiceCollection below is built). Both
+            //InitializeSchema and the seed calls are idempotent by design (see SeedContentDataAsync's own doc
+            //comment) and gated on wasDatabaseUpgraded exactly like Program.cs, so a second construction against an
+            //already-initialized/seeded database (e.g. a second test run against the same long-lived Docker
+            //container, see Start-TestDatabases.ps1) is a safe no-op rather than a duplicate-seed failure.
+            var wasDatabaseUpgraded = DatabaseManager.InitializeSchema().GetAwaiter().GetResult();
+            if (wasDatabaseUpgraded)
+            {
+#if SQLSERVER_PROVIDER
+                ((SqlServerDatabaseManager)DatabaseManager).SeedContentDataAsync(
+#elif POSTGRES_PROVIDER
+                ((PostgresDatabaseManager)DatabaseManager).SeedContentDataAsync(
+#endif
+                    [TwDefaultDataType.Themes,
+                    TwDefaultDataType.Configurations,
+                    TwDefaultDataType.FeatureTemplates,
+                    TwDefaultDataType.HelpPages,
+                    TwDefaultDataType.BuiltinPages,
+                    TwDefaultDataType.IncludePages,
+                    TwDefaultDataType.RootPages,
+                    TwDefaultDataType.SandboxPages]).GetAwaiter().GetResult();
+            }
+#endif
+
             WikiConfigurationManager = new WikiConfigurationManager(configuration, DatabaseManager);
 
             PluginLoader.LoadPlugins(DatabaseManager.Logger, Environment.CurrentDirectory);
@@ -152,6 +192,46 @@ namespace TightWiki.Test.Library
             UserManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
             UserStore = serviceProvider.GetRequiredService<IUserStore<IdentityUser>>();
             Engine = host.Services.GetRequiredService<ITwEngine>();
+
+#if SQLSERVER_PROVIDER || POSTGRES_PROVIDER
+            //DI-dependent half of the same bootstrap sequence Program.cs runs after builder.Build() (inside its
+            //app.Services.CreateScope() block): ApplyAllSeedData needs a UserManager<IdentityUser>, which only
+            //exists now that the ServiceCollection above has been built, and re-runs SeedContentDataAsync with an
+            //admin profile now resolvable, so this is the call that actually seeds wiki pages/attachments (see the
+            //remarks on SqlServerDatabaseManager/PostgresDatabaseManager.SeedContentDataAsync). Still gated on the
+            //same wasDatabaseUpgraded flag set above, so this is a no-op on a database that was already
+            //initialized/seeded by a prior run.
+            if (wasDatabaseUpgraded)
+            {
+                try
+                {
+                    DatabaseManager.ApplyAllSeedData(new TwVerbatimLocalizationText(), UserManager, Engine,
+                        [TwDefaultDataType.Themes,
+                        TwDefaultDataType.Configurations,
+                        TwDefaultDataType.FeatureTemplates,
+                        TwDefaultDataType.HelpPages,
+                        TwDefaultDataType.BuiltinPages,
+                        TwDefaultDataType.IncludePages,
+                        TwDefaultDataType.RootPages,
+                        TwDefaultDataType.SandboxPages]).GetAwaiter().GetResult();
+
+                    WikiConfigurationManager.ReloadAll().GetAwaiter().GetResult();
+                }
+                catch (Exception ex)
+                {
+                    DatabaseManager.Logger.LogError(ex, "An error occurred while applying seed data after database upgrade.");
+                }
+            }
+
+            try
+            {
+                DatabaseManager.UsersRepository.ValidateEncryptionAndCreateAdminUser(UserManager);
+            }
+            catch (Exception ex)
+            {
+                DatabaseManager.Logger.LogError(ex, "An error occurred while validating encryption or creating the admin user.");
+            }
+#endif
         }
 
         public TwPage GetMockPage(string name, string body)
