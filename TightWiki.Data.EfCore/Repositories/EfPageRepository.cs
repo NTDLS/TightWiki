@@ -968,15 +968,24 @@ namespace TightWiki.Data.EfCore.Repositories
         /// several of that phase's own methods, <see cref="InsertPageComment"/>/<see cref="DeletePageCommentById"/>/
         /// <see cref="DeletePageCommentByUserAndId"/>, already called this method and would otherwise always have
         /// failed), preserved as-is now that both are real: the two implementations are equivalent queries anyway.
+        /// When <paramref name="navigation"/> is supplied, it's used directly instead of the local query above -
+        /// callers that delete the page's row before flushing (e.g. <see cref="MovePageToDeletedById"/>) must pass
+        /// it explicitly, since a query after the row is gone would return null and leave the navigation-keyed
+        /// cache entry stale.
         /// </summary>
-        public async Task FlushPageCache(int pageId)
+        public async Task FlushPageCache(int pageId, string? navigation = null)
         {
-            using var context = _createContext();
+            var pageNavigation = navigation;
 
-            var pageNavigation = await context.Pages_Pages
-                .Where(p => p.Id == pageId)
-                .Select(p => (string?)p.Navigation)
-                .FirstOrDefaultAsync();
+            if (pageNavigation is null)
+            {
+                using var context = _createContext();
+
+                pageNavigation = await context.Pages_Pages
+                    .Where(p => p.Id == pageId)
+                    .Select(p => (string?)p.Navigation)
+                    .FirstOrDefaultAsync();
+            }
 
             MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.Page, [pageNavigation]));
             MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.Page, [pageId]));
@@ -2388,7 +2397,8 @@ namespace TightWiki.Data.EfCore.Repositories
         /// table this writes into (Page/PageFile/PageComment) is explicitly configured
         /// <c>ValueGeneratedNever()</c> on its Id column (see e.g. <see cref="Configurations.DeletedPages.PageConfiguration"/>) -
         /// only the corresponding Pages-schema tables are real identity columns. Flushes this page's cache via
-        /// <see cref="FlushPageCache"/> afterward, same as the SQLite reference.
+        /// <see cref="FlushPageCache"/> afterward, passing the navigation captured before the delete below -
+        /// same as the SQLite reference (see that method's doc comment for why a post-delete re-query would fail).
         /// </summary>
         /// <remarks>
         /// <b>Deliberate divergence from the SQLite reference, forced by a real FOREIGN KEY.</b> After committing,
@@ -2409,6 +2419,7 @@ namespace TightWiki.Data.EfCore.Repositories
         public async Task MovePageToDeletedById(int pageId, Guid userId)
         {
             var deletedDate = DateTime.UtcNow;
+            string? pageNavigation = null;
 
             using var context = _createContext();
             using var transaction = await context.Database.BeginTransactionAsync();
@@ -2420,6 +2431,7 @@ namespace TightWiki.Data.EfCore.Repositories
                     .ExecuteUpdateAsync(setters => setters.SetProperty(ft => ft.PageId, (int?)null));
 
                 var page = await context.Pages_Pages.AsNoTracking().FirstOrDefaultAsync(p => p.Id == pageId);
+                pageNavigation = page?.Navigation;
 
                 var comments = await context.Pages_PageComments.AsNoTracking().Where(c => c.PageId == pageId).ToListAsync();
                 context.DeletedPages_PageComments.AddRange(comments.Select(c => new DeletedPagesEntities.PageComment
@@ -2561,7 +2573,7 @@ namespace TightWiki.Data.EfCore.Repositories
                 throw;
             }
 
-            await FlushPageCache(pageId);
+            await FlushPageCache(pageId, pageNavigation);
         }
 
         /// <summary>

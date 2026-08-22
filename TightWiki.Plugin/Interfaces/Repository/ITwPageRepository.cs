@@ -93,9 +93,12 @@ namespace TightWiki.Plugin.Interfaces.Repository
         Task<List<TwRelatedPage>> GetBacklinkPagesPaged(int pageId, int pageNumber, int? pageSize = null);
 
         /// <summary>
-        /// Clears the cached rendered content for the specified page.
+        /// Clears the cached rendered content for the specified page. If the page's navigation is already
+        /// known to the caller (e.g. because it was read before a delete that removed the underlying row),
+        /// pass it via <paramref name="navigation"/> to avoid a re-query that would return null for a page
+        /// that no longer exists. When omitted, the navigation is looked up by <paramref name="pageId"/>.
         /// </summary>
-        Task FlushPageCache(int pageId);
+        Task FlushPageCache(int pageId, string? navigation = null);
 
         /// <summary>
         /// Inserts a new comment on the specified page by the specified user.

@@ -282,6 +282,55 @@ namespace TightWiki.Tests.Unit
             Assert.Null(await pageRepo.GetDeletedPageById(page.Id));
         }
 
+        /// <summary>
+        /// Regression test for Database-Providers-Testing-Findings.md finding #1 ("<c>FlushPageCache</c> - cache
+        /// after deleting a page is never reliably invalidated"): <see cref="ITwPageRepository.FlushPageCache"/>
+        /// used to re-query Pages.Page for the page's own navigation <i>after</i> <see
+        /// cref="ITwPageRepository.MovePageToDeletedById"/> had already committed the delete, so that query always
+        /// returned null and the real, primed <see cref="ITwPageRepository.GetPageInfoByNavigation"/> cache entry
+        /// was left stale until TTL expiry. Both <c>PageRepository.MovePageToDeletedById</c> and
+        /// <c>EfPageRepository.MovePageToDeletedById</c> now resolve the page's navigation <i>before</i> the delete
+        /// and pass it straight into <c>FlushPageCache</c>'s optional <c>navigation</c> parameter, so this test -
+        /// unlike every other scenario in this class (see this class's own remarks) - deliberately primes and
+        /// re-reads via <see cref="ITwPageRepository.GetPageInfoByNavigation"/> itself: it fails against the old
+        /// implementation (stale cached page survives the delete) and passes against the fix.
+        /// </summary>
+        [Fact]
+        public async Task MovePageToDeletedById_FlushesNavigationKeyedCache_GetPageInfoByNavigationReturnsNullImmediatelyAfterDelete()
+        {
+            var pageRepo = fixture.Artifacts.DatabaseManager.PageRepository;
+            var admin = await GetAdminAsync(fixture);
+
+            var page = await CreateTestPageAsync(fixture, admin.UserId, $"ZzzDeleteCacheInvalidation_{Guid.NewGuid():N}",
+                $"Cache invalidation regression content {Guid.NewGuid():N}.\r\n");
+
+            try
+            {
+                //Primes the GetPageInfoByNavigation cache entry for this page before it's deleted.
+                var primed = await pageRepo.GetPageInfoByNavigation(page.Navigation);
+                Assert.NotNull(primed);
+                Assert.Equal(page.Id, primed!.Id);
+
+                await pageRepo.MovePageToDeletedById(page.Id, admin.UserId);
+
+                //On the pre-fix implementation this returned the stale, primed TwPage above instead of null.
+                Assert.Null(await pageRepo.GetPageInfoByNavigation(page.Navigation));
+            }
+            finally
+            {
+                //The test body above already moved the page to DeletedPages via MovePageToDeletedById, so
+                //cleanup only needs to purge it from there - unlike every other scenario in this class,
+                //deliberately not routed through DeleteTestPageAsync's own MovePageToDeletedById call, to
+                //avoid invoking that member a second time in immediate succession with a cache read in
+                //between (independently confirmed, on both the pre-fix and fixed code, to trip an unrelated
+                //SQLite "database deletedpages_db is locked" exception in this specific test's ordering -
+                //not a regression from this fix, out of scope here, sidestepped instead of chased).
+                await pageRepo.PurgeDeletedPageByPageId(page.Id);
+            }
+
+            Assert.Null(await pageRepo.GetPageInfoByNavigation(page.Navigation));
+        }
+
         [Fact]
         public async Task MovePageToDeletedById_PurgeDeletedPageByPageId_PermanentlyRemovesFromBothSchemas()
         {

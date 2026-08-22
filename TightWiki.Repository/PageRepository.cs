@@ -349,9 +349,16 @@ namespace TightWiki.Repository
             return await PagesFactory.QueryAsync<TwRelatedPage>("GetBacklinkPagesPaged.sql", param);
         }
 
-        public async Task FlushPageCache(int pageId)
+        /// <summary>
+        /// Clears the cached rendered content for the specified page. When <paramref name="navigation"/> is
+        /// supplied, it's used directly as the cache key instead of being re-queried by <paramref name="pageId"/> -
+        /// callers that delete the page's row before flushing (e.g. <see cref="MovePageToDeletedById"/>) must pass
+        /// it explicitly, since a re-query after the row is gone would return null and leave the
+        /// navigation-keyed cache entry stale.
+        /// </summary>
+        public async Task FlushPageCache(int pageId, string? navigation = null)
         {
-            var pageNavigation = await GetPageNavigationByPageId(pageId);
+            var pageNavigation = navigation ?? await GetPageNavigationByPageId(pageId);
             MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.Page, [pageNavigation]));
             MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.Page, [pageId]));
         }
@@ -1073,6 +1080,10 @@ namespace TightWiki.Repository
 
         public async Task MovePageToDeletedById(int pageId, Guid userId)
         {
+            //Resolve the navigation before the delete below removes the row - FlushPageCache can no longer
+            //look this up by pageId once the page is gone (see that method's doc comment).
+            var pageNavigation = await GetPageNavigationByPageId(pageId);
+
             var param = new
             {
                 PageId = pageId,
@@ -1099,7 +1110,7 @@ namespace TightWiki.Repository
                 }
             });
 
-            await FlushPageCache(pageId);
+            await FlushPageCache(pageId, pageNavigation);
         }
 
         public async Task PurgeDeletedPageByPageId(int pageId)
