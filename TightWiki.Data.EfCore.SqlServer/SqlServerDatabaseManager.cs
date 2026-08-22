@@ -758,19 +758,19 @@ namespace TightWiki.Data.EfCore.SqlServer
                 return;
             }
 
-            var pageIdsByKey = seededPages.ToDictionary(p => $"{p.Name} {p.Namespace}", p => p.Id, StringComparer.OrdinalIgnoreCase);
-            var existingFiles = await context.Pages_PageFiles.ToDictionaryAsync(f => $"{f.PageId} {f.Navigation}", StringComparer.OrdinalIgnoreCase);
+            var pageIdsByKey = seededPages.ToDictionary(p => $"{p.Name} {p.Namespace}", p => p.Id, StringComparer.OrdinalIgnoreCase);
+            var existingFiles = await context.Pages_PageFiles.ToDictionaryAsync(f => $"{f.PageId} {f.Navigation}", StringComparer.OrdinalIgnoreCase);
             var now = DateTime.UtcNow;
 
             foreach (var defaultAttachment in defaultAttachments)
             {
-                if (!pageIdsByKey.TryGetValue($"{defaultAttachment.PageName} {defaultAttachment.Namespace}", out var pageId))
+                if (!pageIdsByKey.TryGetValue($"{defaultAttachment.PageName} {defaultAttachment.Namespace}", out var pageId))
                 {
                     continue;
                 }
 
                 var dataHash = SecurityUtility.Crc32(defaultAttachment.Data);
-                var fileKey = $"{pageId} {defaultAttachment.FileNavigation}";
+                var fileKey = $"{pageId} {defaultAttachment.FileNavigation}";
 
                 if (existingFiles.TryGetValue(fileKey, out var existingFile))
                 {
