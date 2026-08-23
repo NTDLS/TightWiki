@@ -203,6 +203,40 @@ namespace TightWiki.Tests.Unit
         }
 
         [Fact]
+        public async Task GetSimilarPagesPaged_PartialTagOverlap_ExcludedByIntegerDivisionAtLowSimilarityThreshold()
+        {
+            var pageRepo = fixture.Artifacts.DatabaseManager.PageRepository;
+            var page = await GetSeededPageAsync(pageRepo, SeededHeavilyReferencedPageName);
+
+            //Regression coverage for the reference GetSimilarPagesPaged.sql's own integer-division quirk
+            //(`Count(0) / (SELECT COUNT(0) ...)` - both INTEGER operands, so SQLite truncates *before* the
+            //`* 100.0` multiply promotes the result to REAL) - EfPageRepository.GetSimilarPagesPaged mirrors
+            //this deliberately (see its own remarks). The root page's 4 tags (Help/Official/Official-Help/Wiki,
+            //confirmed by direct inspection) are shared *in full* by dozens of other seeded pages, but also
+            //*partially* by a few others - confirmed by direct inspection: page 69 shares 3 of 4 (Help/Official/
+            //Wiki), page 99 shares 2 of 4 (Official/Wiki), page 14 shares 1 of 4 (Official only). Under integer
+            //division 1/4, 2/4, and 3/4 all truncate to 0 (=> 0%), so none of those three pages can ever satisfy
+            //even the lowest possible non-zero similarity threshold (1%) - even though the "true" floating-point
+            //percentage (25/50/75%) clearly would. Only a page sharing *all* 4 tags (4/4 = 1 => 100%) can satisfy
+            //any threshold from 1 to 100, so the result set at similarity: 1 must be identical to the one at
+            //similarity: 100 (this method's own remarks: no ordering guarantee, hence the sorted-id comparison).
+            var atLowThreshold = await pageRepo.GetSimilarPagesPaged(page.Id, similarity: 1, pageNumber: 1, pageSize: 500);
+            var atFullThreshold = await pageRepo.GetSimilarPagesPaged(page.Id, similarity: 100, pageNumber: 1, pageSize: 500);
+
+            Assert.Equal(
+                atFullThreshold.Select(p => p.Id).OrderBy(id => id),
+                atLowThreshold.Select(p => p.Id).OrderBy(id => id));
+
+            Assert.DoesNotContain(atLowThreshold, p => p.Id == 69);
+            Assert.DoesNotContain(atLowThreshold, p => p.Id == 99);
+            Assert.DoesNotContain(atLowThreshold, p => p.Id == 14);
+
+            //Sanity: the low-threshold set isn't simply empty - a real, distinct full-overlap page (confirmed
+            //by direct inspection to share all 4 root tags) is present at both thresholds.
+            Assert.Contains(atLowThreshold, p => p.Id == 127);
+        }
+
+        [Fact]
         public async Task GetRelatedPagesPaged_GetBacklinkPagesPaged_ExcludeSelf_ForHeavilyReferencedSeededPage()
         {
             var pageRepo = fixture.Artifacts.DatabaseManager.PageRepository;

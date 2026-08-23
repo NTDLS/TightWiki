@@ -814,10 +814,18 @@ namespace TightWiki.Data.EfCore.Repositories
             {
                 var totalRootTagCount = rootTags.Count;
 
+                // Intentionally integer division here (no cast to double before dividing), mirroring
+                // GetSimilarPagesPaged.sql's own `(Count(0) / (SELECT COUNT(0) ...)) * 100.0`: SQLite
+                // divides two INTEGER operands with truncating integer division and only promotes to
+                // REAL on the subsequent `* 100.0`. This is a quirk of the reference script (not the
+                // mathematically "correct" percentage), but the golden-file regression tests are
+                // generated against it, so e.g. a page sharing 1 of a page's 2 tags reference-scores as
+                // 1/2=0 (int) -> 0% rather than 0.5 -> 50%. Casting to double here (as this line used to)
+                // makes matches "too generous" relative to the SQLite reference and fails those tests.
                 matchingPageIds = await context.Pages_PageTags
                     .Where(t => rootTags.Contains(t.Tag))
                     .GroupBy(t => t.PageId)
-                    .Where(g => (g.Count() / (double)totalRootTagCount) * 100.0 >= similarity)
+                    .Where(g => (g.Count() / totalRootTagCount) * 100.0 >= similarity)
                     .Select(g => g.Key)
                     .ToListAsync();
             }
