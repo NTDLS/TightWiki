@@ -290,7 +290,7 @@ namespace TightWiki.Data.EfCore.Repositories
                          select new { p, pr };
 
             var totalCount = await joined.CountAsync();
-            var paginationPageCount = (totalCount + (pageSize.Value - 1)) / pageSize.Value;
+            var paginationPageCount = pageSize.Value == 0 ? 0 : (totalCount + (pageSize.Value - 1)) / pageSize.Value;
 
             bool ascending = string.Equals(orderByDirection, "asc", StringComparison.InvariantCultureIgnoreCase);
 
@@ -757,7 +757,7 @@ namespace TightWiki.Data.EfCore.Repositories
                 })
                 .ToListAsync();
 
-            var paginationPageCount = (pages.Count + (pageSize.Value - 1)) / pageSize.Value;
+            var paginationPageCount = pageSize.Value == 0 ? 0 : (pages.Count + (pageSize.Value - 1)) / pageSize.Value;
 
             foreach (var page in pages)
             {
@@ -825,7 +825,7 @@ namespace TightWiki.Data.EfCore.Repositories
             var query = context.Pages_Pages.Where(p => matchingPageIds.Contains(p.Id));
 
             var totalCount = await query.CountAsync();
-            var paginationPageCount = (totalCount + (pageSize.Value - 1)) / pageSize.Value;
+            var paginationPageCount = pageSize.Value == 0 ? 0 : (totalCount + (pageSize.Value - 1)) / pageSize.Value;
 
             return await query
                 .OrderBy(p => p.Id)
@@ -863,7 +863,7 @@ namespace TightWiki.Data.EfCore.Repositories
                         select p;
 
             var totalCount = await query.CountAsync();
-            var paginationPageCount = (totalCount + (pageSize.Value - 1)) / pageSize.Value;
+            var paginationPageCount = pageSize.Value == 0 ? 0 : (totalCount + (pageSize.Value - 1)) / pageSize.Value;
 
             return await query
                 .OrderBy(p => p.Name)
@@ -940,7 +940,7 @@ namespace TightWiki.Data.EfCore.Repositories
             var query = context.Pages_Pages.Where(p => combinedIds.Contains(p.Id));
 
             var totalCount = await query.CountAsync();
-            var paginationPageCount = (totalCount + (pageSize.Value - 1)) / pageSize.Value;
+            var paginationPageCount = pageSize.Value == 0 ? 0 : (totalCount + (pageSize.Value - 1)) / pageSize.Value;
 
             return await query
                 .OrderBy(p => p.Name)
@@ -1085,7 +1085,7 @@ namespace TightWiki.Data.EfCore.Repositories
                 var commentsForPage = context.Pages_PageComments.Where(c => c.Page.Navigation == navigation);
 
                 var totalCommentCount = await commentsForPage.CountAsync();
-                var paginationPageCount = (totalCommentCount + (paginationSize - 1)) / paginationSize;
+                var paginationPageCount = paginationSize == 0 ? 0 : (totalCommentCount + (paginationSize - 1)) / paginationSize;
 
                 return await commentsForPage
                     .OrderByDescending(c => c.CreatedDate)
@@ -1131,7 +1131,7 @@ namespace TightWiki.Data.EfCore.Repositories
             var query = context.PageReferences.Where(pr => pr.ReferencesPageId == null);
 
             var totalCount = await query.CountAsync();
-            var paginationPageCount = (totalCount + (paginationSize - 1)) / paginationSize;
+            var paginationPageCount = paginationSize == 0 ? 0 : (totalCount + (paginationSize - 1)) / paginationSize;
 
             bool ascending = string.Equals(orderByDirection, "asc", StringComparison.InvariantCultureIgnoreCase);
 
@@ -1296,7 +1296,7 @@ namespace TightWiki.Data.EfCore.Repositories
                 .Select(pi => pi.Page);
 
             var totalCount = await query.CountAsync();
-            var paginationPageCount = (totalCount + (paginationSize - 1)) / paginationSize;
+            var paginationPageCount = paginationSize == 0 ? 0 : (totalCount + (paginationSize - 1)) / paginationSize;
 
             return await query
                 .OrderBy(p => p.Name)
@@ -1413,7 +1413,7 @@ namespace TightWiki.Data.EfCore.Repositories
             var query = context.Pages_Pages.Where(p => p.Namespace == namespaceName);
 
             var totalCount = await query.CountAsync();
-            var paginationPageCount = (totalCount + (paginationSize - 1)) / paginationSize;
+            var paginationPageCount = paginationSize == 0 ? 0 : (totalCount + (paginationSize - 1)) / paginationSize;
 
             bool ascending = string.Equals(orderByDirection, "asc", StringComparison.InvariantCultureIgnoreCase);
 
@@ -1519,7 +1519,7 @@ namespace TightWiki.Data.EfCore.Repositories
             }
 
             var totalCount = await query.CountAsync();
-            var paginationPageCount = (totalCount + (paginationSize - 1)) / paginationSize;
+            var paginationPageCount = paginationSize == 0 ? 0 : (totalCount + (paginationSize - 1)) / paginationSize;
 
             bool ascending = string.Equals(orderByDirection, "asc", StringComparison.InvariantCultureIgnoreCase);
 
@@ -1606,7 +1606,7 @@ namespace TightWiki.Data.EfCore.Repositories
             }
 
             var totalCount = await joined.CountAsync();
-            var paginationPageCount = (totalCount + (paginationSize - 1)) / paginationSize;
+            var paginationPageCount = paginationSize == 0 ? 0 : (totalCount + (paginationSize - 1)) / paginationSize;
 
             bool ascending = string.Equals(orderByDirection, "asc", StringComparison.InvariantCultureIgnoreCase);
 
@@ -1663,7 +1663,7 @@ namespace TightWiki.Data.EfCore.Repositories
                 .Select(g => new { Namespace = g.Key, CountOfPages = g.Count() });
 
             var distinctNamespaceCount = await context.Pages_Pages.Select(p => p.Namespace).Distinct().CountAsync();
-            var paginationPageCount = (distinctNamespaceCount + (paginationSize - 1)) / paginationSize;
+            var paginationPageCount = paginationSize == 0 ? 0 : (distinctNamespaceCount + (paginationSize - 1)) / paginationSize;
 
             bool ascending = string.Equals(orderByDirection, "asc", StringComparison.InvariantCultureIgnoreCase);
 
@@ -2805,7 +2805,7 @@ namespace TightWiki.Data.EfCore.Repositories
             using var context = _createContext();
 
             var totalCount = await context.DeletedPageRevisions_PageRevisions.CountAsync(pr => pr.PageId == pageId);
-            var paginationPageCount = (totalCount + (paginationSize - 1)) / paginationSize;
+            var paginationPageCount = paginationSize == 0 ? 0 : (totalCount + (paginationSize - 1)) / paginationSize;
 
             var joined = from pr in context.DeletedPageRevisions_PageRevisions
                          join dm in context.DeletedPageRevisions_DeletionMetas on new { pr.PageId, pr.Revision } equals new { dm.PageId, dm.Revision }
@@ -3632,7 +3632,7 @@ namespace TightWiki.Data.EfCore.Repositories
                     .Any(pra => pra.PageFileId == pfr.PageFileId && pra.FileRevision == pfr.Revision));
 
             var totalCount = await query.CountAsync();
-            var paginationPageCount = (totalCount + (paginationSize - 1)) / paginationSize;
+            var paginationPageCount = paginationSize == 0 ? 0 : (totalCount + (paginationSize - 1)) / paginationSize;
 
             bool ascending = string.Equals(orderByDirection, "asc", StringComparison.InvariantCultureIgnoreCase);
 
@@ -3752,7 +3752,7 @@ namespace TightWiki.Data.EfCore.Repositories
                 select new { pra, pfr };
 
             var totalCount = await query.CountAsync();
-            var paginationPageCount = (totalCount + (pageSize.Value - 1)) / pageSize.Value;
+            var paginationPageCount = pageSize.Value == 0 ? 0 : (totalCount + (pageSize.Value - 1)) / pageSize.Value;
 
             return await query
                 .OrderBy(x => x.pra.PageFile.Name).ThenBy(x => x.pra.PageFileId)
@@ -3950,7 +3950,7 @@ namespace TightWiki.Data.EfCore.Repositories
                 .Where(pfr => pfr.PageFile.Page.Navigation == pageNavigation && pfr.PageFile.Navigation == fileNavigation);
 
             var totalCount = await query.CountAsync();
-            var paginationPageCount = (totalCount + (paginationSize - 1)) / paginationSize;
+            var paginationPageCount = paginationSize == 0 ? 0 : (totalCount + (paginationSize - 1)) / paginationSize;
 
             return await query
                 .OrderBy(pfr => pfr.Revision)
