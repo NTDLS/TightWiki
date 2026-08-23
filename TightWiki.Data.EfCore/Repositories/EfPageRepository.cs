@@ -881,19 +881,11 @@ namespace TightWiki.Data.EfCore.Repositories
         }
 
         /// <summary>
-        /// Mirrors GetBacklinkPagesPaged.sql: the union of three page sets related to <paramref name="pageId"/>
-        /// via Pages.PageReference - pages that reference it (backlinks), pages it references (outlinks), and
-        /// pages that reference the same targets it references (second-order links) - each excluding
-        /// <paramref name="pageId"/> itself, deduplicated (the reference script's <c>UNION</c>, not <c>UNION
-        /// ALL</c>), ordered by <see cref="PagesEntities.Page.Name"/> ascending. The reference script's single
-        /// three-way <c>UNION</c> query (plus a <c>COUNT(*) OVER()</c> window function for pagination) has no safe
-        /// single-query EF Core/SQL Server LINQ translation, so each branch is resolved to a page-ID list via its
-        /// own translatable query (the same <c>Contains(...)</c> temp-table substitution pattern as
-        /// <see cref="GetAllPagesPaged"/>'s remarks) and the three lists are combined and deduplicated client-side
-        /// before the final paginated page query. Paginated by <paramref name="pageSize"/> (defaulting to the
-        /// "Pagination Size" customization setting); <see cref="TwRelatedPage.PaginationPageCount"/> is computed
-        /// via the reference's own ceiling-division formula (functionally equivalent to its window-function
-        /// count) against the total (unpaginated) combined-page count.
+        /// Mirrors GetBacklinkPagesPaged.sql: every page that references (links to) <paramref name="pageId"/> via
+        /// Pages.PageReference, excluding self-references, ordered by <see cref="PagesEntities.Page.Name"/>
+        /// ascending. Paginated by <paramref name="pageSize"/> (defaulting to the "Pagination Size" customization
+        /// setting); <see cref="TwRelatedPage.PaginationPageCount"/> is computed via the reference's own
+        /// ceiling-division formula against the total (unpaginated) matched-page count.
         /// </summary>
         public async Task<List<TwRelatedPage>> GetBacklinkPagesPaged(int pageId, int pageNumber, int? pageSize = null)
         {
@@ -907,37 +899,7 @@ namespace TightWiki.Data.EfCore.Repositories
                 .Select(pr => pr.PageId)
                 .ToListAsync();
 
-            //Outlinks: pages referenced by pageId.
-            var outlinkIds = await context.PageReferences
-                .Where(pr => pr.PageId == pageId && pr.ReferencesPageId != null && pr.ReferencesPageId != pageId)
-                .Select(pr => pr.ReferencesPageId!.Value)
-                .ToListAsync();
-
-            //Second order links: pages that reference the same targets pageId references.
-            var outgoingTargetIds = await context.PageReferences
-                .Where(pr => pr.PageId == pageId && pr.ReferencesPageId != null)
-                .Select(pr => pr.ReferencesPageId!.Value)
-                .Distinct()
-                .ToListAsync();
-
-            List<int> secondOrderIds;
-            if (outgoingTargetIds.Count == 0)
-            {
-                secondOrderIds = new List<int>();
-            }
-            else
-            {
-                secondOrderIds = await context.PageReferences
-                    .Where(pr => pr.ReferencesPageId != null
-                        && outgoingTargetIds.Contains(pr.ReferencesPageId!.Value)
-                        && pr.PageId != pageId)
-                    .Select(pr => pr.PageId)
-                    .ToListAsync();
-            }
-
-            var combinedIds = backlinkIds.Concat(outlinkIds).Concat(secondOrderIds).Distinct().ToList();
-
-            var query = context.Pages_Pages.Where(p => combinedIds.Contains(p.Id));
+            var query = context.Pages_Pages.Where(p => backlinkIds.Contains(p.Id));
 
             var totalCount = await query.CountAsync();
             var paginationPageCount = pageSize.Value == 0 ? 0 : (totalCount + (pageSize.Value - 1)) / pageSize.Value;
