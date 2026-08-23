@@ -1093,7 +1093,7 @@ namespace TightWiki.Data.EfCore.Repositories
                     (r.LastName?.Contains(searchToken, StringComparison.OrdinalIgnoreCase) ?? false))
                     .ToList();
 
-            var paginationPageCount = (filtered.Count + (effectivePageSize - 1)) / effectivePageSize;
+            var paginationPageCount = effectivePageSize == 0 ? 0 : (filtered.Count + (effectivePageSize - 1)) / effectivePageSize;
 
             return filtered
                 .OrderBy(r => r.AccountName, StringComparer.Ordinal)
