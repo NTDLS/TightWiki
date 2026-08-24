@@ -70,5 +70,14 @@ namespace TightWiki.Plugin.Interfaces.Repository
         /// chapter 4.6) and never populates this via ITwDefaultsRepository.
         /// </summary>
         Task<List<TwMenuItem>> GetDefaultMenuItems();
+
+        /// <summary>
+        /// Returns the display-only fields of the built-in admin's Users.Profile row used to seed the database
+        /// (see <see cref="TwDefaultProfile"/> for exactly which fields and why), or null if the reference data
+        /// carries no such row. As with <see cref="GetDefaultEmojis"/>, the SQLite provider returns null - it gets
+        /// its admin Users.Profile row "for free" via a full copy of Data\users.db and never populates this via
+        /// ITwDefaultsRepository.
+        /// </summary>
+        Task<TwDefaultProfile?> GetDefaultAdminProfile();
     }
 }

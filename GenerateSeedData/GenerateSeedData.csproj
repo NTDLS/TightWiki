@@ -18,6 +18,7 @@
 	  <EmbeddedResource Include="Scripts\GetDefaultDefaultWikiPages.sql" />
 	  <EmbeddedResource Include="Scripts\GetDefaultPageFileAttachments.sql" />
 	  <EmbeddedResource Include="Scripts\GetDefaultPageStatistics.sql" />
+	  <EmbeddedResource Include="Scripts\GetDefaultAdminProfile.sql" />
 	  <EmbeddedResource Include="Scripts\Seed\GetConfigurationGroups.sql" />
 	  <EmbeddedResource Include="Scripts\Seed\GetConfigurationEntries.sql" />
 	  <EmbeddedResource Include="Scripts\Seed\GetMenuItems.sql" />

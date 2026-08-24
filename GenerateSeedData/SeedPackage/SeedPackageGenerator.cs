@@ -36,6 +36,9 @@ namespace GenerateSeedData.SeedPackage
     ///   Emoji/Images/&lt;Id&gt;&lt;ext&gt;      - the emoji image bytes, stored as their own zip entries rather than
     ///                                      base64-encoded inside Emoji.json (~18 MB of images would otherwise
     ///                                      bloat/slow down JSON parsing for no benefit)
+    ///   AdminProfile.json                 - users.db Profile row for the built-in admin (Navigation='admin'),
+    ///                                      display fields only (see TwDefaultProfile) - a single object, not an
+    ///                                      array, since there is exactly one such row
     /// </summary>
     internal static class SeedPackageGenerator
     {
@@ -49,6 +52,7 @@ namespace GenerateSeedData.SeedPackage
             using var pagesDb = new SqliteManagedInstance(Path.Combine(dbPath, "pages.db"));
             using var emojiDb = new SqliteManagedInstance(Path.Combine(dbPath, "emoji.db"));
             using var statisticsDb = new SqliteManagedInstance(Path.Combine(dbPath, "statistics.db"));
+            using var usersDb = new SqliteManagedInstance(Path.Combine(dbPath, "users.db"));
 
             using var zipStream = new FileStream(seedZipPath, FileMode.CreateNew, FileAccess.Write);
             using var archive = new ZipArchive(zipStream, ZipArchiveMode.Create);
@@ -141,6 +145,10 @@ namespace GenerateSeedData.SeedPackage
             WriteJsonEntry(archive, "Emoji.json", emojiManifest);
 
             Console.WriteLine($"  {emojiManifest.Count} emoji image(s) embedded.");
+
+            Console.WriteLine("  Adding: AdminProfile.json");
+            var adminProfile = usersDb.Query<TwDefaultProfile>(@"Scripts\GetDefaultAdminProfile.sql").FirstOrDefault();
+            WriteJsonEntry(archive, "AdminProfile.json", adminProfile);
         }
 
         /// <summary>

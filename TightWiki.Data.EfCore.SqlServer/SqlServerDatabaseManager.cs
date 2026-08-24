@@ -283,7 +283,14 @@ namespace TightWiki.Data.EfCore.SqlServer
                 await SeedThemes(context);
             }
 
-            var adminProfile = await context.Profiles.FirstOrDefaultAsync(p => p.AccountName == "admin");
+            //Matched by Navigation, not AccountName: Navigation is always the lowercase, TwNavigation.Clean-derived
+            //form of the reference admin's AccountName ("Admin") - see EnsureAdminUser - so this stays correct
+            //regardless of AccountName's actual display casing/collation, mirroring how the SQLite reference itself
+            //matches the admin Users.Profile row (GetAdminUserId.sql: "P.Navigation = 'admin' COLLATE NOCASE OR
+            //P.AccountName = 'admin' COLLATE NOCASE"). Matching on AccountName directly would silently break on a
+            //case-sensitive collation (e.g. PostgreSQL's default) once AccountName stopped being the hardcoded
+            //lowercase literal "admin" it used to be.
+            var adminProfile = await context.Profiles.FirstOrDefaultAsync(p => p.Navigation == TwNavigation.Clean(Constants.DEFAULTACCOUNT));
             if (adminProfile != null)
             {
                 var namespaces = new List<string>();
@@ -313,12 +320,15 @@ namespace TightWiki.Data.EfCore.SqlServer
         /// <summary>
         /// Finds or creates the built-in admin <see cref="IdentityUser"/> (looked up/created by <see
         /// cref="Constants.DEFAULTUSERNAME"/>, not the literal string <c>"admin"</c> - see remarks) together with
-        /// its matching <see cref="Users.Profile"/> row (still keyed on the literal <c>"admin"</c>
-        /// <see cref="Users.Profile.AccountName"/>/<see cref="Users.Profile.Navigation"/>, which is an independent,
-        /// TightWiki-owned value unrelated to the Identity username), so that <see cref="SeedWikiPages"/> has a
-        /// valid <see cref="Page.CreatedByUserId"/>/<c>ModifiedByUserId</c>. Returns null (logging the failure) if
-        /// no admin user could be found or created, in which case the caller skips wiki page seeding entirely -
-        /// same fallback behavior as the SQLite reference.
+        /// its matching <see cref="Users.Profile"/> row (<see cref="Users.Profile.AccountName"/> read from
+        /// <see cref="DefaultsRepository"/>.<see cref="EfDefaultsRepository.GetDefaultAdminProfile"/> - the
+        /// reference database's actual casing ("Admin"), not a hardcoded literal - falling back to the literal
+        /// <c>"admin"</c> only if the seed package carries no such entry; <see cref="Users.Profile.Navigation"/> is
+        /// then derived from that same value via <see cref="TwNavigation.Clean(string?)"/>, which is an
+        /// independent, TightWiki-owned value unrelated to the Identity username), so that <see
+        /// cref="SeedWikiPages"/> has a valid <see cref="Page.CreatedByUserId"/>/<c>ModifiedByUserId</c>. Returns
+        /// null (logging the failure) if no admin user could be found or created, in which case the caller skips
+        /// wiki page seeding entirely - same fallback behavior as the SQLite reference.
         /// </summary>
         /// <remarks>
         /// The SQLite reference's inline bootstrap (<c>DatabaseManager.ApplyAllSeedData</c>) finds/creates the
@@ -372,11 +382,13 @@ namespace TightWiki.Data.EfCore.SqlServer
                 if (await context.Profiles.FindAsync(adminUserId) == null)
                 {
                     var now = DateTime.UtcNow;
+                    var defaultProfile = await DefaultsRepository.GetDefaultAdminProfile();
+                    var accountName = defaultProfile?.AccountName ?? "admin";
                     context.Profiles.Add(new UsersEntities.Profile
                     {
                         UserId = adminUserId,
-                        AccountName = "admin",
-                        Navigation = TwNavigation.Clean("admin"),
+                        AccountName = accountName,
+                        Navigation = TwNavigation.Clean(accountName),
                         CreatedDate = now,
                         ModifiedDate = now,
                     });

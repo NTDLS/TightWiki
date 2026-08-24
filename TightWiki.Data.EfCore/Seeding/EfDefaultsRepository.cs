@@ -147,6 +147,26 @@ namespace TightWiki.Data.EfCore.Seeding
         public Task<List<TwMenuItem>> GetDefaultMenuItems()
             => ReadJsonEntryAsync<List<TwMenuItem>>("MenuItem.json");
 
+        /// <inheritdoc/>
+        /// <remarks>
+        /// Unlike <see cref="ReadJsonEntryAsync{T}"/>'s other callers, this tolerates a missing "AdminProfile.json"
+        /// entry (returning null rather than throwing) the same way <see cref="GetDefaultWikiPages"/>/
+        /// <see cref="GetDefaultPageFileAttachments"/> tolerate a missing per-namespace entry - so that a seed
+        /// package built before this entry existed doesn't hard-fail seeding, it just falls back to whatever
+        /// default the caller (<c>EnsureAdminUser</c>) uses when no reference value is available.
+        /// </remarks>
+        public async Task<TwDefaultProfile?> GetDefaultAdminProfile()
+        {
+            var entry = Archive.GetEntry("AdminProfile.json");
+            if (entry == null)
+            {
+                return null;
+            }
+
+            await using var stream = entry.Open();
+            return await JsonSerializer.DeserializeAsync<TwDefaultProfile>(stream, JsonOptions);
+        }
+
         /// <summary>
         /// Reads the raw image bytes for a <see cref="TwDefaultEmoji"/> returned by <see cref="GetDefaultEmojis"/>,
         /// via its <see cref="TwDefaultEmoji.ImageEntry"/> zip-relative path (e.g. "Emoji/Images/12.png").

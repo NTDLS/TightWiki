@@ -82,5 +82,16 @@ namespace TightWiki.Repository
         /// </summary>
         public Task<List<TwMenuItem>> GetDefaultMenuItems()
             => Task.FromResult(new List<TwMenuItem>());
+
+        /// <summary>
+        /// Always returns null on SQLite: "Defaults\defaults.db" carries no admin Profile data - the SQLite
+        /// install path gets its admin Users.Profile row "for free" via a full copy of Data\users.db rather than
+        /// going through this seed mechanism. This method only exists to satisfy the shared ITwDefaultsRepository
+        /// contract for the EF-based providers, which seed from Seed\tightwiki.seed.zip instead
+        /// (Database-Providers-Plan.md chapter 4.6) - it must never be wired into DatabaseManager.ApplyAllSeedData
+        /// for SQLite, as that would change today's (correct) no-op behavior.
+        /// </summary>
+        public Task<TwDefaultProfile?> GetDefaultAdminProfile()
+            => Task.FromResult<TwDefaultProfile?>(null);
     }
 }

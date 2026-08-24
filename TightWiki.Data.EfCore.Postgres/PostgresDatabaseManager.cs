@@ -316,7 +316,14 @@ namespace TightWiki.Data.EfCore.Postgres
                 await SeedThemes(context);
             }
 
-            var adminProfile = await context.Profiles.FirstOrDefaultAsync(p => p.AccountName == "admin");
+            //Matched by Navigation, not AccountName: Navigation is always the lowercase, TwNavigation.Clean-derived
+            //form of the reference admin's AccountName ("Admin") - see EnsureAdminUser - so this stays correct
+            //regardless of AccountName's actual display casing/collation, mirroring how the SQLite reference itself
+            //matches the admin Users.Profile row (GetAdminUserId.sql: "P.Navigation = 'admin' COLLATE NOCASE OR
+            //P.AccountName = 'admin' COLLATE NOCASE"). Matching on AccountName directly would silently break under
+            //PostgreSQL's case-sensitive default collation once AccountName stopped being the hardcoded lowercase
+            //literal "admin" it used to be (confirmed live: SeedWikiPages never ran, "Home" 404'd).
+            var adminProfile = await context.Profiles.FirstOrDefaultAsync(p => p.Navigation == TwNavigation.Clean(Constants.DEFAULTACCOUNT));
             if (adminProfile != null)
             {
                 var namespaces = new List<string>();
@@ -346,9 +353,12 @@ namespace TightWiki.Data.EfCore.Postgres
         /// <summary>
         /// Finds or creates the built-in admin <see cref="IdentityUser"/> (looked up/created by
         /// <see cref="Constants.DEFAULTUSERNAME"/>, not the literal string <c>"admin"</c> - see remarks) together
-        /// with its matching <c>Users.Profile</c> row (still keyed on the literal <c>"admin"</c>
-        /// <c>Users.Profile.AccountName</c>/<c>Navigation</c>, which is an independent, TightWiki-owned value
-        /// unrelated to the Identity username), so that <see cref="SeedWikiPages"/> has a valid
+        /// with its matching <c>Users.Profile</c> row (<c>Users.Profile.AccountName</c> read from
+        /// <see cref="DefaultsRepository"/>.<see cref="EfDefaultsRepository.GetDefaultAdminProfile"/> - the
+        /// reference database's actual casing ("Admin"), not a hardcoded literal - falling back to the literal
+        /// <c>"admin"</c> only if the seed package carries no such entry; <c>Navigation</c> is then derived from
+        /// that same value via <see cref="TwNavigation.Clean(string?)"/>, which is an independent, TightWiki-owned
+        /// value unrelated to the Identity username), so that <see cref="SeedWikiPages"/> has a valid
         /// <c>Page.CreatedByUserId</c>/<c>ModifiedByUserId</c>. Returns null (logging the failure) if no admin user
         /// could be found or created, in which case the caller skips wiki page seeding entirely - same fallback
         /// behavior as the SQLite reference.
@@ -407,11 +417,13 @@ namespace TightWiki.Data.EfCore.Postgres
                 if (await context.Profiles.FindAsync(adminUserId) == null)
                 {
                     var now = DateTime.UtcNow;
+                    var defaultProfile = await DefaultsRepository.GetDefaultAdminProfile();
+                    var accountName = defaultProfile?.AccountName ?? "admin";
                     context.Profiles.Add(new UsersEntities.Profile
                     {
                         UserId = adminUserId,
-                        AccountName = "admin",
-                        Navigation = TwNavigation.Clean("admin"),
+                        AccountName = accountName,
+                        Navigation = TwNavigation.Clean(accountName),
                         CreatedDate = now,
                         ModifiedDate = now,
                     });
