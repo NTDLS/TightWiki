@@ -54,6 +54,7 @@ namespace TightWiki.Data.EfCore.Seeding
 
             return groups.Select(g => new TwDefaultConfiguration
             {
+                ConfigurationGroupId = g.Id,
                 ConfigurationGroupName = g.Name,
                 ConfigurationGroupDescription = g.Description ?? string.Empty,
             }).ToList();
@@ -75,6 +76,8 @@ namespace TightWiki.Data.EfCore.Seeding
 
                 return new TwDefaultConfiguration
                 {
+                    ConfigurationGroupId = group.Id,
+                    ConfigurationEntryId = e.Id,
                     ConfigurationGroupName = group.Name,
                     ConfigurationEntryName = e.Name,
                     Value = e.Value ?? string.Empty,

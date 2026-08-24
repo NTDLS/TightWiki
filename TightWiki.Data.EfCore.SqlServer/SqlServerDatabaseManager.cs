@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Data;
 using System.Data.Common;
 using TightWiki.Data.EfCore.Repositories;
 using TightWiki.Data.EfCore.Seeding;
@@ -392,10 +393,87 @@ namespace TightWiki.Data.EfCore.SqlServer
         }
 
         /// <summary>
+        /// Shared helper for every default-data seed method that needs to preserve the seed package's own
+        /// primary key values (<see cref="SeedConfigurations"/> for Config.ConfigurationGroup/ConfigurationEntry,
+        /// <see cref="SeedMenuItems"/> for Config.MenuItem, <see cref="SeedEmojiAndCategories"/> for
+        /// Emoji.Emoji/EmojiCategory) rather than letting SQL Server's identity column generate new ones - so that
+        /// e.g. <c>ConfigurationGroup.Id</c> stays 1:1 with the SQLite reference (Data\config.db /
+        /// Data\emoji.db). Written generically (schema/table name + an arbitrary insert/update callback) so a
+        /// future Page-seeding pass (out of scope here) can reuse it too.
+        /// </summary>
+        /// <param name="context">The context <paramref name="insertAction"/> will call <c>SaveChangesAsync</c> on.</param>
+        /// <param name="schema">The schema of the table being seeded, e.g. "Config".</param>
+        /// <param name="table">The table being seeded, e.g. "ConfigurationGroup".</param>
+        /// <param name="insertAction">
+        /// Adds/updates entities (with explicit, non-default <c>Id</c> values on any newly-added ones) against
+        /// <paramref name="context"/> and calls <c>SaveChangesAsync</c> - run with <c>SET IDENTITY_INSERT</c>
+        /// enabled for <paramref name="table"/> so that those explicit <c>Id</c> values are actually written
+        /// instead of being overwritten by a database-generated one.
+        /// </param>
+        /// <remarks>
+        /// <c>SET IDENTITY_INSERT ... ON/OFF</c> must run on the exact same connection as the insert it wraps, so
+        /// this opens (and, unless the caller already had one open, closes) an explicit ambient connection around
+        /// <paramref name="insertAction"/> via <c>Database.OpenConnectionAsync</c>/<c>Database.CloseConnectionAsync</c>
+        /// - same pattern as <see cref="OpenAdminConnection"/>.
+        /// Once <paramref name="insertAction"/> completes and IDENTITY_INSERT is switched back off, the identity
+        /// counter is reseeded to the table's current <c>MAX(Id)</c> (<c>DBCC CHECKIDENT ... RESEED</c>) so that
+        /// the next ordinary, database-generated insert continues after the highest explicit value just written,
+        /// rather than colliding with it.
+        /// </remarks>
+        private static async Task SeedWithExplicitIdentityAsync(
+            TightWikiDbContext context, string schema, string table, Func<Task> insertAction)
+        {
+            var qualifiedTable = $"[{schema}].[{table}]";
+
+            var connection = context.Database.GetDbConnection();
+            var connectionWasClosed = connection.State != ConnectionState.Open;
+            if (connectionWasClosed)
+            {
+                await context.Database.OpenConnectionAsync();
+            }
+
+            //Table/schema names can't be parameterized in T-SQL, and qualifiedTable is always built from this
+            //method's own hardcoded caller-supplied literals ("Config"/"ConfigurationGroup" etc. - never
+            //external/user input), so there is nothing here for the EF1002 SQL-injection analyzer to actually
+            //protect against - suppressed per its own suggested "make sure the value is sanitized and suppress
+            //the warning" (same reasoning/pattern as EfPageRepository.SaveChangesWithIdentityInsertAsync).
+#pragma warning disable EF1002 // Possible SQL injection vulnerability.
+            try
+            {
+                await context.Database.ExecuteSqlRawAsync($"SET IDENTITY_INSERT {qualifiedTable} ON");
+                try
+                {
+                    await insertAction();
+                }
+                finally
+                {
+                    await context.Database.ExecuteSqlRawAsync($"SET IDENTITY_INSERT {qualifiedTable} OFF");
+                }
+
+                using var command = connection.CreateCommand();
+                command.CommandText = $"SELECT ISNULL(MAX([Id]), 0) FROM {qualifiedTable}";
+                var maxId = (int)(await command.ExecuteScalarAsync() ?? 0);
+                await context.Database.ExecuteSqlRawAsync($"DBCC CHECKIDENT ('{qualifiedTable}', RESEED, {maxId})");
+            }
+            finally
+            {
+                if (connectionWasClosed)
+                {
+                    await context.Database.CloseConnectionAsync();
+                }
+            }
+#pragma warning restore EF1002
+        }
+
+        /// <summary>
         /// Seeds Config.ConfigurationGroup and Config.ConfigurationEntry from <see cref="DefaultsRepository"/>.
         /// Mirrors MergeConfigurationGroup.sql/MergeConfigurationEntry.sql: existing rows (matched by their
         /// natural key) are updated in place rather than duplicated, except that an existing entry's
-        /// <c>Value</c> is deliberately left untouched (see <see cref="ApplyAllSeedData"/>'s remarks).
+        /// <c>Value</c> is deliberately left untouched (see <see cref="ApplyAllSeedData"/>'s remarks). Newly
+        /// inserted rows carry the seed package's own <see cref="TwDefaultConfiguration.ConfigurationGroupId"/>/
+        /// <see cref="TwDefaultConfiguration.ConfigurationEntryId"/> instead of letting SQL Server generate a new
+        /// one, via <see cref="SeedWithExplicitIdentityAsync"/>, so that <c>ConfigurationGroup.Id</c>/
+        /// <c>ConfigurationEntry.Id</c> stay 1:1 with the SQLite reference (Data\config.db).
         /// </summary>
         private async Task SeedConfigurations(TightWikiDbContext context)
         {
@@ -412,6 +490,7 @@ namespace TightWiki.Data.EfCore.SqlServer
                 {
                     var newGroup = new ConfigEntities.ConfigurationGroup
                     {
+                        Id = defaultGroup.ConfigurationGroupId,
                         Name = defaultGroup.ConfigurationGroupName,
                         Description = defaultGroup.ConfigurationGroupDescription,
                     };
@@ -420,7 +499,9 @@ namespace TightWiki.Data.EfCore.SqlServer
                 }
             }
 
-            await context.SaveChangesAsync(); //Need every group's Id before entries below can reference it.
+            //Need every group's Id before entries below can reference it - already known up front for newly
+            //inserted groups (set above from the seed package), this just persists the rows.
+            await SeedWithExplicitIdentityAsync(context, "Config", "ConfigurationGroup", () => context.SaveChangesAsync());
 
             var defaultEntries = await DefaultsRepository.GetDefaultConfigurations();
             var existingEntries = await context.ConfigurationEntries
@@ -450,6 +531,7 @@ namespace TightWiki.Data.EfCore.SqlServer
                 {
                     var newEntry = new ConfigEntities.ConfigurationEntry
                     {
+                        Id = defaultEntry.ConfigurationEntryId,
                         ConfigurationGroupId = group.Id,
                         Name = defaultEntry.ConfigurationEntryName,
                         Value = defaultEntry.Value,
@@ -463,7 +545,7 @@ namespace TightWiki.Data.EfCore.SqlServer
                 }
             }
 
-            await context.SaveChangesAsync();
+            await SeedWithExplicitIdentityAsync(context, "Config", "ConfigurationEntry", () => context.SaveChangesAsync());
         }
 
         /// <summary>
@@ -757,7 +839,9 @@ namespace TightWiki.Data.EfCore.SqlServer
         /// Seeds Config.MenuItem from <see cref="DefaultsRepository"/>. No SQLite merge script/natural unique
         /// constraint exists to mirror (SQLite never seeds this table - see
         /// <see cref="ITwDefaultsRepository.GetDefaultMenuItems"/>'s doc comment), so existing rows are matched
-        /// by the (Name, Link) pair.
+        /// by the (Name, Link) pair. Newly inserted rows carry the seed package's own <see cref="TwMenuItem.Id"/>
+        /// instead of letting SQL Server generate a new one, via <see cref="SeedWithExplicitIdentityAsync"/>, so
+        /// that <c>MenuItem.Id</c> stays 1:1 with the SQLite reference (Data\config.db).
         /// </summary>
         private async Task SeedMenuItems(TightWikiDbContext context)
         {
@@ -776,6 +860,7 @@ namespace TightWiki.Data.EfCore.SqlServer
                 {
                     context.MenuItems.Add(new ConfigEntities.MenuItem
                     {
+                        Id = defaultMenuItem.Id,
                         Name = defaultMenuItem.Name,
                         Link = defaultMenuItem.Link,
                         Ordinal = defaultMenuItem.Ordinal,
@@ -783,7 +868,7 @@ namespace TightWiki.Data.EfCore.SqlServer
                 }
             }
 
-            await context.SaveChangesAsync();
+            await SeedWithExplicitIdentityAsync(context, "Config", "MenuItem", () => context.SaveChangesAsync());
         }
 
         /// <summary>
@@ -793,54 +878,54 @@ namespace TightWiki.Data.EfCore.SqlServer
         /// <remarks>
         /// Two things this method has to do that no other seed helper here does:
         /// <list type="bullet">
-        /// <item><description>Re-map the seed package's <see cref="TwDefaultEmoji.Id"/>/<see cref="TwDefaultEmojiCategory.EmojiId"/>
-        /// to whatever identity value SQL Server actually assigns each newly-inserted Emoji row (there is no
-        /// stable natural key shared between the two other than Name, and preserving the seed package's own Ids
-        /// would require toggling IDENTITY_INSERT) - built once as newly-inserted rows are saved, since
-        /// Emoji.EmojiCategory declares no FK/navigation back to Emoji to let EF do this automatically (see
-        /// <see cref="EmojiEntities.EmojiCategory"/>'s doc comment).</description></item>
         /// <item><description>Re-compress each image's bytes with GZip before writing them to
         /// <see cref="EmojiEntities.Emoji.ImageData"/> - the seed package stores emoji images uncompressed for
         /// diffability (see <see cref="EfDefaultsRepository"/>), but the runtime (<c>FileController.cs</c>,
         /// <see cref="Utility.Decompress"/>) always expects GZip-compressed bytes there, mirroring
         /// <see cref="Utility.Compress"/> (see Database-Providers-Plan.md chapter 4.6 / commit 7eb2c329).</description></item>
+        /// <item><description>Track which emoji ids were actually seeded (<c>seededEmojiIds</c>), so an
+        /// EmojiCategory row whose <see cref="TwDefaultEmojiCategory.EmojiId"/> doesn't resolve to any emoji can
+        /// still be skipped with a warning instead of violating referential integrity.</description></item>
         /// </list>
+        /// Newly inserted Emoji/EmojiCategory rows carry the seed package's own <see cref="TwDefaultEmoji.Id"/>/
+        /// <see cref="TwDefaultEmojiCategory.Id"/> instead of letting SQL Server generate new ones, via
+        /// <see cref="SeedWithExplicitIdentityAsync"/>, so that <c>Emoji.Id</c>/<c>EmojiCategory.Id</c> stay 1:1
+        /// with the SQLite reference (Data\emoji.db) - <see cref="TwDefaultEmojiCategory.EmojiId"/> can therefore
+        /// be used directly as the database <c>Emoji.Id</c> with no seed-id-to-database-id remapping needed.
         /// </remarks>
         private async Task SeedEmojiAndCategories(TightWikiDbContext context)
         {
             var defaultEmojis = await DefaultsRepository.GetDefaultEmojis();
             var existingEmojis = await context.Emojis.ToDictionaryAsync(e => e.Name, StringComparer.OrdinalIgnoreCase);
 
-            var seedIdToDatabaseId = new Dictionary<int, int>();
-            var newlyInsertedEmojis = new List<(int SeedId, EmojiEntities.Emoji Entity)>();
+            var seededEmojiIds = new HashSet<int>();
+            var hasNewEmojis = false;
 
             foreach (var defaultEmoji in defaultEmojis)
             {
                 if (existingEmojis.TryGetValue(defaultEmoji.Name, out var existingEmoji))
                 {
-                    seedIdToDatabaseId[defaultEmoji.Id] = existingEmoji.Id;
+                    seededEmojiIds.Add(existingEmoji.Id);
                     continue;
                 }
 
                 var imageBytes = await DefaultsRepository.ReadEmojiImageBytes(defaultEmoji.ImageEntry);
 
-                var newEmoji = new EmojiEntities.Emoji
+                context.Emojis.Add(new EmojiEntities.Emoji
                 {
+                    Id = defaultEmoji.Id,
                     Name = defaultEmoji.Name,
                     MimeType = defaultEmoji.MimeType,
                     ImageData = Utility.Compress(imageBytes),
-                };
-                context.Emojis.Add(newEmoji);
-                newlyInsertedEmojis.Add((defaultEmoji.Id, newEmoji));
+                });
+                seededEmojiIds.Add(defaultEmoji.Id);
+                hasNewEmojis = true;
             }
 
-            if (newlyInsertedEmojis.Count > 0)
+            if (hasNewEmojis)
             {
-                await context.SaveChangesAsync(); //Need every new Emoji's generated Id for EmojiCategory below.
-                foreach (var (seedId, entity) in newlyInsertedEmojis)
-                {
-                    seedIdToDatabaseId[seedId] = entity.Id;
-                }
+                //Need every new Emoji's Id persisted before EmojiCategory below can reference it.
+                await SeedWithExplicitIdentityAsync(context, "Emoji", "Emoji", () => context.SaveChangesAsync());
             }
 
             var defaultCategories = await DefaultsRepository.GetDefaultEmojiCategories();
@@ -850,25 +935,26 @@ namespace TightWiki.Data.EfCore.SqlServer
 
             foreach (var defaultCategory in defaultCategories)
             {
-                if (!seedIdToDatabaseId.TryGetValue(defaultCategory.EmojiId, out var emojiId))
+                if (!seededEmojiIds.Contains(defaultCategory.EmojiId))
                 {
-                    Logger.LogWarning("Skipped seeding emoji category '{Category}' - its emoji (seed id {SeedId}) "
+                    Logger.LogWarning("Skipped seeding emoji category '{Category}' - its emoji (id {EmojiId}) "
                         + "was not found.", defaultCategory.Category, defaultCategory.EmojiId);
                     continue;
                 }
 
-                var categoryKey = (emojiId, defaultCategory.Category.ToUpperInvariant());
+                var categoryKey = (defaultCategory.EmojiId, defaultCategory.Category.ToUpperInvariant());
                 if (existingCategoryKeys.Add(categoryKey))
                 {
                     context.EmojiCategories.Add(new EmojiEntities.EmojiCategory
                     {
-                        EmojiId = emojiId,
+                        Id = defaultCategory.Id,
+                        EmojiId = defaultCategory.EmojiId,
                         Category = defaultCategory.Category,
                     });
                 }
             }
 
-            await context.SaveChangesAsync();
+            await SeedWithExplicitIdentityAsync(context, "Emoji", "EmojiCategory", () => context.SaveChangesAsync());
         }
 
         #region Database admin - ISpannedRepository / ITwDatabaseManager.
