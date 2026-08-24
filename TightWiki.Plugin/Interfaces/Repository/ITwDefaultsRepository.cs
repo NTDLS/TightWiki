@@ -41,6 +41,14 @@ namespace TightWiki.Plugin.Interfaces.Repository
         Task<List<TwDefaultPageFileAttachment>> GetDefaultPageFileAttachments(string namespaceName);
 
         /// <summary>
+        /// Returns all default page compilation/view statistics (Statistics.PageStatistics) used to seed the
+        /// database, one entry per reference page that actually has a statistics row - not every default wiki
+        /// page has one. As with <see cref="GetDefaultPageFileAttachments"/>, the SQLite provider returns an
+        /// empty collection - it gets these "for free" via a full copy of Data\statistics.db.
+        /// </summary>
+        Task<List<TwDefaultPageStatistic>> GetDefaultPageStatistics();
+
+        /// <summary>
         /// Returns all default emoji (metadata only - no image bytes; see <see cref="TwDefaultEmoji.ImageEntry"/>)
         /// used to seed the database. The SQLite provider does not seed emoji through this mechanism (it gets them
         /// "for free" via a full copy of Data\emoji.db) and therefore returns an empty collection; this method

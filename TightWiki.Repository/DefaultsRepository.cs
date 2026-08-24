@@ -43,6 +43,17 @@ namespace TightWiki.Repository
             => Task.FromResult(new List<TwDefaultPageFileAttachment>());
 
         /// <summary>
+        /// Always returns an empty collection on SQLite: "Defaults\defaults.db" carries no PageStatistics data -
+        /// the SQLite install path gets page statistics "for free" via a full copy of Data\statistics.db rather
+        /// than going through this seed mechanism. This method only exists to satisfy the shared
+        /// ITwDefaultsRepository contract for the EF-based providers, which seed from Seed\tightwiki.seed.zip
+        /// instead (Database-Providers-Plan.md chapter 4.6) - it must never be wired into
+        /// DatabaseManager.ApplyAllSeedData for SQLite, as that would change today's (correct) no-op behavior.
+        /// </summary>
+        public Task<List<TwDefaultPageStatistic>> GetDefaultPageStatistics()
+            => Task.FromResult(new List<TwDefaultPageStatistic>());
+
+        /// <summary>
         /// Always returns an empty collection on SQLite: unlike the other Default* tables, "Defaults\defaults.db"
         /// carries no Emoji data - the SQLite install path seeds its Emoji database by copying the whole,
         /// pre-populated Data\emoji.db file rather than going through this seed mechanism (see

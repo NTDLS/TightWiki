@@ -132,6 +132,10 @@ namespace TightWiki.Data.EfCore.Seeding
         }
 
         /// <inheritdoc/>
+        public Task<List<TwDefaultPageStatistic>> GetDefaultPageStatistics()
+            => ReadJsonEntryAsync<List<TwDefaultPageStatistic>>("PageStatistics.json");
+
+        /// <inheritdoc/>
         public Task<List<TwDefaultEmoji>> GetDefaultEmojis()
             => ReadJsonEntryAsync<List<TwDefaultEmoji>>("Emoji.json");
 

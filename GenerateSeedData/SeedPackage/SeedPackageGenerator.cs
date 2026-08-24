@@ -20,6 +20,11 @@ namespace GenerateSeedData.SeedPackage
     ///   MenuItem.json                     - config.db MenuItem, raw dump
     ///   Theme.json                        - config.db Theme, raw dump
     ///   FeatureTemplate.json              - pages.db FeatureTemplate joined to Page.Name (PageId is not portable)
+    ///   PageStatistics.json                - statistics.db PageStatistics, ATTACHed to pages.db and joined to
+    ///                                      Page.Navigation - one entry per reference page that actually has a
+    ///                                      statistics row (not every default wiki page does); carries PageId
+    ///                                      (portable now that Page.Id is 1:1, see TwDefaultWikiPage.Id) plus
+    ///                                      Navigation as a readable fallback key
     ///   DefaultWikiPages/&lt;Namespace&gt;.json - pages.db Page+PageRevision, one file per namespace actually present
     ///                                      in pages.db (Builtin, Include, Sandbox, Wiki Help, and the default/root
     ///                                      "" namespace - the empty string namespace file is named "".json),
@@ -43,6 +48,7 @@ namespace GenerateSeedData.SeedPackage
             using var configDb = new SqliteManagedInstance(Path.Combine(dbPath, "config.db"));
             using var pagesDb = new SqliteManagedInstance(Path.Combine(dbPath, "pages.db"));
             using var emojiDb = new SqliteManagedInstance(Path.Combine(dbPath, "emoji.db"));
+            using var statisticsDb = new SqliteManagedInstance(Path.Combine(dbPath, "statistics.db"));
 
             using var zipStream = new FileStream(seedZipPath, FileMode.CreateNew, FileAccess.Write);
             using var archive = new ZipArchive(zipStream, ZipArchiveMode.Create);
@@ -87,6 +93,18 @@ namespace GenerateSeedData.SeedPackage
                 string entryName = $"DefaultPageFileAttachments/{namespaceGroup.Key}.json";
                 Console.WriteLine($"  Adding: {entryName}");
                 WriteJsonEntry(archive, entryName, namespaceGroup.ToList());
+            }
+
+            //statistics.db is a separate physical SQLite file from pages.db, so the join to Page.Navigation needs
+            //a real cross-database ATTACH (statistics.db as the primary connection, pages.db attached as
+            //"pages_db") - the same mechanism TightWiki.Repository.StatisticsRepository.GetPageStatisticsPaged
+            //uses at runtime (see its "o.Attach(\"pages.db\", \"pages_db\")"), not a plain in-process join like
+            //FeatureTemplate/PageFileAttachments above (whose source tables both live inside pages.db already).
+            Console.WriteLine("  Adding: PageStatistics.json");
+            using (statisticsDb.Attach("pages.db", "pages_db"))
+            {
+                var pageStatistics = statisticsDb.Query<TwDefaultPageStatistic>(@"Scripts\GetDefaultPageStatistics.sql");
+                WriteJsonEntry(archive, "PageStatistics.json", pageStatistics);
             }
 
             Console.WriteLine("  Adding: EmojiCategory.json");
