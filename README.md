@@ -1,6 +1,6 @@
 # TightWiki
 
-[![Regression Tests](https://github.com/NTDLS/TightWiki/actions/workflows/Regression%20Tests.yml/badge.svg)](https://github.com/NTDLS/TightWiki/actions/workflows/Regression%20Tests.yml)
+[![Regression Tests](https://github.com/eMukator/TightWiki/actions/workflows/Regression%20Tests.yml/badge.svg)](https://github.com/eMukator/TightWiki/actions/workflows/Regression%20Tests.yml)
 
 For years I’ve worked at places where we just needed a simple to use, searchable, unobtrusive, no-nonsense, collaborative and free place to dump documentation.
 The first thing that comes to mind is a Wiki but for some reason I can never find anything that "checks all the boxes". Hopefully you'll find this one does for you.
@@ -11,7 +11,9 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 > PostgreSQL, via Entity Framework Core — see [Database Providers](#database-providers) below for how to choose
 > one. Because the EF Core model is provider-agnostic, support for further relational databases (e.g.
 > MySQL/MariaDB, Oracle) could be added the same way down the line. SQLite remains the default, zero-configuration
-> option exactly as in the original project — nothing changes if you don't opt into a different provider.
+> option exactly as in the original project — nothing changes if you don't opt into a different provider. All
+> three providers run the same regression suite in CI (see the badge above) — SQLite and SQL Server on
+> `windows-latest`, PostgreSQL on `ubuntu-latest`.
 
 :crossed_fingers: Play with the latest dev build at http://TightWiki.com/. If you want to edit, you can signup using google auth or native TightWiki login.
 
