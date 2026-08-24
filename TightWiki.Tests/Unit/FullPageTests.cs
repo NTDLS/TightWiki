@@ -4,7 +4,7 @@ namespace TightWiki.Tests.Unit
     public class FullPageTests(TwEngineFixture fixture)
         : IClassFixture<TwEngineFixture>
     {
-        public static string MarkupPath = "..\\..\\..\\Markup";
+        public static string MarkupPath = Path.Combine("..", "..", "..", "Markup");
 
         public static IEnumerable<object[]> FullPageTestCases()
         {
