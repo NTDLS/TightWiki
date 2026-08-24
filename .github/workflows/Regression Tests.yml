@@ -109,22 +109,6 @@ jobs:
         with:
           dotnet-version: '10.0'
 
-      # ubuntu-latest runners don't have LANG/LC_ALL set to en_US.UTF-8 for job steps by default, and
-      # en_US.UTF-8 isn't generated out of the box either. Several *.wiki.expected fixtures under
-      # TightWiki.Tests/Markup (##RecentlyCreated/##RecentlyModified/##LastModified/##Created) embed
-      # DateTime.ToShortDateString()/ToShortTimeString() output, which - since these tests call WikiEngine
-      # directly and never go through the app's own app.UseRequestLocalization middleware - falls back to
-      # whatever CultureInfo.CurrentCulture is ambient for the `dotnet test` process. Without an explicit
-      # en_US locale, that ambient culture resolves to invariant-culture formatting (MM/dd/yyyy HH:mm)
-      # instead of the en-US format (M/d/yyyy h:mm tt) the fixtures were generated with, which windows-latest
-      # produces for free from its own OS-level en-US default. This step - plus the LANG/LC_ALL job env
-      # below - is the standard fix for this on ubuntu-latest (see e.g. dotnet/runtime discussions on
-      # ICU/globalization defaulting to invariant when no locale is configured on Linux).
-      - name: Set up en_US locale
-        run: |
-          sudo locale-gen en_US.UTF-8
-          sudo update-locale LANG=en_US.UTF-8
-
       # See the matching comment on the windows job's restore step - -p:DataProvider must be passed to
       # restore too, not just build/test.
       - name: Restore dependencies
@@ -137,14 +121,18 @@ jobs:
       # GitHub Actions "services:" behavior on Linux runners). ConnectionStrings__TightWikiEfCore overrides
       # appsettings.Development.Postgres.json (which points at the local Docker container instead) via
       # standard ASP.NET Core configuration precedence - see MockWikiEngineArtifacts.cs's
-      # AddEnvironmentVariables() call. LANG/LC_ALL make the en_US locale generated above the ambient
-      # culture for the test process - see the "Set up en_US locale" step above for why this is needed.
+      # AddEnvironmentVariables() call. Several *.wiki.expected fixtures under TightWiki.Tests/Markup
+      # (##RecentlyCreated/##RecentlyModified/##LastModified/##Created) embed culture-sensitive formatting
+      # (DateTime.ToShortDateString()/ToShortTimeString()) - this used to depend on the OS/runner's ambient
+      # locale (which differs between windows-latest and ubuntu-latest) since these tests call WikiEngine
+      # directly and never go through the app's own app.UseRequestLocalization middleware. That's now pinned
+      # to en-US inside the test process itself (see TightWiki.Tests/TestCultureInitializer.cs), so no
+      # OS-level locale setup is needed here - the previous "Set up en_US locale" step + LANG/LC_ALL env
+      # (which didn't actually fix the underlying issue) has been removed accordingly.
       - name: Run Tests
         run: dotnet test --no-restore --verbosity normal -p:DataProvider=Postgres
         env:
           ConnectionStrings__TightWikiEfCore: "Host=localhost;Port=5432;Database=tightwiki_ci;User Id=tightwiki;Password=TightWiki_CI_2026!"
-          LANG: en_US.UTF-8
-          LC_ALL: en_US.UTF-8
 
       # Mechanical guardrail (Database-Providers-Testing-Plan.md chapter 3/7, T6) - see the matching comment on
       # the windows job's "Verify publish output" step. This job only ever runs the Postgres leg, so no matrix
