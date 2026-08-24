@@ -6,6 +6,7 @@
 	P.Description,
 	P.CreatedDate,
 	P.ModifiedDate,
+	PR.ModifiedDate as RevisionModifiedDate,
 	PR.Revision,
 	PR.DataHash,
 	PR.Body

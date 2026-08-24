@@ -42,11 +42,25 @@
         public DateTime CreatedDate { get; set; }
 
         /// <summary>
-        /// The last-modified date/time of the source page in the reference SQLite database. Carried through the
-        /// seed pipeline for provider-neutral seeding parity (e.g. "recently modified" listings); not used by the
-        /// SQLite provider itself, which assigns its own timestamp at seed time.
+        /// The last-modified date/time of the source page's own Page row (Data\pages.db Page.ModifiedDate) in the
+        /// reference SQLite database. Carried through the seed pipeline for provider-neutral seeding parity; not
+        /// used by the SQLite provider itself, which assigns its own timestamp at seed time. Distinct from
+        /// <see cref="RevisionModifiedDate"/> - the reference database's Page.ModifiedDate and
+        /// PageRevision.ModifiedDate columns routinely diverge (e.g. an unrelated metadata refresh can touch
+        /// Page.ModifiedDate without editing the page's content) - see <see cref="RevisionModifiedDate"/>'s own
+        /// doc comment.
         /// </summary>
         public DateTime ModifiedDate { get; set; }
+
+        /// <summary>
+        /// The last-modified date/time of the source page's current PageRevision row (Data\pages.db
+        /// PageRevision.ModifiedDate, for the revision matching <see cref="Revision"/>) in the reference SQLite
+        /// database. Carried through the seed pipeline for provider-neutral seeding parity - "recently
+        /// modified"/"recently created" listings are ordered/displayed off of this column (see
+        /// GetTopRecentlyModifiedPagesInfo.sql's own <c>PR.ModifiedDate</c>), not <see cref="ModifiedDate"/>; not
+        /// used by the SQLite provider itself, which assigns its own timestamp at seed time.
+        /// </summary>
+        public DateTime RevisionModifiedDate { get; set; }
 
         /// <summary>
         /// The revision number of this default page.

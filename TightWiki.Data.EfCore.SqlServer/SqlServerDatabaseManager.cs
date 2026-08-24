@@ -667,7 +667,7 @@ namespace TightWiki.Data.EfCore.SqlServer
                         existingRevision.Description = defaultPage.Description;
                         existingRevision.Body = defaultPage.Body;
                         existingRevision.ModifiedByUserId = adminUserId;
-                        existingRevision.ModifiedDate = defaultPage.ModifiedDate;
+                        existingRevision.ModifiedDate = defaultPage.RevisionModifiedDate;
                         existingRevision.DataHash = defaultPage.DataHash;
                     }
                 }
@@ -697,7 +697,7 @@ namespace TightWiki.Data.EfCore.SqlServer
                         Body = defaultPage.Body,
                         Revision = 1,
                         ModifiedByUserId = adminUserId,
-                        ModifiedDate = defaultPage.ModifiedDate,
+                        ModifiedDate = defaultPage.RevisionModifiedDate,
                         DataHash = defaultPage.DataHash,
                     });
 

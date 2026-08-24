@@ -668,6 +668,7 @@ namespace TightWiki.Data.EfCore.Postgres
                 //SeedWikiPages, this provider must re-mark them as UTC before they reach EF Core.
                 var createdDateUtc = DateTime.SpecifyKind(defaultPage.CreatedDate, DateTimeKind.Utc);
                 var modifiedDateUtc = DateTime.SpecifyKind(defaultPage.ModifiedDate, DateTimeKind.Utc);
+                var revisionModifiedDateUtc = DateTime.SpecifyKind(defaultPage.RevisionModifiedDate, DateTimeKind.Utc);
 
                 if (existingPages.TryGetValue(defaultPage.Navigation, out var existingPage))
                 {
@@ -685,7 +686,7 @@ namespace TightWiki.Data.EfCore.Postgres
                         existingRevision.Description = defaultPage.Description;
                         existingRevision.Body = defaultPage.Body;
                         existingRevision.ModifiedByUserId = adminUserId;
-                        existingRevision.ModifiedDate = modifiedDateUtc;
+                        existingRevision.ModifiedDate = revisionModifiedDateUtc;
                         existingRevision.DataHash = defaultPage.DataHash;
                     }
                 }
@@ -715,7 +716,7 @@ namespace TightWiki.Data.EfCore.Postgres
                         Body = defaultPage.Body,
                         Revision = 1,
                         ModifiedByUserId = adminUserId,
-                        ModifiedDate = modifiedDateUtc,
+                        ModifiedDate = revisionModifiedDateUtc,
                         DataHash = defaultPage.DataHash,
                     });
 
