@@ -6,7 +6,6 @@ using System.Security.Claims;
 using TightWiki.Library;
 using TightWiki.Library.Caching;
 using TightWiki.Library.Extensions;
-using TightWiki.Library.Security;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Models;
@@ -21,7 +20,7 @@ namespace TightWiki.Repository
         readonly private ITwConfigurationRepository _configurationRepository;
         public SqliteManagedFactory UsersFactory { get; private set; }
 
-        public UsersRepository(IConfiguration configuration, ITwConfigurationRepository configurationRepository)
+        public UsersRepository(IConfiguration configuration, ConfigurationRepository configurationRepository)
         {
             _configurationRepository = configurationRepository;
 
@@ -457,29 +456,6 @@ namespace TightWiki.Repository
             };
 
             return await UsersFactory.QuerySingleOrDefaultAsync<TwAccountProfile>("GetAccountProfileByNavigation.sql", param);
-        }
-
-        public async Task<TwAccountProfile?> GetProfileByAccountNameOrEmailAndPasswordHash(string accountNameOrEmail, string passwordHash)
-        {
-            var param = new
-            {
-                AccountNameOrEmail = accountNameOrEmail,
-                PasswordHash = passwordHash
-            };
-
-            return await UsersFactory.QuerySingleAsync<TwAccountProfile>("GetProfileByAccountNameOrEmailAndPasswordHash.sql", param);
-        }
-
-        public async Task<TwAccountProfile?> GetProfileByAccountNameOrEmailAndPassword(string accountNameOrEmail, string password)
-        {
-            string passwordHash = SecurityUtility.Sha256(password);
-            var param = new
-            {
-                AccountNameOrEmail = accountNameOrEmail,
-                PasswordHash = passwordHash
-            };
-
-            return await UsersFactory.QuerySingleAsync<TwAccountProfile>("GetProfileByAccountNameOrEmailAndPasswordHash.sql", param);
         }
 
         public async Task<TwProfileAvatar?> GetProfileAvatarByNavigation(string navigation)

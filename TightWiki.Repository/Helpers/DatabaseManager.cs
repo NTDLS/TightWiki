@@ -16,17 +16,35 @@ using TightWiki.Plugin.Models.Defaults;
 namespace TightWiki.Repository.Helpers
 {
     public class DatabaseManager
-        : ITwDatabaseManager
+        : ITwDatabaseManager, ISpannedRepository
     {
-        public ITwConfigurationRepository ConfigurationRepository { get; private set; }
-        public ITwDefaultsRepository DefaultsRepository { get; private set; }
-        public ITwEmojiRepository EmojiRepository { get; private set; }
-        public ITwLoggingRepository LoggingRepository { get; private set; }
-        public ITwPageRepository PageRepository { get; private set; }
-        public ITwStatisticsRepository StatisticsRepository { get; private set; }
-        public ITwUsersRepository UsersRepository { get; private set; }
+        public ConfigurationRepository ConfigurationRepository { get; private set; }
+        ITwConfigurationRepository ITwDatabaseManager.ConfigurationRepository => ConfigurationRepository;
 
-        public (string Name, SqliteManagedFactory Factory)[] Databases { get; private set; }
+        public DefaultsRepository DefaultsRepository { get; private set; }
+        ITwDefaultsRepository ITwDatabaseManager.DefaultsRepository => DefaultsRepository;
+
+        public EmojiRepository EmojiRepository { get; private set; }
+        ITwEmojiRepository ITwDatabaseManager.EmojiRepository => EmojiRepository;
+
+        public LoggingRepository LoggingRepository { get; private set; }
+        ITwLoggingRepository ITwDatabaseManager.LoggingRepository => LoggingRepository;
+
+        public PageRepository PageRepository { get; private set; }
+        ITwPageRepository ITwDatabaseManager.PageRepository => PageRepository;
+
+        public StatisticsRepository StatisticsRepository { get; private set; }
+        ITwStatisticsRepository ITwDatabaseManager.StatisticsRepository => StatisticsRepository;
+
+        public UsersRepository UsersRepository { get; private set; }
+        ITwUsersRepository ITwDatabaseManager.UsersRepository => UsersRepository;
+
+        /// <summary>
+        /// Collection of the available databases and their associated managed factories. This is no longer part of
+        /// the public <see cref="ITwDatabaseManager"/> contract (which is meant to stay provider-agnostic) and is
+        /// only used internally for database-upgrade/admin operations within this class.
+        /// </summary>
+        private (string Name, SqliteManagedFactory Factory)[] Databases { get; set; }
 
         /// <summary>
         /// We expose this here because it is the earliest we can prop upa database logger.
@@ -85,6 +103,13 @@ namespace TightWiki.Repository.Helpers
 
             await ConfigurationRepository.ConfigFactory.ExecuteAsync(@"Scripts\Initialization\SetVersionStateVersion.sql", new { Version = version });
         }
+
+        /// <summary>
+        /// SQLite implementation of <see cref="ITwDatabaseManager.InitializeSchema"/>: applies any pending
+        /// versioned upgrade scripts (see <see cref="ApplyDatabaseUpgradeScripts"/>). Returns true if an
+        /// upgrade was performed, which is used by the caller as the trigger to run <see cref="ApplyAllSeedData"/>.
+        /// </summary>
+        public async Task<bool> InitializeSchema() => await ApplyDatabaseUpgradeScripts(Logger);
 
         /// <summary>
         /// See @Initialization.Versions.md
@@ -299,7 +324,7 @@ namespace TightWiki.Repository.Helpers
 
                 try
                 {
-                    var defaultConfigurationGroups = DefaultsRepository.DefaultsFactory.Query<TwDefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurationGroups.sql");
+                    var defaultConfigurationGroups = await DefaultsRepository.GetDefaultConfigurationGroups();
                     foreach (var defaultConfigurationGroup in defaultConfigurationGroups)
                     {
                         await ConfigurationRepository.ConfigFactory.ExecuteAsync(@"Scripts\Defaults\Merge\MergeConfigurationGroup.sql",
@@ -318,7 +343,7 @@ namespace TightWiki.Repository.Helpers
 
                 try
                 {
-                    var defaultConfigurations = DefaultsRepository.DefaultsFactory.Query<TwDefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurations.sql");
+                    var defaultConfigurations = await DefaultsRepository.GetDefaultConfigurations();
                     foreach (var defaultConfiguration in defaultConfigurations)
                     {
                         await ConfigurationRepository.ConfigFactory.ExecuteAsync(@"Scripts\Defaults\Merge\MergeConfigurationEntry.sql",
@@ -351,7 +376,7 @@ namespace TightWiki.Repository.Helpers
                 Console.WriteLine("Seeding default themes.");
                 try
                 {
-                    var defaultThemes = DefaultsRepository.DefaultsFactory.Query<TwDefaultTheme>(@"Scripts\Defaults\GetDefaultThemes.sql");
+                    var defaultThemes = await DefaultsRepository.GetDefaultThemes();
                     foreach (var defaultTheme in defaultThemes)
                     {
                         await ConfigurationRepository.ConfigFactory.ExecuteAsync(@"Scripts\Defaults\Merge\MergeTheme.sql",
@@ -394,18 +419,15 @@ namespace TightWiki.Repository.Helpers
 
                     if (defaultDataTypes.Contains(TwDefaultDataType.HelpPages))
                     {
-                        defaultWikiPages.AddRange(DefaultsRepository.DefaultsFactory.Query<TwDefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
-                            new { Namespace = "Wiki Help" }));
+                        defaultWikiPages.AddRange(await DefaultsRepository.GetDefaultWikiPages("Wiki Help"));
                     }
                     if (defaultDataTypes.Contains(TwDefaultDataType.IncludePages))
                     {
-                        defaultWikiPages.AddRange(DefaultsRepository.DefaultsFactory.Query<TwDefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
-                            new { Namespace = "Include" }));
+                        defaultWikiPages.AddRange(await DefaultsRepository.GetDefaultWikiPages("Include"));
                     }
                     if (defaultDataTypes.Contains(TwDefaultDataType.BuiltinPages))
                     {
-                        defaultWikiPages.AddRange(DefaultsRepository.DefaultsFactory.Query<TwDefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
-                            new { Namespace = "Builtin" }));
+                        defaultWikiPages.AddRange(await DefaultsRepository.GetDefaultWikiPages("Builtin"));
                     }
 
                     foreach (var defaultWikiPage in defaultWikiPages)
@@ -451,7 +473,7 @@ namespace TightWiki.Repository.Helpers
 
                 try
                 {
-                    var defaultFeatureTemplates = DefaultsRepository.DefaultsFactory.Query<TwDefaultFeatureTemplate>(@"Scripts\Defaults\GetDefaultFeatureTemplates.sql");
+                    var defaultFeatureTemplates = await DefaultsRepository.GetDefaultFeatureTemplates();
                     foreach (var defaultFeatureTemplate in defaultFeatureTemplates)
                     {
                         await PageRepository.PagesFactory.ExecuteAsync(@"Scripts\Defaults\Merge\MergeFeatureTemplate.sql",
@@ -615,7 +637,7 @@ namespace TightWiki.Repository.Helpers
             var results = await Databases.Single(o => o.Name == databaseName)
                 .Factory.QueryAsync<string>("IntegrityCheckDatabase.sql");
 
-            return string.Join("\r\n", results) + ForeignKeyCheck(databaseName);
+            return string.Join("\r\n", results) + await ForeignKeyCheck(databaseName);
         }
 
         public async Task<string> ForeignKeyCheck(string databaseName)

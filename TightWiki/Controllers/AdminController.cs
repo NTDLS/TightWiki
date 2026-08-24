@@ -31,11 +31,12 @@ namespace TightWiki.Controllers
             ITwLoggingRepository loggingRepository,
             ITwPageRepository pageRepository,
             ITwSharedLocalizationText localizer,
+            ISpannedRepository spannedRepository,
             ITwStatisticsRepository statisticsRepository,
             ITwUsersRepository usersRepository,
             SignInManager<IdentityUser> signInManager,
             TwConfiguration wikiConfiguration,
-            Repository.Helpers.WikiConfigurationManager configurationManager,
+            WikiConfigurationManager configurationManager,
             UserManager<IdentityUser> userManager
         )
         : TwController<AdminController>(logger, signInManager, userManager, localizer, wikiConfiguration, databaseManager)
@@ -58,9 +59,9 @@ namespace TightWiki.Controllers
                 }
                 SessionState.Page.Name = Localize("Database");
 
-                var versions = await DatabaseManager.GetDatabaseVersions();
-                var pageCounts = await DatabaseManager.GetDatabasePageCounts();
-                var pageSizes = await DatabaseManager.GetDatabasePageSizes();
+                var versions = await spannedRepository.GetDatabaseVersions();
+                var pageCounts = await spannedRepository.GetDatabasePageCounts();
+                var pageSizes = await spannedRepository.GetDatabasePageSizes();
 
                 var info = new List<TwDatabaseInfo>();
 
@@ -159,17 +160,17 @@ namespace TightWiki.Controllers
                         {
                             case "Optimize":
                                 {
-                                    var resultText = await DatabaseManager.OptimizeDatabase(database);
+                                    var resultText = await spannedRepository.OptimizeDatabase(database);
                                     return NotifyOfSuccess(Localize("Optimization complete. {0}", resultText), model.YesRedirectURL);
                                 }
                             case "Vacuum":
                                 {
-                                    var resultText = await DatabaseManager.OptimizeDatabase(database);
+                                    var resultText = await spannedRepository.VacuumDatabase(database);
                                     return NotifyOfSuccess(Localize("Vacuum complete. {0}", resultText), model.YesRedirectURL);
                                 }
                             case "Verify":
                                 {
-                                    var resultText = await DatabaseManager.OptimizeDatabase(database);
+                                    var resultText = await spannedRepository.IntegrityCheckDatabase(database);
                                     return NotifyOfSuccess(Localize("Verification complete. {0}", resultText), model.YesRedirectURL);
                                 }
                         }

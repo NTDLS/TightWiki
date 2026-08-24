@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Version>2.38.0</Version>
+	</PropertyGroup>
+
+	<!--
+		Thin PostgreSQL driver project (Database-Providers-Plan.md chapter 3/4.2, mirroring
+		TightWiki.Data.EfCore.SqlServer). Only PackageReference is the Npgsql EF Core provider (+ Design, for
+		"dotnet ef migrations add" tooling) - deliberately no SQLite/Dapper PackageReference and no
+		ProjectReference to TightWiki.Repository (chapter 1, chapter 9 "Definice hotovo").
+	-->
+	<ItemGroup>
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.10">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<!--
+		TightWiki.Library carries ApplicationDbContext (ASP.NET Core Identity, see Database-Providers-Plan.md
+		chapter 4.1.1). Verified clean for this purpose: TightWiki.Library only depends on TightWiki.Plugin,
+		which itself has no SQLite/Dapper PackageReference (its old NTDLS.SqliteDapperWrapper reference was
+		already removed) and no other ProjectReference - so this pulls in no SQLite, keeping chapter 9's
+		"Definice hotovo" constraint intact.
+	-->
+	<ItemGroup>
+		<ProjectReference Include="..\TightWiki.Data.EfCore\TightWiki.Data.EfCore.csproj" />
+		<ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />
+		<ProjectReference Include="..\TightWiki.Plugin\TightWiki.Plugin.csproj" />
+	</ItemGroup>
+
+</Project>

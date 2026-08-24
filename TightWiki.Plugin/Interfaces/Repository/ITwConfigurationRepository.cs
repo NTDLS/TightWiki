@@ -1,5 +1,4 @@
-﻿using NTDLS.SqliteDapperWrapper;
-using TightWiki.Plugin.Models;
+﻿using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Interfaces.Repository
 {
@@ -8,11 +7,6 @@ namespace TightWiki.Plugin.Interfaces.Repository
     /// </summary>
     public interface ITwConfigurationRepository
     {
-        /// <summary>
-        /// SQLite factory that is used to access the database.
-        /// </summary>
-        SqliteManagedFactory ConfigFactory { get; }
-
         /// <summary>
         /// Gets the configuration entry values for a specific group name.
         /// </summary>

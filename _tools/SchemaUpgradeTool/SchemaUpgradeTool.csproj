@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<!--
+		Throwaway helper used only by Generate-EfMigrations.ps1 (repo root) to bring a *temporary copy* of
+		the 8 SQLite database files up to the latest schema version before they are scaffolded into
+		TightWiki.Data.EfCore\_Scaffold\. See Database-Providers-Plan.md, chapter 5, step 1.
+
+		It just constructs TightWiki.Repository.Helpers.DatabaseManager against a given directory and calls
+		ITwDatabaseManager.InitializeSchema() - the exact same upgrade path TightWiki\Program.cs runs at
+		startup (Scripts\Initialization\... versioned upgrade scripts). It never touches the real Data\
+		folder; the caller is responsible for pointing it at a copy.
+
+		Not part of TightWiki.sln and not referenced by any other project - purely a build-time tool.
+	-->
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\TightWiki.Repository\TightWiki.Repository.csproj" />
+	</ItemGroup>
+
+</Project>

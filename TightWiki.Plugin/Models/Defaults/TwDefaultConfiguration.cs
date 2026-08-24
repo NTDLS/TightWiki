@@ -7,6 +7,26 @@
     public class TwDefaultConfiguration
     {
         /// <summary>
+        /// The unique identifier of the configuration group this entry belongs to (or, when this instance was
+        /// returned from <see cref="Interfaces.Repository.ITwDefaultsRepository.GetDefaultConfigurationGroups"/>,
+        /// of this group record itself). Preserved from the seed package's Config.ConfigurationGroup.Id so
+        /// providers seeding from Seed\tightwiki.seed.zip can insert it verbatim instead of letting the database
+        /// generate a new one. Always 0 for the SQLite reference, which never seeds Config.ConfigurationGroup
+        /// through this mechanism (see <see cref="Interfaces.Repository.ITwDefaultsRepository"/>'s doc comments).
+        /// </summary>
+        public int ConfigurationGroupId { get; set; }
+
+        /// <summary>
+        /// The unique identifier of this configuration entry. Preserved from the seed package's
+        /// Config.ConfigurationEntry.Id, same purpose as <see cref="ConfigurationGroupId"/>. Only meaningful when
+        /// this instance was returned from
+        /// <see cref="Interfaces.Repository.ITwDefaultsRepository.GetDefaultConfigurations"/> - always 0 when
+        /// returned from <see cref="Interfaces.Repository.ITwDefaultsRepository.GetDefaultConfigurationGroups"/>
+        /// instead, and always 0 for the SQLite reference (see <see cref="ConfigurationGroupId"/>'s doc comment).
+        /// </summary>
+        public int ConfigurationEntryId { get; set; }
+
+        /// <summary>
         /// The name of the configuration group this entry belongs to.
         /// </summary>
         public string ConfigurationGroupName { get; set; } = string.Empty;

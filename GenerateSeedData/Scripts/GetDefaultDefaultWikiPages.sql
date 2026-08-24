@@ -1,8 +1,12 @@
 ﻿SELECT
+	P.Id,
 	P.Name,
 	P.Namespace,
 	P.Navigation,
 	P.Description,
+	P.CreatedDate,
+	P.ModifiedDate,
+	PR.ModifiedDate as RevisionModifiedDate,
 	PR.Revision,
 	PR.DataHash,
 	PR.Body
@@ -18,8 +22,6 @@ INNER JOIN (
 			Page as P
 		INNER JOIN PageRevision as PR
 			ON P.Id = PR.PageId
-		WHERE
-			PR.Namespace IN ('Builtin', 'Include', 'Wiki Help')
 		GROUP BY
 			P.Id
 	) as MaxRevisions

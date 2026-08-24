@@ -9,6 +9,26 @@
 		<IsTestProject>true</IsTestProject>
 	</PropertyGroup>
 
+	<!--
+		DataProvider selects which database driver this build targets, mirroring TightWiki.csproj (see that
+		project's comment for the full rationale). "Sqlite" is the default when -p:DataProvider= isn't passed.
+	-->
+	<PropertyGroup>
+		<DataProvider Condition="'$(DataProvider)'==''">Sqlite</DataProvider>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(DataProvider)'=='Sqlite'">
+		<DefineConstants>$(DefineConstants);SQLITE_PROVIDER</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(DataProvider)'=='SqlServer'">
+		<DefineConstants>$(DefineConstants);SQLSERVER_PROVIDER</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(DataProvider)'=='Postgres'">
+		<DefineConstants>$(DefineConstants);POSTGRES_PROVIDER</DefineConstants>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<Compile Remove="Data\**" />
 		<EmbeddedResource Remove="Data\**" />
@@ -44,8 +64,8 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="10.0.10" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.10" />
+		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="10.0.10" Condition="'$(DataProvider)'=='Sqlite'" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.10" Condition="'$(DataProvider)'=='Sqlite'" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
 		<PackageReference Include="xunit" Version="2.9.3" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
@@ -56,7 +76,9 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\TightWiki.Engine\TightWiki.Engine.csproj" />
-	  <ProjectReference Include="..\TightWiki.Repository\TightWiki.Repository.csproj" />
+	  <ProjectReference Include="..\TightWiki.Repository\TightWiki.Repository.csproj" Condition="'$(DataProvider)'=='Sqlite'" />
+	  <ProjectReference Include="..\TightWiki.Data.EfCore.SqlServer\TightWiki.Data.EfCore.SqlServer.csproj" Condition="'$(DataProvider)'=='SqlServer'" />
+	  <ProjectReference Include="..\TightWiki.Data.EfCore.Postgres\TightWiki.Data.EfCore.Postgres.csproj" Condition="'$(DataProvider)'=='Postgres'" />
 	  <ProjectReference Include="..\TightWiki.Test.Library\TightWiki.Test.Library.csproj" />
 	</ItemGroup>
 

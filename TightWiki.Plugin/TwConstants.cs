@@ -337,7 +337,11 @@
         /// <summary>Reusable include pages.</summary>
         IncludePages,
         /// <summary>Predefined feature templates.</summary>
-        FeatureTemplates = 5
+        FeatureTemplates = 5,
+        /// <summary>Core default-namespace content pages (Home, etc.).</summary>
+        RootPages,
+        /// <summary>Sandbox demo page(s) for trying out wiki editing.</summary>
+        SandboxPages
     }
 
     /// <summary>

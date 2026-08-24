@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using NTDLS.SqliteDapperWrapper;
 using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Interfaces.Repository
@@ -12,11 +11,6 @@ namespace TightWiki.Plugin.Interfaces.Repository
     /// </summary>
     public interface ITwLoggingRepository
     {
-        /// <summary>
-        /// SQLite factory used to access the logging database.
-        /// </summary>
-        SqliteManagedFactory LoggingFactory { get; }
-
         /// <summary>
         /// Deletes all log entries from the database.
         /// </summary>

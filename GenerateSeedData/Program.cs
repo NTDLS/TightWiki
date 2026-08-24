@@ -1,4 +1,5 @@
-﻿using NTDLS.SqliteDapperWrapper;
+﻿using GenerateSeedData.SeedPackage;
+using NTDLS.SqliteDapperWrapper;
 using System.Text;
 using TightWiki.Plugin.Models.Defaults;
 
@@ -21,6 +22,16 @@ namespace GenerateSeedData
             File.Delete(Path.Combine(outputPath, "defaults.db.zip"));
 
             GenerateDefaultsDatabase(dbPath, outputPath);
+
+            // "Seed\tightwiki.seed.zip" is written next to "Data\" (repo root), by convention, alongside the
+            // SQLite defaults.db above - see Database-Providers-Plan.md chapter 4.6b. dbPath's parent is used as
+            // the repo root so the existing two-argument invocation (GenerateSeedData.bat) doesn't need to change.
+            string repoRoot = Path.GetFullPath(Path.Combine(dbPath, ".."));
+            string seedOutputDir = Path.Combine(repoRoot, "Seed");
+            Directory.CreateDirectory(seedOutputDir);
+            string seedZipPath = Path.Combine(seedOutputDir, "tightwiki.seed.zip");
+
+            SeedPackageGenerator.Generate(dbPath, seedZipPath);
         }
 
 
@@ -89,8 +100,8 @@ namespace GenerateSeedData
             foreach (var page in wikiPages)
             {
                 sb.Clear();
-                sb.AppendLine("INSERT INTO DefaultWikiPages(Name, Namespace, Navigation, Description, Revision, DataHash, Body)");
-                sb.AppendLine($"SELECT '{ESQ(page.Name)}', '{ESQ(page.Namespace)}', '{ESQ(page.Navigation)}', '{ESQ(page.Description)}', {page.Revision}, {page.DataHash}, '{ESQ(page.Body)}';");
+                sb.AppendLine("INSERT INTO DefaultWikiPages(Id, Name, Namespace, Navigation, Description, CreatedDate, ModifiedDate, Revision, DataHash, Body)");
+                sb.AppendLine($"SELECT {page.Id}, '{ESQ(page.Name)}', '{ESQ(page.Namespace)}', '{ESQ(page.Navigation)}', '{ESQ(page.Description)}', '{ESQ(FormatDate(page.CreatedDate))}', '{ESQ(FormatDate(page.ModifiedDate))}', {page.Revision}, {page.DataHash}, '{ESQ(page.Body)}';");
                 defaults.Execute(sb.ToString());
             }
 
@@ -110,6 +121,14 @@ namespace GenerateSeedData
                 return string.Empty;
             return str.Replace("'", "''");
         }
+
+        /// <summary>
+        /// Formats a <see cref="DateTime"/> as SQLite's conventional "yyyy-MM-dd HH:mm:ss.fffffff" text
+        /// representation (matching how Data\pages.db itself stores Page.CreatedDate/ModifiedDate), so that
+        /// values read back out of defaults.db round-trip to the same DateTime.
+        /// </summary>
+        public static string FormatDate(DateTime dt)
+            => dt.ToString("yyyy-MM-dd HH:mm:ss.fffffff", System.Globalization.CultureInfo.InvariantCulture);
 
     }
 }

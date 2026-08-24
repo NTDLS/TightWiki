@@ -18,7 +18,7 @@ namespace TightWiki.Repository
         readonly private ITwConfigurationRepository _configurationRepository;
         public SqliteManagedFactory EmojiFactory { get; private set; }
 
-        public EmojiRepository(IConfiguration configuration, ITwConfigurationRepository configurationRepository)
+        public EmojiRepository(IConfiguration configuration, ConfigurationRepository configurationRepository)
         {
             _configurationRepository = configurationRepository;
 

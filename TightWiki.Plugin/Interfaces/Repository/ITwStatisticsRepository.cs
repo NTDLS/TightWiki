@@ -1,5 +1,4 @@
-﻿using NTDLS.SqliteDapperWrapper;
-using TightWiki.Plugin.Models;
+﻿using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Interfaces.Repository
 {
@@ -8,11 +7,6 @@ namespace TightWiki.Plugin.Interfaces.Repository
     /// </summary>
     public interface ITwStatisticsRepository
     {
-        /// <summary>
-        /// SQLite factory used to access the statistics database.
-        /// </summary>
-        SqliteManagedFactory StatisticsFactory { get; }
-
         /// <summary>
         /// Increments the view count for the specified page by one.
         /// </summary>

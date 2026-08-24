@@ -7,6 +7,14 @@
     public class TwDefaultWikiPage
     {
         /// <summary>
+        /// The primary key of the source page in the reference SQLite database (Data\pages.db's Page.Id). Carried
+        /// through the seed pipeline so that provider-neutral seeding can reproduce the same Id as the SQLite
+        /// reference (e.g. for Id-order-dependent behavior such as "Similar"/"Backlinks"/"Related" page listings).
+        /// Not used by the SQLite provider itself (DatabaseManager.cs assigns Id via its own existing-page lookup).
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// The full name of the page, including namespace prefix if applicable.
         /// </summary>
         public string Name { get; set; } = string.Empty;
@@ -25,6 +33,34 @@
         /// A short description of the page content, used in search results and meta tags.
         /// </summary>
         public string Description { get; set; } = string.Empty;
+
+        /// <summary>
+        /// The creation date/time of the source page in the reference SQLite database. Carried through the seed
+        /// pipeline for provider-neutral seeding parity (e.g. "recently created" listings); not used by the
+        /// SQLite provider itself, which assigns its own timestamp at seed time.
+        /// </summary>
+        public DateTime CreatedDate { get; set; }
+
+        /// <summary>
+        /// The last-modified date/time of the source page's own Page row (Data\pages.db Page.ModifiedDate) in the
+        /// reference SQLite database. Carried through the seed pipeline for provider-neutral seeding parity; not
+        /// used by the SQLite provider itself, which assigns its own timestamp at seed time. Distinct from
+        /// <see cref="RevisionModifiedDate"/> - the reference database's Page.ModifiedDate and
+        /// PageRevision.ModifiedDate columns routinely diverge (e.g. an unrelated metadata refresh can touch
+        /// Page.ModifiedDate without editing the page's content) - see <see cref="RevisionModifiedDate"/>'s own
+        /// doc comment.
+        /// </summary>
+        public DateTime ModifiedDate { get; set; }
+
+        /// <summary>
+        /// The last-modified date/time of the source page's current PageRevision row (Data\pages.db
+        /// PageRevision.ModifiedDate, for the revision matching <see cref="Revision"/>) in the reference SQLite
+        /// database. Carried through the seed pipeline for provider-neutral seeding parity - "recently
+        /// modified"/"recently created" listings are ordered/displayed off of this column (see
+        /// GetTopRecentlyModifiedPagesInfo.sql's own <c>PR.ModifiedDate</c>), not <see cref="ModifiedDate"/>; not
+        /// used by the SQLite provider itself, which assigns its own timestamp at seed time.
+        /// </summary>
+        public DateTime RevisionModifiedDate { get; set; }
 
         /// <summary>
         /// The revision number of this default page.

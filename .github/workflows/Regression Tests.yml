@@ -9,8 +9,14 @@ on:
       - main
 
 jobs:
-  build:
+  windows:
+    name: ${{ matrix.provider }} (windows-latest)
     runs-on: windows-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        provider: [Sqlite, SqlServer]
 
     steps:
       - name: Checkout code
@@ -21,11 +27,116 @@ jobs:
         with:
           dotnet-version: '10.0'
 
+      # -p:DataProvider must be passed to restore too, not just build/test: TightWiki.Test.Library/
+      # TightWiki.Tests only include their ProjectReference to TightWiki.Data.EfCore.SqlServer/.Postgres when
+      # that MSBuild property is set at evaluation time, and restore's project.assets.json is what carries
+      # the resulting transitive package graph (e.g. Microsoft.EntityFrameworkCore.SqlServer) into the build.
+      # Restoring without -p:DataProvider=SqlServer here and then building with it fails with CS1061 on
+      # UseSqlServer - verified locally while preparing this workflow.
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore -p:DataProvider=${{ matrix.provider }}
 
       - name: Build solution
-        run: dotnet build --no-restore
+        run: dotnet build --no-restore -p:DataProvider=${{ matrix.provider }}
 
+      - name: Run Tests (Sqlite)
+        if: matrix.provider == 'Sqlite'
+        run: dotnet test --no-restore --verbosity normal -p:DataProvider=${{ matrix.provider }}
+
+      # Targets the SQL Server LocalDB instance preinstalled on windows-latest GitHub-hosted runners
+      # (documented in the runner-images software manifest), via integrated/Windows auth - no password, no
+      # Docker container (Windows runners can't run Linux "services:" containers at all - see the postgres
+      # job below for why Postgres needs its own ubuntu-latest job instead). No explicit "SqlLocalDB start"
+      # step is needed here: the (localdb)\... connection string prefix used by Microsoft.Data.SqlClient
+      # auto-starts the instance transparently on first connect - verified locally against a Stopped
+      # mssqllocaldb instance (Database-Providers-Testing-Plan.md chapter 5.1). TightWikiCI is a CI-only
+      # database name, deliberately different from the TightWikiTest name the local Docker-based dev
+      # workflow (Start-TestDatabases.ps1) uses, so nothing here implies any relationship to - or dependency
+      # on - that local dev database. ConnectionStrings__TightWikiEfCore overrides
+      # appsettings.Development.SqlServer.json (which points at the local Docker container instead) via
+      # standard ASP.NET Core configuration precedence - see MockWikiEngineArtifacts.cs's
+      # AddEnvironmentVariables() call.
+      - name: Run Tests (SqlServer)
+        if: matrix.provider == 'SqlServer'
+        run: dotnet test --no-restore --verbosity normal -p:DataProvider=${{ matrix.provider }}
+        env:
+          ConnectionStrings__TightWikiEfCore: 'Server=(localdb)\mssqllocaldb;Database=TightWikiCI;Trusted_Connection=True;TrustServerCertificate=True;'
+
+      # Mechanical guardrail (Database-Providers-Testing-Plan.md chapter 3/7, T6): a SqlServer publish must not
+      # drag in any SQLite/Dapper DLL (TightWiki.csproj only references TightWiki.Repository - where Dapper/SQLite
+      # live - when DataProvider==Sqlite). Only meaningful for the SqlServer matrix leg; Verify-PublishOutput.ps1
+      # itself rejects -DataProvider Sqlite outright, so this step is intentionally skipped on that leg rather
+      # than made a no-op.
+      - name: Verify publish output
+        if: matrix.provider == 'SqlServer'
+        shell: pwsh
+        run: ./Verify-PublishOutput.ps1 -DataProvider SqlServer
+
+  postgres:
+    name: Postgres (ubuntu-latest)
+    runs-on: ubuntu-latest
+
+    # Native GitHub Actions service container (Database-Providers-Testing-Plan.md chapter 5.1) - only
+    # supported on Linux-hosted runners, which is why this leg is its own job on ubuntu-latest rather than a
+    # third value in the windows job's matrix above: a "services:" block is unconditional for every run of
+    # the job it's declared on (services don't support a per-matrix-value "if:"), so combining it into the
+    # windows-latest job's matrix would make GitHub Actions try to start this Postgres container on
+    # windows-latest too, which Windows-hosted runners cannot do at all. No GitHub Actions secrets - fixed
+    # password directly in this file (Database-Providers-Testing-Plan.md chapter 5.4), same as the local
+    # Start-TestDatabases.ps1 Docker container pattern. tightwiki_ci is a CI-only database name, deliberately
+    # different from the tightwiki_test name the local Docker-based dev workflow uses.
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: tightwiki
+          POSTGRES_PASSWORD: TightWiki_CI_2026!
+          POSTGRES_DB: tightwiki_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U tightwiki -d tightwiki_ci"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '10.0'
+
+      # See the matching comment on the windows job's restore step - -p:DataProvider must be passed to
+      # restore too, not just build/test.
+      - name: Restore dependencies
+        run: dotnet restore -p:DataProvider=Postgres
+
+      - name: Build solution
+        run: dotnet build --no-restore -p:DataProvider=Postgres
+
+      # localhost:5432 is the service container port-mapped onto the job's own network namespace (standard
+      # GitHub Actions "services:" behavior on Linux runners). ConnectionStrings__TightWikiEfCore overrides
+      # appsettings.Development.Postgres.json (which points at the local Docker container instead) via
+      # standard ASP.NET Core configuration precedence - see MockWikiEngineArtifacts.cs's
+      # AddEnvironmentVariables() call. Several *.wiki.expected fixtures under TightWiki.Tests/Markup
+      # (##RecentlyCreated/##RecentlyModified/##LastModified/##Created) embed culture-sensitive formatting
+      # (DateTime.ToShortDateString()/ToShortTimeString()) - this used to depend on the OS/runner's ambient
+      # locale (which differs between windows-latest and ubuntu-latest) since these tests call WikiEngine
+      # directly and never go through the app's own app.UseRequestLocalization middleware. That's now pinned
+      # to en-US inside the test process itself (see TightWiki.Tests/TestCultureInitializer.cs), so no
+      # OS-level locale setup is needed here - the previous "Set up en_US locale" step + LANG/LC_ALL env
+      # (which didn't actually fix the underlying issue) has been removed accordingly.
       - name: Run Tests
-        run: dotnet test --no-restore --verbosity normal
+        run: dotnet test --no-restore --verbosity normal -p:DataProvider=Postgres
+        env:
+          ConnectionStrings__TightWikiEfCore: "Host=localhost;Port=5432;Database=tightwiki_ci;User Id=tightwiki;Password=TightWiki_CI_2026!"
+
+      # Mechanical guardrail (Database-Providers-Testing-Plan.md chapter 3/7, T6) - see the matching comment on
+      # the windows job's "Verify publish output" step. This job only ever runs the Postgres leg, so no matrix
+      # condition is needed here.
+      - name: Verify publish output
+        shell: pwsh
+        run: ./Verify-PublishOutput.ps1 -DataProvider Postgres

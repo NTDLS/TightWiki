@@ -1,4 +1,6 @@
 
+.scratch/
+
 TightWiki/bin/
 
 TightWiki/obj/
@@ -146,3 +148,29 @@ TightWiki/Plugins/
 TightWiki.Plugin.Example/obj/
 
 TightWiki.Plugin.Example/bin/
+
+TightWiki.SharedResources/bin/
+
+TightWiki.SharedResources/obj/
+
+TightWiki.Data.EfCore/bin/
+
+TightWiki.Data.EfCore/obj/
+
+TightWiki.Data.EfCore.SqlServer/bin/
+
+TightWiki.Data.EfCore.SqlServer/obj/
+
+TightWiki.Data.EfCore.Postgres/bin/
+
+TightWiki.Data.EfCore.Postgres/obj/
+
+_tools/SchemaUpgradeTool/bin/
+
+_tools/SchemaUpgradeTool/obj/
+
+_tools/EfScaffoldTool/bin/
+
+_tools/EfScaffoldTool/obj/
+
+TightWiki/Seed/

@@ -1,5 +1,4 @@
-﻿using NTDLS.SqliteDapperWrapper;
-using TightWiki.Plugin.Models;
+﻿using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Interfaces.Repository
 {
@@ -8,21 +7,6 @@ namespace TightWiki.Plugin.Interfaces.Repository
     /// </summary>
     public interface ITwPageRepository
     {
-        /// <summary>
-        /// SQLite factory used to access the pages database.
-        /// </summary>
-        SqliteManagedFactory PagesFactory { get; }
-
-        /// <summary>
-        /// SQLite factory used to access the deleted pages database.
-        /// </summary>
-        SqliteManagedFactory DeletedPagesFactory { get; }
-
-        /// <summary>
-        /// SQLite factory used to access the deleted page revisions database.
-        /// </summary>
-        SqliteManagedFactory DeletedPageRevisionsFactory { get; }
-
         /// <summary>
         /// Returns pages whose titles or navigation match the given search text, for use in autocomplete suggestions.
         /// </summary>
@@ -109,9 +93,12 @@ namespace TightWiki.Plugin.Interfaces.Repository
         Task<List<TwRelatedPage>> GetBacklinkPagesPaged(int pageId, int pageNumber, int? pageSize = null);
 
         /// <summary>
-        /// Clears the cached rendered content for the specified page.
+        /// Clears the cached rendered content for the specified page. If the page's navigation is already
+        /// known to the caller (e.g. because it was read before a delete that removed the underlying row),
+        /// pass it via <paramref name="navigation"/> to avoid a re-query that would return null for a page
+        /// that no longer exists. When omitted, the navigation is looked up by <paramref name="pageId"/>.
         /// </summary>
-        Task FlushPageCache(int pageId);
+        Task FlushPageCache(int pageId, string? navigation = null);
 
         /// <summary>
         /// Inserts a new comment on the specified page by the specified user.
@@ -239,11 +226,6 @@ namespace TightWiki.Plugin.Interfaces.Repository
         /// Returns the current revision number for the specified page.
         /// </summary>
         Task<int> GetCurrentPageRevision(int pageId);
-
-        /// <summary>
-        /// Returns the current revision number for the specified page using an existing database connection.
-        /// </summary>
-        Task<int> GetCurrentPageRevision(SqliteManagedInstance connection, int pageId);
 
         /// <summary>
         /// Returns limited page info (excluding full content) for the specified page and optional revision number.
@@ -441,16 +423,6 @@ namespace TightWiki.Plugin.Interfaces.Repository
         /// Returns all file attachment info records associated with the specified page ID.
         /// </summary>
         Task<List<TwPageFileAttachmentInfo>> GetPageFilesInfoByPageId(int pageId);
-
-        /// <summary>
-        /// Returns file revision info for a specific file on a page using an existing database connection.
-        /// </summary>
-        Task<TwPageFileRevisionAttachmentInfo?> GetPageFileInfoByFileNavigation(SqliteManagedInstance connection, int pageId, string fileNavigation);
-
-        /// <summary>
-        /// Returns the current revision attachment info for a specific file on a page using an existing database connection.
-        /// </summary>
-        Task<TwPageFileRevisionAttachmentInfo?> GetPageCurrentRevisionAttachmentByFileNavigation(SqliteManagedInstance connection, int pageId, string fileNavigation);
 
         /// <summary>
         /// Inserts or updates a page file attachment record. Associates the upload with the specified user.

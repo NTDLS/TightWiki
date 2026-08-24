@@ -6,5 +6,5 @@
 	FT.TemplateText
 FROM
 	FeatureTemplate as FT
-INNER JOIN Page as P
+LEFT JOIN Page as P
 	ON P.Id = FT.PageId

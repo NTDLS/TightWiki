@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="OpenAI" Version="2.12.0" />
+    <PackageReference Include="NTDLS.SqliteDapperWrapper" Version="1.4.4" />
   </ItemGroup>
 
   <ItemGroup>

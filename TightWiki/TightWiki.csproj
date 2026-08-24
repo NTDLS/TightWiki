@@ -4,9 +4,42 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Version>2.38.0</Version>
+		<Configurations>Debug;Release;Debug-Postgres;Debug-SqlServer;Release-Postgres;Release-SqlServer</Configurations>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+	<!--
+		DataProvider selects which database driver this build targets. "Sqlite" (the default), "SqlServer" and
+		"Postgres" are implemented, e.g.:
+		  -p:DataProvider=Postgres
+		An explicit -p:DataProvider=... (or the OS environment variable) always wins over the Configuration
+		mapping below, since command-line/environment properties can't be overwritten by a project's own
+		PropertyGroup.
+	-->
+	<PropertyGroup Condition="'$(Configuration)'=='Debug-Postgres' Or '$(Configuration)'=='Release-Postgres'">
+		<DataProvider Condition="'$(DataProvider)'==''">Postgres</DataProvider>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Debug-SqlServer' Or '$(Configuration)'=='Release-SqlServer'">
+		<DataProvider Condition="'$(DataProvider)'==''">SqlServer</DataProvider>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<DataProvider Condition="'$(DataProvider)'==''">Sqlite</DataProvider>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(DataProvider)'=='Sqlite'">
+		<DefineConstants>$(DefineConstants);SQLITE_PROVIDER</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(DataProvider)'=='SqlServer'">
+		<DefineConstants>$(DefineConstants);SQLSERVER_PROVIDER</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(DataProvider)'=='Postgres'">
+		<DefineConstants>$(DefineConstants);POSTGRES_PROVIDER</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release' Or '$(Configuration)'=='Release-SqlServer' Or '$(Configuration)'=='Release-Postgres'">
 		<DebugSymbols>False</DebugSymbols>
 		<DebugType>None</DebugType>
 	</PropertyGroup>
@@ -30,7 +63,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.10" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="10.0.10" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.10" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.10" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.10" Condition="'$(DataProvider)'=='Sqlite'" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.10">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -42,7 +75,10 @@
 	<ItemGroup>
 		<ProjectReference Include="..\TightWiki.Engine\TightWiki.Engine.csproj" />
 		<ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />
-		<ProjectReference Include="..\TightWiki.Repository\TightWiki.Repository.csproj" />
+		<ProjectReference Include="..\TightWiki.Repository\TightWiki.Repository.csproj" Condition="'$(DataProvider)'=='Sqlite'" />
+		<ProjectReference Include="..\TightWiki.Data.EfCore.SqlServer\TightWiki.Data.EfCore.SqlServer.csproj" Condition="'$(DataProvider)'=='SqlServer'" />
+		<ProjectReference Include="..\TightWiki.Data.EfCore.Postgres\TightWiki.Data.EfCore.Postgres.csproj" Condition="'$(DataProvider)'=='Postgres'" />
+		<ProjectReference Include="..\TightWiki.SharedResources\TightWiki.SharedResources.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

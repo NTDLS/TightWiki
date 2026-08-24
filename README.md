@@ -1,11 +1,19 @@
 # TightWiki
 
-[![Regression Tests](https://github.com/NTDLS/TightWiki/actions/workflows/Regression%20Tests.yml/badge.svg)](https://github.com/NTDLS/TightWiki/actions/workflows/Regression%20Tests.yml)
+[![Regression Tests](https://github.com/eMukator/TightWiki/actions/workflows/Regression%20Tests.yml/badge.svg)](https://github.com/eMukator/TightWiki/actions/workflows/Regression%20Tests.yml)
 
 For years I’ve worked at places where we just needed a simple to use, searchable, unobtrusive, no-nonsense, collaborative and free place to dump documentation.
 The first thing that comes to mind is a Wiki but for some reason I can never find anything that "checks all the boxes". Hopefully you'll find this one does for you.
 
 :yum: TightWiki is an ASP.NET Core MVC Razor WIKI written in C# that sits on top of a SQLite database (zero configuration required).
+
+> **This fork** extends the original project with built-in support for running on Microsoft SQL Server and
+> PostgreSQL, via Entity Framework Core — see [Database Providers](#database-providers) below for how to choose
+> one. Because the EF Core model is provider-agnostic, support for further relational databases (e.g.
+> MySQL/MariaDB, Oracle) could be added the same way down the line. SQLite remains the default, zero-configuration
+> option exactly as in the original project — nothing changes if you don't opt into a different provider. All
+> three providers run the same regression suite in CI (see the badge above) — SQLite and SQL Server on
+> `windows-latest`, PostgreSQL on `ubuntu-latest`.
 
 :crossed_fingers: Play with the latest dev build at http://TightWiki.com/. If you want to edit, you can signup using google auth or native TightWiki login.
 
@@ -112,6 +120,108 @@ We've beat the wiki up with more data than this, but this is our standard worklo
 
 # Admin role list
 ![image](https://github.com/user-attachments/assets/2aa340d1-c1eb-4ee9-b3c7-91ff6e4f0a7b)
+
+## Database Providers
+
+By default TightWiki runs entirely on SQLite with zero configuration, as described above. It can also be built
+against Microsoft SQL Server or PostgreSQL instead, via Entity Framework Core. This is a **build-time** choice,
+not something you flip in a config file at runtime — pick the provider you want when you build/publish, and
+deploy the resulting output as-is. Whichever provider you build with is the *only* datastore used at runtime;
+a SQL Server/Postgres build never touches a `.db` file and never ships a SQLite package.
+
+### Choosing a provider
+
+The provider is selected via the MSBuild property `DataProvider` (`Sqlite` | `SqlServer` | `Postgres`), which
+conditionally compiles the right bootstrap code in `TightWiki/Program.cs` and pulls in the matching project
+reference in `TightWiki/TightWiki.csproj`. If `DataProvider` isn't specified, it defaults to `Sqlite`.
+
+```
+dotnet build .\TightWiki -p:DataProvider=SqlServer
+dotnet publish .\TightWiki -c Release -p:DataProvider=Postgres --runtime linux-x64 --self-contained false
+```
+
+**Important:** after switching `-p:DataProvider=...`, run `dotnet restore` again (either without `-p`, or with
+the same `DataProvider` value you're about to build with) before your next `dotnet build`/`dotnet publish`. Which
+project reference gets restored (SQLite/Dapper vs. the EF Core driver project) is resolved at *restore* time, not
+build time. Following a provider switch with `dotnet build --no-restore` (or a plain `dotnet build`/`dotnet test`
+that implicitly falls back to the default `Sqlite`) against a stale restore for a different provider fails with a
+confusing `CS0246: The type or namespace name 'Dapper' could not be found` (or a similar `NTDLS.SqliteDapperWrapper`
+error) — that's not a code bug, just an out-of-date `project.assets.json` from the previous restore.
+
+### Visual Studio Solution Configurations (Debug/Release per provider)
+
+`TightWiki.csproj` declares six Solution Configurations — the normal `Debug`/`Release` (which stay `Sqlite`)
+plus a Debug and a Release variant per EF Core provider:
+
+| Configuration       | `DataProvider` | Debug symbols |
+|----------------------|----------------|---------------|
+| `Debug`               | `Sqlite`       | on            |
+| `Release`              | `Sqlite`       | off           |
+| `Debug-SqlServer`      | `SqlServer`    | on            |
+| `Release-SqlServer`    | `SqlServer`    | off           |
+| `Debug-Postgres`       | `Postgres`     | on            |
+| `Release-Postgres`     | `Postgres`     | off           |
+
+Each `Release-*` variant carries the same `DebugSymbols`/`DebugType` settings as plain `Release` — it's a real
+Release build (no debug symbols), just targeting SQL Server/Postgres instead of SQLite; it isn't only a Debug-time
+convenience. Pick any of the six from the Configuration dropdown in the toolbar (or Build → Configuration
+Manager) exactly like you would Debug/Release today — no environment variable, no `.csproj.user`, no
+closing/reopening Visual Studio; switching the dropdown re-evaluates every project the same way any other
+configuration change would. Do a Rebuild Solution after switching — same restore gotcha as above, since NuGet
+resolves the SQLite/EF-Core-driver project reference at restore time. For SQL Server via LocalDB,
+`appsettings.Development.json` already ships a working `ConnectionStrings:TightWikiEfCore` value, so no further
+configuration is needed to hit F5 after picking `Debug-SqlServer`.
+
+An explicit `-p:DataProvider=...` (or the `DataProvider` OS environment variable, for CI/non-VS setups) still
+overrides the Configuration mapping if both are present — see `TightWiki/TightWiki.csproj`.
+
+### Connection strings
+
+- **SQLite** (default): unchanged — `ConnectionStrings:DatabasePath` in `appsettings.json`, pointing at the
+  folder holding the 8 SQLite `.db` files (plus optional per-database override keys such as `ConfigConnection`,
+  `UsersConnection`, etc.).
+- **SQL Server / PostgreSQL**: a single new key, `ConnectionStrings:TightWikiEfCore` — one connection string for
+  the whole consolidated database (all 8 schemas plus ASP.NET Core Identity's `Users` schema). For example:
+
+  ```jsonc
+  // SQL Server / LocalDB
+  "ConnectionStrings": {
+    "TightWikiEfCore": "Server=(localdb)\\mssqllocaldb;Database=TightWiki;Trusted_Connection=True;"
+  }
+  ```
+
+  ```jsonc
+  // PostgreSQL
+  "ConnectionStrings": {
+    "TightWikiEfCore": "Host=localhost;Port=5432;Database=tightwiki;Username=postgres;Password=<password>"
+  }
+  ```
+
+### Building with only the provider you need
+
+`TightWiki.csproj`'s `ProjectReference`/`PackageReference` entries for SQLite (`TightWiki.Repository`,
+`Microsoft.EntityFrameworkCore.Sqlite`) and for each EF Core driver (`TightWiki.Data.EfCore.SqlServer`,
+`TightWiki.Data.EfCore.Postgres`) are conditioned on `DataProvider`, so a build only restores/compiles against
+the provider you asked for — no hybrid setups, and no unused provider's NuGet packages or DLLs end up in the
+published output.
+
+### Seeding a new database
+
+- SQLite keeps seeding new installs exactly as before, by copying the shipped `Data/*.db` files.
+- SQL Server/Postgres builds instead read their initial data (configuration, themes, feature templates, default
+  wiki pages, emoji + categories, menu items) from `Seed/tightwiki.seed.zip`, which must sit next to the
+  published application. `Release.Build.bat` regenerates this package (via `GenerateSeedData`/
+  `GenerateSeedData.bat`, from the developer's own populated `Data/*.db` files) and copies it into every SQL
+  Server/Postgres publish output automatically — this generation step only ever runs on a developer machine as
+  part of the release build, never at application runtime.
+
+### Schema migrations
+
+SQL Server/Postgres builds apply EF Core Migrations automatically on startup — for both the TightWiki model and
+ASP.NET Core Identity (which shares the same connection string/database, in the `Users` schema) — so there is no
+manual migration step to run when deploying or upgrading. `Generate-EfMigrations.ps1` (repo root) is a separate,
+developer-only tool for regenerating the EF Core scaffold/migrations from the SQLite schema; it has no role in
+running or deploying the application.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

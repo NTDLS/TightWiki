@@ -1,4 +1,3 @@
-using NTDLS.SqliteDapperWrapper;
 using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Interfaces.Repository
@@ -8,11 +7,6 @@ namespace TightWiki.Plugin.Interfaces.Repository
     /// </summary>
     public interface ITwEmojiRepository
     {
-        /// <summary>
-        /// SQLite factory used to access the emoji database.
-        /// </summary>
-        SqliteManagedFactory EmojiFactory { get; }
-
         /// <summary>
         /// Returns all emojis in the database.
         /// </summary>

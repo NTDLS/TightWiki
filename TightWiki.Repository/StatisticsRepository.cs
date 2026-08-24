@@ -14,7 +14,7 @@ namespace TightWiki.Repository
         readonly private ITwConfigurationRepository _configurationRepository;
         public SqliteManagedFactory StatisticsFactory { get; private set; }
 
-        public StatisticsRepository(IConfiguration configuration, ITwConfigurationRepository configurationRepository)
+        public StatisticsRepository(IConfiguration configuration, ConfigurationRepository configurationRepository)
         {
             _configurationRepository = configurationRepository;
 
