@@ -431,10 +431,11 @@ namespace TightWiki.Data.EfCore.Postgres
         /// Shared helper for every default-data seed method that needs to preserve the seed package's own
         /// primary key values (<see cref="SeedConfigurations"/> for Config.ConfigurationGroup/ConfigurationEntry,
         /// <see cref="SeedMenuItems"/> for Config.MenuItem, <see cref="SeedEmojiAndCategories"/> for
-        /// Emoji.Emoji/EmojiCategory) rather than letting PostgreSQL's identity column generate new ones - so that
-        /// e.g. <c>ConfigurationGroup.Id</c> stays 1:1 with the SQLite reference (Data\config.db / Data\emoji.db).
-        /// Written generically (schema/table name + an arbitrary insert/update callback) so a future Page-seeding
-        /// pass (out of scope here) can reuse it too.
+        /// Emoji.Emoji/EmojiCategory, <see cref="SeedWikiPages"/> for Pages.Page) rather than letting PostgreSQL's
+        /// identity column generate new ones - so that e.g. <c>ConfigurationGroup.Id</c>/<c>Page.Id</c> stay 1:1
+        /// with the SQLite reference (Data\config.db / Data\emoji.db / Data\pages.db). Written generically
+        /// (schema/table name + an arbitrary insert/update callback) so any future seed method needing the same
+        /// treatment can reuse it too.
         /// </summary>
         /// <param name="context">The context <paramref name="insertAction"/> will call <c>SaveChangesAsync</c> on.</param>
         /// <param name="schema">The schema of the table being seeded, e.g. "Config".</param>
@@ -601,6 +602,24 @@ namespace TightWiki.Data.EfCore.Postgres
         /// derived search/tag/reference metadata is a separate pass, see the <paramref name="tightEngine"/>/
         /// <paramref name="localizer"/> remarks below.
         /// </summary>
+        /// <remarks>
+        /// Newly inserted Page rows carry the seed package's own <see cref="TwDefaultWikiPage.Id"/>/
+        /// <see cref="TwDefaultWikiPage.CreatedDate"/>/<see cref="TwDefaultWikiPage.ModifiedDate"/> instead of
+        /// letting PostgreSQL generate a new Id / stamping <c>DateTime.UtcNow</c>, via
+        /// <see cref="SeedWithExplicitIdentityAsync"/>, so that <c>Page.Id</c>/<c>CreatedDate</c>/<c>ModifiedDate</c>
+        /// stay 1:1 with the SQLite reference (Data\pages.db) - this matters for Id-order-dependent behavior such
+        /// as "Similar"/"Backlinks"/"Related" page listings. Because the Id is known up front, the matching
+        /// PageRevision row is added in the very same pass (no interim <c>SaveChangesAsync</c> to obtain a
+        /// database-generated Id first) and both Page and PageRevision inserts/updates for every page in
+        /// <paramref name="namespaces"/> are flushed together in a single <c>SaveChangesAsync</c> wrapped by
+        /// <see cref="SeedWithExplicitIdentityAsync"/>, which afterwards moves the underlying sequence past
+        /// whatever explicit Id values were just written - the ordinary identity-generated <c>PageRevision.Id</c>
+        /// is unaffected. Existing pages instead have <c>ModifiedDate</c> set to
+        /// <see cref="TwDefaultWikiPage.ModifiedDate"/> (not <c>DateTime.UtcNow</c>) so that re-running the seed
+        /// against an already-seeded database converges exactly to the reference state rather than drifting to
+        /// "now" on every run; <c>CreatedDate</c> is left untouched on the existing-page path, same as the SQLite
+        /// reference's merge behavior.
+        /// </remarks>
         /// <param name="tightEngine">
         /// When non-null (the post-<c>Build()</c> <see cref="ApplyAllSeedData"/> call, which is the only one that
         /// ever reaches here - see <see cref="SeedContentDataAsync"/>'s remarks on why the pre-<c>Build()</c> call
@@ -627,13 +646,23 @@ namespace TightWiki.Data.EfCore.Postgres
 
             foreach (var defaultPage in defaultPages)
             {
+                //The seed package round-trips CreatedDate/ModifiedDate through SQLite (Data\pages.db, no native
+                //datetime type) and System.Text.Json, both of which lose DateTimeKind - they arrive here as
+                //DateTimeKind.Unspecified even though they are conceptually UTC (originally stamped via
+                //DateTime.UtcNow when defaults.db was built). Npgsql refuses to write a non-UTC-Kind DateTime to a
+                //"timestamp with time zone" column ("Cannot write DateTime with Kind=Unspecified..."), unlike SQL
+                //Server's datetime2, which is Kind-agnostic - so, unlike SqlServerDatabaseManager's identical
+                //SeedWikiPages, this provider must re-mark them as UTC before they reach EF Core.
+                var createdDateUtc = DateTime.SpecifyKind(defaultPage.CreatedDate, DateTimeKind.Utc);
+                var modifiedDateUtc = DateTime.SpecifyKind(defaultPage.ModifiedDate, DateTimeKind.Utc);
+
                 if (existingPages.TryGetValue(defaultPage.Navigation, out var existingPage))
                 {
                     existingPage.Name = defaultPage.Name;
                     existingPage.Namespace = defaultPage.Namespace;
                     existingPage.Description = defaultPage.Description;
                     existingPage.ModifiedByUserId = adminUserId;
-                    existingPage.ModifiedDate = now;
+                    existingPage.ModifiedDate = modifiedDateUtc;
 
                     var existingRevision = await context.Pages_PageRevisions.FindAsync(existingPage.Id, existingPage.Revision);
                     if (existingRevision != null)
@@ -643,7 +672,7 @@ namespace TightWiki.Data.EfCore.Postgres
                         existingRevision.Description = defaultPage.Description;
                         existingRevision.Body = defaultPage.Body;
                         existingRevision.ModifiedByUserId = adminUserId;
-                        existingRevision.ModifiedDate = now;
+                        existingRevision.ModifiedDate = modifiedDateUtc;
                         existingRevision.DataHash = defaultPage.DataHash;
                     }
                 }
@@ -651,29 +680,29 @@ namespace TightWiki.Data.EfCore.Postgres
                 {
                     var newPage = new PagesEntities.Page
                     {
+                        Id = defaultPage.Id,
                         Name = defaultPage.Name,
                         Namespace = defaultPage.Namespace,
                         Navigation = defaultPage.Navigation,
                         Description = defaultPage.Description,
                         Revision = 1,
                         CreatedByUserId = adminUserId,
-                        CreatedDate = now,
+                        CreatedDate = createdDateUtc,
                         ModifiedByUserId = adminUserId,
-                        ModifiedDate = now,
+                        ModifiedDate = modifiedDateUtc,
                     };
                     context.Pages_Pages.Add(newPage);
-                    await context.SaveChangesAsync(); //Need the generated Id - PageRevision.PageId is not a navigation.
 
                     context.Pages_PageRevisions.Add(new PagesEntities.PageRevision
                     {
-                        PageId = newPage.Id,
+                        PageId = defaultPage.Id,
                         Name = defaultPage.Name,
                         Namespace = defaultPage.Namespace,
                         Description = defaultPage.Description,
                         Body = defaultPage.Body,
                         Revision = 1,
                         ModifiedByUserId = adminUserId,
-                        ModifiedDate = now,
+                        ModifiedDate = modifiedDateUtc,
                         DataHash = defaultPage.DataHash,
                     });
 
@@ -681,7 +710,7 @@ namespace TightWiki.Data.EfCore.Postgres
                 }
             }
 
-            await context.SaveChangesAsync();
+            await SeedWithExplicitIdentityAsync(context, "Pages", "Page", () => context.SaveChangesAsync());
 
             if (tightEngine != null && localizer != null)
             {
