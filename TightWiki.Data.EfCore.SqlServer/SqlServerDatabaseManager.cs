@@ -17,6 +17,7 @@ using TightWiki.Plugin.Models.Defaults;
 using ConfigEntities = TightWiki.Data.EfCore.Entities.Config;
 using EmojiEntities = TightWiki.Data.EfCore.Entities.Emoji;
 using PagesEntities = TightWiki.Data.EfCore.Entities.Pages;
+using StatisticsEntities = TightWiki.Data.EfCore.Entities.Statistics;
 using UsersEntities = TightWiki.Data.EfCore.Entities.Users;
 
 namespace TightWiki.Data.EfCore.SqlServer
@@ -718,6 +719,8 @@ namespace TightWiki.Data.EfCore.SqlServer
             }
 
             await SeedPageFileAttachments(context, namespaces, existingPages.Values, adminUserId);
+
+            await SeedPageStatistics(context, existingPages.Values);
         }
 
         /// <summary>
@@ -808,6 +811,113 @@ namespace TightWiki.Data.EfCore.SqlServer
             }
 
             await context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Seeds Statistics.PageStatistics for whatever pages <see cref="SeedWikiPages"/> just seeded in its own
+        /// call - <b>overwriting every column</b> to the reference values from
+        /// <see cref="DefaultsRepository"/>.<see cref="EfDefaultsRepository.GetDefaultPageStatistics"/> (roughly 99
+        /// of the 110 reference wiki pages - see <see cref="TwDefaultPageStatistic"/>'s own doc comment), and
+        /// deleting any row for a seeded page that has none in the reference (the remaining ~11).
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Must run <b>after</b> <see cref="SeedWikiPages"/>'s own <see cref="PageRepository.RefreshPageMetadata"/>
+        /// loop (see the call site) - that loop's <c>wikifier.Transform</c> call triggers
+        /// <c>TightWiki.Plugin.Default.EngineHandlers.HandleCompletion</c> (a
+        /// <see cref="TightWiki.Plugin.Attributes.Handlers.TwCompletionPluginHandlerAttribute"/>-registered
+        /// completion handler the wiki engine invokes on every transform, gated on
+        /// <c>WikiConfiguration.RecordCompilationMetrics</c>, which defaults to enabled), which in turn calls
+        /// <see cref="EfStatisticsRepository.MergePageCompilationStatistics"/> for <b>every</b> seeded page - not
+        /// just the ~99 with a reference row - leaving generic, "just seeded" values
+        /// (<c>TotalCompilationCount</c> incremented off of zero, <c>LastCompileDateTime</c> = now, etc.) behind
+        /// for all 110 pages rather than the reference's 99/11 split. This method is the deliberate second pass
+        /// that corrects that: it doesn't touch <see cref="EfPageRepository"/>/<see cref="EfStatisticsRepository"/>
+        /// themselves (both stay generically correct for their actual runtime callers - real page
+        /// views/compilations outside of seeding), it just re-asserts the reference values immediately afterward,
+        /// the same "seed writes the authoritative values last" approach <see cref="SeedWikiPages"/> itself already
+        /// takes for <c>Page.CreatedDate</c>/<c>ModifiedDate</c>.
+        /// </para>
+        /// <para>
+        /// <see cref="EfStatisticsRepository.MergePageCompilationStatistics"/>/<c>IncrementPageViewCount</c> each
+        /// open their own short-lived <see cref="TightWikiDbContext"/> (via <c>_createContext</c>) and are already
+        /// long finished by the time this method runs (the whole <c>RefreshPageMetadata</c> loop above is awaited
+        /// to completion first) - so there is no EF change-tracking conflict between this method's own updates
+        /// (against <paramref name="context"/>, the instance <see cref="SeedWikiPages"/> has held open the whole
+        /// call) and any row those methods touched earlier.
+        /// </para>
+        /// <para>
+        /// Idempotent by construction: every column on a matched row is unconditionally overwritten with the
+        /// reference value (not incremented/merged), so re-running the seed (which re-runs
+        /// <see cref="PageRepository.RefreshPageMetadata"/> and therefore
+        /// <see cref="EfStatisticsRepository.MergePageCompilationStatistics"/> again first) always converges back
+        /// to the same reference state rather than drifting - unlike a real page compile, this never increments
+        /// <c>TotalCompilationCount</c> relative to the reference value.
+        /// </para>
+        /// <para>
+        /// <see cref="StatisticsEntities.PageStatistic.Id"/> is a plain surrogate key (the real natural/unique key
+        /// is <see cref="StatisticsEntities.PageStatistic.PageId"/>, see that class's own doc comment) - newly
+        /// inserted rows just let SQL Server generate it normally, no <see cref="SeedWithExplicitIdentityAsync"/>
+        /// needed here (unlike <c>Page.Id</c>/<c>Emoji.Id</c>/etc., nothing outside this table ever references
+        /// <c>PageStatistics.Id</c>).
+        /// </para>
+        /// </remarks>
+        private async Task SeedPageStatistics(TightWikiDbContext context, IEnumerable<PagesEntities.Page> seededPages)
+        {
+            var defaultStatisticsByPageId = (await DefaultsRepository.GetDefaultPageStatistics())
+                .ToDictionary(s => s.PageId);
+
+            var seededPageIds = seededPages.Select(p => p.Id).ToHashSet();
+
+            var existingStatistics = await context.PageStatistics
+                .Where(ps => seededPageIds.Contains(ps.PageId))
+                .ToDictionaryAsync(ps => ps.PageId);
+
+            foreach (var pageId in seededPageIds)
+            {
+                if (defaultStatisticsByPageId.TryGetValue(pageId, out var defaultStatistic))
+                {
+                    if (existingStatistics.TryGetValue(pageId, out var existingStatistic))
+                    {
+                        ApplyDefaultPageStatistic(existingStatistic, defaultStatistic);
+                    }
+                    else
+                    {
+                        var newStatistic = new StatisticsEntities.PageStatistic { PageId = pageId };
+                        ApplyDefaultPageStatistic(newStatistic, defaultStatistic);
+                        context.PageStatistics.Add(newStatistic);
+                    }
+                }
+                else if (existingStatistics.TryGetValue(pageId, out var staleStatistic))
+                {
+                    //RefreshPageMetadata left a generic row behind for a page that has no statistics history in
+                    //the reference database (see this method's own doc comment) - remove it so the seeded
+                    //database matches the reference's 99/11 split rather than having a row for all 110 pages.
+                    context.PageStatistics.Remove(staleStatistic);
+                }
+            }
+
+            await context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Overwrites every non-key column of <paramref name="target"/> with <paramref name="source"/>'s reference
+        /// values - shared by both the "update existing row" and "populate newly inserted row" branches of
+        /// <see cref="SeedPageStatistics"/>.
+        /// </summary>
+        private static void ApplyDefaultPageStatistic(StatisticsEntities.PageStatistic target, TwDefaultPageStatistic source)
+        {
+            target.LastCompileDateTime = source.LastCompileDateTime;
+            target.TotalCompilationCount = source.TotalCompilationCount;
+            target.LastWikifyTimeMs = source.LastWikifyTimeMs;
+            target.TotalWikifyTimeMs = source.TotalWikifyTimeMs;
+            target.LastMatchCount = source.LastMatchCount;
+            target.LastErrorCount = source.LastErrorCount;
+            target.LastOutgoingLinkCount = source.LastOutgoingLinkCount;
+            target.LastTagCount = source.LastTagCount;
+            target.LastProcessedBodySize = source.LastProcessedBodySize;
+            target.LastBodySize = source.LastBodySize;
+            target.TotalViewCount = source.TotalViewCount;
         }
 
         /// <summary>
