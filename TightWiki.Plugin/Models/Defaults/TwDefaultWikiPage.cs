@@ -7,6 +7,14 @@
     public class TwDefaultWikiPage
     {
         /// <summary>
+        /// The primary key of the source page in the reference SQLite database (Data\pages.db's Page.Id). Carried
+        /// through the seed pipeline so that provider-neutral seeding can reproduce the same Id as the SQLite
+        /// reference (e.g. for Id-order-dependent behavior such as "Similar"/"Backlinks"/"Related" page listings).
+        /// Not used by the SQLite provider itself (DatabaseManager.cs assigns Id via its own existing-page lookup).
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// The full name of the page, including namespace prefix if applicable.
         /// </summary>
         public string Name { get; set; } = string.Empty;
@@ -25,6 +33,20 @@
         /// A short description of the page content, used in search results and meta tags.
         /// </summary>
         public string Description { get; set; } = string.Empty;
+
+        /// <summary>
+        /// The creation date/time of the source page in the reference SQLite database. Carried through the seed
+        /// pipeline for provider-neutral seeding parity (e.g. "recently created" listings); not used by the
+        /// SQLite provider itself, which assigns its own timestamp at seed time.
+        /// </summary>
+        public DateTime CreatedDate { get; set; }
+
+        /// <summary>
+        /// The last-modified date/time of the source page in the reference SQLite database. Carried through the
+        /// seed pipeline for provider-neutral seeding parity (e.g. "recently modified" listings); not used by the
+        /// SQLite provider itself, which assigns its own timestamp at seed time.
+        /// </summary>
+        public DateTime ModifiedDate { get; set; }
 
         /// <summary>
         /// The revision number of this default page.

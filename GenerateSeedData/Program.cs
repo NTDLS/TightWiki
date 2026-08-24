@@ -100,8 +100,8 @@ namespace GenerateSeedData
             foreach (var page in wikiPages)
             {
                 sb.Clear();
-                sb.AppendLine("INSERT INTO DefaultWikiPages(Name, Namespace, Navigation, Description, Revision, DataHash, Body)");
-                sb.AppendLine($"SELECT '{ESQ(page.Name)}', '{ESQ(page.Namespace)}', '{ESQ(page.Navigation)}', '{ESQ(page.Description)}', {page.Revision}, {page.DataHash}, '{ESQ(page.Body)}';");
+                sb.AppendLine("INSERT INTO DefaultWikiPages(Id, Name, Namespace, Navigation, Description, CreatedDate, ModifiedDate, Revision, DataHash, Body)");
+                sb.AppendLine($"SELECT {page.Id}, '{ESQ(page.Name)}', '{ESQ(page.Namespace)}', '{ESQ(page.Navigation)}', '{ESQ(page.Description)}', '{ESQ(FormatDate(page.CreatedDate))}', '{ESQ(FormatDate(page.ModifiedDate))}', {page.Revision}, {page.DataHash}, '{ESQ(page.Body)}';");
                 defaults.Execute(sb.ToString());
             }
 
@@ -121,6 +121,14 @@ namespace GenerateSeedData
                 return string.Empty;
             return str.Replace("'", "''");
         }
+
+        /// <summary>
+        /// Formats a <see cref="DateTime"/> as SQLite's conventional "yyyy-MM-dd HH:mm:ss.fffffff" text
+        /// representation (matching how Data\pages.db itself stores Page.CreatedDate/ModifiedDate), so that
+        /// values read back out of defaults.db round-trip to the same DateTime.
+        /// </summary>
+        public static string FormatDate(DateTime dt)
+            => dt.ToString("yyyy-MM-dd HH:mm:ss.fffffff", System.Globalization.CultureInfo.InvariantCulture);
 
     }
 }

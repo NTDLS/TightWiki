@@ -1,8 +1,11 @@
 ﻿SELECT
+	P.Id,
 	P.Name,
 	P.Namespace,
 	P.Navigation,
 	P.Description,
+	P.CreatedDate,
+	P.ModifiedDate,
 	PR.Revision,
 	PR.DataHash,
 	PR.Body
