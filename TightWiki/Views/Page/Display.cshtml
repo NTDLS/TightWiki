@@ -20,6 +20,11 @@
     });
 </script>
 <!-- Syntax Highlighter:End -->
+@if (Model.SidebarHtml != null)
+{
+    //The sidebar is on the left on large screens and drops below the page content on small ones.
+    @Html.Raw($"<div class=\"row g-4\"><aside class=\"col-lg-3 order-2 order-lg-1 tw-sidebar\">{Model.SidebarHtml}</aside><div class=\"col-lg-9 order-1 order-lg-2\">")
+}
 @if (Model.Revision < Model.MostCurrentRevision)
 {
     <div class="card shadow-sm border-info mb-4">
@@ -178,4 +183,9 @@
             @Localizer["View all comments"]
         </a>
     </div>
+}
+
+@if (Model.SidebarHtml != null)
+{
+    @Html.Raw("</div></div>")
 }

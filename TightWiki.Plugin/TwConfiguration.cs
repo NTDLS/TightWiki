@@ -59,6 +59,16 @@ namespace TightWiki.Plugin
         public string FooterBlurb { get; set; } = string.Empty;
 
         /// <summary>
+        /// Whether the sidebar page is shown alongside every wiki page.
+        /// </summary>
+        public bool EnableSidebar { get; set; }
+
+        /// <summary>
+        /// The name of the wiki page shown as the sidebar when the sidebar is enabled.
+        /// </summary>
+        public string SidebarPage { get; set; } = string.Empty;
+
+        /// <summary>
         /// The copyright notice displayed in the site footer.
         /// </summary>
         public string Copyright { get; set; } = string.Empty;

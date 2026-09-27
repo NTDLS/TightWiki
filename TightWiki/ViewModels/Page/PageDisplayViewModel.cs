@@ -12,6 +12,11 @@ namespace TightWiki.ViewModels.Page
         public bool HideFooterComments { get; set; }
         public bool HideFooterLastModified { get; set; }
 
+        /// <summary>
+        /// The rendered sidebar page, or null when no sidebar should be displayed.
+        /// </summary>
+        public string? SidebarHtml { get; set; }
+
         public string Name { get; set; } = string.Empty;
         public string Navigation { get; set; } = string.Empty;
         public string Namespace { get; set; } = string.Empty;

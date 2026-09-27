@@ -1,7 +1,0 @@
-##title
-##toc
-===Overview
-==Test Result
-{{StripedTable(false, true)
-This is the body text for StripedTable
-}}

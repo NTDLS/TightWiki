@@ -1,7 +1,0 @@
-##title
-##toc
-===Overview
-==Test Result
-{{Code(Scss)
-This is the body text for Code
-}}

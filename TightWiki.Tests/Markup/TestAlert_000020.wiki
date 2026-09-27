@@ -1,7 +1,0 @@
-##title
-##toc
-===Overview
-==Test Result
-{{Alert(Danger, "test")
-This is the body text for Alert
-}}

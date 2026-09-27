@@ -1,7 +1,0 @@
-##title
-##toc
-===Overview
-==Test Result
-{{Table(true, false)
-This is the body text for Table
-}}

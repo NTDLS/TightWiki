@@ -1,7 +1,0 @@
-##title
-##toc
-===Overview
-==Test Result
-{{Jumbotron(White)
-This is the body text for Jumbotron
-}}

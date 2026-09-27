@@ -1,7 +1,0 @@
-##title
-##toc
-===Overview
-==Test Result
-{{Foreground(Warning)
-This is the body text for Foreground
-}}

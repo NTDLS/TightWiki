@@ -55,6 +55,10 @@
             /// Indicates that the last-modified-by and date should not be displayed in the page footer.
             /// </summary>
             public static string HideFooterLastModified { get; } = "HideFooterLastModified";
+            /// <summary>
+            /// Indicates that the global sidebar should not be displayed alongside the page.
+            /// </summary>
+            public static string HideSidebar { get; } = "HideSidebar";
         }
 
         /// <summary>
