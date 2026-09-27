@@ -6,13 +6,16 @@ SELECT
 	P.Navigation,
 	P.CreatedByUserId,
 	P.CreatedDate,
-	P.ModifiedByUserId,
-	P.ModifiedDate
+	PR.ModifiedByUserId,
+	PR.ModifiedDate
 FROM
 	[Page] as P
+INNER JOIN [PageRevision] as PR
+	ON PR.PageId = P.Id
+	AND PR.Revision = P.Revision
 WHERE
-	P.ModifiedByUserId = @UserId
+	PR.ModifiedByUserId = @UserId
 ORDER BY
-	P.ModifiedDate DESC,
+	PR.ModifiedDate DESC,
 	P.[Name] ASC
 LIMIT @TopCount

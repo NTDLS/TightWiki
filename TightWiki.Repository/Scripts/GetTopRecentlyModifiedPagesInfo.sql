@@ -14,6 +14,6 @@ INNER JOIN [PageRevision] as PR
 	ON PR.PageId = P.Id
     AND PR.Revision = P.Revision
 ORDER BY
-	P.ModifiedDate DESC,
+	PR.ModifiedDate DESC,
 	P.[Name] ASC
 LIMIT @TopCount
