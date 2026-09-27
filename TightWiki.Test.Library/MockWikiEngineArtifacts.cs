@@ -113,7 +113,7 @@ namespace TightWiki.Test.Library
                 Id = 1,
                 MostCurrentRevision = 1,
                 Revision = 1,
-                Navigation = TwNavigation.Clean(name),
+                Navigation = TwNamespaceNavigation.CleanAndValidate(name),
             };
         }
 

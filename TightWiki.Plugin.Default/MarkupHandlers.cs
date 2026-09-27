@@ -304,10 +304,13 @@ namespace TightWiki.Plugin.Default
                 throw new Exception($"Invalid internal link syntax: \"{match}\".");
             }
 
+            //This has to be checked before the colons are trimmed off of the page name.
+            bool isExplicitRootNamespace = pageName.Trim().StartsWith("::");
+
             pageName = pageName.Trim(':');
             var pageNavigation = new TwNamespaceNavigation(pageName);
 
-            if (pageName.Trim().StartsWith("::"))
+            if (isExplicitRootNamespace)
             {
                 //The user explicitly specified the root (unnamed) namespace. 
             }

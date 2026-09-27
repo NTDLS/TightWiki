@@ -7,6 +7,7 @@ using System.Security.Claims;
 using TightWiki.Exceptions;
 using TightWiki.Extensions;
 using TightWiki.Library.Caching;
+using TightWiki.Library.Security;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Models;
@@ -17,9 +18,6 @@ namespace TightWiki
     public class TwSessionState
         : ITwSessionState
     {
-        private readonly string _denyString = Plugin.TwPermissionDisposition.Deny.ToString();
-        private readonly string _allowString = Plugin.TwPermissionDisposition.Allow.ToString();
-
         private ITwDatabaseManager? _databaseManager;
         public IQueryCollection? QueryString { get; set; }
         public ILogger<ITwEngine>? Logger { get; private set; }
@@ -230,110 +228,8 @@ namespace TightWiki
                     }
                 }
 
-                foreach (var permission in permissions)
-                {
-                    //Remember that we are evaluating to see if the user holds ANY one of the supplied permissions.
-                    //So, we are going to evaluate each permission in the supplied array individually,
-                    //  ignoring any NULL results (as NULL means that the permission was not explicitly allowed or denied).
-                    //If the permission is explicitly allowed, we return true.
-                    //If the permission is explicitly denied, we move to the next permission because permission could
-                    //  have been denied on a namespace but explicitly allowed on a page (and yes, we test in that order).
-                    //Also note that we do not pass the page when the permission is Create - because that would make no sense.
-                    if (EvaluatePermission(permission, permission == Plugin.TwPermission.Create ? null : page,
-                            permission == Plugin.TwPermission.Create ? null : inferredNamespace) == true)
-                    {
-                        return true;
-                    }
-                }
-                return false;
+                return TwPermissionEvaluator.HoldsAny(Permissions, permissions, page, inferredNamespace);
             });
-        }
-
-        private bool? EvaluatePermission(Plugin.TwPermission permission, TwPage? page, string? inferredNamespace = null)
-        {
-            string permissionString = permission.ToString();
-
-            // Resolve the namespace to check: prefer the actual page's namespace, fall back to what we
-            // parsed from the URL so that deny rules are honoured even for non-existent pages.
-            string? effectiveNamespace = page != null
-                ? (string.IsNullOrEmpty(page.Namespace) ? null : page.Namespace)
-                : inferredNamespace;
-
-            if (page != null)
-            {
-                var pageIdString = page.Id.ToString();
-
-                //Check to see the the user has been explicitly denied access to the current page.
-                if (Permissions.Any(o => o.PageId == pageIdString
-                    && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
-                    && o.PermissionDisposition.Equals(_denyString, StringComparison.InvariantCultureIgnoreCase)))
-                {
-                    return false;
-                }
-                //Check to see the the user has been explicitly granted access to the current page.
-                if (Permissions.Any(o => o.PageId == pageIdString
-                    && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
-                    && o.PermissionDisposition.Equals(_allowString, StringComparison.InvariantCultureIgnoreCase)))
-                {
-                    return true;
-                }
-            }
-
-            //Check namespace-specific rules whenever we have a namespace (from the page or inferred from the URL).
-            //  A specific namespace deny overrides any wildcard allow, ensuring that:
-            //  allow Namespace:* + deny Namespace:Secure results in access to "Secure" being denied.
-            if (effectiveNamespace != null)
-            {
-                //Check to see the the user has been explicitly denied access to the current namespace.
-                if (Permissions.Any(o => o.Namespace?.Equals(effectiveNamespace, StringComparison.InvariantCultureIgnoreCase) == true
-                    && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
-                    && o.PermissionDisposition.Equals(_denyString, StringComparison.InvariantCultureIgnoreCase)))
-                {
-                    return false;
-                }
-
-                //Check to see the the user has been explicitly granted access to the current namespace.
-                if (Permissions.Any(o => o.Namespace?.Equals(effectiveNamespace, StringComparison.InvariantCultureIgnoreCase) == true
-                    && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
-                    && o.PermissionDisposition.Equals(_allowString, StringComparison.InvariantCultureIgnoreCase)))
-                {
-                    return true;
-                }
-            }
-
-            //Check to see the the user has been explicitly denied access to all pages.
-            if (Permissions.Any(o => o.PageId?.Equals("*", StringComparison.InvariantCultureIgnoreCase) == true
-                && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
-                && o.PermissionDisposition.Equals(_denyString, StringComparison.InvariantCultureIgnoreCase)))
-            {
-                return false;
-            }
-
-            //Check to see the the user has been explicitly granted access to all pages.
-            if (Permissions.Any(o => o.PageId?.Equals("*", StringComparison.InvariantCultureIgnoreCase) == true
-                && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
-                && o.PermissionDisposition.Equals(_allowString, StringComparison.InvariantCultureIgnoreCase)))
-            {
-                return true;
-            }
-
-            //Check to see the the user has been explicitly denied access to all namespaces.
-            if (Permissions.Any(o => o.Namespace?.Equals("*", StringComparison.InvariantCultureIgnoreCase) == true
-                && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
-                && o.PermissionDisposition.Equals(_denyString, StringComparison.InvariantCultureIgnoreCase)))
-            {
-                return false;
-            }
-
-            //Check to see the the user has been explicitly granted access to all namespaces.
-            if (Permissions.Any(o => o.Namespace?.Equals("*", StringComparison.InvariantCultureIgnoreCase) == true
-                && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
-                && o.PermissionDisposition.Equals(_allowString, StringComparison.InvariantCultureIgnoreCase)))
-            {
-                return true;
-            }
-
-            return null;
         }
 
         public async Task RequireAuthorizedPermission()

@@ -108,6 +108,19 @@ namespace TightWiki.Tests.Unit
         }
 
         [Theory]
+        //Links on a page in a namespace resolve relative to that namespace, unless prefixed with "::" for the root namespace.
+        [InlineData("[[::Home]]", "<a href=\"/home\">Home</a>")]
+        [InlineData("[[::Home, Take me home!, target:blank]]", "<a href=\"/home\" target=\"_blank\" rel=\"noopener noreferrer\">Take me home!</a>")]
+        [InlineData("[[Links]]", "<a href=\"/wiki_help::links\">Links</a>")]
+        public async Task NamespacedLinkMarkup(string input, string expected)
+        {
+            var session = fixture.CreateWikiSession();
+            var page = fixture.Artifacts.GetMockPage("Wiki Help :: Test", input);
+            var result = await fixture.Artifacts.Engine.Transform(fixture.Artifacts.Localizer, session, page);
+            Assert.Contains(expected, result.HtmlResult);
+        }
+
+        [Theory]
         //Plain tables, including the header/body structure.
         [InlineData("{{Table()\r\nA || B\r\n1 || 2\r\n}}", "<table class=\"table table-bordered\"><thead><tr><td><strong>A </strong></td><td><strong> B</strong></td></tr></thead><tbody><tr><td>1 </td><td> 2</td></tr></tbody></table>")]
         [InlineData("{{Table()\r\nA || B\r\n}}", "<table class=\"table table-bordered\"><thead><tr><td><strong>A </strong></td><td><strong> B</strong></td></tr></thead></table>")]
@@ -129,6 +142,38 @@ namespace TightWiki.Tests.Unit
         [InlineData("{{Table()\r\nA || B\r\n^ || C\r\n}}", "can not merge into the header row")]
         [InlineData("{{Table(true, false)\r\nA || B\r\nC || ^\r\n^ || <\r\n}}", "merged cells must form a rectangle")]
         public async Task TableMarkup(string input, string expected)
+        {
+            var session = fixture.CreateWikiSession();
+            var result = await fixture.Artifacts.Engine.Transform(fixture.Artifacts.Localizer, session, input);
+            Assert.Contains(expected, result.HtmlResult);
+        }
+
+        [Theory]
+        [InlineData("@@HideSidebar\r\nText", "HideSidebar")]
+        [InlineData("@@HideFooterComments\r\nText", "HideFooterComments")]
+        [InlineData("@@HideFooterLastModified\r\nText", "HideFooterLastModified")]
+        [InlineData("@@NoCache\r\nText", "NoCache")]
+        public async Task ProcessingInstructionsAreRecordedAndNotRendered(string input, string instruction)
+        {
+            var session = fixture.CreateWikiSession();
+            var result = await fixture.Artifacts.Engine.Transform(fixture.Artifacts.Localizer, session, input);
+            Assert.Contains(instruction, result.ProcessingInstructions);
+            Assert.Equal("Text", result.HtmlResult.Trim());
+        }
+
+        [Fact]
+        public async Task CodeBlocksAreHtmlEncoded()
+        {
+            var session = fixture.CreateWikiSession();
+            var result = await fixture.Artifacts.Engine.Transform(fixture.Artifacts.Localizer, session, "{{Code()\r\n<b>x</b> & \"y\"\r\n}}");
+            Assert.Contains("<pre><code>&lt;b&gt;x&lt;/b&gt; &amp; &quot;y&quot;</code></pre>", result.HtmlResult);
+            Assert.DoesNotContain("<b>x</b>", result.HtmlResult);
+        }
+
+        [Theory]
+        [InlineData("{{Bullets\r\nA\r\n>B\r\n>>C\r\nD\r\n}}", "<ul><li>A</li><ul><li>B</li><ul><li>C</li></ul></ul><li>D</li></ul>")]
+        [InlineData("{{Bullets(Ordered)\r\nA\r\nB\r\n}}", "<ol><li>A</li><li>B</li></ol>")]
+        public async Task BulletMarkup(string input, string expected)
         {
             var session = fixture.CreateWikiSession();
             var result = await fixture.Artifacts.Engine.Transform(fixture.Artifacts.Localizer, session, input);
