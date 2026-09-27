@@ -147,8 +147,8 @@ namespace TightWiki.Plugin.Default.StandardFunctions
                 throw new Exception($"Localization is not supported without SessionState.");
             }
 
-            var pages = (await state.Engine.DatabaseManager.PageRepository.GetTopRecentlyModifiedPagesInfo(top))
-                .OrderByDescending(o => o.ModifiedDate).ThenBy(o => o.Title).ToList();
+            var pages = (await state.Engine.DatabaseManager.PageRepository.GetTopRecentlyCreatedPagesInfo(top))
+                .OrderByDescending(o => o.CreatedDate).ThenBy(o => o.Title).ToList();
 
             if (pages.Count == 0)
             {

@@ -78,6 +78,33 @@ namespace TightWiki.Tests.Unit
             Assert.Contains(expected, result.HtmlResult);
         }
 
+        [Theory]
+        //External links.
+        [InlineData("[[https://example.com]]", "<a href=\"https://example.com\">https://example.com</a>")]
+        [InlineData("[[https://example.com, Text]]", "<a href=\"https://example.com\">Text</a>")]
+        [InlineData("[[https://example.com, Text, target:blank]]", "<a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Text</a>")]
+        [InlineData("[[https://example.com, Text, target:_blank]]", "<a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Text</a>")]
+        [InlineData("[[https://example.com, image:https://example.com/i.png]]", "<a href=\"https://example.com\"><img src=\"https://example.com/i.png\" border =\"0\"></a>")]
+        [InlineData("[[https://example.com, image:https://example.com/i.png, 50, target:blank]]", "<a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://example.com/i.png\" border =\"0\"></a>")]
+        //Internal links.
+        [InlineData("[[Home]]", "<a href=\"/home\">Home</a>")]
+        [InlineData("[[Home, Text]]", "<a href=\"/home\">Text</a>")]
+        [InlineData("[[Home, Text, 50]]", "<a href=\"/home\">Text</a>")]
+        [InlineData("[[Home, Text, target:blank]]", "<a href=\"/home\" target=\"_blank\" rel=\"noopener noreferrer\">Text</a>")]
+        [InlineData("[[Home, image:http://example.com/x.gif]]", "<a href=\"/home\"><img src=\"http://example.com/x.gif\" /></a>")]
+        [InlineData("[[Home, image:Builtin :: Media/TightWiki Icon 6.png]]", "<a href=\"/home\"><img src=\"/Page/Image/Builtin :: Media/TightWiki Icon 6.png?Scale=100\" /></a>")]
+        [InlineData("[[Home, image:Builtin :: Media/TightWiki Icon 6.png, 25]]", "<a href=\"/home\"><img src=\"/Page/Image/Builtin :: Media/TightWiki Icon 6.png?Scale=25\" /></a>")]
+        [InlineData("[[Home, image:Builtin :: Media/TightWiki Icon 6.png, target:blank]]", "<a href=\"/home\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"/Page/Image/Builtin :: Media/TightWiki Icon 6.png?Scale=100\" /></a>")]
+        [InlineData("[[Home, image:Builtin :: Media/TightWiki Icon 6.png, 25, target:blank]]", "<a href=\"/home\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"/Page/Image/Builtin :: Media/TightWiki Icon 6.png?Scale=25\" /></a>")]
+        //Invalid options.
+        [InlineData("[[Home, Text, bogus]]", "unknown argument \"bogus\"")]
+        [InlineData("[[Home, Text, target:blank, target:self]]", "target specified more than once")]
+        [InlineData("[[https://example.com, Text, target:]]", "invalid target \"target:\"")]
+        public async Task LinkMarkup(string input, string expected)
+        {
+            var session = fixture.CreateWikiSession();
+            var result = await fixture.Artifacts.Engine.Transform(fixture.Artifacts.Localizer, session, input);
+            Assert.Contains(expected, result.HtmlResult);
+        }
     }
 }
-
