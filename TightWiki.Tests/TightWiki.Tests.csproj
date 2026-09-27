@@ -64,8 +64,4 @@
 		<Using Include="Xunit" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Markup\" />
-	</ItemGroup>
-
 </Project>
