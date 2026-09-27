@@ -1,7 +1,0 @@
-##title
-##toc
-===Overview
-==Test Result
-{{Card(Danger, "test")
-This is the body text for Card
-}}

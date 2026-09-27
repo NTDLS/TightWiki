@@ -146,12 +146,13 @@ namespace TightWiki.Plugin.Default
         [TwPluginRegularExpression(@"(\[\[https\:\/\/.+?\]\])")]
         public async Task<TwPluginResult> HandleExternalLinks(ITwEngineState state, TwOrderedMatch match)
         {
-
             string link = match.Value.Substring(2, match.Value.Length - 4).Trim();
             var args = ParsedFunction.ParseArgumentsAddParenthesis(link);
 
             string? text = null;
             string? image = null;
+            string hrefArgs = string.Empty;
+            int imageScale = 100;
 
             if (args.Count > 1)
             {
@@ -164,6 +165,8 @@ namespace TightWiki.Plugin.Default
                     image = text.Substring(imageTag.Length).Trim();
                     text = null;
                 }
+
+                hrefArgs = ParseLinkOptions(args, match, "external", ref imageScale);
             }
             else
             {
@@ -172,18 +175,71 @@ namespace TightWiki.Plugin.Default
 
             if (string.IsNullOrEmpty(image))
             {
-                return new TwPluginResult($"<a href=\"{link}\">{text}</a>")
+                return new TwPluginResult($"<a href=\"{link}\"{hrefArgs}>{text}</a>")
                 {
                     Instructions = [TwResultInstruction.DisallowNestedProcessing]
                 };
             }
             else
             {
-                return new TwPluginResult($"<a href=\"{link}\"><img src=\"{image}\" border =\"0\"></a>")
+                //Scale is only understood by the wiki's own image endpoint, so it is not appended to external image URLs.
+                bool isExternalImage = image.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase)
+                    || image.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase);
+                var imageSrc = isExternalImage ? image : $"{image}?Scale={imageScale}";
+
+                return new TwPluginResult($"<a href=\"{link}\"{hrefArgs}><img src=\"{imageSrc}\" border =\"0\"></a>")
                 {
                     Instructions = [TwResultInstruction.DisallowNestedProcessing]
                 };
             }
+        }
+
+        /// <summary>
+        /// Parses the optional arguments that follow a link's target and text/image, returning the extra anchor attributes.
+        /// This has to stay compatible with the old link syntax where the FIRST argument is the link, the SECOND is
+        ///  the link text or image and the THIRD, when numeric, is the image scale. Any arguments after those can be
+        ///  in any order, but must be prefixed with a tag like "target:" to be recognized.
+        /// </summary>
+        private static string ParseLinkOptions(List<string> args, TwOrderedMatch match, string linkKind, ref int imageScale)
+        {
+            int startIndex = 2; //Skip the link and the text/image.
+
+            if (args.Count > startIndex && int.TryParse(args[startIndex], out var scale))
+            {
+                imageScale = scale;
+                startIndex++;
+            }
+
+            var attributes = new System.Text.StringBuilder();
+            bool hasTarget = false;
+
+            for (int i = startIndex; i < args.Count; i++)
+            {
+                var arg = args[i];
+
+                string argTag = "target:";
+                if (arg.StartsWith(argTag, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    if (hasTarget)
+                    {
+                        throw new Exception($"Invalid {linkKind} link syntax: \"{match.Value}\", target specified more than once.");
+                    }
+                    hasTarget = true;
+
+                    //Accept both "blank" and "_blank", and only allow characters that are valid in a browsing context name.
+                    var target = arg.Substring(argTag.Length).Trim().TrimStart('_');
+                    if (target.Length == 0 || !target.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_'))
+                    {
+                        throw new Exception($"Invalid {linkKind} link syntax: \"{match.Value}\", invalid target \"{arg}\".");
+                    }
+                    attributes.Append($" target=\"_{target}\" rel=\"noopener noreferrer\"");
+                    continue;
+                }
+
+                throw new Exception($"Invalid {linkKind} link syntax: \"{match.Value}\", unknown argument \"{arg}\".");
+            }
+
+            return attributes.ToString();
         }
 
         /// <summary>
@@ -217,6 +273,7 @@ namespace TightWiki.Plugin.Default
             string text;
             string? image = null;
             int imageScale = 100;
+            string hrefArgs = string.Empty;
 
             if (args.Count == 1)
             {
@@ -240,24 +297,20 @@ namespace TightWiki.Plugin.Default
                     text = args[1]; //Explicit text.
                 }
 
-                if (args.Count >= 3)
-                {
-                    //Get the specified image scale.
-                    if (int.TryParse(args[2], out imageScale) == false)
-                    {
-                        imageScale = 100;
-                    }
-                }
+                hrefArgs = ParseLinkOptions(args, match, "internal", ref imageScale);
             }
             else
             {
                 throw new Exception($"Invalid internal link syntax: \"{match}\".");
             }
 
+            //This has to be checked before the colons are trimmed off of the page name.
+            bool isExplicitRootNamespace = pageName.Trim().StartsWith("::");
+
             pageName = pageName.Trim(':');
             var pageNavigation = new TwNamespaceNavigation(pageName);
 
-            if (pageName.Trim().StartsWith("::"))
+            if (isExplicitRootNamespace)
             {
                 //The user explicitly specified the root (unnamed) namespace. 
             }
@@ -285,12 +338,12 @@ namespace TightWiki.Plugin.Default
                             || image.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
                         {
                             //The image is external.
-                            href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/Page/Create?Name={pageName}\"><img src=\"{image}\" /></a>";
+                            href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/Page/Create?Name={pageName}\"{hrefArgs}><img src=\"{image}\" /></a>";
                         }
                         else if (image.Contains('/'))
                         {
                             //The image is located on another page.
-                            href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/Page/Create?Name={pageName}\"><img src=\"{state.Engine.WikiConfiguration.BasePath}/Page/Image/{image}?Scale={imageScale}\" /></a>";
+                            href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/Page/Create?Name={pageName}\"{hrefArgs}><img src=\"{state.Engine.WikiConfiguration.BasePath}/Page/Image/{image}?Scale={imageScale}\" /></a>";
                         }
                         else
                         {
@@ -305,7 +358,7 @@ namespace TightWiki.Plugin.Default
                     }
                     else if (text != null)
                     {
-                        var href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/Page/Create?Name={pageName}\">{text}</a>"
+                        var href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/Page/Create?Name={pageName}\"{hrefArgs}>{text}</a>"
                             + "<font color=\"#cc0000\" size=\"2\">?</font>";
 
                         return new TwPluginResult(href)
@@ -371,17 +424,17 @@ namespace TightWiki.Plugin.Default
                         || image.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
                     {
                         //The image is external.
-                        href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\"><img src=\"{image}\" /></a>";
+                        href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\"{hrefArgs}><img src=\"{image}\" /></a>";
                     }
                     else if (image.Contains('/'))
                     {
                         //The image is located on another page.
-                        href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\"><img src=\"{state.Engine.WikiConfiguration.BasePath}/Page/Image/{image}?Scale={imageScale}\" /></a>";
+                        href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\"{hrefArgs}><img src=\"{state.Engine.WikiConfiguration.BasePath}/Page/Image/{image}?Scale={imageScale}\" /></a>";
                     }
                     else if (state.Page != null)
                     {
                         //The image is located on this page.
-                        href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\"><img src=\"{state.Engine.WikiConfiguration.BasePath}/Page/Image/{state.Page.Navigation}/{image}?Scale={imageScale}\" /></a>";
+                        href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\"{hrefArgs}><img src=\"{state.Engine.WikiConfiguration.BasePath}/Page/Image/{state.Page.Navigation}/{image}?Scale={imageScale}\" /></a>";
                     }
                     else
                     {
@@ -391,7 +444,7 @@ namespace TightWiki.Plugin.Default
                 else
                 {
                     //Just a plain ol' internal page link.
-                    href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\">{text}</a>";
+                    href = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}/{page.Navigation}\"{hrefArgs}>{text}</a>";
                 }
 
                 return new TwPluginResult(href)

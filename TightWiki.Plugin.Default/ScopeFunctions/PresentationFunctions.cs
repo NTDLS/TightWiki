@@ -50,7 +50,17 @@ namespace TightWiki.Plugin.Default.ScopeFunctions
         [TwScopeFunctionPlugin("StripedTable", "Renders a striped table with optional border and header row.")]
         public async Task<TwPluginResult> StripedTable(ITwEngineState state, string scopeBody,
             bool hasBorder = true, bool isFirstRowHeader = true)
-            => await BaseTable(state, scopeBody, hasBorder, isFirstRowHeader);
+            => await BaseTable(state, scopeBody, hasBorder, isFirstRowHeader, isStriped: true);
+
+        /// <summary>
+        /// A cell containing only this marker is merged into the cell to its left (colspan).
+        /// </summary>
+        private const string MergeLeftMarker = "<";
+
+        /// <summary>
+        /// A cell containing only this marker is merged into the cell above it (rowspan).
+        /// </summary>
+        private const string MergeUpMarker = "^";
 
         private async Task<TwPluginResult> BaseTable(ITwEngineState state, string scopeBody,
             bool hasBorder = true, bool isFirstRowHeader = true, bool isStriped = false)
@@ -70,49 +80,134 @@ namespace TightWiki.Plugin.Default.ScopeFunctions
 
             html.Append($"\">");
 
-            var lines = scopeBody.Split(['\n'], StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
+            var rows = scopeBody.Split(['\n'], StringSplitOptions.RemoveEmptyEntries)
+                .Select(o => o.Trim()).Where(o => o.Length > 0)
+                .Select(o => o.Split("||")).ToList();
 
-            int rowNumber = 0;
+            var anchors = ResolveMergedCells(rows, isFirstRowHeader);
 
-            foreach (var lineText in lines)
+            for (int rowIndex = 0; rowIndex < rows.Count; rowIndex++)
             {
-                var columns = lineText.Split("||");
+                bool isHeaderRow = rowIndex == 0 && isFirstRowHeader;
 
-                if (rowNumber == 0 && isFirstRowHeader)
+                if (isHeaderRow)
                 {
                     html.Append($"<thead>");
                 }
-                else if (rowNumber == 1 && isFirstRowHeader || rowNumber == 0 && isFirstRowHeader == false)
+                else if (rowIndex == 0 || (rowIndex == 1 && isFirstRowHeader))
                 {
                     html.Append($"<tbody>");
                 }
 
                 html.Append($"<tr>");
-                foreach (var columnText in columns)
+                for (int columnIndex = 0; columnIndex < rows[rowIndex].Length; columnIndex++)
                 {
-                    if (rowNumber == 0 && isFirstRowHeader)
+                    if (!anchors.TryGetValue((rowIndex, columnIndex), out var span))
                     {
-                        html.Append($"<td><strong>{columnText}</strong></td>");
+                        continue; //This cell was merged into another cell.
+                    }
+
+                    var columnText = rows[rowIndex][columnIndex];
+
+                    html.Append("<td");
+                    if (span.ColSpan > 1)
+                    {
+                        html.Append($" colspan=\"{span.ColSpan}\"");
+                    }
+                    if (span.RowSpan > 1)
+                    {
+                        html.Append($" rowspan=\"{span.RowSpan}\"");
+                    }
+                    html.Append('>');
+
+                    if (isHeaderRow)
+                    {
+                        html.Append($"<strong>{columnText}</strong>");
                     }
                     else
                     {
-                        html.Append($"<td>{columnText}</td>");
+                        html.Append(columnText);
                     }
-                }
-
-                if (rowNumber == 0 && isFirstRowHeader)
-                {
-                    html.Append($"</thead>");
+                    html.Append("</td>");
                 }
                 html.Append($"</tr>");
 
-                rowNumber++;
+                if (isHeaderRow)
+                {
+                    html.Append($"</thead>");
+                }
             }
 
-            html.Append($"</tbody>");
+            if (rows.Count > (isFirstRowHeader ? 1 : 0))
+            {
+                html.Append($"</tbody>");
+            }
             html.Append($"</table>");
 
             return new TwPluginResult(html.ToString());
+        }
+
+        /// <summary>
+        /// Resolves the merge markers in a table, returning the span of every cell that is rendered.
+        /// Cells that were merged into another cell are absent from the result.
+        /// </summary>
+        private static Dictionary<(int Row, int Column), (int ColSpan, int RowSpan)> ResolveMergedCells(
+            List<string[]> rows, bool isFirstRowHeader)
+        {
+            //The cell that each cell belongs to; unmerged cells belong to themselves.
+            var owners = new Dictionary<(int Row, int Column), (int Row, int Column)>();
+
+            for (int rowIndex = 0; rowIndex < rows.Count; rowIndex++)
+            {
+                for (int columnIndex = 0; columnIndex < rows[rowIndex].Length; columnIndex++)
+                {
+                    var marker = rows[rowIndex][columnIndex].Trim();
+
+                    if (marker == MergeLeftMarker)
+                    {
+                        if (columnIndex == 0)
+                        {
+                            throw new Exception($"Table row {rowIndex + 1}: \"{MergeLeftMarker}\" can not merge left from the first column.");
+                        }
+                        owners[(rowIndex, columnIndex)] = owners[(rowIndex, columnIndex - 1)];
+                    }
+                    else if (marker == MergeUpMarker)
+                    {
+                        if (!owners.TryGetValue((rowIndex - 1, columnIndex), out var owner))
+                        {
+                            throw new Exception($"Table row {rowIndex + 1}, column {columnIndex + 1}: \"{MergeUpMarker}\" has no cell above it to merge into.");
+                        }
+                        if (rowIndex == 1 && isFirstRowHeader)
+                        {
+                            throw new Exception($"Table row {rowIndex + 1}, column {columnIndex + 1}: \"{MergeUpMarker}\" can not merge into the header row.");
+                        }
+                        owners[(rowIndex, columnIndex)] = owner;
+                    }
+                    else
+                    {
+                        owners[(rowIndex, columnIndex)] = (rowIndex, columnIndex);
+                    }
+                }
+            }
+
+            var spans = new Dictionary<(int Row, int Column), (int ColSpan, int RowSpan)>();
+
+            foreach (var group in owners.GroupBy(o => o.Value, o => o.Key))
+            {
+                var anchor = group.Key;
+                int colSpan = group.Max(o => o.Column) - anchor.Column + 1;
+                int rowSpan = group.Max(o => o.Row) - anchor.Row + 1;
+
+                //Every merged block must be a filled rectangle, otherwise it can not be expressed with colspan/rowspan.
+                if (group.Count() != colSpan * rowSpan || group.Any(o => o.Column < anchor.Column))
+                {
+                    throw new Exception($"Table row {anchor.Row + 1}, column {anchor.Column + 1}: merged cells must form a rectangle.");
+                }
+
+                spans[anchor] = (colSpan, rowSpan);
+            }
+
+            return spans;
         }
 
         [TwScopeFunctionPlugin("Bullets", "Renders a list of bullets with optional nesting.")]

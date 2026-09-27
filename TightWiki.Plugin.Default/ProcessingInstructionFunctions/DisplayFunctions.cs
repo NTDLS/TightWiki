@@ -20,6 +20,16 @@ namespace TightWiki.Plugin.Default.ProcessingInstructionFunctions
             };
         }
 
+        [TwProcessingInstructionFunctionPlugin("HideSidebar", "Hides the global sidebar on this page.")]
+        public async Task<TwPluginResult> HideSidebar(ITwEngineState state)
+        {
+            state.ProcessingInstructions.Add(TwInstruction.HideSidebar);
+            return new TwPluginResult(string.Empty)
+            {
+                Instructions = [TwResultInstruction.TruncateTrailingLine]
+            };
+        }
+
         [TwProcessingInstructionFunctionPlugin("HideFooterComments", "Hides the comments section in the footer.")]
         public async Task<TwPluginResult> HideFooterComments(ITwEngineState state)
         {

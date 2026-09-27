@@ -1,7 +1,0 @@
-##title
-##toc
-===Overview
-==Test Result
-{{Figure(End, "test")
-This is the body text for Figure
-}}

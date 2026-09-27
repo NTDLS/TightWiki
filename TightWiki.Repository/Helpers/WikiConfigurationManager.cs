@@ -75,6 +75,8 @@ namespace TightWiki.Repository.Helpers
             WikiConfiguration.HTMLPostBody = htmlConfig?.Value<string>("Post-Body") ?? string.Empty;
             WikiConfiguration.BrandImageSmall = customizationConfig?.Value<string>("Brand Image (Small)") ?? string.Empty;
             WikiConfiguration.FooterBlurb = customizationConfig?.Value<string>("FooterBlurb") ?? string.Empty;
+            WikiConfiguration.EnableSidebar = customizationConfig?.Value("Enable Sidebar", false) ?? false;
+            WikiConfiguration.SidebarPage = customizationConfig?.Value("Sidebar Page", string.Empty) ?? string.Empty;
             WikiConfiguration.MaxAvatarFileSize = filesAndAttachmentsConfig.Value<int>("Max Avatar File Size");
             WikiConfiguration.MaxAttachmentFileSize = filesAndAttachmentsConfig.Value<int>("Max Attachment File Size");
             WikiConfiguration.MaxEmojiFileSize = filesAndAttachmentsConfig.Value<int>("Max Emoji File Size");

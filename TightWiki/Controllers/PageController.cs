@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using NTDLS.Helpers;
 using System.Globalization;
+using System.Net;
 using System.Text;
 using System.Xml.Serialization;
 using TightWiki.Library;
@@ -205,6 +206,7 @@ namespace TightWiki.Controllers
             {
                 var model = new PageDisplayViewModel();
                 var navigation = new TwNamespaceNavigation(givenCanonical);
+                bool hideSidebar = false;
 
                 var page = await pageRepository.GetPageRevisionByNavigation(navigation.Canonical, pageRevision);
                 if (page != null)
@@ -219,6 +221,7 @@ namespace TightWiki.Controllers
                     model.Navigation = page.Navigation;
                     model.HideFooterComments = instructions.Contains(TwInstruction.HideFooterComments);
                     model.HideFooterLastModified = instructions.Contains(TwInstruction.HideFooterLastModified);
+                    hideSidebar = instructions.Contains(TwInstruction.HideSidebar);
                     model.ModifiedByUserName = page.ModifiedByUserName;
                     model.ModifiedDate = SessionState.LocalizeDateTime(page.ModifiedDate);
 
@@ -323,12 +326,78 @@ namespace TightWiki.Controllers
                     }
                 }
 
+                if (!hideSidebar)
+                {
+                    model.SidebarHtml = await RenderSidebar();
+                }
+
                 return View(model);
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex, "An error occurred while displaying page with navigation {Navigation} and revision {Revision}.", givenCanonical, pageRevision);
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// Renders the configured sidebar page, or returns null when the sidebar is disabled or the current user
+        /// is not permitted to read it. When the sidebar page does not exist yet, users who can create it get a link to do so.
+        /// </summary>
+        private async Task<string?> RenderSidebar()
+        {
+            if (!WikiConfiguration.EnableSidebar || string.IsNullOrWhiteSpace(WikiConfiguration.SidebarPage))
+            {
+                return null;
+            }
+
+            try
+            {
+                var sidebarNavigation = TwNamespaceNavigation.CleanAndValidate(WikiConfiguration.SidebarPage);
+
+                if (!await SessionState.HoldsPermission(sidebarNavigation, TwPermission.Read))
+                {
+                    return null;
+                }
+
+                var sidebarPage = await pageRepository.GetPageRevisionByNavigation(sidebarNavigation);
+                if (sidebarPage == null)
+                {
+                    if (SessionState.IsAuthenticated && await SessionState.HoldsPermission(sidebarNavigation, TwPermission.Create))
+                    {
+                        var createUrl = $"{WikiConfiguration.BasePath}/Page/Create?Name={Uri.EscapeDataString(WikiConfiguration.SidebarPage)}";
+                        return $"<a class=\"small text-muted\" href=\"{createUrl}\">"
+                            + WebUtility.HtmlEncode(Localizer.Format("Create the sidebar page \"{0}\"", WikiConfiguration.SidebarPage))
+                            + "</a>";
+                    }
+                    return null;
+                }
+
+                if (WikiConfiguration.PageCacheSeconds > 0)
+                {
+                    //The revision is part of the key, so editing the sidebar page naturally invalidates the cached copy.
+                    var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Page, ["Sidebar", sidebarPage.Navigation, sidebarPage.Revision]);
+                    if (MemCache.TryGet<TwPageCache>(cacheKey, out var cached))
+                    {
+                        MemCache.Set(cacheKey, cached); //Update the cache expiration.
+                        return cached.Body;
+                    }
+
+                    var state = await tightEngine.Transform(Localizer, SessionState, sidebarPage);
+                    if (state.ProcessingInstructions.Contains(TwInstruction.NoCache) == false)
+                    {
+                        MemCache.Set(cacheKey, new TwPageCache(state.HtmlResult));
+                    }
+                    return state.HtmlResult;
+                }
+
+                return (await tightEngine.Transform(Localizer, SessionState, sidebarPage)).HtmlResult;
+            }
+            catch (Exception ex)
+            {
+                //A broken sidebar should not prevent every page in the wiki from being displayed.
+                Logger.LogError(ex, "An error occurred while rendering the sidebar page {SidebarPage}.", WikiConfiguration.SidebarPage);
+                return null;
             }
         }
 
