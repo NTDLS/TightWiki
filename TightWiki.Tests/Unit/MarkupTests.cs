@@ -106,5 +106,33 @@ namespace TightWiki.Tests.Unit
             var result = await fixture.Artifacts.Engine.Transform(fixture.Artifacts.Localizer, session, input);
             Assert.Contains(expected, result.HtmlResult);
         }
+
+        [Theory]
+        //Plain tables, including the header/body structure.
+        [InlineData("{{Table()\r\nA || B\r\n1 || 2\r\n}}", "<table class=\"table table-bordered\"><thead><tr><td><strong>A </strong></td><td><strong> B</strong></td></tr></thead><tbody><tr><td>1 </td><td> 2</td></tr></tbody></table>")]
+        [InlineData("{{Table()\r\nA || B\r\n}}", "<table class=\"table table-bordered\"><thead><tr><td><strong>A </strong></td><td><strong> B</strong></td></tr></thead></table>")]
+        [InlineData("{{Table(false, false)\r\nA || B\r\n}}", "<table class=\"table\"><tbody><tr><td>A </td><td> B</td></tr></tbody></table>")]
+        [InlineData("{{StripedTable()\r\nA\r\n1\r\n}}", "<table class=\"table table-striped table-bordered\">")]
+        //Column spans.
+        [InlineData("{{Table()\r\nA || <\r\n1 || 2\r\n}}", "<thead><tr><td colspan=\"2\"><strong>A </strong></td></tr></thead><tbody><tr><td>1 </td><td> 2</td></tr></tbody>")]
+        [InlineData("{{Table(true, false)\r\nA || < || <\r\n}}", "<tbody><tr><td colspan=\"3\">A </td></tr></tbody>")]
+        //Row spans.
+        [InlineData("{{Table()\r\nH1 || H2\r\nA || B\r\n^ || C\r\n}}", "<tbody><tr><td rowspan=\"2\">A </td><td> B</td></tr><tr><td> C</td></tr></tbody>")]
+        //Column and row spans together.
+        [InlineData("{{Table(true, false)\r\nA || < || B\r\n^ || ^ || C\r\n}}", "<tbody><tr><td colspan=\"2\" rowspan=\"2\">A </td><td> B</td></tr><tr><td> C</td></tr></tbody>")]
+        [InlineData("{{Table(true, false)\r\nA || B\r\n^ || ^\r\n}}", "<tbody><tr><td rowspan=\"2\">A </td><td rowspan=\"2\"> B</td></tr><tr></tr></tbody>")]
+        //Literal markers are not treated as merges.
+        [InlineData("{{Table(true, false)\r\nA || #{<}#\r\n#{^}# || B\r\n}}", "<tbody><tr><td>A </td><td> &lt;</td></tr><tr><td>^ </td><td> B</td></tr></tbody>")]
+        //Invalid merges.
+        [InlineData("{{Table()\r\n< || A\r\n}}", "can not merge left from the first column")]
+        [InlineData("{{Table(true, false)\r\n^ || A\r\n}}", "has no cell above it to merge into")]
+        [InlineData("{{Table()\r\nA || B\r\n^ || C\r\n}}", "can not merge into the header row")]
+        [InlineData("{{Table(true, false)\r\nA || B\r\nC || ^\r\n^ || <\r\n}}", "merged cells must form a rectangle")]
+        public async Task TableMarkup(string input, string expected)
+        {
+            var session = fixture.CreateWikiSession();
+            var result = await fixture.Artifacts.Engine.Transform(fixture.Artifacts.Localizer, session, input);
+            Assert.Contains(expected, result.HtmlResult);
+        }
     }
 }
