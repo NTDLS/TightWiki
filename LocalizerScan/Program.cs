@@ -30,9 +30,17 @@ namespace LocalizerScan
 
         private static async Task<int> Main(string[] args)
         {
+            if (args.Length == 2 && args[0].Equals("--validate", StringComparison.OrdinalIgnoreCase))
+            {
+                //Only checks the existing translations, clearing any that are broken so that the next run retranslates them.
+                ClearInvalidTranslations(args[1]);
+                return 0;
+            }
+
             if (args.Length < 2)
             {
                 Console.WriteLine("Usage: LocalizerScan <rootPath> <resourcePath> [concurrency]");
+                Console.WriteLine("       LocalizerScan --validate <resourcePath>");
                 return 1;
             }
 
@@ -46,6 +54,7 @@ namespace LocalizerScan
             var concurrency = args.Length > 2 && int.TryParse(args[2], out var requested) && requested > 0 ? requested : DefaultConcurrency;
 
             ScanSourceFilesAndAddMissingKeys(rootPath, resourcePath);
+            ClearInvalidTranslations(resourcePath);
             await FillInMissingTranslations(resourcePath, einkr, "English", concurrency);
 
             return 0;
@@ -206,6 +215,53 @@ namespace LocalizerScan
         }
 
         /// <summary>
+        /// Clears any existing translations that fail validation, so that they are translated again.
+        /// </summary>
+        private static void ClearInvalidTranslations(string resourcePath)
+        {
+            int cleared = 0;
+
+            foreach (var sourceFileName in Directory.GetFiles(resourcePath, "*.*.resx", SearchOption.TopDirectoryOnly))
+            {
+                var fileName = Path.GetFileName(sourceFileName);
+                var parts = fileName.Split('.');
+                if (parts.Length != 3)
+                {
+                    continue; //We only check files named "NAME.langCode.resx"
+                }
+
+                var doc = XDocument.Load(sourceFileName, LoadOptions.PreserveWhitespace);
+                bool changed = false;
+
+                foreach (var data in doc.Root?.Elements("data") ?? [])
+                {
+                    var key = data.Attribute("name")?.Value;
+                    var valueElem = data.Element("value");
+                    if (key == null || string.IsNullOrEmpty(valueElem?.Value))
+                    {
+                        continue;
+                    }
+
+                    var problems = TranslationValidator.GetProblems(parts[1], key, valueElem.Value);
+                    if (problems.Count > 0)
+                    {
+                        Log(fileName, $"Cleared \"{key}\" = \"{valueElem.Value}\": {string.Join("; ", problems)}");
+                        valueElem.Value = string.Empty;
+                        changed = true;
+                        cleared++;
+                    }
+                }
+
+                if (changed)
+                {
+                    doc.Save(sourceFileName);
+                }
+            }
+
+            Console.WriteLine($"Cleared {cleared:n0} invalid translations.");
+        }
+
+        /// <summary>
         /// Translates the language files concurrently. Each file has its own XML document and phrase list,
         ///  so the only thing shared between them is the (thread-safe) client.
         /// </summary>
@@ -306,7 +362,7 @@ namespace LocalizerScan
                 for (int attempt = 1; attempt <= MaxBatchAttempts && translations == null; attempt++)
                 {
                     Log(fileName, $"Processing batch of {batch.Count:n0} elements -> {targetLanguage.Name}{(attempt > 1 ? $" (attempt {attempt})" : "")}");
-                    translations = await TranslateBatch(fileName, chat, promptText, batch, cancellationToken);
+                    translations = await TranslateBatch(fileName, parts[1], chat, promptText, batch, cancellationToken);
                 }
 
                 if (translations == null)
@@ -341,7 +397,7 @@ namespace LocalizerScan
         /// <summary>
         /// Translates one batch of phrases, returning null if the response could not be parsed.
         /// </summary>
-        private static async Task<Dictionary<string, string>?> TranslateBatch(string fileName, EinkrAIClient chat, string promptText,
+        private static async Task<Dictionary<string, string>?> TranslateBatch(string fileName, string languageCode, EinkrAIClient chat, string promptText,
             List<string> batch, CancellationToken cancellationToken)
         {
             //Create a single input block containing all of the phrases to be translated with numeric tags.
@@ -383,16 +439,16 @@ namespace LocalizerScan
 
                 var translatedPhrase = translatedBlock.Substring(startIndex, endIndex - startIndex).Trim();
 
-                if (translatedPhrase.Length == 0 || translatedPhrase.Contains("<Phrase") || translatedPhrase.Contains("</Phrase"))
+                if (translatedPhrase.Length == 0)
                 {
-                    Log(fileName, "The translation is empty or contains unprocessed tags. Retrying..");
+                    Log(fileName, $"The translation of \"{batch[index]}\" is empty. Retrying..");
                     return null;
                 }
 
-                //U+FFFD means the model emitted an invalid UTF-8 sequence, which leaves a broken character in the text.
-                if (translatedPhrase.Contains('�'))
+                var problems = TranslationValidator.GetProblems(languageCode, batch[index], translatedPhrase);
+                if (problems.Count > 0)
                 {
-                    Log(fileName, $"The translation of \"{batch[index]}\" contains an invalid character. Retrying..");
+                    Log(fileName, $"The translation of \"{batch[index]}\" is invalid ({string.Join("; ", problems)}). Retrying..");
                     return null;
                 }
 
