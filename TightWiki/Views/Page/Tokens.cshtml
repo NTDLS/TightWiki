@@ -56,8 +56,8 @@
     </div>
 </div>
 
-<div id="treemap" style="width: 100%; height: 480px; position: abs;"></div>
-<div id="tooltip" style="display:none; position:fixed; background:white; border:1px solid #ddd; border-radius:6px; padding:8px 12px; font-size:13px; pointer-events:none; z-index:10;"></div>
+<div id="treemap" style="width: 100%; height: 480px;"></div>
+<div id="tooltip" style="display:none; position:fixed; background:var(--bs-body-bg); color:var(--bs-body-color); border:var(--bs-border-width) solid var(--bs-border-color); border-radius:6px; padding:8px 12px; font-size:13px; pointer-events:none; z-index:10;"></div>
 
 @section Scripts {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
             tooltip.style.display = 'block';
             tooltip.style.left = (event.clientX + 12) + 'px';
             tooltip.style.top = (event.clientY - 40) + 'px';
-            tooltip.innerHTML = `<span style="font-weight:500">${d.data.token}</span><br><span style="color:#888">weight: ${d.data.weight.toFixed(1)}</span>`;
+            tooltip.innerHTML = `<span style="font-weight:500">${d.data.token}</span><br><span style="color:var(--bs-secondary-color)">weight: ${d.data.weight.toFixed(1)}</span>`;
         })
         .on('mouseleave', function () { tooltip.style.display = 'none'; });
 

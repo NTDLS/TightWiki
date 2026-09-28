@@ -1,4 +1,4 @@
-﻿@using TightWiki
+@using TightWiki
 @using TightWiki.Plugin
 @using TightWiki.Plugin.Interfaces
 @using TightWiki.Plugin.Library
@@ -8,102 +8,69 @@
 
 @model FileAttachmentViewModel
 @{
+    //This is a fragment that the page editor loads into its attachment list, the editor's layout provides the styles and scripts.
     var sessionState = ViewData["SessionState"] as TightWiki.TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <!-- Theme:Begin -->
-    @foreach (var file in sessionState.UserTheme.Files)
-    {
-        if (file.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) || file.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
-        {
-            <link rel="stylesheet" href="@file" />
-        }
-        else
-        {
-            <link rel="stylesheet" href="@Url.Content($"~{file}")" />
-        }
-    }
-    <!-- Theme:End-->
-
-    <link rel="stylesheet" href="@Url.Content("~/css/base.css")" />
-
-    <script>
-        $(document).ready(function () {
-            localStorage.setItem('theme', 'dark');
-            $('nav').removeClass('navbar-light bg-white').addClass('@sessionState.UserTheme.ClassNavBar');
-            $('a.nav-link').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassNavLink');
-            $('a.dropdown-item').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassDropdown');
-            $('span.glyphicon').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassBranding');
-        });
-
-        function detachFile(fileName) {
-
-            if (confirm("@(Localizer["Are you sure you want to detach"]) '" + fileName + "'?")) {
-                $.ajax({
-                    type: 'POST',
-                        url: '@WikiConfiguration.BasePath/File/Detach/'
-                         + encodeURIComponent('@Html.Raw(Model.PageNavigation)')
-                         + '/' + encodeURIComponent(fileName)
-                         + '/' + encodeURIComponent('@Model.PageRevision'),
-                    success: function (result) {
-                            $("#uploadedFiles").load("@WikiConfiguration.BasePath/File/PageAttachments/@Html.Raw(Model.PageNavigation)");
-                    }
-                });
+<script>
+    function detachFile(fileName) {
+        const message = @Json.Serialize(Localizer["Are you sure you want to detach \"{0}\"?"].Value);
+        twConfirm(message.replace('{0}', fileName)).then(function (confirmed) {
+            if (!confirmed) {
+                return;
             }
-        }
-
-        function copyToClipboard(text, element) {
-
-            var ext = text.split('.').pop().toLowerCase();
-            if (ext.includes('png') || ext.includes('jpg') || ext.includes('jpeg') || ext.includes('gif') || ext.includes('bmp')) {
-                text = '##Image(' + text + ')';
-            }
-            else {
-                text = '##File(' + text + ')';
-            }
-
-            navigator.clipboard.writeText(text).then(function () {
-                var originalText = element.innerHTML;
-                var originalClass = element.className;
-
-                element.innerHTML = '<i class="bi bi-check-circle"></i> @(Localizer["Tag Copied"])';
-                element.className = 'btn btn-thin btn-success';
-
-                setTimeout(function () {
-                    element.innerHTML = originalText;
-                    element.className = originalClass;
-                }, 2000);
-            }).catch(function (error) {
-                console.error('@(Localizer["Error copying text"]): ', error);
-            });
-        }
-
-    </script>
-</head>
-
-<body>
-    @foreach (var x in Model.Files)
-    {
-        <div class="list-group-item d-flex justify-content-between align-items-center">
-            <div class="ms-1 mb-1">
-                <a href="@WikiConfiguration.BasePath/File/Binary/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.Name</a> <span class="file-meta">(@x.FriendlySize)</span>
-                <a href="@WikiConfiguration.BasePath/File/Revisions/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.FileRevision @Localizer["revisions"]</a>
-            </div>
-            <div class="d-inline-flex gap-1">
-                <button class="btn btn-thin btn-primary me-0" onclick="copyToClipboard('@x.Name', this); return false;">
-                    <i class="bi bi-clipboard"></i>@Localizer["Copy Tag"]
-                </button>
-                @if (await sessionState.HoldsPermission(TwPermission.Delete))
-                {
-                    <button type="button"class="btn btn-thin btn-danger ms-0" data-file="@x.FileNavigation" onclick="detachFile(this.dataset.file)"> @Localizer["Detach"]</button>
+            const pageNavigation = @Json.Serialize(Model.PageNavigation);
+            $.ajax({
+                type: 'POST',
+                url: @Json.Serialize($"{WikiConfiguration.BasePath}/File/Detach/")
+                    + encodeURIComponent(pageNavigation)
+                    + '/' + encodeURIComponent(fileName)
+                    + '/' + encodeURIComponent(@Json.Serialize(Model.PageRevision.ToString())),
+                success: function () {
+                    $("#uploadedFiles").load(@Json.Serialize($"{WikiConfiguration.BasePath}/File/PageAttachments/") + encodeURIComponent(pageNavigation));
                 }
-            </div>
-        </div>
+            });
+        });
     }
-</body>
-</html>
+
+    function copyToClipboard(fileName, element) {
+        const ext = fileName.split('.').pop().toLowerCase();
+        const isImage = ['png', 'jpg', 'jpeg', 'gif', 'bmp'].includes(ext);
+        const tag = (isImage ? '##Image(' : '##File(') + fileName + ')';
+
+        navigator.clipboard.writeText(tag).then(function () {
+            const originalContent = element.innerHTML;
+            const originalClass = element.className;
+
+            element.innerHTML = '<i class="bi bi-check-circle me-1"></i>';
+            element.append(@Json.Serialize(Localizer["Tag Copied"].Value));
+            element.className = 'btn btn-thin btn-success';
+
+            setTimeout(function () {
+                element.innerHTML = originalContent;
+                element.className = originalClass;
+            }, 2000);
+        }).catch(function (error) {
+            console.error(@Json.Serialize(Localizer["Error copying text"].Value), error);
+        });
+    }
+</script>
+
+@foreach (var x in Model.Files)
+{
+    <div class="list-group-item d-flex justify-content-between align-items-center">
+        <div class="ms-1 mb-1">
+            <a href="@WikiConfiguration.BasePath/File/Binary/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.Name</a> <span class="file-meta">(@x.FriendlySize)</span>
+            <a href="@WikiConfiguration.BasePath/File/Revisions/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.FileRevision @Localizer["revisions"]</a>
+        </div>
+        <div class="d-inline-flex gap-1">
+            <button type="button" class="btn btn-thin btn-primary" data-file="@x.Name" onclick="copyToClipboard(this.dataset.file, this)">
+                <i class="bi bi-clipboard me-1"></i>@Localizer["Copy Tag"]
+            </button>
+            @if (await sessionState.HoldsPermission(TwPermission.Delete))
+            {
+                <button type="button" class="btn btn-thin btn-danger" data-file="@x.FileNavigation" onclick="detachFile(this.dataset.file)">@Localizer["Detach"]</button>
+            }
+        </div>
+    </div>
+}
