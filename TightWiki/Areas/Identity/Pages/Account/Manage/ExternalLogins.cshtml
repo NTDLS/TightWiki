@@ -27,7 +27,7 @@
                                 <div>
                                     <input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden" />
                                     <input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden" />
-                                    <button type="submit" class="btn btn-primary" title="@String.Format(Localizer["Remove this {0} login from your account"].Value, login.ProviderDisplayName)">@Localizer["Remove"]</button>
+                                    <button type="submit" class="btn btn-outline-danger" title="@String.Format(Localizer["Remove this {0} login from your account"].Value, login.ProviderDisplayName)">@Localizer["Remove"]</button>
                                 </div>
                             </form>
                         }

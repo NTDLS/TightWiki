@@ -31,7 +31,7 @@
         <div class="d-flex flex-wrap gap-2">
             <button type="button"
                     id="addPermissionToAccountButton"
-                    class="btn btn-primary"
+                    class="btn btn-success"
                     data-bs-toggle="modal"
                     data-bs-target="#addPermissionToAccountModal">
                 <i class="bi bi-shield-plus me-1"></i>@Localizer["Add Permission to Account"]
@@ -39,7 +39,7 @@
 
             <button type="button"
                     id="addAccountMembershipButton"
-                    class="btn btn-primary"
+                    class="btn btn-success"
                     data-bs-toggle="modal"
                     data-bs-target="#addAccountMembershipModal">
                 <i class="bi bi-person-plus me-1"></i>@Localizer["Add Role to Account"]
@@ -126,7 +126,7 @@
 
                             <td class="text-nowrap">
                                 <button type="button"
-                                        class="btn btn-warning btn-sm"
+                                        class="btn btn-outline-danger btn-sm"
                                         onclick="removePermission(this, '@permission.Id')">
                                     <i class="bi bi-trash me-1"></i>@Localizer["Remove"]
                                 </button>
@@ -177,7 +177,7 @@
                             </td>
                             <td class="text-nowrap">
                                 <button type="button"
-                                        class="btn btn-warning btn-sm"
+                                        class="btn btn-outline-danger btn-sm"
                                         onclick="removeMembership(this, '@membership.RoleId')">
                                     <i class="bi bi-person-dash me-1"></i>@Localizer["Remove"]
                                 </button>
@@ -235,7 +235,7 @@
             <div class="modal-footer">
                 <div class="container-fluid">
                     <em class="small"></em>
-                    <button type="button" class="btn btn-success float-end" id="addPermissionToAccountModalInsertButton">@Localizer["Add"]</button>
+                    <button type="button" class="btn btn-success" id="addPermissionToAccountModalInsertButton">@Localizer["Add"]</button>
                 </div>
             </div>
         </div>
@@ -508,7 +508,7 @@
 
             <td class="text-nowrap">
                 <button type="button"
-                        class="btn btn-warning btn-sm"
+                        class="btn btn-outline-danger btn-sm"
                         onclick="removePermission(this, '${result.permission.id}')">
                     <i class="bi bi-trash me-1"></i>@Localizer["Remove"]
                 </button>
@@ -538,7 +538,7 @@
             <div class="modal-footer">
                 <div class="container-fluid">
                     <em class="small"></em>
-                    <button type="button" class="btn btn-success float-end" id="addAccountMembershipModalInsertButton">@Localizer["Add"]</button>
+                    <button type="button" class="btn btn-success" id="addAccountMembershipModalInsertButton">@Localizer["Add"]</button>
                 </div>
             </div>
         </div>
@@ -638,7 +638,7 @@
 
             <td class="text-nowrap">
                 <button type="button"
-                        class="btn btn-warning btn-sm"
+                        class="btn btn-outline-danger btn-sm"
                         onclick="removeMembership(this, '${result.membership.id}')">
                     <i class="bi bi-person-dash me-1"></i>@Localizer["Remove"]
                 </button>

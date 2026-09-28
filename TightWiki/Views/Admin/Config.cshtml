@@ -90,7 +90,7 @@
                     <div class="card-body">
                         @foreach (var entry in group.Entries)
                         {
-                            <div class="form-group row mb-3">
+                            <div class="row mb-3">
                                 <label for="@entry.ConfigurationGroupId:@entry.Id" class="col-sm-2 col-form-label">
                                     <strong>@Localizer[entry.Name]</strong><br />
                                     <small class="text-muted">@Localizer[entry.Description]</small>
@@ -98,8 +98,8 @@
                                 <div class="col-sm-10">
                                     @if ($"{group.Name}:{entry.Name}" == "Customization:Theme")
                                     {
-                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
-                                            <option value="" style="color:#ccc !important;">@Localizer["Select a theme"]</option>
+                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-select">
+                                            <option value="">@Localizer["Select a theme"]</option>
                                             @foreach (var item in Model.Themes)
                                             {
                                                 <option value="@item.Name" selected=@(entry.Value == item.Name ? "selected" : null)>@item.Name</option>
@@ -108,8 +108,8 @@
                                     }
                                     else if ($"{group.Name}:{entry.Name}" == "Membership:Default Signup Role")
                                     {
-                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
-                                            <option value="" style="color:#ccc !important;">@Localizer["Select a role"]</option>
+                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-select">
+                                            <option value="">@Localizer["Select a role"]</option>
                                             @foreach (var item in Model.Roles)
                                             {
                                                 <option value="@item.Name" selected=@(entry.Value == item.Name ? "selected" : null)>@item.Name</option>
@@ -118,8 +118,8 @@
                                     }
                                     else if ($"{group.Name}:{entry.Name}" == "Membership:Default TimeZone" || $"{group.Name}:{entry.Name}" == "Customization:Default TimeZone")
                                     {
-                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
-                                            <option value="" style="color:#ccc !important;">@Localizer["Select a time-zone"]</option>
+                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-select">
+                                            <option value="">@Localizer["Select a time-zone"]</option>
                                             @foreach (var item in Model.TimeZones)
                                             {
                                                 <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>@item.Text</option>
@@ -128,8 +128,8 @@
                                     }
                                     else if ($"{group.Name}:{entry.Name}" == "Membership:Default Language" || $"{group.Name}:{entry.Name}" == "Customization:Default Language")
                                     {
-                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
-                                            <option value="" style="color:#ccc !important;">@Localizer["Select a language"]</option>
+                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-select">
+                                            <option value="">@Localizer["Select a language"]</option>
                                             @foreach (var item in Model.Languages)
                                             {
                                                 <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>@item.Text</option>
@@ -138,8 +138,8 @@
                                     }
                                     else if ($"{group.Name}:{entry.Name}" == "Membership:Default Country" || $"{group.Name}:{entry.Name}" == "Customization:Default Country")
                                     {
-                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
-                                            <option value="" style="color:#ccc !important;">@Localizer["Select a country"]</option>
+                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-select">
+                                            <option value="">@Localizer["Select a country"]</option>
                                             @foreach (var item in Model.Countries)
                                             {
                                                 <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>@item.Text</option>
@@ -209,7 +209,7 @@
                     </div>
 
                     <div class="card-footer d-flex justify-content-between align-items-center flex-wrap gap-2">
-                        <button type="submit" class="btn btn-success"><i class="bi bi-floppy me-1"></i>@Localizer["Save"]</button>
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-floppy me-1"></i>@Localizer["Save"]</button>
                     </div>
                 </div>
             </div>

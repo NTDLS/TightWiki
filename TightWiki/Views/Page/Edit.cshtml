@@ -1110,13 +1110,13 @@
                     </div>
                 }
 
-                <div class="form-group">
+                <div class="d-flex flex-wrap gap-2">
                     <button id="saveButton" type="submit" class="btn btn-primary">@Localizer["Save"]</button>
                     @if (await sessionState.HoldsPermission(TwPermission.Read))
                     {
                         if (Model?.Id > 0)
                         {
-                            <a href="@WikiConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success" role="button">@Localizer["View"]</a>
+                            <a href="@WikiConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-outline-secondary" role="button">@Localizer["View"]</a>
                             <a href="@WikiConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary" role="button">@Localizer["Export"]</a>
                         }
                         else
@@ -1280,11 +1280,11 @@
                 <!-- EDITOR END -->
                 <br />
 
-                <div class="form-group">
+                <div class="d-flex flex-wrap gap-2">
                     <button id="saveButtonBottom" type="submit" class="btn btn-primary">@Localizer["Save"]</button>
                     @if (Model?.Id > 0 && await sessionState.HoldsPermission(TwPermission.Read))
                     {
-                        <a href="@WikiConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success" role="button">@Localizer["View"]</a>
+                        <a href="@WikiConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-outline-secondary" role="button">@Localizer["View"]</a>
                         <a href="@WikiConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary" role="button">@Localizer["Export"]</a>
                     }
                     <span class="badge text-bg-danger invisible">@Localizer["Unauthorized"]</span>
@@ -1341,7 +1341,7 @@
             <div class="modal-footer">
                 <div class="container-fluid">
                     <em class="small">* - @Localizer["Use the Templates namespace to add a page to the list of templates, e.g. Templates :: My First Template."]</em>
-                    <button type="button" class="btn btn-secondary float-end" data-bs-dismiss="modal">@Localizer["Close"]</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Close"]</button>
                 </div>
             </div>
         </div>
@@ -1373,7 +1373,7 @@
             <div class="modal-footer">
                 <div class="container-fluid">
                     <em class="small"></em>
-                    <button type="button" class="btn btn-secondary float-end" data-bs-dismiss="modal">@Localizer["Close"]</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Close"]</button>
                 </div>
             </div>
         </div>
@@ -1420,7 +1420,7 @@
             <div class="modal-footer">
                 <div class="container-fluid">
                     <em class="small"></em>
-                    <button type="button" class="btn btn-success float-end" id="insertLinkModalInsertButton">@Localizer["Insert"]</button>
+                    <button type="button" class="btn btn-success" id="insertLinkModalInsertButton">@Localizer["Insert"]</button>
                 </div>
             </div>
         </div>
