@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Ova stranica je izmijenjena od strane druge osobe dok ste je uređivali. Spremanje je onemogućeno radi zaštite njihovih promjena. Molimo vas da osvježite stranicu kako biste dobili najnoviju verziju.</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Omogući bočnu traku</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Stranica bočne trake</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Naziv wiki stranice koja će se prikazati kao bočna traka uz sve wiki stranice kada je bočna traka omogućena. Individualne stranice mogu je sakriti pomoću @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Da li se prikazuje stranica bočne trake uz sve wiki stranice.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Napravi stranicu bočne trake "{0}"</value>
+  </data>
 </root>

@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Laman ini telah diubah oleh orang lain semasa anda sedang menyuntingnya. Penyimpanan telah dinonaktifkan untuk melindungi perubahan mereka. Sila muat semula halaman untuk mendapatkan versi terkini.</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Aktifkan Sidebar</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Laman Sidebar</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Nama laman wiki yang akan dipaparkan sebagai sidebar bersama semua laman wiki apabila sidebar diaktifkan. Laman individu boleh menyembunyikannya dengan @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Sama ada untuk memaparkan laman sidebar bersama semua laman wiki.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Cipta laman sidebar "{0}"</value>
+  </data>
 </root>

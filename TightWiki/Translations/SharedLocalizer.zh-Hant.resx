@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>在您編輯時，這個頁面已被其他人修改。為了保護他們的更改，已禁用保存功能。請重新載入頁面以獲取最新版本。</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>啟用側邊欄</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>側邊欄頁面</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>當啟用側邊欄時，要在所有維基頁面旁邊顯示的側邊欄頁面的名稱。個別頁面可以使用 @@HideSidebar 來隱藏它。</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>是否要在所有維基頁面旁邊顯示側邊欄頁面。</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>建立側邊欄頁面 "{0}"</value>
+  </data>
 </root>

@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Denne side blev ændret af en anden, mens du redigerede den. Gemningen er blevet deaktiveret for at beskytte deres ændringer. Opdater venligst siden for at få den nyeste version.</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Aktiver sidebar</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Sidebar-side</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Navnet på wiki-siden, der skal vises som en sidebar sammen med alle wiki-sider, når sidebaren er aktiveret. Enkelte sider kan skjule den med @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Om at vise sidebar-siden sammen med alle wiki-sider.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Opret sidebar-siden "{0}"</value>
+  </data>
 </root>

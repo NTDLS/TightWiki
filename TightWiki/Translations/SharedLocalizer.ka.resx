@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>ეს გვერდი გადაიათვალა სხვამ, სანამ თქვენ კვლავ რედაქტირებდით. მათი ცვლილების დაცვის მიზნით შენახვა გამორთულია. შექმენით ახალი ვერსია გვერდის გადატვირთვით.</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>მარცხების ჩამოთვალის ჩართვა</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>მარცხების ჩამოთვალის გვერდი</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>მარცხების ჩამოთვალის გვერდის სახელი, რომელიც გამოჩნდება ყველა ვიკი გვერდთან ერთად, როდესაც მარცხების ჩამოთვალის ჩართვა ჩართულია. ინდივიდუალური გვერდები შეიძლება მოდებულ იქნას @@HideSidebar-ის გამოყენებით.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>სადაც მარცხების ჩამოთვალის გვერდი გამოჩნდება ყველა ვიკი გვერდთან ერთად.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>შექმენით მარცხების ჩამოთვალის გვერდი "{0}"</value>
+  </data>
 </root>

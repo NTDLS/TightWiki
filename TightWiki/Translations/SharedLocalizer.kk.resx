@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Бұл бетті басқа біреу өңдеп жатқан кезде сіз редакцияладыңыз. Олардың өзгерістерін қорғау үшін сақтау өшірілді. Соңғы нұсқасын алу үшін бетті қайта жүктеңіз.</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Жүйе қатарын қосу</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Жүйе қатары беті</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Жүйе қатары ретінде барлық wiki беттерімен қоса таратылатын wiki бетінің атауы. Бірлескен беттер @@HideSidebar арқылы жасырылуы мүмкін.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Барлық wiki беттерімен қоса жүйе қатары бетін көрсету керек пе?</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>"{0}" жүйе қатары бетін жасау</value>
+  </data>
 </root>

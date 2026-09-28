@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Deze pagina is door iemand anders aangepast terwijl jij hem bewerkte. Opslaan is uitgeschakeld om hun wijzigingen te beschermen. Laad de pagina opnieuw om de nieuwste versie te krijgen.</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Zijbalk inschakelen</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Zijbalkpagina</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>De naam van de wiki-pagina die moet worden weergegeven als zijbalk naast alle wiki-pagina's wanneer de zijbalk is ingeschakeld. Individuele pagina's kunnen dit verbergen met @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Of de zijbalkpagina moet worden weergegeven naast alle wiki-pagina's.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Maak de zijbalkpagina "{0}" aan</value>
+  </data>
 </root>

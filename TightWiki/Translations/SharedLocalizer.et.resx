@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Seda lehte muudeti keegi teine, samal ajal kui sina seda redigeerisid. Tõrke vältimiseks on salvestamine keelatud. Laadige leht uuesti, et saada uusim versioon.</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Paremakülje aktiveerimine</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Paremakülje leht</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Wiki lehe nimi, mida kuvada paremaküljena kõigis wiki lehtedes, kui paremakülje on aktiveeritud. Individuaalsed lehed saavad seda peidada kasutades @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Kas kuvada paremakülje lehte kõigis wiki lehtedes.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Loo paremakülje leht "{0}"</value>
+  </data>
 </root>

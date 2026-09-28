@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Această pagină a fost modificată de altcineva în timp ce o editați. Salvarea a fost dezactivată pentru a proteja modificările lor. Vă rugăm să reîncărcați pagina pentru a obține cea mai recentă versiune.</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Activează Bara laterală</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Pagina Bară laterală</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Numele paginii wiki care va fi afișată ca bară laterală alături de toate paginile wiki atunci când bara laterală este activată. Paginile individuale pot ascunde-o cu @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Dacă să se afișeze pagina bară laterală alături de toate paginile wiki.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Creează pagina bară laterală "{0}"</value>
+  </data>
 </root>

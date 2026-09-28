@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Цю сторінку було змінено іншим користувачем під час вашого редагування. Збереження було відключено, щоб захистити їхні зміни. Будь ласка, оновіть сторінку, щоб отримати найновішу версію.</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Ввімкнути бічну панель</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Сторінка бічної панелі</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Назва wiki-сторінки, яка буде відображатися як бічна панель разом із усіма wiki-сторінками, коли бічна панель увімкнена. Індивідуальні сторінки можуть приховати її за допомогою @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Чи відображати сторінку бічної панелі разом із усіма wiki-сторінками.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Створити сторінку бічної панелі "{0}"</value>
+  </data>
 </root>

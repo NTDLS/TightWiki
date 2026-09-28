@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Эта страница была изменена кем-то другим, пока вы редактировали ее. Сохранение отключено, чтобы защитить их изменения. Пожалуйста, обновите страницу, чтобы получить последнюю версию.</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Включить боковую панель</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Страница боковой панели</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Имя вики-страницы, которая будет отображаться как боковая панель вместе со всеми вики-страницами, когда боковая панель включена. Индивидуальные страницы могут скрыть её с помощью @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Отображать ли страницу боковой панели вместе со всеми вики-страницами.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Создать страницу боковой панели "{0}"</value>
+  </data>
 </root>

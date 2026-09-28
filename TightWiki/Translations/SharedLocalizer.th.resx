@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>หน้านี้ถูกแก้ไขโดยผู้อื่นในขณะที่คุณกำลังแก้ไขอยู่ การบันทึกถูกปิดใช้งานเพื่อปกป้องการเปลี่ยนแปลงของพวกเขา กรุณารีเฟรชหน้าเพื่อรับเวอร์ชันล่าสุด</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>เปิดใช้งานแถบข้าง</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>หน้าแถบข้าง</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>ชื่อหน้าวิกิที่จะแสดงเป็นแถบข้างร่วมกับทุกหน้าวิกิเมื่อเปิดใช้งานแถบข้าง หน้าวิกิแต่ละหน้าสามารถซ่อนมันได้โดยใช้ @@HideSidebar</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>การตั้งค่าการแสดงหน้าแถบข้างร่วมกับทุกหน้าวิกิ</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>สร้างหน้าแถบข้าง "{0}"</value>
+  </data>
 </root>

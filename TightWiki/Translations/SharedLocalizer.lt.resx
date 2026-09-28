@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Šį puslapį redagavo kitas asmuo, kol jūs jį redagavote. Išsaugojimas buvo išjungtas norint apsaugoti jų pakeitimus. Prašome atnaujinti puslapį ir gauti naujausią versiją.</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Įgalinti šoninį juostą</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Šoninės juostos puslapis</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Puslapio, kuris bus rodytas kaip šoninė juosta visiems wiki puslapiams, kai šoninė juosta yra įjungta, pavadinimas. Individualūs puslapiai gali ją paslėpti naudodami @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Ar rodyti šoninės juostos puslapį kartu su visais wiki puslapiais.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Sukurti šoninės juostos puslapį „{0}“</value>
+  </data>
 </root>

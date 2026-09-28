@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>あなたが編集している間に他の誰かによってこのページが変更されました。変更を保護するために保存が無効になっています。最新のバージョンを取得するためにページを再読み込みしてください。</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>サイドバーを有効にする</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>サイドバー ページ</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>サイドバーとしてすべてのWikiページと共に表示するWikiページの名前です。個別のページでは @@HideSidebar を使用してこれを非表示にできます。</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>すべてのWikiページと共にサイドバー ページを表示するかどうか。</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>サイドバー ページ「{0}」を作成する</value>
+  </data>
 </root>

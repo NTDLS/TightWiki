@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Trang này đã bị người khác chỉnh sửa trong khi bạn đang chỉnh sửa. Việc lưu đã bị vô hiệu hóa để bảo vệ các thay đổi của họ. Vui lòng tải lại trang để lấy phiên bản mới nhất.</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Bật thanh bên</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Trang thanh bên</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Tên của trang wiki sẽ được hiển thị như một thanh bên cùng với tất cả các trang wiki khi thanh bên được kích hoạt. Các trang riêng lẻ có thể ẩn nó bằng @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Liệu có hiển thị trang thanh bên cùng với tất cả các trang wiki không?</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Tạo trang thanh bên "{0}"</value>
+  </data>
 </root>

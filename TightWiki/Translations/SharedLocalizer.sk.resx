@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Tokon tento stránku upravoval niekto iný počas vášho editovania. Uloženie bolo zakázané, aby sa ochránili ich zmeny. Obnovte stránku, aby ste získali najnovšiu verziu.</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Povoliť bočnú lištu</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Stránka bočnej lišty</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Názov wiki stránky, ktorá sa má zobraziť ako bočná lišta spolu so všetkými wiki stránkami, keď je bočná lišta povolená. Jednotlivé stránky ju môžu skryť pomocou @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Či sa má zobraziť stránka bočnej lišty spolu so všetkými wiki stránkami.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Vytvoriť stránku bočnej lišty „{0}“</value>
+  </data>
 </root>

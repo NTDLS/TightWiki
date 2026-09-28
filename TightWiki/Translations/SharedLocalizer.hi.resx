@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>यह पृष्ठ किसी और द्वारा संशोधित किया गया था जब आप इसे संपादित कर रहे थे। उनके परिवर्तन की रक्षा के लिए सहेजना बंद कर दिया गया है। कृपया नवीनतम संस्करण प्राप्त करने के लिए पृष्ठ को पुनः लोड करें।</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>साइडबार को एनेबल करें</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>साइडबार पेज</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>विकी पेज का नाम जो साइडबार के रूप में सभी विकी पेजों के साथ प्रदर्शित किया जाएगा जब साइडबार एनेबल होगा। व्यक्तिगत पेज इसे @@HideSidebar के साथ छिपा सकते हैं।</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>क्या साइडबार पेज को सभी विकी पेजों के साथ प्रदर्शित किया जाए।</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>साइडबार पेज "{0}" बनाएं</value>
+  </data>
 </root>

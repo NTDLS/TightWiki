@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>تم تعديل هذه الصفحة بواسطة شخص آخر أثناء تحريرك لها. تم تعطيل الحفظ لحماية تغييراتهم. يرجى إعادة تحميل الصفحة للحصول على آخر إصدار.</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>تمكين الشريط الجانبي</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>صفحة الشريط الجانبي</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>اسم صفحة ويكي سيتم عرضها كشريط جانبي إلى جانب جميع صفحات ويكي عندما يكون الشريط الجانبي ممكّنًا. يمكن لصفحات الفردية إخفاء ذلك باستخدام @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>هل يجب عرض صفحة الشريط الجانبي إلى جانب جميع صفحات ويكي.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>إنشاء صفحة الشريط الجانبي "{0}"</value>
+  </data>
 </root>

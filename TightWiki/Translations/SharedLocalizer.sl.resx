@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>To stran je med vašim urejanjem spremenil drug uporabnik. Shranjevanje je onemogočeno za zaščito njegove spremembe. Prosimo, znova naložite stran, da dobite najnovejšo različico.</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Omogoči stranski meni</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Stranska stran</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Ime wiki strani, ki jo želite prikazati kot stranski meni ob vseh wiki straneh, ko je stranski meni omogočen. Posamezne strani lahko skrijejo stranski meni z @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Ali prikazati stransko stran ob vseh wiki straneh.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Ustvari stransko stran "{0}"</value>
+  </data>
 </root>

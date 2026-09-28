@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Tuto stránku upravoval někdo jiný, zatímco jste ji editovali. Ukládání bylo zakázáno, aby se ochránily jejich změny. Opět načtěte stránku, abyste získali nejnovější verzi.</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Povolit postranní lištu</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Stránka postranní lišty</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Název wiki stránky, která se zobrazí jako postranní lišta vedle všech wiki stránek, pokud je postranní lišta povolena. Jednotlivé stránky ji mohou skrýt pomocí @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Zda se má zobrazit stránka postranní lišty vedle všech wiki stránek.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Vytvořit stránku postranní lišty "{0}"</value>
+  </data>
 </root>

@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>עמוד זה שונה על ידי מישהו אחר בזמן שניסית לערוך אותו. השמירה הושבתה כדי לשמור על השינויים שלהם. נא לטעון מחדש את העמוד כדי לקבל את הגרסה האחרונה.</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>הפעלת סרגל צד</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>עמוד סרגל צד</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>שם עמוד ויקי להצגת סרגל צד לציד כל עמודי ויקי כאשר הסרגל הצד הופעל. עמודים ייחודיים יכולים להסתיר אותו עם @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>האם להציג את עמוד הסרגל הצד לציד כל עמודי ויקי.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>יצירת עמוד סרגל צד "{0}"</value>
+  </data>
 </root>

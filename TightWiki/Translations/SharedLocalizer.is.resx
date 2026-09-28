@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version.</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Virkja sýslublað</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Sýslublaðsíða</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Nafn vikisíðu sem ætti að sýnast sem sýslublað við allar vikisíður þegar sýslublaðið er virkt. Einstæðar síður geta falið það með @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Þar sem á að sýna sýslublaðsíðuna á meðan allar viki síður eru sýnir.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Búa til sýslublaðsíðu "{0}"</value>
+  </data>
 </root>

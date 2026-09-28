@@ -2752,4 +2752,19 @@
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Questa pagina è stata modificata da qualcun altro mentre la stavi modificando. La funzione di salvataggio è stata disabilitata per proteggere le loro modifiche. Ricarica la pagina per ottenere la versione più recente.</value>
   </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Abilita Barra laterale</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Pagina della barra laterale</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Il nome della pagina wiki da visualizzare come barra laterale accanto a tutte le pagine wiki quando la barra laterale è abilitata. Le singole pagine possono nasconderla con @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Se visualizzare la pagina della barra laterale accanto a tutte le pagine wiki.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Crea la pagina della barra laterale "{0}"</value>
+  </data>
 </root>
