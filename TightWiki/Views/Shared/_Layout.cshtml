@@ -357,32 +357,34 @@
             }
 
             @{
-                Model.SuccessMessage = string.IsNullOrEmpty(Context.Request.Query["SuccessMessage"].ToString()) ? Model.SuccessMessage : Context.Request.Query["SuccessMessage"].ToString();
-                Model.WarningMessage = string.IsNullOrEmpty(Context.Request.Query["WarningMessage"].ToString()) ? Model.WarningMessage : Context.Request.Query["WarningMessage"].ToString();
-                Model.ErrorMessage = string.IsNullOrEmpty(Context.Request.Query["ErrorMessage"].ToString()) ? Model.ErrorMessage : Context.Request.Query["ErrorMessage"].ToString();
+                //Messages come from the model, or from TempData after a redirect. They are never read from the
+                //  query string, and are always rendered as text (line breaks are preserved by "tw-message").
+                string? successMessage = TempData["SuccessMessage"] as string ?? (string?)Model?.SuccessMessage;
+                string? warningMessage = TempData["WarningMessage"] as string ?? (string?)Model?.WarningMessage;
+                string? errorMessage = TempData["ErrorMessage"] as string ?? (string?)Model?.ErrorMessage;
             }
 
-            @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+            @if (!string.IsNullOrEmpty(successMessage))
             {
                 <div class="alert alert-success alert-dismissible fade show auto-dismiss-alert" role="alert">
-                    <div class="fw-semibold">@Html.Raw(Model.SuccessMessage)</div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="fw-semibold tw-message">@successMessage</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="@Localizer["Close"]"></button>
                 </div>
             }
 
-            @if (!string.IsNullOrEmpty(Model.WarningMessage))
+            @if (!string.IsNullOrEmpty(warningMessage))
             {
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <div class="fw-semibold">@Html.Raw(Model.WarningMessage)</div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="fw-semibold tw-message">@warningMessage</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="@Localizer["Close"]"></button>
                 </div>
             }
 
-            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            @if (!string.IsNullOrEmpty(errorMessage))
             {
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <div class="fw-semibold">@Html.Raw(Model.ErrorMessage)</div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="fw-semibold tw-message">@errorMessage</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="@Localizer["Close"]"></button>
                 </div>
             }
 

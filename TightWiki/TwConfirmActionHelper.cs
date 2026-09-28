@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Html;
 using NTDLS.Helpers;
-using System.Text;
+using System.Net;
 
 namespace TightWiki
 {
@@ -16,26 +16,7 @@ namespace TightWiki
         /// <param name="noRedirectURL">The URL to redirect to AFTER the controller has been called if the user selected NO, if not specified, the same link that is provided to yesOrDefaultRedirectURL is used.</param>
         public static IHtmlContent GenerateDangerButton(string basePath, string message, string linkLabel, string controllerURL,
             string? yesOrDefaultRedirectURL, string? noRedirectURL = null, string? @class = "")
-        {
-            noRedirectURL ??= yesOrDefaultRedirectURL;
-
-            yesOrDefaultRedirectURL.EnsureNotNull();
-            noRedirectURL.EnsureNotNull();
-
-            var param = new StringBuilder();
-            param.Append($"ControllerURL={Uri.EscapeDataString($"{basePath}{controllerURL}")}");
-            param.Append($"&YesRedirectURL={Uri.EscapeDataString(yesOrDefaultRedirectURL)}");
-            param.Append($"&NoRedirectURL={Uri.EscapeDataString(noRedirectURL)}");
-            param.Append($"&Message={Uri.EscapeDataString(message)}");
-            param.Append($"&Style=Danger");
-
-            if (string.IsNullOrEmpty(@class))
-            {
-                @class = "btn-danger";
-            }
-
-            return new HtmlString($"<a class=\"btn {@class}\" href=\"{basePath}/Utility/ConfirmAction?{param}\">{linkLabel}</a>");
-        }
+            => Generate("Danger", "btn-danger", basePath, message, linkLabel, controllerURL, yesOrDefaultRedirectURL, noRedirectURL, @class);
 
         /// <summary>
         /// Generates a link that navigates via GET to a "confirm action" page where the yes link is GREEN.
@@ -47,26 +28,7 @@ namespace TightWiki
         /// <param name="noRedirectURL">The URL to redirect to AFTER the controller has been called if the user selected NO, if not specified, the same link that is provided to yesOrDefaultRedirectURL is used.</param>
         public static IHtmlContent GenerateSafeButton(string basePath, string message, string linkLabel, string controllerURL,
             string? yesOrDefaultRedirectURL, string? noRedirectURL = null, string? @class = "")
-        {
-            noRedirectURL ??= yesOrDefaultRedirectURL;
-
-            yesOrDefaultRedirectURL.EnsureNotNull();
-            noRedirectURL.EnsureNotNull();
-
-            var param = new StringBuilder();
-            param.Append($"ControllerURL={Uri.EscapeDataString($"{basePath}{controllerURL}")}");
-            param.Append($"&YesRedirectURL={Uri.EscapeDataString(yesOrDefaultRedirectURL)}");
-            param.Append($"&NoRedirectURL={Uri.EscapeDataString(noRedirectURL)}");
-            param.Append($"&Message={Uri.EscapeDataString(message)}");
-            param.Append($"&Style=Safe");
-
-            if (string.IsNullOrEmpty(@class))
-            {
-                @class = "btn-success";
-            }
-
-            return new HtmlString($"<a class=\"btn {@class}\" href=\"{basePath}/Utility/ConfirmAction?{param}\">{linkLabel}</a>");
-        }
+            => Generate("Safe", "btn-success", basePath, message, linkLabel, controllerURL, yesOrDefaultRedirectURL, noRedirectURL, @class);
 
         /// <summary>
         /// Generates a link that navigates via GET to a "confirm action" page where the yes link is YELLOW, but the NO button is still GREEN.
@@ -78,25 +40,32 @@ namespace TightWiki
         /// <param name="noRedirectURL">The URL to redirect to AFTER the controller has been called if the user selected NO, if not specified, the same link that is provided to yesOrDefaultRedirectURL is used.</param>
         public static IHtmlContent GenerateWarnButton(string basePath, string message, string linkLabel, string controllerURL,
             string? yesOrDefaultRedirectURL, string? noRedirectURL = null, string? @class = "")
+            => Generate("Warn", "btn-warning", basePath, message, linkLabel, controllerURL, yesOrDefaultRedirectURL, noRedirectURL, @class);
+
+        private static readonly TimeSpan Lifetime = TimeSpan.FromHours(12);
+
+        /// <summary>
+        /// The confirm-action page renders only what is in its signed token, so a crafted link can not change its
+        /// message or the action that the "yes" button posts to.
+        /// </summary>
+        private static IHtmlContent Generate(string style, string defaultClass, string basePath, string message, string linkLabel,
+            string controllerURL, string? yesOrDefaultRedirectURL, string? noRedirectURL, string? @class)
         {
             noRedirectURL ??= yesOrDefaultRedirectURL;
 
-            yesOrDefaultRedirectURL.EnsureNotNull();
-            noRedirectURL.EnsureNotNull();
-
-            var param = new StringBuilder();
-            param.Append($"ControllerURL={Uri.EscapeDataString($"{basePath}{controllerURL}")}");
-            param.Append($"&YesRedirectURL={Uri.EscapeDataString(yesOrDefaultRedirectURL)}");
-            param.Append($"&NoRedirectURL={Uri.EscapeDataString(noRedirectURL)}");
-            param.Append($"&Message={Uri.EscapeDataString(message)}");
-            param.Append($"&Style=Warn");
+            var payload = new TwConfirmActionPayload(
+                ControllerURL: $"{basePath}{controllerURL}",
+                YesRedirectURL: yesOrDefaultRedirectURL.EnsureNotNull(),
+                NoRedirectURL: noRedirectURL.EnsureNotNull(),
+                Message: message,
+                Style: style);
 
             if (string.IsNullOrEmpty(@class))
             {
-                @class = "btn-warning";
+                @class = defaultClass;
             }
 
-            return new HtmlString($"<a class=\"btn {@class}\" href=\"{basePath}/Utility/ConfirmAction?{param}\">{linkLabel}</a>");
+            return new HtmlString($"<a class=\"btn {@class}\" href=\"{basePath}/Utility/ConfirmAction?t={TwSignedUrl.Protect(payload, Lifetime)}\">{WebUtility.HtmlEncode(linkLabel)}</a>");
         }
     }
 }
