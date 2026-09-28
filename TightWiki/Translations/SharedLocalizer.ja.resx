@@ -2758,4 +2758,25 @@
   <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
     <value>サイドバー ページ「{0}」を作成する</value>
   </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>この通知は期限切れまたは無効です。</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>この確認リンクは期限切れまたは無効です。</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>変更履歴 {1} から {2} への {0} のロールバックにより、{3} の変更が巻き戻されます。変更内容は失われません: ロールバックは、巻き戻した内容を含む新しい変更履歴を作成します。本当に続行してもよろしいですか?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>「{0}」を解除してもよろしいですか?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>書式設定</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>変更履歴 {0} に戻す</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>「{0}」を作成する</value>
+  </data>
 </root>

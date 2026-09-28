@@ -389,6 +389,13 @@ namespace LocalizerScan
                     return null;
                 }
 
+                //U+FFFD means the model emitted an invalid UTF-8 sequence, which leaves a broken character in the text.
+                if (translatedPhrase.Contains('�'))
+                {
+                    Log(fileName, $"The translation of \"{batch[index]}\" contains an invalid character. Retrying..");
+                    return null;
+                }
+
                 translations[batch[index]] = translatedPhrase;
             }
 

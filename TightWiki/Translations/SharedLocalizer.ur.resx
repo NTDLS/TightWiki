@@ -2758,4 +2758,25 @@
   <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
     <value>سائیڈ بار صفحہ "{0}" بنائیں</value>
   </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>یہ نوٹیفکیشن میعاد گز گیا ہے یا غلط ہے۔</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>یہ تصدیق لینک میعاد گز گیا ہے یا غلط ہے۔</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>{0} کو ترمیم {1} سے {2} تک واپس لانے سے {3} تبدیلیوں کو واپس لایا جائے گا۔ کوئی تبدیلی ضائع نہیں ہو گی: واپسی ایک نئی ترمیم بناتی ہے جس میں واپس لی گئی محتوا شامل ہوتی ہے۔ کیا آپ یقین ہے کہ آپ جاری رکھنا چاہتے ہیں؟</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>کیا آپ یقین ہیں کہ "{0}" کو الگ کرنا چاہتے ہیں؟</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>فارمیٹنگ</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>ترمیم {0} تک واپس جاؤ</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>"{0}" بنائیں</value>
+  </data>
 </root>

@@ -2758,4 +2758,25 @@
   <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
     <value>사이드바 페이지 "{0}"을(를) 생성합니다.</value>
   </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>이 알림은 만료되었거나 유효하지 않습니다.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>이 확인 링크는 만료되었거나 유효하지 않습니다.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>{0}을(를) 버전 {1}에서 {2}로 되돌리면 {3}개의 변경 사항이 롤백됩니다. 변경 사항은 손실되지 않습니다: 되돌리기는 되돌린 내용을 포함하는 새로운 버전을 생성합니다. 계속하시겠습니까?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>정말로 "{0}"을 분리하시겠습니까?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>포맷팅</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>버전 {0}으로 되돌리기</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>"{0}" 생성</value>
+  </data>
 </root>

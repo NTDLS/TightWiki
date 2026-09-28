@@ -2758,4 +2758,25 @@
   <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
     <value>Cipta laman sidebar "{0}"</value>
   </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Pemberitahuan ini telah luput atau tidak sah.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Pautan pengesahan ini telah luput atau tidak sah.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Membatalkan {0} dari revisi {1} ke {2} akan membatalkan {3} perubahan. Tiada perubahan yang hilang: pembersihan ini akan mencipta revisi baru yang mengandungi kandungan yang dibatalkan. Adakah anda pasti ingin teruskan?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Adakah anda pasti ingin melepaskan "{0}"?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Pemformatan</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Batalkan ke revisi {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Cipta "{0}"</value>
+  </data>
 </root>

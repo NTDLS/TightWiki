@@ -2758,4 +2758,25 @@
   <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
     <value>Vytvoriť stránku bočnej lišty „{0}“</value>
   </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Táto notifikácia sa vypršala alebo nie je platná.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Tento potvrďovací odkaz sa vypršal alebo nie je platný.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Vrátenie {0} z revízie {1} do {2} vráti späť {3} zmeny. Žiadne zmeny nie sú stratené: vrátenie vytvorí novú revíziu obsahujúcu vrátený obsah. Si istý, že chceš pokračovať?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Si istý, že chceš odpojiť "{0}"?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Formátovanie</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Vrátiť späť na revíziu {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Vytvoriť "{0}"</value>
+  </data>
 </root>

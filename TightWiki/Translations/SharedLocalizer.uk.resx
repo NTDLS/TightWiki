@@ -2758,4 +2758,25 @@
   <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
     <value>Створити сторінку бічної панелі "{0}"</value>
   </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Це сповіщення виграло термін або не є дійсним.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Це посилання для підтвердження виграло термін або не є дійсним.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Повернення {0} з ревізії {1} до {2} призведе до скасування {3} змін. Жодних змін не втрачається: повернення створює нову ревізію, що містить повернені зміни. Ви впевнені, що хочете продовжити?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Ви впевнені, що хочете від'єднати "{0}"?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Форматування</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Повернутися до ревізії {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Створити "{0}"</value>
+  </data>
 </root>

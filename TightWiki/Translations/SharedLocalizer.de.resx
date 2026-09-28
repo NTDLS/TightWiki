@@ -2758,4 +2758,25 @@
   <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
     <value>Die Seitenleisten-Seite „{0}“ erstellen</value>
   </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Diese Benachrichtigung ist abgelaufen oder ungültig.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Dieser Bestätigungslink ist abgelaufen oder ungültig.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Das Zurücksetzen von {0} von der Version {1} zu {2} wird {3} Änderungen rückgängig machen. Keine Änderungen gehen verloren: das Zurücksetzen erstellt eine neue Version, die den rückgängig gemachten Inhalt enthält. Sind Sie sicher, dass Sie fortfahren möchten?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Sind Sie sicher, dass Sie "{0}" trennen möchten?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Formatierung</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Zurücksetzen auf Version {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Erstellen von "{0}"</value>
+  </data>
 </root>

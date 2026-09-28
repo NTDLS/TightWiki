@@ -2758,4 +2758,25 @@
   <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
     <value>Hozza létre a(z) "{0}" oldalsáv oldalt</value>
   </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Ez az értesítés lejárt vagy érvénytelen.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Ez a megerősítési hivatkozás lejárt vagy érvénytelen.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>A(z) {0} visszavonása a(z) {1} verzióból a(z) {2}-be visszaállítja a(z) {3} módosítást. A módosítások nem vesznek el: a visszavonás új verziót hoz létre, amely tartalmazza a visszavont tartalmat. Biztosan folytatni szeretné?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Biztosan szeretné leválasztani a(z) „{0}”-t?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Formázás</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Visszavonás a(z) {0} verzióra</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Létrehozás a(z) „{0}”-t</value>
+  </data>
 </root>

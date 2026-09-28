@@ -2758,4 +2758,25 @@
   <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
     <value>建立側邊欄頁面 "{0}"</value>
   </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>此通知已過期或無效。</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>此確認連結已過期或無效。</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>將 {0} 從版本 {1} 回退到 {2} 會回退 {3} 次修改。不會有任何資料遺失：回退操作會建立一個包含回退內容的新版本。您確定要繼續嗎？</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>您確定要斷開 "{0}" 嗎？</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>格式化</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>回退到版本 {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>建立 "{0}"</value>
+  </data>
 </root>

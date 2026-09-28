@@ -2758,4 +2758,25 @@
   <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
     <value>Luo sivupalkkipäivä "{0}"</value>
   </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Tämä ilmoitus on vanhentunut tai ei ole voimassa.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Tämä vahvistuslinkki on vanhentunut tai ei ole voimassa.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Palauttaessa {0} versiosta {1} versioon {2} kumotaan {3} muutosta. Ei muutoksia menetetä: palautus luo uuden version, joka sisältää palautetun sisällön. Oletko varma siitä, että haluat jatkaa?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Oletko varma siitä, että haluat irrottaa "{0}"?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Muotoilu</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Palauta versioon {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Luo "{0}"</value>
+  </data>
 </root>

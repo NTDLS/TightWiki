@@ -2758,4 +2758,25 @@
   <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
     <value>Criar a página da barra lateral "{0}"</value>
   </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Esta notificação expirou ou não é válida.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Este link de confirmação expirou ou não é válido.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Reverter {0} da revisão {1} para {2} reverterá {3} alterações. Nenhuma alteração é perdida: o reverter cria uma nova revisão contendo o conteúdo revertido. Tem certeza de que deseja continuar?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Tem certeza de que deseja desconectar "{0}"?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Formatação</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Reverter para a revisão {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Criar "{0}"</value>
+  </data>
 </root>

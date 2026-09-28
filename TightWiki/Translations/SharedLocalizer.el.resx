@@ -2758,4 +2758,25 @@
   <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
     <value>Δημιουργία της σελίδας πλευρικού πλαισίου "{0}"</value>
   </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Αυτή η ειδοποίηση έχει λήξει ή δεν είναι έγκυρη.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Αυτός ο σύνδεσμος επιβεβαίωσης έχει λήξει ή δεν είναι έγκυρος.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Η αναίρεση του {0} από την έκδοση {1} στην {2} θα αναίρει {3} αλλαγές. Δεν χάνονται αλλαγές: η αναίρεση δημιουργεί μια νέα έκδοση που περιέχει το αναιρεμένο περιεχόμενο. Είστε σίγουρος ότι θέλετε να συνεχίσετε;</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Είστε σίγουρος ότι θέλετε να αποσυνδεθεί το "{0}";</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Διαμόρφωση</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Αναίρεση στην έκδοση {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Δημιουργία του "{0}"</value>
+  </data>
 </root>

@@ -2758,4 +2758,25 @@
   <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
     <value>Loo paremakülje leht "{0}"</value>
   </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>See teade on aegunud või pole kehtiv.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>See kinnituse link on aegunud või pole kehtiv.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Tagasi {0} muudatuse {1} {2} tagasi tekitab {3} muudatuse tagasi. Ei ole kadunud muudatusi: tagasimine loob uue versiooni, mis sisaldab tagasi võetud sisu. Kas oled kindel, et soovid jätkata?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Kas oled kindel, et soovid eraldada "{0}"?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Formaatimine</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Tagasi versioonile {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Loo "{0}"</value>
+  </data>
 </root>

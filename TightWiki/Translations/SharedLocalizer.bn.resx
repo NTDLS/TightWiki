@@ -2758,4 +2758,25 @@
   <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
     <value>সাইডবার পৃষ্ঠা \"{0}\" তৈরি করুন।</value>
   </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>এই নোটিফিকেশন বাতিল হয়েছে বা বৈধ নয়।</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>এই নিশ্চিতকরণ লিঙ্কটি বাতিল হয়েছে বা বৈধ নয়।</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>পরিবর্তন {0} কে সংস্করণ {1} থেকে {2} এ প্রত্যাবর্তন করা {3} পরিবর্তন প্রত্যাহরণ করবে। কোনও পরিবর্তন হারানো হবে না: প্রত্যাবর্তন একটি নতুন সংস্করণ তৈরি করে যেখানে প্রত্যাবর্তিত কন্টেন্ট রয়েছে। আপনি কি চালিয়ে যেতে চান?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>আপনি কি "{0}" বিচ্ছিন্ন করতে চান?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>ফরম্যাটিং</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>প্রত্যাবর্তন {0} সংস্করণে ফিরে যান</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>সৃষ্টি করুন "{0}"</value>
+  </data>
 </root>
