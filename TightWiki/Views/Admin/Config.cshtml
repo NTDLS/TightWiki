@@ -254,7 +254,7 @@
             const password = passInput.value;
 
             if (!username || !password) {
-                setResult('@Localizer["Please enter both username and password."]', false);
+                setResult(@Json.Serialize(Localizer["Please enter both username and password."].Value), false);
                 return;
             }
 
@@ -273,21 +273,21 @@
                 });
 
                 if (!resp.ok) {
-                    setResult('@Localizer["Request failed:"] ' + resp.status + ' ' + resp.statusText, false);
+                    setResult(@Json.Serialize(Localizer["Request failed:"].Value) + ' ' + resp.status + ' ' + resp.statusText, false);
                     return;
                 }
 
                 const data = await resp.json();
                 if (data.ok) {
-                    const safeMsg = data.message ?? '@Localizer["Bind succeeded."]';
+                    const safeMsg = data.message ?? @Json.Serialize(Localizer["Bind succeeded."].Value);
                     const dn = data.distinguishedName ? `<div><strong>@Localizer["Distinguished Name:"]</strong> ${data.distinguishedName}</div>` : '';
                     setResult(`${safeMsg}${dn}`, true);
                 } else {
-                    const err = data.error ?? '@Localizer["Bind failed."]';
+                    const err = data.error ?? @Json.Serialize(Localizer["Bind failed."].Value);
                     setResult(err, false);
                 }
             } catch (e) {
-                setResult('@Localizer["Unexpected error:"] ' + (e?.message || e), false);
+                setResult(@Json.Serialize(Localizer["Unexpected error:"].Value) + ' ' + (e?.message || e), false);
             } finally {
                 btn.disabled = false;
                 spn.classList.add('d-none');

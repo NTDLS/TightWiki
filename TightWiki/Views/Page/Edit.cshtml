@@ -475,7 +475,7 @@
         }
         $('#insertLinkModalLinkPage').select2({
             dropdownParent: $('#insertLinkModal'),
-            placeholder: "@Localizer["Search"]...",
+            placeholder: @Json.Serialize(Localizer["Search"].Value) + "...",
             minimumInputLength: 0,
             ajax: {
                 url: '@WikiConfiguration.BasePath/Page/AutoCompletePage',
@@ -522,7 +522,7 @@
         if (linkMode === 'page') {
             const selected = $('#insertLinkModalLinkPage').select2('data')[0];
             if (!selected) {
-                alert("@Localizer["Select a wiki page."]");
+                alert(@Json.Serialize(Localizer["Select a wiki page."].Value));
                 isValid = false;
             } else {
 
@@ -537,10 +537,10 @@
         } else if (linkMode === 'url') {
             const url = document.getElementById('insertLinkModalLinkURL').value.trim();
             if (!url) {
-                alert("@Localizer["Enter a URL."]");
+                alert(@Json.Serialize(Localizer["Enter a URL."].Value));
                 isValid = false;
             } else if (!/^https?:\/\//i.test(url)) {
-                alert("@Localizer["URL must start with"] http:// or https://");
+                alert(@Json.Serialize(Localizer["URL must start with"].Value) + " http:// or https://");
                 isValid = false;
             } else {
 
@@ -589,7 +589,7 @@
                 layout: "fitDataStretch",
                 columns: [
                         {
-                            title: "@Localizer["Insert"]",
+                            title: @Json.Serialize(Localizer["Insert"].Value),
                             headerSort: false,
                             hozAlign: "center",
                             formatter: () => "<a class=\"btn btn-success btn-thin rounded-0\">@Localizer["Insert"]</a>",
@@ -617,7 +617,7 @@
                             }
                         },
                         {
-                            title: "@Localizer["Name"]",
+                            title: @Json.Serialize(Localizer["Name"].Value),
                             field: "name",
                             formatter: function (cell) {
                                 const data = cell.getRow().getData();
@@ -627,10 +627,10 @@
                                 return `<a href="@WikiConfiguration.BasePath/${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
                             }
                         },
-                        { title: "@Localizer["Type"]", field: "type" },
+                        { title: @Json.Serialize(Localizer["Type"].Value), field: "type" },
                         { field: "templateText", visible: false },
                         { field: "helpPageNavigation", visible: false },
-                        { title: "@Localizer["Description"]", field: "description" }
+                        { title: @Json.Serialize(Localizer["Description"].Value), field: "description" }
                     ],
                 });
 
@@ -766,20 +766,20 @@
             dropSection.addEventListener('dragover', (e) => {
                 e.preventDefault();
                 dropSection.classList.add('dragover');
-                dropSection.textContent = "@Localizer["Drop files here..."]";
+                dropSection.textContent = @Json.Serialize(Localizer["Drop files here..."].Value);
             });
 
             // Handle dragleave event
             dropSection.addEventListener('dragleave', () => {
                 dropSection.classList.remove('dragover');
-                dropSection.textContent = "@Localizer["Attach files by dropping them here or by manually selecting them below:"]";
+                dropSection.textContent = @Json.Serialize(Localizer["Attach files by dropping them here or by manually selecting them below:"].Value);
             });
 
             // Handle drop event
             dropSection.addEventListener('drop', (e) => {
                 e.preventDefault();
                 dropSection.classList.remove('dragover');
-                dropSection.textContent = "@Localizer["Attach files by dropping them here or by manually selecting them below:"]";
+                dropSection.textContent = @Json.Serialize(Localizer["Attach files by dropping them here or by manually selecting them below:"].Value);
                 const files = e.dataTransfer.files;
                 handleFileUpload(files);
             });
@@ -868,7 +868,7 @@
 
         const imagesTable = new Tabulator("#emojiResultsTable", {
             layout: "fitColumns",
-            placeholder: '@Localizer["Search for more emojis."]',
+            placeholder: @Json.Serialize(Localizer["Search for more emojis."].Value),
             ajaxLoader: true,
             ajaxContentType: "json",
             ajaxResponse: function(url, params, resp) { return resp; },
@@ -1014,7 +1014,7 @@
                     _revisionConflict = true;
                     document.getElementById('revisionConflictAlert')?.classList.remove('d-none');
                     const saveBtns = [document.getElementById('saveButton'), document.getElementById('saveButtonBottom')];
-                    saveBtns.forEach(btn => { if (btn) { btn.disabled = true; btn.title = '@Localizer["Page has been modified by another user."]'; } });
+                    saveBtns.forEach(btn => { if (btn) { btn.disabled = true; btn.title = @Json.Serialize(Localizer["Page has been modified by another user."].Value); } });
                 }
             })
             .catch(() => {});
@@ -1087,11 +1087,11 @@
             if (result.success) {
                 previewContent.innerHTML = result.html;
             } else {
-                previewError.textContent = result.message || '@Localizer["Failed to load preview."]';
+                previewError.textContent = result.message || @Json.Serialize(Localizer["Failed to load preview."].Value);
                 previewError.classList.remove('d-none');
             }
         } catch (err) {
-            previewError.textContent = '@Localizer["Unexpected Error"]' + ': ' + err.message;
+            previewError.textContent = @Json.Serialize(Localizer["Unexpected Error"].Value) + ': ' + err.message;
             previewError.classList.remove('d-none');
         } finally {
             previewLoading.classList.add('d-none');
