@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>هل أنت متأكد أنك تريد حذف هذا التعليق؟</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>هل أنت متأكد أنك تريد الفصل</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>هل أنت متأكد أنك تريد تسجيل الخروج من التطبيق؟</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>ليس عضوًا؟</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>غير مطلوب</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>بمجرد مسح رمز QR أو إدخال المفتاح أعلاه، ستوفر لك تطبيق المصادقة عبر العاملين رمزًا فريدًا. أدخل الرمز في مربع التأكيد أدناه.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>سيؤدي التراجع عن "{0}" من الإصدار {1} إلى {2} إلى التراجع عن {3} تغييرات.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>العودة إلى {0} من الإصدار {1} إلى {2} ستعيد التراجع عن تغييرات {3}.&lt;br /&gt;العودة لا تعني أن التغييرات سُتَفْقَد، ولكن عملية التراجع ستنشئ إصدارًا جديدًا مع التغييرات المُرجعة.&lt;br /&gt;&lt;br /&gt;هل أنت متأكد أنك تريد الاستمرار؟&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>العودة لا تعني أن التغييرات سُتَفْقَد، ولكن عملية التراجع ستنشئ إصدارًا جديدًا مع التغييرات المُرجعة.</value>

@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Bạn có chắc muốn xóa bình luận này không?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Bạn có chắc muốn tháo rời</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Bạn có chắc muốn đăng xuất khỏi ứng dụng?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Chưa là thành viên?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>không bắt buộc</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>Sau khi quét mã QR hoặc nhập khóa ở trên, ứng dụng xác thực hai yếu tố của bạn sẽ cung cấp mã duy nhất. Nhập mã vào ô xác nhận dưới đây.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>Việc quay lại "{0}" từ phiên bản {1} đến {2} sẽ hoàn nguyên {3} các thay đổi.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Việc quay lại {0} từ phiên bản {1} đến {2} sẽ hoàn nguyên {3} các thay đổi.&lt;br /&gt;Việc quay lại không có nghĩa là các thay đổi sẽ bị mất, tuy nhiên quá trình quay lại sẽ tạo ra một phiên bản mới với các thay đổi đã hoàn nguyên.&lt;br /&gt;&lt;br /&gt;Bạn có chắc chắn muốn tiếp tục không?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Việc quay lại không có nghĩa là các thay đổi sẽ bị mất, tuy nhiên quá trình quay lại sẽ tạo ra một phiên bản mới với các thay đổi đã hoàn nguyên.</value>

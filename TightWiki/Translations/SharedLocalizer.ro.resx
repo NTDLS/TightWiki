@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Sigur doriți să ștergeți acest comentariu?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Sigur doriți să detașați</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Sigur doriți să vă deconectați din aplicație?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Nu sunteți membru?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>nu este necesar</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>După ce ați scanat codul QR sau ați introdus cheia de mai sus, aplicația dvs. de autentificare cu doi factori vă va oferi un cod unic. Introduceți codul în caseta de confirmare de mai jos.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>Revenirea din "{0}" din versiunea {1} la {2} va anula {3} modificări.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Revenirea din {0} din versiunea {1} la {2} va anula {3} modificări.&lt;br /&gt;Revenirea nu înseamnă că modificările vor fi pierdute, însă procesul de revert va crea o nouă versiune cu modificările reverted.&lt;br /&gt;&lt;br /&gt;Ești sigur că vrei să continui?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Revenirea nu înseamnă că modificările vor fi pierdute, însă procesul de revert va crea o nouă versiune cu modificările reverted.</value>

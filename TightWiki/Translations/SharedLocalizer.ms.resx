@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Adakah anda pasti mahu memadamkan komen ini?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Adakah anda pasti mahu melepaskan</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Adakah anda pasti mahu log keluar dari aplikasi?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Bukan ahli?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>tidak diperlukan</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>Setelah anda mengimbas kod QR atau memasukkan kunci di atas, aplikasi pengesahan dua faktor anda akan memberi anda kod unik. Masukkan kod tersebut dalam kotak pengesahan di bawah.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>Kembalikan "{0}" dari semakan {1} kepada {2} akan membatalkan {3} perubahan.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Membalikkan {0} dari revisi {1} ke {2} akan membatalkan perubahan {3}.&lt;br /&gt;Membalikkan tidak bermakna perubahan akan hilang, bagaimanapun, proses pembalikan akan mencipta revisi baru dengan perubahan yang dikembalikan.&lt;br /&gt;&lt;br /&gt;Adakah anda pasti ingin meneruskan?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Membalikkan tidak bermakna perubahan akan hilang, bagaimanapun, proses pembalikan akan mencipta revisi baru dengan perubahan yang dikembalikan.</value>

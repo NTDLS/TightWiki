@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Ar tikrai norite ištrinti šį komentarą?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Ar tikrai norite atjungti</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Ar tikrai norite atsijungti iš programos?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Ar nesate narys?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>nebūtina</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>Kai nuskaitysite QR kodą arba įvesite aukščiau esantį raktą, jūsų dviejų veiksnių autentifikacijos programa pateiks jums unikalų kodą. Įveskite kodą žemiau esančiame patvirtinimo lange.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>Grąžinant "{0}" iš versijos {1} į {2} bus atstatyti {3} pakeitimai.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Grįžtant {0} iš peržiūros {1} į {2}, bus atkurti {3} pakeitimai.&lt;br /&gt;Grįžimas nereiškia, kad pakeitimai bus prarasti, tačiau grąžinimo procesas sukurs naują peržiūrą su atkurtais pakeitimais.&lt;br /&gt;&lt;br /&gt;Ar tikrai norite tęsti?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Grįžimas nereiškia, kad pakeitimai bus prarasti, tačiau grąžinimo procesas sukurs naują peržiūrą su atkurtais pakeitimais.</value>

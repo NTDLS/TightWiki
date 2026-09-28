@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>क्या आप सुनिश्चित हैं कि आप इस टिप्पणी को हटाना चाहते हैं?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>क्या आप सुनिश्चित हैं कि आप detached करना चाहते हैं</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>क्या आप सुनिश्चित हैं कि आप ऐप्लिकेशन से लॉग आउट करना चाहते हैं?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>अधिक सदस्य नहीं?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>आवश्यक नहीं</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>एक बार जब आप क्यूआर कोड को स्कैन कर लेते हैं या ऊपर दी गई कुंजी इनपुट करते हैं, तो आपका दो-कारक प्रमाणीकरण ऐप आपको एक अनूठा कोड प्रदान करेगा। नीचे दिए गए पुष्टिकरण बॉक्स में कोड दर्ज करें।</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>संशोधन {1} से {2} तक "{0}" को पूर्ववत करने से {3} परिवर्तनrollback हो जाएगा।</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>{0} को संशोधन {1} से {2} में पलटना {3} परिवर्तनों को वापस ले जाएगा।&lt;br /&gt;पलटना का मतलब यह नहीं है कि परिवर्तन खो जाएंगे, हालांकि, पलटने की प्रक्रिया एक नई संशोधन बनाएगी जिसमें पलटे गए परिवर्तन होंगे।&lt;br /&gt;&lt;br /&gt;क्या आप सुनिश्चित हैं कि आप आगे बढ़ना चाहते हैं?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>पलटना का मतलब यह नहीं है कि परिवर्तन खो जाएंगे, हालांकि, पलटने की प्रक्रिया एक नई संशोधन बनाएगी जिसमें पलटे गए परिवर्तन होंगे।</value>

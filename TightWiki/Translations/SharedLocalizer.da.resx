@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Er du sikker på, at du vil slette denne kommentar?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Er du sikker på, at du vil frakoble</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Er du sikker på, at du vil logge ud af applikationen?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Ikke medlem?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>ikke påkrævet</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>Når du har scannet QR-koden eller indtastet koden ovenfor, vil din tofaktorautentificeringsapp give dig en unik kode. Indtast koden i bekræftelsesboksen nedenfor.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>Tilbageførsel af "{0}" fra version {1} til {2} vil rulle {3} ændringer tilbage.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Tilbagefør {0} fra revision {1} til {2} vil rulle {3} ændringer tilbage.&lt;br /&gt;Tilbageførelse betyder ikke, at ændringer går tabt, men restore-processen vil oprette en ny revision med de tilbagestillede ændringer.&lt;br /&gt;&lt;br /&gt;Er du sikker på, at du vil fortsætte?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Tilbageførelse betyder ikke, at ændringer går tabt, men restore-processen vil oprette en ny revision med de tilbagestillede ændringer.</value>

@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Oled sa kindel, et soovid selle kommentaari kustutada?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Oled sa kindel, et soovid lahti ühendust?</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Oled sa kindel, et soovid rakendusest välja logida?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Kas oled liige?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>pole nõutud</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>Pärast QR-koodi skannimist või ülaltoodud võtme sisestamist annab teie kahefaktoriline autentimisrakendus teile unikaalse koodi. Sisestage kood allapoole kinnituskasti.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>"{0}" tagasi võtmine redaktsioonist {1} kuni {2} tõmbab tagasi {3} muudatust.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Vältides {0} muudatused revisjonist {1} versiooni {2} tagasi, toimub {3} muudatuste tagasi pööramine.&lt;br /&gt;Vältimine ei tähenda siiski, et muudatused kaoksid, vaid tagasi pööramise protsess loob uue revisjoni koos tagasi pööratud muudatustega.&lt;br /&gt;&lt;br /&gt;Kas olete kindel, et soovite jätkata?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Vältimine ei tähenda siiski, et muudatused kaoksid, vaid tagasi pööramise protsess loob uue revisjoni koos tagasi pööratud muudatustega.</value>

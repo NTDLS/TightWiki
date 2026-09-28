@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>이 댓글을 삭제하시겠습니까?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>분리하시겠습니까</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>앱에서 로그아웃하시겠습니까?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>회원이 아니신가요?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>필수 아님</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>QR 코드를 스캔하거나 위에 입력한 키를 입력하면 이중 인증 앱이 고유 코드를 제공합니다. 아래 확인란에 코드를 입력하세요.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>"{0}"을(를) 수정본 {1}에서 {2}로 되돌리면 {3} 변경 사항이 롤백됩니다.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>{0}를 버전 {1}에서 {2}로 되돌리면 {3} 변경 사항이 롤백됩니다.&lt;br /&gt;되돌리기는 변경 사항이 손실된다는 의미가 아니며, 되돌리기 과정은 되돌린 변경 사항이 포함된 새 버전을 생성합니다.&lt;br /&gt;&lt;br /&gt;계속하시겠습니까?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>되돌리기는 변경 사항이 손실된다는 의미가 아니며, 되돌리기 과정은 되돌린 변경 사항이 포함된 새 버전을 생성합니다.</value>

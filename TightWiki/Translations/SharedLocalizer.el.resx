@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτό το σχόλιο;</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Είστε βέβαιοι ότι θέλετε να αποσυνδέσετε</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Είστε βέβαιοι ότι θέλετε να αποσυνδεθείτε από την εφαρμογή;</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Δεν είστε μέλος;</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>δεν απαιτείται</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>Μόλις σαρώσετε τον κωδικό QR ή εισάγετε το κλειδί παραπάνω, η εφαρμογή ελέγχου ταυτότητας δύο παραγόντων θα σας δώσει έναν μοναδικό κωδικό. Εισάγετε τον κωδικό στο πεδίο επιβεβαίωσης παρακάτω.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>Η αντιστροφή "{0}" από την έκδοση {1} στην {2} θα ακυρώσει {3} αλλαγές.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Η επαναφορά του {0} από την αναθεώρηση {1} στην {2} θα αναστρέψει τις αλλαγές {3}.&lt;br /&gt;Η επαναφορά δεν σημαίνει ότι οι αλλαγές θα χαθούν, ωστόσο η διαδικασία επαναφοράς θα δημιουργήσει μια νέα αναθεώρηση με τις επανορθωμένες αλλαγές.&lt;br /&gt;&lt;br /&gt;Είστε σίγουροι ότι θέλετε να συνεχίσετε;&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Η επαναφορά δεν σημαίνει ότι οι αλλαγές θα χαθούν, ωστόσο η διαδικασία επαναφοράς θα δημιουργήσει μια νέα αναθεώρηση με τις επανορθωμένες αλλαγές.</value>

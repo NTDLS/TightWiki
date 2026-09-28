@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Biztosan törölni szeretné ezt a hozzászólást?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Biztosan el akarja szakadni</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Biztosan ki akar lépni az alkalmazásból?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Nem tag?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>Nem szükséges</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>Miután beolvasta a QR-kódot vagy megadta a fenti kulcsot, a kétlépcsős hitelesítési alkalmazás egyedi kódot fog biztosítani Önnek. Írja be a kódot az alábbi megerősítő mezőbe.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>A "{0}" visszaállítása a {1} változatról a {2} -re való visszaállítás {3} változást fog visszavonni.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Az {0} visszaállítása a {1} módosításból a {2} verzióra visszavonja a {3} változtatásokat.&lt;br /&gt;A visszavonás nem jelenti azt, hogy a változtatások elvesznek, a visszavonási folyamat egy új verziót fog létrehozni a visszavont változtatásokkal.&lt;br /&gt;&lt;br /&gt;Biztos benne, hogy folytatni szeretné?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>A visszavonás nem jelenti azt, hogy a változtatások elvesznek, a visszavonási folyamat egy új verziót fog létrehozni a visszavont változtatásokkal.</value>

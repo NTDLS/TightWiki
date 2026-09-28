@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>¿estás seguro de que quieres eliminar este comentario?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>¿estás seguro de que quieres desacoplar</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>¿estás seguro de que quieres cerrar sesión en la aplicación?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>¿No eres miembro?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>no requerido</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>Una vez que hayas escaneado el código QR o introducido la clave arriba, tu aplicación de autenticación de dos factores te proporcionará un código único. Ingresa el código en la caja de confirmación a continuación.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>Revertir "{0}" de la revisión {1} a {2} deshará {3} cambios.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>La reversión de {0} de la revisión {1} a {2} deshará los cambios de {3}.&lt;br /&gt;Revertir no significa que los cambios se perderán, sin embargo, el proceso de reversión creará una nueva revisión con los cambios revertidos.&lt;br /&gt;&lt;br /&gt;¿Estás seguro de que quieres continuar?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Revertir no significa que los cambios se perderán, sin embargo, el proceso de reversión creará una nueva revisión con los cambios revertidos.</value>

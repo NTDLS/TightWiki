@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>您確定要刪除此評論嗎？</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>您確定要卸載</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>您確定要登出應用程式嗎？</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>不是會員嗎？</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>非必需</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>一旦你掃描了QR碼或輸入了上方的密鑰，你的兩因素認證應用將會提供一個唯一的代碼。在下方的確認框中輸入此代碼。</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>將 "{0}" 從版本 {1} 還原到 {2} 將回滾 {3} 的更動。</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>將 {0} 從版本 {1} 還原到 {2} 將回滾 {3} 的更動。&lt;br /&gt;還原並不代表這些更動會遺失，但還原過程會創建一個包含還原變更的新版本。&lt;br /&gt;&lt;br /&gt;您確定要繼續嗎？&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>還原並不代表這些更動會遺失，但還原過程會創建一個包含還原變更的新版本。</value>

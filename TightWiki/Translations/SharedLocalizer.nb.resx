@@ -1126,9 +1126,6 @@
   <data name="Analysis" xml:space="preserve">
     <value>Analyse</value>
   </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Å tilbakestille {0} fra revisjon {1} til {2} vil tilbakestille {3} endringer.&lt;br /&gt;Tilbakestilling betyr ikke at endringene går tapt, men prosessen vil lage en ny revisjon med de angrede endringene.&lt;br /&gt;&lt;br /&gt;Er du sikker på at du vil fortsette?&lt;br /&gt;&lt;br /&gt;</value>
-  </data>
   <data name="Revert" xml:space="preserve">
     <value>Tilbakestill</value>
   </data>
@@ -1431,9 +1428,6 @@
   </data>
   <data name="There are no security roles configured." xml:space="preserve">
     <value>Det er ingen sikkerhetsroller konfigurert.</value>
-  </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Er du sikker på at du vil fjerne</value>
   </data>
   <data name="Tag Copied" xml:space="preserve">
     <value>Merkemerk Kopiert</value>
@@ -1845,9 +1839,6 @@
   </data>
   <data name="This display name will be visible publicly." xml:space="preserve">
     <value>Dette visningsnavnet vil være offentlig synlig.</value>
-  </data>
-  <data name="not required" xml:space="preserve">
-    <value>ikkje nødvendig</value>
   </data>
   <data name="Complete Signup" xml:space="preserve">
     <value>Fullfør påmelding</value>

@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>کیا آپ واقعی اس تبصرہ کو حذف کرنا چاہتے ہیں؟</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>کیا آپ واقعی.detach کرنا چاہتے ہیں</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>کیا آپ واقعی ایپلیکیشن سے لاگ آؤٹ کرنا چاہتے ہیں؟</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>کیا آپ رکن نہیں ہیں؟</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>ضروری نہیں</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>جب آپ نے QR کوڈ اسکین کیا یا اوپر دی گئی کلید درج کی، آپ کا دو عنصر تصدیق کا ایپ آپ کو ایک منفرد کوڈ فراہم کرے گا۔ نیچے تصدیقی پین میں کوڈ درج کریں۔</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>"{0}" کو ترمیم {1} سے {2} پر واپس لے جانے سے {3} تبدیلیاں واپس ہوں گی۔</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>{0} کو ترمیم {1} سے {2} پر واپس لے جانا {3} تبدیلیوں کو واپس کرنے کا عمل ہے۔&lt;br /&gt;واپسی کا مطلب یہ نہیں ہے کہ تبدیلیاں ضائع ہو جائیں گی، تاہم، واپسی کا عمل ایک نئی ترمیم پیدا کرے گا جس میں واپس کی گئی تبدیلیاں شامل ہوں گی۔&lt;br /&gt;&lt;br /&gt;کیا آپ واقعی جاری رکھنا چاہتے ہیں؟&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>واپسی کا عمل اس کا مطلب نہیں ہے کہ تبدیلیاں کھو جائیں گی، تاہم، یہ عمل ایک نئی ترمیم پیدا کرے گا جس میں واپس کی گئی تبدیلیاں شامل ہوں گی۔</value>

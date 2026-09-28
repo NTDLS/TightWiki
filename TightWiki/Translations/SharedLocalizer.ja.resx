@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>このコメントを削除してもよろしいですか？</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>切り離してもよろしいですか</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>アプリケーションからログアウトしてもよろしいですか？</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>会員ではありませんか？</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>必要ありません</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>QRコードをスキャンするか、上記のキーを入力すると、二要素認証アプリが一意のコードを提供します。以下の確認ボックスにコードを入力してください。</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>リビジョン {1} から {2} へ "{0}" を元に戻すことで、{3} の変更を取り消します。</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>{0}をリビジョン{1}から{2}に戻すと、{3}の変更が巻き戻されます。&lt;br /&gt;戻すことは変更が失われることを意味するものではありませんが、元に戻すプロセスは巻き戻した変更を含む新しいリビジョンを作成します。&lt;br /&gt;&lt;br /&gt;続行してもよろしいですか？&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>戻すことは変更が失われることを意味するものではありませんが、元に戻すプロセスは巻き戻した変更を含む新しいリビジョンを作成します。</value>

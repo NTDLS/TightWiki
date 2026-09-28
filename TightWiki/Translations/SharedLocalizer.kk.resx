@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Осы пікірді өшіргіңіз келетінін растайсыз ба?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Жұлыстау үшін растайсыз ба</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Қосымшадан шығу үшін сенімдісіз бе?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Толық мүшесі емес пе?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>қажет емес</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>QR кодын сканерлегеннен кейін немесе жоғарыда енгізілген кілтті енгізгеннен кейін, екі факторлы аутентификация қолданбаңыз бірегей кодты ұсынады. Төмендегі растау терезесіне кодты енгізіңіз.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>"{0}"-ді {1}-ші түзетуден {2}-ге қайтару {3} өзгерістерін қайтаруға әкеледі.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>{0}-ды {1} түзетулерінен {2}-ге қайтару {3} өзгерістерін қайтару болып табылады.&lt;br /&gt;Қайтару өзгерістер жоғалады дегенді білдірмейді, бірақ қайтару процесі қайтарылған өзгерістермен жаңа түзету жасайды.&lt;br /&gt;&lt;br /&gt;Әрине әрі қарай жалғастыру керек пе?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Қайтару өзгерістер жоғалады дегенді білдірмейді, бірақ қайтару процесі қайтарылған өзгерістермен жаңа түзету жасайды.</value>

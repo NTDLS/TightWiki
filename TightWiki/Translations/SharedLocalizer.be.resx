@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Вы ўпэўнены, што хочаце выдаліць гэты каментар?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Вы ўпэўнены, што хочаце адлучыць</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Вы ўпэўнены, што хочаце выйсці з прыкладання?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Не з'яўляецеся ўдзельнікам?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>Не патрабуецца</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>Пасля таго, як вы сканавалі QR-код або ўвялі ключ вышэй, ваша прыкладанне для двухфактарнай аўтэнтыфікацыі прадаставіць вам унікальны код. Увядзіце код у полі пацверджання ніжэй.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>Вяртанне "{0}" з рэдакцыі {1} у {2} прыкладзе зробіць змены, адмяняючы {3} змен.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Павароцьце {0} з рэвізіі {1} у {2} выкліча адкат зменаў {3}.&lt;br /&gt;Паварот у значэнні не азначае, што цяжкасці будуць страчаны, але працэс адкату створыць новую рэвізію з адкатанымі зменамі.&lt;br /&gt;&lt;br /&gt;Вы ўпэўнены, што жадаеце працягваць?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Павароць не азначае, што змены будуць страчаны, але працэс адкату створыць новую рэвізію з адкатанымі зменамі.</value>

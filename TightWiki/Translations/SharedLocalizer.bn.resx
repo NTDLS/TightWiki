@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>আপনি কি নিশ্চিত যে আপনি এই মন্তব্যটি মুছে ফেলতে চান?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>আপনি কি নিশ্চিত যে আপনি বিচ্ছিন্ন করতে চান</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>আপনি কি নিশ্চিত যে আপনি অ্যাপ্লিকেশন থেকে লগআউট করতে চান?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>সদস্য নয়?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>প্রয়োজনীয় নয়</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>একবার আপনি QR কোড স্ক্যান করলেন বা উপরে কী ইনপুট করলে, আপনার দুই-ফ্যাক্টর প্রমাণীকরণ অ্যাপটি আপনাকে একটিunik কোড প্রদান করবে। নিচের নিশ্চিতকরণ বাক্সে কোডটি প্রবেশ করুন।</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>"{0}" কে {1} থেকে {2} এ পুনরুদ্ধার করতে {3} পরিবর্তনগুলি রোলব্যাক হবে।</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>{0} কে {1} সংস্করণের থেকে {2} এ পুনরায় সেট করা হবে এবং {3} পরিবর্তনগুলি ফেরত যাবে।&lt;br /&gt;পুনরায় সেট করা মানে এই নয় যে পরিবর্তনগুলি হারিয়ে যাবে, তবে পুনরায় সেট প্রক্রিয়া একটি নতুন সংস্করণ তৈরি করবে সংশোধিত পরিবর্তনগুলি সহ।&lt;br /&gt;&lt;br /&gt;আপনি কি নিশ্চিত যে আপনি চালিয়ে যেতে চান?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>পুনরায় সেট করা মানে এই নয় যে পরিবর্তনগুলি হারিয়ে যাবে, তবে পুনরায় সেট প্রক্রিয়া একটি নতুন সংস্করণ তৈরি করবে সংশোধিত পরিবর্তনগুলি সহ।</value>

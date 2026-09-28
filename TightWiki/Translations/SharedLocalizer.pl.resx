@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Czy na pewno chcesz usunąć ten komentarz?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Czy na pewno chcesz odłączyć</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Czy na pewno chcesz wylogować się z aplikacji?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Nie jesteś członkiem?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>nie jest wymagane</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>Po zeskanowaniu kodu QR lub wpisaniu klucza powyżej, Twoja aplikacja do dwuskładnikowej autoryzacji dostarczy Ci unikalny kod. Wprowadź kod w poniższym polu potwierdzenia.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>Cofnięcie "{0}" z wersji {1} do {2} cofnie {3} zmiany.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Przywracanie {0} z rewizji {1} do {2} cofnie zmiany {3}.&lt;br /&gt;Przywracanie nie oznacza, że zmiany zostaną utracone, jednak proces cofania utworzy nową rewizję z cofniętymi zmianami.&lt;br /&gt;&lt;br /&gt;Czy na pewno chcesz kontynuować?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Przywracanie nie oznacza, że zmiany zostaną utracone, jednak proces cofania utworzy nową rewizję z cofniętymi zmianami.</value>
