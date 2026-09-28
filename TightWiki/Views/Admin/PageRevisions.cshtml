@@ -119,7 +119,7 @@
                                 <div class="d-flex gap-2">
                                     @TwConfirmActionHelper.GenerateWarnButton(
                                         WikiConfiguration.BasePath,
-                                        Localizer["Reverting {0} from revision {1} to {2} will rollback {3} changes.<br />Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.<br /><br />Are you sure you want to continue?<br /><br />"]
+                                        Localizer["Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?"]
                                             .Format(h.Name, h.HighestRevision, h.Revision, h.HigherRevisionCount),
                                         Localizer["Revert"].Value,
                                         $"/Admin/RevertPageRevision/{h.Navigation}/{h.Revision}",
