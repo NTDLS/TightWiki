@@ -927,15 +927,19 @@ namespace TightWiki.Repository
 
                         currentPageRevision = currentRevisionInfo.Revision;
 
-                        //Update the existing page.
-                        await o.ExecuteAsync("UpdatePage.sql", pageUpsertParam);
-
                         //Determine if anything has actually changed.
                         hasPageChanged = currentRevisionInfo.Name != page.Name
                             || currentRevisionInfo.Namespace != page.Namespace
                             || currentRevisionInfo.Description != page.Description
                             || currentRevisionInfo.ChangeSummary != page.ChangeSummary
                             || currentRevisionInfo.DataHash != newDataHash;
+
+                        //Only touch the page when it has changed, otherwise saving an unchanged page (including
+                        //  re-seeding the help pages during an upgrade) would stamp it as modified without a new revision.
+                        if (hasPageChanged)
+                        {
+                            await o.ExecuteAsync("UpdatePage.sql", pageUpsertParam);
+                        }
                     }
 
                     if (hasPageChanged)
