@@ -23,6 +23,7 @@ namespace TightWiki.Plugin.Library
         /// <param name="totalPageCount">The total number of pages to display in the pagination control. Can be null if the total page count is
         /// unknown.</param>
         /// <param name="class">An optional CSS class to apply to the pagination control. Can be null to omit the class attribute.</param>
+        /// <param name="localizer">An optional localization text provider for translating pagination labels. Can be null to use default English labels.</param>
         /// <returns>An object that represents the generated HTML content for the pagination control.</returns>
         public static IHtmlContent Generate(QueryString? queryString, int? totalPageCount, string? @class = null, ITwSharedLocalizationText? localizer = null)
             => Generate(string.Empty, TwQueryStringConverter.ToDictionary(queryString), totalPageCount, "page", @class, null, localizer);
@@ -34,6 +35,7 @@ namespace TightWiki.Plugin.Library
         /// <param name="totalPageCount">The total number of pages to display in the pagination control. Can be null if the page count is unknown.</param>
         /// <param name="queryToken">The name of the query parameter used to represent the page number in generated links. Cannot be null.</param>
         /// <param name="class">An optional CSS class to apply to the pagination control. Can be null to omit the class attribute.</param>
+        /// <param name="localizer">An optional localization text provider for translating pagination labels. Can be null to use default English labels.</param>
         /// <returns>An <see cref="IHtmlContent"/> instance representing the rendered pagination control.</returns>
         public static IHtmlContent Generate(QueryString? queryString, int? totalPageCount, string queryToken, string? @class = null, ITwSharedLocalizationText? localizer = null)
             => Generate(string.Empty, TwQueryStringConverter.ToDictionary(queryString), totalPageCount, queryToken, @class, null, localizer);
@@ -47,6 +49,7 @@ namespace TightWiki.Plugin.Library
         /// <param name="queryToken">A token used to identify the page number parameter in the generated query string.</param>
         /// <param name="class">An optional CSS class to apply to the pagination control. If null, no additional class is added.</param>
         /// <param name="anchor">Anchor to scroll to when the pager is clicked.</param>
+        /// <param name="localizer">An optional localization text provider for translating pagination labels. Can be null to use default English labels.</param>
         /// <returns>An <see cref="IHtmlContent"/> instance representing the rendered pagination control. Returns an empty
         /// content if <paramref name="totalPageCount"/> is null.</returns>
         public static IHtmlContent Generate(IQueryCollection? queryString, int? totalPageCount, string queryToken, string? @class = null, string? anchor = null, ITwSharedLocalizationText? localizer = null)
@@ -65,6 +68,7 @@ namespace TightWiki.Plugin.Library
         /// <param name="queryToken">The name of the query string parameter that represents the current page number.</param>
         /// <param name="class">An optional CSS class to apply to the pagination container. Can be null.</param>
         /// <param name="anchor">Anchor to scroll to when the pager is clicked.</param>
+        /// <param name="localizer">An optional localization text provider for translating pagination labels. Can be null to use default English labels.</param>
         /// <returns>An <see cref="IHtmlContent"/> instance containing the rendered HTML for the pagination control. Returns an
         /// empty HTML string if there is only one page and the current page is the first.</returns>
         private static IHtmlContent Generate(string url, Dictionary<string, string>? queryString,
