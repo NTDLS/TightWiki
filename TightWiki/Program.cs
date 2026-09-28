@@ -267,6 +267,8 @@ namespace TightWiki
 
             var app = builder.Build();
 
+            TwSignedUrl.Initialize(app.Services.GetRequiredService<IDataProtectionProvider>());
+
             //Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
