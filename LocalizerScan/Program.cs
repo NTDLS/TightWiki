@@ -1,11 +1,10 @@
 ﻿using Dapper;
 using Microsoft.Data.Sqlite;
-using OpenAI;
-using OpenAI.Chat;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using TightWiki.Library;
+using VPT.Einkr.Client;
 
 namespace LocalizerScan
 {
@@ -30,15 +29,14 @@ namespace LocalizerScan
                 return 1;
             }
 
-            var apiKey = File.ReadAllText("C:\\OpenAPIKey.txt").Trim();
-            var openAi = new OpenAIClient(apiKey);
-            var chat = openAi.GetChatClient("gpt-4.1-nano");
+            var apiKey = File.ReadAllText("C:\\EinkrKey.txt").Trim();
+            var einkr = new EinkrAIClient("Stratum-27B", apiKey);
 
             var rootPath = args[0];
             var resourcePath = args[1];
 
             ScanSourceFilesAndAddMissingKeys(rootPath, resourcePath);
-            FillInMissingTranslations(resourcePath, chat, "English");
+            FillInMissingTranslations(resourcePath, einkr, "English");
 
             return 0;
         }
@@ -186,7 +184,7 @@ namespace LocalizerScan
             }
         }
 
-        private static void FillInMissingTranslations(string resourcePath, ChatClient chat, string sourceLanguage)
+        private static void FillInMissingTranslations(string resourcePath, EinkrAIClient chat, string sourceLanguage)
         {
             var sourceFileNames = Directory.GetFiles(resourcePath, $"*.*.resx", SearchOption.TopDirectoryOnly).ToList();
 
