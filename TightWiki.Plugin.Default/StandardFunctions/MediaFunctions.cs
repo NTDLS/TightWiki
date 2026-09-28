@@ -50,7 +50,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
 
                 if (pageSelector && attachments.Count > 0 && attachments.First().PaginationPageCount > 1)
                 {
-                    html.Append(TwPageSelectorGenerator.Generate(state.QueryString, attachments.First().PaginationPageCount, refTag));
+                    html.Append(TwPageSelectorGenerator.Generate(state.QueryString, attachments.First().PaginationPageCount, refTag, localizer: state.Localizer));
                 }
             }
 

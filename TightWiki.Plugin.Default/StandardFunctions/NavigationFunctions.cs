@@ -66,7 +66,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
 
             if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
             {
-                html.Append(TwPageSelectorGenerator.Generate(state.QueryString, pages.First().PaginationPageCount, refTag));
+                html.Append(TwPageSelectorGenerator.Generate(state.QueryString, pages.First().PaginationPageCount, refTag, localizer: state.Localizer));
             }
 
             return new TwPluginResult(html.ToString());
@@ -126,7 +126,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
 
             if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
             {
-                html.Append(TwPageSelectorGenerator.Generate(state.QueryString, pages.First().PaginationPageCount, refTag));
+                html.Append(TwPageSelectorGenerator.Generate(state.QueryString, pages.First().PaginationPageCount, refTag, localizer: state.Localizer));
             }
 
             return new TwPluginResult(html.ToString());
@@ -185,7 +185,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
 
             if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
             {
-                html.Append(TwPageSelectorGenerator.Generate(state.QueryString, pages.First().PaginationPageCount, refTag));
+                html.Append(TwPageSelectorGenerator.Generate(state.QueryString, pages.First().PaginationPageCount, refTag, localizer: state.Localizer));
             }
 
             return new TwPluginResult(html.ToString());

@@ -64,7 +64,7 @@
                 <i class="bi bi-shield-lock me-2"></i>@Localizer["Role Permissions"]
             </span>
             <div>
-                @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount_Permissions, "Page_Permissions")
+                @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount_Permissions, "Page_Permissions", localizer: Localizer)
             </div>
         </div>
 
@@ -153,7 +153,7 @@
                 <i class="bi bi-people me-2"></i>@Localizer["Role Members"]
             </span>
             <div>
-                @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount_Members, "Page_Members", @class: "mb-3")
+                @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount_Members, "Page_Members", @class: "mb-3", localizer: Localizer)
             </div>
         </div>
 

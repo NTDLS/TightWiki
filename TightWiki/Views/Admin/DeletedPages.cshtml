@@ -62,7 +62,7 @@
 {
     <div class="card shadow-sm">
         <div class="card-body pb-0">
-            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
+            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3", localizer: Localizer)
         </div>
 
         <div class="table-responsive">
@@ -126,7 +126,7 @@
         </div>
 
         <div class="card-body pt-3">
-            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
+            @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, localizer: Localizer)
         </div>
     </div>
 }

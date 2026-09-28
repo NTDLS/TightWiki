@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
+using System.Net;
+using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Plugin.Library
 {
@@ -22,8 +24,8 @@ namespace TightWiki.Plugin.Library
         /// unknown.</param>
         /// <param name="class">An optional CSS class to apply to the pagination control. Can be null to omit the class attribute.</param>
         /// <returns>An object that represents the generated HTML content for the pagination control.</returns>
-        public static IHtmlContent Generate(QueryString? queryString, int? totalPageCount, string? @class = null)
-            => Generate(string.Empty, TwQueryStringConverter.ToDictionary(queryString), totalPageCount, "page", @class);
+        public static IHtmlContent Generate(QueryString? queryString, int? totalPageCount, string? @class = null, ITwSharedLocalizationText? localizer = null)
+            => Generate(string.Empty, TwQueryStringConverter.ToDictionary(queryString), totalPageCount, "page", @class, null, localizer);
 
         /// <summary>
         /// Generates an HTML pagination control based on the specified query string, total page count, and query token.
@@ -33,8 +35,8 @@ namespace TightWiki.Plugin.Library
         /// <param name="queryToken">The name of the query parameter used to represent the page number in generated links. Cannot be null.</param>
         /// <param name="class">An optional CSS class to apply to the pagination control. Can be null to omit the class attribute.</param>
         /// <returns>An <see cref="IHtmlContent"/> instance representing the rendered pagination control.</returns>
-        public static IHtmlContent Generate(QueryString? queryString, int? totalPageCount, string queryToken, string? @class = null)
-            => Generate(string.Empty, TwQueryStringConverter.ToDictionary(queryString), totalPageCount, queryToken, @class);
+        public static IHtmlContent Generate(QueryString? queryString, int? totalPageCount, string queryToken, string? @class = null, ITwSharedLocalizationText? localizer = null)
+            => Generate(string.Empty, TwQueryStringConverter.ToDictionary(queryString), totalPageCount, queryToken, @class, null, localizer);
 
         /// <summary>
         /// Generates an HTML pagination control based on the specified query string, total page count, and query token.
@@ -47,8 +49,8 @@ namespace TightWiki.Plugin.Library
         /// <param name="anchor">Anchor to scroll to when the pager is clicked.</param>
         /// <returns>An <see cref="IHtmlContent"/> instance representing the rendered pagination control. Returns an empty
         /// content if <paramref name="totalPageCount"/> is null.</returns>
-        public static IHtmlContent Generate(IQueryCollection? queryString, int? totalPageCount, string queryToken, string? @class = null, string? anchor = null)
-            => Generate(string.Empty, TwQueryStringConverter.ToDictionary(queryString), totalPageCount, queryToken, @class, anchor);
+        public static IHtmlContent Generate(IQueryCollection? queryString, int? totalPageCount, string queryToken, string? @class = null, string? anchor = null, ITwSharedLocalizationText? localizer = null)
+            => Generate(string.Empty, TwQueryStringConverter.ToDictionary(queryString), totalPageCount, queryToken, @class, anchor, localizer);
 
         /// <summary>
         /// Generates an HTML pagination control for navigating between pages in a web application.
@@ -66,8 +68,11 @@ namespace TightWiki.Plugin.Library
         /// <returns>An <see cref="IHtmlContent"/> instance containing the rendered HTML for the pagination control. Returns an
         /// empty HTML string if there is only one page and the current page is the first.</returns>
         private static IHtmlContent Generate(string url, Dictionary<string, string>? queryString,
-            int? totalPageCount, string queryToken, string? @class = null, string? anchor = null)
+            int? totalPageCount, string queryToken, string? @class = null, string? anchor = null, ITwSharedLocalizationText? localizer = null)
         {
+            string Text(string key, params object[] args)
+                => WebUtility.HtmlEncode(localizer != null ? localizer.Format(key, args) : string.Format(key, args));
+
             int currentPage = 1;
 
             var firstPage = TwQueryStringConverter.Clone(queryString);
@@ -95,23 +100,28 @@ namespace TightWiki.Plugin.Library
 
             if ((totalPageCount ?? 0) > 1 || currentPage > 1)
             {
+                bool hasPrevious = currentPage > 1;
+                bool hasNext = totalPageCount != null && currentPage < totalPageCount;
+
+                //Disabled buttons are also taken out of the keyboard order and announced as disabled.
+                string Button(bool enabled, Dictionary<string, string> target, string icon, string label)
+                    => $"<a class='btn btn-outline-secondary{(enabled ? "" : " disabled")}' href='{url}?{TwQueryStringConverter.FromCollection(target)}{fragment}'"
+                     + $" aria-label='{label}' title='{label}'{(enabled ? "" : " aria-disabled='true' tabindex='-1'")}><i class='bi {icon}' aria-hidden='true'></i></a>";
+
+                string position = totalPageCount != null
+                    ? Text("Page {0} of {1}", currentPage, totalPageCount)
+                    : Text("Page {0}", currentPage);
+
                 var html = $@"
-                <div class='d-flex justify-content-center {@class ?? string.Empty}'>
+                <nav class='d-flex justify-content-center {@class ?? string.Empty}' aria-label='{Text("Pagination")}'>
                     <div class='btn-group' role='group'>
-                        <a class='btn btn-outline-secondary {(currentPage > 1 ? "" : "disabled")}' href='{url}?{TwQueryStringConverter.FromCollection(firstPage)}{fragment}'>
-                            <i class='bi bi-chevron-double-left'></i>
-                        </a>
-                        <a class='btn btn-outline-secondary {(currentPage > 1 ? "" : "disabled")}' href='{url}?{TwQueryStringConverter.FromCollection(prevPage)}{fragment}'>
-                            <i class='bi bi-chevron-left'></i>
-                        </a>
-                        <a class='btn btn-outline-secondary {(currentPage < totalPageCount ? "" : "disabled")}' href='{url}?{TwQueryStringConverter.FromCollection(nextPage)}{fragment}'>
-                            <i class='bi bi-chevron-right'></i>
-                        </a>
-                        <a class='btn btn-outline-secondary {(currentPage < totalPageCount ? "" : "disabled")}' href='{url}?{TwQueryStringConverter.FromCollection(lastPage)}{fragment}'>
-                            <i class='bi bi-chevron-double-right'></i>
-                        </a>
+                        {Button(hasPrevious, firstPage, "bi-chevron-double-left", Text("First page"))}
+                        {Button(hasPrevious, prevPage, "bi-chevron-left", Text("Previous page"))}
+                        <span class='btn btn-outline-secondary disabled' aria-current='page'>{position}</span>
+                        {Button(hasNext, nextPage, "bi-chevron-right", Text("Next page"))}
+                        {Button(hasNext, lastPage, "bi-chevron-double-right", Text("Last page"))}
                     </div>
-                </div>";
+                </nav>";
 
                 return new HtmlString(html.Trim().Replace("\n", "").Replace("\r", ""));
             }
