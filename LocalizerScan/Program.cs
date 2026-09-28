@@ -256,7 +256,7 @@ namespace LocalizerScan
 
                     Console.WriteLine($"Processing batch of {batch.Count:n0} elements -> {targetLanguage.Name}");
 
-                    var promptText = EmbeddedResourceReader.LoadText(@"EmbeddedText\OpenAIPrompt.txt")
+                    var promptText = EmbeddedResourceReader.LoadText(@"EmbeddedText\SystemPrompt.txt")
                         .Replace("{sourceLanguage}", sourceLanguage)
                         .Replace("{targetLanguage}", targetLanguage.Name);
 
