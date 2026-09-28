@@ -30,7 +30,7 @@ namespace LocalizerScan
             }
 
             var apiKey = File.ReadAllText("C:\\EinkrKey.txt").Trim();
-            var einkr = new EinkrAIClient("Stratum-27B", apiKey);
+            var einkr = new EinkrAIClient("Scout-14B", apiKey);
 
             var rootPath = args[0];
             var resourcePath = args[1];
@@ -276,7 +276,7 @@ namespace LocalizerScan
 
                     var translatedBlock = response.Content[0].Text;
 
-                    var splitPhrases = translatedBlock.Split('\n', StringSplitOptions.TrimEntries);
+                    var splitPhrases = translatedBlock.Trim().Split('\n', StringSplitOptions.TrimEntries);
 
                     if (splitPhrases.Length != batch.Count)
                     {
