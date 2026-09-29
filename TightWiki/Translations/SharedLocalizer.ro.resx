@@ -743,7 +743,7 @@
     <value>Autentificare</value>
   </data>
   <data name="Log in using your {0} account" xml:space="preserve">
-    <value>Autentificare folosind contul tău {{0}}</value>
+    <value>Autentifică-te folosind contul tău {0}</value>
   </data>
   <data name="Logged out" xml:space="preserve">
     <value>Deconectat</value>
@@ -1067,7 +1067,7 @@
     <value>Șterge</value>
   </data>
   <data name="Remove this {0} login from your account" xml:space="preserve">
-    <value>Șterge această autentificare {{0}} din contul tău</value>
+    <value>Elimină acest {0} login din contul tău</value>
   </data>
   <data name="Request failed:" xml:space="preserve">
     <value>Cererea a eșuat:</value>

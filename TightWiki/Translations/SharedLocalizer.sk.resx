@@ -1067,7 +1067,7 @@
     <value>Odstrániť</value>
   </data>
   <data name="Remove this {0} login from your account" xml:space="preserve">
-    <value>Odstrániť tento {{0}} prihlásenie zo svojho účtu</value>
+    <value>Odstráňte toto {0} prihlasovanie z vášho účtu</value>
   </data>
   <data name="Request failed:" xml:space="preserve">
     <value>Žiadosť zlyhala:</value>

@@ -1577,13 +1577,13 @@
     <value>نعم</value>
   </data>
   <data name="You are viewing a page revision which was deleted on {0} by {1}." xml:space="preserve">
-    <value>أنت ت閲ط صفحة تم حذفها في {0} بواسطة {1}.</value>
+    <value>أنت تشاهد نسخة صفحة تم حذفها في {0} من قبل {1}.</value>
   </data>
   <data name="You are viewing a page which was deleted on {0} by {1}." xml:space="preserve">
-    <value>أنت ت閲ط صفحة تم حذفها في {0} بواسطة {1}.</value>
+    <value>أنت تشاهد صفحة تم حذفها في {0} من قبل {1}.</value>
   </data>
   <data name="You are viewing revision {0} of &quot;{1}&quot; modified by {2} on {3}." xml:space="preserve">
-    <value>أنت ت閲ط الإصدار {0} من "{1}" الذي تم تعديله بواسطة {2} في {3}.</value>
+    <value>أنت تشاهد النسخة {0} من "{1}" التي تم تعديلها بواسطة {2} في {3}.</value>
   </data>
   <data name="You can generate a new set of recovery codes." xml:space="preserve">
     <value>يمكنك توليد مجموعة جديدة من رموز الاسترداد.</value>
@@ -2144,7 +2144,7 @@
     <value>ما إذا كان يجب تقسيم CamelCasedStrings عند تحليل الصفحات لمكونات البحث. يمكن أن يكون هذا مفيدًا عندما تحتوي الصفحات على الكثير من محتوى البرمجة/الكود. الافتراضي: فعال.</value>
   </data>
   <data name="Whether users are required to enter a change summary when editing pages. Note that &quot;Show Change Summary when Editing&quot; must also be enabled." xml:space="preserve">
-    <value>ما إذا كان يُطلب من المستخدمين إدخال ملخص التغيير عند تحرير الصفحات. لاحظ أن &lt;strong&gt;عرض ملخص التغيير عند التحرير&lt;/strong&gt; يجب أن يكون مضبوطًا أيضًا على التشغيل.</value>
+    <value>هل يتطلب من المستخدمين إدخال ملخص تغيير عند تحرير الصفحات. لاحظ أن "عرض ملخص التغيير عند التحرير" يجب أيضًا تمكينه.</value>
   </data>
   <data name="Whether visitors can view members and their public profiles." xml:space="preserve">
     <value>ما إذا كان يمكن للزوار عرض الأعضاء وملفاتهم الشخصية العامة.</value>

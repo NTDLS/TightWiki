@@ -2765,18 +2765,18 @@
     <value>Deze bevestigingslink is verlopen of niet geldig.</value>
   </data>
   <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
-    <value>Het terugzetten van {{0}} van revisie {{1}} naar {{2}} zal {{3}} wijzigingen terugrollen. Geen wijzigingen worden verloren: de terugzetting maakt een nieuwe revisie die de teruggedraaide inhoud bevat. Weet u zeker dat u wilt doorgaan?</value>
+    <value>Terugzetten van {0} van versie {1} naar {2} zal {3} wijzigingen teruggedraaien. Geen wijzigingen worden verloren: de terugzet actie maakt een nieuwe versie aan die de teruggedraaide inhoud bevat. Weet u zeker dat u wilt doorgaan?</value>
   </data>
   <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
-    <value>Weet u zeker dat u "{{0}}" wilt afkoppelen?</value>
+    <value>Weet u zeker dat u '{0}' wilt afkoppelen?</value>
   </data>
   <data name="Formatting" xml:space="preserve">
     <value>Opmaak</value>
   </data>
   <data name="Revert to revision {0}" xml:space="preserve">
-    <value>Terugzetten naar revisie {{0}}</value>
+    <value>Terugzetten naar versie {0}</value>
   </data>
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
-    <value>Maak "{{0}}" aan</value>
+    <value>Creëer "{0}"</value>
   </data>
 </root>

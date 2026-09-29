@@ -1184,7 +1184,7 @@
     <value>Silinmiş səhifələrə axtarış...</value>
   </data>
   <data name="Search emojis..." xml:space="preserve">
-    <value>Emoсilərə axtarış...</value>
+    <value>Emotikonlar axtar...</value>
   </data>
   <data name="Search for more emojis." xml:space="preserve">
     <value>Daha çox emojilər üçün axtarış edin.</value>
@@ -1265,7 +1265,7 @@
     <value>Kiçik</value>
   </data>
   <data name="Source Page" xml:space="preserve">
-    <value>Источник Sayfası</value>
+    <value>Mənbə səhifəsi</value>
   </data>
   <data name="Stack Trace" xml:space="preserve">
     <value>Yığım İzahı</value>

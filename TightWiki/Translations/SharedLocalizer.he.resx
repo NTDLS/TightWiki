@@ -2036,7 +2036,7 @@
     <value>אזור הזמן המוגדר כברירת מחדל לחשבונות חדשים.</value>
   </data>
   <data name="The display name to show for all email communications." xml:space="preserve">
-    <value>اسم התצוגה שמוצג לכל תקשורת דוא"ל.</value>
+    <value>שם הצגת להצגת כל תקשורת דוא"ל.</value>
   </data>
   <data name="The footer of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
     <value>תחתית הוויקי, מוצגת בתחתית כל הדפים.</value>
@@ -2594,7 +2594,7 @@
     <value>גוף מעובד</value>
   </data>
   <data name="Note that each save button saves all sections, multiple are provided for convenience." xml:space="preserve">
-    <value>שימו לב שכל כפתור שמירה משמר את כל الأقسام, מספר רב של אפשרויות ניתנו לנוחות.</value>
+    <value>הערה שכל כפתור שמור שומר את כל הפרקים, מספרים מוצגים לצורך נוחות.</value>
   </data>
   <data name="Contents" xml:space="preserve">
     <value>תכנים</value>

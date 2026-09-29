@@ -1784,7 +1784,7 @@
     <value>Fortsett</value>
   </data>
   <data name="{0}Continue now{1} or you will be redirected in {2} seconds." xml:space="preserve">
-    <value>{0&gt;Fortsett nå{1} eller blir du omdirigert om {2} sekunder.</value>
+    <value>{0}Fortsett nå{1} eller du vil bli omdirigert i {2} sekunder.</value>
   </data>
   <data name="Access denied." xml:space="preserve">
     <value>Tilgang nektes.</value>

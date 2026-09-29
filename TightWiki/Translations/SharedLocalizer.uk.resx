@@ -1031,7 +1031,7 @@
     <value>Перебудувати всі сторінки</value>
   </data>
   <data name="Recently Modified" xml:space="preserve">
-    <value>Nещодавно змінено</value>
+    <value>Недавно змінено</value>
   </data>
   <data name="Recovery code" xml:space="preserve">
     <value>Код відновлення</value>
@@ -1340,7 +1340,7 @@
     <value>Вибрана сторінка не має версій.</value>
   </data>
   <data name="Theme" xml:space="preserve">
-    <value>Tема</value>
+    <value>Тема</value>
   </data>
   <data name="Themes" xml:space="preserve">
     <value>Темы</value>
@@ -1577,13 +1577,13 @@
     <value>Так</value>
   </data>
   <data name="You are viewing a page revision which was deleted on {0} by {1}." xml:space="preserve">
-    <value>Ви переглядаєте редакцію сторінки, яка була видалена {{0}} користувачем {{1}}.</value>
+    <value>Ви переглядаєте версію сторінки, яка була вилучена {0} користувачем {1}.</value>
   </data>
   <data name="You are viewing a page which was deleted on {0} by {1}." xml:space="preserve">
-    <value>Ви переглядаєте сторінку, яка була видалена {{0}} користувачем {{1}}.</value>
+    <value>Ви переглядаєте сторінку, яка була вилучена {0} користувачем {1}.</value>
   </data>
   <data name="You are viewing revision {0} of &quot;{1}&quot; modified by {2} on {3}." xml:space="preserve">
-    <value>Ви переглядаєте редакцію {0} сторінки "{1}", зміненої {{2}} {{3}}.</value>
+    <value>Ви переглядаєте версію {0} сторінки {1}, змінену {2} на {3}.</value>
   </data>
   <data name="You can generate a new set of recovery codes." xml:space="preserve">
     <value>Ви можете згенерувати новий набір кодів відновлення.</value>

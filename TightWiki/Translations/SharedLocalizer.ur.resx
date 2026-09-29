@@ -2363,7 +2363,7 @@
     <value>اردو</value>
   </data>
   <data name="Failed to get information from external provider" xml:space="preserve">
-    <value>外部 فراہم کنندہ سے معلومات حاصل کرنے میں ناکام</value>
+    <value>بیرونی فراہم کنندہ سے معلومات حاصل کرنے میں ناکام رہا</value>
   </data>
   <data name="Restore complete." xml:space="preserve">
     <value>بحال مکمل۔</value>

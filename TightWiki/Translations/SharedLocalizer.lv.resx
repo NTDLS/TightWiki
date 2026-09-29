@@ -929,13 +929,13 @@
     <value>Palīdziet, pārbaudiet savu e-pastu, lai atiestatītu paroli.</value>
   </data>
   <data name="Please click here to log in" xml:space="preserve">
-    <value>Нospiediet šeit, lai pieteiktos</value>
+    <value>Lūdzu, noklikšķiet šeit, lai ievietotos</value>
   </data>
   <data name="Please confirm your new password." xml:space="preserve">
-    <value>Нostipriniet savu jauno paroli.</value>
+    <value>Lūdzu, apstipriniet savu jauno paroli.</value>
   </data>
   <data name="Please confirm your password." xml:space="preserve">
-    <value>Лūdzu, apstipriniet savu paroli.</value>
+    <value>Lūdzu, apstipriniet savu paroli.</value>
   </data>
   <data name="Please enter both username and password." xml:space="preserve">
     <value>Ievadiet gan lietotājvārdu, gan paroli.</value>

@@ -1067,7 +1067,7 @@
     <value>Odstrani</value>
   </data>
   <data name="Remove this {0} login from your account" xml:space="preserve">
-    <value>Odstrani to prijavo {{0}} iz svojega računa</value>
+    <value>Odstrani ta {0} prijavi iz vašega računa</value>
   </data>
   <data name="Request failed:" xml:space="preserve">
     <value>Zahtevek ni uspel:</value>
@@ -2099,7 +2099,7 @@
     <value>Ko so komentarji omogočeni, ta možnost prikaže komentarje na dnu vsake strani. Privzeto: Vklopljeno.</value>
   </data>
   <data name="Whether a search box will be shown on the navigation bar. Default: Enabled." xml:space="preserve">
-    <value>Ali se bo prikazal iskalnik na navigacijskem меню. Privzeto: Vklopljeno.</value>
+    <value>Ali bo iskalno polje prikazano na navigacijskem traku. Privzeto: Omogočeno.</value>
   </data>
   <data name="Whether or not OpenID Connect is enabled." xml:space="preserve">
     <value>Ali je omogočen OpenID Connect.</value>

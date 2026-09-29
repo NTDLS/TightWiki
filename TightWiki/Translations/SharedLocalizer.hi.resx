@@ -230,7 +230,7 @@
     <value>बोल्ड</value>
   </data>
   <data name="Browse pages marked with various processing instructions to see what is in draft, pending deletion, protected, etc." xml:space="preserve">
-    <value>विभिन्न प्रसंस्करण निर्देशों के साथ Mark किए गए पृष्ठों को ब्राउज़ करें ताकि देखें कि दROP्ट में क्या है, प्रतीक्षा में मिटाना, संरक्षित, आदि।</value>
+    <value>विभिन्न प्रक्रिया निर्देशों वाले पृष्ठों की जाँच करें ताकि आप जान सकें कि क्या ड्राफ्ट में है, डिलीट के लिए इंतजार कर रहा है, सुरक्षित है, आदि।</value>
   </data>
   <data name="Built-in Pages" xml:space="preserve">
     <value>इन-बिल्ट पृष्ठ</value>
@@ -1130,7 +1130,7 @@
     <value>क्या आप संशोधन {0} पर रिवर्ट करना चाहते हैं?</value>
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
-    <value>संशोधन {1} से {2} तक "{0}" को पूर्ववत करने से {3} परिवर्तनrollback हो जाएगा।</value>
+    <value>"{0}" को संशोधन {1} से {2} पर प्रत्यावर्तित करने से {3} परिवर्तन प्रत्यावर्तित हो जाएंगे।</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>पलटना का मतलब यह नहीं है कि परिवर्तन खो जाएंगे, हालांकि, पलटने की प्रक्रिया एक नई संशोधन बनाएगी जिसमें पलटे गए परिवर्तन होंगे।</value>
@@ -1310,7 +1310,7 @@
     <value>सभी विकि पृष्ठ संचालन के लिए संकलन आंकड़े।</value>
   </data>
   <data name="The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code." xml:space="preserve">
-    <value>বর্তমান ব্রাউজার ভুলে গেছে। जब आप फिर से इस ब्राउज़र से लॉगिन करेंगे तो आपको अपना 2FA कोड पूछा जाएगा।</value>
+    <value>वर्तमान ब्राउज़र भूल गया है। जब आप फिर से इस ब्राउज़र से लॉगिन करेंगे तो आपके 2FA कोड के लिए प्रेरित किया जाएगा।</value>
   </data>
   <data name="The Development environment shouldn't be enabled for deployed applications." xml:space="preserve">
     <value>विकास वातावरण को तैनात किए गए अनुप्रयोगों के लिए सक्षम नहीं किया जाना चाहिए।</value>
@@ -1502,7 +1502,7 @@
     <value>अपलोड सफल रहा</value>
   </data>
   <data name="URL must start with" xml:space="preserve">
-    <value>यूआरएल की शुरुआत {{0}} से होनी चाहिए</value>
+    <value>URL के साथ शुरू होना चाहिए</value>
   </data>
   <data name="Use another service to register" xml:space="preserve">
     <value>पंजीकरण के लिए अन्य सेवा का प्रयोग करें</value>
@@ -1895,7 +1895,7 @@
     <value>अधिकतम अवतार फ़ाइल आकार</value>
   </data>
   <data name="Max Emoji File Size" xml:space="preserve">
-    <value>अधिकतमemoji फ़ाइल आकार</value>
+    <value>अधिकतम ईमोजी फ़ाइल आकार</value>
   </data>
   <data name="Maximum size in bytes for a user any page attachment." xml:space="preserve">
     <value>कोई भी पृष्ठ अटैचमेंट के लिए उपयोगकर्ता का अधिकतम आकार बाइट में।</value>
@@ -2474,7 +2474,7 @@
     <value>एलडैप प्रमाणीकरण सक्षम नहीं है।</value>
   </data>
   <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
-    <value>एलडैप चुनौती सफल रही, लेकिन उपयोगकर्ता के पास एक ऑब्जेक्टGUID विशेषता नहीं है।</value>
+    <value>LDAP चैलेंज सफल हो गया, लेकिन उपयोगकर्ता के पास objectGUID एट्रिब्यूट नहीं है।</value>
   </data>
   <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
     <value>एलडैप चुनौती सफल रही (बिना प्रोvisioned खाता)।</value>
@@ -2645,7 +2645,7 @@
     <value>क्रमिकता</value>
   </data>
   <data name="This plugin does not contain any funcions or handlers." xml:space="preserve">
-    <value>यह प्लगइन किसी भी फंक्शन या हैंडলার को शामिल नहीं करता।</value>
+    <value>यह प्लग-इन कोई भी फ़ंक्शन या हैंडलर नहीं शामिल करता है।</value>
   </data>
   <data name="Global configuration for plugins." xml:space="preserve">
     <value>प्लगइन्स के लिए वैश्विक कॉन्फ़िगरेशन।</value>

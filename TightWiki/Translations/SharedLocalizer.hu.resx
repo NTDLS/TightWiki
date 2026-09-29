@@ -1127,7 +1127,7 @@
     <value>Visszaállítás a változatra</value>
   </data>
   <data name="Revert to revision {0}?" xml:space="preserve">
-    <value>Visszaállítani a({0}) változatot {1} -ről {2} -re?</value>
+    <value>Visszaállítás a {0} verzióra?</value>
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>A "{0}" visszaállítása a {1} változatról a {2} -re való visszaállítás {3} változást fog visszavonni.</value>
@@ -1502,7 +1502,7 @@
     <value>Sikeres feltöltés</value>
   </data>
   <data name="URL must start with" xml:space="preserve">
-    <value>A URL-nek {{0}} -kal kell kezdődnie</value>
+    <value>URL-nek kezdődnie kell</value>
   </data>
   <data name="Use another service to register" xml:space="preserve">
     <value>Használjon másik szolgáltatást a regisztrációhoz</value>

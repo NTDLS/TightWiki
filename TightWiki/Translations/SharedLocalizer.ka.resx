@@ -203,7 +203,7 @@
     <value>შეაერთებული ტეგები</value>
   </data>
   <data name="Attach files by dropping them here or by manually selecting them below:" xml:space="preserve">
-    <value>ფაილების მიმაგრებაLavDrop-ით ან მათ ხელით შერჩევით:</value>
+    <value>ფაილების ჩასმა აქ დაბრუნებით ან მანუალურად ამორჩევა ქვემოთ:</value>
   </data>
   <data name="Attachments" xml:space="preserve">
     <value>საკევთი</value>
@@ -233,7 +233,7 @@
     <value>მომდევნო გვერდები, აღნიშნული სხვადასხვა დამუშავების მითითებებით, ნახოს რა პროექტშია ჩაშენებული, დაკონკრეტებული, დაცული და ა.შ.</value>
   </data>
   <data name="Built-in Pages" xml:space="preserve">
-    <value>შენbuilt-ით გვერდები</value>
+    <value>ჩატარებული გვები</value>
   </data>
   <data name="Cache" xml:space="preserve">
     <value>კეში</value>
@@ -389,7 +389,7 @@
     <value>ამ გვერდის წაშლა</value>
   </data>
   <data name="Deleted By" xml:space="preserve">
-    <value>წაშლა მოხდა بواسطة</value>
+    <value>წაშლის მიერ</value>
   </data>
   <data name="Deleted Date" xml:space="preserve">
     <value>წაშლის თარიღი</value>
@@ -938,7 +938,7 @@
     <value>გთხოვთ, დადასტურეთ თქვენი პაროლი.</value>
   </data>
   <data name="Please enter both username and password." xml:space="preserve">
-    <value>გთხოვთ, შეიყვანეთboth სახელი და პაროლი.</value>
+    <value>გთხოვთ, შეიყვარეთ როგორც მომხმარებლის სახელი, ასევე პაროლი.</value>
   </data>
   <data name="Please enter new email." xml:space="preserve">
     <value>გთხოვთ, შეიყვანეთ ახალი ელფოსტა.</value>
@@ -1079,7 +1079,7 @@
     <value>საჭირო</value>
   </data>
   <data name="Resend" xml:space="preserve">
-    <value>გაგზავნე מחדש</value>
+    <value>გამოგზავნა საუკეთესოდ</value>
   </data>
   <data name="Resend email confirmation" xml:space="preserve">
     <value>ელფოსტის ანუადას confirmations მეთახლება</value>
@@ -1160,7 +1160,7 @@
     <value>უფრო პასუხისმგებლობები</value>
   </data>
   <data name="Role: {0}" xml:space="preserve">
-    <value>ролი: {0}</value>
+    <value>როლი: {0}</value>
   </data>
   <data name="Roles" xml:space="preserve">
     <value>როლები</value>
@@ -1430,7 +1430,7 @@
     <value>ეს განაახლებს ვიკის ყველა გვერდს. შეიძლება ეს მცირე ხნის განმავლობაში გაგრძელდეს! გაკვალვა?</value>
   </data>
   <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
-    <value>ეს წაშლის ცარიელ სივრცეს მონაცემების ბაზიდან, რაც შესაძლოა თავისუფალი ადგილით უზრუნველყოფს თუ大量 მონაცემი წაშლილია. გაკვალვა?</value>
+    <value>ეს უკავშირდება ცარიელ ადგილს ბაზაში, რომელიც შეიძლება თავისულად გააფრენოს თუ მეტი მონაცემი იყო წაშლილი. გაგრძელდეს?</value>
   </data>
   <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
     <value>ეს აღადგენს ყველა მიმდინარე სახელისუფლო სივრცის გვერდებს, იშლება ნებისმიერი პერსონალიზაცია, რომელსაც შესაძლოა გაქვთ გაკეთებული. გაკვალვა?</value>
@@ -1667,7 +1667,7 @@
     <value>შეცდომა მოხდა მომხმარებლის შექმნის დროს.</value>
   </data>
   <data name="Display Name is already in use." xml:space="preserve">
-    <value>გამოყენებაში უკვე არის প্রদর্শვა სახელია.</value>
+    <value>ჩვენებული სახელი უკვე გამოყენებულია.</value>
   </data>
   <data name="Display Name is required." xml:space="preserve">
     <value>გამოყენებაში აუცილებელია სახელის მითითება.</value>
@@ -1685,7 +1685,7 @@
     <value>შეცდომა გარეგან მომწოდებლისგან: {0}</value>
   </data>
   <data name="Error loading external login information during confirmation." xml:space="preserve">
-    <value>შეცდომა სეارشის ინფორმაციის ჩატვირთვისას ადასტურების პროცესში.</value>
+    <value>შეცდომა გარე შესვლის ინფორმაციის ჩატვირთვასა და დამადასტურებასა.</value>
   </data>
   <data name="Error loading external login information." xml:space="preserve">
     <value>შეცდომა სეარშის ინფორმაციის ჩატვირთვისას.</value>
@@ -1733,7 +1733,7 @@
     <value>მიწივი</value>
   </data>
   <data name="Basic wiki settings such as formatting." xml:space="preserve">
-    <value>მიწივის საიდუმლოების ძირითადი პარამეტრები, כגון ფორმატირება.</value>
+    <value>საბაზისო ვიკის პარამეტრები, როგორც ფორმატირება.</value>
   </data>
   <data name="Brand Image (Small)" xml:space="preserve">
     <value>მარკის მიმდებარე (მცირე)</value>
@@ -1802,7 +1802,7 @@
     <value>ფაილსურ მიმდებარე ადგილმდებარეობა, სადაც წყაროს პერსონალური ყრუდები ინახება დაცვის სესიის შესვლისთვის.</value>
   </data>
   <data name="Fixed Header Menu Position" xml:space="preserve">
-    <value>фиксირებული სათავგადასავლო მენიუს მდგომარეობა</value>
+    <value>გამყარი მთავარი მენიუს პოზიცია</value>
   </data>
   <data name="Footer" xml:space="preserve">
     <value>ფუტერფუთერი</value>
@@ -2141,19 +2141,19 @@
     <value>შეთავაზება შეიცვალა ცვლილების ზოგადადობის შეყვანისას სავარიანეგენისთვის.</value>
   </data>
   <data name="Whether to split CamelCasedStrings when parsing pages for search tokens. This can be helpful when pages contain a lot of programming/code content. Default: Enabled." xml:space="preserve">
-    <value>ჩაშენებულიCamelCasedStrings-ის გაყოფა გვერდების გაანალიზებისას საძიებო ტოკენებისათვის. ეს შეიძლება იყოს გამოყენებული როდესაც გვერდები შეიცავს დიდი რაოდენობით პროგრამირების/კოდში კონტენტს. სტატუსი: ჩართული.</value>
+    <value>არის თუ არ არის სასარგებლო საპასუხისმგებელი სასურველი სტრიქონების გაყოფა, როდესაც გვების გადამაყოფილება საძიების ტოკენებისთვის. ეს შეიძლება სასარგებლო იყოს გვებებში მეტი პროგრამირების/კოდის შემადგენლობის შემთხვევაში. ნებისმიერი: ჩართულია.</value>
   </data>
   <data name="Whether users are required to enter a change summary when editing pages. Note that &quot;Show Change Summary when Editing&quot; must also be enabled." xml:space="preserve">
     <value>მომხმარებლებს სჭირდებათ ცვლილების აღწერის შეყვანა გვერდების რედაქტირებისას. გაითვალისწინეთ, რომ "აჩვენეთ ცვლილების აღწერა რედაქტირებისას" ასევე უნდა იყოს ჩართული.</value>
   </data>
   <data name="Whether visitors can view members and their public profiles." xml:space="preserve">
-    <value>дали სტუმრები შეძლებენ წევრების და მათი საჯარო პროფილების ნახვას.</value>
+    <value>არის თუ არ არის სასარგებლო ვიზიტორების შესაძლებლობა წაკითხვაში წევრებისა და მათ საჯარო პროფილების.</value>
   </data>
   <data name="Word Exclusions" xml:space="preserve">
     <value>სიტყვის გამონაკლისი</value>
   </data>
   <data name="You must select a role." xml:space="preserve">
-    <value>თქვენ უნდა белгилოთ როლი.</value>
+    <value>თქვენ უნდა შეარჩიოთ როლი.</value>
   </data>
   <data name="The account is already a member of the specified role." xml:space="preserve">
     <value>ანგარიში უკვე არის მითითებულ როლში წევრი.</value>

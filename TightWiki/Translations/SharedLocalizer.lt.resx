@@ -1577,10 +1577,10 @@
     <value>Taip</value>
   </data>
   <data name="You are viewing a page revision which was deleted on {0} by {1}." xml:space="preserve">
-    <value>Jūs žiūrite pašalintą puslapio versiją, kuri buvo ištrinta {0} naudotojo {{1}}.</value>
+    <value>Jūs peržiūrate puslapio pakeitimo versiją, kuri buvo ištrinta {0} {1}.</value>
   </data>
   <data name="You are viewing a page which was deleted on {0} by {1}." xml:space="preserve">
-    <value>Jūs žiūrite ištrintą puslapį, kurį ištrynė {0} naudotojas {{1}}.</value>
+    <value>Jūs peržiūrate puslapį, kuris buvo ištrintas {0} {1}.</value>
   </data>
   <data name="You are viewing revision {0} of &quot;{1}&quot; modified by {2} on {3}." xml:space="preserve">
     <value>Jūs žiūrite {0} peržiūrą dėl "{1}", kurią pakeitė {2} {3}.</value>

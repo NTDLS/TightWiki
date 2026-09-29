@@ -194,7 +194,7 @@
     <value>Ertu alveg viss?</value>
   </data>
   <data name="Associate your {0} account." xml:space="preserve">
-    <value>Staðfestaðu reikninginn þinn {{0}}.</value>
+    <value>Tengdu {0} reikningnum.</value>
   </data>
   <data name="Associated Pages" xml:space="preserve">
     <value>Staðbundnar síður</value>
@@ -743,7 +743,7 @@
     <value>Skráðu þig inn</value>
   </data>
   <data name="Log in using your {0} account" xml:space="preserve">
-    <value>Innskráning með reikningnum þínum {{0}}</value>
+    <value>Innskráðu með {0} reikningnum</value>
   </data>
   <data name="Logged out" xml:space="preserve">
     <value>Úrskráning</value>
@@ -1694,7 +1694,7 @@
     <value>Mistekst að bæta inn innskráningarupplýsingum fyrir LDAP_stub reikning: {0}.</value>
   </data>
   <data name="Failed to create stub account for the LDAP credential: {0}." xml:space="preserve">
-    <value>Mistekst að búa til stub reikning fyrir LDAP vottorðs:</value>
+    <value>Tókst ekki að búa til kynningarefni fyrir LDAP aðgang: {0}.</value>
   </data>
   <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
     <value>Miseykst að finna notendareikning fyrir LDAP auðkenningu.</value>
@@ -1784,7 +1784,7 @@
     <value>Virkja opinber prófíla</value>
   </data>
   <data name="Expiraion Hours" xml:space="preserve">
-    <value>Лiðs tímastundir</value>
+    <value>Gildistími</value>
   </data>
   <data name="External Authentication" xml:space="preserve">
     <value>Ytri auðkenning</value>

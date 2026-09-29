@@ -416,7 +416,7 @@
     <value>Выдаленне '{0}' перанясе старонку, усе {1} версіі і звязаныя файлы ў чаргу выдалення. Гэты дзеянне можна адмяніць толькі адміністратарам або мадэратарам. Продолжыць?</value>
   </data>
   <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value>Выдаленне '{0}' перамесіць старонку са ўсімі рэвізіямі {1} і файламі ўдакладненняў у чаргу выдалення.</value>
+    <value>Выдаленне '{0}' перамешае старонку, разам з усімі {1} рэвізіямі і {2} файлавымі прыкладкамі у чаргу выдалення.</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
     <value>Выдаленне '{0}' беззваротна выдаліць уліковы запіс. Усе старонкі, створаныя або змененыя гэтым карыстальнікам, будуць аднесены да контрагента, і вы не зможаце адкасаваць гэтую дзеянне. Працягнуць?</value>
@@ -1637,7 +1637,7 @@
     <value>Ваша праграма аўтэнтыфікацыі была праверана.</value>
   </data>
   <data name="Your authenticator app key has been reset, you will need to configure your authenticator app using the new key." xml:space="preserve">
-    <value>Ваш ключ аўтэнтыфікатара быў скід stanі. Вам неабходна сконфігураваць сваю праграму аўтэнтыфікацыі, выкарыстоўваючы новы ключ.</value>
+    <value>Ваша ключавыя прылады аўтэнтыкацыі былі сброены, вам неабходна наладзіць прыладу аўтэнтыкацыі, выкарыстоўваючы новы ключ.</value>
   </data>
   <data name="Your email is unchanged." xml:space="preserve">
     <value>Ваша электронная пошта засталася нязменнай.</value>
@@ -1649,7 +1649,7 @@
     <value>Ваш пароль быў зменены.</value>
   </data>
   <data name="Your password has been reset." xml:space="preserve">
-    <value>Ваш пароль быў скід stanі.</value>
+    <value>Ваш пароль быў сброены.</value>
   </data>
   <data name="Your password has been set." xml:space="preserve">
     <value>Ваш пароль настроены.</value>
@@ -2018,7 +2018,7 @@
     <value>Краіна для выкарыстання для культурных асаблівасцяў сайта для гасцей.</value>
   </data>
   <data name="The default country to use for new accounts." xml:space="preserve">
-    <value>Па freewareа, які выкарыстоўваецца па змаўчанні для новых уліковых запісаў.</value>
+    <value>Страна па змаўчванні для новыя акаўнты.</value>
   </data>
   <data name="The default domain to use when the user does not specify a UPN or a fully qualified domain\\Username when signing in." xml:space="preserve">
     <value>Дамен па змаўчанні, які выкарыстоўваецца, калі карыстальнік не ўказвае UPN або поўназагружаны дамен\\Імя карыстальніка пры ўходзе.</value>
@@ -2438,7 +2438,7 @@
     <value>Пункт меню створаны.</value>
   </data>
   <data name="The menu item has been saved." xml:space="preserve">
-    <value>Мصدر меню быў захаваны.</value>
+    <value>Пункт меню быў захаваны.</value>
   </data>
   <data name="The specified menu item has been deleted." xml:space="preserve">
     <value>Вызначаны пункт меню быў выдалены.</value>

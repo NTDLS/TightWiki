@@ -356,7 +356,7 @@
     <value>Датум креирања</value>
   </data>
   <data name="Credentials" xml:space="preserve">
-    <value>Потпуне &lt;strong&gt;акредитиви&lt;/strong&gt;</value>
+    <value>Потврда</value>
   </data>
   <data name="Current admin login" xml:space="preserve">
     <value>Текћија пријава администратора</value>
@@ -656,7 +656,7 @@
     <value>Ид</value>
   </data>
   <data name="If it's here, you should be able to find it." xml:space="preserve">
-    <value>Aко је овде, треба да можете да га нађете.</value>
+    <value>Ако је овде, требало би да можете да га пронађете.</value>
   </data>
   <data name="If you lose your device and don't have the recovery codes you will lose access to your account." xml:space="preserve">
     <value>Ако изгубите уређај и немате кода за опоравак, изгубићете приступ свом налогу.</value>
@@ -716,7 +716,7 @@
     <value>Остави Коментар</value>
   </data>
   <data name="Limit(MB)" xml:space="preserve">
-    <value>Граница(MБ)</value>
+    <value>Ограничење (МБ)</value>
   </data>
   <data name="Link Text (Optional)" xml:space="preserve">
     <value>Текст линка (опцијално)</value>
@@ -743,7 +743,7 @@
     <value>Пријави се</value>
   </data>
   <data name="Log in using your {0} account" xml:space="preserve">
-    <value>Пријави се користећи свој налог {{0}}</value>
+    <value>Пријавите се коришћењем свог {0} налога</value>
   </data>
   <data name="Logged out" xml:space="preserve">
     <value>Одјављено</value>
@@ -1277,10 +1277,10 @@
     <value>Резиме</value>
   </data>
   <data name="Swapping to the &lt;strong&gt;Development&lt;/strong&gt; environment displays detailed information about the error that occurred." xml:space="preserve">
-    <value>Комｅњен Адаптивност &lt;strong&gt;Развој&lt;/strong&gt; окружења приказује детаљне информације о грешци која је настала.</value>
+    <value>Преход на &lt;strong&gt;Развојни&lt;/strong&gt; окруженије приказује детаљне информације о догађеном грешком.</value>
   </data>
   <data name="System Default" xml:space="preserve">
-    <value>Дефault систем</value>
+    <value>Системска подразумевана</value>
   </data>
   <data name="System Metrics" xml:space="preserve">
     <value>Мерења система</value>
@@ -1736,7 +1736,7 @@
     <value>Основна подешавања вике као што је форматирање.</value>
   </data>
   <data name="Brand Image (Small)" xml:space="preserve">
-    <value>Иматинг бренд with&lt;small&gt;&lt;/small&gt;</value>
+    <value>Слика бренда (Мала)</value>
   </data>
   <data name="Cache Memory Limit MB" xml:space="preserve">
     <value>Рам о ограничењу кеш меморије МБ</value>
@@ -2093,7 +2093,7 @@
     <value>Вредност између 0.0 и 1.0 која одређује колико јак мора бити резултат претраге да би страница била враћена у резултатима претраге. Подразумевано: 0.6.</value>
   </data>
   <data name="When building a search index, these words will be excluded from indexing. (Comma separated)" xml:space="preserve">
-    <value>При креирању индексa претраге, ове речи ће бити искључене из индексовања. (Дељено запетом)</value>
+    <value>Када се креира претрага индекса, ове речи ће бити искључене из индексирања. (Раздвојене зарезом)</value>
   </data>
   <data name="When comments are enabled, this option causes comments to be shown at the bottom of each page. Default: Enabled." xml:space="preserve">
     <value>Када су омогућени коментари, ова опција узрокује приказивање коментара на дну сваке странице. Подразумевано: Омогућено.</value>
@@ -2309,7 +2309,7 @@
     <value>норвешки</value>
   </data>
   <data name="Bokmål" xml:space="preserve">
-    <value>Бокмaл</value>
+    <value>Bokmål</value>
   </data>
   <data name="Polish" xml:space="preserve">
     <value>Пољски</value>
@@ -2597,7 +2597,7 @@
     <value>Обратите пажњу да свака дугме за чување сачува све секције, многа су обезбеђена ради удобности.</value>
   </data>
   <data name="Contents" xml:space="preserve">
-    <value>Sадржај</value>
+    <value>Садржај</value>
   </data>
   <data name="Hit Counter Throttle (Seconds)" xml:space="preserve">
     <value>Ograničenje broja poseta (sekundi)</value>

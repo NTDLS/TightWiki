@@ -1277,7 +1277,7 @@
     <value>요약</value>
   </data>
   <data name="Swapping to the &lt;strong&gt;Development&lt;/strong&gt; environment displays detailed information about the error that occurred." xml:space="preserve">
-    <value>개발</value>
+    <value>개발 환경으로 전환하면 발생한 오류에 대한 상세한 정보가 표시됩니다.</value>
   </data>
   <data name="System Default" xml:space="preserve">
     <value>시스템 기본값</value>

@@ -1409,7 +1409,7 @@
     <value>Toto trvale odstraní přiložený soubor. Pokračovat?</value>
   </data>
   <data name="This will permanently delete the specified deleted revision. Continue?" xml:space="preserve">
-    <value>Toto trvale odstraní выдаденou revizi. Pokračovat?</value>
+    <value>Toto trvale odstraní zadanou odstraněnou revizi. Pokračovat?</value>
   </data>
   <data name="This will permanently delete the specified page, all revisions and attachments. Continue?" xml:space="preserve">
     <value>Toto trvale odstraní danou stránku, všechny revize a přílohy. Pokračovat?</value>

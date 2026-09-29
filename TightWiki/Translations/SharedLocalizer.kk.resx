@@ -194,7 +194,7 @@
     <value>Сенімдісіз бе?</value>
   </data>
   <data name="Associate your {0} account." xml:space="preserve">
-    <value>1-ші есептік жазбаңызды байланыстырыңыз.</value>
+    <value>Сіздің {0} аккаунтыңызды біріктіру.</value>
   </data>
   <data name="Associated Pages" xml:space="preserve">
     <value>Қосылған беттер</value>
@@ -626,7 +626,7 @@
     <value>Қауіпсіздік рөлдері мен мүшелігінің жаһандық конфигурациясы.</value>
   </data>
   <data name="Global configuration for the site menu item." xml:space="preserve">
-    <value>Сайт мәзір элементі үшін жаһanды конфигурация.</value>
+    <value>Сайт меню элементі үшін жалпы баптау.</value>
   </data>
   <data name="Global configuration for the site menu." xml:space="preserve">
     <value>Сайт мәзірі үшін жаһандық конфигурация.</value>
@@ -860,7 +860,7 @@
     <value>Қосымша</value>
   </data>
   <data name="Ordinal" xml:space="preserve">
-    <value>РетOrdinal</value>
+    <value>Ординал</value>
   </data>
   <data name="Orphaned Attachments" xml:space="preserve">
     <value>Асар қалдырылған қосымшалар</value>
@@ -1127,7 +1127,7 @@
     <value>Түзетуді бастапқыға қайтару</value>
   </data>
   <data name="Revert to revision {0}?" xml:space="preserve">
-    <value>Түзетуді {0} дейін қайтару {1} бастап {2} дейін?</value>
+    <value>Түзету {0} болашаққа қайта?</value>
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>"{0}"-ді {1}-ші түзетуден {2}-ге қайтару {3} өзгерістерін қайтаруға әкеледі.</value>
@@ -1571,7 +1571,7 @@
     <value>Wiki Бет</value>
   </data>
   <data name="Wikified Size" xml:space="preserve">
-    <value>Wikификацияланған мөлшері</value>
+    <value>Wiki өлшемі</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Иә</value>
@@ -1907,7 +1907,7 @@
     <value>Эмодзи суретінің ең үлкен өлшемі байттан.</value>
   </data>
   <data name="Membership" xml:space="preserve">
-    <value>Mүшелік</value>
+    <value>Құрамдастық</value>
   </data>
   <data name="Membership settings such as defaults for new members and permissions." xml:space="preserve">
     <value>Жаңа мүшелер үшін әдепкі параметрлер және рұқсаттар сияқты мүшелік параметрлері.</value>
@@ -1940,7 +1940,7 @@
     <value>OIDC : ClientSecret</value>
   </data>
   <data name="OIDC : Use OIDC Authentication" xml:space="preserve">
-    <value>OIDC : OIDC 인증ін пайдалану</value>
+    <value>OIDC: OIDC аутентификациясын пайдалану</value>
   </data>
   <data name="Page Cache Time (Seconds)" xml:space="preserve">
     <value>Бет кэші уақыты (секунд)</value>
@@ -2009,7 +2009,7 @@
     <value>Барлық сайт стиліне қолданылатын негізгі тақырып.</value>
   </data>
   <data name="The brand image of the wiki, this is displayed on the top of all wiki pages." xml:space="preserve">
-    <value>Білімнің бренд бейнесі, ол барлық білім бетiнң жоғарғы бөлігіне көрсетіледі.</value>
+    <value>Wiki-ның брендік кескіні, бұл барлық wiki беттерінің төбесінде көрсетіледі.</value>
   </data>
   <data name="The copyright of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
     <value>Білімнің авторлық құқығы, ол барлық беттердің төменгі бөлігінде көрсетіледі.</value>
@@ -2264,7 +2264,7 @@
     <value>французша</value>
   </data>
   <data name="Hebrew" xml:space="preserve">
-    <value>עברית</value>
+    <value>Еврей</value>
   </data>
   <data name="Croatian" xml:space="preserve">
     <value>хорватша</value>

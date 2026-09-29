@@ -158,7 +158,7 @@
     <value>পৃষ্ঠাতে করা সমস্ত পরিবর্তন।</value>
   </data>
   <data name="All comments made on the given page." xml:space="preserve">
-    <value>প্রদত্ত পৃষ্ঠায় করা সমস্ত הערות।</value>
+    <value>প্রদত্ত পৃষ্ঠায় করা সমস্ত মন্তব্য।</value>
   </data>
   <data name="All namespaces contained in the wiki." xml:space="preserve">
     <value>উইকিতে থাকা সমস্ত নেমস্পেস।</value>
@@ -209,7 +209,7 @@
     <value>সংযুক্তি</value>
   </data>
   <data name="Authenticator app" xml:space="preserve">
-    <value>অAuthenticator অ্যাপ</value>
+    <value>অ্যাউটেন্টিকেটর অ্যাপ</value>
   </data>
   <data name="Available Languages" xml:space="preserve">
     <value>উপলব্ধ ভাষা</value>
@@ -1778,7 +1778,7 @@
     <value>ইমেল এবং এসএমটিপি সেটিং।</value>
   </data>
   <data name="Enable Page Comments" xml:space="preserve">
-    <value>페이지 মন্তব্য সক্ষম করুন</value>
+    <value>পৃষ্ঠা মন্তব্য সক্রিয় করুন</value>
   </data>
   <data name="Enable Public Profiles" xml:space="preserve">
     <value>পাবলিক প্রোফাইল সক্ষম করুন</value>
@@ -1856,10 +1856,10 @@
     <value>HTML হেডার বিভাগে স্থাপন করা হয়েছে। স্ক্রিপ্ট এবং CSS রাখার জন্য এটি একটি উপযোগী স্থান।</value>
   </data>
   <data name="If set, users can not login until their email addresses are verified. If changed, the website will need to be restarted. Default: Enabled." xml:space="preserve">
-    <value>אם সেট করা হয়, ব্যবহারকারীরা তাদের ইমেইল ঠিকানা নিশ্চিত না হওয়া পর্যন্ত লগইন করতে পারবে না। পরিবর্তন করলে, ওয়েবসাইটটি পুনরায় চালু করতে হবে। ডিফল্ট: সক্রিয়।</value>
+    <value>যদি সেট করা হয়, ব্যবহারকারীদের তাদের ইমেল ঠিকানা যাচাই করা না হওয়া পর্যন্ত লগ ইন করা যাবে না। যদি পরিবর্তন করা হয়, ওয়েবসাইটটি পুনরায় শুরু করা দরকার। ডিফল্ট: সক্রিয়।</value>
   </data>
   <data name="If set, users will be allowed to sing up and create their own account. Default: Enabled." xml:space="preserve">
-    <value>אם সেট করা হয়, ব্যবহারকারীরা স্বাক্ষর করতে পারবে এবং তাদের নিজস্ব অ্যাকাউন্ট তৈরি করতে পারবে। ডিফল্ট: সক্রিয়।</value>
+    <value>যদি সেট করা হয়, ব্যবহারকারীদের নিজেদের অ্যাকাউন্ট তৈরি করার অনুমতি দেওয়া হবে। ডিফল্ট: সক্রিয়।</value>
   </data>
   <data name="Include Search on Navbar" xml:space="preserve">
     <value>নেভবারে সার্চ অন্তর্ভুক্ত করুন</value>
@@ -1958,7 +1958,7 @@
     <value>সম্পর্কিত পারফরম্যান্স সেটিংস।</value>
   </data>
   <data name="Persist Keys Path" xml:space="preserve">
-    <value>পersistence কী পাথ</value>
+    <value>কী পাথ সংরক্ষণ করুন</value>
   </data>
   <data name="Port" xml:space="preserve">
     <value>পোর্ট</value>
@@ -2291,7 +2291,7 @@
     <value>কাজাখ</value>
   </data>
   <data name="Korean" xml:space="preserve">
-    <value>कोरियन</value>
+    <value>কোরীয়ান</value>
   </data>
   <data name="Lithuanian" xml:space="preserve">
     <value>লিথুয়ানিয়ান</value>

@@ -416,7 +416,7 @@
     <value>Изтриването на '{0}' ще премести страницата, всички {1} ревизии и свързаните файлови прикачвания в опашката за изтриване. Това действие може да бъде отменено само от администратор или модератор. Продължително?</value>
   </data>
   <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value>Изтриването на '{0}' ще премести страницата, всичките {1} ревизии и прикачените файлове към опашката за изтриване.</value>
+    <value>Изтриване на '{0}' ще премести страницата, заедно с всички {1} редакции и {2} файлови приложения в опашката за изтриване.</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
     <value>Изтриването на '{0}' ще премахне трайно акаунта. Всички страници, създадени или модифицирани от този потребител, ще бъдат приписани на запасен акаунт и няма да можете да върнете това действие. Продължи?</value>

@@ -1067,7 +1067,7 @@
     <value>Удалить</value>
   </data>
   <data name="Remove this {0} login from your account" xml:space="preserve">
-    <value>Удалить этот вход {{0}} из вашего аккаунта</value>
+    <value>Удалите этот {0} вход в систему из вашей учетной записи</value>
   </data>
   <data name="Request failed:" xml:space="preserve">
     <value>Запрос не выполнен:</value>
@@ -2477,7 +2477,7 @@
     <value>Сертификация LDAP прошла успешно, но у пользователя отсутствует атрибут objectGUID.</value>
   </data>
   <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
-    <value>Проба LDAP прошла успешно (учётная запись безProvisioning).</value>
+    <value>Успешно выполнен вызов LDAP (учетная запись без привязки).</value>
   </data>
   <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
     <value>Проба LDAP прошла успешно (учётная запись полностью настроена).</value>
