@@ -397,7 +397,8 @@ namespace TightWiki.Controllers
                 await UpdateUserCultureCookie(userId);
 
                 //Redirect so that the language and theme are applied immediately.
-                return LocalRedirect($"{WikiConfiguration.BasePath}/Profile/My?SuccessMessage={Localize("Your profile has been saved.")}");
+                TempData["SuccessMessage"] = Localize("Your profile has been saved.");
+                return LocalRedirect($"{WikiConfiguration.BasePath}/Profile/My");
             }
             catch (Exception ex)
             {

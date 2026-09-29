@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Biztosan törölni szeretné ezt a hozzászólást?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Biztosan el akarja szakadni</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Biztosan ki akar lépni az alkalmazásból?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Nem tag?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>Nem szükséges</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>Miután beolvasta a QR-kódot vagy megadta a fenti kulcsot, a kétlépcsős hitelesítési alkalmazás egyedi kódot fog biztosítani Önnek. Írja be a kódot az alábbi megerősítő mezőbe.</value>
   </data>
@@ -1133,13 +1127,10 @@
     <value>Visszaállítás a változatra</value>
   </data>
   <data name="Revert to revision {0}?" xml:space="preserve">
-    <value>Visszaállítani a({0}) változatot {1} -ről {2} -re?</value>
+    <value>Visszaállítás a {0} verzióra?</value>
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>A "{0}" visszaállítása a {1} változatról a {2} -re való visszaállítás {3} változást fog visszavonni.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Az {0} visszaállítása a {1} módosításból a {2} verzióra visszavonja a {3} változtatásokat.&lt;br /&gt;A visszavonás nem jelenti azt, hogy a változtatások elvesznek, a visszavonási folyamat egy új verziót fog létrehozni a visszavont változtatásokkal.&lt;br /&gt;&lt;br /&gt;Biztos benne, hogy folytatni szeretné?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>A visszavonás nem jelenti azt, hogy a változtatások elvesznek, a visszavonási folyamat egy új verziót fog létrehozni a visszavont változtatásokkal.</value>
@@ -1511,7 +1502,7 @@
     <value>Sikeres feltöltés</value>
   </data>
   <data name="URL must start with" xml:space="preserve">
-    <value>A URL-nek {{0}} -kal kell kezdődnie</value>
+    <value>URL-nek kezdődnie kell</value>
   </data>
   <data name="Use another service to register" xml:space="preserve">
     <value>Használjon másik szolgáltatást a regisztrációhoz</value>
@@ -2751,5 +2742,41 @@
   </data>
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Ezt az oldalt más módosította valaki, amíg szerkesztette. A mentés le lett tiltva a változtatások védelme érdekében. Újratöltéssel szerezze meg a legfrissebb verziót.</value>
+  </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Oldalsáv engedélyezése</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Oldalsáv oldal</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>A wiki oldal neve, amelyet oldalsávként jelenítenek meg minden wiki oldal mellett, amikor az oldalsáv engedélyezve van. Az egyes oldalak elrejtik ezt a @@HideSidebar használatával.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Azt határozza meg, hogy megjelenjen-e az oldalsáv oldal minden wiki oldal mellett.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Hozza létre a(z) "{0}" oldalsáv oldalt</value>
+  </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Ez az értesítés lejárt vagy érvénytelen.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Ez a megerősítési hivatkozás lejárt vagy érvénytelen.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>A(z) {0} visszavonása a(z) {1} verzióból a(z) {2}-be visszaállítja a(z) {3} módosítást. A módosítások nem vesznek el: a visszavonás új verziót hoz létre, amely tartalmazza a visszavont tartalmat. Biztosan folytatni szeretné?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Biztosan szeretné leválasztani a(z) „{0}”-t?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Formázás</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Visszavonás a(z) {0} verzióra</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Létrehozás a(z) „{0}”-t</value>
   </data>
 </root>

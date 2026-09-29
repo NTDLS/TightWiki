@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Czy na pewno chcesz usunąć ten komentarz?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Czy na pewno chcesz odłączyć</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Czy na pewno chcesz wylogować się z aplikacji?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Nie jesteś członkiem?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>nie jest wymagane</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>Po zeskanowaniu kodu QR lub wpisaniu klucza powyżej, Twoja aplikacja do dwuskładnikowej autoryzacji dostarczy Ci unikalny kod. Wprowadź kod w poniższym polu potwierdzenia.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>Cofnięcie "{0}" z wersji {1} do {2} cofnie {3} zmiany.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Przywracanie {0} z rewizji {1} do {2} cofnie zmiany {3}.&lt;br /&gt;Przywracanie nie oznacza, że zmiany zostaną utracone, jednak proces cofania utworzy nową rewizję z cofniętymi zmianami.&lt;br /&gt;&lt;br /&gt;Czy na pewno chcesz kontynuować?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Przywracanie nie oznacza, że zmiany zostaną utracone, jednak proces cofania utworzy nową rewizję z cofniętymi zmianami.</value>
@@ -2751,5 +2742,41 @@
   </data>
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Ta strona została zmodyfikowana przez kogoś innego podczas edycji. Zapisywanie zostało wyłączone, aby chronić ich zmiany. Odśwież stronę, aby pobrać najnowszą wersję.</value>
+  </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Włącz Pasek Boczny</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Strona Paska Bocznego</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Nazwa strony wiki, która zostanie wyświetlona jako pasek boczny obok wszystkich stron wiki, gdy pasek boczny będzie włączony. Indywidualne strony mogą go ukryć za pomocą @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Czy wyświetlać stronę paska bocznego obok wszystkich stron wiki.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Utwórz stronę paska bocznego „{0}”</value>
+  </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>To powiadomienie wygasło lub nie jest ważne.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Ten link potwierdzający wygasł lub nie jest ważny.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Przywrócenie {0} z wersji {1} do {2} przywróci {3} zmian. Brak utraconych zmian: cofnięcie tworzy nową wersję zawierającą cofnięte treści. Czy na pewno chcesz kontynuować?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Czy na pewno chcesz odłączyć „{0}”?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Formatowanie</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Przywróć do wersji {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Utwórz „{0}”</value>
   </data>
 </root>

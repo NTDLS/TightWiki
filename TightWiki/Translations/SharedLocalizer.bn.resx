@@ -158,7 +158,7 @@
     <value>পৃষ্ঠাতে করা সমস্ত পরিবর্তন।</value>
   </data>
   <data name="All comments made on the given page." xml:space="preserve">
-    <value>প্রদত্ত পৃষ্ঠায় করা সমস্ত הערות।</value>
+    <value>প্রদত্ত পৃষ্ঠায় করা সমস্ত মন্তব্য।</value>
   </data>
   <data name="All namespaces contained in the wiki." xml:space="preserve">
     <value>উইকিতে থাকা সমস্ত নেমস্পেস।</value>
@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>আপনি কি নিশ্চিত যে আপনি এই মন্তব্যটি মুছে ফেলতে চান?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>আপনি কি নিশ্চিত যে আপনি বিচ্ছিন্ন করতে চান</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>আপনি কি নিশ্চিত যে আপনি অ্যাপ্লিকেশন থেকে লগআউট করতে চান?</value>
   </data>
@@ -212,7 +209,7 @@
     <value>সংযুক্তি</value>
   </data>
   <data name="Authenticator app" xml:space="preserve">
-    <value>অAuthenticator অ্যাপ</value>
+    <value>অ্যাউটেন্টিকেটর অ্যাপ</value>
   </data>
   <data name="Available Languages" xml:space="preserve">
     <value>উপলব্ধ ভাষা</value>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>সদস্য নয়?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>প্রয়োজনীয় নয়</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>একবার আপনি QR কোড স্ক্যান করলেন বা উপরে কী ইনপুট করলে, আপনার দুই-ফ্যাক্টর প্রমাণীকরণ অ্যাপটি আপনাকে একটিunik কোড প্রদান করবে। নিচের নিশ্চিতকরণ বাক্সে কোডটি প্রবেশ করুন।</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>"{0}" কে {1} থেকে {2} এ পুনরুদ্ধার করতে {3} পরিবর্তনগুলি রোলব্যাক হবে।</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>{0} কে {1} সংস্করণের থেকে {2} এ পুনরায় সেট করা হবে এবং {3} পরিবর্তনগুলি ফেরত যাবে।&lt;br /&gt;পুনরায় সেট করা মানে এই নয় যে পরিবর্তনগুলি হারিয়ে যাবে, তবে পুনরায় সেট প্রক্রিয়া একটি নতুন সংস্করণ তৈরি করবে সংশোধিত পরিবর্তনগুলি সহ।&lt;br /&gt;&lt;br /&gt;আপনি কি নিশ্চিত যে আপনি চালিয়ে যেতে চান?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>পুনরায় সেট করা মানে এই নয় যে পরিবর্তনগুলি হারিয়ে যাবে, তবে পুনরায় সেট প্রক্রিয়া একটি নতুন সংস্করণ তৈরি করবে সংশোধিত পরিবর্তনগুলি সহ।</value>
@@ -1787,7 +1778,7 @@
     <value>ইমেল এবং এসএমটিপি সেটিং।</value>
   </data>
   <data name="Enable Page Comments" xml:space="preserve">
-    <value>페이지 মন্তব্য সক্ষম করুন</value>
+    <value>পৃষ্ঠা মন্তব্য সক্রিয় করুন</value>
   </data>
   <data name="Enable Public Profiles" xml:space="preserve">
     <value>পাবলিক প্রোফাইল সক্ষম করুন</value>
@@ -1865,10 +1856,10 @@
     <value>HTML হেডার বিভাগে স্থাপন করা হয়েছে। স্ক্রিপ্ট এবং CSS রাখার জন্য এটি একটি উপযোগী স্থান।</value>
   </data>
   <data name="If set, users can not login until their email addresses are verified. If changed, the website will need to be restarted. Default: Enabled." xml:space="preserve">
-    <value>אם সেট করা হয়, ব্যবহারকারীরা তাদের ইমেইল ঠিকানা নিশ্চিত না হওয়া পর্যন্ত লগইন করতে পারবে না। পরিবর্তন করলে, ওয়েবসাইটটি পুনরায় চালু করতে হবে। ডিফল্ট: সক্রিয়।</value>
+    <value>যদি সেট করা হয়, ব্যবহারকারীদের তাদের ইমেল ঠিকানা যাচাই করা না হওয়া পর্যন্ত লগ ইন করা যাবে না। যদি পরিবর্তন করা হয়, ওয়েবসাইটটি পুনরায় শুরু করা দরকার। ডিফল্ট: সক্রিয়।</value>
   </data>
   <data name="If set, users will be allowed to sing up and create their own account. Default: Enabled." xml:space="preserve">
-    <value>אם সেট করা হয়, ব্যবহারকারীরা স্বাক্ষর করতে পারবে এবং তাদের নিজস্ব অ্যাকাউন্ট তৈরি করতে পারবে। ডিফল্ট: সক্রিয়।</value>
+    <value>যদি সেট করা হয়, ব্যবহারকারীদের নিজেদের অ্যাকাউন্ট তৈরি করার অনুমতি দেওয়া হবে। ডিফল্ট: সক্রিয়।</value>
   </data>
   <data name="Include Search on Navbar" xml:space="preserve">
     <value>নেভবারে সার্চ অন্তর্ভুক্ত করুন</value>
@@ -1967,7 +1958,7 @@
     <value>সম্পর্কিত পারফরম্যান্স সেটিংস।</value>
   </data>
   <data name="Persist Keys Path" xml:space="preserve">
-    <value>পersistence কী পাথ</value>
+    <value>কী পাথ সংরক্ষণ করুন</value>
   </data>
   <data name="Port" xml:space="preserve">
     <value>পোর্ট</value>
@@ -2300,7 +2291,7 @@
     <value>কাজাখ</value>
   </data>
   <data name="Korean" xml:space="preserve">
-    <value>कोरियन</value>
+    <value>কোরীয়ান</value>
   </data>
   <data name="Lithuanian" xml:space="preserve">
     <value>লিথুয়ানিয়ান</value>
@@ -2751,5 +2742,41 @@
   </data>
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>এই পৃষ্ঠা টি অন্য কেউ পরিবর্তন করেছে যখন আপনি এটি সম্পাদনা করছিলেন। তাদের পরিবর্তনগুলি সুরক্ষিত করতে সংরক্ষণ নিষ্ক্রিয় করা হয়েছে। সর্বশেষ সংস্করণ পেতে দয়া করে পৃষ্ঠাটি পুনরায় লোড করুন।</value>
+  </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>সাইডবার সক্ষম করুন</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>সাইডবার পৃষ্ঠা</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>সাইডবার সক্ষম হওয়ার সময় সমস্ত ওয়াইকি পৃষ্ঠার সাথে প্রদর্শনের জন্য ওয়াইকি পৃষ্ঠার নাম। ব্যক্তিগত পৃষ্ঠাগুলি @@HideSidebar ব্যবহার করে এটি লুকাতে পারে।</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>সমস্ত ওয়াইকি পৃষ্ঠার সাথে সাইডবার পৃষ্ঠা প্রদর্শন করা হবে কি না।</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>সাইডবার পৃষ্ঠা \"{0}\" তৈরি করুন।</value>
+  </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>এই নোটিফিকেশন বাতিল হয়েছে বা বৈধ নয়।</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>এই নিশ্চিতকরণ লিঙ্কটি বাতিল হয়েছে বা বৈধ নয়।</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>পরিবর্তন {0} কে সংস্করণ {1} থেকে {2} এ প্রত্যাবর্তন করা {3} পরিবর্তন প্রত্যাহরণ করবে। কোনও পরিবর্তন হারানো হবে না: প্রত্যাবর্তন একটি নতুন সংস্করণ তৈরি করে যেখানে প্রত্যাবর্তিত কন্টেন্ট রয়েছে। আপনি কি চালিয়ে যেতে চান?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>আপনি কি "{0}" বিচ্ছিন্ন করতে চান?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>ফরম্যাটিং</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>প্রত্যাবর্তন {0} সংস্করণে ফিরে যান</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>সৃষ্টি করুন "{0}"</value>
   </data>
 </root>

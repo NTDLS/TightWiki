@@ -1,11 +1,10 @@
-﻿using Dapper;
+using Dapper;
 using Microsoft.Data.Sqlite;
-using OpenAI;
-using OpenAI.Chat;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using TightWiki.Library;
+using VPT.Einkr.Client;
 
 namespace LocalizerScan
 {
@@ -22,25 +21,54 @@ namespace LocalizerScan
 
         private static readonly SupportedCultures _supportedCultures = new SupportedCultures();
 
-        private static int Main(string[] args)
+        private const string ModelName = "Scout-14B";
+        private const int DefaultConcurrency = 4;
+        private const int BatchSize = 25;
+        private const int MaxBatchAttempts = 5;
+
+        private static readonly Lock _consoleLock = new();
+
+        private static async Task<int> Main(string[] args)
         {
+            if (args.Length == 2 && args[0].Equals("--validate", StringComparison.OrdinalIgnoreCase))
+            {
+                //Only checks the existing translations, clearing any that are broken so that the next run retranslates them.
+                ClearInvalidTranslations(args[1]);
+                return 0;
+            }
+
             if (args.Length < 2)
             {
-                Console.WriteLine("Usage: LocalizerScan <rootPath> <resourcePath>");
+                Console.WriteLine("Usage: LocalizerScan <rootPath> <resourcePath> [concurrency]");
+                Console.WriteLine("       LocalizerScan --validate <resourcePath>");
                 return 1;
             }
 
-            var apiKey = File.ReadAllText("C:\\OpenAPIKey.txt").Trim();
-            var openAi = new OpenAIClient(apiKey);
-            var chat = openAi.GetChatClient("gpt-4.1-nano");
+            var apiKey = File.ReadAllText("C:\\EinkrKey.txt").Trim();
+
+            //The client is stateless and safe to share, so all of the concurrent translations use one connection pool.
+            using var einkr = new EinkrAIClient(ModelName, apiKey);
 
             var rootPath = args[0];
             var resourcePath = args[1];
+            var concurrency = args.Length > 2 && int.TryParse(args[2], out var requested) && requested > 0 ? requested : DefaultConcurrency;
 
             ScanSourceFilesAndAddMissingKeys(rootPath, resourcePath);
-            FillInMissingTranslations(resourcePath, chat, "English");
+            ClearInvalidTranslations(resourcePath);
+            await FillInMissingTranslations(resourcePath, einkr, "English", concurrency);
 
             return 0;
+        }
+
+        /// <summary>
+        /// Writes a line prefixed with the file it relates to, since several files are translated at once.
+        /// </summary>
+        private static void Log(string fileName, string message)
+        {
+            lock (_consoleLock)
+            {
+                Console.WriteLine($"[{fileName}] {message}");
+            }
         }
 
         private static void ScanSourceFilesAndAddMissingKeys(string rootPath, string resourcePath)
@@ -186,191 +214,248 @@ namespace LocalizerScan
             }
         }
 
-        private static void FillInMissingTranslations(string resourcePath, ChatClient chat, string sourceLanguage)
+        /// <summary>
+        /// Clears any existing translations that fail validation, so that they are translated again.
+        /// </summary>
+        private static void ClearInvalidTranslations(string resourcePath)
         {
-            var sourceFileNames = Directory.GetFiles(resourcePath, $"*.*.resx", SearchOption.TopDirectoryOnly).ToList();
+            int cleared = 0;
 
-            foreach (var sourceFileName in sourceFileNames)
+            foreach (var sourceFileName in Directory.GetFiles(resourcePath, "*.*.resx", SearchOption.TopDirectoryOnly))
             {
                 var fileName = Path.GetFileName(sourceFileName);
-
                 var parts = fileName.Split('.');
-
                 if (parts.Length != 3)
                 {
-                    continue; //We only parse when file name is "NAME.langCode.resx"
-                }
-
-                if (_supportedCultures.TryGetByCode(parts[1], out var targetLanguage) == false)
-                {
-                    continue; //We do not have a language map for this file.
+                    continue; //We only check files named "NAME.langCode.resx"
                 }
 
                 var doc = XDocument.Load(sourceFileName, LoadOptions.PreserveWhitespace);
+                bool changed = false;
 
-                // Find all <data> elements that have a name attribute
-                var dataElements = doc.Root?
-                    .Elements("data")
-                    .Where(d => d.Attribute("name") != null)
-                    .ToList();
-
-                if (dataElements == null || dataElements.Count == 0)
+                foreach (var data in doc.Root?.Elements("data") ?? [])
                 {
-                    Console.WriteLine("No <data> elements found.");
-                    return;
-                }
-
-                var phrases = new Dictionary<string, string?>();
-
-                //Build a dictionary containing all of the keys, which are the English phrases.
-                foreach (var data in dataElements)
-                {
-                    string key = data.Attribute("name")?.Value ?? "";
+                    var key = data.Attribute("name")?.Value;
                     var valueElem = data.Element("value");
-
-                    if (string.IsNullOrEmpty(valueElem?.Value) == false)
+                    if (key == null || string.IsNullOrEmpty(valueElem?.Value))
                     {
-                        continue; //We only want to translate phrases that have no value.
-                    }
-
-                    if (valueElem == null) //Create the <value> if its missing.
-                    {
-                        valueElem = new XElement("value");
-                        data.AddFirst(valueElem);
-                    }
-
-                    phrases.Add(key, null);
-                }
-
-                if (phrases.Count == 0)
-                {
-                    //No phrases to translate.
-                    continue;
-                }
-
-                Console.WriteLine($"{fileName} : {phrases.Count:n0} elements -> {targetLanguage.Name}");
-
-                while (phrases.Any(o => o.Value == null))
-                {
-                    bool somethingWentWrong = false;
-
-                    var batch = phrases.Where(o => o.Value == null).Take(25).ToDictionary(o => o.Key, o => o.Value);
-
-                    Console.WriteLine($"Processing batch of {batch.Count:n0} elements -> {targetLanguage.Name}");
-
-                    var promptText = EmbeddedResourceReader.LoadText(@"EmbeddedText\OpenAIPrompt.txt")
-                        .Replace("{sourceLanguage}", sourceLanguage)
-                        .Replace("{targetLanguage}", targetLanguage.Name);
-
-                    //Create a single input block containing all of the phrases to be translated with numeric tags.
-                    var inputPhrases = new StringBuilder();
-                    int index = 0;
-                    foreach (var phrase in batch)
-                    {
-                        inputPhrases.AppendLine($"<Phrase_{index}>{phrase.Key}</Phrase_{index}>");
-                        index++;
-                    }
-
-                    ChatCompletion response = chat.CompleteChat([
-                            new SystemChatMessage(promptText),
-                            new UserChatMessage(inputPhrases.ToString())
-                        ]);
-
-                    var translatedBlock = response.Content[0].Text;
-
-                    var splitPhrases = translatedBlock.Split('\n', StringSplitOptions.TrimEntries);
-
-                    if (splitPhrases.Length != batch.Count)
-                    {
-                        somethingWentWrong = true;
-
-                        Console.WriteLine("The count of translation responses do not match the number of inputs. Retrying..");
-                        //Clear the translations so that they are retried.
-                        foreach (var resetPhrase in batch)
-                        {
-                            phrases[resetPhrase.Key] = null;
-                        }
                         continue;
                     }
 
-                    //Parse the translated block and update the dictionary with the translated phrases.
-                    index = 0;
-                    foreach (var phrase in batch)
+                    var problems = TranslationValidator.GetProblems(parts[1], key, valueElem.Value);
+                    if (problems.Count > 0)
                     {
-                        var startTag = $"<Phrase_{index}>";
-                        var endTag = $"</Phrase_{index}>";
-                        var startIndex = translatedBlock.IndexOf(startTag) + startTag.Length;
-                        var endIndex = translatedBlock.IndexOf(endTag, startIndex);
-
-                        if (endIndex == -1 || startIndex == -1 || endIndex <= startIndex)
-                        {
-                            somethingWentWrong = true;
-                            Console.WriteLine($"Invalid translation response format. Retrying..");
-
-                            //Clear the translations so that they are retried.
-                            foreach (var resetPhrase in batch)
-                            {
-                                phrases[resetPhrase.Key] = null;
-                            }
-                            break;
-                        }
-
-                        var translatedPhrase = translatedBlock.Substring(startIndex, endIndex - startIndex).Trim();
-
-                        phrases[phrase.Key] = translatedPhrase;
-                        batch[phrase.Key] = translatedPhrase;
-
-                        index++;
+                        Log(fileName, $"Cleared \"{key}\" = \"{valueElem.Value}\": {string.Join("; ", problems)}");
+                        valueElem.Value = string.Empty;
+                        changed = true;
+                        cleared++;
                     }
+                }
 
-                    if (somethingWentWrong)
-                    {
-                        continue; //Something went wrong during parsing, so we skip updating the XML document and retry the batch.
-                    }
-
-                    //Loop back through the dataElements and update the XML document with the translated phrases from the dictionary.
-                    foreach (var data in dataElements)
-                    {
-                        var key = data.Attribute("name")?.Value ?? string.Empty;
-                        if (!phrases.ContainsKey(key))
-                        {
-                            continue; //This key was not in our batch, so we skip it.
-                        }
-
-                        if (batch.TryGetValue(key, out string? translation))
-                        {
-                            var valueElem = data.Element("value");
-                            if (valueElem == null) //Create the <value> if its missing.
-                            {
-                                valueElem = new XElement("value");
-                                data.AddFirst(valueElem);
-                            }
-
-                            if (translation?.Contains("<Phrase") == true || translation?.Contains("</Phrase") == true)
-                            {
-                                somethingWentWrong = true;
-                                Console.WriteLine($"The translation contains unprocessed tags. Retrying..");
-
-                                //Clear the translations so that they are retried.
-                                foreach (var resetPhrase in batch)
-                                {
-                                    phrases[resetPhrase.Key] = null;
-                                }
-                                break;
-                            }
-
-                            valueElem.Value = translation ?? valueElem.Value;
-                        }
-                    }
-
-                    if (somethingWentWrong)
-                    {
-                        continue; //Something went wrong during parsing, so we skip updating the XML document and retry the batch.
-                    }
-
+                if (changed)
+                {
                     doc.Save(sourceFileName);
                 }
             }
+
+            Console.WriteLine($"Cleared {cleared:n0} invalid translations.");
+        }
+
+        /// <summary>
+        /// Translates the language files concurrently. Each file has its own XML document and phrase list,
+        ///  so the only thing shared between them is the (thread-safe) client.
+        /// </summary>
+        private static async Task FillInMissingTranslations(string resourcePath, EinkrAIClient chat, string sourceLanguage, int concurrency)
+        {
+            var sourceFileNames = Directory.GetFiles(resourcePath, $"*.*.resx", SearchOption.TopDirectoryOnly).ToList();
+            var promptTemplate = EmbeddedResourceReader.LoadText(@"EmbeddedText\SystemPrompt.txt");
+
+            Console.WriteLine($"Translating {sourceFileNames.Count:n0} files, {concurrency} at a time.");
+
+            await Parallel.ForEachAsync(sourceFileNames, new ParallelOptions { MaxDegreeOfParallelism = concurrency },
+                async (sourceFileName, cancellationToken) =>
+                {
+                    try
+                    {
+                        await TranslateFile(sourceFileName, chat, sourceLanguage, promptTemplate, cancellationToken);
+                    }
+                    catch (Exception ex)
+                    {
+                        //One failing language should not stop the others.
+                        Log(Path.GetFileName(sourceFileName), $"Failed: {ex.Message}");
+                    }
+                });
+        }
+
+        private static async Task TranslateFile(string sourceFileName, EinkrAIClient chat, string sourceLanguage,
+            string promptTemplate, CancellationToken cancellationToken)
+        {
+            var fileName = Path.GetFileName(sourceFileName);
+
+            var parts = fileName.Split('.');
+
+            if (parts.Length != 3)
+            {
+                return; //We only parse when file name is "NAME.langCode.resx"
+            }
+
+            if (_supportedCultures.TryGetByCode(parts[1], out var targetLanguage) == false)
+            {
+                return; //We do not have a language map for this file.
+            }
+
+            var doc = XDocument.Load(sourceFileName, LoadOptions.PreserveWhitespace);
+
+            // Find all <data> elements that have a name attribute
+            var dataElements = doc.Root?
+                .Elements("data")
+                .Where(d => d.Attribute("name") != null)
+                .ToList();
+
+            if (dataElements == null || dataElements.Count == 0)
+            {
+                Log(fileName, "No <data> elements found.");
+                return;
+            }
+
+            var phrases = new Dictionary<string, string?>();
+
+            //Build a dictionary containing all of the keys, which are the English phrases.
+            foreach (var data in dataElements)
+            {
+                string key = data.Attribute("name")?.Value ?? "";
+                var valueElem = data.Element("value");
+
+                if (string.IsNullOrEmpty(valueElem?.Value) == false)
+                {
+                    continue; //We only want to translate phrases that have no value.
+                }
+
+                if (valueElem == null) //Create the <value> if its missing.
+                {
+                    valueElem = new XElement("value");
+                    data.AddFirst(valueElem);
+                }
+
+                phrases.Add(key, null);
+            }
+
+            if (phrases.Count == 0)
+            {
+                return; //No phrases to translate.
+            }
+
+            Log(fileName, $"{phrases.Count:n0} elements -> {targetLanguage.Name}");
+
+            var promptText = promptTemplate
+                .Replace("{sourceLanguage}", sourceLanguage)
+                .Replace("{targetLanguage}", targetLanguage.Name);
+
+            //Phrases whose batch keeps failing are left empty, so that the next run tries them again.
+            var skipped = new HashSet<string>();
+
+            while (phrases.Any(o => o.Value == null && !skipped.Contains(o.Key)))
+            {
+                var batch = phrases.Where(o => o.Value == null && !skipped.Contains(o.Key)).Take(BatchSize).Select(o => o.Key).ToList();
+
+                Dictionary<string, string>? translations = null;
+                for (int attempt = 1; attempt <= MaxBatchAttempts && translations == null; attempt++)
+                {
+                    Log(fileName, $"Processing batch of {batch.Count:n0} elements -> {targetLanguage.Name}{(attempt > 1 ? $" (attempt {attempt})" : "")}");
+                    translations = await TranslateBatch(fileName, parts[1], chat, promptText, batch, cancellationToken);
+                }
+
+                if (translations == null)
+                {
+                    Log(fileName, $"Giving up on a batch of {batch.Count:n0} elements after {MaxBatchAttempts} attempts, they will be retried on the next run.");
+                    skipped.UnionWith(batch);
+                    continue;
+                }
+
+                //Update the XML document with the translated phrases from this batch.
+                foreach (var data in dataElements)
+                {
+                    var key = data.Attribute("name")?.Value ?? string.Empty;
+                    if (translations.TryGetValue(key, out var translation))
+                    {
+                        phrases[key] = translation;
+
+                        var valueElem = data.Element("value");
+                        if (valueElem == null) //Create the <value> if its missing.
+                        {
+                            valueElem = new XElement("value");
+                            data.AddFirst(valueElem);
+                        }
+                        valueElem.Value = translation;
+                    }
+                }
+
+                doc.Save(sourceFileName);
+            }
+        }
+
+        /// <summary>
+        /// Translates one batch of phrases, returning null if the response could not be parsed.
+        /// </summary>
+        private static async Task<Dictionary<string, string>?> TranslateBatch(string fileName, string languageCode, EinkrAIClient chat, string promptText,
+            List<string> batch, CancellationToken cancellationToken)
+        {
+            //Create a single input block containing all of the phrases to be translated with numeric tags.
+            var inputPhrases = new StringBuilder();
+            for (int index = 0; index < batch.Count; index++)
+            {
+                inputPhrases.AppendLine($"<Phrase_{index}>{batch[index]}</Phrase_{index}>");
+            }
+
+            ChatCompletion response = await chat.CompleteChatAsync([
+                    new SystemChatMessage(promptText),
+                    new UserChatMessage(inputPhrases.ToString())
+                ], cancellationToken: cancellationToken);
+
+            var translatedBlock = response.Content[0].Text;
+
+            var splitPhrases = translatedBlock.Trim().Split('\n', StringSplitOptions.TrimEntries);
+            if (splitPhrases.Length != batch.Count)
+            {
+                Log(fileName, "The count of translation responses do not match the number of inputs. Retrying..");
+                return null;
+            }
+
+            //Parse the translated block into the translated phrases.
+            var translations = new Dictionary<string, string>();
+            for (int index = 0; index < batch.Count; index++)
+            {
+                var startTag = $"<Phrase_{index}>";
+                var endTag = $"</Phrase_{index}>";
+                var tagIndex = translatedBlock.IndexOf(startTag);
+                var startIndex = tagIndex + startTag.Length;
+                var endIndex = tagIndex == -1 ? -1 : translatedBlock.IndexOf(endTag, startIndex);
+
+                if (tagIndex == -1 || endIndex == -1)
+                {
+                    Log(fileName, "Invalid translation response format. Retrying..");
+                    return null;
+                }
+
+                var translatedPhrase = translatedBlock.Substring(startIndex, endIndex - startIndex).Trim();
+
+                if (translatedPhrase.Length == 0)
+                {
+                    Log(fileName, $"The translation of \"{batch[index]}\" is empty. Retrying..");
+                    return null;
+                }
+
+                var problems = TranslationValidator.GetProblems(languageCode, batch[index], translatedPhrase);
+                if (problems.Count > 0)
+                {
+                    Log(fileName, $"The translation of \"{batch[index]}\" is invalid ({string.Join("; ", problems)}). Retrying..");
+                    return null;
+                }
+
+                translations[batch[index]] = translatedPhrase;
+            }
+
+            return translations;
         }
     }
 }

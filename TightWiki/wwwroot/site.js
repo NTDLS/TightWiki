@@ -1,35 +1,78 @@
-﻿$(function () {
-    localStorage.setItem('theme', '@sessionState.UserTheme.EditorTheme');
+/*
+    Shared client-side helpers for TightWiki pages.
+    Localized labels are provided by the layout in window.twText.
+*/
+(function () {
+    const text = Object.assign({ confirmTitle: 'Are you sure?', yes: 'Yes', no: 'No', close: 'Close' }, window.twText || {});
 
-    $('nav')
-        .removeClass('navbar-light bg-white')
-        .addClass('@sessionState.UserTheme.ClassNavBar');
+    /**
+     * Shows a Bootstrap confirmation dialog, resolving to true if the user chose "Yes".
+     * The message is always displayed as text.
+     */
+    window.twConfirm = function (message) {
+        return new Promise(function (resolve) {
+            const modalElement = document.createElement('div');
+            modalElement.className = 'modal fade';
+            modalElement.tabIndex = -1;
+            modalElement.setAttribute('aria-hidden', 'true');
+            modalElement.innerHTML =
+                '<div class="modal-dialog modal-dialog-centered"><div class="modal-content">' +
+                '<div class="modal-header"><h5 class="modal-title"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>' +
+                '<div class="modal-body tw-message"></div>' +
+                '<div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal"></button>' +
+                '<button type="button" class="btn btn-danger"></button></div>' +
+                '</div></div>';
 
-    $('a.nav-link')
-        .removeClass('text-dark')
-        .addClass('@sessionState.UserTheme.ClassNavLink');
+            modalElement.querySelector('.modal-title').textContent = text.confirmTitle;
+            modalElement.querySelector('.modal-body').textContent = message;
+            modalElement.querySelector('.btn-close').setAttribute('aria-label', text.close);
+            const [noButton, yesButton] = modalElement.querySelectorAll('.modal-footer .btn');
+            noButton.textContent = text.no;
+            yesButton.textContent = text.yes;
 
-    $('a.dropdown-item')
-        .removeClass('text-dark')
-        .addClass('@sessionState.UserTheme.ClassDropdown');
+            document.body.appendChild(modalElement);
+            const modal = new bootstrap.Modal(modalElement);
+            let confirmed = false;
 
-    $('.site-branding')
-        .removeClass('text-dark')
-        .addClass('@sessionState.UserTheme.ClassBranding');
+            yesButton.addEventListener('click', function () {
+                confirmed = true;
+                modal.hide();
+            });
+            //These confirm destructive actions, so the safe choice has the focus.
+            modalElement.addEventListener('shown.bs.modal', function () {
+                noButton.focus();
+            });
+            modalElement.addEventListener('hidden.bs.modal', function () {
+                modal.dispose();
+                modalElement.remove();
+                resolve(confirmed);
+            });
 
-    @if (GlobalConfiguration.FixedMenuPosition) {
-        <text>
-            const navHeight = $('nav').outerHeight() + 20;
-            $('#mainContainer').css('margin-top', navHeight + 'px');
-        </text>
-    }
+            modal.show();
+        });
+    };
 
-    setTimeout(function () {
-        document.querySelectorAll('.auto-dismiss-alert').forEach(function (alertElement) {
-            if (alertElement) {
-                alertElement.classList.remove('show');
-                setTimeout(() => alertElement.remove(), 300);
+    //Links with a data-tw-confirm="message" attribute only navigate after the user confirms.
+    document.addEventListener('click', function (event) {
+        const link = event.target.closest('a[data-tw-confirm]');
+        if (!link) {
+            return;
+        }
+        event.preventDefault();
+        window.twConfirm(link.getAttribute('data-tw-confirm')).then(function (confirmed) {
+            if (confirmed) {
+                window.location.href = link.href;
             }
         });
-    }, 5000);
-});
+    });
+
+    //Success messages dismiss themselves after a few seconds.
+    document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(function () {
+            document.querySelectorAll('.auto-dismiss-alert').forEach(function (alertElement) {
+                alertElement.classList.remove('show');
+                setTimeout(function () { alertElement.remove(); }, 300);
+            });
+        }, 5000);
+    });
+})();

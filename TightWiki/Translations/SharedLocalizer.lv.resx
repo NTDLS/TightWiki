@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Vai tiešām vēlaties dzēst šo komentāru?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Vai tiešām vēlaties atvienot</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Vai tiešām vēlaties iziet no lietojumprogrammas?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Nav dalībnieks?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>nav nepieciešams</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>Kad būsi skenējis QR kodu vai ievadījis iepriekš norādīto atslēgu, tava divfaktoru autentifikācijas lietotne nodrošinās unikālu kodu. Ievadi kodu zemāk esošajā apstiprināšanas lodziņā.</value>
   </data>
@@ -935,13 +929,13 @@
     <value>Palīdziet, pārbaudiet savu e-pastu, lai atiestatītu paroli.</value>
   </data>
   <data name="Please click here to log in" xml:space="preserve">
-    <value>Нospiediet šeit, lai pieteiktos</value>
+    <value>Lūdzu, noklikšķiet šeit, lai ievietotos</value>
   </data>
   <data name="Please confirm your new password." xml:space="preserve">
-    <value>Нostipriniet savu jauno paroli.</value>
+    <value>Lūdzu, apstipriniet savu jauno paroli.</value>
   </data>
   <data name="Please confirm your password." xml:space="preserve">
-    <value>Лūdzu, apstipriniet savu paroli.</value>
+    <value>Lūdzu, apstipriniet savu paroli.</value>
   </data>
   <data name="Please enter both username and password." xml:space="preserve">
     <value>Ievadiet gan lietotājvārdu, gan paroli.</value>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>Atjaunojot "{0}" no pārskatījuma {1} uz {2} tiks atcelti {3} grozījumi.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Atjaunot {0} no versijas {1} uz {2} noliks {3} izmaiņas.&lt;br /&gt;Atjaunošana nenozīmē, ka izmaiņas tiks zaudētas, tomēr atjaunošanas process radīs jaunu versiju ar atjaunotajām izmaiņām.&lt;br /&gt;&lt;br /&gt;Vai tiešām vēlaties turpināt?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Atjaunošana nenozīmē, ka izmaiņas tiks zaudētas, tomēr atjaunošanas process radīs jaunu versiju ar atjaunotajām izmaiņām.</value>
@@ -2751,5 +2742,41 @@
   </data>
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Šo lapu kāds cits ir modificējis, kamēr jūs to rediģējāt. Lai aizsargātu viņu izmaiņas, ir atspējota saglabāšana. Lūdzu, ielādējiet lapu pēc jauninājumiem, pirms saglabājat.</value>
+  </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Iespējot sāles joslu</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Sāles joslas lapa</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Wiki lapas nosaukums, kas parādās kā sāles josla kopā ar visām wiki lapām, ja sāle ir iespējota. Individuālas lapas to var paslēpt, izmantojot @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Vai parādīt sāles joslas lapu kopā ar visām wiki lapām.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Izveidot sāles joslas lapu "{0}"</value>
+  </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Šī paziņojums ir beidzies vai nav derīgs.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Šis apstiprinājuma saite ir beidzies vai nav derīga.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Atsākot {0} no pārskata {1} uz {2} atsāks {3} maiņas. No maiņām nav zudis: atsākums izveido jaunu pārskatu, kas satur atsāktā saturu. Vai tiešām vēlaties turpināt?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Vai tiešām vēlaties atvienot „{0}”?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Formātēšana</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Atsākt līdz pārskatam {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Izveidot „{0}”</value>
   </data>
 </root>

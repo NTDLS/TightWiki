@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Осы пікірді өшіргіңіз келетінін растайсыз ба?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Жұлыстау үшін растайсыз ба</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Қосымшадан шығу үшін сенімдісіз бе?</value>
   </data>
@@ -197,7 +194,7 @@
     <value>Сенімдісіз бе?</value>
   </data>
   <data name="Associate your {0} account." xml:space="preserve">
-    <value>1-ші есептік жазбаңызды байланыстырыңыз.</value>
+    <value>Сіздің {0} аккаунтыңызды біріктіру.</value>
   </data>
   <data name="Associated Pages" xml:space="preserve">
     <value>Қосылған беттер</value>
@@ -629,7 +626,7 @@
     <value>Қауіпсіздік рөлдері мен мүшелігінің жаһандық конфигурациясы.</value>
   </data>
   <data name="Global configuration for the site menu item." xml:space="preserve">
-    <value>Сайт мәзір элементі үшін жаһanды конфигурация.</value>
+    <value>Сайт меню элементі үшін жалпы баптау.</value>
   </data>
   <data name="Global configuration for the site menu." xml:space="preserve">
     <value>Сайт мәзірі үшін жаһандық конфигурация.</value>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Толық мүшесі емес пе?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>қажет емес</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>QR кодын сканерлегеннен кейін немесе жоғарыда енгізілген кілтті енгізгеннен кейін, екі факторлы аутентификация қолданбаңыз бірегей кодты ұсынады. Төмендегі растау терезесіне кодты енгізіңіз.</value>
   </data>
@@ -866,7 +860,7 @@
     <value>Қосымша</value>
   </data>
   <data name="Ordinal" xml:space="preserve">
-    <value>РетOrdinal</value>
+    <value>Ординал</value>
   </data>
   <data name="Orphaned Attachments" xml:space="preserve">
     <value>Асар қалдырылған қосымшалар</value>
@@ -1133,13 +1127,10 @@
     <value>Түзетуді бастапқыға қайтару</value>
   </data>
   <data name="Revert to revision {0}?" xml:space="preserve">
-    <value>Түзетуді {0} дейін қайтару {1} бастап {2} дейін?</value>
+    <value>Түзету {0} болашаққа қайта?</value>
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>"{0}"-ді {1}-ші түзетуден {2}-ге қайтару {3} өзгерістерін қайтаруға әкеледі.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>{0}-ды {1} түзетулерінен {2}-ге қайтару {3} өзгерістерін қайтару болып табылады.&lt;br /&gt;Қайтару өзгерістер жоғалады дегенді білдірмейді, бірақ қайтару процесі қайтарылған өзгерістермен жаңа түзету жасайды.&lt;br /&gt;&lt;br /&gt;Әрине әрі қарай жалғастыру керек пе?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Қайтару өзгерістер жоғалады дегенді білдірмейді, бірақ қайтару процесі қайтарылған өзгерістермен жаңа түзету жасайды.</value>
@@ -1580,7 +1571,7 @@
     <value>Wiki Бет</value>
   </data>
   <data name="Wikified Size" xml:space="preserve">
-    <value>Wikификацияланған мөлшері</value>
+    <value>Wiki өлшемі</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Иә</value>
@@ -1916,7 +1907,7 @@
     <value>Эмодзи суретінің ең үлкен өлшемі байттан.</value>
   </data>
   <data name="Membership" xml:space="preserve">
-    <value>Mүшелік</value>
+    <value>Құрамдастық</value>
   </data>
   <data name="Membership settings such as defaults for new members and permissions." xml:space="preserve">
     <value>Жаңа мүшелер үшін әдепкі параметрлер және рұқсаттар сияқты мүшелік параметрлері.</value>
@@ -1949,7 +1940,7 @@
     <value>OIDC : ClientSecret</value>
   </data>
   <data name="OIDC : Use OIDC Authentication" xml:space="preserve">
-    <value>OIDC : OIDC 인증ін пайдалану</value>
+    <value>OIDC: OIDC аутентификациясын пайдалану</value>
   </data>
   <data name="Page Cache Time (Seconds)" xml:space="preserve">
     <value>Бет кэші уақыты (секунд)</value>
@@ -2018,7 +2009,7 @@
     <value>Барлық сайт стиліне қолданылатын негізгі тақырып.</value>
   </data>
   <data name="The brand image of the wiki, this is displayed on the top of all wiki pages." xml:space="preserve">
-    <value>Білімнің бренд бейнесі, ол барлық білім бетiнң жоғарғы бөлігіне көрсетіледі.</value>
+    <value>Wiki-ның брендік кескіні, бұл барлық wiki беттерінің төбесінде көрсетіледі.</value>
   </data>
   <data name="The copyright of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
     <value>Білімнің авторлық құқығы, ол барлық беттердің төменгі бөлігінде көрсетіледі.</value>
@@ -2273,7 +2264,7 @@
     <value>французша</value>
   </data>
   <data name="Hebrew" xml:space="preserve">
-    <value>עברית</value>
+    <value>Еврей</value>
   </data>
   <data name="Croatian" xml:space="preserve">
     <value>хорватша</value>
@@ -2751,5 +2742,41 @@
   </data>
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Бұл бетті басқа біреу өңдеп жатқан кезде сіз редакцияладыңыз. Олардың өзгерістерін қорғау үшін сақтау өшірілді. Соңғы нұсқасын алу үшін бетті қайта жүктеңіз.</value>
+  </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Жүйе қатарын қосу</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Жүйе қатары беті</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Жүйе қатары ретінде барлық wiki беттерімен қоса таратылатын wiki бетінің атауы. Бірлескен беттер @@HideSidebar арқылы жасырылуы мүмкін.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Барлық wiki беттерімен қоса жүйе қатары бетін көрсету керек пе?</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>"{0}" жүйе қатары бетін жасау</value>
+  </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Бұл хабарлама жойылып кетті немесе қате.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Бұл рұқсат ету тізімі жойылып кетті немесе қате.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>{0} {1} нұсқасынан {2} нұсқасына қайта қосу {3} өзгерістерді орын ауыстырады. Өзгерістер жоғалмайды: қайта қосу жаңа нұсқаға әкеледі, оның ішінде қайта қосылған мәтін бар. Жалғастыру керек пе?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>"{0}" жеке етіңіз бе?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Форматтау</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>{0} нұсқасына қайта қосу</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>"{0}" жасау</value>
   </data>
 </root>

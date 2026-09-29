@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Är du säker på att du vill radera den här kommentaren?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Är du säker på att du vill koppla bort</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Är du säker på att du vill logga ut från applikationen?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Inte medlem?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>inte krävs</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>När du har skannat QR-koden eller matat in nyckeln ovan, kommer din tvåfaktorsautentiseringsapp att ge dig en unik kod. Ange koden i bekräftelsefältet nedan.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>Återställning av "{0}" från version {1} till {2} kommer att rulla tillbaka {3} ändringar.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Återställning av {0} från version {1} till {2} kommer att rulla tillbaka {3} ändringar.&lt;br /&gt;Återställning betyder inte att ändringarna kommer att förloras, dock kommer återställningsprocessen att skapa en ny version med de återställda ändringarna.&lt;br /&gt;&lt;br /&gt;Är du säker på att du vill fortsätta?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Återställning innebär inte att ändringarna förloras, men återställningsprocessen kommer att skapa en ny version med de återställda ändringarna.</value>
@@ -2751,5 +2742,41 @@
   </data>
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Sidan ändrades av någon annan medan du redigerade den. Spara har inaktiverats för att skydda deras ändringar. Ladda om sidan för att få den senaste versionen.</value>
+  </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Aktivera Sidofält</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Sidofältssida</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Namnet på wikisidan som ska visas som ett sidofält tillsammans med alla wikisidor när sidofältet är aktiverat. Individuella sidor kan dölja det med @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Om att visa sidofältssidan tillsammans med alla wikisidor.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Skapa sidofältssidan "{0}"</value>
+  </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Den här aviseringen har förfallit eller är inte giltig.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Den här bekräftelselänken har förfallit eller är inte giltig.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Återställa {0} från revision {1} till {2} kommer att återställa {3} ändringar. Inga ändringar förloras: återställningen skapar en ny revision som innehåller det återställda innehållet. Är du säker på att du vill fortsätta?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Är du säker på att du vill avlägga "{0}"?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Formatering</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Återställ till revision {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Skapa "{0}"</value>
   </data>
 </root>

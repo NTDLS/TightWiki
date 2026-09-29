@@ -47,7 +47,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
             _logger.LogDebug("User logged out.");
             if (returnUrl != null)
             {
-                return Redirect(returnUrl);
+                //Only return to pages within this site.
+                return LocalRedirect(Url.IsLocalUrl(returnUrl) ? returnUrl : $"{WikiConfiguration.BasePath}/");
             }
             else
             {

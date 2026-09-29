@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Oled sa kindel, et soovid selle kommentaari kustutada?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Oled sa kindel, et soovid lahti ühendust?</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Oled sa kindel, et soovid rakendusest välja logida?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Kas oled liige?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>pole nõutud</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>Pärast QR-koodi skannimist või ülaltoodud võtme sisestamist annab teie kahefaktoriline autentimisrakendus teile unikaalse koodi. Sisestage kood allapoole kinnituskasti.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>"{0}" tagasi võtmine redaktsioonist {1} kuni {2} tõmbab tagasi {3} muudatust.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Vältides {0} muudatused revisjonist {1} versiooni {2} tagasi, toimub {3} muudatuste tagasi pööramine.&lt;br /&gt;Vältimine ei tähenda siiski, et muudatused kaoksid, vaid tagasi pööramise protsess loob uue revisjoni koos tagasi pööratud muudatustega.&lt;br /&gt;&lt;br /&gt;Kas olete kindel, et soovite jätkata?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Vältimine ei tähenda siiski, et muudatused kaoksid, vaid tagasi pööramise protsess loob uue revisjoni koos tagasi pööratud muudatustega.</value>
@@ -2751,5 +2742,41 @@
   </data>
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Seda lehte muudeti keegi teine, samal ajal kui sina seda redigeerisid. Tõrke vältimiseks on salvestamine keelatud. Laadige leht uuesti, et saada uusim versioon.</value>
+  </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Paremakülje aktiveerimine</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Paremakülje leht</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Wiki lehe nimi, mida kuvada paremaküljena kõigis wiki lehtedes, kui paremakülje on aktiveeritud. Individuaalsed lehed saavad seda peidada kasutades @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Kas kuvada paremakülje lehte kõigis wiki lehtedes.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Loo paremakülje leht "{0}"</value>
+  </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>See teade on aegunud või pole kehtiv.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>See kinnituse link on aegunud või pole kehtiv.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Tagasi {0} muudatuse {1} {2} tagasi tekitab {3} muudatuse tagasi. Ei ole kadunud muudatusi: tagasimine loob uue versiooni, mis sisaldab tagasi võetud sisu. Kas oled kindel, et soovid jätkata?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Kas oled kindel, et soovid eraldada "{0}"?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Formaatimine</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Tagasi versioonile {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Loo "{0}"</value>
   </data>
 </root>

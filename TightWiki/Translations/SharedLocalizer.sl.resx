@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Ste prepričani, da želite izbrisati ta komentar?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Ste prepričani, da želite odtrgati</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Ste prepričani, da se želite odjaviti iz aplikacije?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Niste član?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>ne zahtevano</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>Ko enkrat skenirate QR kodo ali vnesete zgornji ključ, vam bo vaša aplikacija za dvostopenjsko preverjanje zagotovila edinstveno kodo. Vnesite kodo v spodnje polje za potrditev.</value>
   </data>
@@ -1073,7 +1067,7 @@
     <value>Odstrani</value>
   </data>
   <data name="Remove this {0} login from your account" xml:space="preserve">
-    <value>Odstrani to prijavo {{0}} iz svojega računa</value>
+    <value>Odstrani ta {0} prijavi iz vašega računa</value>
   </data>
   <data name="Request failed:" xml:space="preserve">
     <value>Zahtevek ni uspel:</value>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>Razveljavitev "{0}" iz različice {1} na {2} bo povrnila {3} sprememb.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Razveljavljanje {0} iz različice {1} na {2} bo povrnilo {3} sprememb.&lt;br /&gt;Razveljavitev ne pomeni, da bodo spremembe izgubljene, temveč bo postopek razveljavitve ustvaril novo različico z razveljavljenimi spremembami.&lt;br /&gt;&lt;br /&gt;Ste prepričani, da želite nadaljevati?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Razveljavljanje ne pomeni, da bodo spremembe izgubljene, vendar bo postopek razveljavitve ustvaril novo različico z razveljavljenimi spremembami.</value>
@@ -2108,7 +2099,7 @@
     <value>Ko so komentarji omogočeni, ta možnost prikaže komentarje na dnu vsake strani. Privzeto: Vklopljeno.</value>
   </data>
   <data name="Whether a search box will be shown on the navigation bar. Default: Enabled." xml:space="preserve">
-    <value>Ali se bo prikazal iskalnik na navigacijskem меню. Privzeto: Vklopljeno.</value>
+    <value>Ali bo iskalno polje prikazano na navigacijskem traku. Privzeto: Omogočeno.</value>
   </data>
   <data name="Whether or not OpenID Connect is enabled." xml:space="preserve">
     <value>Ali je omogočen OpenID Connect.</value>
@@ -2751,5 +2742,41 @@
   </data>
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>To stran je med vašim urejanjem spremenil drug uporabnik. Shranjevanje je onemogočeno za zaščito njegove spremembe. Prosimo, znova naložite stran, da dobite najnovejšo različico.</value>
+  </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Omogoči stranski meni</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Stranska stran</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Ime wiki strani, ki jo želite prikazati kot stranski meni ob vseh wiki straneh, ko je stranski meni omogočen. Posamezne strani lahko skrijejo stranski meni z @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Ali prikazati stransko stran ob vseh wiki straneh.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Ustvari stransko stran "{0}"</value>
+  </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Ta opomba je potekla ali ni veljavna.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Ta potrditvena povezava je potekla ali ni veljavna.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Ponovno uveljavitev {0} iz revizije {1} v {2} bo zavrtela {3} spremembe. Nobene spremembe ni izgubljeno: ponovno uveljavitev ustvari novo revizijo, ki vsebuje povrnjeno vsebino. Ali ste prepričani, da želite nadaljevati?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Ali ste prepričani, da želite odločiti "{0}"?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Oblikovanje</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Ponovno uveljavitev revizije {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Ustvari "{0}"</value>
   </data>
 </root>

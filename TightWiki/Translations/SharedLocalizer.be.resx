@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Вы ўпэўнены, што хочаце выдаліць гэты каментар?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Вы ўпэўнены, што хочаце адлучыць</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Вы ўпэўнены, што хочаце выйсці з прыкладання?</value>
   </data>
@@ -419,7 +416,7 @@
     <value>Выдаленне '{0}' перанясе старонку, усе {1} версіі і звязаныя файлы ў чаргу выдалення. Гэты дзеянне можна адмяніць толькі адміністратарам або мадэратарам. Продолжыць?</value>
   </data>
   <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value>Выдаленне '{0}' перамесіць старонку са ўсімі рэвізіямі {1} і файламі ўдакладненняў у чаргу выдалення.</value>
+    <value>Выдаленне '{0}' перамешае старонку, разам з усімі {1} рэвізіямі і {2} файлавымі прыкладкамі у чаргу выдалення.</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
     <value>Выдаленне '{0}' беззваротна выдаліць уліковы запіс. Усе старонкі, створаныя або змененыя гэтым карыстальнікам, будуць аднесены да контрагента, і вы не зможаце адкасаваць гэтую дзеянне. Працягнуць?</value>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Не з'яўляецеся ўдзельнікам?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>Не патрабуецца</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>Пасля таго, як вы сканавалі QR-код або ўвялі ключ вышэй, ваша прыкладанне для двухфактарнай аўтэнтыфікацыі прадаставіць вам унікальны код. Увядзіце код у полі пацверджання ніжэй.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>Вяртанне "{0}" з рэдакцыі {1} у {2} прыкладзе зробіць змены, адмяняючы {3} змен.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Павароцьце {0} з рэвізіі {1} у {2} выкліча адкат зменаў {3}.&lt;br /&gt;Паварот у значэнні не азначае, што цяжкасці будуць страчаны, але працэс адкату створыць новую рэвізію з адкатанымі зменамі.&lt;br /&gt;&lt;br /&gt;Вы ўпэўнены, што жадаеце працягваць?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Павароць не азначае, што змены будуць страчаны, але працэс адкату створыць новую рэвізію з адкатанымі зменамі.</value>
@@ -1646,7 +1637,7 @@
     <value>Ваша праграма аўтэнтыфікацыі была праверана.</value>
   </data>
   <data name="Your authenticator app key has been reset, you will need to configure your authenticator app using the new key." xml:space="preserve">
-    <value>Ваш ключ аўтэнтыфікатара быў скід stanі. Вам неабходна сконфігураваць сваю праграму аўтэнтыфікацыі, выкарыстоўваючы новы ключ.</value>
+    <value>Ваша ключавыя прылады аўтэнтыкацыі былі сброены, вам неабходна наладзіць прыладу аўтэнтыкацыі, выкарыстоўваючы новы ключ.</value>
   </data>
   <data name="Your email is unchanged." xml:space="preserve">
     <value>Ваша электронная пошта засталася нязменнай.</value>
@@ -1658,7 +1649,7 @@
     <value>Ваш пароль быў зменены.</value>
   </data>
   <data name="Your password has been reset." xml:space="preserve">
-    <value>Ваш пароль быў скід stanі.</value>
+    <value>Ваш пароль быў сброены.</value>
   </data>
   <data name="Your password has been set." xml:space="preserve">
     <value>Ваш пароль настроены.</value>
@@ -2027,7 +2018,7 @@
     <value>Краіна для выкарыстання для культурных асаблівасцяў сайта для гасцей.</value>
   </data>
   <data name="The default country to use for new accounts." xml:space="preserve">
-    <value>Па freewareа, які выкарыстоўваецца па змаўчанні для новых уліковых запісаў.</value>
+    <value>Страна па змаўчванні для новыя акаўнты.</value>
   </data>
   <data name="The default domain to use when the user does not specify a UPN or a fully qualified domain\\Username when signing in." xml:space="preserve">
     <value>Дамен па змаўчанні, які выкарыстоўваецца, калі карыстальнік не ўказвае UPN або поўназагружаны дамен\\Імя карыстальніка пры ўходзе.</value>
@@ -2447,7 +2438,7 @@
     <value>Пункт меню створаны.</value>
   </data>
   <data name="The menu item has been saved." xml:space="preserve">
-    <value>Мصدر меню быў захаваны.</value>
+    <value>Пункт меню быў захаваны.</value>
   </data>
   <data name="The specified menu item has been deleted." xml:space="preserve">
     <value>Вызначаны пункт меню быў выдалены.</value>
@@ -2751,5 +2742,41 @@
   </data>
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Гэта старонка была змянёная іншым карыстальнікам падчас вашага рэдагавання. Захаванне было адключана для абароны іх змен. Калі ласка, абнавіце старонку, каб атрымаць апошнюю версію.</value>
+  </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Уключыць бокавую панэль</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Старонка бокавай панелі</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Назва старонкі вікі, якая будзе адлюстроўвацца як бокавая панель разам з усімі старонкамі вікі, калі бокавая панель уключана. Асобныя старонкі можна схаваць з дапамогай @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Ці адлюстроўваць старонку бокавай панелі разам з усімі старонкамі вікі.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Стварыць старонку бокавай панелі "{0}"</value>
+  </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Гэта паведамленне скончылася або не з'яўляецца дзейніцай.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Гэта посілка пацверджання скончылася або не з'яўляецца дзейніцай.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Вяртанне {0} з рэвізіі {1} у {2} падтвярдзіць {3} змены. Жодныя змены не згубяцца: вяртанне стварае новую рэвізію, якая змяшчае вярнуты змесціва. Ці ёсць у вас перакананне, што вы хочаце пакінуць?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Ці ёсць у вас перакананне, што вы хочаце адлучыць „{0}“?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Фарматаванне</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Вярнуцца да рэвізіі {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Стварыць „{0}“</value>
   </data>
 </root>

@@ -61,21 +61,21 @@ namespace TightWiki.Pages
             => int.Parse(GetFormString(key, defaultValue.ToString()));
 
         protected RedirectResult NotifyOfSuccess(string message, string redirectUrl)
-            => Redirect($"{WikiConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString($"{WikiConfiguration.BasePath}{redirectUrl}")}&RedirectTimeout=5");
+            => Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, success: message, redirectUrl: $"{WikiConfiguration.BasePath}{redirectUrl}", redirectTimeout: 5));
 
         protected RedirectResult NotifyOfWarning(string message, string redirectUrl)
-            => Redirect($"{WikiConfiguration.BasePath}/Utility/Notify?NotifyWarningMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString(Uri.EscapeDataString($"{WikiConfiguration.BasePath}{redirectUrl}"))}");
+            => Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, warning: message, redirectUrl: $"{WikiConfiguration.BasePath}{redirectUrl}"));
 
         protected RedirectResult NotifyOfError(string message, string redirectUrl)
-            => Redirect($"{WikiConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString(Uri.EscapeDataString($"{WikiConfiguration.BasePath}{redirectUrl}"))}");
+            => Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, error: message, redirectUrl: $"{WikiConfiguration.BasePath}{redirectUrl}"));
 
         protected RedirectResult NotifyOfSuccess(string message)
-            => Redirect($"{WikiConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(message)}");
+            => Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, success: message));
 
         protected RedirectResult NotifyOfWarning(string message)
-            => Redirect($"{WikiConfiguration.BasePath}/Utility/Notify?NotifyWarningMessage={Uri.EscapeDataString(message)}");
+            => Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, warning: message));
 
         protected RedirectResult NotifyOfError(string message)
-            => Redirect($"{WikiConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString(message)}");
+            => Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, error: message));
     }
 }

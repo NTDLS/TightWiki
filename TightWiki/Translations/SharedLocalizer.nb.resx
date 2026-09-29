@@ -1126,9 +1126,6 @@
   <data name="Analysis" xml:space="preserve">
     <value>Analyse</value>
   </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Å tilbakestille {0} fra revisjon {1} til {2} vil tilbakestille {3} endringer.&lt;br /&gt;Tilbakestilling betyr ikke at endringene går tapt, men prosessen vil lage en ny revisjon med de angrede endringene.&lt;br /&gt;&lt;br /&gt;Er du sikker på at du vil fortsette?&lt;br /&gt;&lt;br /&gt;</value>
-  </data>
   <data name="Revert" xml:space="preserve">
     <value>Tilbakestill</value>
   </data>
@@ -1431,9 +1428,6 @@
   </data>
   <data name="There are no security roles configured." xml:space="preserve">
     <value>Det er ingen sikkerhetsroller konfigurert.</value>
-  </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Er du sikker på at du vil fjerne</value>
   </data>
   <data name="Tag Copied" xml:space="preserve">
     <value>Merkemerk Kopiert</value>
@@ -1790,7 +1784,7 @@
     <value>Fortsett</value>
   </data>
   <data name="{0}Continue now{1} or you will be redirected in {2} seconds." xml:space="preserve">
-    <value>{0&gt;Fortsett nå{1} eller blir du omdirigert om {2} sekunder.</value>
+    <value>{0}Fortsett nå{1} eller du vil bli omdirigert i {2} sekunder.</value>
   </data>
   <data name="Access denied." xml:space="preserve">
     <value>Tilgang nektes.</value>
@@ -1845,9 +1839,6 @@
   </data>
   <data name="This display name will be visible publicly." xml:space="preserve">
     <value>Dette visningsnavnet vil være offentlig synlig.</value>
-  </data>
-  <data name="not required" xml:space="preserve">
-    <value>ikkje nødvendig</value>
   </data>
   <data name="Complete Signup" xml:space="preserve">
     <value>Fullfør påmelding</value>
@@ -2742,5 +2733,41 @@
   </data>
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Denne siden ble endret av en annen mens du redigerte den. Lagringen er deaktivert for å beskytte endringene deres. Vennligst last inn siden på nytt for å få den siste versjonen.</value>
+  </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Aktiver sidepanel</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Sidepanelside</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Navnet på wikisiden som skal vises som et sidepanel sammen med alle wikisider når sidepanelet er aktivert. Enkeltsider kan skjule det med @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Hvorvidt sidepanelsiden skal vises sammen med alle wikisider.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Opprett sidepanelsiden "{0}"</value>
+  </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Denne varselen har utløpt eller er ikke gyldig.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Denne bekreftelseslenken har utløpt eller er ikke gyldig.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Å reversere {0} fra revisjon {1} til {2} vil føre til at {3} endringer går tilbake. Ingen endringer går tapt: reverseringen oppretter en ny revisjon som inneholder innholdet som er reversert. Er du sikker på at du vil fortsette?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Er du sikker på at du vil fjerne "{0}"?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Formatering</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Revertér til revisjon {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Opprett "{0}"</value>
   </data>
 </root>

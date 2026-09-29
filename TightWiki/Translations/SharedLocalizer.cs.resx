@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Jste si jisti, že chcete smazat tento komentář?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Jste si jisti, že chcete odpojit</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Jste si jisti, že se chcete odhlásit z aplikace?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Nejste členem?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>nevyžadováno</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>Po naskenování QR kódu nebo zadání klíče výše vám vaše aplikace pro dvoufaktorovou autentizaci poskytne jedinečný kód. Zadejte kód do potvrzovacího pole níže.</value>
   </data>
@@ -1138,9 +1132,6 @@
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>Vrácení "{0}" z verze {1} na {2} odstraní {3} změn.</value>
   </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Obnovení {0} z revize {1} na {2} vrátí zpět změny {3}.&lt;br /&gt;Obnovení neznamená, že změny budou ztraceny, proces obnovení vytvoří novou revizi s vrácenými změnami.&lt;br /&gt;&lt;br /&gt;Opravdu chcete pokračovat?&lt;br /&gt;&lt;br /&gt;</value>
-  </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Obnovení neznamená, že změny budou ztraceny, proces obnovení vytvoří novou revizi s vrácenými změnami.</value>
   </data>
@@ -1418,7 +1409,7 @@
     <value>Toto trvale odstraní přiložený soubor. Pokračovat?</value>
   </data>
   <data name="This will permanently delete the specified deleted revision. Continue?" xml:space="preserve">
-    <value>Toto trvale odstraní выдаденou revizi. Pokračovat?</value>
+    <value>Toto trvale odstraní zadanou odstraněnou revizi. Pokračovat?</value>
   </data>
   <data name="This will permanently delete the specified page, all revisions and attachments. Continue?" xml:space="preserve">
     <value>Toto trvale odstraní danou stránku, všechny revize a přílohy. Pokračovat?</value>
@@ -2751,5 +2742,41 @@
   </data>
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Tuto stránku upravoval někdo jiný, zatímco jste ji editovali. Ukládání bylo zakázáno, aby se ochránily jejich změny. Opět načtěte stránku, abyste získali nejnovější verzi.</value>
+  </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Povolit postranní lištu</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Stránka postranní lišty</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Název wiki stránky, která se zobrazí jako postranní lišta vedle všech wiki stránek, pokud je postranní lišta povolena. Jednotlivé stránky ji mohou skrýt pomocí @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Zda se má zobrazit stránka postranní lišty vedle všech wiki stránek.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Vytvořit stránku postranní lišty "{0}"</value>
+  </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Toto oznámení expirovalo nebo není platné.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Tento potvrzovací odkaz expiroval nebo není platný.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Vrácení {0} z revize {1} do {2} zpět {3} změn. Žádné změny nejsou ztraceny: reverze vytvoří novou revizi obsahující vrácený obsah. Jste si jisti, že chcete pokračovat?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Jste si jisti, že chcete odpojit "{0}"?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Formátování</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Vrátit se k revizi {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Vytvořit "{0}"</value>
   </data>
 </root>

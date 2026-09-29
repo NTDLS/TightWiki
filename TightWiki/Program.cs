@@ -159,7 +159,7 @@ namespace TightWiki
                         {
                             OnRemoteFailure = context =>
                             {
-                                context.Response.Redirect($"{wikiConfigurationManager.WikiConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
+                                context.Response.Redirect(TwNotifyUrl.Build(wikiConfigurationManager.WikiConfiguration.BasePath, error: "External login was canceled."));
                                 context.HandleResponse();
                                 return Task.CompletedTask;
                             }
@@ -184,7 +184,7 @@ namespace TightWiki
                         {
                             OnRemoteFailure = context =>
                             {
-                                context.Response.Redirect($"{wikiConfigurationManager.WikiConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
+                                context.Response.Redirect(TwNotifyUrl.Build(wikiConfigurationManager.WikiConfiguration.BasePath, error: "External login was canceled."));
                                 context.HandleResponse();
                                 return Task.CompletedTask;
                             }
@@ -227,7 +227,7 @@ namespace TightWiki
                         {
                             OnRemoteFailure = context =>
                             {
-                                context.Response.Redirect($"{wikiConfigurationManager.WikiConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString("OIDC login was canceled.")}");
+                                context.Response.Redirect(TwNotifyUrl.Build(wikiConfigurationManager.WikiConfiguration.BasePath, error: "OIDC login was canceled."));
                                 context.HandleResponse();
                                 return Task.CompletedTask;
                             }
@@ -266,6 +266,8 @@ namespace TightWiki
             });
 
             var app = builder.Build();
+
+            TwSignedUrl.Initialize(app.Services.GetRequiredService<IDataProtectionProvider>());
 
             //Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

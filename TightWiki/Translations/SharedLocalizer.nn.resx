@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>er du sikker på at du vil slette denne kommentaren?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>er du sikker på at du vil frakoble</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>er du sikker på at du vil logge ut av applikasjonen?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Ikke medlem?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>ikke nødvendig</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>Når du har skannet QR-koden eller skrevet inn nøkkelen ovenfor, vil din to-faktor autentiseringsapp gi deg en unik kode. Skriv inn koden i bekreftelsesboksen nedenfor.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>Å angre "{0}" fra revisjon {1} til {2} vil tilbakestille {3} endringer.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Tilbakestilling av {0} fra versjon {1} til {2} vil angre {3} endringer.&lt;br /&gt;Tilbakestilling betyr ikke at endringene vil gå tapt, men gjenopprettingsprosessen vil opprette en ny versjon med de tilbakestilte endringene.&lt;br /&gt;&lt;br /&gt;Er du sikker på at du vil fortsette?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Tilbakestilling betyr ikke at endringene vil gå tapt, men gjenopprettingsprosessen vil opprette en ny versjon med de tilbakestilte endringene.</value>
@@ -2751,5 +2742,41 @@
   </data>
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Denne siden ble endret av en annen mens du redigerte den. Lagring er deaktivert for å beskytte endringene deres. Vennligst last inn siden på nytt for å få den siste versjonen.</value>
+  </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Aktiver sidefelt</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Sidefeltsside</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Navnet på wikisiden som skal vises som et sidefelt sammen med alle wikisider når sidefeltet er aktivert. Enkeltsider kan skjule det med @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Om å vise sidefeltssiden sammen med alle wikisider.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Opprett sidefeltssiden "{0}"</value>
+  </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Denne varselen har utløpt eller er ikke gyldig.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Denne bekreftelseslenken har utløpt eller er ikke gyldig.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Å reversere {0} fra revisjon {1} til {2} vil reversere {3} endringer. Ingen endringer går tapt: reverseringen oppretter en ny revisjon som inneholder innholdet som er reversert. Er du sikker på at du vil fortsette?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Er du sikker på at du vil frakople "{0}"?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Formatering</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Reverser til revisjon {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Opprett "{0}"</value>
   </data>
 </root>

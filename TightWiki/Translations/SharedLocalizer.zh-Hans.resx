@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>您确定要删除此评论吗？</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>您确定要解除关联</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>您确定要注销应用程序吗？</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>不是会员吗？</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>不需要</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>扫描二维码或输入上方密钥后，你的两步验证应用会提供一个唯一的代码。将在下面的确认框中输入此代码。</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>将 "{0}" 从修订 {1} 还原到 {2} 将回滚 {3} 的更改。</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>将 {0} 从修订 {1} 还原到 {2} 将回滚 {3} 的更改。&lt;br /&gt;还原并不意味着更改会丢失，但还原过程将创建一个包含还原更改的新修订。&lt;br /&gt;&lt;br /&gt;你确定要继续吗？&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>还原并不意味着更改会丢失，但还原过程将创建一个包含还原更改的新修订。</value>
@@ -2751,5 +2742,41 @@
   </data>
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>在你编辑时，其他人对本页面进行了修改。为保护他们的更改，已禁用保存。请刷新页面以获取最新版本。</value>
+  </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>启用侧边栏</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>侧边栏页面</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>当启用侧边栏时，与所有维基页面一起显示的维基页面的名称。单个页面可以通过 @@HideSidebar 隐藏它。</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>是否在所有维基页面旁显示侧边栏页面。</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>创建侧边栏页面“{0}”</value>
+  </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>此通知已过期或无效。</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>此确认链接已过期或无效。</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>将 {0} 从修订版 {1} 回退到 {2} 会回退 {3} 次更改。不会丢失任何更改：回退操作会创建一个包含回退内容的新修订版。您确定要继续吗？</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>您确定要分离 "{0}" 吗？</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>格式化</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>回退到修订版 {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>创建 "{0}"</value>
   </data>
 </root>

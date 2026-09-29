@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Наистина ли искате да изтриете този коментар?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Наистина ли искате да отделите</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Наистина ли искате да излезете от приложението?</value>
   </data>
@@ -419,7 +416,7 @@
     <value>Изтриването на '{0}' ще премести страницата, всички {1} ревизии и свързаните файлови прикачвания в опашката за изтриване. Това действие може да бъде отменено само от администратор или модератор. Продължително?</value>
   </data>
   <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value>Изтриването на '{0}' ще премести страницата, всичките {1} ревизии и прикачените файлове към опашката за изтриване.</value>
+    <value>Изтриване на '{0}' ще премести страницата, заедно с всички {1} редакции и {2} файлови приложения в опашката за изтриване.</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
     <value>Изтриването на '{0}' ще премахне трайно акаунта. Всички страници, създадени или модифицирани от този потребител, ще бъдат приписани на запасен акаунт и няма да можете да върнете това действие. Продължи?</value>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Не член?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>не е необходимо</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>След като сканирате QR кода или въведете ключа горе, приложението ви за двуфакторна автентикация ще ви предостави уникален код. Въведете кода в полето за потвърждение по-долу.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>Връщането "{0}" от версия {1} към {2} ще върне {3} промени.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Връщането на {0} от ревизия {1} към {2} ще върне обратно промените {3}.&lt;br /&gt;Връщането обратно не означава, че промените ще бъдат загубени, тъй като процесът на връщане ще създаде нова ревизия с върнатите промени.&lt;br /&gt;&lt;br /&gt;Наистина ли искате да продължите?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Връщането обратно не означава, че промените ще бъдат загубени, тъй като процесът на връщане ще създаде нова ревизия с върнатите промени.</value>
@@ -2751,5 +2742,41 @@
   </data>
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Тази страница беше променена от друг, докато я редактирахте. Запазването е било деактивирано, за да се защити техните промени. Моля, презаредете страницата, за да получите последната версия.</value>
+  </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Активирай странична лента</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Страница на страничната лента</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Името на wiki страницата, която да се покаже като странична лента заедно с всички wiki страници, когато страничната лента е активирана. Индивидуалните страници могат да я скрият с @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Дали да се покаже страницата на страничната лента заедно с всички wiki страници.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Създай страницата на страничната лента "{0}"</value>
+  </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Това известие е изтекло или не е валидно.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Този линк за потвърждение е изтекъл или не е валиден.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Връщането на {0} от версия {1} към {2} ще откаже {3} промени. Няма загубени промени: връщането създава нова версия, съдържаща върнатият съдържание. Сигурни ли сте, че искате да продължите?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Сигурни ли сте, че искате да отделите „{0}“?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Форматиране</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Връщане към версия {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Създай „{0}“</value>
   </data>
 </root>

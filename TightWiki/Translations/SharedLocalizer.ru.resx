@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Вы уверены, что хотите удалить этот комментарий?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Вы уверены, что хотите отвязать</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Вы уверены, что хотите выйти из приложения?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Не участник?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>не требуется</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>После сканирования QR-кода или ввода ключа выше, ваше приложение двухфакторной аутентификации предоставит вам уникальный код. Введите код в поле подтверждения ниже.</value>
   </data>
@@ -1073,7 +1067,7 @@
     <value>Удалить</value>
   </data>
   <data name="Remove this {0} login from your account" xml:space="preserve">
-    <value>Удалить этот вход {{0}} из вашего аккаунта</value>
+    <value>Удалите этот {0} вход в систему из вашей учетной записи</value>
   </data>
   <data name="Request failed:" xml:space="preserve">
     <value>Запрос не выполнен:</value>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>Возврат "{0}" из версии {1} в {2} отменит {3} изменения.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Возврат {0} из версии {1} в {2} отменит {3} изменения.&lt;br /&gt;Возврат не означает, что изменения будут потеряны, однако процесс возврата создаст новую версию с отменёнными изменениями.&lt;br /&gt;&lt;br /&gt;Вы уверены, что хотите продолжить?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Возврат не означает, что изменения будут потеряны, однако процесс возврата создаст новую версию с отменёнными изменениями.</value>
@@ -2486,7 +2477,7 @@
     <value>Сертификация LDAP прошла успешно, но у пользователя отсутствует атрибут objectGUID.</value>
   </data>
   <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
-    <value>Проба LDAP прошла успешно (учётная запись безProvisioning).</value>
+    <value>Успешно выполнен вызов LDAP (учетная запись без привязки).</value>
   </data>
   <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
     <value>Проба LDAP прошла успешно (учётная запись полностью настроена).</value>
@@ -2751,5 +2742,41 @@
   </data>
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Эта страница была изменена кем-то другим, пока вы редактировали ее. Сохранение отключено, чтобы защитить их изменения. Пожалуйста, обновите страницу, чтобы получить последнюю версию.</value>
+  </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Включить боковую панель</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Страница боковой панели</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Имя вики-страницы, которая будет отображаться как боковая панель вместе со всеми вики-страницами, когда боковая панель включена. Индивидуальные страницы могут скрыть её с помощью @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Отображать ли страницу боковой панели вместе со всеми вики-страницами.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Создать страницу боковой панели "{0}"</value>
+  </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Это уведомление истекло или недействительно.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Эта ссылка подтверждения истекла или недействительна.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Возврат {0} из редакции {1} в {2} откатит {3} изменений. Нет потерь изменений: откат создает новую редакцию, содержащую откатанный контент. Вы уверены, что хотите продолжить?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Вы уверены, что хотите отсоединить "{0}"?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Форматирование</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Вернуться к редакции {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Создать "{0}"</value>
   </data>
 </root>

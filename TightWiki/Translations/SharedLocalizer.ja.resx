@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>このコメントを削除してもよろしいですか？</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>切り離してもよろしいですか</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>アプリケーションからログアウトしてもよろしいですか？</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>会員ではありませんか？</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>必要ありません</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>QRコードをスキャンするか、上記のキーを入力すると、二要素認証アプリが一意のコードを提供します。以下の確認ボックスにコードを入力してください。</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>リビジョン {1} から {2} へ "{0}" を元に戻すことで、{3} の変更を取り消します。</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>{0}をリビジョン{1}から{2}に戻すと、{3}の変更が巻き戻されます。&lt;br /&gt;戻すことは変更が失われることを意味するものではありませんが、元に戻すプロセスは巻き戻した変更を含む新しいリビジョンを作成します。&lt;br /&gt;&lt;br /&gt;続行してもよろしいですか？&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>戻すことは変更が失われることを意味するものではありませんが、元に戻すプロセスは巻き戻した変更を含む新しいリビジョンを作成します。</value>
@@ -2751,5 +2742,41 @@
   </data>
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>あなたが編集している間に他の誰かによってこのページが変更されました。変更を保護するために保存が無効になっています。最新のバージョンを取得するためにページを再読み込みしてください。</value>
+  </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>サイドバーを有効にする</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>サイドバー ページ</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>サイドバーとしてすべてのWikiページと共に表示するWikiページの名前です。個別のページでは @@HideSidebar を使用してこれを非表示にできます。</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>すべてのWikiページと共にサイドバー ページを表示するかどうか。</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>サイドバー ページ「{0}」を作成する</value>
+  </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>この通知は期限切れまたは無効です。</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>この確認リンクは期限切れまたは無効です。</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>変更履歴 {1} から {2} への {0} のロールバックにより、{3} の変更が巻き戻されます。変更内容は失われません: ロールバックは、巻き戻した内容を含む新しい変更履歴を作成します。本当に続行してもよろしいですか?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>「{0}」を解除してもよろしいですか?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>書式設定</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>変更履歴 {0} に戻す</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>「{0}」を作成する</value>
   </data>
 </root>

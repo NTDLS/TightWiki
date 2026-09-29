@@ -3,7 +3,7 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Version>2.38.0</Version>
+		<Version>2.39.0</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -217,6 +217,7 @@
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.34.4\^001^Statistics^NewStatsStructure.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.34.4\^001^Logging^ChangeCollation.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.38.0\^001^Pages^CurrentPageEditors.sql" />
+		<EmbeddedResource Include="Scripts\Initialization\Versions\2.39.0\^001^Pages^RestorePageModifiedDates.sql" />
 		<EmbeddedResource Include="Scripts\InsertRole.sql" />
 		<EmbeddedResource Include="Scripts\DoesRoleExist.sql" />
 		<EmbeddedResource Include="Scripts\InsertAccountPermission.sql" />

@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>¿estás seguro de que quieres eliminar este comentario?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>¿estás seguro de que quieres desacoplar</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>¿estás seguro de que quieres cerrar sesión en la aplicación?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>¿No eres miembro?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>no requerido</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>Una vez que hayas escaneado el código QR o introducido la clave arriba, tu aplicación de autenticación de dos factores te proporcionará un código único. Ingresa el código en la caja de confirmación a continuación.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>Revertir "{0}" de la revisión {1} a {2} deshará {3} cambios.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>La reversión de {0} de la revisión {1} a {2} deshará los cambios de {3}.&lt;br /&gt;Revertir no significa que los cambios se perderán, sin embargo, el proceso de reversión creará una nueva revisión con los cambios revertidos.&lt;br /&gt;&lt;br /&gt;¿Estás seguro de que quieres continuar?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Revertir no significa que los cambios se perderán, sin embargo, el proceso de reversión creará una nueva revisión con los cambios revertidos.</value>
@@ -2751,5 +2742,41 @@
   </data>
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Esta página fue modificada por otra persona mientras la editabas. La función de guardar ha sido deshabilitada para proteger sus cambios. Por favor, recarga la página para obtener la versión más reciente.</value>
+  </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Habilitar barra lateral</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Página de barra lateral</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>El nombre de la página de wiki que se mostrará como barra lateral junto a todas las páginas de wiki cuando esté habilitada la barra lateral. Las páginas individuales pueden ocultarla con @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>¿Mostrar la página de barra lateral junto con todas las páginas de wiki?</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Crear la página de barra lateral "{0}"</value>
+  </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Esta notificación ha expirado o no es válida.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Este enlace de confirmación ha expirado o no es válido.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Revertir {0} de la revisión {1} a {2} deshará {3} cambios. No se pierden cambios: el revertido crea una nueva revisión que contiene el contenido revertido. ¿Está seguro de que quiere continuar?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>¿Está seguro de que quiere deshabilitar "{0}"?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Formato</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Revertir a la revisión {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Crear "{0}"</value>
   </data>
 </root>

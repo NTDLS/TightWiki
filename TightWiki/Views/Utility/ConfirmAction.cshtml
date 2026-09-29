@@ -47,9 +47,7 @@
     </div>
 
     <div class="card-body">
-        <div class="mb-4">
-            @Html.Raw(Model.Message)
-        </div>
+        <div class="mb-4 tw-message">@Model.Message</div>
 
         <form action="@Model.ControllerURL" method="post">
             @Html.AntiForgeryToken()

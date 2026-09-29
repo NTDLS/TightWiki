@@ -188,7 +188,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
 
             if (pageSelector && (pageNumber > 1 || pages.Count > 0 && pages.First().PaginationPageCount > 1))
             {
-                html.Append(TwPageSelectorGenerator.Generate(state.QueryString, pages.FirstOrDefault()?.PaginationPageCount ?? 1, refTag));
+                html.Append(TwPageSelectorGenerator.Generate(state.QueryString, pages.FirstOrDefault()?.PaginationPageCount ?? 1, refTag, localizer: state.Localizer));
             }
 
             return new TwPluginResult(html.ToString())

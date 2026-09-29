@@ -10,6 +10,11 @@
     font-size: 14px;
 }
 
+/*Status messages are rendered as text; keep any line breaks they contain.*/
+.tw-message {
+    white-space: pre-line;
+}
+
 /*Login page*/
 .provider-btn .provider-icon {
     height: 30px;
@@ -51,4 +56,127 @@ ul, ol {
 
 li > p {
     margin-bottom: 0;
+}
+
+/*
+    Theme-aware styles. These use Bootstrap's CSS variables so that they follow whichever
+    Bootswatch theme is active, rather than hard-coding colors for one light or dark mode.
+*/
+
+/*The site navbar uses solid link colors, Bootstrap's translucent defaults are too faint on many theme colors.*/
+.navbar.tw-navbar {
+    --bs-navbar-color: var(--bs-navbar-brand-color);
+    --bs-navbar-hover-color: var(--bs-navbar-brand-hover-color);
+}
+
+    .navbar.tw-navbar .nav-link:hover,
+    .navbar.tw-navbar .nav-link:focus-visible {
+        text-decoration: underline;
+    }
+
+/*Wiki highlight (!!text!!), vivid in both light and dark themes.*/
+mark {
+    background-color: #ffeb3b;
+    color: #000;
+}
+
+/*Callouts (the Callout wiki function).*/
+.bd-callout {
+    padding: 1.25rem;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-left-width: .25rem;
+    border-radius: var(--bs-border-radius);
+}
+
+    .bd-callout h4 {
+        margin-top: 0;
+        margin-bottom: .25rem;
+    }
+
+    .bd-callout p:last-child {
+        margin-bottom: 0;
+    }
+
+    .bd-callout + .bd-callout {
+        margin-top: -.25rem;
+    }
+
+.bd-callout-info { border-left-color: var(--bs-info); }
+.bd-callout-info h4 { color: var(--bs-info); }
+.bd-callout-warning { border-left-color: var(--bs-warning); }
+.bd-callout-warning h4 { color: var(--bs-warning); }
+.bd-callout-danger { border-left-color: var(--bs-danger); }
+.bd-callout-danger h4 { color: var(--bs-danger); }
+.bd-callout-primary { border-left-color: var(--bs-primary); }
+.bd-callout-primary h4 { color: var(--bs-primary); }
+.bd-callout-secondary,
+.bd-callout-default { border-left-color: var(--bs-secondary); }
+.bd-callout-secondary h4,
+.bd-callout-default h4 { color: var(--bs-secondary); }
+.bd-callout-success { border-left-color: var(--bs-success); }
+.bd-callout-success h4 { color: var(--bs-success); }
+
+/*Lightly striped list groups, such as file attachment lists.*/
+.list-group-item:nth-child(even) {
+    background-color: var(--bs-tertiary-bg);
+}
+
+.list-group-item .file-meta {
+    color: var(--bs-secondary-color);
+}
+
+/*Select2, styled to match Bootstrap's form controls in any theme.*/
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple {
+    min-height: calc(1.5em + .75rem + calc(var(--bs-border-width) * 2));
+    background-color: var(--bs-body-bg);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+}
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: var(--bs-body-color);
+        line-height: calc(1.5em + .75rem);
+        padding-left: .75rem;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__placeholder {
+        color: var(--bs-secondary-color);
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 100%;
+    }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow b {
+            border-top-color: var(--bs-secondary-color);
+        }
+
+.select2-container--default.select2-container--focus .select2-selection--multiple,
+.select2-container--default.select2-container--open .select2-selection--single {
+    border-color: var(--bs-primary);
+}
+
+.select2-dropdown {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    border-color: var(--bs-border-color);
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+}
+
+.select2-container--default .select2-results__option[aria-selected=true] {
+    background-color: var(--bs-secondary-bg);
+    color: var(--bs-body-color);
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary-text-emphasis);
 }

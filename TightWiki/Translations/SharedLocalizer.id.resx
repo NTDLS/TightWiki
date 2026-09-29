@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>Anda yakin ingin menghapus komentar ini?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Anda yakin ingin melepas</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>Anda yakin ingin keluar dari aplikasi?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>Bukan anggota?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>tidak diperlukan</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>Setelah Anda memindai kode QR atau memasukkan kunci di atas, aplikasi otentikasi dua faktor Anda akan memberikan kode unik. Masukkan kode tersebut di kotak konfirmasi di bawah.</value>
   </data>
@@ -1137,9 +1131,6 @@
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>Mengembalikan "{0}" dari revisi {1} ke {2} akan membatalkan {3} perubahan.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>Mengembalikan {0} dari revisi {1} ke {2} akan membatalkan perubahan {3}.&lt;br /&gt;Mengembalikan tidak berarti bahwa perubahan akan hilang, bagaimanapun, proses pengembalian akan membuat revisi baru dengan perubahan yang dibatalkan.&lt;br /&gt;&lt;br /&gt;Apakah Anda yakin ingin melanjutkan?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>Mengembalikan tidak berarti bahwa perubahan akan hilang, bagaimanapun, proses pengembalian akan membuat revisi baru dengan perubahan yang dibatalkan.</value>
@@ -2751,5 +2742,41 @@
   </data>
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>Halaman ini telah diubah orang lain saat Anda sedang mengeditnya. Penyimpanan telah dinonaktifkan untuk melindungi perubahan mereka. Harap muat ulang halaman untuk mendapatkan versi terbaru.</value>
+  </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>Aktifkan Sidebar</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>Halaman Sidebar</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>Nama halaman wiki yang akan ditampilkan sebagai sidebar bersama semua halaman wiki ketika sidebar diaktifkan. Halaman individual dapat menyembunyikannya dengan @@HideSidebar.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>Apakah akan menampilkan halaman sidebar bersama semua halaman wiki.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>Buat halaman sidebar "{0}"</value>
+  </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>Pemberitahuan ini telah kedaluwarsa atau tidak valid.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>Tautan konfirmasi ini telah kedaluwarsa atau tidak valid.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>Membatalkan {0} dari revisi {1} ke {2} akan mengembalikan {3} perubahan. Tidak ada perubahan yang hilang: pembatalan membuat revisi baru yang berisi konten yang dibatalkan. Apakah Anda yakin ingin melanjutkan?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>Apakah Anda yakin ingin memisahkan "{0}"?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>Pemformatan</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>Kembalikan ke revisi {0}</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>Buat "{0}"</value>
   </data>
 </root>

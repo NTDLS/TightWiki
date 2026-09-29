@@ -187,9 +187,6 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>이 댓글을 삭제하시겠습니까?</value>
   </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>분리하시겠습니까</value>
-  </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
     <value>앱에서 로그아웃하시겠습니까?</value>
   </data>
@@ -850,9 +847,6 @@
   <data name="Not a member?" xml:space="preserve">
     <value>회원이 아니신가요?</value>
   </data>
-  <data name="not required" xml:space="preserve">
-    <value>필수 아님</value>
-  </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
     <value>QR 코드를 스캔하거나 위에 입력한 키를 입력하면 이중 인증 앱이 고유 코드를 제공합니다. 아래 확인란에 코드를 입력하세요.</value>
   </data>
@@ -1138,9 +1132,6 @@
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value>"{0}"을(를) 수정본 {1}에서 {2}로 되돌리면 {3} 변경 사항이 롤백됩니다.</value>
   </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>{0}를 버전 {1}에서 {2}로 되돌리면 {3} 변경 사항이 롤백됩니다.&lt;br /&gt;되돌리기는 변경 사항이 손실된다는 의미가 아니며, 되돌리기 과정은 되돌린 변경 사항이 포함된 새 버전을 생성합니다.&lt;br /&gt;&lt;br /&gt;계속하시겠습니까?&lt;br /&gt;&lt;br /&gt;</value>
-  </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value>되돌리기는 변경 사항이 손실된다는 의미가 아니며, 되돌리기 과정은 되돌린 변경 사항이 포함된 새 버전을 생성합니다.</value>
   </data>
@@ -1286,7 +1277,7 @@
     <value>요약</value>
   </data>
   <data name="Swapping to the &lt;strong&gt;Development&lt;/strong&gt; environment displays detailed information about the error that occurred." xml:space="preserve">
-    <value>개발</value>
+    <value>개발 환경으로 전환하면 발생한 오류에 대한 상세한 정보가 표시됩니다.</value>
   </data>
   <data name="System Default" xml:space="preserve">
     <value>시스템 기본값</value>
@@ -2751,5 +2742,41 @@
   </data>
   <data name="This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version." xml:space="preserve">
     <value>이 페이지는 편집 중인 동안 다른 사람이 수정했습니다. 변경 내용을 보호하기 위해 저장이 비활성화되었습니다. 최신 버전을 받기 위해 페이지를 새로고침하세요.</value>
+  </data>
+  <data name="Enable Sidebar" xml:space="preserve">
+    <value>사이드바 활성화</value>
+  </data>
+  <data name="Sidebar Page" xml:space="preserve">
+    <value>사이드바 페이지</value>
+  </data>
+  <data name="The name of the wiki page to display as a sidebar alongside all wiki pages when the sidebar is enabled. Individual pages can hide it with @@HideSidebar." xml:space="preserve">
+    <value>사이드바가 활성화된 상태에서 모든 위키 페이지와 함께 표시되는 위키 페이지의 이름입니다. 개별 페이지는 @@HideSidebar를 사용하여 이를 숨길 수 있습니다.</value>
+  </data>
+  <data name="Whether to display the sidebar page alongside all wiki pages." xml:space="preserve">
+    <value>모든 위키 페이지와 함께 사이드바 페이지를 표시할지 여부입니다.</value>
+  </data>
+  <data name="Create the sidebar page &quot;{0}&quot;" xml:space="preserve">
+    <value>사이드바 페이지 "{0}"을(를) 생성합니다.</value>
+  </data>
+  <data name="This notification has expired or is not valid." xml:space="preserve">
+    <value>이 알림은 만료되었거나 유효하지 않습니다.</value>
+  </data>
+  <data name="This confirmation link has expired or is not valid." xml:space="preserve">
+    <value>이 확인 링크는 만료되었거나 유효하지 않습니다.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?" xml:space="preserve">
+    <value>{0}을(를) 버전 {1}에서 {2}로 되돌리면 {3}개의 변경 사항이 롤백됩니다. 변경 사항은 손실되지 않습니다: 되돌리기는 되돌린 내용을 포함하는 새로운 버전을 생성합니다. 계속하시겠습니까?</value>
+  </data>
+  <data name="Are you sure you want to detach &quot;{0}&quot;?" xml:space="preserve">
+    <value>정말로 "{0}"을 분리하시겠습니까?</value>
+  </data>
+  <data name="Formatting" xml:space="preserve">
+    <value>포맷팅</value>
+  </data>
+  <data name="Revert to revision {0}" xml:space="preserve">
+    <value>버전 {0}으로 되돌리기</value>
+  </data>
+  <data name="Create &quot;{0}&quot;" xml:space="preserve">
+    <value>"{0}" 생성</value>
   </data>
 </root>
