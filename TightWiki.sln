@@ -20,7 +20,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{37166B8B-6665-4D4C-B29E-67CA9D68E5EF}"
 	ProjectSection(SolutionItems) = preProject
 		Highlight.js.md = Highlight.js.md
-		Notes.md = Notes.md
+		LICENSE = LICENSE
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{66FB66E3-739C-44E8-B692-B714F41C3641}"

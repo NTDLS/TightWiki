@@ -1,14 +1,13 @@
 # TightWiki.Plugin
-TightWiki.Plugin is a package that provides boilerplate artifacts for the TightWiki
-plugins.
+TightWiki.Plugin provides the boilerplate types and attributes needed to build TightWiki plugins.
 
 It allows developers to create and integrate custom plugins to extend the functionality of TightWiki.
 
 ## Installation
-Plugins built (the .DLL) needs to be placed into the `Plugins` folder of the TightWiki installation directory. After placing the plugin, it will be automatically loaded by TightWiki when the site is next started.
+Built plugins (the .dll files) need to be placed into the `Plugins` folder of the TightWiki installation directory. Once placed there, a plugin will be loaded automatically the next time the site starts.
 
 ## Usage
-Decorate your class with the `TwPlugin` attribute to define a plugin, and decorate your methods with the one of the TightWiki function attributes to define functions that can be called from TightWiki pages.
+Decorate your class with the `TwPlugin` attribute to define a plugin, and decorate your methods with one of the TightWiki function attributes to define functions that can be called from TightWiki pages.
 
 ```
 [TwStandardFunctionPlugin("DotNetVersion", "Displays the .NET version that TightWiki is running on.")]
