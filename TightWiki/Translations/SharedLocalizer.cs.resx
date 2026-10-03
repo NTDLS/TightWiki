@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Vytvořit "{0}"</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>Příloha byla smazána.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Všechny souborové přílohy na všech stránkách, největší nejprve. Nezávislé přílohy nejsou používány žádnou verzí stránky.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Správa příloh</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Celkem</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Nezávislé</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Vyhledávejte podle názvu souboru, stránky, názvového prostoru nebo typu...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Všechny přílohy</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Pouze nezávislé</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Pouze využívané</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Vytvořeno</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Použití</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Aktuální</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Předchozí revize</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Tato příloha je využívána jednou nebo více verzemi stránek. Její odstranění ji trvale odstraní z těchto stránek. Pokračovat?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Nebyly nalezeny žádné přílohy.</value>
+  </data>
 </root>

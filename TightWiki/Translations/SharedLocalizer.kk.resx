@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>"{0}" жасау</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>Қосымша жоюылды.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Барлық файл қосымшалары барлық беттерде, ең үлкен бірінші. Сирек қосымшалар кезекті бет өңдеулерімен қолданылмайды.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Қосымша басқаруы</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Жалпы</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Сирек</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Файл атауы, бет, атаулы кеңістік немесе түрі бойынша ізде...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Барлық қосымшалар</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Сирек ғана</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Қолданылып тұрған ғана</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Жасалған</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Қолданылу</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Қазіргі</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Алдыңғы өңдеулер</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Бұл қосымша бір немесе бірнеше бет өңдеулерімен қолданылып тұр. Оны жою оны осы беттерден толықтай жоюы мүмкін. Жалғастыру керек пе?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Қосымша табылмады.</value>
+  </data>
 </root>

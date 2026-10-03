@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Létrehozás a(z) „{0}”-t</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>A melléklet törlésre került.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Minden fájl melléklete minden oldalon, a legnagyobbaktól kezdve. Az elhagyott mellékletek nem használja őket bármely oldalrevízió.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Mellékletkezelés</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Összesen</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Elhagyott</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Keresés fájlnevet, oldalat, névteret vagy típust...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Minden melléklet</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Csak elhagyottak</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Csak használatban lévők</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Létrehozva</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Használat</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Jelenlegi</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Előző revíziók</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Ez a melléklet egy vagy több oldalrevízió által használva. A törlése véglegesen eltávolítja a mellékletet ezekből az oldalakból. Folytatja?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Nincs melléklet található.</value>
+  </data>
 </root>

@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>创建 "{0}"</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>附件已被删除。</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>所有页面中的文件附件，按大小排序。孤立附件未被任何页面修订使用。</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>附件管理</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>总计</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>孤立</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>按文件名、页面、命名空间或类型搜索...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>所有附件</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>仅孤立</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>仅使用中</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>创建时间</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>使用情况</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>当前</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>先前修订</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>该附件被一个或多个页面修订使用。删除它将永久从这些页面中移除。继续？</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>未找到附件。</value>
+  </data>
 </root>

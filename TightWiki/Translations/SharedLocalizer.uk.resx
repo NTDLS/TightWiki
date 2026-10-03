@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Створити "{0}"</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>Цей додаток було видалено.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Всі файли-додатки з усіх сторінок, найбільші спочатку. Сиротські додатки не використовуються жодною версією сторінки.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Керування додатками</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Загалом</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Сиротські</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Пошук за назвою файлу, сторінкою, простором імен або типом...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Всі додатки</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Тільки сиротські</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Тільки використовувані</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Створено</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Використання</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Поточний</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Попередні версії</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Цей додаток використовується однією або кількома версіями сторінки. Видалення його назавжди видалить його з цих сторінок. Продовжити?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Додатків не знайдено.</value>
+  </data>
 </root>

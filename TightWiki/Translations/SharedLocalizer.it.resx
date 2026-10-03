@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Crea "{0}"</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>L'allegato è stato eliminato.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Tutti gli allegati di file su tutte le pagine, ordinati per dimensioni decrescenti. Gli allegati orfani non vengono utilizzati da nessuna revisione della pagina.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Amministrazione degli allegati</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Totale</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Orfani</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Cerca per nome file, pagina, spazio dei nomi o tipo...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Tutti gli allegati</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Solo orfani</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Solo in uso</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Creato</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Utilizzo</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Corrente</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Revisioni precedenti</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Questo allegato è in uso da una o più revisioni della pagina. Eliminarlo ne rimuoverà definitivamente quelle pagine. Continuare?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Nessun allegato è stato trovato.</value>
+  </data>
 </root>

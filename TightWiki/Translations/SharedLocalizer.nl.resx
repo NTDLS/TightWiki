@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Creëer "{0}"</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>De bijlage is verwijderd.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Alle bestandsbijlagen over alle pagina's, van groot naar klein. Verwaarloosde bijlagen worden niet gebruikt door enige pagina-revisie.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Bijlagebeheer</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Totaal</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Verwaarloosde</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Zoek op bestandsnaam, pagina, naamruimte of type...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Alle bijlagen</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Alleen verwaarloosde</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Alleen in gebruik</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Aangemaakt</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Gebruik</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Huidige</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Vorige revisies</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Deze bijlage wordt gebruikt door één of meer paginarevisies. Het verwijderen ervan zal het permanent verwijderen van die pagina's. Doorgaan?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Geen bijlagen gevonden.</value>
+  </data>
 </root>

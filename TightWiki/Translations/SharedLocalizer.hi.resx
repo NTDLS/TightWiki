@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>"{0}" बनाएं</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>लेख अटैचमेंट हटा दिया गया है।</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>सभी फ़ाइल अटैचमेंट सभी पृष्ठों के लिए, बड़े से बड़े पहले। अकेला अटैचमेंट किसी भी पृष्ठ संशोधन द्वारा उपयोग नहीं किया जाता है।</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>अटैचमेंट प्रशासन</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>कुल</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>अकेला</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>फ़ाइल नाम, पृष्ठ, नेमस्पेस या प्रकार द्वारा खोजें...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>सभी अटैचमेंट</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>केवल अकेला</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>केवल उपयोग में</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>बनाया गया</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>उपयोग</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>वर्तमान</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>पिछले संशोधन</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>इस अटैचमेंट का उपयोग एक या अधिक पृष्ठ संशोधनों द्वारा किया जा रहा है। इसे हटाने से यह उन पृष्ठों से अस्थायी रूप से हटा दिया जाएगा। जारी रखें?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>कोई अटैचमेंट नहीं मिला।</value>
+  </data>
 </root>

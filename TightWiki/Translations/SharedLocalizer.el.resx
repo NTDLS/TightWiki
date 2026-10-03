@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Δημιουργία του "{0}"</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>Το προσάρτημα έχει διαγραφεί.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Όλα τα αρχεία προσαρτήματα σε όλες τις σελίδες, με τα μεγαλύτερα πρώτα. Τα ορφανά προσαρτήματα δεν χρησιμοποιούνται από καμία έκδοση σελίδας.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Διαχείριση Προσαρτημάτων</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Σύνολο</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Ορφανά</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Αναζήτηση με βάση το όνομα αρχείου, σελίδα, χώρο ονομασίας ή τύπο...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Όλα τα Προσαρτήματα</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Μόνο Ορφανά</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Μόνο Σε Χρήση</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Δημιουργήθηκε</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Χρήση</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Τρέχον</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Προηγούμενες Εκδοχές</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Αυτό το προσάρτημα χρησιμοποιείται από μία ή περισσότερες εκδοχές σελίδας. Η διαγραφή του θα το αφαιρέσει προσωρινά από αυτές τις σελίδες. Συνέχιση;</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Δεν βρέθηκαν προσαρτήματα.</value>
+  </data>
 </root>

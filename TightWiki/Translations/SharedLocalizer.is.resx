@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Búa til „{0}“</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>Veldur hefur verið eytt.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Allir skráþættir á öllum síðum, stærstu fyrst. Ófjarðaðir þættir eru ekki notuðir af einhverri síðuútgáfu.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Veldurstjórnun</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Samtals</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Ófjarðaðir</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Leita eftir skráheiti, síðu, námsvísari eða tegund...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Allir veldur</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Aðeins ófjarðaðir</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Aðeins í notkun</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Búin til</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Notkun</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Núverandi</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Fyrirhöfðu útgáfur</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Þessi veldur er notuður af einni eða fleiri síðuútgáfum. Ef þú eyrir hann, verður hann alveg fjarlægður frá þessum síðum. Viljir þú halda áfram?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Engin veldur fannst.</value>
+  </data>
 </root>

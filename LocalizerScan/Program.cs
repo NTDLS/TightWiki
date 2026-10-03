@@ -22,6 +22,12 @@ namespace LocalizerScan
         private static readonly SupportedCultures _supportedCultures = new SupportedCultures();
 
         private const string ModelName = "Scout-14B";
+
+        /// <summary>
+        /// The larger model that is tried when <see cref="ModelName"/> cannot produce a valid translation for a batch.
+        /// Can be overridden with the LOCALIZER_ESCALATION_MODEL environment variable. When empty, there is no escalation.
+        /// </summary>
+        private const string EscalationModelName = "Stratum-27B";
         private const int DefaultConcurrency = 4;
         private const int BatchSize = 25;
         private const int MaxBatchAttempts = 5;
@@ -49,13 +55,25 @@ namespace LocalizerScan
             //The client is stateless and safe to share, so all of the concurrent translations use one connection pool.
             using var einkr = new EinkrAIClient(ModelName, apiKey);
 
+            var escalationModelName = Environment.GetEnvironmentVariable("LOCALIZER_ESCALATION_MODEL");
+            if (string.IsNullOrWhiteSpace(escalationModelName))
+            {
+                escalationModelName = EscalationModelName;
+            }
+
+            using var escalationEinkr = string.IsNullOrWhiteSpace(escalationModelName) ? null : new EinkrAIClient(escalationModelName, apiKey);
+            if (escalationEinkr == null)
+            {
+                Console.WriteLine("No escalation model is configured, failed translations will only be retried with the primary model.");
+            }
+
             var rootPath = args[0];
             var resourcePath = args[1];
             var concurrency = args.Length > 2 && int.TryParse(args[2], out var requested) && requested > 0 ? requested : DefaultConcurrency;
 
             ScanSourceFilesAndAddMissingKeys(rootPath, resourcePath);
             ClearInvalidTranslations(resourcePath);
-            await FillInMissingTranslations(resourcePath, einkr, "English", concurrency);
+            await FillInMissingTranslations(resourcePath, einkr, escalationEinkr, "English", concurrency);
 
             return 0;
         }
@@ -265,7 +283,7 @@ namespace LocalizerScan
         /// Translates the language files concurrently. Each file has its own XML document and phrase list,
         ///  so the only thing shared between them is the (thread-safe) client.
         /// </summary>
-        private static async Task FillInMissingTranslations(string resourcePath, EinkrAIClient chat, string sourceLanguage, int concurrency)
+        private static async Task FillInMissingTranslations(string resourcePath, EinkrAIClient chat, EinkrAIClient? escalationChat, string sourceLanguage, int concurrency)
         {
             var sourceFileNames = Directory.GetFiles(resourcePath, $"*.*.resx", SearchOption.TopDirectoryOnly).ToList();
             var promptTemplate = EmbeddedResourceReader.LoadText(@"EmbeddedText\SystemPrompt.txt");
@@ -277,7 +295,7 @@ namespace LocalizerScan
                 {
                     try
                     {
-                        await TranslateFile(sourceFileName, chat, sourceLanguage, promptTemplate, cancellationToken);
+                        await TranslateFile(sourceFileName, chat, escalationChat, sourceLanguage, promptTemplate, cancellationToken);
                     }
                     catch (Exception ex)
                     {
@@ -287,7 +305,7 @@ namespace LocalizerScan
                 });
         }
 
-        private static async Task TranslateFile(string sourceFileName, EinkrAIClient chat, string sourceLanguage,
+        private static async Task TranslateFile(string sourceFileName, EinkrAIClient chat, EinkrAIClient? escalationChat, string sourceLanguage,
             string promptTemplate, CancellationToken cancellationToken)
         {
             var fileName = Path.GetFileName(sourceFileName);
@@ -359,13 +377,23 @@ namespace LocalizerScan
                 var batch = phrases.Where(o => o.Value == null && !skipped.Contains(o.Key)).Take(BatchSize).Select(o => o.Key).ToList();
 
                 Dictionary<string, string>? translations = null;
-                for (int attempt = 1; attempt <= MaxBatchAttempts && translations == null; attempt++)
+                for (int attempt = 1; attempt <= MaxBatchAttempts && (translations == null || translations.Count == 0); attempt++)
                 {
                     Log(fileName, $"Processing batch of {batch.Count:n0} elements -> {targetLanguage.Name}{(attempt > 1 ? $" (attempt {attempt})" : "")}");
                     translations = await TranslateBatch(fileName, parts[1], chat, promptText, batch, cancellationToken);
                 }
 
-                if (translations == null)
+                //The primary model could not produce anything valid, so hand the batch to the larger model.
+                if ((translations == null || translations.Count == 0) && escalationChat != null)
+                {
+                    for (int attempt = 1; attempt <= MaxBatchAttempts && (translations == null || translations.Count == 0); attempt++)
+                    {
+                        Log(fileName, $"Escalating batch of {batch.Count:n0} elements -> {targetLanguage.Name} to the larger model{(attempt > 1 ? $" (attempt {attempt})" : "")}");
+                        translations = await TranslateBatch(fileName, parts[1], escalationChat, promptText, batch, cancellationToken);
+                    }
+                }
+
+                if (translations == null || translations.Count == 0)
                 {
                     Log(fileName, $"Giving up on a batch of {batch.Count:n0} elements after {MaxBatchAttempts} attempts, they will be retried on the next run.");
                     skipped.UnionWith(batch);
@@ -395,7 +423,8 @@ namespace LocalizerScan
         }
 
         /// <summary>
-        /// Translates one batch of phrases, returning null if the response could not be parsed.
+        /// Translates one batch of phrases, returning null if the response could not be parsed. Phrases whose translation
+        /// is empty or fails validation are left out of the result (and are retried later), so they do not discard the good ones.
         /// </summary>
         private static async Task<Dictionary<string, string>?> TranslateBatch(string fileName, string languageCode, EinkrAIClient chat, string promptText,
             List<string> batch, CancellationToken cancellationToken)
@@ -442,14 +471,14 @@ namespace LocalizerScan
                 if (translatedPhrase.Length == 0)
                 {
                     Log(fileName, $"The translation of \"{batch[index]}\" is empty. Retrying..");
-                    return null;
+                    continue;
                 }
 
                 var problems = TranslationValidator.GetProblems(languageCode, batch[index], translatedPhrase);
                 if (problems.Count > 0)
                 {
                     Log(fileName, $"The translation of \"{batch[index]}\" is invalid ({string.Join("; ", problems)}). Retrying..");
-                    return null;
+                    continue;
                 }
 
                 translations[batch[index]] = translatedPhrase;

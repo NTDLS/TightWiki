@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Creați „{0}”</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>Fișierul atasat a fost șters.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Toate fișierele atasate din toate paginile, în ordine descrescătoare. Fișierele orfane nu sunt folosite de nicio revizie a paginii.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Administrarea fișierelor atasate</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Orfane</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Căutați după nume de fișier, pagină, spațiu de nume sau tip...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Toate fișierele atasate</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Doar orfane</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Doar cele în uz</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Creat</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Utilizare</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Curent</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Revizii anterioare</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Acest fișier este folosit de o sau mai multe revizii ale paginii. Ștergerea lui va șterge permanent din aceste pagini. Continuați?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Nu s-au găsit fișiere atasate.</value>
+  </data>
 </root>
