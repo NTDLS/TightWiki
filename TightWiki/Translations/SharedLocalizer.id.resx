@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Buat "{0}"</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>Lampiran telah dihapus.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Semua lampiran file di semua halaman, dari yang terbesar ke terkecil. Lampiran tertinggal tidak digunakan oleh revisi halaman mana pun.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Administrasi Lampiran</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Tertinggal</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Cari berdasarkan nama file, halaman, ruang nama, atau tipe...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Semua Lampiran</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Hanya Tertinggal</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Hanya Digunakan</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Dibuat</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Penggunaan</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Saat Ini</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Revisi Sebelumnya</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Lampiran ini digunakan oleh satu atau lebih revisi halaman. Menghapusnya akan secara permanen menghilangkan dari halaman-halaman tersebut. Lanjutkan?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Tidak ada lampiran yang ditemukan.</value>
+  </data>
 </root>

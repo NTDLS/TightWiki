@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>"{0}" 생성</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>이 첨부 파일이 삭제되었습니다.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>모든 페이지의 모든 파일 첨부 항목, 크기 기준으로 내림차순 정렬. 분리된 첨부 파일은 어떤 페이지 버전에서도 사용되지 않습니다.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>첨부 파일 관리</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>총합</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>분리된</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>파일 이름, 페이지, 네임스페이스 또는 유형으로 검색...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>모든 첨부 파일</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>분리된만 보기</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>사용 중인 것만 보기</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>생성일</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>사용 내역</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>현재</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>이전 버전</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>이 첨부 파일은 하나 이상의 페이지 버전에서 사용되고 있습니다. 이를 삭제하면 해당 페이지에서 영구히 삭제됩니다. 계속하시겠습니까?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>첨부 파일을 찾을 수 없습니다.</value>
+  </data>
 </root>

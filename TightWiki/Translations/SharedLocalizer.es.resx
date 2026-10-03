@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Crear "{0}"</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>El adjunto ha sido eliminado.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Todos los archivos adjuntos en todas las páginas, de mayor a menor tamaño. Los archivos adjuntos abandonados no son utilizados por ninguna revisión de página.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Administración de Archivos Adjuntos</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Abandonados</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Buscar por nombre de archivo, página, espacio de nombres o tipo...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Todos los Archivos Adjuntos</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Solo Abandonados</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Solo en Uso</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Creado</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Uso</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Actual</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Revisiones Anteriores</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Este archivo adjunto está en uso por una o más revisiones de página. Eliminarlo lo eliminará permanentemente de esas páginas. ¿Continuar?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>No se encontraron archivos adjuntos.</value>
+  </data>
 </root>

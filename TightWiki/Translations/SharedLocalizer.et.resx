@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Loo "{0}"</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>Liide on kustutatud.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Kõik faililiidet kõigis lehekülgedes, suurimad esmalt. Sõbrakohustatud liidet ei kasutata ühegi lehekülje versiooni poolt.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Liideadministreerimine</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Kokku</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Sõbrakohustatud</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Otsi failinime, lehekülje, nimeruumi või tüübi järgi...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Kõik liidet</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Vaid sõbrakohustatud</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Vaid kasutuses</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Loodud</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Kasutus</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Praegune</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Eelnevad versioonid</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>See liide on kasutusel ühe või rohkemate lehekülje versioonide poolt. Selle kustutamine eemaldab selle järgmistest lehekülgedest. Kinnitada?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Liidet ei leitud.</value>
+  </data>
 </root>

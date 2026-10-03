@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Utwórz „{0}”</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>Załącznik został usunięty.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Wszystkie załączniki plików na wszystkich stronach, największe pierwsze. Załączniki bez stron nie są używane w żadnej wersji strony.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Administracja załącznikami</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Suma</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Bez stron</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Szukaj po nazwie pliku, stronie, przestrzeni nazw lub typie...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Wszystkie załączniki</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Tylko bez stron</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Tylko w użyciu</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Utworzony</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Użycie</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Obecny</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Poprzednie wersje</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Ten załącznik jest używany przez jedną lub więcej wersji strony. Usunięcie go trwale usunie go z tych stron. Kontynuować?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Nie znaleziono żadnych załączników.</value>
+  </data>
 </root>

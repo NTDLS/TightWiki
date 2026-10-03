@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Créer « {0} »</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>L'attachement a été supprimé.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Toutes les pièces jointes de fichiers sur toutes les pages, par ordre décroissant de taille. Les pièces jointes orphelines ne sont utilisées par aucune révision de page.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Administration des pièces jointes</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Orphelines</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Rechercher par nom de fichier, page, espace de noms ou type...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Toutes les pièces jointes</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Seulement orphelines</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Uniquement en usage</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Créé</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Utilisation</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Actuel</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Révisions précédentes</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Cette pièce jointe est utilisée par une ou plusieurs révisions de page. La suppression la supprimera définitivement de ces pages. Continuer ?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Aucune pièce jointe n'a été trouvée.</value>
+  </data>
 </root>

@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Создать "{0}"</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>Вложение было удалено.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Все файловые вложения со всех страниц, начиная с самых крупных. Оставшиеся вложения не используются в какой-либо версии страницы.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Управление вложениями</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Всего</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Оставшиеся</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Поиск по названию файла, странице, пространству имён или типу...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Все вложения</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Только оставшиеся</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Только используемые</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Создано</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Использование</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Текущая</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Предыдущие редакции</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Это вложение используется одной или несколькими версиями страниц. Удаление его приведёт к его постоянному удалению с этих страниц. Продолжить?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Вложения не найдены.</value>
+  </data>
 </root>

@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>"{0}" بنائیں</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>ایٹیچمنٹ حذف کر دیا گیا۔</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>تمام فائل اٹیچمنٹس تمام صفحات پر، پہلے سب سے بڑی۔ چھوڑی گئی اٹیچمنٹس کسی بھی صفحہ کی تجدید کے ذریعہ استعمال نہیں کی جاتی ہیں۔</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>ایٹیچمنٹ انتظام</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>کل</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>چھوڑی گئی</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>فائل کے نام، صفحہ، نیم سپیس یا قسم کے ذریعہ تلاش کریں...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>تمام اٹیچمنٹس</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>صرف چھوڑی گئی</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>صرف استعمال میں</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>بنا</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>استعمال</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>موجودہ</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>پہلے کی تجدیدات</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>ایٹیچمنٹ کسی ایک یا زیادہ صفحہ کی تجدید کے ذریعہ استعمال میں ہے۔ اس کو حذف کرنا اسے اُن صفحات سے دائمی طور پر ہٹا دے گا۔ جاری رکھیں؟</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>کوئی اٹیچمنٹ نہیں ملی۔</value>
+  </data>
 </root>

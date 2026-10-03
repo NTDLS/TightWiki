@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>יצירת "{0}"</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>ההצרף הוסר.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>כל ההצרפים בכל העמודים, מהגדול לקטן. הצרפים שמאובקים אינם נמצאים בשימוש bất kỳ גרסה של עמוד.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>ניהול הצרפים</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>סה"כ</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>מאובקים</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>חפש לפי שם קובץ, עמוד, מרחב איזה או סוג...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>כל ההצרפים</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>רק מאובקים</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>רק בשימוש</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>נוצר</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>שימוש</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>הווה</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>גרסאות קודמות</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>ההצרף הזה בשימוש על ידי גרסה אחת או יותר של עמוד. מחיקה שלו תמחק אותו לצמיתות מהעמודים ההם. להמשיך?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>לא נמצאו הצרפים.</value>
+  </data>
 </root>

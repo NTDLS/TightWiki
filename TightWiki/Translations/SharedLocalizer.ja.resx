@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>「{0}」を作成する</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>添付ファイルは削除されました。</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>すべてのページのファイル添付、サイズ順（大きい順）。孤立した添付ファイルはどのページのリビジョンにも使用されていません。</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>添付ファイル管理</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>合計</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>孤立</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>ファイル名、ページ、名前空間、またはタイプで検索...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>すべての添付ファイル</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>孤立した添付ファイルのみ</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>使用中のみ</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>作成日</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>使用状況</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>現在の</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>以前のリビジョン</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>この添付ファイルは、1つ以上のページのリビジョンで使用されています。これを削除すると、それらのページから永久に削除されます。続行しますか？</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>添付ファイルは見つかりませんでした。</value>
+  </data>
 </root>

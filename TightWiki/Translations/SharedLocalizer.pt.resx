@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Criar "{0}"</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>O anexo foi excluído.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Todos os anexos de arquivo em todas as páginas, maiores primeiro. Anexos orfãos não são usados por nenhuma revisão de página.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Administração de Anexos</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Orfãos</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Pesquisar por nome de arquivo, página, namespace ou tipo...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Todos os Anexos</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Apenas Orfãos</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Apenas em Uso</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Criado</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Uso</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Atual</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Revisões Anteriores</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Este anexo está em uso por uma ou mais revisões de página. Excluí-lo removerá permanentemente dele dessas páginas. Continuar?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Nenhum anexo foi encontrado.</value>
+  </data>
 </root>

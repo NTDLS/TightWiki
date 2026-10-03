@@ -1216,6 +1216,87 @@ namespace TightWiki.Controllers
         #region Files.
 
         [Authorize]
+        [HttpGet("Attachments")]
+        public async Task<ActionResult> Attachments()
+        {
+            try
+            {
+                try
+                {
+                    await SessionState.RequireAdminPermission();
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                SessionState.Page.Name = Localize("Attachments");
+
+                var searchString = GetQueryValue<string>("SearchString");
+                var status = GetQueryValue<string>("Status");
+                var orderBy = GetQueryValue<string>("OrderBy");
+                var orderByDirection = GetQueryValue<string>("OrderByDirection");
+
+                var statusFilter = status?.ToLowerInvariant() switch
+                {
+                    "orphaned" => 1,
+                    "inuse" => 2,
+                    _ => 0
+                };
+
+                var model = new AttachmentsViewModel()
+                {
+                    Files = await pageRepository.GetAllPageAttachmentsPaged(GetQueryValue("page", 1), orderBy, orderByDirection, searchString, statusFilter),
+                    Totals = await pageRepository.GetPageAttachmentTotals(),
+                    SearchString = searchString ?? string.Empty,
+                    Status = status ?? string.Empty
+                };
+
+                model.PaginationPageCount = (model.Files.FirstOrDefault()?.PaginationPageCount ?? 0);
+
+                if (model.Files.Count > 0)
+                {
+                    model.Files.ForEach(o => o.CreatedDate = SessionState.LocalizeDateTime(o.CreatedDate));
+                }
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An error occurred while retrieving page attachments.");
+                throw;
+            }
+        }
+
+        [Authorize]
+        [HttpPost("DeleteAttachment/{pageFileId:int}/{revision:int}")]
+        public async Task<ActionResult> DeleteAttachment(ConfirmActionViewModel model, int pageFileId, int revision)
+        {
+            try
+            {
+                try
+                {
+                    await SessionState.RequireAdminPermission();
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                if (model.UserSelection == true)
+                {
+                    await pageRepository.DeletePageAttachmentRevision(pageFileId, revision);
+                    return NotifyOfSuccess(Localize("The attachment has been deleted."), model.YesRedirectURL);
+                }
+
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An error occurred while deleting attachment with page file ID '{PageFileId}' and revision '{Revision}'.", pageFileId, revision);
+                throw;
+            }
+        }
+
+        [Authorize]
         [HttpGet("OrphanedPageAttachments")]
         public async Task<ActionResult> OrphanedPageAttachments()
         {

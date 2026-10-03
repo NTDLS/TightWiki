@@ -2770,4 +2770,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Opprett "{0}"</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>Vedlegg er slettet.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Alle filvedlegg på alle sider, størst først. Førløsne vedlegg brukes ikke av noen sideversjon.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Vedleggsadministrasjon</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Totalt</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Førløsne</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Søk etter filnavn, side, navnerom eller type...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Alle vedlegg</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Kun førløsne</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Kun i bruk</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Opprettet</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Bruk</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Nåværende</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Tidligere revisjoner</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Dette vedlegget brukes av én eller flere sideversjoner. Å slette det vil permanent fjerne det fra disse sidene. Fortsett?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Ingen vedlegg ble funnet.</value>
+  </data>
 </root>

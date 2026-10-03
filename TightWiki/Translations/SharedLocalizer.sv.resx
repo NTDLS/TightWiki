@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Skapa "{0}"</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>Bilagan har tagits bort.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Alla filbilagor över alla sidor, största först. Övergivna bilagor används inte av någon sidorevision.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Bilagsadministration</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Totalt</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Övergivna</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Sök efter filnamn, sida, namnrymd eller typ...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Alla bilagor</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Endast övergivna</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Endast i bruk</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Skapad</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Användning</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Nuvarande</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Föregående revisioner</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Den här bilagan används av en eller flera sidorevisioner. Att ta bort den kommer att permanent ta bort den från dessa sidor. Fortsätt?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Inga bilagor hittades.</value>
+  </data>
 </root>

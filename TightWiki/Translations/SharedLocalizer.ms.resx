@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Cipta "{0}"</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>Lampiran telah dihapus.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Semua lampiran fail merentasi semua laman, dari yang terbesar dahulu. Lampiran terlantar tidak digunakan oleh mana-mana revisi laman.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Pentadbiran Lampiran</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Jumlah</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Terlantar</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Cari mengikut nama fail, laman, ruang nama atau jenis...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Semua Lampiran</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Hanya Terlantar</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Hanya Digunakan</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Dibuat</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Penggunaan</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Sekarang</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Revisi Sebelumnya</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Lampiran ini digunakan oleh satu atau lebih revisi laman. Menghapuskan ia akan secara kekal menghilangkan ia daripada laman-laman tersebut. Teruskan?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Tiada lampiran yang ditemui.</value>
+  </data>
 </root>

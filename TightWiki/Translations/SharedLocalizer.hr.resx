@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Stvori "{0}"</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>Praštanje je izbrisano.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Sve datoteke priložnice na svim stranicama, najveće prvo. Nepovezane priložnice nisu korištene u bilo kojoj verziji stranice.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Administracija priložnica</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Ukupno</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Nepovezane</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Traži po nazivu datoteke, stranici, prostoru imena ili tipu...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Sve priložnice</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Samo nepovezane</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Samo u upotrebi</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Stvoreno</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Korištenje</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Trenutno</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Prethodne verzije</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Ova priložnica se koristi u jednoj ili više verzija stranice. Brisanje će je trajno ukloniti iz tih stranica. Nastaviti?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Nijedna priložnica nije pronađena.</value>
+  </data>
 </root>

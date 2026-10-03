@@ -398,6 +398,23 @@ namespace TightWiki.Plugin.Interfaces.Repository
         Task DetachPageRevisionAttachment(string pageNavigation, string fileNavigation, int pageRevision);
 
         /// <summary>
+        /// Returns a paged list of all page file attachment revisions, optionally filtered by a search string
+        /// and by status (0 = all, 1 = orphaned only, 2 = in use only). Defaults to largest first.
+        /// </summary>
+        Task<List<TwPageAttachmentSummary>> GetAllPageAttachmentsPaged(int pageNumber, string? orderBy = null,
+            string? orderByDirection = null, string? searchString = null, int status = 0);
+
+        /// <summary>
+        /// Returns aggregate counts and sizes for all page file attachments.
+        /// </summary>
+        Task<TwPageAttachmentTotals> GetPageAttachmentTotals();
+
+        /// <summary>
+        /// Permanently deletes a page file attachment revision, detaching it from any page revisions that reference it.
+        /// </summary>
+        Task DeletePageAttachmentRevision(int pageFileId, int revision);
+
+        /// <summary>
         /// Returns a paged list of file attachments that are no longer associated with any active page revision.
         /// </summary>
         Task<List<TwOrphanedPageAttachment>> GetOrphanedPageAttachmentsPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null);

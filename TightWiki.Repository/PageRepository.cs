@@ -1391,6 +1391,36 @@ namespace TightWiki.Repository
             await PagesFactory.ExecuteAsync("DetachPageRevisionAttachment.sql", param);
         }
 
+        public async Task<List<TwPageAttachmentSummary>> GetAllPageAttachmentsPaged(int pageNumber,
+            string? orderBy = null, string? orderByDirection = null, string? searchString = null, int status = 0)
+        {
+            var paginationSize = await _configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size");
+
+            var param = new
+            {
+                PageNumber = pageNumber,
+                PageSize = paginationSize,
+                Search = searchString?.Trim() ?? string.Empty,
+                Status = status
+            };
+
+            var query = RepositoryHelpers.TransposeOrderby("GetAllPageAttachmentsPaged.sql", orderBy, orderByDirection);
+            return await PagesFactory.QueryAsync<TwPageAttachmentSummary>(query, param);
+        }
+
+        public async Task<TwPageAttachmentTotals> GetPageAttachmentTotals()
+            => await PagesFactory.QuerySingleAsync<TwPageAttachmentTotals>("GetPageAttachmentTotals.sql");
+
+        public async Task DeletePageAttachmentRevision(int pageFileId, int revision)
+        {
+            var param = new
+            {
+                PageFileId = pageFileId,
+                Revision = revision
+            };
+            await PagesFactory.ExecuteAsync("DeletePageAttachmentRevision.sql", param);
+        }
+
         public async Task<List<TwOrphanedPageAttachment>> GetOrphanedPageAttachmentsPaged(
             int pageNumber, string? orderBy = null, string? orderByDirection = null)
         {

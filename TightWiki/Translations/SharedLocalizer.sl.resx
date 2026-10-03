@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Ustvari "{0}"</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>Priponka je bila izbrisana.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Vse datotečne priponke na vseh straneh, najprej največje. Pokojne priponke ni uporablja nobena revizija strani.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Urejanje priponk</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Skupaj</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Pokojne</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Iskanje po imenu datoteke, strani, imenskem prostoru ali tipu...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Vse priponke</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Samo pokojne</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Samo v uporabi</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Ustvarjeno</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Uporaba</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Trenutno</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Prejšnje revizije</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Ta priponka je v uporabi pri eni ali več revizijah strani. Izbris bo trajno odstranil priponko iz teh strani. Nadaljevati?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Ni bilo najdeno priponk.</value>
+  </data>
 </root>

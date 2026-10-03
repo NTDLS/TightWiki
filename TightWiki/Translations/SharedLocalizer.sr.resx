@@ -2779,4 +2779,49 @@
   <data name="Create &quot;{0}&quot;" xml:space="preserve">
     <value>Креирајте „{0}“</value>
   </data>
+  <data name="The attachment has been deleted." xml:space="preserve">
+    <value>Прилог је био избрисан.</value>
+  </data>
+  <data name="All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision." xml:space="preserve">
+    <value>Сви прилози на свим страницама, према величини, од највећег према најмањем. Орфанирани прилози не се користе у било којој верзији странице.</value>
+  </data>
+  <data name="Attachment Administration" xml:space="preserve">
+    <value>Администрација прилога</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Укупно</value>
+  </data>
+  <data name="Orphaned" xml:space="preserve">
+    <value>Орфанирани</value>
+  </data>
+  <data name="Search by file name, page, namespace or type..." xml:space="preserve">
+    <value>Претрага по имени фајла, страници, именском простору или типу...</value>
+  </data>
+  <data name="All Attachments" xml:space="preserve">
+    <value>Сви прилози</value>
+  </data>
+  <data name="Orphaned Only" xml:space="preserve">
+    <value>Само орфанирани</value>
+  </data>
+  <data name="In Use Only" xml:space="preserve">
+    <value>Само у употреби</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Креирано</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Коришћење</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Текуће</value>
+  </data>
+  <data name="Previous Revisions" xml:space="preserve">
+    <value>Претходне верзије</value>
+  </data>
+  <data name="This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?" xml:space="preserve">
+    <value>Овај прилог се користи у једној или више верзија странице. Брисање ће заувек уклонити прилог из тих страница. Наставити?</value>
+  </data>
+  <data name="No attachments were found." xml:space="preserve">
+    <value>Нису пронађени прилози.</value>
+  </data>
 </root>
