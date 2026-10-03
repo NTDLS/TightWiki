@@ -74,6 +74,9 @@
 		<None Remove="Scripts\GetMenuItemById.sql" />
 		<None Remove="Scripts\GetMissingPagesPaged.sql" />
 		<None Remove="Scripts\GetOrphanedPageAttachments.sql" />
+		<None Remove="Scripts\GetPageAttachmentTotals.sql" />
+		<None Remove="Scripts\GetAllPageAttachmentsPaged.sql" />
+		<None Remove="Scripts\DeletePageAttachmentRevision.sql" />
 		<None Remove="Scripts\GetPageCommentsPaged.sql" />
 		<None Remove="Scripts\GetPageCurrentRevisionAttachmentByFileNavigation.sql" />
 		<None Remove="Scripts\GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql" />
@@ -316,6 +319,9 @@
 		<EmbeddedResource Include="Scripts\GetMenuItemById.sql" />
 		<EmbeddedResource Include="Scripts\GetMissingPagesPaged.sql" />
 		<EmbeddedResource Include="Scripts\GetOrphanedPageAttachments.sql" />
+		<EmbeddedResource Include="Scripts\GetPageAttachmentTotals.sql" />
+		<EmbeddedResource Include="Scripts\GetAllPageAttachmentsPaged.sql" />
+		<EmbeddedResource Include="Scripts\DeletePageAttachmentRevision.sql" />
 		<EmbeddedResource Include="Scripts\GetPageCommentsPaged.sql" />
 		<EmbeddedResource Include="Scripts\GetPageCurrentRevisionAttachmentByFileNavigation.sql" />
 		<EmbeddedResource Include="Scripts\GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql" />
