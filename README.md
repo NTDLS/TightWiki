@@ -26,7 +26,7 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 * Role-based and per-user security for managing who can read/edit/delete/moderate pages and namespaces.
 * Easy page linking. Can even link to pages that do not exist and the link will subtly prompt you to create the page when logged in with a role that has page creation support.
 * Admin shows missing pages, namespace metrics, users, roles, etc.
-* Multi-language. Translated into 25 languages, so if you speak it - so does TightWiki.
+* Multi-language. Translated into 47 languages, so if you speak it - so does TightWiki.
 * Manual account creation, editing and deletion.
 * Emojis! Lots built-in, and you can add custom - including animations.
 * Page creation templates - to assit in uniformity and rapid page creation.

@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{37166B8B-6665-4D4C-B29E-67CA9D68E5EF}"
 	ProjectSection(SolutionItems) = preProject
+		Data\databases.md = Data\databases.md
 		Highlight.js.md = Highlight.js.md
 		LICENSE = LICENSE
 		README.md = README.md
