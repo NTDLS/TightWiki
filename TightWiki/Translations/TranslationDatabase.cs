@@ -1,78 +1,41 @@
-using Microsoft.Data.Sqlite;
 using System.Globalization;
 using TightWiki.Library;
+using TightWiki.Plugin.Interfaces.Repository;
 
 namespace TightWiki.Translations
 {
     /// <summary>
-    /// Holds all of the translations from the read-only Translations.db, which is shipped with the application.
-    /// The table has one row per English phrase and one column per language, so everything is loaded once at startup
-    ///  and looked up in memory (the whole table is small).
+    /// Holds the translations from the translation repository in memory. The translations never change while the
+    ///  application is running, and a lookup is made for every piece of text on a page, so each language is loaded
+    ///  from the database once (the first time it is needed) and is then served from a dictionary.
     /// </summary>
     public class TranslationDatabase
     {
-        private const string FileName = "Translations.db";
         private const string SourceLanguage = "English";
 
+        private readonly ITwTranslationRepository _repository;
         private readonly SupportedCultures _supportedCultures = new();
 
         /// <summary>
-        /// Translations by language name (the column name), then by English phrase (case insensitive).
+        /// Translations by language name, then by English phrase (case insensitive).
         /// </summary>
-        private readonly Dictionary<string, Dictionary<string, string>> _translations = new(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, Lazy<Dictionary<string, string>>> _languages = new(StringComparer.OrdinalIgnoreCase);
 
-        public TranslationDatabase()
-            : this(Path.Combine(AppContext.BaseDirectory, "Translations", FileName))
+        public TranslationDatabase(ITwTranslationRepository repository)
         {
+            _repository = repository;
+
+            foreach (var culture in _supportedCultures.Collection.Where(o => o.Name != SourceLanguage))
+            {
+                var language = culture.Name;
+                _languages[language] = new Lazy<Dictionary<string, string>>(() => Load(language));
+            }
         }
 
-        public TranslationDatabase(string databaseFile)
+        private Dictionary<string, string> Load(string language)
         {
-            if (!File.Exists(databaseFile))
-            {
-                //Without translations the application still works, it just displays the English text.
-                Console.Error.WriteLine($"The translation database '{databaseFile}' was not found. All text will be displayed in English.");
-                return;
-            }
-
-            using var connection = new SqliteConnection(new SqliteConnectionStringBuilder
-            {
-                DataSource = databaseFile,
-                Mode = SqliteOpenMode.ReadOnly,
-                Pooling = false
-            }.ToString());
-            connection.Open();
-
-            using var command = connection.CreateCommand();
-            command.CommandText = "SELECT * FROM Translation";
-
-            using var reader = command.ExecuteReader();
-
-            var languageColumns = new List<(int Ordinal, Dictionary<string, string> Phrases, string Language)>();
-            for (int ordinal = 1; ordinal < reader.FieldCount; ordinal++) //Column zero is the English phrase.
-            {
-                var phrases = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-                var language = reader.GetName(ordinal);
-                _translations[language] = phrases;
-                languageColumns.Add((ordinal, phrases, language));
-            }
-
-            while (reader.Read())
-            {
-                var english = reader.GetString(0);
-
-                foreach (var (ordinal, phrases, _) in languageColumns)
-                {
-                    if (!reader.IsDBNull(ordinal))
-                    {
-                        var translation = reader.GetString(ordinal);
-                        if (translation.Length > 0)
-                        {
-                            phrases[english] = translation;
-                        }
-                    }
-                }
-            }
+            var phrases = _repository.GetTranslationsByLanguage(language).GetAwaiter().GetResult();
+            return phrases.ToDictionary(o => o.English, o => o.Translation, StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -83,15 +46,18 @@ namespace TightWiki.Translations
         {
             translation = string.Empty;
 
-            if (TryGetLanguage(culture, out var language) && language == SourceLanguage)
+            if (!TryGetLanguage(culture, out var language))
+            {
+                return false;
+            }
+
+            if (language == SourceLanguage)
             {
                 translation = english; //The phrases are English, so there is nothing to look up.
                 return true;
             }
 
-            if (!string.IsNullOrEmpty(language)
-                && _translations.TryGetValue(language, out var phrases)
-                && phrases.TryGetValue(english, out var found))
+            if (_languages.TryGetValue(language, out var phrases) && phrases.Value.TryGetValue(english, out var found))
             {
                 translation = found;
                 return true;

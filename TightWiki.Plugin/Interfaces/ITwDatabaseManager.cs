@@ -41,6 +41,10 @@ namespace TightWiki.Plugin.Interfaces
         /// </summary>
         ITwStatisticsRepository StatisticsRepository { get; }
         /// <summary>
+        /// Gets the repository used to access the translations of the user interface text.
+        /// </summary>
+        ITwTranslationRepository TranslationRepository { get; }
+        /// <summary>
         /// Gets the repository used to access and manage user data.
         /// </summary>
         ITwUsersRepository UsersRepository { get; }
