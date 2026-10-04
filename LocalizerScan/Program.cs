@@ -150,9 +150,11 @@ namespace LocalizerScan
                 int added = 0;
                 foreach (var key in keysToTranslate)
                 {
-                    translationDb.Execute("INSERT OR IGNORE INTO Translation (English) VALUES (@key)", new { key });
-                    Console.WriteLine($"Added \"{key}\" to the translation database.");
-                    added++;
+                    if(translationDb.ExecuteScalar<int>("INSERT OR IGNORE INTO Translation (English) VALUES (@key)", new { key }) > 0)
+                    {
+                        Console.WriteLine($"Added \"{key}\" to the translation database.");
+                        added++;
+                    }
                 }
 
                 transaction.Commit();
