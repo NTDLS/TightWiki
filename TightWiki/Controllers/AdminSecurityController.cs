@@ -518,14 +518,14 @@ namespace TightWiki.Controllers
                     return View(model);
                 }
 
-                var user = UserManager.FindByIdAsync(model.AccountProfile.UserId.ToString()).Result.EnsureNotNull();
+                var user = (await UserManager.FindByIdAsync(model.AccountProfile.UserId.ToString())).EnsureNotNull();
 
                 if (model.Credential.Password != CredentialViewModel.NOTSET && model.Credential.Password == model.Credential.ComparePassword)
                 {
                     try
                     {
-                        var token = UserManager.GeneratePasswordResetTokenAsync(user).Result.EnsureNotNull();
-                        var result = UserManager.ResetPasswordAsync(user, token, model.Credential.Password).Result.EnsureNotNull();
+                        var token = (await UserManager.GeneratePasswordResetTokenAsync(user)).EnsureNotNull();
+                        var result = (await UserManager.ResetPasswordAsync(user, token, model.Credential.Password)).EnsureNotNull();
                         if (!result.Succeeded)
                         {
                             throw new Exception(string.Join("<br />\r\n", result.Errors.Select(o => o.Description)));
@@ -623,7 +623,7 @@ namespace TightWiki.Controllers
                 if (emailConfirmChanged)
                 {
                     user.EmailConfirmed = model.AccountProfile.EmailConfirmed;
-                    var updateResult = UserManager.UpdateAsync(user).Result;
+                    var updateResult = await UserManager.UpdateAsync(user);
                     if (!updateResult.Succeeded)
                     {
                         throw new Exception(string.Join("<br />\r\n", updateResult.Errors.Select(o => o.Description)));
@@ -634,13 +634,13 @@ namespace TightWiki.Controllers
                 {
                     bool wasEmailAlreadyConfirmed = user.EmailConfirmed;
 
-                    var setEmailResult = UserManager.SetEmailAsync(user, model.AccountProfile.EmailAddress).Result;
+                    var setEmailResult = await UserManager.SetEmailAsync(user, model.AccountProfile.EmailAddress);
                     if (!setEmailResult.Succeeded)
                     {
                         throw new Exception(string.Join("<br />\r\n", setEmailResult.Errors.Select(o => o.Description)));
                     }
 
-                    var setUserNameResult = UserManager.SetUserNameAsync(user, model.AccountProfile.EmailAddress).Result;
+                    var setUserNameResult = await UserManager.SetUserNameAsync(user, model.AccountProfile.EmailAddress);
                     if (!setUserNameResult.Succeeded)
                     {
                         throw new Exception(string.Join("<br />\r\n", setUserNameResult.Errors.Select(o => o.Description)));
@@ -650,7 +650,7 @@ namespace TightWiki.Controllers
                     if (wasEmailAlreadyConfirmed && emailConfirmChanged == false)
                     {
                         user.EmailConfirmed = true;
-                        var updateResult = UserManager.UpdateAsync(user).Result;
+                        var updateResult = await UserManager.UpdateAsync(user);
                         if (!updateResult.Succeeded)
                         {
                             throw new Exception(string.Join("<br />\r\n", updateResult.Errors.Select(o => o.Description)));
@@ -774,13 +774,13 @@ namespace TightWiki.Controllers
                     };
 
                     //Create the new user:
-                    var creationResult = UserManager.CreateAsync(identityUser, model.Credential.Password).Result;
+                    var creationResult = await UserManager.CreateAsync(identityUser, model.Credential.Password);
                     if (!creationResult.Succeeded)
                     {
                         model.ErrorMessage = string.Join("\n", creationResult.Errors.Select(o => o.Description));
                         return View(model);
                     }
-                    identityUser = UserManager.FindByEmailAsync(model.AccountProfile.EmailAddress).Result.EnsureNotNull();
+                    identityUser = (await UserManager.FindByEmailAsync(model.AccountProfile.EmailAddress)).EnsureNotNull();
 
                     userId = Guid.Parse(identityUser.Id);
 
@@ -912,13 +912,13 @@ namespace TightWiki.Controllers
                     var profile = await usersRepository.GetAccountProfileByNavigation(navigation)
                         ?? throw new Exception(Localize("Account not found."));
 
-                    var user = UserManager.FindByIdAsync(profile.UserId.ToString()).Result;
+                    var user = await UserManager.FindByIdAsync(profile.UserId.ToString());
                     if (user == null)
                     {
                         return NotFound(Localize("User not found."));
                     }
 
-                    var result = UserManager.DeleteAsync(user).Result;
+                    var result = await UserManager.DeleteAsync(user);
                     if (!result.Succeeded)
                     {
                         throw new Exception(string.Join("<br />\r\n", result.Errors.Select(o => o.Description)));

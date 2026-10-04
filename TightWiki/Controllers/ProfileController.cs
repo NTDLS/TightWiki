@@ -333,7 +333,7 @@ namespace TightWiki.Controllers
                     return View(model);
                 }
 
-                var user = UserManager.FindByIdAsync(userId.ToString()).Result.EnsureNotNull();
+                var user = (await UserManager.FindByIdAsync(userId.ToString())).EnsureNotNull();
 
                 var profile = await usersRepository.GetAccountProfileByUserId(userId);
                 if (!profile.Navigation.Equals(model.AccountProfile.Navigation, StringComparison.InvariantCultureIgnoreCase))
@@ -430,13 +430,13 @@ namespace TightWiki.Controllers
 
             if (model.UserSelection == true && profile != null)
             {
-                var user = UserManager.FindByIdAsync(profile.UserId.ToString()).Result;
+                var user = await UserManager.FindByIdAsync(profile.UserId.ToString());
                 if (user == null)
                 {
                     return NotFound("User not found.");
                 }
 
-                var result = UserManager.DeleteAsync(user).Result;
+                var result = await UserManager.DeleteAsync(user);
                 if (!result.Succeeded)
                 {
                     throw new Exception(string.Join("<br />\r\n", result.Errors.Select(o => o.Description)));
