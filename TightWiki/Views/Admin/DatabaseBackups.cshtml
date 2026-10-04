@@ -1,0 +1,114 @@
+﻿@using TightWiki
+@using TightWiki.Plugin
+@using TightWiki.Plugin.Interfaces
+@using TightWiki.ViewModels.Admin
+@inject ITwSharedLocalizationText Localizer
+@inject TwConfiguration WikiConfiguration
+
+@model DatabaseBackupsViewModel
+@{
+    Layout = "_Layout";
+}
+
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+    <div>
+        <h3 class="mb-1">
+            @Localizer["Database Backups"]
+        </h3>
+        <div class="text-muted">
+            @Localizer["Each backup is a zip file containing a snapshot of all of the databases."]
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm mb-3">
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <span class="fw-semibold">
+            <i class="bi bi-archive me-2"></i>@Localizer["Backups"]
+        </span>
+
+        <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center"
+               href="@WikiConfiguration.BasePath/Admin/Database">
+                <i class="bi bi-database me-1"></i>@Localizer["Database"]
+            </a>
+
+            @TwConfirmActionHelper.GenerateSafeButton(
+                WikiConfiguration.BasePath,
+                Localizer["This will create a backup of all of the databases. This could take some time! Continue?"].Value,
+                Localizer["Back Up Databases"].Value,
+                "/Admin/DatabaseBackups/Create",
+                Context.Request.Path.Value,
+                @class: "btn btn-primary btn-sm d-inline-flex align-items-center")
+        </div>
+    </div>
+
+    <div class="card-body text-muted small">
+        <i class="bi bi-folder me-1"></i>@Localizer["Backups are stored in"]: <code>@Model.BackupPath</code>
+    </div>
+</div>
+
+@if (Model.Backups.Count > 0)
+{
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">
+                            @Localizer["File"]
+                        </th>
+                        <th scope="col" class="text-nowrap" style="width: 1%;">
+                            @Localizer["Created"]
+                        </th>
+                        <th scope="col" class="text-end text-nowrap" style="width: 1%;">
+                            @Localizer["Size"]
+                        </th>
+                        <th scope="col" class="text-nowrap" style="width: 1%;">
+                            @Localizer["Action"]
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var backup in Model.Backups)
+                    {
+                        <tr>
+                            <td class="fw-semibold">
+                                <i class="bi bi-file-earmark-zip me-2 text-muted"></i>@backup.FileName
+                            </td>
+
+                            <td class="text-nowrap text-muted">
+                                @backup.CreatedDate.ToString("g")
+                            </td>
+
+                            <td class="text-end text-nowrap">
+                                @NTDLS.Helpers.Formatters.FileSize(backup.Size)
+                            </td>
+
+                            <td class="text-nowrap">
+                                <div class="d-flex gap-2">
+                                    @TwConfirmActionHelper.GenerateDangerButton(
+                                        WikiConfiguration.BasePath,
+                                        Localizer["This will permanently delete the specified backup. Continue?"].Value,
+                                        Localizer["Delete"].Value,
+                                        $"/Admin/DatabaseBackups/Delete/{backup.FileName}",
+                                        Context.Request.Path.Value,
+                                        @class: "btn btn-outline-danger btn-sm d-inline-flex align-items-center")
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card shadow-sm">
+        <div class="card-body text-muted">
+            <i class="bi bi-archive me-2"></i>
+            @Localizer["There are no database backups."]
+        </div>
+    </div>
+}

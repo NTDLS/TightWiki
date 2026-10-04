@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NTDLS.Helpers;
 using NTDLS.SqliteDapperWrapper;
+using System.IO.Compression;
 using System.Reflection;
 using System.Security.Claims;
 using TightWiki.Library;
@@ -28,6 +29,8 @@ namespace TightWiki.Repository.Helpers
         public ITwUsersRepository UsersRepository { get; private set; }
 
         public (string Name, SqliteManagedFactory Factory)[] Databases { get; private set; }
+
+        public string BackupPath { get; private set; }
 
         /// <summary>
         /// We expose this here because it is the earliest we can prop upa database logger.
@@ -55,6 +58,11 @@ namespace TightWiki.Repository.Helpers
             PageRepository = new PageRepository(configuration, ConfigurationRepository, StatisticsRepository);
             UsersRepository = new UsersRepository(configuration, ConfigurationRepository);
             TranslationRepository = new TranslationRepository(configuration);
+
+            //Backups are stored next to the databases.
+            var configDatabaseFile = ConfigurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);
+            BackupPath = Path.Combine(Path.GetDirectoryName(configDatabaseFile)
+                ?? throw new Exception("Could not determine directory of configuration database file"), "Backups");
 
             Databases =
                 [
@@ -664,6 +672,95 @@ namespace TightWiki.Repository.Helpers
 
             return results;
         }
+
+
+        public async Task<TwDatabaseBackup> BackupDatabases()
+        {
+            Directory.CreateDirectory(BackupPath);
+
+            var workPath = Path.Combine(BackupPath, $"{Guid.NewGuid():N}.tmp");
+            var temporaryZipPath = Path.Combine(BackupPath, $"{Guid.NewGuid():N}.tmp.zip");
+
+            try
+            {
+                Directory.CreateDirectory(workPath);
+
+                foreach (var database in Databases)
+                {
+                    //VACUUM INTO writes a transactionally consistent copy, even while the database is being written to.
+                    var snapshotPath = Path.Combine(workPath, $"{database.Name}.db").Replace("'", "''");
+                    await database.Factory.ExecuteAsync($"VACUUM INTO '{snapshotPath}'");
+                }
+
+                ZipFile.CreateFromDirectory(workPath, temporaryZipPath, CompressionLevel.Optimal, false);
+
+                var timestamp = DateTime.UtcNow.ToString("yyyyMMdd-HHmmss");
+                var fileName = $"TightWiki-Backup-{timestamp}.zip";
+                for (int duplicate = 1; File.Exists(Path.Combine(BackupPath, fileName)); duplicate++)
+                {
+                    fileName = $"TightWiki-Backup-{timestamp}-{duplicate}.zip";
+                }
+
+                var zipPath = Path.Combine(BackupPath, fileName);
+                File.Move(temporaryZipPath, zipPath);
+
+                return ToDatabaseBackup(new FileInfo(zipPath));
+            }
+            finally
+            {
+                if (Directory.Exists(workPath))
+                {
+                    Directory.Delete(workPath, true);
+                }
+
+                if (File.Exists(temporaryZipPath))
+                {
+                    File.Delete(temporaryZipPath);
+                }
+            }
+        }
+
+        public List<TwDatabaseBackup> GetDatabaseBackups()
+        {
+            if (!Directory.Exists(BackupPath))
+            {
+                return new();
+            }
+
+            return new DirectoryInfo(BackupPath)
+                .EnumerateFiles("TightWiki-Backup-*.zip")
+                .Select(ToDatabaseBackup)
+                .OrderByDescending(o => o.CreatedDate)
+                .ThenByDescending(o => o.FileName)
+                .ToList();
+        }
+
+        public void DeleteDatabaseBackup(string fileName)
+        {
+            //The name comes from a URL, so it must be just the name of a backup file and never a path.
+            if (string.IsNullOrWhiteSpace(fileName)
+                || fileName != Path.GetFileName(fileName)
+                || !fileName.StartsWith("TightWiki-Backup-", StringComparison.Ordinal)
+                || !fileName.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+            {
+                throw new ArgumentException("Invalid backup file name.", nameof(fileName));
+            }
+
+            var path = Path.Combine(BackupPath, fileName);
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException("The backup was not found.", fileName);
+            }
+
+            File.Delete(path);
+        }
+
+        private static TwDatabaseBackup ToDatabaseBackup(FileInfo file) => new()
+        {
+            FileName = file.Name,
+            Size = file.Length,
+            CreatedDate = file.CreationTimeUtc
+        };
 
         #endregion
     }

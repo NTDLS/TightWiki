@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using NTDLS.SqliteDapperWrapper;
 using TightWiki.Plugin.Interfaces.Repository;
+using TightWiki.Plugin.Models;
 
 namespace TightWiki.Plugin.Interfaces
 {
@@ -113,6 +114,28 @@ namespace TightWiki.Plugin.Interfaces
         /// <returns>A task that represents the asynchronous operation. The task result contains a list of tuples, each
         /// containing the name of a database and its corresponding page size in bytes.</returns>
         Task<List<(string Name, int PageSize)>> GetDatabasePageSizes();
+
+        /// <summary>
+        /// The directory that database backups are stored in.
+        /// </summary>
+        string BackupPath { get; }
+
+        /// <summary>
+        /// Creates a zip file containing a consistent snapshot of every database. The databases remain in use while this is done.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation. The task result describes the backup that was created.</returns>
+        Task<TwDatabaseBackup> BackupDatabases();
+
+        /// <summary>
+        /// Returns all of the database backups, newest first.
+        /// </summary>
+        List<TwDatabaseBackup> GetDatabaseBackups();
+
+        /// <summary>
+        /// Permanently deletes a database backup. Only files in the backup directory can be deleted.
+        /// </summary>
+        /// <param name="fileName">The name of the backup zip file, without a path.</param>
+        void DeleteDatabaseBackup(string fileName);
 
         #endregion
     }

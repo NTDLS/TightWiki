@@ -20,6 +20,21 @@
             @Localizer["Various utilities to assist in management of the SQLite database."]
         </div>
     </div>
+
+    <div class="d-flex flex-wrap gap-2">
+        @TwConfirmActionHelper.GenerateSafeButton(
+            WikiConfiguration.BasePath,
+            Localizer["This will create a backup of all of the databases. This could take some time! Continue?"].Value,
+            Localizer["Back Up Databases"].Value,
+            "/Admin/DatabaseBackups/Create",
+            Context.Request.Path.Value,
+            @class: "btn btn-primary btn-sm d-inline-flex align-items-center")
+
+        <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center"
+           href="@WikiConfiguration.BasePath/Admin/DatabaseBackups">
+            <i class="bi bi-archive me-1"></i>@Localizer["View Backups"]
+        </a>
+    </div>
 </div>
 
 <div class="card shadow-sm">
