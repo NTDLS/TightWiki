@@ -5,7 +5,7 @@
 For years I’ve worked at places where we just needed a simple to use, searchable, unobtrusive, no-nonsense, collaborative and free place to dump documentation.
 The first thing that comes to mind is a Wiki but for some reason I can never find anything that "checks all the boxes". Hopefully you'll find this one does for you.
 
-:yum: TightWiki is an ASP.NET Core MVC Razor WIKI written in C# that sits on top of a SQLite database (zero configuration required).
+:yum: TightWiki is an ASP.NET Core MVC Razor wiki written in C# that sits on top of a SQLite database (zero configuration required).
 
 :crossed_fingers: Play with the latest dev build at http://TightWiki.com/. If you want to edit, you can signup using google auth or native TightWiki login.
 
@@ -26,16 +26,16 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 * Role-based and per-user security for managing who can read/edit/delete/moderate pages and namespaces.
 * Easy page linking. Can even link to pages that do not exist and the link will subtly prompt you to create the page when logged in with a role that has page creation support.
 * Admin shows missing pages, namespace metrics, users, roles, etc.
-* Multi-language. Translated into 25 languages, so if you speak it - so does TightWiki.
+* Multi-language. Translated into 47 languages, so if you speak it - so does TightWiki.
 * Manual account creation, editing and deletion.
 * Emojis! Lots built-in, and you can add custom - including animations.
-* Page creation templates - to assit in uniformity and rapid page creation.
+* Page creation templates - to assist in uniformity and rapid page creation.
 * All dates/times are stored in UTC and localized for logged in users.
 * Admin moderation which is driven by page processing instructions for things like page deletions, review, drafts, etc.
 * Page versioning. Revisions can be viewed by the original page URL with a /r/number route or by logging in a viewing the full page history.
 * Revertible page history.
 * Theme-able, with 25+ built in themes.
-* Drag-drop fie uploads / page attachments, images.
+* Drag-drop file uploads / page attachments, images.
 * Versioned file uploads.
 * Namespace support so you can have multiple pages with the same name in different namespaces.
 * Fully baked in documentation of all wiki functions.
@@ -68,7 +68,7 @@ We've beat the wiki up with more data than this, but this is our standard worklo
 # Example edit page
 ![image](https://github.com/user-attachments/assets/2e1205d2-fcd5-42aa-aa1a-ef35c5e9ac0a)
 
-#Snippets
+# Snippets
 <img width="895" height="588" alt="image" src="https://github.com/user-attachments/assets/24b0d384-82d6-4a8d-acf5-030c44cd7578" />
 
 # Multiple Themes
@@ -80,7 +80,7 @@ We've beat the wiki up with more data than this, but this is our standard worklo
 # Role-based security
 ![image](https://github.com/user-attachments/assets/c8e84282-c4e3-4f57-8bca-60c7fe7df804)
 
-# Compiliation
+# Compilation
 ![image](https://github.com/user-attachments/assets/55dc9836-9dd4-4fcc-a922-923868d7d731)
 
 # Deleted Pages

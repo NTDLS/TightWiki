@@ -191,6 +191,114 @@ namespace TightWiki.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet("DatabaseBackups")]
+        public async Task<ActionResult> DatabaseBackups()
+        {
+            try
+            {
+                try
+                {
+                    await SessionState.RequireAdminPermission();
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                SessionState.Page.Name = Localize("Database Backups");
+
+                var model = new DatabaseBackupsViewModel()
+                {
+                    BackupPath = DatabaseManager.BackupPath,
+                    Backups = DatabaseManager.GetDatabaseBackups()
+                };
+
+                model.Backups.ForEach(o => o.CreatedDate = SessionState.LocalizeDateTime(o.CreatedDate));
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An error occurred while retrieving database backups.");
+                throw;
+            }
+        }
+
+        [Authorize]
+        [HttpPost("DatabaseBackups/Create")]
+        public async Task<ActionResult> CreateDatabaseBackup(ConfirmActionViewModel model)
+        {
+            try
+            {
+                try
+                {
+                    await SessionState.RequireAdminPermission();
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+
+                if (model.UserSelection == true)
+                {
+                    try
+                    {
+                        var backup = await DatabaseManager.BackupDatabases();
+                        return NotifyOfSuccess(Localize("The database backup '{0}' has been created.", backup.FileName), model.YesRedirectURL);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError(ex, "An error occurred while creating a database backup.");
+                        return NotifyOfError(Localize("Operation failed: {0}", ex.GetBaseException().Message), model.YesRedirectURL);
+                    }
+                }
+
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An error occurred while creating a database backup.");
+                throw;
+            }
+        }
+
+        [Authorize]
+        [HttpPost("DatabaseBackups/Delete/{fileName}")]
+        public async Task<ActionResult> DeleteDatabaseBackup(ConfirmActionViewModel model, string fileName)
+        {
+            try
+            {
+                try
+                {
+                    await SessionState.RequireAdminPermission();
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+
+                if (model.UserSelection == true)
+                {
+                    try
+                    {
+                        DatabaseManager.DeleteDatabaseBackup(fileName);
+                        return NotifyOfSuccess(Localize("The database backup has been deleted."), model.YesRedirectURL);
+                    }
+                    catch (Exception ex) when (ex is ArgumentException || ex is FileNotFoundException)
+                    {
+                        return NotifyOfError(Localize("Operation failed: {0}", ex.Message), model.YesRedirectURL);
+                    }
+                }
+
+                return Redirect($"{WikiConfiguration.BasePath}{model.NoRedirectURL}");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An error occurred while deleting database backup '{FileName}'.", fileName);
+                throw;
+            }
+        }
+
         #endregion
 
         #region Metrics.
