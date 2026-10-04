@@ -261,27 +261,47 @@ namespace LocalizerScan
             {
                 var batch = phrases.Where(o => o.Value == null && !skipped.Contains(o.Key)).Take(BatchSize).Select(o => o.Key).ToList();
 
-                Dictionary<string, string>? translations = null;
-                for (int attempt = 1; attempt <= MaxBatchAttempts && (translations == null || translations.Count == 0); attempt++)
+                var translations = new Dictionary<string, string>();
+                var remaining = batch;
+
+                //Only the phrases that failed validation are retried: first with the primary model, then whatever is
+                //  still failing is handed to the larger model. A phrase that one model cannot translate must not
+                //  hold up the others, nor keep being retried in ever smaller batches with the same model.
+                var models = new List<(EinkrAIClient Client, string Stage)> { (chat, "Processing") };
+                if (escalationChat != null)
                 {
-                    Log(languageName, $"Processing batch of {batch.Count:n0} elements -> {languageName}{(attempt > 1 ? $" (attempt {attempt})" : "")}");
-                    translations = await TranslateBatch(languageName, targetLanguage.Code, chat, promptText, batch, cancellationToken);
+                    models.Add((escalationChat, "Escalating"));
                 }
 
-                //The primary model could not produce anything valid, so hand the batch to the larger model.
-                if ((translations == null || translations.Count == 0) && escalationChat != null)
+                foreach (var (client, stage) in models)
                 {
-                    for (int attempt = 1; attempt <= MaxBatchAttempts && (translations == null || translations.Count == 0); attempt++)
+                    for (int attempt = 1; attempt <= MaxBatchAttempts && remaining.Count > 0; attempt++)
                     {
-                        Log(languageName, $"Escalating batch of {batch.Count:n0} elements -> {languageName} to the larger model{(attempt > 1 ? $" (attempt {attempt})" : "")}");
-                        translations = await TranslateBatch(languageName, targetLanguage.Code, escalationChat, promptText, batch, cancellationToken);
+                        Log(languageName, $"{stage} batch of {remaining.Count:n0} elements -> {languageName}{(stage == "Escalating" ? " with the larger model" : "")}{(attempt > 1 ? $" (attempt {attempt})" : "")}");
+
+                        var translated = await TranslateBatch(languageName, targetLanguage.Code, client, promptText, remaining, cancellationToken);
+                        if (translated == null)
+                        {
+                            continue; //The response could not be parsed at all.
+                        }
+
+                        foreach (var (key, translation) in translated)
+                        {
+                            translations[key] = translation;
+                        }
+
+                        remaining = remaining.Where(o => !translated.ContainsKey(o)).ToList();
                     }
                 }
 
-                if (translations == null || translations.Count == 0)
+                if (remaining.Count > 0)
                 {
-                    Log(languageName, $"Giving up on a batch of {batch.Count:n0} elements after {MaxBatchAttempts} attempts, they will be retried on the next run.");
-                    skipped.UnionWith(batch);
+                    Log(languageName, $"Giving up on {remaining.Count:n0} elements after {MaxBatchAttempts} attempts{(escalationChat != null ? " with each model" : "")}, they will be retried on the next run.");
+                    skipped.UnionWith(remaining);
+                }
+
+                if (translations.Count == 0)
+                {
                     continue;
                 }
 
