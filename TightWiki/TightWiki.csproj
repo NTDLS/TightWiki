@@ -46,6 +46,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Content Include="..\Data\Translations.db" Link="Translations\Translations.db">
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
 		<Content Update="Views\Admin\PageRevisions.cshtml">
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

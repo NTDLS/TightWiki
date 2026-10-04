@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <EmbeddedResource Include="EmbeddedText\SystemPrompt.txt" />
-    <EmbeddedResource Include="EmbeddedText\TemplateResourceXml.txt" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,8 +1,8 @@
 using Dapper;
 using Microsoft.Data.Sqlite;
+using NTDLS.SqliteDapperWrapper;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Xml.Linq;
 using TightWiki.Library;
 using VPT.Einkr.Client;
 
@@ -22,31 +22,19 @@ namespace LocalizerScan
         private static readonly SupportedCultures _supportedCultures = new SupportedCultures();
 
         private const string ModelName = "Scout-14B";
-
-        /// <summary>
-        /// The larger model that is tried when <see cref="ModelName"/> cannot produce a valid translation for a batch.
-        /// Can be overridden with the LOCALIZER_ESCALATION_MODEL environment variable. When empty, there is no escalation.
-        /// </summary>
         private const string EscalationModelName = "Stratum-27B";
         private const int DefaultConcurrency = 4;
         private const int BatchSize = 25;
         private const int MaxBatchAttempts = 5;
 
         private static readonly Lock _consoleLock = new();
+        private static readonly Lock _databaseLock = new(); //SQLite allows only one writer at a time.
 
         private static async Task<int> Main(string[] args)
         {
-            if (args.Length == 2 && args[0].Equals("--validate", StringComparison.OrdinalIgnoreCase))
-            {
-                //Only checks the existing translations, clearing any that are broken so that the next run retranslates them.
-                ClearInvalidTranslations(args[1]);
-                return 0;
-            }
-
             if (args.Length < 2)
             {
-                Console.WriteLine("Usage: LocalizerScan <rootPath> <resourcePath> [concurrency]");
-                Console.WriteLine("       LocalizerScan --validate <resourcePath>");
+                Console.WriteLine("Usage: LocalizerScan <rootPath> [concurrency]");
                 return 1;
             }
 
@@ -68,28 +56,28 @@ namespace LocalizerScan
             }
 
             var rootPath = args[0];
-            var resourcePath = args[1];
+            var translationDatabase = Path.Join(rootPath, "Data", "Translations.db");
             var concurrency = args.Length > 2 && int.TryParse(args[2], out var requested) && requested > 0 ? requested : DefaultConcurrency;
 
-            ScanSourceFilesAndAddMissingKeys(rootPath, resourcePath);
-            ClearInvalidTranslations(resourcePath);
-            await FillInMissingTranslations(resourcePath, einkr, escalationEinkr, "English", concurrency);
+            ScanSourceFilesAndAddMissingKeys(rootPath, translationDatabase);
+            ClearInvalidTranslations(translationDatabase);
+            await FillInMissingTranslations(translationDatabase, einkr, escalationEinkr, "English", concurrency);
 
             return 0;
         }
 
         /// <summary>
-        /// Writes a line prefixed with the file it relates to, since several files are translated at once.
+        /// Writes a line prefixed with the language it relates to, since several languages are translated at once.
         /// </summary>
-        private static void Log(string fileName, string message)
+        private static void Log(string language, string message)
         {
             lock (_consoleLock)
             {
-                Console.WriteLine($"[{fileName}] {message}");
+                Console.WriteLine($"[{language}] {message}");
             }
         }
 
-        private static void ScanSourceFilesAndAddMissingKeys(string rootPath, string resourcePath)
+        private static void ScanSourceFilesAndAddMissingKeys(string rootPath, string translationDatabase)
         {
             try
             {
@@ -153,78 +141,22 @@ namespace LocalizerScan
                     }
                 }
 
-                var templateXml = EmbeddedResourceReader.LoadText(@"EmbeddedText\TemplateResourceXml.txt");
-
                 Console.WriteLine($"Found {keysToTranslate.Count} unique localization keys.");
 
-                var list = _supportedCultures.Collection.ToList();
-                list.Add(new CultureInfoSettings("", "")); //Neutral culture does not have a culture code in the file name.
+                //The English phrase is the primary key (case insensitive), so phrases that are already there are left untouched.
+                using var translationDb = new SqliteManagedInstance(translationDatabase);
+                using var transaction = translationDb.BeginTransaction();
 
-                foreach (var culture in list)
+                int added = 0;
+                foreach (var key in keysToTranslate)
                 {
-                    if (culture.Code == "en")
-                    {
-                        //We skip English because the keys themselves are the English phrases, so there is no need to add them to the resource file.
-                        continue;
-                    }
-
-                    var resourceFileName = Path.Combine(resourcePath, $"SharedLocalizer.{culture.Code}.resx");
-
-                    if (string.IsNullOrEmpty(culture.Code))
-                    {
-                        //Neutral culture does not have a culture code in the file name.
-                        resourceFileName = Path.Combine(resourcePath, $"SharedLocalizer.resx");
-                    }
-
-                    if (File.Exists(resourceFileName) == false)
-                    {
-                        File.WriteAllText(resourceFileName, templateXml);
-                    }
-
-                    var doc = XDocument.Load(resourceFileName);
-
-                    var existingKeys = doc.Root!
-                        .Elements("data")
-                        .Select(e => e.Attribute("name")?.Value)
-                        .Where(v => v != null)
-                        .ToHashSet();
-
-                    int added = 0;
-
-                    foreach (var keyMapping in keysToTranslate)
-                    {
-                        if (!existingKeys.Contains(keyMapping))
-                        {
-                            Console.WriteLine($"Added {keyMapping} to {culture.Code} resource.");
-
-                            if (string.IsNullOrEmpty(culture.Code))
-                            {
-                                //Neutral culture needs to have a value, these are the English phrases that we will
-                                //  translate from, so we set the value to the key which is the English phrase.
-                                doc.Root!.Add(
-                                    new XElement("data",
-                                        new XAttribute("name", keyMapping),
-                                        new XAttribute(XNamespace.Xml + "space", "preserve"),
-                                        new XElement("value", keyMapping)
-                                    )
-                                );
-                            }
-                            else
-                            {
-                                doc.Root!.Add(
-                                    new XElement("data",
-                                        new XAttribute("name", keyMapping),
-                                        new XAttribute(XNamespace.Xml + "space", "preserve"),
-                                        new XElement("value", string.Empty)
-                                    )
-                                );
-                            }
-                            added++;
-                        }
-                    }
-
-                    doc.Save(resourceFileName);
+                    translationDb.Execute("INSERT OR IGNORE INTO Translation (English) VALUES (@key)", new { key });
+                    Console.WriteLine($"Added \"{key}\" to the translation database.");
+                    added++;
                 }
+
+                transaction.Commit();
+                Console.WriteLine($"Added {added:n0} new phrases.");
             }
             catch (Exception ex)
             {
@@ -235,139 +167,90 @@ namespace LocalizerScan
         /// <summary>
         /// Clears any existing translations that fail validation, so that they are translated again.
         /// </summary>
-        private static void ClearInvalidTranslations(string resourcePath)
+        private static void ClearInvalidTranslations(string translationDatabase)
         {
             int cleared = 0;
 
-            foreach (var sourceFileName in Directory.GetFiles(resourcePath, "*.*.resx", SearchOption.TopDirectoryOnly))
+            using var translationDb = new SqliteManagedInstance(translationDatabase);
+
+            foreach (var culture in _supportedCultures.Collection.Where(o => o.Code != "en"))
             {
-                var fileName = Path.GetFileName(sourceFileName);
-                var parts = fileName.Split('.');
-                if (parts.Length != 3)
+                var column = $"\"{culture.Name}\"";
+
+                var translations = translationDb.Query<(string English, string Value)>(
+                    $"SELECT English, {column} as Value FROM Translation WHERE {column} IS NOT NULL AND {column} != ''").ToList();
+
+                using var transaction = translationDb.BeginTransaction();
+
+                foreach (var (key, value) in translations)
                 {
-                    continue; //We only check files named "NAME.langCode.resx"
-                }
-
-                var doc = XDocument.Load(sourceFileName, LoadOptions.PreserveWhitespace);
-                bool changed = false;
-
-                foreach (var data in doc.Root?.Elements("data") ?? [])
-                {
-                    var key = data.Attribute("name")?.Value;
-                    var valueElem = data.Element("value");
-                    if (key == null || string.IsNullOrEmpty(valueElem?.Value))
-                    {
-                        continue;
-                    }
-
-                    var problems = TranslationValidator.GetProblems(parts[1], key, valueElem.Value);
+                    var problems = TranslationValidator.GetProblems(culture.Code, key, value);
                     if (problems.Count > 0)
                     {
-                        Log(fileName, $"Cleared \"{key}\" = \"{valueElem.Value}\": {string.Join("; ", problems)}");
-                        valueElem.Value = string.Empty;
-                        changed = true;
+                        Log(culture.Name, $"Cleared \"{key}\" = \"{value}\": {string.Join("; ", problems)}");
+                        translationDb.Execute($"UPDATE Translation SET {column} = NULL WHERE English = @key", new { key });
                         cleared++;
                     }
                 }
 
-                if (changed)
-                {
-                    doc.Save(sourceFileName);
-                }
+                transaction.Commit();
             }
 
             Console.WriteLine($"Cleared {cleared:n0} invalid translations.");
         }
 
         /// <summary>
-        /// Translates the language files concurrently. Each file has its own XML document and phrase list,
-        ///  so the only thing shared between them is the (thread-safe) client.
+        /// Translates the languages concurrently. Each language is its own column in the translation table,
+        ///  so the only things shared between them are the (thread-safe) clients and the database lock.
         /// </summary>
-        private static async Task FillInMissingTranslations(string resourcePath, EinkrAIClient chat, EinkrAIClient? escalationChat, string sourceLanguage, int concurrency)
+        private static async Task FillInMissingTranslations(string translationDatabase, EinkrAIClient chat, EinkrAIClient? escalationChat, string sourceLanguage, int concurrency)
         {
-            var sourceFileNames = Directory.GetFiles(resourcePath, $"*.*.resx", SearchOption.TopDirectoryOnly).ToList();
+            var cultures = _supportedCultures.Collection.Where(o => o.Code != "en").ToList();
             var promptTemplate = EmbeddedResourceReader.LoadText(@"EmbeddedText\SystemPrompt.txt");
 
-            Console.WriteLine($"Translating {sourceFileNames.Count:n0} files, {concurrency} at a time.");
+            Console.WriteLine($"Translating {cultures.Count:n0} languages, {concurrency} at a time.");
 
-            await Parallel.ForEachAsync(sourceFileNames, new ParallelOptions { MaxDegreeOfParallelism = concurrency },
-                async (sourceFileName, cancellationToken) =>
+            await Parallel.ForEachAsync(cultures, new ParallelOptions { MaxDegreeOfParallelism = concurrency },
+                async (culture, cancellationToken) =>
                 {
                     try
                     {
-                        await TranslateFile(sourceFileName, chat, escalationChat, sourceLanguage, promptTemplate, cancellationToken);
+                        await TranslateLanguage(translationDatabase, culture, chat, escalationChat, sourceLanguage, promptTemplate, cancellationToken);
                     }
                     catch (Exception ex)
                     {
                         //One failing language should not stop the others.
-                        Log(Path.GetFileName(sourceFileName), $"Failed: {ex.Message}");
+                        Log(culture.Name, $"Failed: {ex.Message}");
                     }
                 });
         }
 
-        private static async Task TranslateFile(string sourceFileName, EinkrAIClient chat, EinkrAIClient? escalationChat, string sourceLanguage,
-            string promptTemplate, CancellationToken cancellationToken)
+        private static async Task TranslateLanguage(string translationDatabase, CultureInfoSettings targetLanguage, EinkrAIClient chat, EinkrAIClient? escalationChat,
+            string sourceLanguage, string promptTemplate, CancellationToken cancellationToken)
         {
-            var fileName = Path.GetFileName(sourceFileName);
+            var languageName = targetLanguage.Name;
+            var column = $"\"{languageName}\"";
 
-            var parts = fileName.Split('.');
-
-            if (parts.Length != 3)
+            //Only the phrases that have no translation need to be translated.
+            List<string> missing;
+            lock (_databaseLock)
             {
-                return; //We only parse when file name is "NAME.langCode.resx"
+                using var translationDb = new SqliteManagedInstance(translationDatabase);
+                missing = translationDb.Query<string>($"SELECT English FROM Translation WHERE {column} IS NULL OR {column} = ''").ToList();
             }
 
-            if (_supportedCultures.TryGetByCode(parts[1], out var targetLanguage) == false)
-            {
-                return; //We do not have a language map for this file.
-            }
-
-            var doc = XDocument.Load(sourceFileName, LoadOptions.PreserveWhitespace);
-
-            // Find all <data> elements that have a name attribute
-            var dataElements = doc.Root?
-                .Elements("data")
-                .Where(d => d.Attribute("name") != null)
-                .ToList();
-
-            if (dataElements == null || dataElements.Count == 0)
-            {
-                Log(fileName, "No <data> elements found.");
-                return;
-            }
-
-            var phrases = new Dictionary<string, string?>();
-
-            //Build a dictionary containing all of the keys, which are the English phrases.
-            foreach (var data in dataElements)
-            {
-                string key = data.Attribute("name")?.Value ?? "";
-                var valueElem = data.Element("value");
-
-                if (string.IsNullOrEmpty(valueElem?.Value) == false)
-                {
-                    continue; //We only want to translate phrases that have no value.
-                }
-
-                if (valueElem == null) //Create the <value> if its missing.
-                {
-                    valueElem = new XElement("value");
-                    data.AddFirst(valueElem);
-                }
-
-                phrases.Add(key, null);
-            }
-
-            if (phrases.Count == 0)
+            if (missing.Count == 0)
             {
                 return; //No phrases to translate.
             }
 
-            Log(fileName, $"{phrases.Count:n0} elements -> {targetLanguage.Name}");
+            var phrases = missing.ToDictionary(o => o, o => (string?)null);
+
+            Log(languageName, $"{phrases.Count:n0} elements -> {languageName}");
 
             var promptText = promptTemplate
                 .Replace("{sourceLanguage}", sourceLanguage)
-                .Replace("{targetLanguage}", targetLanguage.Name);
+                .Replace("{targetLanguage}", languageName);
 
             //Phrases whose batch keeps failing are left empty, so that the next run tries them again.
             var skipped = new HashSet<string>();
@@ -379,8 +262,8 @@ namespace LocalizerScan
                 Dictionary<string, string>? translations = null;
                 for (int attempt = 1; attempt <= MaxBatchAttempts && (translations == null || translations.Count == 0); attempt++)
                 {
-                    Log(fileName, $"Processing batch of {batch.Count:n0} elements -> {targetLanguage.Name}{(attempt > 1 ? $" (attempt {attempt})" : "")}");
-                    translations = await TranslateBatch(fileName, parts[1], chat, promptText, batch, cancellationToken);
+                    Log(languageName, $"Processing batch of {batch.Count:n0} elements -> {languageName}{(attempt > 1 ? $" (attempt {attempt})" : "")}");
+                    translations = await TranslateBatch(languageName, targetLanguage.Code, chat, promptText, batch, cancellationToken);
                 }
 
                 //The primary model could not produce anything valid, so hand the batch to the larger model.
@@ -388,37 +271,32 @@ namespace LocalizerScan
                 {
                     for (int attempt = 1; attempt <= MaxBatchAttempts && (translations == null || translations.Count == 0); attempt++)
                     {
-                        Log(fileName, $"Escalating batch of {batch.Count:n0} elements -> {targetLanguage.Name} to the larger model{(attempt > 1 ? $" (attempt {attempt})" : "")}");
-                        translations = await TranslateBatch(fileName, parts[1], escalationChat, promptText, batch, cancellationToken);
+                        Log(languageName, $"Escalating batch of {batch.Count:n0} elements -> {languageName} to the larger model{(attempt > 1 ? $" (attempt {attempt})" : "")}");
+                        translations = await TranslateBatch(languageName, targetLanguage.Code, escalationChat, promptText, batch, cancellationToken);
                     }
                 }
 
                 if (translations == null || translations.Count == 0)
                 {
-                    Log(fileName, $"Giving up on a batch of {batch.Count:n0} elements after {MaxBatchAttempts} attempts, they will be retried on the next run.");
+                    Log(languageName, $"Giving up on a batch of {batch.Count:n0} elements after {MaxBatchAttempts} attempts, they will be retried on the next run.");
                     skipped.UnionWith(batch);
                     continue;
                 }
 
-                //Update the XML document with the translated phrases from this batch.
-                foreach (var data in dataElements)
+                //Save the translated phrases from this batch right away so that they are not lost if a later batch fails.
+                lock (_databaseLock)
                 {
-                    var key = data.Attribute("name")?.Value ?? string.Empty;
-                    if (translations.TryGetValue(key, out var translation))
+                    using var translationDb = new SqliteManagedInstance(translationDatabase);
+                    using var transaction = translationDb.BeginTransaction();
+
+                    foreach (var (key, translation) in translations)
                     {
                         phrases[key] = translation;
-
-                        var valueElem = data.Element("value");
-                        if (valueElem == null) //Create the <value> if its missing.
-                        {
-                            valueElem = new XElement("value");
-                            data.AddFirst(valueElem);
-                        }
-                        valueElem.Value = translation;
+                        translationDb.Execute($"UPDATE Translation SET {column} = @translation WHERE English = @key", new { key, translation });
                     }
-                }
 
-                doc.Save(sourceFileName);
+                    transaction.Commit();
+                }
             }
         }
 
@@ -426,7 +304,7 @@ namespace LocalizerScan
         /// Translates one batch of phrases, returning null if the response could not be parsed. Phrases whose translation
         /// is empty or fails validation are left out of the result (and are retried later), so they do not discard the good ones.
         /// </summary>
-        private static async Task<Dictionary<string, string>?> TranslateBatch(string fileName, string languageCode, EinkrAIClient chat, string promptText,
+        private static async Task<Dictionary<string, string>?> TranslateBatch(string languageName, string languageCode, EinkrAIClient chat, string promptText,
             List<string> batch, CancellationToken cancellationToken)
         {
             //Create a single input block containing all of the phrases to be translated with numeric tags.
@@ -446,7 +324,7 @@ namespace LocalizerScan
             var splitPhrases = translatedBlock.Trim().Split('\n', StringSplitOptions.TrimEntries);
             if (splitPhrases.Length != batch.Count)
             {
-                Log(fileName, "The count of translation responses do not match the number of inputs. Retrying..");
+                Log(languageName, "The count of translation responses do not match the number of inputs. Retrying..");
                 return null;
             }
 
@@ -462,7 +340,7 @@ namespace LocalizerScan
 
                 if (tagIndex == -1 || endIndex == -1)
                 {
-                    Log(fileName, "Invalid translation response format. Retrying..");
+                    Log(languageName, "Invalid translation response format. Retrying..");
                     return null;
                 }
 
@@ -470,14 +348,14 @@ namespace LocalizerScan
 
                 if (translatedPhrase.Length == 0)
                 {
-                    Log(fileName, $"The translation of \"{batch[index]}\" is empty. Retrying..");
+                    Log(languageName, $"The translation of \"{batch[index]}\" is empty. Retrying..");
                     continue;
                 }
 
                 var problems = TranslationValidator.GetProblems(languageCode, batch[index], translatedPhrase);
                 if (problems.Count > 0)
                 {
-                    Log(fileName, $"The translation of \"{batch[index]}\" is invalid ({string.Join("; ", problems)}). Retrying..");
+                    Log(languageName, $"The translation of \"{batch[index]}\" is invalid ({string.Join("; ", problems)}). Retrying..");
                     continue;
                 }
 
