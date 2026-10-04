@@ -164,12 +164,12 @@ namespace TightWiki.Controllers
                                 }
                             case "Vacuum":
                                 {
-                                    var resultText = await DatabaseManager.OptimizeDatabase(database);
+                                    var resultText = await DatabaseManager.VacuumDatabase(database);
                                     return NotifyOfSuccess(Localize("Vacuum complete. {0}", resultText), model.YesRedirectURL);
                                 }
                             case "Verify":
                                 {
-                                    var resultText = await DatabaseManager.OptimizeDatabase(database);
+                                    var resultText = await DatabaseManager.IntegrityCheckDatabase(database);
                                     return NotifyOfSuccess(Localize("Verification complete. {0}", resultText), model.YesRedirectURL);
                                 }
                         }
