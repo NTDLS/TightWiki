@@ -69,8 +69,7 @@ namespace TightWiki
 
             builder.Services.AddLocalization();
 
-            //All of the UI text comes from the Translations.db database rather than from resource files.
-            builder.Services.AddSingleton<TranslationDatabase>();
+            builder.Services.AddSingleton<TranslationDatabase>(); //All of the UI text comes from the Translations.db
             builder.Services.AddSingleton<IStringLocalizerFactory, TranslationStringLocalizerFactory>();
 
             builder.Services.AddScoped<ITwSharedLocalizationText, SharedLocalizationText>();
@@ -107,7 +106,6 @@ namespace TightWiki
             builder.Services.AddSingleton<ITwStatisticsRepository>(databaseManager.StatisticsRepository);
             builder.Services.AddSingleton<ITwPageRepository>(databaseManager.PageRepository);
             builder.Services.AddSingleton<ITwUsersRepository>(databaseManager.UsersRepository);
-            builder.Services.AddSingleton<ITwTranslationRepository>(databaseManager.TranslationRepository);
             builder.Services.AddSingleton<ITwDatabaseManager>(databaseManager);
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = requireConfirmedAccount)

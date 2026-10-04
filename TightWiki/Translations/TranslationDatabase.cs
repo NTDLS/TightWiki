@@ -1,19 +1,21 @@
+using Microsoft.Data.Sqlite;
 using System.Globalization;
 using TightWiki.Library;
-using TightWiki.Plugin.Interfaces.Repository;
 
 namespace TightWiki.Translations
 {
     /// <summary>
-    /// Holds the translations from the translation repository in memory. The translations never change while the
-    ///  application is running, and a lookup is made for every piece of text on a page, so each language is loaded
-    ///  from the database once (the first time it is needed) and is then served from a dictionary.
+    /// Holds the translations from Translations.db in memory. The database ships with the application and never changes
+    ///  while it is running, and a lookup is made for every piece of text on a page, so each language is loaded from the
+    ///  database once (the first time it is needed) and is then served from a dictionary.
+    /// The table has one row per English phrase and one column per language.
     /// </summary>
     public class TranslationDatabase
     {
         private const string SourceLanguage = "English";
 
-        private readonly ITwTranslationRepository _repository;
+        private readonly string _databaseFile;
+        private readonly bool _isAvailable;
         private readonly SupportedCultures _supportedCultures = new();
 
         /// <summary>
@@ -21,9 +23,22 @@ namespace TightWiki.Translations
         /// </summary>
         private readonly Dictionary<string, Lazy<Dictionary<string, string>>> _languages = new(StringComparer.OrdinalIgnoreCase);
 
-        public TranslationDatabase(ITwTranslationRepository repository)
+        public TranslationDatabase()
+            : this(Path.Combine(AppContext.BaseDirectory, "Translations", "Translations.db"))
         {
-            _repository = repository;
+        }
+
+        public TranslationDatabase(string databaseFile)
+        {
+            _databaseFile = databaseFile;
+
+            //Opening a missing SQLite file would create an empty database, so we check first.
+            _isAvailable = File.Exists(databaseFile);
+            if (!_isAvailable)
+            {
+                //Without translations the application still works, it just displays the English text.
+                Console.Error.WriteLine($"The translation database '{databaseFile}' was not found. All text will be displayed in English.");
+            }
 
             foreach (var culture in _supportedCultures.Collection.Where(o => o.Name != SourceLanguage))
             {
@@ -34,8 +49,34 @@ namespace TightWiki.Translations
 
         private Dictionary<string, string> Load(string language)
         {
-            var phrases = _repository.GetTranslationsByLanguage(language).GetAwaiter().GetResult();
-            return phrases.ToDictionary(o => o.English, o => o.Translation, StringComparer.OrdinalIgnoreCase);
+            var phrases = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+            if (!_isAvailable)
+            {
+                return phrases;
+            }
+
+            //The language is the name of a column, which cannot be a parameter, but it is always one of the known languages.
+            var column = $"\"{language}\"";
+
+            using var connection = new SqliteConnection(new SqliteConnectionStringBuilder
+            {
+                DataSource = _databaseFile,
+                Mode = SqliteOpenMode.ReadOnly,
+                Pooling = false
+            }.ToString());
+            connection.Open();
+
+            using var command = connection.CreateCommand();
+            command.CommandText = $"SELECT English, {column} FROM Translation WHERE {column} IS NOT NULL AND {column} != ''";
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                phrases[reader.GetString(0)] = reader.GetString(1);
+            }
+
+            return phrases;
         }
 
         /// <summary>

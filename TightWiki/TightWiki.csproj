@@ -46,7 +46,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="..\Data\Translations.db" Link="Translations\Translations.db">
+		<Content Include="Translations\Translations.db">
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

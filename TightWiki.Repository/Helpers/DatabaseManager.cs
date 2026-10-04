@@ -25,7 +25,6 @@ namespace TightWiki.Repository.Helpers
         public ITwLoggingRepository LoggingRepository { get; private set; }
         public ITwPageRepository PageRepository { get; private set; }
         public ITwStatisticsRepository StatisticsRepository { get; private set; }
-        public ITwTranslationRepository TranslationRepository { get; private set; }
         public ITwUsersRepository UsersRepository { get; private set; }
 
         public (string Name, SqliteManagedFactory Factory)[] Databases { get; private set; }
@@ -57,7 +56,6 @@ namespace TightWiki.Repository.Helpers
             StatisticsRepository = new StatisticsRepository(configuration, ConfigurationRepository);
             PageRepository = new PageRepository(configuration, ConfigurationRepository, StatisticsRepository);
             UsersRepository = new UsersRepository(configuration, ConfigurationRepository);
-            TranslationRepository = new TranslationRepository(configuration);
 
             //Backups are stored next to the databases.
             var configDatabaseFile = ConfigurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);
@@ -75,7 +73,6 @@ namespace TightWiki.Repository.Helpers
                     ("Users", UsersRepository.UsersFactory),
                     ("Config", ConfigurationRepository.ConfigFactory),
                     //("Defaults", Defaults), //We do not expose this as it is only used for initial seeding of the database.
-                    ("Translations", TranslationRepository.TranslationFactory),
                 ];
 
         }

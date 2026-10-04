@@ -22,9 +22,6 @@ Contains site pages, their file attachments, tags, processing instructions and s
 ## Statistics.db
 When enabled, contains the wiki compilation statistics.
 
-## Translations.db
-Contains the translations of the user interface text. There is one row per English phrase and one column per language.
-
 ## Users.db
 Contains user accounts and profiles, this is for local login and 3rd party authentication providers.
 
