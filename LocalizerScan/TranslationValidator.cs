@@ -33,12 +33,25 @@ namespace LocalizerScan
         /// </summary>
         private static readonly Dictionary<string, Script[]> _expectedScripts = new(StringComparer.OrdinalIgnoreCase)
         {
-            ["be"] = [Script.Cyrillic], ["bg"] = [Script.Cyrillic], ["kk"] = [Script.Cyrillic], ["ru"] = [Script.Cyrillic],
-            ["uk"] = [Script.Cyrillic], ["sr"] = [Script.Cyrillic],
-            ["ar"] = [Script.Arabic], ["fa"] = [Script.Arabic], ["ur"] = [Script.Arabic],
-            ["he"] = [Script.Hebrew], ["el"] = [Script.Greek], ["bn"] = [Script.Bengali], ["hi"] = [Script.Devanagari],
-            ["ka"] = [Script.Georgian], ["th"] = [Script.Thai], ["ko"] = [Script.Hangul, Script.Han],
-            ["ja"] = [Script.Hiragana, Script.Katakana, Script.Han], ["zh-Hans"] = [Script.Han], ["zh-Hant"] = [Script.Han],
+            ["be"] = [Script.Cyrillic],
+            ["bg"] = [Script.Cyrillic],
+            ["kk"] = [Script.Cyrillic],
+            ["ru"] = [Script.Cyrillic],
+            ["uk"] = [Script.Cyrillic],
+            ["sr"] = [Script.Cyrillic],
+            ["ar"] = [Script.Arabic],
+            ["fa"] = [Script.Arabic],
+            ["ur"] = [Script.Arabic],
+            ["he"] = [Script.Hebrew],
+            ["el"] = [Script.Greek],
+            ["bn"] = [Script.Bengali],
+            ["hi"] = [Script.Devanagari],
+            ["ka"] = [Script.Georgian],
+            ["th"] = [Script.Thai],
+            ["ko"] = [Script.Hangul, Script.Han],
+            ["ja"] = [Script.Hiragana, Script.Katakana, Script.Han],
+            ["zh-Hans"] = [Script.Han],
+            ["zh-Hant"] = [Script.Han],
         };
 
         /// <summary>
