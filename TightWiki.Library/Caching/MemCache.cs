@@ -24,10 +24,16 @@ namespace TightWiki.Library.Caching
         public static TimeSpan DefaultCacheExpiration { get; set; }
         private static MemoryCache? _cache;
 
-        public static ulong CacheSets { get; set; }
-        public static ulong CacheGets { get; set; }
-        public static ulong CacheHits { get; set; }
-        public static ulong CacheMisses { get; set; }
+        //These are updated with Interlocked because the cache is used by many requests at once.
+        private static long _cacheSets;
+        private static long _cacheGets;
+        private static long _cacheHits;
+        private static long _cacheMisses;
+
+        public static ulong CacheSets => (ulong)Interlocked.Read(ref _cacheSets);
+        public static ulong CacheGets => (ulong)Interlocked.Read(ref _cacheGets);
+        public static ulong CacheHits => (ulong)Interlocked.Read(ref _cacheHits);
+        public static ulong CacheMisses => (ulong)Interlocked.Read(ref _cacheMisses);
         public static int CacheItemCount => Cache.Count();
         public static double CacheMemoryLimit => Cache.CacheMemoryLimit;
 
@@ -51,16 +57,17 @@ namespace TightWiki.Library.Caching
         /// </summary>
         public static T? Get<T>(ITwCacheKey cacheKey)
         {
-            CacheGets++;
-            var result = (T)Cache.Get(cacheKey.Key);
+            Interlocked.Increment(ref _cacheGets);
+            var cached = Cache.Get(cacheKey.Key);
 
-            if (result == null)
+            if (cached == null)
             {
-                CacheMisses++;
+                Interlocked.Increment(ref _cacheMisses);
+                return default;
             }
 
-            CacheHits++;
-            return result;
+            Interlocked.Increment(ref _cacheHits);
+            return (T)cached;
         }
 
         /// <summary>
@@ -68,14 +75,14 @@ namespace TightWiki.Library.Caching
         /// </summary>
         public static bool Contains(ITwCacheKey cacheKey)
         {
-            CacheGets++;
+            Interlocked.Increment(ref _cacheGets);
             if (Cache.Contains(cacheKey.Key))
             {
-                CacheHits++;
+                Interlocked.Increment(ref _cacheHits);
                 return true;
             }
 
-            CacheMisses++;
+            Interlocked.Increment(ref _cacheMisses);
             return false;
         }
 
@@ -86,17 +93,17 @@ namespace TightWiki.Library.Caching
         {
             var cached = Cache.Get(cacheKey.Key);
 
-            CacheGets++;
+            Interlocked.Increment(ref _cacheGets);
             if (cached == null)
             {
                 result = default;
-                CacheMisses++;
+                Interlocked.Increment(ref _cacheMisses);
                 return false;
             }
 
             result = (T)cached;
 
-            CacheHits++;
+            Interlocked.Increment(ref _cacheHits);
 
             return true;
         }
@@ -135,7 +142,7 @@ namespace TightWiki.Library.Caching
                 {
                     AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(cacheExpiration.Value.TotalSeconds)
                 };
-                Cache.Add(cacheKey.Key, result, policy);
+                Set(cacheKey, result, policy);
             }
 
             return result;
@@ -175,7 +182,7 @@ namespace TightWiki.Library.Caching
                 {
                     AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(cacheExpiration.Value.TotalSeconds)
                 };
-                Cache.Add(cacheKey.Key, result, policy);
+                Set(cacheKey, result, policy);
             }
 
             return result;
@@ -210,7 +217,6 @@ namespace TightWiki.Library.Caching
                 {
                     AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(cacheExpiration.Value.TotalSeconds)
                 };
-                CacheSets++;
                 Set(cacheKey, result, policy);
             }
 
@@ -246,7 +252,6 @@ namespace TightWiki.Library.Caching
                 {
                     AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(cacheExpiration.Value.TotalSeconds)
                 };
-                CacheSets++;
                 Set(cacheKey, result, policy);
             }
 
@@ -276,8 +281,8 @@ namespace TightWiki.Library.Caching
 
         public static void Set(ITwCacheKey cacheKey, object value, CacheItemPolicy policy)
         {
-            CacheSets++;
-            Cache.Add(cacheKey.Key, value, policy);
+            Interlocked.Increment(ref _cacheSets);
+            Cache.Set(cacheKey.Key, value, policy);
         }
 
         public static void Remove(ITwCacheKey cacheKey)
