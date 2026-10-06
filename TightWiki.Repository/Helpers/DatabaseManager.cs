@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Security.Claims;
 using TightWiki.Library;
 using TightWiki.Library.Dummy;
+using TightWiki.Library.Extensions;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Repository;
@@ -211,7 +212,7 @@ namespace TightWiki.Repository.Helpers
             try
             {
                 //We have to have a "DatabasePath" or a valid config database path.
-                var databasePath = configuration.GetConnectionString("DatabasePath");
+                var databasePath = configuration.GetDatabasePath();
                 if (string.IsNullOrEmpty(databasePath))
                 {
                     var configDatabase = ConfigurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);

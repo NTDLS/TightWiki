@@ -4,6 +4,20 @@ namespace TightWiki.Library.Extensions
 {
     public static class ConfigurationManagerExtensions
     {
+        /// <summary>
+        /// Gets the "DatabasePath" connection string with its directory separators converted for the current platform.
+        /// The appsettings.json that ships with TightWiki uses Windows-style separators ("..\\data\\"),
+        ///  which Linux would treat as part of a file name instead of as directories.
+        /// </summary>
+        public static string? GetDatabasePath(this IConfiguration configuration)
+            => NormalizeDirectorySeparators(configuration.GetConnectionString("DatabasePath"));
+
+        /// <summary>
+        /// Converts backslashes to the directory separator of the platform (or the one given).
+        /// </summary>
+        public static string? NormalizeDirectorySeparators(string? path, char? separator = null)
+            => path?.Replace('\\', separator ?? Path.DirectorySeparatorChar);
+
         public static string GetDatabaseConnectionString(this IConfiguration configuration,
             string sectionName, string databaseName, string? deriveFromOnFailback = null)
         {
@@ -15,7 +29,7 @@ namespace TightWiki.Library.Extensions
             }
 
             //..or we have to have a "DatabasePath".... 
-            var databasePath = configuration.GetConnectionString("DatabasePath");
+            var databasePath = configuration.GetDatabasePath();
             if (!string.IsNullOrEmpty(databasePath))
             {
                 return Path.Combine(databasePath, databaseName);
