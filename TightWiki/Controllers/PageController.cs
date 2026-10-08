@@ -1311,6 +1311,9 @@ namespace TightWiki.Controllers
                     await SessionState.SetPageId(page.Id);
                     await pageRepository.DeleteCurrentPageEditor(page.Id, SessionState.Profile.EnsureNotNull().UserId);
 
+                    //Html.HiddenFor() renders the value that was posted (kept in ModelState) in preference to the model,
+                    //  so without removing it the form would keep the old revision and the next save would be rejected as a conflict.
+                    ModelState.Remove(nameof(model.Revision));
                     model.Revision = await pageRepository.GetCurrentPageRevision(page.Id);
                     model.SuccessMessage = Localize("The page was saved.");
 
