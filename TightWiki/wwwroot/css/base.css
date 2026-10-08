@@ -21,11 +21,15 @@
 }
 
 .tw-heading {
-    margin-bottom: 0.0rem;
+    margin-bottom: 0.25rem;
     margin-top: 0.9rem;
     font-weight: 600;
-    line-height: 0;
+    line-height: 1.2; /*Must not be 0, a heading that wraps onto a second line (such as on a phone) would be drawn over itself.*/
 }
+    /*The page source has a new line after every heading, which would otherwise leave an empty line under it.*/
+    .tw-heading + br {
+        display: none;
+    }
     .tw-heading a {
         color: inherit;
         text-decoration: none;
