@@ -60,6 +60,19 @@ builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.OnRejected = async (context, cancellationToken) =>
+    {
+        //Without this the browser shows its own blank "this page isn't working" page.
+        var response = context.HttpContext.Response;
+        response.StatusCode = StatusCodes.Status429TooManyRequests;
+        response.Headers.RetryAfter = "60";
+        response.ContentType = "text/html; charset=utf-8";
+        await response.WriteAsync(
+            "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+            + "<title>Too many attempts</title><style>body{font-family:system-ui,sans-serif;max-width:32rem;margin:4rem auto;padding:0 1rem;text-align:center;color:#444}</style></head>"
+            + "<body><h1>Too many attempts</h1><p>Please wait a minute and then try again.</p><p><a href=\"/\">Back to the home page</a></p></body></html>",
+            cancellationToken);
+    };
     options.AddPolicy("gate", context => RateLimitPartition.GetFixedWindowLimiter(
         context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
         _ => new FixedWindowRateLimiterOptions { PermitLimit = Math.Max(1, site.GateAttemptsPerMinute), Window = TimeSpan.FromMinutes(1) }));
@@ -100,10 +113,13 @@ app.MapPost("/gate/verify", async (HttpContext context, TurnstileVerifier verifi
     var form = await context.Request.ReadFormAsync();
     var returnUrl = SafeLocalUrl(form["returnUrl"]);
 
-    var verified = await verifier.VerifyAsync(form["cf-turnstile-response"], context.Connection.RemoteIpAddress?.ToString(), context.RequestAborted);
-    if (!verified)
+    var verdict = await verifier.VerifyDetailedAsync(form["cf-turnstile-response"], context.Connection.RemoteIpAddress?.ToString(), context.RequestAborted);
+    if (!verdict.Success)
     {
-        return Results.Redirect($"/gate?error=1&returnUrl={Uri.EscapeDataString(returnUrl)}");
+        //A visitor can try again after most failures, but not when the site itself is set up wrongly, so say which it is.
+        //  The exact reason (and what to change) is in the log.
+        var error = verdict.IsSetupProblem ? "setup" : "1";
+        return Results.Redirect($"/gate?error={error}&returnUrl={Uri.EscapeDataString(returnUrl)}");
     }
 
     var current = Visitor.From(context.User);

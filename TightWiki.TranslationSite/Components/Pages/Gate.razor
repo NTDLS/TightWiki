@@ -15,10 +15,17 @@
                         You won't need to do this again for a while.
                     </p>
 
-                    @if (Error == "1")
+                    @if (Error == "setup")
+                    {
+                        <div class="alert alert-warning" role="alert">
+                            The check passed, but this site isn't set up to accept it from this address, so trying again won't help.
+                            If you run this site, the reason is in the log.
+                        </div>
+                    }
+                    else if (Error != null)
                     {
                         <div class="alert alert-danger py-2" role="alert">
-                            We couldn't verify that. Please try again.
+                            We couldn't verify that. Please complete the check and press Continue.
                         </div>
                     }
 
@@ -28,15 +35,24 @@
                             The captcha has not been set up on this site yet.
                         </div>
                     }
-                    else
+                    else if (Error != "setup")
                     {
                         <form method="post" action="/gate/verify" id="gateForm">
                             <input type="hidden" name="returnUrl" value="@(ReturnUrl ?? "/")" />
                             <div class="d-flex justify-content-center my-3">
+                                @* After a failure it must not carry on by itself, or a check that always fails would just repeat until it is rate limited. *@
                                 <div class="cf-turnstile"
                                      data-sitekey="@Verifier.SiteKey"
                                      data-action="@TurnstileVerifier.Action"
-                                     data-callback="twGateSolved"></div>
+                                     data-callback="@(Error == null ? "twGateSolved" : null)"
+                                     data-error-callback="twGateError"></div>
+                            </div>
+                            <div id="gateWidgetError" class="alert alert-warning text-start small d-none" role="alert">
+                                <div class="fw-semibold mb-1">The check could not run</div>
+                                <div data-role="message"></div>
+                                <div class="mt-2 text-body-secondary">
+                                    Error <code data-role="code"></code> on <code data-role="host"></code>, site key <code data-role="key"></code>
+                                </div>
                             </div>
                             <noscript><p class="text-danger small">This check needs JavaScript.</p></noscript>
                             <button type="submit" class="btn btn-primary">Continue</button>

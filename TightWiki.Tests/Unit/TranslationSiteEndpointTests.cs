@@ -66,14 +66,20 @@ namespace TightWiki.Tests.Unit
             : TurnstileVerifier(new HttpClient(), Options.Create(new TurnstileOptions { SiteKey = "site-key-for-tests" }), NullLogger<TurnstileVerifier>.Instance)
         {
             public bool Result { get; set; }
+
+            /// <summary>
+            /// What a failed check is reported as.
+            /// </summary>
+            public TurnstileFailure FailureWhenRejected { get; set; } = TurnstileFailure.Rejected;
+
             public string? LastToken { get; private set; }
 
             public override bool IsConfigured => true;
 
-            public override Task<bool> VerifyAsync(string? token, string? remoteIp, CancellationToken cancellationToken = default)
+            public override Task<TurnstileVerdict> VerifyDetailedAsync(string? token, string? remoteIp, CancellationToken cancellationToken = default)
             {
                 LastToken = token;
-                return Task.FromResult(Result);
+                return Task.FromResult(Result ? new TurnstileVerdict() : new TurnstileVerdict(FailureWhenRejected));
             }
         }
     }
@@ -147,6 +153,7 @@ namespace TightWiki.Tests.Unit
         public async Task AFailedCaptchaGivesNoCookie()
         {
             factory.Verifier.Result = false;
+            factory.Verifier.FailureWhenRejected = TurnstileFailure.Rejected;
             using var client = CreateClient();
 
             var response = await Redirected(await client.PostAsync("/gate/verify", Form(("cf-turnstile-response", "bad-token"), ("returnUrl", "/search"))));
@@ -240,6 +247,69 @@ namespace TightWiki.Tests.Unit
 
             //The captcha shares the same limit.
             Assert.Equal(HttpStatusCode.TooManyRequests, (await client.PostAsync("/gate/verify", Form(("cf-turnstile-response", "t")))).StatusCode);
+        }
+
+        [Fact]
+        public async Task ASiteSetupProblemIsReportedDifferentlyFromAFailedCheck()
+        {
+            factory.Verifier.Result = false;
+            using var client = CreateClient();
+
+            foreach (var setupProblem in new[] { TurnstileFailure.WrongHost, TurnstileFailure.WrongAction, TurnstileFailure.NotConfigured })
+            {
+                factory.Verifier.FailureWhenRejected = setupProblem;
+                var response = await Redirected(await client.PostAsync("/gate/verify", Form(("cf-turnstile-response", "t"), ("returnUrl", "/"))));
+                Assert.StartsWith("/gate?error=setup", response.Headers.Location!.OriginalString);
+            }
+
+            foreach (var ordinary in new[] { TurnstileFailure.Rejected, TurnstileFailure.NoToken, TurnstileFailure.Unavailable })
+            {
+                factory.Verifier.FailureWhenRejected = ordinary;
+                var response = await Redirected(await client.PostAsync("/gate/verify", Form(("cf-turnstile-response", "t"), ("returnUrl", "/"))));
+                Assert.StartsWith("/gate?error=1", response.Headers.Location!.OriginalString);
+            }
+        }
+
+        [Fact]
+        public async Task TheCaptchaPageOnlyContinuesByItselfTheFirstTime()
+        {
+            using var client = CreateClient();
+
+            var first = await (await client.GetAsync("/gate")).Content.ReadAsStringAsync();
+            Assert.Contains("data-callback=\"twGateSolved\"", first);
+
+            //After a failure it must wait for the visitor, or a check that always fails would repeat until it was rate limited.
+            var afterFailure = await (await client.GetAsync("/gate?error=1")).Content.ReadAsStringAsync();
+            Assert.DoesNotContain("data-callback", afterFailure);
+            Assert.Contains("verify that", afterFailure);
+            Assert.Contains("cf-turnstile", afterFailure);
+        }
+
+        [Fact]
+        public async Task TheCaptchaPageDoesNotOfferToRetryWhenTheSiteIsSetUpWrongly()
+        {
+            using var client = CreateClient();
+
+            var text = await (await client.GetAsync("/gate?error=setup")).Content.ReadAsStringAsync();
+
+            Assert.Contains("trying again won", text);
+            Assert.DoesNotContain("cf-turnstile", text);
+            Assert.DoesNotContain("gateForm", text);
+        }
+
+        [Fact]
+        public async Task BeingRateLimitedShowsAReadablePage()
+        {
+            using var limited = new TranslationSiteFactory(1);
+            using var client = limited.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
+
+            await client.PostAsync("/admin/login", Form(("key", "guess")));
+            var blocked = await client.PostAsync("/admin/login", Form(("key", "guess")));
+
+            Assert.Equal(HttpStatusCode.TooManyRequests, blocked.StatusCode);
+            Assert.Equal("text/html", blocked.Content.Headers.ContentType?.MediaType);
+            Assert.Contains("Too many attempts", await blocked.Content.ReadAsStringAsync());
+            Assert.Equal("60", blocked.Headers.GetValues("Retry-After").Single());
         }
 
         [Fact]

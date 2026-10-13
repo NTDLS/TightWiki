@@ -563,6 +563,34 @@ namespace TightWiki.Tests.Unit
             Assert.False(await CreateVerifier(new FakeCloudflare(json)).VerifyAsync("token", null));
         }
 
+        [Theory]
+        [InlineData("""{"success":false,"error-codes":["timeout-or-duplicate"]}""", TurnstileFailure.Rejected)]
+        [InlineData("""{"success":true,"hostname":"translations.tightwiki.com","action":"signup"}""", TurnstileFailure.WrongAction)]
+        [InlineData("""{"success":true,"hostname":"translate.tightwiki.com","action":"verify"}""", TurnstileFailure.WrongHost)]
+        public async Task TurnstileSaysWhyItRefusedAToken(string json, TurnstileFailure expected)
+        {
+            var verdict = await CreateVerifier(new FakeCloudflare(json)).VerifyDetailedAsync("token", null);
+
+            Assert.False(verdict.Success);
+            Assert.Equal(expected, verdict.Failure);
+            Assert.Equal(expected is TurnstileFailure.WrongAction or TurnstileFailure.WrongHost, verdict.IsSetupProblem);
+        }
+
+        [Fact]
+        public async Task TurnstileSaysWhyItCouldNotCheckAtAll()
+        {
+            var good = """{"success":true,"hostname":"translations.tightwiki.com","action":"verify"}""";
+
+            Assert.Equal(TurnstileFailure.Unavailable, (await CreateVerifier(new FakeCloudflare(good, HttpStatusCode.BadGateway)).VerifyDetailedAsync("t", null)).Failure);
+            Assert.Equal(TurnstileFailure.NoToken, (await CreateVerifier(new FakeCloudflare(good)).VerifyDetailedAsync("", null)).Failure);
+
+            var notConfigured = await CreateVerifier(new FakeCloudflare(good), secret: "").VerifyDetailedAsync("t", null);
+            Assert.Equal(TurnstileFailure.NotConfigured, notConfigured.Failure);
+            Assert.True(notConfigured.IsSetupProblem);
+
+            Assert.True((await CreateVerifier(new FakeCloudflare(good)).VerifyDetailedAsync("t", null)).Success);
+        }
+
         [Fact]
         public async Task TurnstileFailsClosedWhenCloudflareErrorsOrTheTokenIsMissing()
         {
