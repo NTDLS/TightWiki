@@ -1,0 +1,91 @@
+@inject SuggestionService Suggestions
+@inject TranslationCatalog Catalog
+@inject NavigationManager Nav
+
+@{
+    var language = Catalog.Languages.FirstOrDefault(o => o.Name == Item.Language);
+    var phrase = Catalog.FindByEnglish(Item.English);
+    string? current = null;
+    if (ShowCurrent && phrase != null && phrase.Translations.TryGetValue(Item.Language, out var existing))
+    {
+        current = existing;
+    }
+    var isFresh = (DateTime.UtcNow - Item.CreatedUtc).TotalMinutes < 2;
+}
+
+<div class="tw-suggestion @(isFresh ? "tw-fresh" : "")">
+    <div class="tw-votes" role="group" aria-label="Vote">
+        <button type="button" class="tw-vote tw-vote-up @(Item.MyVote == 1 ? "active" : "")" title="This is a good translation"
+                aria-label="Up-vote" aria-pressed="@(Item.MyVote == 1)" @onclick="() => Vote(1)">
+            <i class="bi @(Item.MyVote == 1 ? "bi-hand-thumbs-up-fill" : "bi-hand-thumbs-up")"></i>
+        </button>
+        <span class="tw-score @(Item.Score > 0 ? "text-success" : Item.Score < 0 ? "text-danger" : "")" title="@Item.UpVotes up, @Item.DownVotes down">@Item.Score</span>
+        <button type="button" class="tw-vote tw-vote-down @(Item.MyVote == -1 ? "active" : "")" title="This could be better"
+                aria-label="Down-vote" aria-pressed="@(Item.MyVote == -1)" @onclick="() => Vote(-1)">
+            <i class="bi @(Item.MyVote == -1 ? "bi-hand-thumbs-down-fill" : "bi-hand-thumbs-down")"></i>
+        </button>
+    </div>
+
+    <div class="tw-suggestion-body">
+        @if (ShowEnglish)
+        {
+            <div class="tw-english">@Item.English</div>
+        }
+        <div class="d-flex flex-wrap align-items-baseline gap-2">
+            <span class="badge tw-lang">@Item.Language</span>
+            <span class="tw-text" lang="@language?.Code" dir="@(language?.IsRtl == true ? "rtl" : "ltr")">@Item.Text</span>
+        </div>
+        @if (current != null)
+        {
+            <div class="small text-body-secondary mt-1">
+                Currently: <span lang="@language?.Code" dir="@(language?.IsRtl == true ? "rtl" : "ltr")">@current</span>
+            </div>
+        }
+        <div class="small text-body-secondary mt-1 d-flex flex-wrap gap-2 align-items-center">
+            <span title="@Item.CreatedUtc.ToString("u")">@TimeAgo.Format(Item.CreatedUtc)</span>
+            @if (Item.Status == SuggestionStatus.Approved)
+            {
+                <span class="badge text-bg-success"><i class="bi bi-patch-check me-1"></i>Approved</span>
+            }
+            @if (Visitor.Id != null && Item.SubmitterKey == Visitor.Id)
+            {
+                <span class="badge text-bg-secondary">Yours</span>
+            }
+        </div>
+        @if (error != null)
+        {
+            <div class="text-danger small mt-1" role="alert">@error</div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public Suggestion Item { get; set; } = default!;
+    [Parameter, EditorRequired] public Visitor Visitor { get; set; } = Visitor.Anonymous;
+
+    /// <summary>
+    /// Whether to show the English phrase above the suggestion.
+    /// </summary>
+    [Parameter] public bool ShowEnglish { get; set; } = true;
+
+    /// <summary>
+    /// Whether to show the translation that the suggestion would replace.
+    /// </summary>
+    [Parameter] public bool ShowCurrent { get; set; } = true;
+
+    private string? error;
+
+    private void Vote(int value)
+    {
+        if (!Visitor.IsVerified)
+        {
+            //Voting needs the captcha, after which they come straight back here.
+            var returnUrl = "/" + Nav.ToBaseRelativePath(Nav.Uri);
+            Nav.NavigateTo($"/gate?returnUrl={Uri.EscapeDataString(returnUrl)}", forceLoad: true);
+            return;
+        }
+
+        var result = Suggestions.Vote(Visitor.Id!, Item.Id, value);
+        error = result.Ok ? null : result.Error;
+    }
+}

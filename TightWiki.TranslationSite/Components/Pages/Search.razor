@@ -1,0 +1,228 @@
+@page "/search"
+@rendermode InteractiveServer
+@inherits VisitorComponentBase
+
+<PageTitle>Search - TightWiki Translations</PageTitle>
+
+<div class="container py-4">
+    <h1 class="h3 mb-3">Search translations</h1>
+
+    <div class="card tw-card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="row g-2">
+                <div class="col-12 col-md">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                        <input type="search" class="form-control" value="@query" placeholder="Any phrase, in any language..."
+                               aria-label="Search" @oninput="OnQueryInput" @onchange="UpdateUrl" autofocus />
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 col-lg-3">
+                    <select class="form-select" aria-label="Language" value="@language" @onchange="OnLanguageChanged">
+                        <option value="">All languages</option>
+                        @foreach (var item in Catalog.Languages)
+                        {
+                            <option value="@item.Name" selected="@(item.Name == language)">@item.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="small text-body-secondary mt-2">
+                @if (results.Total == 0)
+                {
+                    <span>No phrases found.</span>
+                }
+                else
+                {
+                    <span>Showing @results.Items.Count.ToString("N0") of @results.Total.ToString("N0") phrases@(string.IsNullOrEmpty(language) ? "" : $" in {language}").</span>
+                }
+            </div>
+        </div>
+    </div>
+
+    @if (results.Items.Count == 0)
+    {
+        <div class="text-center text-body-secondary py-5">
+            <i class="bi bi-search display-4"></i>
+            <p class="mt-3 mb-1">Nothing matched <strong>@query</strong>.</p>
+            <p class="small">Try fewer words, or search in a different language.</p>
+        </div>
+    }
+
+    @foreach (var match in results.Items)
+    {
+        var phrase = match.Phrase;
+        var phraseSuggestions = suggestionsByPhrase[phrase.English].ToList();
+
+        <div class="card tw-card shadow-sm mb-3" @key="phrase.Key">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start gap-2">
+                    <h2 class="tw-english h5 mb-2">@phrase.English</h2>
+                    <span class="badge text-bg-light border flex-shrink-0">@phrase.Translations.Count / @Catalog.Languages.Count</span>
+                </div>
+
+                @if (!string.IsNullOrEmpty(language))
+                {
+                    @TranslationRow(language, phrase.Translations.GetValueOrDefault(language))
+                }
+                else
+                {
+                    foreach (var matched in match.MatchedLanguages.Take(4))
+                    {
+                        @TranslationRow(matched, phrase.Translations.GetValueOrDefault(matched))
+                    }
+                }
+
+                <details class="mt-2">
+                    <summary class="small text-body-secondary">All @phrase.Translations.Count translations</summary>
+                    <div class="tw-all-translations mt-2">
+                        @foreach (var item in Catalog.Languages)
+                        {
+                            @TranslationRow(item.Name, phrase.Translations.GetValueOrDefault(item.Name))
+                        }
+                    </div>
+                </details>
+
+                @if (phraseSuggestions.Count > 0)
+                {
+                    <div class="tw-list tw-list-inset mt-3">
+                        @foreach (var item in phraseSuggestions)
+                        {
+                            <SuggestionItem @key="item.Id" Item="item" Visitor="Visitor" ShowEnglish="false" />
+                        }
+                    </div>
+                }
+
+                <div class="mt-3">
+                    @if (openForms.Contains(phrase.Key))
+                    {
+                        <SuggestForm Phrase="phrase" Visitor="Visitor" Language="@language" />
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-outline-primary btn-sm" @onclick="() => openForms.Add(phrase.Key)">
+                            <i class="bi bi-lightbulb me-1"></i>Suggest a translation
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (results.Total > results.Items.Count)
+    {
+        <div class="text-center">
+            <button type="button" class="btn btn-outline-secondary" @onclick="ShowMore">Show more</button>
+        </div>
+    }
+</div>
+
+@code {
+    private const int PageSize = 20;
+
+    [SupplyParameterFromQuery(Name = "q")] private string? Q { get; set; }
+    [SupplyParameterFromQuery(Name = "lang")] private string? Lang { get; set; }
+
+    private string query = string.Empty;
+    private string language = string.Empty;
+    private int take = PageSize;
+    private SearchResults results = new(Array.Empty<PhraseMatch>(), 0);
+    private ILookup<string, Suggestion> suggestionsByPhrase = Array.Empty<Suggestion>().ToLookup(o => o.English);
+    private readonly HashSet<string> openForms = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        query = Q ?? string.Empty;
+        language = Catalog.FindLanguage(Lang)?.Name ?? string.Empty;
+        await base.OnInitializedAsync();
+    }
+
+    protected override void OnParametersSet()
+    {
+        //Handles the visitor following a link (such as "Suggest" on the home page) while this page is already open.
+        var newQuery = Q ?? string.Empty;
+        var newLanguage = Catalog.FindLanguage(Lang)?.Name ?? string.Empty;
+
+        if (newQuery != query || newLanguage != language)
+        {
+            query = newQuery;
+            language = newLanguage;
+            take = PageSize;
+            _ = LoadAsync();
+        }
+    }
+
+    protected override Task LoadAsync()
+    {
+        results = Catalog.Search(query, language, 0, take);
+
+        suggestionsByPhrase = Suggestions
+            .GetForPhrases(Visitor.QueryId, results.Items.Select(o => o.Phrase.English).ToList(), string.IsNullOrEmpty(language) ? null : language)
+            .ToLookup(o => o.English, StringComparer.OrdinalIgnoreCase);
+
+        return Task.CompletedTask;
+    }
+
+    private async Task OnQueryInput(ChangeEventArgs args)
+    {
+        query = args.Value?.ToString() ?? string.Empty;
+        take = PageSize;
+        await LoadAsync();
+    }
+
+    private async Task OnLanguageChanged(ChangeEventArgs args)
+    {
+        language = Catalog.FindLanguage(args.Value?.ToString())?.Name ?? string.Empty;
+        take = PageSize;
+        await LoadAsync();
+        UpdateUrl();
+    }
+
+    /// <summary>
+    /// Keeps the address in step with the search, so that a search can be shared or bookmarked.
+    /// </summary>
+    private void UpdateUrl()
+    {
+        Nav.NavigateTo(Nav.GetUriWithQueryParameters(new Dictionary<string, object?>
+        {
+            ["q"] = string.IsNullOrWhiteSpace(query) ? null : query,
+            ["lang"] = string.IsNullOrEmpty(language) ? null : language
+        }), replace: true);
+    }
+
+    private async Task ShowMore()
+    {
+        take += PageSize;
+        await LoadAsync();
+    }
+
+    private RenderFragment TranslationRow(string languageName, string? value) => builder =>
+    {
+        var info = Catalog.FindLanguage(languageName);
+
+        builder.OpenElement(0, "div");
+        builder.AddAttribute(1, "class", "tw-translation-row");
+
+        builder.OpenElement(2, "span");
+        builder.AddAttribute(3, "class", "badge tw-lang");
+        builder.AddContent(4, languageName);
+        builder.CloseElement();
+
+        builder.OpenElement(5, "span");
+        if (string.IsNullOrEmpty(value))
+        {
+            builder.AddAttribute(6, "class", "text-body-secondary fst-italic");
+            builder.AddContent(7, "No translation yet");
+        }
+        else
+        {
+            builder.AddAttribute(6, "class", "tw-text");
+            builder.AddAttribute(7, "lang", info?.Code);
+            builder.AddAttribute(8, "dir", info?.IsRtl == true ? "rtl" : "ltr");
+            builder.AddContent(9, value);
+        }
+        builder.CloseElement();
+
+        builder.CloseElement();
+    };
+}

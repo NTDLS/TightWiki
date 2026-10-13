@@ -69,7 +69,7 @@ public async Task<TwPluginResult> HandleMarkup(ITwEngineState state, TwOrderedMa
 - __TwScopeFunctionPlugin__
   - Function called when a scope function has been parsed in the wiki markup.
 - __TwStandardFunctionPlugin__
- - Function called when a standard function has been parsed in the wiki markup.
+  - Function called when a standard function has been parsed in the wiki markup.
 
 ### Handlers
 - __TwCompletionPluginHandler__

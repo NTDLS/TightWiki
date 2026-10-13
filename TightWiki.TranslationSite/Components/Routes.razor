@@ -1,0 +1,16 @@
+<Router AppAssembly="typeof(Program).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
+        <FocusOnNavigate RouteData="routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="typeof(Layout.MainLayout)">
+            <div class="container py-5 text-center">
+                <i class="bi bi-compass display-3 text-body-secondary"></i>
+                <h1 class="h3 mt-3">That page doesn't exist</h1>
+                <p class="text-body-secondary">Maybe it moved. Try searching for what you were after.</p>
+                <a class="btn btn-primary" href="search">Search translations</a>
+            </div>
+        </LayoutView>
+    </NotFound>
+</Router>

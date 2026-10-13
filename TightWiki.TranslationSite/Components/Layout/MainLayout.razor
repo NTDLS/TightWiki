@@ -1,0 +1,36 @@
+@inherits LayoutComponentBase
+@inject NavigationManager Nav
+
+<nav class="navbar tw-navbar sticky-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2 fw-semibold" href="">
+            <span class="tw-logo"><i class="bi bi-translate"></i></span>
+            <span>TightWiki <span class="text-body-secondary fw-normal">Translations</span></span>
+        </a>
+
+        <div class="d-flex align-items-center gap-1 gap-sm-2">
+            <NavLink class="nav-link px-2" href="" Match="NavLinkMatch.All"><i class="bi bi-house-door me-1"></i><span class="d-none d-sm-inline">Home</span></NavLink>
+            <NavLink class="nav-link px-2" href="search"><i class="bi bi-search me-1"></i><span class="d-none d-sm-inline">Search</span></NavLink>
+            <AuthorizeView Policy="Admin">
+                <Authorized>
+                    <NavLink class="nav-link px-2" href="admin"><i class="bi bi-shield-check me-1"></i><span class="d-none d-sm-inline">Admin</span></NavLink>
+                </Authorized>
+            </AuthorizeView>
+        </div>
+    </div>
+</nav>
+
+<main>
+    @Body
+</main>
+
+<footer class="tw-footer mt-5 py-4">
+    <div class="container d-flex flex-wrap justify-content-between gap-2 small text-body-secondary">
+        <span>Suggestions are public and open to everyone. Be kind, and thank you for helping!</span>
+        <span>
+            <a class="link-secondary" href="https://tightwiki.com" rel="noopener">TightWiki.com</a>
+            <span class="mx-1">&middot;</span>
+            <a class="link-secondary" href="https://github.com/NTDLS/TightWiki" rel="noopener">GitHub</a>
+        </span>
+    </div>
+</footer>

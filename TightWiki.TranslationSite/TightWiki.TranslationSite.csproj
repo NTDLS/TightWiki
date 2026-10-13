@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>TightWiki.TranslationSite</RootNamespace>
+		<Version>1.0.0</Version>
+		<!-- Used by 'dotnet user-secrets' to keep the Turnstile secret out of the repository. -->
+		<UserSecretsId>tightwiki-translation-site</UserSecretsId>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.12" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!--
+			We share these small files with the rest of TightWiki rather than referencing TightWiki.Library,
+			which would drag in image processing and email libraries that this site has no use for.
+		-->
+		<Compile Include="..\TightWiki.Library\SupportedCultures.cs" Link="Shared\SupportedCultures.cs" />
+		<Compile Include="..\TightWiki.Library\CultureInfoSettings.cs" Link="Shared\CultureInfoSettings.cs" />
+		<Compile Include="..\LocalizerScan\TranslationValidator.cs" Link="Shared\TranslationValidator.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- The translations ship with the site (it is the same file TightWiki ships with), so publishing the site updates them. -->
+		<Content Include="..\TightWiki\Translations\Translations.db" Link="Data\Translations.db">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,58 @@
+@page "/gate"
+@inject TurnstileVerifier Verifier
+
+<PageTitle>Quick check - TightWiki Translations</PageTitle>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card tw-card shadow-sm text-center">
+                <div class="card-body p-4 p-md-5">
+                    <div class="tw-gate-icon mb-3"><i class="bi bi-shield-check"></i></div>
+                    <h1 class="h3">One quick check</h1>
+                    <p class="text-body-secondary">
+                        There are no accounts here. Just show us you're a person, and you can suggest translations and vote.
+                        You won't need to do this again for a while.
+                    </p>
+
+                    @if (Error == "1")
+                    {
+                        <div class="alert alert-danger py-2" role="alert">
+                            We couldn't verify that. Please try again.
+                        </div>
+                    }
+
+                    @if (!Verifier.IsConfigured)
+                    {
+                        <div class="alert alert-warning" role="alert">
+                            The captcha has not been set up on this site yet.
+                        </div>
+                    }
+                    else
+                    {
+                        <form method="post" action="/gate/verify" id="gateForm">
+                            <input type="hidden" name="returnUrl" value="@(ReturnUrl ?? "/")" />
+                            <div class="d-flex justify-content-center my-3">
+                                <div class="cf-turnstile"
+                                     data-sitekey="@Verifier.SiteKey"
+                                     data-action="@TurnstileVerifier.Action"
+                                     data-callback="twGateSolved"></div>
+                            </div>
+                            <noscript><p class="text-danger small">This check needs JavaScript.</p></noscript>
+                            <button type="submit" class="btn btn-primary">Continue</button>
+                        </form>
+                    }
+
+                    <p class="small text-body-secondary mt-4 mb-0">
+                        Protected by Cloudflare Turnstile. We only keep a random identifier in a cookie, so your votes count once.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromQuery(Name = "returnUrl")] private string? ReturnUrl { get; set; }
+    [SupplyParameterFromQuery(Name = "error")] private string? Error { get; set; }
+}

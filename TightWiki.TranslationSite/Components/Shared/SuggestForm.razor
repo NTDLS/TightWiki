@@ -1,0 +1,97 @@
+@inject SuggestionService Suggestions
+@inject TranslationCatalog Catalog
+@inject NavigationManager Nav
+
+@if (!Visitor.IsVerified)
+{
+    <button type="button" class="btn btn-outline-primary btn-sm" @onclick="Verify">
+        <i class="bi bi-shield-check me-1"></i>Verify you're human to suggest
+    </button>
+}
+else
+{
+    <form class="tw-suggest-form" @onsubmit="Submit" @onsubmit:preventDefault="true">
+        <div class="row g-2 align-items-start">
+            @if (string.IsNullOrEmpty(Language))
+            {
+                <div class="col-12 col-md-4">
+                    <select class="form-select form-select-sm" @bind="language" aria-label="Language">
+                        <option value="">Language...</option>
+                        @foreach (var item in Catalog.Languages)
+                        {
+                            <option value="@item.Name">@item.Name</option>
+                        }
+                    </select>
+                </div>
+            }
+            <div class="col">
+                <input type="text" class="form-control form-control-sm" @bind="text" @bind:event="oninput" maxlength="500"
+                       placeholder="@(string.IsNullOrEmpty(Language) ? "Your suggested translation" : $"Your suggested {Language} translation")"
+                       dir="@(IsRtl ? "rtl" : "ltr")" aria-label="Suggested translation" />
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary btn-sm" disabled="@(string.IsNullOrWhiteSpace(text))">
+                    <i class="bi bi-send me-1"></i>Suggest
+                </button>
+            </div>
+        </div>
+        @if (message != null)
+        {
+            <div class="small mt-1 @(succeeded ? "text-success" : "text-danger")" role="status">
+                <i class="bi @(succeeded ? "bi-check-circle" : "bi-exclamation-circle") me-1"></i>@message
+            </div>
+        }
+    </form>
+}
+
+@code {
+    [Parameter, EditorRequired] public PhraseEntry Phrase { get; set; } = default!;
+    [Parameter, EditorRequired] public Visitor Visitor { get; set; } = Visitor.Anonymous;
+
+    /// <summary>
+    /// The language that the suggestion is for, when it is already known (such as when the search is filtered to a language).
+    /// </summary>
+    [Parameter] public string? Language { get; set; }
+
+    private string language = string.Empty;
+    private string text = string.Empty;
+    private string? message;
+    private bool succeeded;
+
+    private bool IsRtl => Catalog.FindLanguage(string.IsNullOrEmpty(Language) ? language : Language)?.IsRtl == true;
+
+    private void Submit()
+    {
+        var chosen = string.IsNullOrEmpty(Language) ? language : Language;
+
+        var result = Suggestions.Submit(Visitor.Id!, Phrase.English, chosen, text);
+        succeeded = result.Ok;
+
+        if (result.Ok)
+        {
+            if (!result.WasDuplicate)
+            {
+                message = "Thank you! Your suggestion is live.";
+            }
+            else if (result.Suggestion?.SubmitterKey == Visitor.Id)
+            {
+                message = "You already suggested that.";
+            }
+            else
+            {
+                message = "Someone already suggested that, so it now has your vote. Thank you!";
+            }
+            text = string.Empty;
+        }
+        else
+        {
+            message = result.Error;
+        }
+    }
+
+    private void Verify()
+    {
+        var returnUrl = "/" + Nav.ToBaseRelativePath(Nav.Uri);
+        Nav.NavigateTo($"/gate?returnUrl={Uri.EscapeDataString(returnUrl)}", forceLoad: true);
+    }
+}

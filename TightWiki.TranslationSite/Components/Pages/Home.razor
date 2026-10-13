@@ -1,0 +1,178 @@
+@page "/"
+@rendermode InteractiveServer
+@inherits VisitorComponentBase
+
+<PageTitle>TightWiki Translations - help TightWiki speak your language</PageTitle>
+
+<section class="tw-hero">
+    <div class="container">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-7">
+                <h1 class="display-6 fw-bold mb-3">Help TightWiki speak your language</h1>
+                <p class="lead mb-4">
+                    Spot a clumsy translation? Suggest something better, and vote on what other people have suggested.
+                    The best ones make it into the next TightWiki release.
+                </p>
+
+                <form method="get" action="search" class="tw-hero-search" role="search">
+                    <div class="tw-hero-input">
+                        <i class="bi bi-search"></i>
+                        <input type="search" name="q" class="form-control form-control-lg" placeholder="Search any phrase or language..." aria-label="Search translations" />
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg">Search</button>
+                </form>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="row g-3 tw-stats">
+                    <div class="col-6">
+                        <div class="tw-stat"><i class="bi bi-chat-square-text"></i><strong>@Catalog.PhraseCount.ToString("N0")</strong><span>phrases</span></div>
+                    </div>
+                    <div class="col-6">
+                        <div class="tw-stat"><i class="bi bi-globe2"></i><strong>@Catalog.Languages.Count</strong><span>languages</span></div>
+                    </div>
+                    <div class="col-6">
+                        <div class="tw-stat"><i class="bi bi-lightbulb"></i><strong>@stats.Suggestions.ToString("N0")</strong><span>suggestions</span></div>
+                    </div>
+                    <div class="col-6">
+                        <div class="tw-stat"><i class="bi bi-hand-thumbs-up"></i><strong>@stats.VotesThisWeek.ToString("N0")</strong><span>votes this week</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container mt-4">
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <div class="card tw-card shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span class="fw-semibold"><i class="bi bi-lightning-charge me-2 text-warning"></i>Fresh suggestions</span>
+                    <span class="small text-body-secondary d-none d-sm-inline">Vote on what sounds right</span>
+                </div>
+                @if (recent.Count > 0)
+                {
+                    <div class="tw-list">
+                        @foreach (var item in recent)
+                        {
+                            <SuggestionItem @key="item.Id" Item="item" Visitor="Visitor" />
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="card-body text-center py-5">
+                        <i class="bi bi-stars display-4 text-body-secondary"></i>
+                        <h2 class="h5 mt-3">Nothing suggested yet</h2>
+                        <p class="text-body-secondary mb-3">Be the first. Find a phrase and suggest how it should read.</p>
+                        <a class="btn btn-primary" href="search">Find a phrase</a>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card tw-card tw-vote-now shadow-sm mb-4">
+                <div class="card-header fw-semibold"><i class="bi bi-megaphone me-2 text-primary"></i>Your vote counts</div>
+                @{
+                    var next = votable.Count == 0 ? null : votable[skipIndex % votable.Count];
+                    var nextLanguage = next == null ? null : Catalog.Languages.FirstOrDefault(o => o.Name == next.Language);
+                    var nextCurrent = next == null ? null : Catalog.FindByEnglish(next.English)?.Translations.GetValueOrDefault(next.Language);
+                }
+                @if (next != null)
+                {
+                    <div class="card-body">
+                        <div class="small text-body-secondary mb-1">Does this sound right?</div>
+                        <div class="tw-english fs-5 mb-2">@next.English</div>
+                        <div class="d-flex flex-wrap align-items-baseline gap-2 mb-1">
+                            <span class="badge tw-lang">@next.Language</span>
+                            <span class="tw-text fs-5" lang="@nextLanguage?.Code" dir="@(nextLanguage?.IsRtl == true ? "rtl" : "ltr")">@next.Text</span>
+                        </div>
+                        @if (nextCurrent != null)
+                        {
+                            <div class="small text-body-secondary">Currently: <span lang="@nextLanguage?.Code" dir="@(nextLanguage?.IsRtl == true ? "rtl" : "ltr")">@nextCurrent</span></div>
+                        }
+
+                        @if (voteError != null)
+                        {
+                            <div class="text-danger small mt-2" role="alert">@voteError</div>
+                        }
+
+                        <div class="d-flex gap-2 mt-3">
+                            <button type="button" class="btn btn-success flex-fill" @onclick="() => VoteNext(next, 1)"><i class="bi bi-hand-thumbs-up me-1"></i>Sounds good</button>
+                            <button type="button" class="btn btn-outline-danger flex-fill" @onclick="() => VoteNext(next, -1)"><i class="bi bi-hand-thumbs-down me-1"></i>Needs work</button>
+                        </div>
+                        <div class="text-center mt-2">
+                            <button type="button" class="btn btn-link btn-sm text-body-secondary" @onclick="Skip"><i class="bi bi-skip-forward me-1"></i>Skip this one</button>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="card-body text-center py-4">
+                        <i class="bi bi-emoji-smile display-5 text-success"></i>
+                        <h2 class="h6 mt-2">You're all caught up!</h2>
+                        <p class="small text-body-secondary mb-0">Nothing left for you to vote on right now. Come back soon, or suggest a translation of your own.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Suggestion> recent = new();
+    private List<Suggestion> votable = new();
+    private List<TranslationGap> gaps = new();
+    private SiteStats stats = new(0, 0, 0, 0);
+    private int skipIndex;
+    private string? voteError;
+    private Timer? clock;
+
+    protected override async Task OnInitializedAsync()
+    {
+        gaps = Catalog.GetGaps(6);
+        await base.OnInitializedAsync();
+
+        //Keeps "3 minutes ago" honest while the page is left open.
+        clock = new Timer(_ => _ = InvokeAsync(StateHasChanged), null, TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(30));
+    }
+
+    protected override Task LoadAsync()
+    {
+        recent = Suggestions.GetRecent(Visitor.QueryId, 10);
+        votable = Suggestions.GetNeedingVotes(Visitor.QueryId, 12);
+        stats = Suggestions.GetStats();
+
+        if (skipIndex >= votable.Count)
+        {
+            skipIndex = 0;
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private void VoteNext(Suggestion suggestion, int value)
+    {
+        if (!Visitor.IsVerified)
+        {
+            GoVerify();
+            return;
+        }
+
+        var result = Suggestions.Vote(Visitor.Id!, suggestion.Id, value);
+        voteError = result.Ok ? null : result.Error;
+    }
+
+    private void Skip() => skipIndex++;
+
+    private static string GapLink(TranslationGap gap)
+        => $"search?q={Uri.EscapeDataString(gap.Phrase.English)}&lang={Uri.EscapeDataString(gap.Language.Name)}";
+
+    public override void Dispose()
+    {
+        clock?.Dispose();
+        base.Dispose();
+    }
+}

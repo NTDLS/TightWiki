@@ -146,3 +146,10 @@ TightWiki/Plugins/
 TightWiki.Plugin.Example/obj/
 
 TightWiki.Plugin.Example/bin/
+
+TightWiki.TranslationSite/bin/
+
+TightWiki.TranslationSite/obj/
+
+#Live suggestions and votes for the translations site, these must never be committed.
+TightWiki.TranslationSite/App_Data/

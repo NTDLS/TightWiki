@@ -1,0 +1,146 @@
+@page "/admin"
+@rendermode InteractiveServer
+@inherits VisitorComponentBase
+@inject Microsoft.Extensions.Options.IOptions<SiteOptions> Options
+
+<PageTitle>Admin - TightWiki Translations</PageTitle>
+
+<div class="container py-4">
+    @if (!Visitor.IsAdmin)
+    {
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-5">
+                <div class="card tw-card shadow-sm">
+                    <div class="card-body p-4">
+                        <h1 class="h4 mb-3"><i class="bi bi-shield-lock me-2"></i>Admin</h1>
+                        @if (Error == "1")
+                        {
+                            <div class="alert alert-danger py-2" role="alert">That key was not accepted.</div>
+                        }
+                        <form method="post" action="/admin/login">
+                            <label class="form-label" for="adminKey">Admin key</label>
+                            <input id="adminKey" type="password" name="key" class="form-control mb-3" autocomplete="off" />
+                            <button type="submit" class="btn btn-primary">Open admin</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+            <h1 class="h3 mb-0"><i class="bi bi-shield-check me-2"></i>Moderation</h1>
+            <form method="post" action="/admin/logout"><button type="submit" class="btn btn-outline-secondary btn-sm">Sign out</button></form>
+        </div>
+
+        <div class="card tw-card shadow-sm mb-3">
+            <div class="card-body">
+                <div class="row g-2 align-items-end">
+                    <div class="col-12 col-md-4 col-lg-3">
+                        <label class="form-label small mb-1" for="filter">Show</label>
+                        <select id="filter" class="form-select form-select-sm" value="@filter" @onchange="OnFilterChanged">
+                            <option value="all" selected="@(filter == "all")">Everything</option>
+                            <option value="shown" selected="@(filter == "shown")">Being shown</option>
+                            <option value="approved" selected="@(filter == "approved")">Approved</option>
+                            <option value="hidden" selected="@(filter == "hidden")">Hidden</option>
+                        </select>
+                    </div>
+                    <div class="col-6 col-md-3 col-lg-2">
+                        <label class="form-label small mb-1" for="min">Export minimum score</label>
+                        <input id="min" type="number" class="form-control form-control-sm" @bind="minimumScore" />
+                    </div>
+                    <div class="col-auto d-flex gap-2">
+                        <a class="btn btn-outline-primary btn-sm" href="admin/export.csv?min=@minimumScore"><i class="bi bi-filetype-csv me-1"></i>CSV</a>
+                        <a class="btn btn-outline-primary btn-sm" href="admin/export.json?min=@minimumScore"><i class="bi bi-filetype-json me-1"></i>JSON</a>
+                    </div>
+                </div>
+                <div class="small text-body-secondary mt-2">
+                    Exports the best suggestion for each phrase and language that scores at least the minimum.
+                    Suggestions are hidden automatically at a score of @Options.Value.AutoHideScore or lower.
+                </div>
+            </div>
+        </div>
+
+        <div class="card tw-card shadow-sm">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Phrase</th>
+                            <th>Language</th>
+                            <th>Suggestion</th>
+                            <th class="text-end">Score</th>
+                            <th>Status</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in items)
+                        {
+                            var autoHidden = item.Status == SuggestionStatus.Normal && item.Score <= Options.Value.AutoHideScore;
+                            <tr @key="item.Id">
+                                <td>@item.English</td>
+                                <td><span class="badge tw-lang">@item.Language</span></td>
+                                <td>@item.Text</td>
+                                <td class="text-end text-nowrap" title="@item.UpVotes up, @item.DownVotes down">@item.Score</td>
+                                <td>
+                                    @if (item.Status == SuggestionStatus.Approved) { <span class="badge text-bg-success">Approved</span> }
+                                    else if (item.Status == SuggestionStatus.Hidden) { <span class="badge text-bg-secondary">Hidden</span> }
+                                    else if (autoHidden) { <span class="badge text-bg-warning">Hidden by votes</span> }
+                                    else { <span class="badge text-bg-light border">Shown</span> }
+                                </td>
+                                <td class="text-end text-nowrap">
+                                    <button type="button" class="btn btn-sm btn-outline-success" title="Always show" @onclick="() => SetStatus(item, SuggestionStatus.Approved)"><i class="bi bi-patch-check"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" title="Hide" @onclick="() => SetStatus(item, SuggestionStatus.Hidden)"><i class="bi bi-eye-slash"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" title="Back to normal" @onclick="() => SetStatus(item, SuggestionStatus.Normal)"><i class="bi bi-arrow-counterclockwise"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" title="Delete forever" @onclick="() => Delete(item)"><i class="bi bi-trash"></i></button>
+                                </td>
+                            </tr>
+                        }
+                        @if (items.Count == 0)
+                        {
+                            <tr><td colspan="6" class="text-center text-body-secondary py-4">Nothing here.</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [SupplyParameterFromQuery(Name = "error")] private string? Error { get; set; }
+
+    private string filter = "all";
+    private int minimumScore = 3;
+    private List<Suggestion> items = new();
+
+    protected override Task LoadAsync()
+    {
+        items = Visitor.IsAdmin ? Suggestions.GetAll(filter, 300) : new();
+        return Task.CompletedTask;
+    }
+
+    private async Task OnFilterChanged(ChangeEventArgs args)
+    {
+        filter = args.Value?.ToString() ?? "all";
+        await LoadAsync();
+    }
+
+    private void SetStatus(Suggestion item, int status)
+    {
+        if (Visitor.IsAdmin)
+        {
+            Suggestions.SetStatus(item.Id, status);
+        }
+    }
+
+    private void Delete(Suggestion item)
+    {
+        if (Visitor.IsAdmin)
+        {
+            Suggestions.Delete(item.Id);
+        }
+    }
+}

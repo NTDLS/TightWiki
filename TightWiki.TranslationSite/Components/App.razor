@@ -1,0 +1,37 @@
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Environment
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Help translate TightWiki. Search every translation, suggest better wording, and vote on suggestions from other people." />
+    <base href="/" />
+    <title>TightWiki Translations</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <script src="@Versioned("theme.js")"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="@Versioned("app.css")" />
+    <HeadOutlet />
+</head>
+
+<body>
+    <Routes />
+    <script src="@Versioned("gate.js")"></script>
+    <script src="_framework/blazor.web.js"></script>
+</body>
+
+</html>
+
+@code {
+    /// <summary>
+    /// Adds the time the file last changed to its address, so a visitor's browser fetches it again whenever it changes
+    ///  instead of carrying on with an old copy (which could otherwise be a script or style that no longer matches the page).
+    /// </summary>
+    private string Versioned(string file)
+    {
+        var info = Environment.WebRootFileProvider.GetFileInfo(file);
+        return info.Exists ? $"{file}?v={info.LastModified.UtcTicks}" : file;
+    }
+}
