@@ -47,6 +47,10 @@
             {
                 <span class="badge text-bg-success"><i class="bi bi-patch-check me-1"></i>Approved</span>
             }
+            @if (Item.SubmitterKey == SuggestionService.AutoSubmitterKey)
+            {
+                <span class="badge text-bg-secondary" title="A draft that still needs people to check it. Vote on whether it sounds right."><i class="bi bi-pencil me-1"></i>Draft</span>
+            }
             @if (Visitor.Id != null && Item.SubmitterKey == Visitor.Id)
             {
                 <span class="badge text-bg-secondary">Yours</span>

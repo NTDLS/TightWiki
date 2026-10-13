@@ -18,11 +18,15 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-4 col-lg-3">
-                    <select class="form-select" aria-label="Language" value="@language" @onchange="OnLanguageChanged">
-                        <option value="">All languages</option>
+                    <select class="form-select" aria-label="Language" value="@choice" @onchange="OnLanguageChanged">
+                        <option value="all" selected="@(choice == "all")">All languages</option>
+                        @if (Prefs.HasSelection)
+                        {
+                            <option value="mine" selected="@(choice == "mine")">My languages (@string.Join(", ", Prefs.Names))</option>
+                        }
                         @foreach (var item in Catalog.Languages)
                         {
-                            <option value="@item.Name" selected="@(item.Name == language)">@item.Name</option>
+                            <option value="@item.Name" selected="@(item.Name == choice)">@item.Name</option>
                         }
                     </select>
                 </div>
@@ -34,7 +38,7 @@
                 }
                 else
                 {
-                    <span>Showing @results.Items.Count.ToString("N0") of @results.Total.ToString("N0") phrases@(string.IsNullOrEmpty(language) ? "" : $" in {language}").</span>
+                    <span>Showing @results.Items.Count.ToString("N0") of @results.Total.ToString("N0") phrases@(Scope).</span>
                 }
             </div>
         </div>
@@ -61,15 +65,18 @@
                     <span class="badge text-bg-light border flex-shrink-0">@phrase.Translations.Count / @Catalog.Languages.Count</span>
                 </div>
 
-                @if (!string.IsNullOrEmpty(language))
+                @if (ChoiceLanguages != null)
                 {
-                    @TranslationRow(language, phrase.Translations.GetValueOrDefault(language))
+                    foreach (var shown in ChoiceLanguages)
+                    {
+                        <TranslationRow Phrase="phrase" Language="@shown" Visitor="Visitor" />
+                    }
                 }
                 else
                 {
                     foreach (var matched in match.MatchedLanguages.Take(4))
                     {
-                        @TranslationRow(matched, phrase.Translations.GetValueOrDefault(matched))
+                        <TranslationRow Phrase="phrase" Language="@matched" Visitor="Visitor" />
                     }
                 }
 
@@ -78,7 +85,7 @@
                     <div class="tw-all-translations mt-2">
                         @foreach (var item in Catalog.Languages)
                         {
-                            @TranslationRow(item.Name, phrase.Translations.GetValueOrDefault(item.Name))
+                            <TranslationRow Phrase="phrase" Language="@item.Name" Visitor="Visitor" />
                         }
                     </div>
                 </details>
@@ -96,7 +103,7 @@
                 <div class="mt-3">
                     @if (openForms.Contains(phrase.Key))
                     {
-                        <SuggestForm Phrase="phrase" Visitor="Visitor" Language="@language" />
+                        <SuggestForm Phrase="phrase" Visitor="Visitor" Language="@SingleLanguage" PreferredLanguages="Prefs.NamesOrNull" />
                     }
                     else
                     {
@@ -124,16 +131,61 @@
     [SupplyParameterFromQuery(Name = "lang")] private string? Lang { get; set; }
 
     private string query = string.Empty;
-    private string language = string.Empty;
+
+    /// <summary>
+    /// "all", "mine" (the languages the visitor has chosen), or the name of one language.
+    /// </summary>
+    private string choice = "all";
+
     private int take = PageSize;
     private SearchResults results = new(Array.Empty<PhraseMatch>(), 0);
     private ILookup<string, Suggestion> suggestionsByPhrase = Array.Empty<Suggestion>().ToLookup(o => o.English);
     private readonly HashSet<string> openForms = new();
 
+    /// <summary>
+    /// The languages that the search is limited to, or null for all of them.
+    /// </summary>
+    private IReadOnlyCollection<string>? ChoiceLanguages => choice switch
+    {
+        "all" => null,
+        "mine" => Prefs.NamesOrNull,
+        _ => new[] { choice }
+    };
+
+    private string? SingleLanguage => choice is "all" or "mine" ? null : choice;
+
+    private string Scope => ChoiceLanguages == null ? string.Empty : $" in {string.Join(", ", ChoiceLanguages)}";
+
+    /// <summary>
+    /// What a "lang" in the address means. Without one, a visitor who has chosen their languages gets those.
+    /// </summary>
+    private string Resolve(string? lang)
+    {
+        var fallback = Prefs.HasSelection ? "mine" : "all";
+
+        if (string.IsNullOrWhiteSpace(lang))
+        {
+            return fallback;
+        }
+
+        if (lang.Equals("all", StringComparison.OrdinalIgnoreCase))
+        {
+            return "all";
+        }
+
+        if (lang.Equals("mine", StringComparison.OrdinalIgnoreCase))
+        {
+            return fallback;
+        }
+
+        return Catalog.FindLanguage(lang)?.Name ?? fallback;
+    }
+
     protected override async Task OnInitializedAsync()
     {
+        Prefs.EnsureInitialized();
         query = Q ?? string.Empty;
-        language = Catalog.FindLanguage(Lang)?.Name ?? string.Empty;
+        choice = Resolve(Lang);
         await base.OnInitializedAsync();
     }
 
@@ -141,12 +193,12 @@
     {
         //Handles the visitor following a link (such as "Suggest" on the home page) while this page is already open.
         var newQuery = Q ?? string.Empty;
-        var newLanguage = Catalog.FindLanguage(Lang)?.Name ?? string.Empty;
+        var newChoice = Resolve(Lang);
 
-        if (newQuery != query || newLanguage != language)
+        if (newQuery != query || newChoice != choice)
         {
             query = newQuery;
-            language = newLanguage;
+            choice = newChoice;
             take = PageSize;
             _ = LoadAsync();
         }
@@ -154,10 +206,16 @@
 
     protected override Task LoadAsync()
     {
-        results = Catalog.Search(query, language, 0, take);
+        //Their languages may have been cleared while this page was open.
+        if (choice == "mine" && !Prefs.HasSelection)
+        {
+            choice = "all";
+        }
+
+        results = Catalog.SearchIn(query, ChoiceLanguages, 0, take);
 
         suggestionsByPhrase = Suggestions
-            .GetForPhrases(Visitor.QueryId, results.Items.Select(o => o.Phrase.English).ToList(), string.IsNullOrEmpty(language) ? null : language)
+            .GetForPhrasesIn(Visitor.QueryId, results.Items.Select(o => o.Phrase.English).ToList(), ChoiceLanguages)
             .ToLookup(o => o.English, StringComparer.OrdinalIgnoreCase);
 
         return Task.CompletedTask;
@@ -172,7 +230,7 @@
 
     private async Task OnLanguageChanged(ChangeEventArgs args)
     {
-        language = Catalog.FindLanguage(args.Value?.ToString())?.Name ?? string.Empty;
+        choice = Resolve(args.Value?.ToString());
         take = PageSize;
         await LoadAsync();
         UpdateUrl();
@@ -186,7 +244,7 @@
         Nav.NavigateTo(Nav.GetUriWithQueryParameters(new Dictionary<string, object?>
         {
             ["q"] = string.IsNullOrWhiteSpace(query) ? null : query,
-            ["lang"] = string.IsNullOrEmpty(language) ? null : language
+            ["lang"] = choice == Resolve(null) ? null : choice
         }), replace: true);
     }
 
@@ -195,34 +253,4 @@
         take += PageSize;
         await LoadAsync();
     }
-
-    private RenderFragment TranslationRow(string languageName, string? value) => builder =>
-    {
-        var info = Catalog.FindLanguage(languageName);
-
-        builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", "tw-translation-row");
-
-        builder.OpenElement(2, "span");
-        builder.AddAttribute(3, "class", "badge tw-lang");
-        builder.AddContent(4, languageName);
-        builder.CloseElement();
-
-        builder.OpenElement(5, "span");
-        if (string.IsNullOrEmpty(value))
-        {
-            builder.AddAttribute(6, "class", "text-body-secondary fst-italic");
-            builder.AddContent(7, "No translation yet");
-        }
-        else
-        {
-            builder.AddAttribute(6, "class", "tw-text");
-            builder.AddAttribute(7, "lang", info?.Code);
-            builder.AddAttribute(8, "dir", info?.IsRtl == true ? "rtl" : "ltr");
-            builder.AddContent(9, value);
-        }
-        builder.CloseElement();
-
-        builder.CloseElement();
-    };
 }

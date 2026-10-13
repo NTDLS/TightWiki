@@ -17,9 +17,27 @@ else
                 <div class="col-12 col-md-4">
                     <select class="form-select form-select-sm" @bind="language" aria-label="Language">
                         <option value="">Language...</option>
-                        @foreach (var item in Catalog.Languages)
+                        @if (PreferredLanguages is { Count: > 0 })
                         {
-                            <option value="@item.Name">@item.Name</option>
+                            <optgroup label="Your languages">
+                                @foreach (var item in Catalog.Languages.Where(o => PreferredLanguages.Contains(o.Name)))
+                                {
+                                    <option value="@item.Name">@item.Name</option>
+                                }
+                            </optgroup>
+                            <optgroup label="All languages">
+                                @foreach (var item in Catalog.Languages.Where(o => !PreferredLanguages.Contains(o.Name)))
+                                {
+                                    <option value="@item.Name">@item.Name</option>
+                                }
+                            </optgroup>
+                        }
+                        else
+                        {
+                            @foreach (var item in Catalog.Languages)
+                            {
+                                <option value="@item.Name">@item.Name</option>
+                            }
                         }
                     </select>
                 </div>
@@ -53,8 +71,21 @@ else
     /// </summary>
     [Parameter] public string? Language { get; set; }
 
+    /// <summary>
+    /// The languages that the visitor has chosen, which are offered first (and, if there is only one, are already selected).
+    /// </summary>
+    [Parameter] public IReadOnlyCollection<string>? PreferredLanguages { get; set; }
+
     private string language = string.Empty;
     private string text = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        if (string.IsNullOrEmpty(Language) && PreferredLanguages is { Count: 1 })
+        {
+            language = PreferredLanguages.First();
+        }
+    }
     private string? message;
     private bool succeeded;
 

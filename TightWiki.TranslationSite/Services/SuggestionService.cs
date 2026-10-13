@@ -170,49 +170,128 @@ namespace TightWiki.TranslationSite.Services
         #region Suggest.
 
         /// <summary>
-        /// Adds a suggested translation. The suggester starts it off with their own up-vote.
+        /// The submitter that machine translations are recorded against. It is not a visitor, so nobody has voted for
+        ///  them already and every visitor (including the administrator who asked for it) can vote on them.
         /// </summary>
-        public SubmitResult Submit(string visitorId, string english, string language, string text)
+        public const string AutoSubmitterKey = "auto-translate";
+
+        /// <summary>
+        /// The checks that every suggestion must pass, whether it was typed by a visitor or produced by the translation service.
+        /// Returns null when it is acceptable, otherwise why not.
+        /// </summary>
+        private SubmitResult? Validate(string? english, string? language, string? text,
+            out PhraseEntry? phrase, out LanguageInfo? languageInfo, out string cleaned)
         {
-            var phrase = _catalog.FindByEnglish(english ?? string.Empty);
+            phrase = null;
+            languageInfo = null;
+            cleaned = (text ?? string.Empty).Trim();
+
+            phrase = _catalog.FindByEnglish(english ?? string.Empty);
             if (phrase == null)
             {
                 return new SubmitResult(false, "That phrase could not be found.", null, false);
             }
 
-            var languageInfo = _catalog.FindLanguage(language);
+            languageInfo = _catalog.FindLanguage(language);
             if (languageInfo == null)
             {
                 return new SubmitResult(false, "Please choose a language.", null, false);
             }
 
-            text = (text ?? string.Empty).Trim();
-            if (text.Length == 0)
+            if (cleaned.Length == 0)
             {
                 return new SubmitResult(false, "Please enter a translation.", null, false);
             }
 
-            if (text.Length > _options.MaxSuggestionLength)
+            if (cleaned.Length > _options.MaxSuggestionLength)
             {
                 return new SubmitResult(false, $"Suggestions can be at most {_options.MaxSuggestionLength} characters.", null, false);
             }
 
-            if (text.Any(char.IsControl))
+            if (cleaned.Any(char.IsControl))
             {
                 return new SubmitResult(false, "Suggestions must be a single line of text.", null, false);
             }
 
             //The same checks that are used when the translations are produced: wrong alphabet, damaged placeholders, stray markup.
-            var problems = TranslationValidator.GetProblems(languageInfo.Code, phrase.English, text);
+            var problems = TranslationValidator.GetProblems(languageInfo.Code, phrase.English, cleaned);
             if (problems.Count > 0)
             {
                 return new SubmitResult(false, $"That does not look right for {languageInfo.Name}: {string.Join("; ", problems)}.", null, false);
             }
 
             if (phrase.Translations.TryGetValue(languageInfo.Name, out var current)
-                && TranslationCatalog.Normalize(current) == TranslationCatalog.Normalize(text))
+                && TranslationCatalog.Normalize(current) == TranslationCatalog.Normalize(cleaned))
             {
                 return new SubmitResult(false, "That is already the current translation.", null, false);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Adds a machine translation as a suggestion, so that people can vote on it like any other. Unlike a suggestion from a visitor
+        ///  it starts with no votes, and if the same text has already been suggested nothing is added (and no vote is cast for it).
+        /// </summary>
+        public SubmitResult SubmitAutomatic(string english, string language, string text)
+        {
+            var invalid = Validate(english, language, text, out var phrase, out var languageInfo, out text);
+            if (invalid != null)
+            {
+                return invalid;
+            }
+
+            long id;
+            using (var connection = Open())
+            using (var transaction = connection.BeginTransaction())
+            {
+                using (var find = connection.CreateCommand())
+                {
+                    find.Transaction = transaction;
+                    find.CommandText = "SELECT Id FROM Suggestion WHERE English = @english AND Language = @language AND Text = @text";
+                    find.Parameters.AddWithValue("@english", phrase!.English);
+                    find.Parameters.AddWithValue("@language", languageInfo!.Name);
+                    find.Parameters.AddWithValue("@text", text);
+
+                    var existing = find.ExecuteScalar();
+                    if (existing != null)
+                    {
+                        return new SubmitResult(false, "That has already been suggested.", GetById(string.Empty, Convert.ToInt64(existing, CultureInfo.InvariantCulture)), true);
+                    }
+                }
+
+                using (var insert = connection.CreateCommand())
+                {
+                    insert.Transaction = transaction;
+                    insert.CommandText = """
+                        INSERT INTO Suggestion (English, Language, Text, SubmitterKey, CreatedUtc, Status, UpVotes, DownVotes)
+                        VALUES (@english, @language, @text, @submitter, @created, 0, 0, 0);
+                        SELECT last_insert_rowid();
+                        """;
+                    insert.Parameters.AddWithValue("@english", phrase.English);
+                    insert.Parameters.AddWithValue("@language", languageInfo.Name);
+                    insert.Parameters.AddWithValue("@text", text);
+                    insert.Parameters.AddWithValue("@submitter", AutoSubmitterKey);
+                    insert.Parameters.AddWithValue("@created", Now());
+                    id = Convert.ToInt64(insert.ExecuteScalar(), CultureInfo.InvariantCulture);
+                }
+
+                transaction.Commit();
+            }
+
+            RaiseChanged();
+            return new SubmitResult(true, null, GetById(string.Empty, id), false);
+        }
+
+        /// <summary>
+        /// Adds a suggested translation. The suggester starts it off with their own up-vote.
+        /// </summary>
+        public SubmitResult Submit(string visitorId, string english, string language, string text)
+        {
+            var invalid = Validate(english, language, text, out var phrase, out var languageInfo, out text);
+            if (invalid != null)
+            {
+                return invalid;
             }
 
             if (!_suggestionLimiter.TryAcquire(visitorId, _options.SuggestionsPerHour, TimeSpan.FromHours(1)))
@@ -228,8 +307,8 @@ namespace TightWiki.TranslationSite.Services
             {
                 find.Transaction = transaction;
                 find.CommandText = "SELECT Id FROM Suggestion WHERE English = @english AND Language = @language AND Text = @text";
-                find.Parameters.AddWithValue("@english", phrase.English);
-                find.Parameters.AddWithValue("@language", languageInfo.Name);
+                find.Parameters.AddWithValue("@english", phrase!.English);
+                find.Parameters.AddWithValue("@language", languageInfo!.Name);
                 find.Parameters.AddWithValue("@text", text);
 
                 var existing = find.ExecuteScalar();
@@ -253,7 +332,7 @@ namespace TightWiki.TranslationSite.Services
                     VALUES (@english, @language, @text, @submitter, @created, 0, 1, 0);
                     SELECT last_insert_rowid();
                     """;
-                insert.Parameters.AddWithValue("@english", phrase.English);
+                insert.Parameters.AddWithValue("@english", phrase!.English);
                 insert.Parameters.AddWithValue("@language", languageInfo.Name);
                 insert.Parameters.AddWithValue("@text", text);
                 insert.Parameters.AddWithValue("@submitter", visitorId);
@@ -425,21 +504,55 @@ namespace TightWiki.TranslationSite.Services
         /// <summary>
         /// The newest suggestions that are being shown.
         /// </summary>
-        public List<Suggestion> GetRecent(string visitorId, int take)
-            => Query(visitorId, $"WHERE {VisibleFilter} ORDER BY s.Id DESC LIMIT @take", c => c.Parameters.AddWithValue("@take", take));
+        public List<Suggestion> GetRecent(string visitorId, int take, IReadOnlyCollection<string>? languages = null)
+            => Query(visitorId, $"WHERE {VisibleFilter}{LanguageClause(languages)} ORDER BY s.Id DESC LIMIT @take", c =>
+            {
+                c.Parameters.AddWithValue("@take", take);
+                BindLanguages(c, languages);
+            });
+
+        /// <summary>
+        /// " AND s.Language IN (...)" for the languages that are wanted, or nothing when every language is wanted.
+        /// </summary>
+        private static string LanguageClause(IReadOnlyCollection<string>? languages)
+            => languages is { Count: > 0 }
+                ? $" AND s.Language IN ({string.Join(",", languages.Select((_, i) => $"@lang{i}"))})"
+                : string.Empty;
+
+        private static void BindLanguages(SqliteCommand command, IReadOnlyCollection<string>? languages)
+        {
+            if (languages is { Count: > 0 })
+            {
+                int i = 0;
+                foreach (var language in languages)
+                {
+                    command.Parameters.AddWithValue($"@lang{i++}", language);
+                }
+            }
+        }
 
         /// <summary>
         /// Suggestions that this visitor could vote on, starting with the ones that have the fewest votes.
         /// </summary>
-        public List<Suggestion> GetNeedingVotes(string visitorId, int take)
+        public List<Suggestion> GetNeedingVotes(string visitorId, int take, IReadOnlyCollection<string>? languages = null)
             => Query(visitorId,
-                $"WHERE {VisibleFilter} AND s.SubmitterKey <> @visitor AND v.Value IS NULL ORDER BY (s.UpVotes + s.DownVotes) ASC, RANDOM() LIMIT @take",
-                c => c.Parameters.AddWithValue("@take", take));
+                $"WHERE {VisibleFilter} AND s.SubmitterKey <> @visitor AND v.Value IS NULL{LanguageClause(languages)} ORDER BY (s.UpVotes + s.DownVotes) ASC, RANDOM() LIMIT @take",
+                c =>
+                {
+                    c.Parameters.AddWithValue("@take", take);
+                    BindLanguages(c, languages);
+                });
 
         /// <summary>
         /// The suggestions for some phrases, best first. When a language is given only that language is returned.
         /// </summary>
         public List<Suggestion> GetForPhrases(string visitorId, IReadOnlyCollection<string> english, string? language)
+            => GetForPhrasesIn(visitorId, english, string.IsNullOrEmpty(language) ? null : [language]);
+
+        /// <summary>
+        /// The suggestions for some phrases, best first, in a set of languages (all of them when none are given).
+        /// </summary>
+        public List<Suggestion> GetForPhrasesIn(string visitorId, IReadOnlyCollection<string> english, IReadOnlyCollection<string>? languages)
         {
             if (english.Count == 0)
             {
@@ -447,8 +560,7 @@ namespace TightWiki.TranslationSite.Services
             }
 
             var names = english.Select((_, i) => $"@e{i}").ToList();
-            var tail = $"WHERE {VisibleFilter} AND s.English IN ({string.Join(",", names)})"
-                + (string.IsNullOrEmpty(language) ? string.Empty : " AND s.Language = @language")
+            var tail = $"WHERE {VisibleFilter} AND s.English IN ({string.Join(",", names)}){LanguageClause(languages)}"
                 + " ORDER BY (s.UpVotes - s.DownVotes) DESC, s.Id";
 
             return Query(visitorId, tail, c =>
@@ -459,10 +571,7 @@ namespace TightWiki.TranslationSite.Services
                     c.Parameters.AddWithValue($"@e{i++}", phrase);
                 }
 
-                if (!string.IsNullOrEmpty(language))
-                {
-                    c.Parameters.AddWithValue("@language", language);
-                }
+                BindLanguages(c, languages);
             });
         }
 

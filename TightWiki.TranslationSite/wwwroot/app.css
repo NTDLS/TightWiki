@@ -199,6 +199,80 @@ main {
     padding: 0.2rem 0;
 }
 
+.tw-auto-btn {
+    padding: 0 0.4rem;
+    line-height: 1.5;
+}
+
+.tw-auto-message {
+    flex-basis: 100%;
+}
+
+/* The language picker */
+.tw-lang-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.tw-lang-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1040;
+}
+
+.tw-lang-panel {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.4rem);
+    z-index: 1050;
+    width: 20rem;
+    max-width: calc(100vw - 2rem);
+    text-align: left;
+}
+
+.tw-lang-list {
+    max-height: 17rem;
+    overflow: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.1rem 0.5rem;
+}
+
+.tw-lang-option {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.25rem 0.35rem;
+    border-radius: 0.4rem;
+    cursor: pointer;
+}
+
+    .tw-lang-option:hover {
+        background: var(--bs-tertiary-bg);
+    }
+
+.tw-lang-chip {
+    background: color-mix(in srgb, var(--tw-accent) 14%, var(--bs-body-bg));
+    border: 1px solid color-mix(in srgb, var(--tw-accent) 35%, transparent);
+    border-radius: 2rem;
+    padding: 0.15rem 0.7rem;
+    font-weight: 500;
+}
+
+@media (max-width: 575.98px) {
+    .tw-lang-panel {
+        position: fixed;
+        left: 1rem;
+        right: 1rem;
+        top: 4.2rem;
+        width: auto;
+    }
+
+    .tw-lang-list {
+        grid-template-columns: 1fr;
+    }
+}
+
 .tw-all-translations {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));

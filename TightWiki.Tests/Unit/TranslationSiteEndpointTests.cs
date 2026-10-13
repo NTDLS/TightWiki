@@ -45,6 +45,7 @@ namespace TightWiki.Tests.Unit
             builder.UseSetting("Site:SuggestionsPath", Path.Combine(_directory, "Suggestions.db"));
             builder.UseSetting("Site:AdminKey", AdminKey);
             builder.UseSetting("Site:GateAttemptsPerMinute", _gateAttemptsPerMinute.ToString());
+            builder.UseSetting("Einkr:ApiKey", "vrc_pretend_key_for_tests");
             builder.UseSetting("Turnstile:SiteKey", "site-key-for-tests");
             builder.UseSetting("Turnstile:SecretKey", "secret-for-tests");
 
@@ -146,6 +147,8 @@ namespace TightWiki.Tests.Unit
             Assert.Contains("data-action=\"verify\"", text);
             Assert.Contains("name=\"returnUrl\" value=\"/search\"", text);
             Assert.Contains("action=\"/gate/verify\"", text);
+            Assert.Contains("data-error-callback=\"twGateError\"", text); //so that a widget error says why
+            Assert.Contains("id=\"gateWidgetError\"", text);
             Assert.DoesNotContain("secret-for-tests", text); //the secret key must never reach the browser
         }
 
@@ -310,6 +313,209 @@ namespace TightWiki.Tests.Unit
             Assert.Equal("text/html", blocked.Content.Headers.ContentType?.MediaType);
             Assert.Contains("Too many attempts", await blocked.Content.ReadAsStringAsync());
             Assert.Equal("60", blocked.Headers.GetValues("Retry-After").Single());
+        }
+
+        [Fact]
+        public async Task TheAutoTranslateButtonIsOnlyShownToAdministrators()
+        {
+            factory.Verifier.Result = true;
+            using var client = CreateClient();
+
+            //Anonymous.
+            var anonymous = await (await client.GetAsync("/search?q=backup&lang=German")).Content.ReadAsStringAsync();
+            Assert.Contains("Database Backups", anonymous);
+            Assert.DoesNotContain("tw-auto-btn", anonymous);
+
+            //Someone who has passed the captcha is still not an administrator.
+            var visitorCookie = CookieFrom(await client.PostAsync("/gate/verify", Form(("cf-turnstile-response", "t"), ("returnUrl", "/"))))!;
+            var visitor = await (await client.SendAsync(Get("/search?q=backup&lang=German", visitorCookie))).Content.ReadAsStringAsync();
+            Assert.DoesNotContain("tw-auto-btn", visitor);
+
+            //An administrator gets one beside each language.
+            var adminCookie = CookieFrom(await client.PostAsync("/admin/login", Form(("key", TranslationSiteFactory.AdminKey))))!;
+            var admin = await (await client.SendAsync(Get("/search?q=backup&lang=German", adminCookie))).Content.ReadAsStringAsync();
+            Assert.Contains("tw-auto-btn", admin);
+            Assert.Contains("aria-label=\"Auto-translate to German\"", admin);
+        }
+
+        /// <summary>
+        /// Adds a German and a French suggestion (each with its own marker, so a page can be checked for them) and returns the markers.
+        /// </summary>
+        private (string German, string French) SeedSuggestions()
+        {
+            var suggestions = factory.Services.GetRequiredService<SuggestionService>();
+            var catalog = factory.Services.GetRequiredService<TranslationCatalog>();
+
+            var unique = Guid.NewGuid().ToString("N")[..8];
+            var german = $"Vorschlag ZZDE{unique}";
+            var french = $"Suggestion ZZFR{unique}";
+
+            //Each is made against a different phrase so that the two can never be the same suggestion.
+            var phrases = catalog.Phrases.Where(o => o.Translations.ContainsKey("German") && !o.English.Contains('{')).Skip(Random.Shared.Next(5, 200)).Take(2).ToList();
+
+            Assert.True(suggestions.Submit("seed-" + unique, phrases[0].English, "German", german).Ok);
+            Assert.True(suggestions.Submit("seed-" + unique, phrases[1].English, "French", french).Ok);
+
+            return (german, french);
+        }
+
+        private async Task<string> HomeAsync(string? cookie = null, string? acceptLanguage = null, string url = "/")
+        {
+            using var client = CreateClient();
+            using var request = new HttpRequestMessage(HttpMethod.Get, url);
+
+            if (cookie != null)
+            {
+                request.Headers.Add("Cookie", cookie);
+            }
+
+            if (acceptLanguage != null)
+            {
+                request.Headers.Add("Accept-Language", acceptLanguage);
+            }
+
+            var response = await client.SendAsync(request);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            return await response.Content.ReadAsStringAsync();
+        }
+
+        [Fact]
+        public async Task TheHomePageOnlyShowsSuggestionsInTheLanguagesTheVisitorChose()
+        {
+            var (german, french) = SeedSuggestions();
+
+            var page = await HomeAsync(cookie: "tw_languages=de");
+
+            Assert.Contains(german, page);
+            Assert.DoesNotContain(french, page);
+            Assert.Contains("Your languages", page);
+            Assert.DoesNotContain("picked from your browser", page); //they chose it, so it is not a guess
+            Assert.Contains("Fresh suggestions in German", page);
+
+            var both = await HomeAsync(cookie: "tw_languages=" + Uri.EscapeDataString("de,fr"));
+            Assert.Contains(german, both);
+            Assert.Contains(french, both);
+
+            var frenchOnly = await HomeAsync(cookie: "tw_languages=fr");
+            Assert.DoesNotContain(german, frenchOnly);
+            Assert.Contains(french, frenchOnly);
+        }
+
+        [Fact]
+        public async Task WithNoChoiceTheBrowsersLanguageIsUsedAndSaidSo()
+        {
+            var (german, french) = SeedSuggestions();
+
+            var page = await HomeAsync(acceptLanguage: "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7");
+
+            Assert.Contains(german, page);
+            Assert.DoesNotContain(french, page);
+            Assert.Contains("picked from your browser", page);
+            Assert.Contains("Your languages", page);
+
+            var other = await HomeAsync(acceptLanguage: "fr-FR,fr;q=0.9");
+            Assert.Contains(french, other);
+            Assert.DoesNotContain(german, other);
+        }
+
+        [Fact]
+        public async Task ACookieBeatsTheBrowsersLanguage()
+        {
+            var (german, french) = SeedSuggestions();
+
+            var page = await HomeAsync(cookie: "tw_languages=fr", acceptLanguage: "de-DE,de;q=0.9");
+
+            Assert.Contains(french, page);
+            Assert.DoesNotContain(german, page);
+            Assert.DoesNotContain("picked from your browser", page);
+        }
+
+        [Fact]
+        public async Task ChoosingNoLanguagesStaysChosen()
+        {
+            var (german, french) = SeedSuggestions();
+
+            //The "none" marker means they chose "all languages", so the browser's language is not used again behind their back.
+            var page = await HomeAsync(cookie: "tw_languages=" + LanguagePreferences.NoneMarker, acceptLanguage: "de-DE,de;q=0.9");
+
+            Assert.Contains(german, page);
+            Assert.Contains(french, page);
+            Assert.DoesNotContain("picked from your browser", page);
+            Assert.Contains("Which languages do you read?", page);
+        }
+
+        [Fact]
+        public async Task AnEnglishOnlyBrowserIsAskedWhichLanguagesItReadsAndIsNotAskedToVoteYet()
+        {
+            SeedSuggestions();
+
+            var page = await HomeAsync(acceptLanguage: "en-US,en;q=0.9");
+
+            Assert.Contains("Which languages do you read?", page);
+            Assert.Contains("Choose your languages first", page);
+            Assert.DoesNotContain("Does this sound right?", page);
+            Assert.DoesNotContain("picked from your browser", page);
+        }
+
+        [Fact]
+        public async Task ChosenLanguagesGetTheVoteNowCard()
+        {
+            SeedSuggestions();
+
+            var page = await HomeAsync(cookie: "tw_languages=de");
+
+            Assert.Contains("Does this sound right?", page);
+            Assert.DoesNotContain("Choose your languages first", page);
+        }
+
+        [Fact]
+        public async Task ACookieThatIsNotALanguageListIsIgnored()
+        {
+            var (german, french) = SeedSuggestions();
+
+            foreach (var cookie in new[] { "tw_languages=" + Uri.EscapeDataString("<script>alert(1)</script>"), "tw_languages=xx,yy,zz", "tw_languages=" + Uri.EscapeDataString("'; DROP TABLE Suggestion; --") })
+            {
+                var page = await HomeAsync(cookie: cookie);
+
+                Assert.Contains(german, page);   //nothing valid was chosen, so nothing is filtered out
+                Assert.Contains(french, page);
+                Assert.DoesNotContain("<script>alert(1)</script>", page);
+                Assert.Contains("Which languages do you read?", page);
+            }
+        }
+
+        [Fact]
+        public async Task EveryPageHasTheLanguagePicker()
+        {
+            foreach (var url in new[] { "/", "/search?q=backup", "/gate" })
+            {
+                var page = await HomeAsync(url: url);
+
+                Assert.Contains("tw-lang-button", page);
+                Assert.Contains("Choose your languages", page);
+            }
+
+            var chosen = await HomeAsync(cookie: "tw_languages=" + Uri.EscapeDataString("de,fr"), url: "/search?q=backup");
+            Assert.Contains("German, French", chosen); //the button says which
+        }
+
+        [Fact]
+        public async Task SearchDefaultsToTheVisitorsLanguagesUnlessTheyAskForAll()
+        {
+            //The phrase "Database Backups" has a translation in every language.
+            var mine = await HomeAsync(cookie: "tw_languages=de", url: "/search?q=database%20backups");
+            Assert.Contains("My languages (German)", mine);
+            Assert.Contains("phrases in German.", mine);
+
+            var all = await HomeAsync(cookie: "tw_languages=de", url: "/search?q=database%20backups&lang=all");
+            Assert.DoesNotContain("phrases in German.", all);
+
+            var french = await HomeAsync(cookie: "tw_languages=de", url: "/search?q=database%20backups&lang=French");
+            Assert.Contains("phrases in French.", french);
+
+            var none = await HomeAsync(url: "/search?q=database%20backups");
+            Assert.DoesNotContain("My languages", none);
+            Assert.DoesNotContain(" in German.", none);
         }
 
         [Fact]

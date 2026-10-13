@@ -55,6 +55,33 @@ namespace TightWiki.TranslationSite.Services
     }
 
     /// <summary>
+    /// Settings for the Einkr model that administrators can use to translate a phrase (the "Einkr" section of appsettings.json).
+    /// </summary>
+    public class EinkrOptions
+    {
+        /// <summary>
+        /// The Einkr API key. **Secret, never commit it**: supply it with user-secrets or the environment variable
+        ///  Einkr__ApiKey. When empty there is no auto-translate button.
+        /// </summary>
+        public string ApiKey { get; set; } = string.Empty;
+
+        /// <summary>
+        /// The Einkr model that does the translating.
+        /// </summary>
+        public string Model { get; set; } = "Stratum-27B";
+
+        /// <summary>
+        /// The Einkr host, only needed when it is not the default (https://einkr.com).
+        /// </summary>
+        public string BaseUrl { get; set; } = string.Empty;
+
+        /// <summary>
+        /// How many phrases one administrator can have translated per minute, so that a stuck button cannot run up a bill.
+        /// </summary>
+        public int AutoTranslatesPerMinute { get; set; } = 20;
+    }
+
+    /// <summary>
     /// Cloudflare Turnstile settings (the "Turnstile" section of appsettings.json).
     /// </summary>
     public class TurnstileOptions

@@ -14,6 +14,7 @@ namespace TightWiki.TranslationSite.Components.Shared
         [Inject] protected NavigationManager Nav { get; set; } = default!;
         [Inject] protected SuggestionService Suggestions { get; set; } = default!;
         [Inject] protected TranslationCatalog Catalog { get; set; } = default!;
+        [Inject] protected LanguagePreferences Prefs { get; set; } = default!;
 
         protected Visitor Visitor { get; private set; } = Visitor.Anonymous;
 
@@ -29,9 +30,12 @@ namespace TightWiki.TranslationSite.Components.Shared
                 Visitor = Visitor.From((await AuthState).User);
             }
 
+            Prefs.EnsureInitialized();
+
             if (RefreshOnChange)
             {
                 Suggestions.Changed += OnSuggestionsChanged;
+                Prefs.Changed += OnSuggestionsChanged;
             }
 
             await LoadAsync();
@@ -64,6 +68,7 @@ namespace TightWiki.TranslationSite.Components.Shared
         public virtual void Dispose()
         {
             Suggestions.Changed -= OnSuggestionsChanged;
+            Prefs.Changed -= OnSuggestionsChanged;
             GC.SuppressFinalize(this);
         }
     }

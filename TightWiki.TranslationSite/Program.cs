@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<SiteOptions>(builder.Configuration.GetSection("Site"));
 builder.Services.Configure<TurnstileOptions>(builder.Configuration.GetSection("Turnstile"));
+builder.Services.Configure<EinkrOptions>(builder.Configuration.GetSection("Einkr"));
 builder.Services.PostConfigure<SiteOptions>(options =>
 {
     if (string.IsNullOrWhiteSpace(options.TranslationsPath))
@@ -29,6 +30,10 @@ builder.Services.PostConfigure<SiteOptions>(options =>
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddSingleton(sp => new TranslationCatalog(sp.GetRequiredService<IOptions<SiteOptions>>().Value.TranslationsPath));
 builder.Services.AddSingleton<SuggestionService>();
+builder.Services.AddSingleton<ITranslationModel, EinkrTranslationModel>();
+builder.Services.AddSingleton<AutoTranslationService>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<LanguagePreferences>();
 builder.Services.AddHttpClient<TurnstileVerifier>(client => client.Timeout = TimeSpan.FromSeconds(10));
 
 var site = builder.Configuration.GetSection("Site").Get<SiteOptions>() ?? new SiteOptions();

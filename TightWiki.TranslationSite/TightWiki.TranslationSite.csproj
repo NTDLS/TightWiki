@@ -12,6 +12,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.12" />
+		<PackageReference Include="VPT.Einkr.Client" Version="2.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -22,6 +23,11 @@
 		<Compile Include="..\TightWiki.Library\SupportedCultures.cs" Link="Shared\SupportedCultures.cs" />
 		<Compile Include="..\TightWiki.Library\CultureInfoSettings.cs" Link="Shared\CultureInfoSettings.cs" />
 		<Compile Include="..\LocalizerScan\TranslationValidator.cs" Link="Shared\TranslationValidator.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- The instructions for translating a single phrase (a copy of LocalizerScan's prompt, which is for batches, made specific to this use). -->
+		<EmbeddedResource Include="Prompts\TranslationPrompt.txt" LogicalName="TranslationPrompt.txt" />
 	</ItemGroup>
 
 	<ItemGroup>

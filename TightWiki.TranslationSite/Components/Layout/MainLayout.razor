@@ -9,6 +9,7 @@
         </a>
 
         <div class="d-flex align-items-center gap-1 gap-sm-2">
+            <LanguageMenu @rendermode="InteractiveServer" />
             <NavLink class="nav-link px-2" href="" Match="NavLinkMatch.All"><i class="bi bi-house-door me-1"></i><span class="d-none d-sm-inline">Home</span></NavLink>
             <NavLink class="nav-link px-2" href="search"><i class="bi bi-search me-1"></i><span class="d-none d-sm-inline">Search</span></NavLink>
             <AuthorizeView Policy="Admin">

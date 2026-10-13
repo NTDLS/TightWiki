@@ -1,0 +1,123 @@
+@implements IDisposable
+@inject LanguagePreferences Prefs
+@inject TranslationCatalog Catalog
+
+<div class="tw-lang-menu">
+    <button type="button" class="@(Prominent ? "btn btn-primary" : "btn btn-outline-secondary btn-sm") tw-lang-button"
+            aria-haspopup="true" aria-expanded="@open" @onclick="Toggle">
+        <i class="bi bi-translate me-1"></i>
+        @if (Prominent)
+        {
+            @Label
+        }
+        else
+        {
+            @* The full wording does not fit in the navigation bar of a phone. *@
+            <span class="d-none d-sm-inline">@Label</span>
+            <span class="d-sm-none">@ShortLabel</span>
+        }
+    </button>
+
+    @if (open)
+    {
+        @* Clicking anywhere else closes the menu. *@
+        <div class="tw-lang-backdrop" @onclick="Close"></div>
+
+        <div class="tw-lang-panel card shadow" role="dialog" aria-label="Choose your languages">
+            <div class="card-body p-2">
+                <div class="small text-body-secondary mb-2">
+                    @if (Prefs.IsDetected)
+                    {
+                        <span>We picked this from your browser's language settings. Change it if it's not right.</span>
+                    }
+                    else
+                    {
+                        <span>Pick the languages you read, and you'll only be asked about those.</span>
+                    }
+                </div>
+
+                <input type="search" class="form-control form-control-sm mb-2" placeholder="Find a language..."
+                       aria-label="Find a language" @bind="filter" @bind:event="oninput" />
+
+                <div class="tw-lang-list" role="group" aria-label="Languages">
+                    @foreach (var language in Visible)
+                    {
+                        <label class="tw-lang-option">
+                            <input class="form-check-input" type="checkbox" checked="@Prefs.Contains(language.Code)"
+                                   disabled="@(!Prefs.Contains(language.Code) && Prefs.Selected.Count >= LanguagePreferences.MaxLanguages)"
+                                   @onchange="() => Prefs.ToggleAsync(language.Code)" />
+                            <span>@language.Name</span>
+                        </label>
+                    }
+
+                    @if (!Visible.Any())
+                    {
+                        <div class="small text-body-secondary p-2">No language matches "@filter".</div>
+                    }
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                    <button type="button" class="btn btn-link btn-sm text-body-secondary p-0" disabled="@(!Prefs.HasSelection)"
+                            @onclick="() => Prefs.SetAsync(Array.Empty<string>())">Show all languages</button>
+                    <span class="small text-body-secondary">@Prefs.Selected.Count of @LanguagePreferences.MaxLanguages</span>
+                    <button type="button" class="btn btn-primary btn-sm" @onclick="Close">Done</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    /// <summary>
+    /// A larger button, for when the visitor should be encouraged to choose.
+    /// </summary>
+    [Parameter] public bool Prominent { get; set; }
+
+    private bool open;
+    private string filter = string.Empty;
+
+    private string Label
+    {
+        get
+        {
+            if (!Prefs.HasSelection)
+            {
+                return "Choose your languages";
+            }
+
+            var names = Prefs.Selected.Select(o => o.Name).ToList();
+            return names.Count <= 2 ? string.Join(", ", names) : $"{names[0]}, {names[1]} +{names.Count - 2}";
+        }
+    }
+
+    private string ShortLabel
+        => !Prefs.HasSelection ? "Language" : Prefs.Selected.Count == 1 ? Prefs.Selected[0].Name : $"{Prefs.Selected.Count} languages";
+
+    /// <summary>
+    /// The languages that match what has been typed, with the chosen ones first.
+    /// </summary>
+    private IEnumerable<LanguageInfo> Visible
+        => Catalog.Languages
+            .Where(o => string.IsNullOrWhiteSpace(filter)
+                || TranslationCatalog.Normalize(o.Name).Contains(TranslationCatalog.Normalize(filter.Trim()), StringComparison.Ordinal))
+            .OrderBy(o => Prefs.Contains(o.Code) ? 0 : 1)
+            .ThenBy(o => o.Name, StringComparer.CurrentCultureIgnoreCase);
+
+    protected override void OnInitialized()
+    {
+        Prefs.EnsureInitialized();
+        Prefs.Changed += OnChanged;
+    }
+
+    private void OnChanged() => _ = InvokeAsync(StateHasChanged);
+
+    private void Toggle() => open = !open;
+
+    private void Close()
+    {
+        open = false;
+        filter = string.Empty;
+    }
+
+    public void Dispose() => Prefs.Changed -= OnChanged;
+}

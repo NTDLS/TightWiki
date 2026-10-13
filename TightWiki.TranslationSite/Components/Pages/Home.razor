@@ -44,11 +44,36 @@
 </section>
 
 <div class="container mt-4">
+    <div class="card tw-card shadow-sm mb-4">
+        <div class="card-body d-flex flex-wrap align-items-center gap-2 gap-md-3">
+            @if (Prefs.HasSelection)
+            {
+                <span class="fw-semibold"><i class="bi bi-translate me-1"></i>Your languages</span>
+                <span class="d-flex flex-wrap gap-2">
+                    @foreach (var selected in Prefs.Selected)
+                    {
+                        <span class="tw-lang-chip">@selected.Name</span>
+                    }
+                </span>
+                @if (Prefs.IsDetected)
+                {
+                    <span class="small text-body-secondary">picked from your browser's language settings</span>
+                }
+                <span class="ms-md-auto"><LanguageMenu /></span>
+            }
+            else
+            {
+                <span><strong>Which languages do you read?</strong> Choose them and you'll only be asked about suggestions you can judge.</span>
+                <span class="ms-md-auto"><LanguageMenu Prominent="true" /></span>
+            }
+        </div>
+    </div>
+
     <div class="row g-4">
         <div class="col-lg-7">
             <div class="card tw-card shadow-sm">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span class="fw-semibold"><i class="bi bi-lightning-charge me-2 text-warning"></i>Fresh suggestions</span>
+                    <span class="fw-semibold"><i class="bi bi-lightning-charge me-2 text-warning"></i>Fresh suggestions@(Prefs.HasSelection ? " in " + string.Join(", ", Prefs.Names) : "")</span>
                     <span class="small text-body-secondary d-none d-sm-inline">Vote on what sounds right</span>
                 </div>
                 @if (recent.Count > 0)
@@ -64,8 +89,16 @@
                 {
                     <div class="card-body text-center py-5">
                         <i class="bi bi-stars display-4 text-body-secondary"></i>
-                        <h2 class="h5 mt-3">Nothing suggested yet</h2>
-                        <p class="text-body-secondary mb-3">Be the first. Find a phrase and suggest how it should read.</p>
+                        @if (Prefs.HasSelection)
+                        {
+                            <h2 class="h5 mt-3">Nothing suggested yet in @string.Join(", ", Prefs.Names)</h2>
+                            <p class="text-body-secondary mb-3">Find a phrase that could read better and suggest how.</p>
+                        }
+                        else
+                        {
+                            <h2 class="h5 mt-3">Nothing suggested yet</h2>
+                            <p class="text-body-secondary mb-3">Be the first. Find a phrase and suggest how it should read.</p>
+                        }
                         <a class="btn btn-primary" href="search">Find a phrase</a>
                     </div>
                 }
@@ -80,7 +113,15 @@
                     var nextLanguage = next == null ? null : Catalog.Languages.FirstOrDefault(o => o.Name == next.Language);
                     var nextCurrent = next == null ? null : Catalog.FindByEnglish(next.English)?.Translations.GetValueOrDefault(next.Language);
                 }
-                @if (next != null)
+                @if (!Prefs.HasSelection)
+                {
+                    <div class="card-body text-center py-4">
+                        <i class="bi bi-translate display-5 text-primary"></i>
+                        <h2 class="h6 mt-2">Choose your languages first</h2>
+                        <p class="small text-body-secondary mb-0">So that we only ask about suggestions you can judge.</p>
+                    </div>
+                }
+                else if (next != null)
                 {
                     <div class="card-body">
                         <div class="small text-body-secondary mb-1">Does this sound right?</div>
@@ -112,7 +153,7 @@
                 {
                     <div class="card-body text-center py-4">
                         <i class="bi bi-emoji-smile display-5 text-success"></i>
-                        <h2 class="h6 mt-2">You're all caught up!</h2>
+                        <h2 class="h6 mt-2">You're all caught up in @string.Join(", ", Prefs.Names)!</h2>
                         <p class="small text-body-secondary mb-0">Nothing left for you to vote on right now. Come back soon, or suggest a translation of your own.</p>
                     </div>
                 }
@@ -129,10 +170,10 @@
     private int skipIndex;
     private string? voteError;
     private Timer? clock;
+    private string? gapLanguages;
 
     protected override async Task OnInitializedAsync()
     {
-        gaps = Catalog.GetGaps(6);
         await base.OnInitializedAsync();
 
         //Keeps "3 minutes ago" honest while the page is left open.
@@ -141,9 +182,22 @@
 
     protected override Task LoadAsync()
     {
-        recent = Suggestions.GetRecent(Visitor.QueryId, 10);
-        votable = Suggestions.GetNeedingVotes(Visitor.QueryId, 12);
+        var languages = Prefs.NamesOrNull;
+
+        recent = Suggestions.GetRecent(Visitor.QueryId, 10, languages);
+
+        //There is no point asking someone to vote until we know which languages they can judge.
+        votable = Prefs.HasSelection ? Suggestions.GetNeedingVotes(Visitor.QueryId, 12, languages) : new();
         stats = Suggestions.GetStats();
+
+        //The missing translations are picked at random, so they are only picked again when the languages change.
+        var key = string.Join('|', Prefs.Names);
+        if (key != gapLanguages)
+        {
+            gapLanguages = key;
+            gaps = Catalog.GetGapsIn(6, languages);
+            skipIndex = 0;
+        }
 
         if (skipIndex >= votable.Count)
         {

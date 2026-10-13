@@ -1,0 +1,72 @@
+@inject AutoTranslationService Auto
+@inject TranslationCatalog Catalog
+
+@{
+    var info = Catalog.FindLanguage(Language);
+    var value = Phrase.Translations.GetValueOrDefault(Language);
+}
+
+<div class="tw-translation-row">
+    <span class="badge tw-lang">@Language</span>
+
+    @if (string.IsNullOrEmpty(value))
+    {
+        <span class="text-body-secondary fst-italic">No translation yet</span>
+    }
+    else
+    {
+        <span class="tw-text" lang="@info?.Code" dir="@(info?.IsRtl == true ? "rtl" : "ltr")">@value</span>
+    }
+
+    @* Only administrators see this, and only when the site has been given an Einkr key. *@
+    @if (Visitor.IsAdmin && Auto.IsAvailable)
+    {
+        <button type="button" class="btn btn-outline-secondary btn-sm tw-auto-btn" disabled="@busy"
+                title="Auto-translate from English to @Language and add it as a suggestion"
+                aria-label="Auto-translate to @Language" @onclick="AutoTranslateAsync">
+            @if (busy)
+            {
+                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            }
+            else
+            {
+                <i class="bi bi-magic"></i>
+            }
+        </button>
+    }
+
+    @if (message != null)
+    {
+        <div class="tw-auto-message small @(added ? "text-success" : "text-body-secondary")" role="status">
+            <i class="bi @(added ? "bi-check-circle" : "bi-info-circle") me-1"></i>@message
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired] public PhraseEntry Phrase { get; set; } = default!;
+    [Parameter, EditorRequired] public string Language { get; set; } = string.Empty;
+    [Parameter, EditorRequired] public Visitor Visitor { get; set; } = Visitor.Anonymous;
+
+    private bool busy;
+    private bool added;
+    private string? message;
+
+    private async Task AutoTranslateAsync()
+    {
+        busy = true;
+        message = null;
+        StateHasChanged();
+
+        try
+        {
+            var result = await Auto.TranslateAsync(Visitor, Phrase.English, Language);
+            added = result.Added;
+            message = result.Message;
+        }
+        finally
+        {
+            busy = false;
+        }
+    }
+}
