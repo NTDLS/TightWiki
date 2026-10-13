@@ -76,6 +76,12 @@
     private bool open;
     private string filter = string.Empty;
 
+    /// <summary>
+    /// The languages that were chosen when the menu was opened. They are listed first, but only as it opens: if the order changed
+    ///  as boxes were ticked, the language being clicked would jump away and the next one would slide under the mouse.
+    /// </summary>
+    private HashSet<string> pinned = new(StringComparer.OrdinalIgnoreCase);
+
     private string Label
     {
         get
@@ -100,7 +106,7 @@
         => Catalog.Languages
             .Where(o => string.IsNullOrWhiteSpace(filter)
                 || TranslationCatalog.Normalize(o.Name).Contains(TranslationCatalog.Normalize(filter.Trim()), StringComparison.Ordinal))
-            .OrderBy(o => Prefs.Contains(o.Code) ? 0 : 1)
+            .OrderBy(o => pinned.Contains(o.Code) ? 0 : 1)
             .ThenBy(o => o.Name, StringComparer.CurrentCultureIgnoreCase);
 
     protected override void OnInitialized()
@@ -111,7 +117,18 @@
 
     private void OnChanged() => _ = InvokeAsync(StateHasChanged);
 
-    private void Toggle() => open = !open;
+    private void Toggle()
+    {
+        if (open)
+        {
+            Close();
+        }
+        else
+        {
+            open = true;
+            pinned = Prefs.Selected.Select(o => o.Code).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        }
+    }
 
     private void Close()
     {

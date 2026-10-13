@@ -23,13 +23,29 @@ namespace TightWiki.TranslationSite.Services
     }
 
     /// <summary>
-    /// Translates one phrase with an Einkr model. The phrase goes in, and the answer comes back, as JSON, so that the answer
-    ///  can be read without guessing where it starts and ends (no quotation marks, notes or explanations to strip off).
+    /// Translates one phrase with an Einkr model. The phrase goes in, and the answer comes back, as JSON. The server is told the
+    ///  exact shape of the answer (a JSON schema), so it can only be {"translation": "..."} and there is nothing to strip off.
     /// The instructions are in Prompts/TranslationPrompt.txt, which began as LocalizerScan's prompt for translating batches.
     /// </summary>
     public sealed class EinkrTranslationModel : ITranslationModel, IDisposable
     {
         private static readonly JsonSerializerOptions _inputOptions = new() { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+
+        /// <summary>
+        /// The only shape that an answer can have. The server enforces it, but not what the text means, which is what the prompt is for.
+        /// </summary>
+        public const string ResponseSchema = """
+            {
+              "type": "object",
+              "properties": {
+                "translation": { "type": "string" }
+              },
+              "required": [ "translation" ],
+              "additionalProperties": false
+            }
+            """;
+
+        private static readonly ChatResponseFormat _responseFormat = ChatResponseFormat.CreateJsonSchemaFormat("translation", ResponseSchema, strict: true);
 
         private readonly EinkrAIClient? _client;
         private readonly string _prompt;
@@ -69,14 +85,20 @@ namespace TightWiki.TranslationSite.Services
             var response = await _client.CompleteChatAsync([
                 new SystemChatMessage(instructions),
                 new UserChatMessage(input)
-            ], enableThinking: false, maxTokens: 1024, temperature: 0.2, cancellationToken: cancellationToken);
+            ], enableThinking: false, maxTokens: 1024, temperature: 0.2, responseFormat: _responseFormat, cancellationToken: cancellationToken);
+
+            //Cut off at the limit, the JSON can be incomplete, so it cannot be trusted.
+            if (string.Equals(response.FinishReason, "length", StringComparison.Ordinal))
+            {
+                return null;
+            }
 
             return ParseResponse(response.Content[0].Text);
         }
 
         /// <summary>
-        /// Reads {"translation": "..."} from the model's reply. A code fence around it, or a sentence before or after it, is
-        ///  tolerated since models do that, but anything that is not that object with a text value is not used.
+        /// Reads {"translation": "..."} from the model's reply. The server only allows that shape, but a code fence around it, or a
+        ///  sentence before or after it, is still tolerated (and anything that is not that object with a text value is not used).
         /// </summary>
         public static string? ParseResponse(string? text)
         {

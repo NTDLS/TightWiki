@@ -142,6 +142,21 @@ namespace TightWiki.Tests.Unit
             Assert.Contains("{0}", prompt);
         }
 
+        [Fact]
+        public void TheServerIsToldTheExactShapeOfTheAnswer()
+        {
+            using var schema = System.Text.Json.JsonDocument.Parse(EinkrTranslationModel.ResponseSchema);
+            var root = schema.RootElement;
+
+            Assert.Equal("object", root.GetProperty("type").GetString());
+            Assert.Equal("string", root.GetProperty("properties").GetProperty("translation").GetProperty("type").GetString());
+            Assert.Equal(["translation"], root.GetProperty("required").EnumerateArray().Select(o => o.GetString()).ToArray());
+            Assert.False(root.GetProperty("additionalProperties").GetBoolean()); //nothing but the translation
+
+            //And an answer of that shape is read.
+            Assert.Equal("Hallo", EinkrTranslationModel.ParseResponse("""{"translation":"Hallo"}"""));
+        }
+
         private static string FindPrompt()
         {
             for (var directory = new DirectoryInfo(AppContext.BaseDirectory); directory != null; directory = directory.Parent)

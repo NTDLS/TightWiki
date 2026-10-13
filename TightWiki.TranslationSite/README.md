@@ -62,7 +62,8 @@ Visitors see these labelled "Draft", and the button itself is never shown to any
 * It needs an Einkr key: `Einkr:ApiKey` (**secret**, use user-secrets or the environment variable `Einkr__ApiKey`).
   Without one there is no button. `Einkr:Model` defaults to `Stratum-27B`, and `Einkr:AutoTranslatesPerMinute` (20) limits use.
 * The instructions given to the model are in `Prompts/TranslationPrompt.txt`. It translates one phrase at a time, taking
-  `{"phrase": "..."}` and answering `{"translation": "..."}`.
+  `{"phrase": "..."}` and answering `{"translation": "..."}`. The server is also given that shape as a JSON schema
+  (`VPT.Einkr.Client` 2.1.0 or later), so the answer can't be anything else.
 
     dotnet user-secrets set "Einkr:ApiKey" "<your key>" --project TightWiki.TranslationSite
 
