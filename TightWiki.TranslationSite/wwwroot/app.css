@@ -208,6 +208,11 @@ main {
     flex-basis: 100%;
 }
 
+/* The language picker. Cards hide anything that sticks out (to keep their rounded corners), but this one holds the picker's menu. */
+.tw-card.tw-lang-banner {
+    overflow: visible;
+}
+
 /* The language picker */
 .tw-lang-menu {
     position: relative;
@@ -228,6 +233,7 @@ main {
     width: 20rem;
     max-width: calc(100vw - 2rem);
     text-align: left;
+    scroll-margin-bottom: 1.25rem; /* so that scrolling it into view leaves a gap below it */
 }
 
 .tw-lang-list {

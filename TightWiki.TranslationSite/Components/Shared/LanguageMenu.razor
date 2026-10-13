@@ -1,6 +1,7 @@
 @implements IDisposable
 @inject LanguagePreferences Prefs
 @inject TranslationCatalog Catalog
+@inject IJSRuntime Js
 
 <div class="tw-lang-menu">
     <button type="button" class="@(Prominent ? "btn btn-primary" : "btn btn-outline-secondary btn-sm") tw-lang-button"
@@ -23,7 +24,7 @@
         @* Clicking anywhere else closes the menu. *@
         <div class="tw-lang-backdrop" @onclick="Close"></div>
 
-        <div class="tw-lang-panel card shadow" role="dialog" aria-label="Choose your languages">
+        <div class="tw-lang-panel card shadow" role="dialog" aria-label="Choose your languages" @ref="panelElement">
             <div class="card-body p-2">
                 <div class="small text-body-secondary mb-2">
                     @if (Prefs.IsDetected)
@@ -75,6 +76,8 @@
 
     private bool open;
     private string filter = string.Empty;
+    private ElementReference panelElement;
+    private bool revealPending;
 
     /// <summary>
     /// The languages that were chosen when the menu was opened. They are listed first, but only as it opens: if the order changed
@@ -117,6 +120,24 @@
 
     private void OnChanged() => _ = InvokeAsync(StateHasChanged);
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        //Once the menu is on the page, make sure that all of it can be seen (it opens below the button, which can be near the bottom of the window).
+        if (revealPending && open)
+        {
+            revealPending = false;
+
+            try
+            {
+                await Js.InvokeVoidAsync("twPrefs.reveal", panelElement);
+            }
+            catch (Exception ex) when (ex is JSException or JSDisconnectedException or InvalidOperationException or TaskCanceledException)
+            {
+                //Scrolling it into view is only a convenience.
+            }
+        }
+    }
+
     private void Toggle()
     {
         if (open)
@@ -126,6 +147,7 @@
         else
         {
             open = true;
+            revealPending = true;
             pinned = Prefs.Selected.Select(o => o.Code).ToHashSet(StringComparer.OrdinalIgnoreCase);
         }
     }
