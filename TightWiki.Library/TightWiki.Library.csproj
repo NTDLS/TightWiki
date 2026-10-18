@@ -8,11 +8,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Magick.NET-Q8-AnyCPU" Version="14.17.2" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.12" />
-		<PackageReference Include="System.DirectoryServices.Protocols" Version="10.0.12" />
+		<PackageReference Include="Magick.NET-Q8-AnyCPU" Version="15.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.13" />
+		<PackageReference Include="System.DirectoryServices.Protocols" Version="10.0.13" />
 		<PackageReference Include="MailKit" Version="4.18.1" />
-		<PackageReference Include="System.Runtime.Caching" Version="10.0.12" />
+		<PackageReference Include="System.Runtime.Caching" Version="10.0.13" />
 	</ItemGroup>
 
 	<ItemGroup>

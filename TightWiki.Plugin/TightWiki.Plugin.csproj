@@ -51,7 +51,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.12" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.13" />
 		<PackageReference Include="NTDLS.Helpers" Version="1.4.0" />
 		<PackageReference Include="NTDLS.SqliteDapperWrapper" Version="1.4.5" />
 	</ItemGroup>

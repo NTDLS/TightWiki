@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Security.Claims;
-using TightWiki.Extensions;
 using TightWiki.Library.Security;
 using TightWiki.Pages;
 using TightWiki.Plugin;

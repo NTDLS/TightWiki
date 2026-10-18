@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki.Exceptions;
-using TightWiki.Extensions;
 using TightWiki.Library.Caching;
 using TightWiki.Library.Security;
 using TightWiki.Plugin;
