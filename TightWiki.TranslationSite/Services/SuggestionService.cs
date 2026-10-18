@@ -1,3 +1,4 @@
+using LocalizationScan;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Options;
 using System.Globalization;

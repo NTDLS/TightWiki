@@ -25,7 +25,7 @@ namespace TightWiki.TranslationSite.Services
     /// <summary>
     /// Translates one phrase with an Einkr model. The phrase goes in, and the answer comes back, as JSON. The server is told the
     ///  exact shape of the answer (a JSON schema), so it can only be {"translation": "..."} and there is nothing to strip off.
-    /// The instructions are in Prompts/TranslationPrompt.txt, which began as LocalizerScan's prompt for translating batches.
+    /// The instructions are in Prompts/TranslationPrompt.txt, which began as LocalizationScan's prompt for translating batches.
     /// </summary>
     public sealed class EinkrTranslationModel : ITranslationModel, IDisposable
     {

@@ -50,6 +50,7 @@ namespace TightWiki.TranslationSite.Services
         private readonly List<PhraseEntry> _phrases = new();
         private readonly Dictionary<string, PhraseEntry> _byKey = new(StringComparer.Ordinal);
         private readonly Dictionary<string, PhraseEntry> _byEnglish = new(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, LanguageInfo> _languagesByCode = new(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<string, LanguageInfo> _languagesByName = new(StringComparer.OrdinalIgnoreCase);
 
         public IReadOnlyList<LanguageInfo> Languages { get; }
@@ -69,6 +70,7 @@ namespace TightWiki.TranslationSite.Services
             foreach (var language in Languages)
             {
                 _languagesByName[language.Name] = language;
+                _languagesByCode[language.Code] = language;
             }
 
             if (!File.Exists(databaseFile))
@@ -91,34 +93,50 @@ namespace TightWiki.TranslationSite.Services
             connection.Open();
 
             using var command = connection.CreateCommand();
-            command.CommandText = "SELECT * FROM Translation ORDER BY English COLLATE NOCASE";
+            command.CommandText = "SELECT * FROM Translation";
 
             using var reader = command.ExecuteReader();
 
+            //Each language has a column named by its culture code ("de", "zh-Hans"). Databases from before that rename
+            //  used the language name ("German") and called the key column "English", so those are still read.
             var columns = new List<(int Ordinal, string Language)>();
+            var phraseOrdinal = -1;
             for (int ordinal = 0; ordinal < reader.FieldCount; ordinal++)
             {
                 var name = reader.GetName(ordinal);
-                if (_languagesByName.TryGetValue(name, out var language))
+                if (name.Equals("Phrase", StringComparison.OrdinalIgnoreCase) || (phraseOrdinal < 0 && name.Equals(SourceLanguage, StringComparison.OrdinalIgnoreCase)))
                 {
-                    columns.Add((ordinal, language.Name));
+                    phraseOrdinal = ordinal;
+                }
+                else if (_languagesByCode.TryGetValue(name, out var byCode) || _languagesByName.TryGetValue(name, out byCode))
+                {
+                    columns.Add((ordinal, byCode.Name));
                 }
             }
 
-            var englishOrdinal = reader.GetOrdinal("English");
+            if (phraseOrdinal < 0)
+            {
+                throw new InvalidDataException("The Translation table has no Phrase column.");
+            }
 
+            var rowsByPhrase = new Dictionary<string, object?[]>();
             while (reader.Read())
             {
-                var english = reader.GetString(englishOrdinal);
+                var values = new object?[reader.FieldCount];
+                reader.GetValues(values);
+                rowsByPhrase[reader.GetString(phraseOrdinal)] = values;
+            }
+
+            foreach (var (english, values) in rowsByPhrase.OrderBy(o => o.Key, StringComparer.OrdinalIgnoreCase))
+            {
 
                 var translations = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
                 var normalized = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
                 foreach (var (ordinal, language) in columns)
                 {
-                    if (!reader.IsDBNull(ordinal))
+                    if (values[ordinal] is string value)
                     {
-                        var value = reader.GetString(ordinal);
                         if (value.Length > 0)
                         {
                             translations[language] = value;
