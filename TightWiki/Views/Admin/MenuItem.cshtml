@@ -13,8 +13,8 @@
 
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
-        <h3 class="mb-1">@Localizer["Site Menu Item"]</h3>
-        <div class="text-muted">@Localizer["Global configuration for the site menu item."]</div>
+        <h3 class="mb-1">@Localize("Site Menu Item")</h3>
+        <div class="text-muted">@Localize("Global configuration for the site menu item.")</div>
     </div>
 </div>
 
@@ -26,18 +26,18 @@
     <div class="card shadow-sm">
         <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <span class="fw-semibold">
-                <i class="bi bi-list-ul me-2"></i>@Localizer["Menu Item Editor"]
+                <i class="bi bi-list-ul me-2"></i>@Localize("Menu Item Editor")
             </span>
 
             <div class="d-flex flex-wrap gap-2">
                 <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-floppy me-1"></i>@Localizer["Save"]
+                    <i class="bi bi-floppy me-1"></i>@Localize("Save")
                 </button>
 
                 @TwConfirmActionHelper.GenerateDangerButton(
                     WikiConfiguration.BasePath,
-                    Localizer["Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?"].Format(Model.Name),
-                    Localizer["Delete"].Value,
+                    Localize("Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?", Model.Name),
+                    Localize("Delete"),
                     $"/Admin/DeleteMenuItem/{Model.Id}",
                     $"{WikiConfiguration.BasePath}/Admin/MenuItems",
                     Context.Request.Path.Value)
@@ -48,12 +48,12 @@
             <div class="row g-3">
                 <div class="col-12">
                     <label for="Name" class="form-label fw-semibold">
-                        @Localizer["Name"]
+                        @Localize("Name")
                     </label>
                     @Html.TextBoxFor(m => m.Name, new
                     {
                         @class = "form-control",
-                        placeholder = Localizer["Required"].Value
+                        placeholder = Localize("Required")
                     })
                     <div class="text-danger small">
                         @Html.ValidationMessageFor(m => m.Name)
@@ -62,15 +62,15 @@
 
                 <div class="col-12">
                     <label for="Link" class="form-label fw-semibold">
-                        @Localizer["Hyperlink"]
+                        @Localize("Hyperlink")
                     </label>
                     @Html.TextBoxFor(m => m.Link, new
                     {
                         @class = "form-control",
-                        placeholder = Localizer["Required"].Value
+                        placeholder = Localize("Required")
                     })
                     <div class="form-text">
-                        @Localizer["Enter an internal path or external URL."]
+                        @Localize("Enter an internal path or external URL.")
                     </div>
                     <div class="text-danger small">
                         @Html.ValidationMessageFor(m => m.Link)
@@ -79,17 +79,17 @@
 
                 <div class="col-12 col-md-4">
                     <label for="Ordinal" class="form-label fw-semibold">
-                        @Localizer["Ordinal"]
+                        @Localize("Ordinal")
                     </label>
                     @Html.TextBoxFor(m => m.Ordinal, new
                     {
                         @class = "form-control",
-                        placeholder = Localizer["Required"].Value,
+                        placeholder = Localize("Required"),
                         type = "number",
                         min = "0"
                     })
                     <div class="form-text">
-                        @Localizer["Lower numbers appear first."]
+                        @Localize("Lower numbers appear first.")
                     </div>
                     <div class="text-danger small">
                         @Html.ValidationMessageFor(m => m.Ordinal)

@@ -15,10 +15,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Orphaned Page Attachments"]
+            @Localize("Orphaned Page Attachments")
         </h3>
         <div class="text-muted">
-            @Localizer["These are all of the page attachments that are no longer attached to any page revision."]
+            @Localize("These are all of the page attachments that are no longer attached to any page revision.")
         </div>
     </div>
 </div>
@@ -26,13 +26,13 @@
 <div class="card shadow-sm mb-3">
     <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <span class="fw-semibold">
-            <i class="bi bi-paperclip me-2"></i>@Localizer["Orphaned Attachments"]
+            <i class="bi bi-paperclip me-2"></i>@Localize("Orphaned Attachments")
         </span>
 
         @TwConfirmActionHelper.GenerateDangerButton(
             WikiConfiguration.BasePath,
-            Localizer["This will permanently purge all orphaned page attachments. Continue?"].Value,
-            Localizer["Purge Orphaned Attachments"].Value,
+            Localize("This will permanently purge all orphaned page attachments. Continue?"),
+            Localize("Purge Orphaned Attachments"),
             "/Admin/PurgeOrphanedAttachments",
             Context.Request.Path.Value)
     </div>
@@ -52,29 +52,29 @@
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "Page")">
-                                @Localizer["Page"]
+                                @Localize("Page")
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "File")">
-                                @Localizer["File"]
+                                @Localize("File")
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap" style="width: 1%;">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "Size")">
-                                @Localizer["Size"]
+                                @Localize("Size")
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap" style="width: 1%;">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "Revision")">
-                                @Localizer["Revision"]
+                                @Localize("Revision")
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap" style="width: 1%;">
-                            @Localizer["Action"]
+                            @Localize("Action")
                         </th>
                     </tr>
                 </thead>
@@ -117,8 +117,8 @@
                                 <div class="d-flex gap-2">
                                     @TwConfirmActionHelper.GenerateDangerButton(
                                         WikiConfiguration.BasePath,
-                                        Localizer["This will permanently delete the specified attachment. Continue?"].Value,
-                                        Localizer["Delete"].Value,
+                                        Localize("This will permanently delete the specified attachment. Continue?"),
+                                        Localize("Delete"),
                                         $"/Admin/PurgeOrphanedAttachment/{p.PageFileId}/{p.FileRevision}",
                                         Context.Request.Path.Value,
                                         @class: "btn btn-outline-danger btn-sm d-inline-flex align-items-center")
@@ -140,7 +140,7 @@ else
     <div class="card shadow-sm">
         <div class="card-body text-muted">
             <i class="bi bi-check-circle me-2"></i>
-            @Localizer["There are no orphaned page attachments."]
+            @Localize("There are no orphaned page attachments.")
         </div>
     </div>
 }

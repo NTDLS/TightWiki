@@ -122,13 +122,13 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                 if (remoteError != null)
                 {
-                    ErrorMessage = String.Format(_localizer["Error from external provider: {0}"], remoteError);
+                    ErrorMessage = String.Format(Localize("Error from external provider: {0}"), remoteError);
                     return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/Login?ReturnUrl={WebUtility.UrlEncode(ReturnUrl)}");
                 }
                 var info = await _signInManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
-                    ErrorMessage = _localizer["Error loading external login information."];
+                    ErrorMessage = Localize("Error loading external login information.");
                     return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/Login?ReturnUrl={WebUtility.UrlEncode(ReturnUrl)}");
                 }
 
@@ -175,7 +175,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 var info = await _signInManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
-                    ErrorMessage = _localizer["Error loading external login information during confirmation."];
+                    ErrorMessage = Localize("Error loading external login information during confirmation.");
                     return Redirect($"{WikiConfiguration.BasePath}/Identity/Account/Login?ReturnUrl={WebUtility.UrlEncode(ReturnUrl)}");
                 }
 

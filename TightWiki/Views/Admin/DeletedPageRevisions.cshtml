@@ -15,10 +15,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Deleted Page Revisions"]
+            @Localize("Deleted Page Revisions")
         </h3>
         <div class="text-muted">
-            @Localizer["Page revisions that have been deleted for the given page. These can be purged or restored."]
+            @Localize("Page revisions that have been deleted for the given page. These can be purged or restored.")
         </div>
     </div>
 </div>
@@ -26,13 +26,13 @@
 <div class="card shadow-sm mb-3">
     <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <span class="fw-semibold">
-            <i class="bi bi-clock-history me-2"></i>@Localizer["Deleted Revisions"]
+            <i class="bi bi-clock-history me-2"></i>@Localize("Deleted Revisions")
         </span>
 
         @TwConfirmActionHelper.GenerateDangerButton(
             WikiConfiguration.BasePath,
-            Localizer["This will permanently purge all deleted page revisions for \"{0}\". Continue?"].Format(Model.Name),
-            Localizer["Purge Deleted Revisions"].Value,
+            Localize("This will permanently purge all deleted page revisions for \"{0}\". Continue?", Model.Name),
+            Localize("Purge Deleted Revisions"),
             $"/Admin/PurgeDeletedPageRevisions/{Model.PageId}",
             Context.Request.Path.Value)
     </div>
@@ -52,23 +52,23 @@
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "Revision")">
-                                @Localizer["Revision"]
+                                @Localize("Revision")
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "DeletedDate")">
-                                @Localizer["Deleted Date"]
+                                @Localize("Deleted Date")
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "DeletedBy")">
-                                @Localizer["Deleted By"]
+                                @Localize("Deleted By")
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap" style="width: 1%;">
-                            @Localizer["Action"]
+                            @Localize("Action")
                         </th>
                     </tr>
                 </thead>
@@ -95,16 +95,16 @@
                                 <div class="d-flex gap-2">
                                     @TwConfirmActionHelper.GenerateSafeButton(
                                         WikiConfiguration.BasePath,
-                                        Localizer["This will restore the deleted revision. Continue?"].Value,
-                                        Localizer["Restore"].Value,
+                                        Localize("This will restore the deleted revision. Continue?"),
+                                        Localize("Restore"),
                                         $"/Admin/RestoreDeletedPageRevision/{p.Id}/{p.Revision}",
                                         Context.Request.Path.Value,
                                         @class: "btn btn-success btn-sm d-inline-flex align-items-center")
 
                                     @TwConfirmActionHelper.GenerateDangerButton(
                                         WikiConfiguration.BasePath,
-                                        Localizer["This will permanently delete the specified deleted revision. Continue?"].Value,
-                                        Localizer["Purge"].Value,
+                                        Localize("This will permanently delete the specified deleted revision. Continue?"),
+                                        Localize("Purge"),
                                         $"/Admin/PurgeDeletedPageRevision/{p.Id}/{p.Revision}",
                                         Context.Request.Path.Value,
                                         @class: "btn btn-danger btn-sm d-inline-flex align-items-center")
@@ -126,7 +126,7 @@ else
     <div class="card shadow-sm">
         <div class="card-body text-muted">
             <i class="bi bi-inbox me-2"></i>
-            @Localizer["There are no deleted revisions for this page."]
+            @Localize("There are no deleted revisions for this page.")
         </div>
     </div>
 }

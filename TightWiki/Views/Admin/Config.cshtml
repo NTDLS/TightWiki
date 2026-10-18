@@ -36,12 +36,12 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Configuration"]
+            @Localize("Configuration")
         </h3>
         <div class="text-muted">
-            @Localizer["Global configuration values for the wiki, its functionality, behavior, formatting and branding."]
+            @Localize("Global configuration values for the wiki, its functionality, behavior, formatting and branding.")
             <br />
-            <i class="bi bi-info-square text-primary me-2"></i>@Localizer["Note that each save button saves all sections, multiple are provided for convenience."]
+            <i class="bi bi-info-square text-primary me-2"></i>@Localize("Note that each save button saves all sections, multiple are provided for convenience.")
         </div>
     </div>
 </div>
@@ -50,7 +50,7 @@
 {
     <div class="card shadow-sm mb-4">
         <div class="card-header">
-            <h5 class="mb-0">@Localizer["Contents"]</h5>
+            <h5 class="mb-0">@Localize("Contents")</h5>
         </div>
         <div class="card-body">
             <div class="d-flex flex-wrap gap-2">
@@ -99,7 +99,7 @@
                                     @if ($"{group.Name}:{entry.Name}" == "Customization:Theme")
                                     {
                                         <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-select">
-                                            <option value="">@Localizer["Select a theme"]</option>
+                                            <option value="">@Localize("Select a theme")</option>
                                             @foreach (var item in Model.Themes)
                                             {
                                                 <option value="@item.Name" selected=@(entry.Value == item.Name ? "selected" : null)>@item.Name</option>
@@ -109,7 +109,7 @@
                                     else if ($"{group.Name}:{entry.Name}" == "Membership:Default Signup Role")
                                     {
                                         <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-select">
-                                            <option value="">@Localizer["Select a role"]</option>
+                                            <option value="">@Localize("Select a role")</option>
                                             @foreach (var item in Model.Roles)
                                             {
                                                 <option value="@item.Name" selected=@(entry.Value == item.Name ? "selected" : null)>@item.Name</option>
@@ -119,7 +119,7 @@
                                     else if ($"{group.Name}:{entry.Name}" == "Membership:Default TimeZone" || $"{group.Name}:{entry.Name}" == "Customization:Default TimeZone")
                                     {
                                         <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-select">
-                                            <option value="">@Localizer["Select a time-zone"]</option>
+                                            <option value="">@Localize("Select a time-zone")</option>
                                             @foreach (var item in Model.TimeZones)
                                             {
                                                 <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>@item.Text</option>
@@ -129,7 +129,7 @@
                                     else if ($"{group.Name}:{entry.Name}" == "Membership:Default Language" || $"{group.Name}:{entry.Name}" == "Customization:Default Language")
                                     {
                                         <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-select">
-                                            <option value="">@Localizer["Select a language"]</option>
+                                            <option value="">@Localize("Select a language")</option>
                                             @foreach (var item in Model.Languages)
                                             {
                                                 <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>@item.Text</option>
@@ -139,7 +139,7 @@
                                     else if ($"{group.Name}:{entry.Name}" == "Membership:Default Country" || $"{group.Name}:{entry.Name}" == "Customization:Default Country")
                                     {
                                         <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-select">
-                                            <option value="">@Localizer["Select a country"]</option>
+                                            <option value="">@Localize("Select a country")</option>
                                             @foreach (var item in Model.Countries)
                                             {
                                                 <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>@item.Text</option>
@@ -184,20 +184,20 @@
                         {
                             <hr class="my-4" />
                             <div class="border rounded p-3 bg-light">
-                                <h5 class="mb-3">@Localizer["Test LDAP Authentication"]</h5>
+                                <h5 class="mb-3">@Localize("Test LDAP Authentication")</h5>
 
                                 <div class="row g-3 align-items-end" id="ldapTestForm">
                                     <div class="col-sm-4">
-                                        <label for="ldapTestUsername" class="form-label"><strong>@Localizer["Username"]</strong></label>
+                                        <label for="ldapTestUsername" class="form-label"><strong>@Localize("Username")</strong></label>
                                         <input type="text" id="ldapTestUsername" class="form-control" autocomplete="off">
                                     </div>
                                     <div class="col-sm-4">
-                                        <label for="ldapTestPassword" class="form-label"><strong>@Localizer["Password"]</strong></label>
+                                        <label for="ldapTestPassword" class="form-label"><strong>@Localize("Password")</strong></label>
                                         <input type="password" id="ldapTestPassword" class="form-control" autocomplete="new-password">
                                     </div>
                                     <div class="col-sm-4">
                                         <button type="button" id="btnLdapTest" class="btn btn-outline-primary">
-                                            @Localizer["Test"]
+                                            @Localize("Test")
                                         </button>
                                         <div id="ldapTestSpinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status"></div>
                                     </div>
@@ -209,7 +209,7 @@
                     </div>
 
                     <div class="card-footer d-flex justify-content-between align-items-center flex-wrap gap-2">
-                        <button type="submit" class="btn btn-primary"><i class="bi bi-floppy me-1"></i>@Localizer["Save"]</button>
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-floppy me-1"></i>@Localize("Save")</button>
                     </div>
                 </div>
             </div>
@@ -254,7 +254,7 @@
             const password = passInput.value;
 
             if (!username || !password) {
-                setResult(@Json.Serialize(Localizer["Please enter both username and password."].Value), false);
+                setResult(@Json.Serialize(Localize("Please enter both username and password.")), false);
                 return;
             }
 
@@ -273,21 +273,21 @@
                 });
 
                 if (!resp.ok) {
-                    setResult(@Json.Serialize(Localizer["Request failed:"].Value) + ' ' + resp.status + ' ' + resp.statusText, false);
+                    setResult(@Json.Serialize(Localize("Request failed:")) + ' ' + resp.status + ' ' + resp.statusText, false);
                     return;
                 }
 
                 const data = await resp.json();
                 if (data.ok) {
-                    const safeMsg = data.message ?? @Json.Serialize(Localizer["Bind succeeded."].Value);
-                    const dn = data.distinguishedName ? `<div><strong>@Localizer["Distinguished Name:"]</strong> ${data.distinguishedName}</div>` : '';
+                    const safeMsg = data.message ?? @Json.Serialize(Localize("Bind succeeded."));
+                    const dn = data.distinguishedName ? `<div><strong>@Localize("Distinguished Name:")</strong> ${data.distinguishedName}</div>` : '';
                     setResult(`${safeMsg}${dn}`, true);
                 } else {
-                    const err = data.error ?? @Json.Serialize(Localizer["Bind failed."].Value);
+                    const err = data.error ?? @Json.Serialize(Localize("Bind failed."));
                     setResult(err, false);
                 }
             } catch (e) {
-                setResult(@Json.Serialize(Localizer["Unexpected error:"].Value) + ' ' + (e?.message || e), false);
+                setResult(@Json.Serialize(Localize("Unexpected error:")) + ' ' + (e?.message || e), false);
             } finally {
                 btn.disabled = false;
                 spn.classList.add('d-none');

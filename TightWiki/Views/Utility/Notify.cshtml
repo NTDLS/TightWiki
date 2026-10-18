@@ -62,7 +62,7 @@
                 {
                     //Encode the translated sentence, then swap its placeholders for the link and countdown markup.
                     var sentence = System.Net.WebUtility.HtmlEncode(
-                        Localizer.Format("{0}Continue now{1} or you will be redirected in {2} seconds.", "\u0001", "\u0002", "\u0003"));
+                        Localize("{0}Continue now{1} or you will be redirected in {2} seconds.", "\u0001", "\u0002", "\u0003"));
                     @Html.Raw(sentence
                         .Replace("\u0001", $"<a href=\"{System.Net.WebUtility.HtmlEncode(Model.RedirectURL)}\">")
                         .Replace("\u0002", "</a>")
@@ -70,7 +70,7 @@
                 }
                 else
                 {
-                    <a href="@Model.RedirectURL">@Localizer["Continue"]</a>
+                    <a href="@Model.RedirectURL">@Localize("Continue")</a>
                 }
             </div>
         }

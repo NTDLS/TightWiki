@@ -160,12 +160,12 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
                 emailTemplate.Replace("##CALLBACKURL##", HtmlEncoder.Default.Encode(callbackUrl));
 
                 await _emailSender.SendEmailAsync(Input.NewEmail, emailSubject, emailTemplate.ToString());
-                StatusMessage = Localizer["Confirmation link to change email sent. Please check your email."];
+                StatusMessage = Localize("Confirmation link to change email sent. Please check your email.");
 
                 return RedirectToPage();
             }
 
-            StatusMessage = Localizer["Your email is unchanged."];
+            StatusMessage = Localize("Your email is unchanged.");
             return RedirectToPage();
         }
 
@@ -197,7 +197,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
                 "Confirm your email",
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-            StatusMessage = Localizer["Verification email sent. Please check your email."];
+            StatusMessage = Localize("Verification email sent. Please check your email.");
             return RedirectToPage();
         }
     }

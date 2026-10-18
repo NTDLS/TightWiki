@@ -15,10 +15,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Add Role"]
+            @Localize("Add Role")
         </h3>
         <div class="text-muted">
-            @Localizer["Create new role."]
+            @Localize("Create new role.")
         </div>
     </div>
 </div>
@@ -30,11 +30,11 @@
     <div class="card shadow-sm">
         <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <span class="fw-semibold">
-                <i class="bi bi-shield-plus me-2"></i>@Localizer["New Role"]
+                <i class="bi bi-shield-plus me-2"></i>@Localize("New Role")
             </span>
 
             <button type="submit" class="btn btn-primary">
-                <i class="bi bi-floppy me-1"></i>@Localizer["Save"]
+                <i class="bi bi-floppy me-1"></i>@Localize("Save")
             </button>
         </div>
 
@@ -42,12 +42,12 @@
             <div class="row g-3">
                 <div class="col-12">
                     <label for="Name" class="form-label fw-semibold">
-                        @Localizer["Name"]
+                        @Localize("Name")
                     </label>
                     @Html.TextBoxFor(m => m.Name, new
                     {
                         @class = "form-control",
-                        placeholder= Localizer["Required"].Value
+                        placeholder= Localize("Required")
                     })
                     <div class="text-danger small">
                         @Html.ValidationMessageFor(m => m.Name)
@@ -56,12 +56,12 @@
 
                 <div class="col-12">
                     <label for="Description" class="form-label fw-semibold">
-                        @Localizer["Description"]
+                        @Localize("Description")
                     </label>
                     @Html.TextBoxFor(m => m.Description, new
                     {
                         @class = "form-control",
-                        placeholder= Localizer["Optional"].Value
+                        placeholder= Localize("Optional")
                     })
                     <div class="text-danger small">
                         @Html.ValidationMessageFor(m => m.Description)

@@ -4,24 +4,24 @@
 
 @model ErrorModel
 @{
-    ViewData["Title"]= Localizer["Error"].Value;
+    ViewData["Title"]= Localize("Error");
 }
 
-<h1 class="text-danger">@Localizer["Error"].</h1>
-<h2 class="text-danger">@Localizer["An error occurred while processing your request."]</h2>
+<h1 class="text-danger">@Localize("Error").</h1>
+<h2 class="text-danger">@Localize("An error occurred while processing your request.")</h2>
 
 @if (Model.ShowRequestId)
 {
     <p>
-        <strong>@Localizer["Request ID"]:</strong> <code>@Model.RequestId</code>
+        <strong>@Localize("Request ID"):</strong> <code>@Model.RequestId</code>
     </p>
 }
 
-<h3>@Localizer["Development Mode"]</h3>
+<h3>@Localize("Development Mode")</h3>
 <p>
-    @Localizer["Swapping to the <strong>Development</strong> environment displays detailed information about the error that occurred."]
+    @Localize("Swapping to the <strong>Development</strong> environment displays detailed information about the error that occurred.")
 </p>
 <p>
-    <strong>@Localizer["The Development environment shouldn't be enabled for deployed applications."]</strong>
-    @Localizer["It can result in displaying sensitive information from exceptions to end users."]
+    <strong>@Localize("The Development environment shouldn't be enabled for deployed applications.")</strong>
+    @Localize("It can result in displaying sensitive information from exceptions to end users.")
 </p>

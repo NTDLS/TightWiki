@@ -9,10 +9,10 @@
 }
 
 <h3>
-    @Localizer["Resend email confirmation"]
+    @Localize("Resend email confirmation")
 </h3>
 
-<p>@Localizer["Enter your email."]</p>
+<p>@Localize("Enter your email.")</p>
 <hr />
 
 <div class="row">
@@ -24,7 +24,7 @@
                 <label asp-for="Input.Email" class="form-label"></label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary w-100">@Localizer["Resend"]</button>
+            <button type="submit" class="btn btn-primary w-100">@Localize("Resend")</button>
         </form>
     </div>
 </div>

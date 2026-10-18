@@ -12,12 +12,12 @@
 }
 
 <h3>
-    @Localizer["Event Log Entry"]
+    @Localize("Event Log Entry")
 </h3>
 
 <div class="card shadow-sm">
     <div class="card-header fw-semibold">
-        @Localizer["Log Entry Details"]
+        @Localize("Log Entry Details")
     </div>
 
     <div class="table-responsive">
@@ -25,12 +25,12 @@
             <tbody>
 
                 <tr>
-                    <th class="w-25">@Localizer["Id"]</th>
+                    <th class="w-25">@Localize("Id")</th>
                     <td>@Model.LogEntry.Id</td>
                 </tr>
 
                 <tr>
-                    <th>@Localizer["Severity"]</th>
+                    <th>@Localize("Severity")</th>
                     <td>
                         @{
                             string severity = Model.LogEntry.Severity ?? "";
@@ -74,14 +74,14 @@
                 </tr>
 
                 <tr>
-                    <th>@Localizer["Date/Time"]</th>
+                    <th>@Localize("Date/Time")</th>
                     <td>@Model.LogEntry.CreatedDate</td>
                 </tr>
 
                 @if (!string.IsNullOrEmpty(Model.LogEntry.Text))
                 {
                     <tr>
-                        <th>@Localizer["Text"]</th>
+                        <th>@Localize("Text")</th>
                         <td class="text-break">@Model.LogEntry.Text</td>
                     </tr>
                 }
@@ -89,7 +89,7 @@
                 @if (!string.IsNullOrEmpty(Model.LogEntry.ExceptionText))
                 {
                     <tr>
-                        <th>@Localizer["Exception"]</th>
+                        <th>@Localize("Exception")</th>
                         <td class="text-danger text-break">
                             @Model.LogEntry.ExceptionText
                         </td>
@@ -99,7 +99,7 @@
                 @if (!string.IsNullOrEmpty(Model.LogEntry.StackTrace))
                 {
                     <tr>
-                        <th>@Localizer["Stack Trace"]</th>
+                        <th>@Localize("Stack Trace")</th>
                         <td>
                             <pre class="mb-0 small bg-light p-2 rounded border"
                                  style="white-space: pre-wrap; max-height: 300px; overflow-y: auto;">

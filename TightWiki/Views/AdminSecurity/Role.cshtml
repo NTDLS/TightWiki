@@ -15,10 +15,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer.Format("Role: {0}", Model.Name)
+            @Localize("Role: {0}", Model.Name)
         </h3>
         <div class="text-muted">
-            @Localizer["Role membership and permissions."]
+            @Localize("Role membership and permissions.")
         </div>
     </div>
 </div>
@@ -34,7 +34,7 @@
                     class="btn btn-success"
                     data-bs-toggle="modal"
                     data-bs-target="#addPermissionToRoleModal">
-                <i class="bi bi-shield-plus me-1"></i>@Localizer["Add Permission to Role"]
+                <i class="bi bi-shield-plus me-1"></i>@Localize("Add Permission to Role")
             </button>
 
             <button type="button"
@@ -42,7 +42,7 @@
                     class="btn btn-success"
                     data-bs-toggle="modal"
                     data-bs-target="#addMemberToRoleModal">
-                <i class="bi bi-person-plus me-1"></i>@Localizer["Add Member to Role"]
+                <i class="bi bi-person-plus me-1"></i>@Localize("Add Member to Role")
             </button>
         </div>
 
@@ -50,8 +50,8 @@
         {
             @TwConfirmActionHelper.GenerateDangerButton(
                 WikiConfiguration.BasePath,
-                Localizer["Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?"].Format(Model.Name),
-                Localizer["Delete Role"].Value,
+                Localize("Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?", Model.Name),
+                Localize("Delete Role"),
                 $"/AdminSecurity/DeleteRole/{Model.Id}",
                 $"{WikiConfiguration.BasePath}/AdminSecurity/Roles",
                 Context.Request.Path.Value)
@@ -61,7 +61,7 @@
     <div class="card shadow-sm mb-3">
         <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <span class="fw-semibold">
-                <i class="bi bi-shield-lock me-2"></i>@Localizer["Role Permissions"]
+                <i class="bi bi-shield-lock me-2"></i>@Localize("Role Permissions")
             </span>
             <div>
                 @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount_Permissions, "Page_Permissions", localizer: Localizer)
@@ -75,23 +75,23 @@
                         <th scope="col" style="width: 18%;">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "Disposition", "Permissions")">
-                                @Localizer["Disposition"]
+                                @Localize("Disposition")
                             </a>
                         </th>
                         <th scope="col" style="width: 20%;">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "Permission", "Permissions")">
-                                @Localizer["Permission"]
+                                @Localize("Permission")
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "Resource", "Permissions")">
-                                @Localizer["Resource"]
+                                @Localize("Resource")
                             </a>
                         </th>
                         <th scope="col" style="width: 1%;" class="text-nowrap">
-                            @Localizer["Action"]
+                            @Localize("Action")
                         </th>
                     </tr>
                 </thead>
@@ -120,15 +120,15 @@
                                 @if (permission.Namespace != null)
                                 {
                                     <span>
-                                        <span class="text-muted">@Localizer["Namespace"]:</span>
-                                        @(permission.ResourceName == "*" ? Localizer["ALL"] : permission.ResourceName)
+                                        <span class="text-muted">@Localize("Namespace"):</span>
+                                        @(permission.ResourceName == "*" ? Localize("ALL") : permission.ResourceName)
                                     </span>
                                 }
                                 else if (permission.PageId != null)
                                 {
                                     <span>
-                                        <span class="text-muted">@Localizer["Page"]:</span>
-                                        @(permission.ResourceName == "*" ? Localizer["ALL"] : permission.ResourceName)
+                                        <span class="text-muted">@Localize("Page"):</span>
+                                        @(permission.ResourceName == "*" ? Localize("ALL") : permission.ResourceName)
                                     </span>
                                 }
                             </td>
@@ -137,7 +137,7 @@
                                 <button type="button"
                                         class="btn btn-outline-danger btn-sm"
                                         onclick="removePermission(this, '@permission.Id')">
-                                    <i class="bi bi-trash me-1"></i>@Localizer["Remove"]
+                                    <i class="bi bi-trash me-1"></i>@Localize("Remove")
                                 </button>
                             </td>
                         </tr>
@@ -150,7 +150,7 @@
     <div class="card shadow-sm">
         <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <span class="fw-semibold">
-                <i class="bi bi-people me-2"></i>@Localizer["Role Members"]
+                <i class="bi bi-people me-2"></i>@Localize("Role Members")
             </span>
             <div>
                 @TwPageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount_Members, "Page_Members", @class: "mb-3", localizer: Localizer)
@@ -164,29 +164,29 @@
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "AccountName", "Members")">
-                                @Localizer["Display Name"]
+                                @Localize("Display Name")
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "EmailAddress", "Members")">
-                                @Localizer["Email Address"]
+                                @Localize("Email Address")
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "FirstName", "Members")">
-                                @Localizer["First Name"]
+                                @Localize("First Name")
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "LastName", "Members")">
-                                @Localizer["Last Name"]
+                                @Localize("Last Name")
                             </a>
                         </th>
                         <th scope="col" style="width: 1%;" class="text-nowrap">
-                            @Localizer["Action"]
+                            @Localize("Action")
                         </th>
                     </tr>
                 </thead>
@@ -207,7 +207,7 @@
                                 <button type="button"
                                         class="btn btn-outline-danger btn-sm"
                                         onclick="removeMember(this, '@member.UserId')">
-                                    <i class="bi bi-person-dash me-1"></i>@Localizer["Remove"]
+                                    <i class="bi bi-person-dash me-1"></i>@Localize("Remove")
                                 </button>
                             </td>
                         </tr>
@@ -220,7 +220,7 @@
 
 <script>
     async function removePermission(button, permissionId) {
-        if (!(await twConfirm(@Json.Serialize(Localizer["Are you sure you want to remove the permission from this role?"].Value)))) {
+        if (!(await twConfirm(@Json.Serialize(Localize("Are you sure you want to remove the permission from this role?"))))) {
             return;
         }
 
@@ -236,7 +236,7 @@
 
         const result = await response.json();
             if (!result.success) {
-            alert(result.message || @Json.Serialize(Localizer["Removal failed"].Value));
+            alert(result.message || @Json.Serialize(Localize("Removal failed")));
             return;
         }
 
@@ -244,7 +244,7 @@
     }
 
     async function removeMember(button, userId) {
-        if (!(await twConfirm(@Json.Serialize(Localizer["Are you sure you want to remove the member from this role?"].Value)))) {
+        if (!(await twConfirm(@Json.Serialize(Localize("Are you sure you want to remove the member from this role?"))))) {
             return;
         }
 
@@ -260,7 +260,7 @@
 
         const result = await response.json();
             if (!result.success) {
-            alert(result.message || @Json.Serialize(Localizer["Removal failed"].Value));
+            alert(result.message || @Json.Serialize(Localize("Removal failed")));
             return;
         }
 
@@ -272,40 +272,40 @@
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addPermissionToRoleModalLabel">@Localizer["Add Permission to Role"]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["Close"]"></button>
+                <h5 class="modal-title" id="addPermissionToRoleModalLabel">@Localize("Add Permission to Role")</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localize("Close")"></button>
             </div>
 
             <div class="modal-body p-3">
                 <div class="mb-3">
-                    <label class="form-label fw-bold mt-2">@Localizer["Resource type"]</label><br />
+                    <label class="form-label fw-bold mt-2">@Localize("Resource type")</label><br />
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="addPermissionToRoleModalMode" id="addPermissionToRoleModalModePage" value="page" checked>
-                        <label class="form-check-label" for="addPermissionToRoleModalModePage">@Localizer["Wiki Page"]</label>
+                        <label class="form-check-label" for="addPermissionToRoleModalModePage">@Localize("Wiki Page")</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="addPermissionToRoleModalMode" id="addPermissionToRoleModalModeNamespace" value="namespace">
-                        <label class="form-check-label" for="addPermissionToRoleModalModeNamespace">@Localizer["Namespace"]</label>
+                        <label class="form-check-label" for="addPermissionToRoleModalModeNamespace">@Localize("Namespace")</label>
                     </div>
                 </div>
 
                 <div>
-                    <label for="addPermissionToRoleModalPageDisposition" class="form-label fw-bold mt-2">@Localizer["Disposition"]</label>
+                    <label for="addPermissionToRoleModalPageDisposition" class="form-label fw-bold mt-2">@Localize("Disposition")</label>
                     <select id="addPermissionToRoleModalPageDisposition" style="width: 100%"></select>
                 </div>
 
                 <div>
-                    <label for="addPermissionToRoleModalPermission" class="form-label fw-bold mt-2">@Localizer["Permission"]</label>
+                    <label for="addPermissionToRoleModalPermission" class="form-label fw-bold mt-2">@Localize("Permission")</label>
                     <select id="addPermissionToRoleModalPermission" style="width: 100%"></select>
                 </div>
 
                 <div id="addPermissionToRoleModalPageDiv">
-                    <label for="addPermissionToRoleModalPage" class="form-label fw-bold mt-2">@Localizer["Page"]</label>
+                    <label for="addPermissionToRoleModalPage" class="form-label fw-bold mt-2">@Localize("Page")</label>
                     <select id="addPermissionToRoleModalPage" style="width: 100%"></select>
                 </div>
 
                 <div id="addPermissionToRoleModalNamespaceDiv" style="display: none;">
-                    <label for="addPermissionToRoleModalNamespace" class="form-label fw-bold mt-2">@Localizer["Namespace"]</label>
+                    <label for="addPermissionToRoleModalNamespace" class="form-label fw-bold mt-2">@Localize("Namespace")</label>
                     <select id="addPermissionToRoleModalNamespace" style="width: 100%"></select>
                 </div>
             </div>
@@ -313,7 +313,7 @@
             <div class="modal-footer">
                 <div class="container-fluid">
                     <em class="small"></em>
-                    <button type="button" class="btn btn-success" id="addPermissionToRoleModalInsertButton">@Localizer["Add"]</button>
+                    <button type="button" class="btn btn-success" id="addPermissionToRoleModalInsertButton">@Localize("Add")</button>
                 </div>
             </div>
         </div>
@@ -345,7 +345,7 @@
         }
 
         $('#addPermissionToRoleModalPageDisposition').select2({
-            placeholder: @Json.Serialize(Localizer["Select a disposition"].Value),
+            placeholder: @Json.Serialize(Localize("Select a disposition")),
             width: '100%',
             data: @Json.Serialize(Model.PermissionDispositions.Select(d => new { id = d.Id, text = d.Name })),
             allowClear: true,
@@ -355,7 +355,7 @@
         });
 
         $('#addPermissionToRoleModalPermission').select2({
-            placeholder: @Json.Serialize(Localizer["Select a permission"].Value),
+            placeholder: @Json.Serialize(Localize("Select a permission")),
             width: '100%',
             data: @Json.Serialize(Model.Permissions.Select(d => new { id = d.Id, text = d.Name })),
             allowClear: true,
@@ -366,7 +366,7 @@
 
         $('#addPermissionToRoleModalPage').select2({
             dropdownParent: $('#addPermissionToRoleModal'),
-            placeholder: @Json.Serialize(Localizer["Select a page"].Value),
+            placeholder: @Json.Serialize(Localize("Select a page")),
             minimumInputLength: 0,
             ajax: {
                 url: '@WikiConfiguration.BasePath/AdminSecurity/AutocompletePage',
@@ -392,7 +392,7 @@
 
         $('#addPermissionToRoleModalNamespace').select2({
             dropdownParent: $('#addPermissionToRoleModal'),
-            placeholder: @Json.Serialize(Localizer["Select a namespace"].Value),
+            placeholder: @Json.Serialize(Localize("Select a namespace")),
             minimumInputLength: 0,
             ajax: {
                 url: '@WikiConfiguration.BasePath/AdminSecurity/AutocompleteNamespace',
@@ -449,18 +449,18 @@
         let namespaceId;
 
         if (!disposition) {
-            alert(@Json.Serialize(Localizer["You must select a permission disposition."].Value));
+            alert(@Json.Serialize(Localize("You must select a permission disposition.")));
             return;
         }
         if (!permission) {
-            alert(@Json.Serialize(Localizer["You must select a permission."].Value));
+            alert(@Json.Serialize(Localize("You must select a permission.")));
             return;
         }
 
         if(document.getElementById('addPermissionToRoleModalModePage').checked == true)
         {
             if (!page) {
-                alert(@Json.Serialize(Localizer["You must select a page."].Value));
+                alert(@Json.Serialize(Localize("You must select a page.")));
                 return;
             }
             pageId = page[0].id;
@@ -468,13 +468,13 @@
         else if(document.getElementById('addPermissionToRoleModalModeNamespace').checked == true)
         {
             if (!namespace) {
-                alert(@Json.Serialize(Localizer["You must select a namespace."].Value));
+                alert(@Json.Serialize(Localize("You must select a namespace.")));
                 return;
             }
             namespaceId = namespace[0].id;
         }
         else{
-            alert(@Json.Serialize(Localizer["You must select either page or namespace."].Value));
+            alert(@Json.Serialize(Localize("You must select either page or namespace.")));
         }
 
         const payload = {
@@ -507,7 +507,7 @@
 
         if(result.alreadyExists)
         {
-            alert(@Json.Serialize(Localizer["The role already has the specified permission."].Value))
+            alert(@Json.Serialize(Localize("The role already has the specified permission.")))
             return;
         }
         const tableBody = document.querySelector("#permissionsTable tbody");
@@ -537,7 +537,7 @@
                 <button type="button"
                         class="btn btn-outline-danger btn-sm"
                         onclick="removePermission(this, '${result.permission.id}')">
-                    <i class="bi bi-trash me-1"></i>@Localizer["Remove"]
+                    <i class="bi bi-trash me-1"></i>@Localize("Remove")
                 </button>
             </td>
         `;
@@ -551,13 +551,13 @@
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addMemberToRoleModalLabel">@Localizer["Add Member to Role"]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["Close"]"></button>
+                <h5 class="modal-title" id="addMemberToRoleModalLabel">@Localize("Add Member to Role")</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localize("Close")"></button>
             </div>
 
             <div class="modal-body p-3">
                 <div>
-                    <label for="addMemberToRoleModalAccount" class="form-label fw-bold">@Localizer["Account"]</label>
+                    <label for="addMemberToRoleModalAccount" class="form-label fw-bold">@Localize("Account")</label>
                     <select id="addMemberToRoleModalAccount" style="width: 100%"></select>
                 </div>
             </div>
@@ -565,7 +565,7 @@
             <div class="modal-footer">
                 <div class="container-fluid">
                     <em class="small"></em>
-                    <button type="button" class="btn btn-success" id="addMemberToRoleModalInsertButton">@Localizer["Add"]</button>
+                    <button type="button" class="btn btn-success" id="addMemberToRoleModalInsertButton">@Localize("Add")</button>
                 </div>
             </div>
         </div>
@@ -588,7 +588,7 @@
         }
         $('#addMemberToRoleModalAccount').select2({
             dropdownParent: $('#addMemberToRoleModal'),
-            placeholder: @Json.Serialize(Localizer["Select an account"].Value),
+            placeholder: @Json.Serialize(Localize("Select an account")),
             minimumInputLength: 0,
             ajax: {
                 url: '@WikiConfiguration.BasePath/AdminSecurity/AutoCompleteAccount',
@@ -622,7 +622,7 @@
         let account = $('#addMemberToRoleModalAccount').select2('data');
 
         if (account.length <= 0) {
-            alert(@Json.Serialize(Localizer["You must select an account."].Value));
+            alert(@Json.Serialize(Localize("You must select an account.")));
             return;
         }
 
@@ -653,7 +653,7 @@
 
         if(result.alreadyExists)
         {
-            alert(@Json.Serialize(Localizer["The account is already a member of the specified role."].Value))
+            alert(@Json.Serialize(Localize("The account is already a member of the specified role.")))
             return;
         }
 
@@ -670,7 +670,7 @@
                 <button type="button"
                         class="btn btn-outline-danger btn-sm"
                         onclick="removeMember(this, '${result.membership.userId}')">
-                    <i class="bi bi-person-dash me-1"></i>@Localizer["Remove"]
+                    <i class="bi bi-person-dash me-1"></i>@Localize("Remove")
                 </button>
             </td>
         `;

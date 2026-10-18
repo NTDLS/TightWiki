@@ -15,10 +15,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Roles"]
+            @Localize("Roles")
         </h3>
         <div class="text-muted">
-            @Localizer["Global configuration for security roles and membership."]
+            @Localize("Global configuration for security roles and membership.")
         </div>
     </div>
 </div>
@@ -26,12 +26,12 @@
 <div class="card shadow-sm">
     <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <span class="fw-semibold">
-            <i class="bi bi-shield-lock me-2"></i>@Localizer["Security Roles"]
+            <i class="bi bi-shield-lock me-2"></i>@Localize("Security Roles")
         </span>
 
         <a href="@WikiConfiguration.BasePath/AdminSecurity/AddRole"
                class="btn btn-success">
-            <i class="bi bi-plus-circle me-1"></i>@Localizer["Add Role"]
+            <i class="bi bi-plus-circle me-1"></i>@Localize("Add Role")
         </a>
     </div>
 
@@ -44,13 +44,13 @@
                         <th scope="col" style="width: 30%;">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "Name")">
-                                @Localizer["Name"]
+                                @Localize("Name")
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "Description")">
-                                @Localizer["Description"]
+                                @Localize("Description")
                             </a>
                         </th>
                     </tr>
@@ -67,7 +67,7 @@
                             </td>
                             <td>
                                 @(string.IsNullOrWhiteSpace(role.Description)
-                                    ? Localizer["(No description)"].Value
+                                    ? Localize("(No description)")
                                     : role.Description)
                             </td>
                         </tr>
@@ -80,7 +80,7 @@
     {
         <div class="card-body text-muted">
             <i class="bi bi-shield-x me-2"></i>
-            @Localizer["There are no security roles configured."]
+            @Localize("There are no security roles configured.")
         </div>
     }
 </div>

@@ -353,7 +353,7 @@
          } catch (err) {
            const uploadStatus = document.getElementById('uploadStatus');
            if (uploadStatus) {
-             uploadStatus.innerHTML = `<p>@Localizer["Unexpected Error"]: ${err.message}</p>`;
+             uploadStatus.innerHTML = `<p>@Localize("Unexpected Error"): ${err.message}</p>`;
            }
            console.error(err);
          }
@@ -468,7 +468,7 @@
         }
         $('#insertLinkModalLinkPage').select2({
             dropdownParent: $('#insertLinkModal'),
-            placeholder: @Json.Serialize(Localizer["Search"].Value) + "...",
+            placeholder: @Json.Serialize(Localize("Search")) + "...",
             minimumInputLength: 0,
             ajax: {
                 url: '@WikiConfiguration.BasePath/Page/AutoCompletePage',
@@ -515,7 +515,7 @@
         if (linkMode === 'page') {
             const selected = $('#insertLinkModalLinkPage').select2('data')[0];
             if (!selected) {
-                alert(@Json.Serialize(Localizer["Select a wiki page."].Value));
+                alert(@Json.Serialize(Localize("Select a wiki page.")));
                 isValid = false;
             } else {
 
@@ -530,10 +530,10 @@
         } else if (linkMode === 'url') {
             const url = document.getElementById('insertLinkModalLinkURL').value.trim();
             if (!url) {
-                alert(@Json.Serialize(Localizer["Enter a URL."].Value));
+                alert(@Json.Serialize(Localize("Enter a URL.")));
                 isValid = false;
             } else if (!/^https?:\/\//i.test(url)) {
-                alert(@Json.Serialize(Localizer["URL must start with"].Value) + " http:// or https://");
+                alert(@Json.Serialize(Localize("URL must start with")) + " http:// or https://");
                 isValid = false;
             } else {
 
@@ -582,10 +582,10 @@
                 layout: "fitDataStretch",
                 columns: [
                         {
-                            title: @Json.Serialize(Localizer["Insert"].Value),
+                            title: @Json.Serialize(Localize("Insert")),
                             headerSort: false,
                             hozAlign: "center",
-                            formatter: () => "<a class=\"btn btn-success btn-thin rounded-0\">@Localizer["Insert"]</a>",
+                            formatter: () => "<a class=\"btn btn-success btn-thin rounded-0\">@Localize("Insert")</a>",
                             cellClick: (e, cell) => {
                                 const row = cell.getRow().getData();
                                 const value = row.templateText.replace(/\r\n/g, "\n");
@@ -610,7 +610,7 @@
                             }
                         },
                         {
-                            title: @Json.Serialize(Localizer["Name"].Value),
+                            title: @Json.Serialize(Localize("Name")),
                             field: "name",
                             formatter: function (cell) {
                                 const data = cell.getRow().getData();
@@ -620,10 +620,10 @@
                                 return `<a href="@WikiConfiguration.BasePath/${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
                             }
                         },
-                        { title: @Json.Serialize(Localizer["Type"].Value), field: "type" },
+                        { title: @Json.Serialize(Localize("Type")), field: "type" },
                         { field: "templateText", visible: false },
                         { field: "helpPageNavigation", visible: false },
-                        { title: @Json.Serialize(Localizer["Description"].Value), field: "description" }
+                        { title: @Json.Serialize(Localize("Description")), field: "description" }
                     ],
                 });
 
@@ -759,20 +759,20 @@
             dropSection.addEventListener('dragover', (e) => {
                 e.preventDefault();
                 dropSection.classList.add('dragover');
-                dropSection.textContent = @Json.Serialize(Localizer["Drop files here..."].Value);
+                dropSection.textContent = @Json.Serialize(Localize("Drop files here..."));
             });
 
             // Handle dragleave event
             dropSection.addEventListener('dragleave', () => {
                 dropSection.classList.remove('dragover');
-                dropSection.textContent = @Json.Serialize(Localizer["Attach files by dropping them here or by manually selecting them below:"].Value);
+                dropSection.textContent = @Json.Serialize(Localize("Attach files by dropping them here or by manually selecting them below:"));
             });
 
             // Handle drop event
             dropSection.addEventListener('drop', (e) => {
                 e.preventDefault();
                 dropSection.classList.remove('dragover');
-                dropSection.textContent = @Json.Serialize(Localizer["Attach files by dropping them here or by manually selecting them below:"].Value);
+                dropSection.textContent = @Json.Serialize(Localize("Attach files by dropping them here or by manually selecting them below:"));
                 const files = e.dataTransfer.files;
                 handleFileUpload(files);
             });
@@ -828,14 +828,14 @@
                 .then(response => response.json())  // Read the response as JSON
                 .then(result => {
                     if (result.success) {
-                        uploadStatus.innerHTML = `<p>@Localizer["Upload successful"] - ${result.message}</p>`;
+                        uploadStatus.innerHTML = `<p>@Localize("Upload successful") - ${result.message}</p>`;
                     } else {
-                        uploadStatus.innerHTML = `<p>@Localizer["Error"] - ${result.message}</p>`;
+                        uploadStatus.innerHTML = `<p>@Localize("Error") - ${result.message}</p>`;
                     }
                     $("#uploadedFiles").load("@WikiConfiguration.BasePath/File/PageAttachments/@sessionState.PageNavigationEscaped");
                 })
                 .catch(error => {
-                    uploadStatus.innerHTML = `<p>@Localizer["Unexpected Error"]: ${error.message}</p>`;
+                    uploadStatus.innerHTML = `<p>@Localize("Unexpected Error"): ${error.message}</p>`;
                 });
         }
 
@@ -861,7 +861,7 @@
 
         const imagesTable = new Tabulator("#emojiResultsTable", {
             layout: "fitColumns",
-            placeholder: @Json.Serialize(Localizer["Search for more emojis."].Value),
+            placeholder: @Json.Serialize(Localize("Search for more emojis.")),
             ajaxLoader: true,
             ajaxContentType: "json",
             ajaxResponse: function(url, params, resp) { return resp; },
@@ -1007,7 +1007,7 @@
                     _revisionConflict = true;
                     document.getElementById('revisionConflictAlert')?.classList.remove('d-none');
                     const saveBtns = [document.getElementById('saveButton'), document.getElementById('saveButtonBottom')];
-                    saveBtns.forEach(btn => { if (btn) { btn.disabled = true; btn.title = @Json.Serialize(Localizer["Page has been modified by another user."].Value); } });
+                    saveBtns.forEach(btn => { if (btn) { btn.disabled = true; btn.title = @Json.Serialize(Localize("Page has been modified by another user.")); } });
                 }
             })
             .catch(() => {});
@@ -1023,7 +1023,7 @@
                 const list  = document.getElementById('activeEditorsList');
                 if (!panel || !list) return;
                 if (others.length > 0) {
-                    list.innerHTML = '<span class="me-1">@Localizer["Also editing:"]</span>'
+                    list.innerHTML = '<span class="me-1">@Localize("Also editing:")</span>'
                         + others.map(n => `<span class="badge rounded-pill text-bg-secondary me-1">${n}</span>`).join('');
                     panel.classList.remove('d-none');
                 } else {
@@ -1080,11 +1080,11 @@
             if (result.success) {
                 previewContent.innerHTML = result.html;
             } else {
-                previewError.textContent = result.message || @Json.Serialize(Localizer["Failed to load preview."].Value);
+                previewError.textContent = result.message || @Json.Serialize(Localize("Failed to load preview."));
                 previewError.classList.remove('d-none');
             }
         } catch (err) {
-            previewError.textContent = @Json.Serialize(Localizer["Unexpected Error"].Value) + ': ' + err.message;
+            previewError.textContent = @Json.Serialize(Localize("Unexpected Error")) + ': ' + err.message;
             previewError.classList.remove('d-none');
         } finally {
             previewLoading.classList.add('d-none');
@@ -1095,7 +1095,7 @@
 
 <div class="bodyDiv">
     <div class="card shadow-lg">
-        <div class="card-header"><h3>@Localizer["Content"]</h3></div>
+        <div class="card-header"><h3>@Localize("Content")</h3></div>
         <div class="card-body">
             @using (Html.BeginForm(FormMethod.Post, new { id = "pageEditForm" }))
             {
@@ -1105,26 +1105,26 @@
                 @if (Model?.Id > 0)
                 {
                     <div id="revisionConflictAlert" class="alert alert-danger d-none" role="alert">
-                        <strong>@Localizer["Conflict:"]</strong>
-                        @Localizer["This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version."]
+                        <strong>@Localize("Conflict:")</strong>
+                        @Localize("This page was modified by someone else while you were editing it. Saving has been disabled to protect their changes. Please reload the page to get the latest version.")
                     </div>
                 }
 
                 <div class="d-flex flex-wrap gap-2">
-                    <button id="saveButton" type="submit" class="btn btn-primary">@Localizer["Save"]</button>
+                    <button id="saveButton" type="submit" class="btn btn-primary">@Localize("Save")</button>
                     @if (await sessionState.HoldsPermission(TwPermission.Read))
                     {
                         if (Model?.Id > 0)
                         {
-                            <a href="@WikiConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-outline-secondary" role="button">@Localizer["View"]</a>
-                            <a href="@WikiConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary" role="button">@Localizer["Export"]</a>
+                            <a href="@WikiConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-outline-secondary" role="button">@Localize("View")</a>
+                            <a href="@WikiConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary" role="button">@Localize("Export")</a>
                         }
                         else
                         {
-                            <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#templatesModal">@Localizer["Choose template"]</button>
+                            <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#templatesModal">@Localize("Choose template")</button>
                         }
                     }
-                    <span class="badge text-bg-danger invisible">@Localizer["Unauthorized"]</span>
+                    <span class="badge text-bg-danger invisible">@Localize("Unauthorized")</span>
                 </div>
 
                 @if (Model?.Id > 0)
@@ -1138,7 +1138,7 @@
                 <br />
 
                 <div class="mb-3">
-                    <label asp-for="Name" class="form-label fw-semibold">@Localizer["Name"]</label>
+                    <label asp-for="Name" class="form-label fw-semibold">@Localize("Name")</label>
                     @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
                     <div class="text-danger small">
                         @Html.ValidationMessageFor(m => m.Name)
@@ -1146,7 +1146,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="Description" class="form-label fw-semibold">@Localizer["Description"]</label>
+                    <label asp-for="Description" class="form-label fw-semibold">@Localize("Description")</label>
                     @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
                     <div class="text-danger small">
                         @Html.ValidationMessageFor(m => m.Description)
@@ -1156,12 +1156,12 @@
                 @if (WikiConfiguration.ShowChangeSummaryWhenEditing)
                 {
                     <div class="mb-3">
-                        <label asp-for="ChangeSummary" class="form-label fw-semibold">@Localizer["Change Summary"]</label>
+                        <label asp-for="ChangeSummary" class="form-label fw-semibold">@Localize("Change Summary")</label>
                         @Html.TextAreaFor(x => x.ChangeSummary, new
                         {
                             @class = "form-control",
                             rows = 3,
-                            placeholder = @Localizer["What did you change and why?"].Value
+                            placeholder = @Localize("What did you change and why?")
                         })
                         <div class="text-danger small">
                             @Html.ValidationMessageFor(m => m.ChangeSummary)
@@ -1181,7 +1181,7 @@
                                     role="tab"
                                     aria-controls="edit-tab-pane"
                                     aria-selected="true">
-                                @Localizer["Edit"]
+                                @Localize("Edit")
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -1193,20 +1193,20 @@
                                     role="tab"
                                     aria-controls="preview-tab-pane"
                                     aria-selected="false">
-                                @Localizer["Preview"]
+                                @Localize("Preview")
                             </button>
                         </li>
                     </ul>
 
                     <div class="d-flex align-items-center gap-2">
-                        <label asp-for="editorHeightSelect" class="form-label fw-semibold">@Localizer["Editor Size"]</label>
+                        <label asp-for="editorHeightSelect" class="form-label fw-semibold">@Localize("Editor Size")</label>
                         <select id="editorHeightSelect" class="form-select form-select-sm" style="width:auto;">
-                            <option value="10em">@Localizer["Extra Small"]</option>
-                            <option value="20em">@Localizer["Small"]</option>
-                            <option value="30em" selected>@Localizer["Medium"]</option>
-                            <option value="40em">@Localizer["Large"]</option>
-                            <option value="50em">@Localizer["Extra Large"]</option>
-                            <option value="80em">@Localizer["Huge"]</option>
+                            <option value="10em">@Localize("Extra Small")</option>
+                            <option value="20em">@Localize("Small")</option>
+                            <option value="30em" selected>@Localize("Medium")</option>
+                            <option value="40em">@Localize("Large")</option>
+                            <option value="50em">@Localize("Extra Large")</option>
+                            <option value="80em">@Localize("Huge")</option>
                         </select>
                     </div>
                 </div>
@@ -1225,33 +1225,33 @@
                             string toolbarIconSet = sessionState.UserTheme.EditorTheme == "dark" ? "Dark" : "Light";
                             string ToolbarIcon(string name) => Url.Content($"~/images/toolbar/toolbar_{toolbarIconSet}_{name}.png");
                         }
-                        <div class="d-flex align-items-center gap-2 mb-2" role="toolbar" aria-label="@Localizer["Formatting"]">
-                            <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localizer["Bold"]" onclick="surroundSelectionWith('**','**')">
-                                <img src="@ToolbarIcon("Bold")" width="16" height="16" alt="@Localizer["Bold"]">
+                        <div class="d-flex align-items-center gap-2 mb-2" role="toolbar" aria-label="@Localize("Formatting")">
+                            <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localize("Bold")" onclick="surroundSelectionWith('**','**')">
+                                <img src="@ToolbarIcon("Bold")" width="16" height="16" alt="@Localize("Bold")">
                             </button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localizer["Italic"]" onclick="surroundSelectionWith('//','//')">
-                                <img src="@ToolbarIcon("Italic")" width="16" height="16" alt="@Localizer["Italic"]">
+                            <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localize("Italic")" onclick="surroundSelectionWith('//','//')">
+                                <img src="@ToolbarIcon("Italic")" width="16" height="16" alt="@Localize("Italic")">
                             </button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localizer["Underline"]" onclick="surroundSelectionWith('__','__')">
-                                <img src="@ToolbarIcon("Underline")" width="16" height="16" alt="@Localizer["Underline"]">
+                            <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localize("Underline")" onclick="surroundSelectionWith('__','__')">
+                                <img src="@ToolbarIcon("Underline")" width="16" height="16" alt="@Localize("Underline")">
                             </button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localizer["Strikethrough"]" onclick="surroundSelectionWith('~~','~~')">
-                                <img src="@ToolbarIcon("Strike")" width="16" height="16" alt="@Localizer["Strikethrough"]">
+                            <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localize("Strikethrough")" onclick="surroundSelectionWith('~~','~~')">
+                                <img src="@ToolbarIcon("Strike")" width="16" height="16" alt="@Localize("Strikethrough")">
                             </button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localizer["Highlight"]" onclick="surroundSelectionWith('!!','!!')">
-                                <img src="@ToolbarIcon("Highlight")" width="16" height="16" alt="@Localizer["Highlight"]">
+                            <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localize("Highlight")" onclick="surroundSelectionWith('!!','!!')">
+                                <img src="@ToolbarIcon("Highlight")" width="16" height="16" alt="@Localize("Highlight")">
                             </button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localizer["Hyperlink"]" data-bs-toggle="modal" data-bs-target="#insertLinkModal">
-                                <img src="@ToolbarIcon("Link")" width="16" height="16" alt="@Localizer["Hyperlink"]">
+                            <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localize("Hyperlink")" data-bs-toggle="modal" data-bs-target="#insertLinkModal">
+                                <img src="@ToolbarIcon("Link")" width="16" height="16" alt="@Localize("Hyperlink")">
                             </button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localizer["Emoji"]" data-bs-toggle="modal" data-bs-target="#insertEmojiModal">
-                                <img src="@ToolbarIcon("Emoji")" width="16" height="16" alt="@Localizer["Emoji"]">
+                            <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localize("Emoji")" data-bs-toggle="modal" data-bs-target="#insertEmojiModal">
+                                <img src="@ToolbarIcon("Emoji")" width="16" height="16" alt="@Localize("Emoji")">
                             </button>
 
                             <div class="vr"></div>
 
                             <button type="button" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#featureInsertModal">
-                                @Localizer["Insert"] <img src="@ToolbarIcon("Insert")" width="16" height="16" alt="">
+                                @Localize("Insert") <img src="@ToolbarIcon("Insert")" width="16" height="16" alt="">
                             </button>
                         </div>
 
@@ -1266,13 +1266,13 @@
 
                         <div id="previewLoading" class="py-3 d-none">
                             <div class="spinner-border spinner-border-sm me-2" role="status"></div>
-                            @Localizer["Loading preview..."]
+                            @Localize("Loading preview...")
                         </div>
 
                         <div id="previewError" class="alert alert-danger d-none mt-3"></div>
 
                         <div id="previewContent" class="border rounded p-3 mt-3 bg-body">
-                            <em>@Localizer["Please wait, loading preview..."]</em>
+                            <em>@Localize("Please wait, loading preview...")</em>
                         </div>
                     </div>
                 </div>
@@ -1281,13 +1281,13 @@
                 <br />
 
                 <div class="d-flex flex-wrap gap-2">
-                    <button id="saveButtonBottom" type="submit" class="btn btn-primary">@Localizer["Save"]</button>
+                    <button id="saveButtonBottom" type="submit" class="btn btn-primary">@Localize("Save")</button>
                     @if (Model?.Id > 0 && await sessionState.HoldsPermission(TwPermission.Read))
                     {
-                        <a href="@WikiConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-outline-secondary" role="button">@Localizer["View"]</a>
-                        <a href="@WikiConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary" role="button">@Localizer["Export"]</a>
+                        <a href="@WikiConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-outline-secondary" role="button">@Localize("View")</a>
+                        <a href="@WikiConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary" role="button">@Localize("Export")</a>
                     }
-                    <span class="badge text-bg-danger invisible">@Localizer["Unauthorized"]</span>
+                    <span class="badge text-bg-danger invisible">@Localize("Unauthorized")</span>
                 </div>
             }
         </div>
@@ -1295,12 +1295,12 @@
     <br />
 
     <div class="card shadow-lg">
-        <div class="card-header"><h3>@Localizer["Attachments"]</h3></div>
+        <div class="card-header"><h3>@Localize("Attachments")</h3></div>
         <div class="card-body">
             @if (Model?.Id > 0 && await sessionState.HoldsPermission(TwPermission.Create))
             {
                 <div id="dropSection" class="dropSection">
-                    <span class="d-inline-block">@Localizer["Drop file attachments here or click to upload manually."]</span>
+                    <span class="d-inline-block">@Localize("Drop file attachments here or click to upload manually.")</span>
                 </div>
                 <input type="file" id="fileInput" style="display:none" multiple>
                 <div id="uploadStatus"></div>
@@ -1308,7 +1308,7 @@
             }
             else
             {
-                <div>@Localizer["Save the page before uploading files."]</div>
+                <div>@Localize("Save the page before uploading files.")</div>
             }
         </div>
     </div>
@@ -1318,7 +1318,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="templatesModalLabel">@Localizer["Choose template"]</h5>
+                <h5 class="modal-title" id="templatesModalLabel">@Localize("Choose template")</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -1340,8 +1340,8 @@
 
             <div class="modal-footer">
                 <div class="container-fluid">
-                    <em class="small">* - @Localizer["Use the Templates namespace to add a page to the list of templates, e.g. Templates :: My First Template."]</em>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Close"]</button>
+                    <em class="small">* - @Localize("Use the Templates namespace to add a page to the list of templates, e.g. Templates :: My First Template.")</em>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localize("Close")</button>
                 </div>
             </div>
         </div>
@@ -1352,8 +1352,8 @@
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="featureInsertModalLabel">@Localizer["Insert"]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["Close"]"></button>
+                <h5 class="modal-title" id="featureInsertModalLabel">@Localize("Insert")</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localize("Close")"></button>
             </div>
 
             <div class="modal-body p-0">
@@ -1361,7 +1361,7 @@
                 <div class="p-3 border-bottom position-sticky top-0" style="z-index:1">
                     <div class="input-group input-group-sm">
                         <span class="input-group-text" id="featureInsertSearchLabel">🔎</span>
-                        <input id="featureInsertModalSearch" type="text" class="form-control" placeholder="@Localizer["Search"]..." aria-labelledby="featureInsertSearchLabel">
+                        <input id="featureInsertModalSearch" type="text" class="form-control" placeholder="@Localize("Search")..." aria-labelledby="featureInsertSearchLabel">
                     </div>
                 </div>
                 @* Table *@
@@ -1373,7 +1373,7 @@
             <div class="modal-footer">
                 <div class="container-fluid">
                     <em class="small"></em>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Close"]</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localize("Close")</button>
                 </div>
             </div>
         </div>
@@ -1384,35 +1384,35 @@
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="insertLinkModalLabel">@Localizer["Hyperlink"]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["Close"]"></button>
+                <h5 class="modal-title" id="insertLinkModalLabel">@Localize("Hyperlink")</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localize("Close")"></button>
             </div>
 
             <div class="modal-body p-3">
                 <div class="mb-3">
-                    <label class="form-label fw-bold">@Localizer["Link Type"]</label><br />
+                    <label class="form-label fw-bold">@Localize("Link Type")</label><br />
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="linkMode" id="linkModePage" value="page" checked>
-                        <label class="form-check-label" for="linkModePage">@Localizer["Wiki Page"]</label>
+                        <label class="form-check-label" for="linkModePage">@Localize("Wiki Page")</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="linkMode" id="linkModeUrl" value="url">
-                        <label class="form-check-label" for="linkModeUrl">@Localizer["External URL"]</label>
+                        <label class="form-check-label" for="linkModeUrl">@Localize("External URL")</label>
                     </div>
                 </div>
 
                 <div>
-                    <label for="insertLinkModalLinkTitle" class="form-label fw-bold">@Localizer["Link Text (Optional)"]</label>
-                    <input id="insertLinkModalLinkTitle" type="url" class="form-control" placeholder="@Localizer["Link Text (Optional)"]" />
+                    <label for="insertLinkModalLinkTitle" class="form-label fw-bold">@Localize("Link Text (Optional)")</label>
+                    <input id="insertLinkModalLinkTitle" type="url" class="form-control" placeholder="@Localize("Link Text (Optional)")" />
                 </div>
 
                 <div id="linkInternalDiv">
-                    <label for="insertLinkModalLinkPage" class="form-label fw-bold">@Localizer["Choose a page"]</label>
+                    <label for="insertLinkModalLinkPage" class="form-label fw-bold">@Localize("Choose a page")</label>
                     <select id="insertLinkModalLinkPage" style="width: 100%"></select>
                 </div>
 
                 <div id="linkExternalDiv" style="display: none;">
-                    <label for="insertLinkModalLinkURL" class="form-label fw-bold">@Localizer["External URL"]</label>
+                    <label for="insertLinkModalLinkURL" class="form-label fw-bold">@Localize("External URL")</label>
                     <input id="insertLinkModalLinkURL" type="url" class="form-control" placeholder="https://example.com" />
                 </div>
             </div>
@@ -1420,7 +1420,7 @@
             <div class="modal-footer">
                 <div class="container-fluid">
                     <em class="small"></em>
-                    <button type="button" class="btn btn-success" id="insertLinkModalInsertButton">@Localizer["Insert"]</button>
+                    <button type="button" class="btn btn-success" id="insertLinkModalInsertButton">@Localize("Insert")</button>
                 </div>
             </div>
         </div>
@@ -1431,8 +1431,8 @@
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="insertEmojiModalLabel">@Localizer["Insert Emoji"]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["Close"]"></button>
+                <h5 class="modal-title" id="insertEmojiModalLabel">@Localize("Insert Emoji")</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localize("Close")"></button>
             </div>
 
             <div class="modal-body p-3">

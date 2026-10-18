@@ -14,13 +14,13 @@
 
 <div class="card shadow-sm mb-3">
     <div class="card-header d-flex align-items-center gap-2">
-        @Localizer["Search Tokens"]
+        @Localize("Search Tokens")
     </div>
 
     <div class="card-body">
         <div class="d-flex ms-2 mb-1">
             <div class="fw-semibold" style="width:140px;">
-                @Localizer["Name"]
+                @Localize("Name")
             </div>
             <div>
                 @Model.PageName
@@ -29,7 +29,7 @@
 
         <div class="d-flex ms-2 mb-1">
             <div class="fw-semibold" style="width:140px;">
-                @Localizer["Navigation"]
+                @Localize("Navigation")
             </div>
             <div>
                 @Model.Navigation
@@ -38,7 +38,7 @@
 
         <div class="d-flex ms-2 mb-1">
             <div class="fw-semibold" style="width:140px;">
-                @Localizer["Unique tokens"]
+                @Localize("Unique tokens")
             </div>
             <div>
                 @Model.Tokens.Count().ToString("N0")
@@ -47,7 +47,7 @@
 
         <div class="d-flex ms-2 mb-1">
             <div class="fw-semibold" style="width:140px;">
-                @Localizer["Total weight"]
+                @Localize("Total weight")
             </div>
             <div>
                 @Model.Tokens.Sum(o=> o.Weight).ToString("N2")

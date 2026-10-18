@@ -16,10 +16,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Attachments"]
+            @Localize("Attachments")
         </h3>
         <div class="text-muted">
-            @Localizer["All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision."]
+            @Localize("All file attachments across all pages, largest first. Orphaned attachments are not used by any page revision.")
         </div>
     </div>
 </div>
@@ -27,20 +27,20 @@
 <div class="card shadow-sm mb-3">
     <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <span class="fw-semibold">
-            <i class="bi bi-paperclip me-2"></i>@Localizer["Attachment Administration"]
+            <i class="bi bi-paperclip me-2"></i>@Localize("Attachment Administration")
         </span>
 
         <div class="d-flex flex-wrap gap-3 text-muted small">
-            <span>@Localizer["Total"]: <span class="fw-semibold">@Model.Totals.TotalCount.ToString("N0") (@NTDLS.Helpers.Formatters.FileSize(Model.Totals.TotalSize))</span></span>
-            <span>@Localizer["Orphaned"]: <span class="fw-semibold">@Model.Totals.OrphanedCount.ToString("N0") (@NTDLS.Helpers.Formatters.FileSize(Model.Totals.OrphanedSize))</span></span>
+            <span>@Localize("Total"): <span class="fw-semibold">@Model.Totals.TotalCount.ToString("N0") (@NTDLS.Helpers.Formatters.FileSize(Model.Totals.TotalSize))</span></span>
+            <span>@Localize("Orphaned"): <span class="fw-semibold">@Model.Totals.OrphanedCount.ToString("N0") (@NTDLS.Helpers.Formatters.FileSize(Model.Totals.OrphanedSize))</span></span>
         </div>
 
         @if (Model.Totals.OrphanedCount > 0)
         {
             @TwConfirmActionHelper.GenerateDangerButton(
                 WikiConfiguration.BasePath,
-                Localizer["This will permanently purge all orphaned page attachments. Continue?"].Value,
-                Localizer["Purge Orphaned Attachments"].Value,
+                Localize("This will permanently purge all orphaned page attachments. Continue?"),
+                Localize("Purge Orphaned Attachments"),
                 "/Admin/PurgeOrphanedAttachments",
                 Context.Request.Path.Value,
                 @class: "btn btn-danger btn-sm d-inline-flex align-items-center")
@@ -55,19 +55,19 @@
                     @Html.TextBoxFor(x => x.SearchString, new
                     {
                         @class = "form-control",
-                        placeholder = Localizer["Search by file name, page, namespace or type..."].Value
+                        placeholder = Localize("Search by file name, page, namespace or type...")
                     })
                 </div>
                 <div class="col-12 col-md-auto">
                     <select name="Status" class="form-select">
-                        <option value="" selected="@(string.IsNullOrEmpty(Model.Status))">@Localizer["All Attachments"]</option>
-                        <option value="orphaned" selected="@(Model.Status.Equals("orphaned", StringComparison.InvariantCultureIgnoreCase))">@Localizer["Orphaned Only"]</option>
-                        <option value="inuse" selected="@(Model.Status.Equals("inuse", StringComparison.InvariantCultureIgnoreCase))">@Localizer["In Use Only"]</option>
+                        <option value="" selected="@(string.IsNullOrEmpty(Model.Status))">@Localize("All Attachments")</option>
+                        <option value="orphaned" selected="@(Model.Status.Equals("orphaned", StringComparison.InvariantCultureIgnoreCase))">@Localize("Orphaned Only")</option>
+                        <option value="inuse" selected="@(Model.Status.Equals("inuse", StringComparison.InvariantCultureIgnoreCase))">@Localize("In Use Only")</option>
                     </select>
                 </div>
                 <div class="col-12 col-md-auto">
                     <button type="submit" class="btn btn-primary w-100">
-                        <i class="bi bi-search me-1"></i>@Localizer["Search"]
+                        <i class="bi bi-search me-1"></i>@Localize("Search")
                     </button>
                 </div>
             </div>
@@ -89,47 +89,47 @@
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                href="?@TwQueryStringConverter.OrderHelper(sessionState, "File")">
-                                @Localizer["File"]
+                                @Localize("File")
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                href="?@TwQueryStringConverter.OrderHelper(sessionState, "Page")">
-                                @Localizer["Page"]
+                                @Localize("Page")
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
                                href="?@TwQueryStringConverter.OrderHelper(sessionState, "Type")">
-                                @Localizer["Type"]
+                                @Localize("Type")
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap" style="width: 1%;">
                             <a class="link-dark text-decoration-none"
                                href="?@TwQueryStringConverter.OrderHelper(sessionState, "Size")">
-                                @Localizer["Size"]
+                                @Localize("Size")
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap" style="width: 1%;">
                             <a class="link-dark text-decoration-none"
                                href="?@TwQueryStringConverter.OrderHelper(sessionState, "Revision")">
-                                @Localizer["Revision"]
+                                @Localize("Revision")
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap" style="width: 1%;">
                             <a class="link-dark text-decoration-none"
                                href="?@TwQueryStringConverter.OrderHelper(sessionState, "Created")">
-                                @Localizer["Created"]
+                                @Localize("Created")
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap" style="width: 1%;">
                             <a class="link-dark text-decoration-none"
                                href="?@TwQueryStringConverter.OrderHelper(sessionState, "Usage")">
-                                @Localizer["Usage"]
+                                @Localize("Usage")
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap" style="width: 1%;">
-                            @Localizer["Action"]
+                            @Localize("Action")
                         </th>
                     </tr>
                 </thead>
@@ -179,15 +179,15 @@
                             <td class="text-nowrap">
                                 @if (p.IsOrphaned)
                                 {
-                                    <span class="badge text-bg-danger">@Localizer["Orphaned"]</span>
+                                    <span class="badge text-bg-danger">@Localize("Orphaned")</span>
                                 }
                                 else if (p.CurrentPageRevisionCount > 0)
                                 {
-                                    <span class="badge text-bg-success">@Localizer["Current"]</span>
+                                    <span class="badge text-bg-success">@Localize("Current")</span>
                                 }
                                 else
                                 {
-                                    <span class="badge text-bg-secondary">@Localizer["Previous Revisions"]</span>
+                                    <span class="badge text-bg-secondary">@Localize("Previous Revisions")</span>
                                 }
                             </td>
 
@@ -196,9 +196,9 @@
                                     @TwConfirmActionHelper.GenerateDangerButton(
                                         WikiConfiguration.BasePath,
                                         p.IsOrphaned
-                                            ? Localizer["This will permanently delete the specified attachment. Continue?"].Value
-                                            : Localizer["This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?"].Value,
-                                        Localizer["Delete"].Value,
+                                            ? Localize("This will permanently delete the specified attachment. Continue?")
+                                            : Localize("This attachment is in use by one or more page revisions. Deleting it will permanently remove it from those pages. Continue?"),
+                                        Localize("Delete"),
                                         $"/Admin/DeleteAttachment/{p.PageFileId}/{p.FileRevision}",
                                         returnUrl,
                                         @class: "btn btn-outline-danger btn-sm d-inline-flex align-items-center")
@@ -220,7 +220,7 @@ else
     <div class="card shadow-sm">
         <div class="card-body text-muted">
             <i class="bi bi-check-circle me-2"></i>
-            @Localizer["No attachments were found."]
+            @Localize("No attachments were found.")
         </div>
     </div>
 }

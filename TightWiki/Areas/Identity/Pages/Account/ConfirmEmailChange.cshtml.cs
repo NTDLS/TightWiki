@@ -57,7 +57,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 var result = await _userManager.ChangeEmailAsync(user, email, code);
                 if (!result.Succeeded)
                 {
-                    StatusMessage = _localizer["Error changing email."];
+                    StatusMessage = Localize("Error changing email.");
                     return Page();
                 }
 
@@ -66,12 +66,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 var setUserNameResult = await _userManager.SetUserNameAsync(user, email);
                 if (!setUserNameResult.Succeeded)
                 {
-                    StatusMessage = _localizer["Error changing user name."];
+                    StatusMessage = Localize("Error changing user name.");
                     return Page();
                 }
 
                 await _signInManager.RefreshSignInAsync(user);
-                StatusMessage = _localizer["Thank you for confirming your email change."];
+                StatusMessage = Localize("Thank you for confirming your email change.");
 
             }
             catch (Exception ex)

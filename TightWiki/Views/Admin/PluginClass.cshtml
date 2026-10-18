@@ -15,22 +15,22 @@
 
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
-        <h3 class="mb-1">@Localizer["Plugin"]</h3>
+        <h3 class="mb-1">@Localize("Plugin")</h3>
         <div class="text-muted">
-            @Localizer["Global configuration for plugin class."]
+            @Localize("Global configuration for plugin class.")
         </div>
     </div>
 </div>
 
 <div class="card shadow-sm">
     <div class="card-header d-flex align-items-center gap-2">
-        <i class="bi bi-plug me-2"></i>@Localizer["Plugin Class"]
+        <i class="bi bi-plug me-2"></i>@Localize("Plugin Class")
     </div>
 
     <div class="card-body">
         <div class="d-flex ms-2 mb-1">
             <div class="fw-semibold" style="width:140px;">
-                @Localizer["Name"]
+                @Localize("Name")
             </div>
             <div>
                 @Model.Plugin?.Name
@@ -39,7 +39,7 @@
 
         <div class="d-flex ms-2 mb-1">
             <div class="fw-semibold" style="width:140px;">
-                @Localizer["Description"]
+                @Localize("Description")
             </div>
             <div>
                 @Model.Plugin?.Description
@@ -56,16 +56,16 @@
             <thead class="table-light">
                 <tr>
                     <th scope="col" class="text-nowrap text-center align-middle">
-                        @Localizer["Type"]
+                        @Localize("Type")
                     </th>
                     <th scope="col">
-                        @Localizer["Name"]
+                        @Localize("Name")
                     </th>
                     <th scope="col">
-                        @Localizer["Description"]
+                        @Localize("Description")
                     </th>
                     <th scope="col">
-                        @Localizer["Precedence"]
+                        @Localize("Precedence")
                     </th>
                 </tr>
             </thead>
@@ -139,7 +139,7 @@
         <div class="card shadow-sm">
             <div class="card-body text-muted">
                 <i class="bi bi-emoji-frown me-2"></i>
-                @Localizer["This plugin does not contain any funcions or handlers."]
+                @Localize("This plugin does not contain any funcions or handlers.")
             </div>
         </div>
     }

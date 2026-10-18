@@ -15,13 +15,13 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Page Revisions"]
+            @Localize("Page Revisions")
         </h3>
         <div class="text-muted">
-            @Localizer["All changes that have been made to the page."]
+            @Localize("All changes that have been made to the page.")
         </div>
         <div class="mt-1">
-            <span class="text-muted">@Localizer["Page"]:</span>
+            <span class="text-muted">@Localize("Page"):</span>
             <a class="text-decoration-none fw-semibold"
                    href="@WikiConfiguration.BasePath/@sessionState.PageNavigation">
                 @sessionState.Page.Name
@@ -44,32 +44,32 @@
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "Revision")">
-                                @Localizer["Revision"]
+                                @Localize("Revision")
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">
-                                @Localizer["Modified By"]
+                                @Localize("Modified By")
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">
-                                @Localizer["Modified Date"]
+                                @Localize("Modified Date")
                             </a>
                         </th>
                         @if (WikiConfiguration.ShowChangeSummaryWhenEditing)
                         {
                             <th scope="col">
-                                @Localizer["Summary"]
+                                @Localize("Summary")
                             </th>
                         }
                         <th scope="col">
-                            @Localizer["Analysis"]
+                            @Localize("Analysis")
                         </th>
                         <th scope="col" class="text-nowrap" style="width: 1%;">
-                            @Localizer["Action"]
+                            @Localize("Action")
                         </th>
                     </tr>
                 </thead>
@@ -119,18 +119,18 @@
                                 <div class="d-flex gap-2">
                                     @TwConfirmActionHelper.GenerateWarnButton(
                                         WikiConfiguration.BasePath,
-                                        Localizer["Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?"]
-                                            .Format(h.Name, h.HighestRevision, h.Revision, h.HigherRevisionCount),
-                                        Localizer["Revert"].Value,
+                                        Localize("Reverting {0} from revision {1} to {2} will roll back {3} changes. No changes are lost: the revert creates a new revision containing the reverted content. Are you sure you want to continue?",
+                                            h.Name, h.HighestRevision, h.Revision, h.HigherRevisionCount),
+                                        Localize("Revert"),
                                         $"/Admin/RevertPageRevision/{h.Navigation}/{h.Revision}",
                                         Context.Request.Path.Value,
                                         @class: "btn btn-warning btn-sm d-inline-flex align-items-center")
 
                                     @TwConfirmActionHelper.GenerateDangerButton(
                                         WikiConfiguration.BasePath,
-                                        Localizer["Deleting revision {0} of \"{1}\" will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?"]
-                                            .Format(h.Revision, h.Name),
-                                        Localizer["Delete"].Value,
+                                        Localize("Deleting revision {0} of \"{1}\" will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?",
+                                            h.Revision, h.Name),
+                                        Localize("Delete"),
                                         $"/Admin/DeletePageRevision/{h.Navigation}/{h.Revision}",
                                         Context.Request.Path.Value,
                                         @class: "btn btn-danger btn-sm d-inline-flex align-items-center")
@@ -152,7 +152,7 @@ else
     <div class="card shadow-sm">
         <div class="card-body text-muted">
             <i class="bi bi-clock-history me-2"></i>
-            @Localizer["The selected page does not have any revisions."]
+            @Localize("The selected page does not have any revisions.")
         </div>
     </div>
 }

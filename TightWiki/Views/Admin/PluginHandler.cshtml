@@ -15,9 +15,9 @@
 
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
-        <h3 class="mb-1">@Localizer["Plugin"]</h3>
+        <h3 class="mb-1">@Localize("Plugin")</h3>
         <div class="text-muted">
-            @Localizer["Global configuration for plugin handler."]
+            @Localize("Global configuration for plugin handler.")
         </div>
     </div>
 </div>
@@ -27,13 +27,13 @@
     <div class="card shadow-sm">
         <div class="card-header d-flex align-items-center gap-2">
             <i class="bi bi-code-slash text-muted" data-bs-toggle="tooltip" title="Markup handler"></i>
-            @Localizer["Plugin Handler"]
+            @Localize("Plugin Handler")
         </div>
 
         <div class="card-body">
             <div class="d-flex ms-2 mb-1">
                 <div class="fw-semibold" style="width:140px;">
-                    @Localizer["Name"]
+                    @Localize("Name")
                 </div>
                 <div>
                     @Model.Handler?.HandlerAttribute.Name
@@ -42,7 +42,7 @@
 
             <div class="d-flex ms-2 mb-1">
                 <div class="fw-semibold" style="width:140px;">
-                    @Localizer["Description"]
+                    @Localize("Description")
                 </div>
                 <div>
                     @Model.Handler?.HandlerAttribute.Description
@@ -51,7 +51,7 @@
 
             <div class="d-flex ms-2 mb-1">
                 <div class="fw-semibold" style="width:140px;">
-                    @Localizer["Precedence"]
+                    @Localize("Precedence")
                 </div>
                 <div>
                     @Model.Handler?.HandlerAttribute.Precedence
@@ -60,7 +60,7 @@
 
             <div class="d-flex ms-2 mb-1">
                 <div class="fw-semibold" style="width:140px;">
-                    @Localizer["First Chance?"]
+                    @Localize("First Chance?")
                 </div>
                 <div>
                     @Model.Handler?.HandlerAttribute.IsFirstChance
@@ -69,7 +69,7 @@
 
             <div class="d-flex ms-2 mb-1">
                 <div class="fw-semibold" style="width:140px;">
-                    @Localizer["Wiki Lite?"]
+                    @Localize("Wiki Lite?")
                 </div>
                 <div>
                     @Model.Handler?.HandlerAttribute.IsLitePermissiable
@@ -83,7 +83,7 @@
         <div class="card shadow-sm mt-2">
             <div class="card-header d-flex align-items-center gap-2">
                 <i class="bi bi-braces"></i>
-                <span class="fw-semibold">@Localizer["Expressions"]</span>
+                <span class="fw-semibold">@Localize("Expressions")</span>
             </div>
 
             <div class="card-body">

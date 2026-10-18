@@ -173,12 +173,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                 if (string.IsNullOrWhiteSpace(Input.AccountName))
                 {
-                    ModelState.AddModelError("Input.AccountName", _localizer["Display Name is required."]);
+                    ModelState.AddModelError("Input.AccountName", Localize("Display Name is required."));
                     return Page();
                 }
                 else if (await _usersRepository.DoesProfileAccountExist(Input.AccountName))
                 {
-                    ModelState.AddModelError("Input.AccountName", _localizer["Display Name is already in use."]);
+                    ModelState.AddModelError("Input.AccountName", Localize("Display Name is already in use."));
                     return Page();
                 }
 

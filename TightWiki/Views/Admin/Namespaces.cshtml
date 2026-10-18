@@ -15,10 +15,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Namespaces"]
+            @Localize("Namespaces")
         </h3>
         <div class="text-muted">
-            @Localizer["All namespaces contained in the wiki."]
+            @Localize("All namespaces contained in the wiki.")
         </div>
     </div>
 </div>
@@ -37,13 +37,13 @@
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "Name")">
-                                @Localizer["Name"]
+                                @Localize("Name")
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap" style="width: 1%;">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "Pages")">
-                                @Localizer["Pages"]
+                                @Localize("Pages")
                             </a>
                         </th>
                     </tr>
@@ -79,7 +79,7 @@ else
     <div class="card shadow-sm">
         <div class="card-body text-muted">
             <i class="bi bi-folder2-open me-2"></i>
-            @Localizer["There are currently no pages which exist within namespaces."]
+            @Localize("There are currently no pages which exist within namespaces.")
         </div>
     </div>
 }
