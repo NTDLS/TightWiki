@@ -99,7 +99,7 @@
                                                 name="provider"
                                                 value="@provider.Name"
                                                 title="Log in using your @provider.DisplayName account">
-                                        <span>@Localize("Sign in with {0}", provider.DisplayName)</span>
+                                        <span>@Localize("Sign in with {0}", provider.DisplayName ?? provider.Name)</span>
                                         </button>
                                     }
                                 }

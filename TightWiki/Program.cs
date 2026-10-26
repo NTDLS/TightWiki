@@ -6,6 +6,7 @@ using DiffPlex.DiffBuilder;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
@@ -263,7 +264,19 @@ namespace TightWiki
                 }
             });
 
+            //In case this site sits behind a reverse proxy, we need to configure the ForwardedHeadersOptions to read the
+            //  X-Forwarded-For and X-Forwarded-Proto headers. This is important for things like generating correct URLs and handling HTTPS correctly.
+            builder.Services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
+                options.KnownIPNetworks.Clear();
+                options.KnownProxies.Clear();
+            });
+
             var app = builder.Build();
+
+            // First, before anything reads Request.Scheme/Host (authentication challenges, redirects, HSTS).
+            app.UseForwardedHeaders();
 
             TwSignedUrl.Initialize(app.Services.GetRequiredService<IDataProtectionProvider>());
 

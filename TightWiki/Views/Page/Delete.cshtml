@@ -18,14 +18,14 @@
         <div class="card-header bg-danger-subtle border-danger">
             <div class="fw-semibold text-danger">
                 <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                @Localize("Delete page '{0}'?", Model.PageName)
+                @Localize("Delete page '{0}'?", Model.PageName ?? string.Empty)
             </div>
         </div>
 
         <div class="card-body">
             <div class="mb-3">
                 @Localize("Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue.",
-                    Model.PageName,
+                    Model.PageName ?? string.Empty,
                     Model.PageRevision,
                     Model.CountOfAttachments)
             </div>
