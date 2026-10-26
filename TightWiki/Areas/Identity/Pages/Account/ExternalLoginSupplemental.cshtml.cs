@@ -136,38 +136,38 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                 if (string.IsNullOrWhiteSpace(Input.AccountName))
                 {
-                    ModelState.AddModelError("Input.AccountName", _localizer["Display Name is required."]);
+                    ModelState.AddModelError("Input.AccountName", Localize("Display Name is required."));
                     return Page();
                 }
                 else if (await _usersRepository.DoesProfileAccountExist(Input.AccountName))
                 {
-                    ModelState.AddModelError("Input.AccountName", _localizer["Display Name is already in use."]);
+                    ModelState.AddModelError("Input.AccountName", Localize("Display Name is already in use."));
                     return Page();
                 }
 
                 var info = await SignInManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
-                    return NotifyOfError(_localizer["An error occurred retrieving user information from the external provider."]);
+                    return NotifyOfError(Localize("An error occurred retrieving user information from the external provider."));
                 }
 
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email).EnsureNotNull();
                 if (string.IsNullOrEmpty(email))
                 {
-                    return NotifyOfError(_localizer["The email address was not supplied by the external provider."]);
+                    return NotifyOfError(Localize("The email address was not supplied by the external provider."));
                 }
 
                 var user = new IdentityUser { UserName = email, Email = email };
                 var result = await _userManager.CreateAsync(user);
                 if (!result.Succeeded)
                 {
-                    return NotifyOfError(_localizer["An error occurred while creating the user."]);
+                    return NotifyOfError(Localize("An error occurred while creating the user."));
                 }
 
                 result = await _userManager.AddLoginAsync(user, info);
                 if (!result.Succeeded)
                 {
-                    return NotifyOfError(_localizer["An error occurred while adding the login."]);
+                    return NotifyOfError(Localize("An error occurred while adding the login."));
                 }
 
                 var membershipConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Membership);

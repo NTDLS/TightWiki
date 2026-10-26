@@ -15,10 +15,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Missing Pages"]
+            @Localize("Missing Pages")
         </h3>
         <div class="text-muted">
-            @Localizer["Pages that have been linked to, but do not exist."]
+            @Localize("Pages that have been linked to, but do not exist.")
         </div>
     </div>
 </div>
@@ -37,13 +37,13 @@
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "SourcePage")">
-                                @Localizer["Source Page"]
+                                @Localize("Source Page")
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "TargetPage")">
-                                @Localizer["Target Page"]
+                                @Localize("Target Page")
                             </a>
                         </th>
                     </tr>
@@ -80,7 +80,7 @@ else
     <div class="card shadow-sm">
         <div class="card-body text-muted">
             <i class="bi bi-check-circle me-2"></i>
-            @Localizer["There are currently no missing pages being referenced by other wiki pages."]
+            @Localize("There are currently no missing pages being referenced by other wiki pages.")
         </div>
     </div>
 }

@@ -15,10 +15,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Accounts"]
+            @Localize("Accounts")
         </h3>
         <div class="text-muted">
-            @Localizer["Global configuration for user accounts."]
+            @Localize("Global configuration for user accounts.")
         </div>
     </div>
 </div>
@@ -30,12 +30,12 @@
     <div class="card shadow-sm mb-3">
         <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <span class="fw-semibold">
-                <i class="bi bi-people me-2"></i>@Localizer["Account Management"]
+                <i class="bi bi-people me-2"></i>@Localize("Account Management")
             </span>
 
             <a class="btn btn-success"
                    href="@WikiConfiguration.BasePath/AdminSecurity/AddAccount">
-                <i class="bi bi-person-plus me-1"></i>@Localizer["Add new account"]
+                <i class="bi bi-person-plus me-1"></i>@Localize("Add new account")
             </a>
         </div>
 
@@ -45,12 +45,12 @@
                     @Html.TextBoxFor(x => x.SearchString, new
                     {
                         @class = "form-control",
-                        placeholder= Localizer["Search accounts..."].Value
+                        placeholder= Localize("Search accounts...")
                     })
                 </div>
                 <div class="col-12 col-md-auto">
                     <button type="submit" value="Search" class="btn btn-primary w-100">
-                        <i class="bi bi-search me-1"></i>@Localizer["Search"]
+                        <i class="bi bi-search me-1"></i>@Localize("Search")
                     </button>
                 </div>
             </div>
@@ -72,43 +72,43 @@
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "Account")">
-                                @Localizer["Display Name"]
+                                @Localize("Display Name")
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "FirstName")">
-                                @Localizer["First Name"]
+                                @Localize("First Name")
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "LastName")">
-                                @Localizer["Last Name"]
+                                @Localize("Last Name")
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "Country")">
-                                @Localizer["Country"]
+                                @Localize("Country")
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "TimeZone")">
-                                @Localizer["Time Zone"]
+                                @Localize("Time Zone")
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "EmailAddress")">
-                                @Localizer["Email Address"]
+                                @Localize("Email Address")
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "Created")">
-                                @Localizer["Created Date"]
+                                @Localize("Created Date")
                             </a>
                         </th>
                     </tr>
@@ -137,11 +137,11 @@
                                     <span class="text-break">@user.EmailAddress</span>
                                     @if (user.EmailConfirmed)
                                     {
-                                        <i class="bi bi-check-square-fill text-success" title="@Localizer["Confirmed"]"></i>
+                                        <i class="bi bi-check-square-fill text-success" title="@Localize("Confirmed")"></i>
                                     }
                                     else
                                     {
-                                        <i class="bi bi-square text-secondary" title="@Localizer["Unconfirmed"]"></i>
+                                        <i class="bi bi-square text-secondary" title="@Localize("Unconfirmed")"></i>
                                     }
                                 </div>
                             </td>
@@ -165,7 +165,7 @@ else
     <div class="card shadow-sm">
         <div class="card-body text-muted">
             <i class="bi bi-person-x me-2"></i>
-            @Localizer["Either there are no accounts configured or your search criteria returned no results."]
+            @Localize("Either there are no accounts configured or your search criteria returned no results.")
         </div>
     </div>
 }

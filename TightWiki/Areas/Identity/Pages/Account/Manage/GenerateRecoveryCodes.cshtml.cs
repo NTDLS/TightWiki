@@ -74,7 +74,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             RecoveryCodes = recoveryCodes.ToArray();
 
             _logger.LogInformation("User with ID '{UserId}' has generated new 2FA recovery codes.", userId);
-            StatusMessage = Localizer["You have generated new recovery codes."];
+            StatusMessage = Localize("You have generated new recovery codes.");
             return RedirectToPage($"{WikiConfiguration.BasePath}/Identity/ShowRecoveryCodes");
         }
     }

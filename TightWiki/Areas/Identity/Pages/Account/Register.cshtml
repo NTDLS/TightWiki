@@ -13,9 +13,9 @@
 
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
-        <h3 class="mb-1">@Localizer["Create a new account"]</h3>
+        <h3 class="mb-1">@Localize("Create a new account")</h3>
         <div class="text-muted">
-            @Localizer["Create your account and configure your basic profile details."]
+            @Localize("Create your account and configure your basic profile details.")
         </div>
     </div>
 </div>
@@ -25,7 +25,7 @@
         <div class="card shadow-sm">
             <div class="card-header">
                 <span class="fw-semibold">
-                    <i class="bi bi-person-plus me-2"></i>@Localizer["Register"]
+                    <i class="bi bi-person-plus me-2"></i>@Localize("Register")
                 </span>
             </div>
 
@@ -36,7 +36,7 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label for="Input_Email" class="form-label fw-semibold">
-                                @Localizer["Email Address"]
+                                @Localize("Email Address")
                             </label>
                             @Html.TextBoxFor(m => m.Input.Email, new
                             {
@@ -52,13 +52,13 @@
 
                         <div class="col-12 col-md-6">
                             <label for="Input_Password" class="form-label fw-semibold">
-                                @Localizer["Password"]
+                                @Localize("Password")
                             </label>
                             @Html.PasswordFor(m => m.Input.Password, new
                             {
                                 @class = "form-control",
                                 autocomplete = "new-password",
-                                placeholder= Localizer["Required"].Value,
+                                placeholder= Localize("Required"),
                                 id = "Input_Password"
                             })
                             <div class="text-danger small">
@@ -68,13 +68,13 @@
 
                         <div class="col-12 col-md-6">
                             <label for="Input_ConfirmPassword" class="form-label fw-semibold">
-                                @Localizer["Confirm Password"]
+                                @Localize("Confirm Password")
                             </label>
                             @Html.PasswordFor(m => m.Input.ConfirmPassword, new
                             {
                                 @class = "form-control",
                                 autocomplete = "new-password",
-                                placeholder= Localizer["Required"].Value,
+                                placeholder= Localize("Required"),
                                 id = "Input_ConfirmPassword"
                             })
                             <div class="text-danger small">
@@ -84,16 +84,16 @@
 
                         <div class="col-12">
                             <label for="Input_AccountName" class="form-label fw-semibold">
-                                @Localizer["Display Name"]
+                                @Localize("Display Name")
                             </label>
                             @Html.TextBoxFor(m => m.Input.AccountName, new
                             {
                                 @class = "form-control",
-                                placeholder= Localizer["Required"].Value,
+                                placeholder= Localize("Required"),
                                 id = "Input_AccountName"
                             })
                             <div class="form-text">
-                                @Localizer["This display name will be visible publicly."]
+                                @Localize("This display name will be visible publicly.")
                             </div>
                             <div class="text-danger small">
                                 @Html.ValidationMessageFor(m => m.Input.AccountName)
@@ -102,12 +102,12 @@
 
                         <div class="col-12 col-md-6">
                             <label for="Input_FirstName" class="form-label fw-semibold">
-                                @Localizer["First Name"]
+                                @Localize("First Name")
                             </label>
                             @Html.TextBoxFor(m => m.Input.FirstName, new
                             {
                                 @class = "form-control",
-                                placeholder= Localizer["Optional"].Value,
+                                placeholder= Localize("Optional"),
                                 id = "Input_FirstName"
                             })
                             <div class="text-danger small">
@@ -117,12 +117,12 @@
 
                         <div class="col-12 col-md-6">
                             <label for="Input_LastName" class="form-label fw-semibold">
-                                @Localizer["Last Name"]
+                                @Localize("Last Name")
                             </label>
                             @Html.TextBoxFor(m => m.Input.LastName, new
                             {
                                 @class = "form-control",
-                                placeholder= Localizer["Optional"].Value,
+                                placeholder= Localize("Optional"),
                                 id = "Input_LastName"
                             })
                             <div class="text-danger small">
@@ -132,10 +132,10 @@
 
                         <div class="col-12 col-md-4">
                             <label for="Input_Country" class="form-label fw-semibold">
-                                @Localizer["Country"]
+                                @Localize("Country")
                             </label>
                             <select name="Input.Country" id="Input_Country" class="form-select">
-                                <option value="">@Localizer["Select a country"]</option>
+                                <option value="">@Localize("Select a country")</option>
                                 @foreach (var item in Model.Input.Countries)
                                 {
                                     <option value="@item.Value" selected="@(Model.Input.Country == item.Value ? "selected" : null)">
@@ -150,10 +150,10 @@
 
                         <div class="col-12 col-md-4">
                             <label for="Input_Language" class="form-label fw-semibold">
-                                @Localizer["Language"]
+                                @Localize("Language")
                             </label>
                             <select name="Input.Language" id="Input_Language" class="form-select">
-                                <option value="">@Localizer["Select a language"]</option>
+                                <option value="">@Localize("Select a language")</option>
                                 @foreach (var item in Model.Input.Languages)
                                 {
                                     <option value="@item.Value" selected="@(Model.Input.Language == item.Value ? "selected" : null)">
@@ -168,10 +168,10 @@
 
                         <div class="col-12 col-md-4">
                             <label for="Input_TimeZone" class="form-label fw-semibold">
-                                @Localizer["Time Zone"]
+                                @Localize("Time Zone")
                             </label>
                             <select name="Input.TimeZone" id="Input_TimeZone" class="form-select">
-                                <option value="">@Localizer["Select a time-zone"]</option>
+                                <option value="">@Localize("Select a time-zone")</option>
                                 @foreach (var item in Model.Input.TimeZones)
                                 {
                                     <option value="@item.Value" selected="@(Model.Input.TimeZone == item.Value ? "selected" : null)">
@@ -186,7 +186,7 @@
 
                         <div class="col-12">
                             <button id="login-submit" type="submit" class="btn btn-primary w-100">
-                                <i class="bi bi-person-plus me-1"></i>@Localizer["Signup"]
+                                <i class="bi bi-person-plus me-1"></i>@Localize("Signup")
                             </button>
                         </div>
                     </div>
@@ -201,7 +201,7 @@
             <div class="card shadow-sm">
                 <div class="card-header">
                     <span class="fw-semibold">
-                        <i class="bi bi-box-arrow-in-right me-2"></i>@Localizer["Use another service to register"]
+                        <i class="bi bi-box-arrow-in-right me-2"></i>@Localize("Use another service to register")
                     </span>
                 </div>
 

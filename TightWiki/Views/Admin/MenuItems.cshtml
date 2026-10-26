@@ -15,10 +15,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Site Menu Items"]
+            @Localize("Site Menu Items")
         </h3>
         <div class="text-muted">
-            @Localizer["Global configuration for the site menu."]
+            @Localize("Global configuration for the site menu.")
         </div>
     </div>
 </div>
@@ -26,12 +26,12 @@
 <div class="card shadow-sm">
     <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <span class="fw-semibold">
-            <i class="bi bi-list-ul me-2"></i>@Localizer["Menu Configuration"]
+            <i class="bi bi-list-ul me-2"></i>@Localize("Menu Configuration")
         </span>
 
         <a class="btn btn-success"
                href="@WikiConfiguration.BasePath/Admin/MenuItem">
-            <i class="bi bi-plus-circle me-1"></i>@Localizer["Add new item"]
+            <i class="bi bi-plus-circle me-1"></i>@Localize("Add new item")
         </a>
     </div>
 
@@ -44,19 +44,19 @@
                         <th scope="col" class="text-nowrap" style="width: 1%;">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "Ordinal")">
-                                @Localizer["Ordinal"]
+                                @Localize("Ordinal")
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "Name")">
-                                @Localizer["Name"]
+                                @Localize("Name")
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@TwQueryStringConverter.OrderHelper(sessionState, "Link")">
-                                @Localizer["Hyperlink"]
+                                @Localize("Hyperlink")
                             </a>
                         </th>
                     </tr>
@@ -82,7 +82,7 @@
                                 }
                                 else
                                 {
-                                    <span class="text-muted">@Localizer["(No link)"]</span>
+                                    <span class="text-muted">@Localize("(No link)")</span>
                                 }
                             </td>
                         </tr>
@@ -95,7 +95,7 @@
     {
         <div class="card-body text-muted">
             <i class="bi bi-list me-2"></i>
-            @Localizer["There are no menu items configured."]
+            @Localize("There are no menu items configured.")
         </div>
     }
 </div>

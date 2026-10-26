@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Security.Claims;
-using TightWiki.Extensions;
 using TightWiki.Library.Security;
 using TightWiki.Pages;
 using TightWiki.Plugin;
@@ -162,23 +161,23 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                                         if (createResult.Succeeded)
                                         {
-                                            _logger.LogInformation(_localizer["User created a new account with LDAP."]);
+                                            _logger.LogInformation(Localize("User created a new account with LDAP."));
 
                                             // Link the stable AD identity to this user
                                             var addLogin = await _userManager.AddLoginAsync(newUser, loginInfo);
                                             if (!addLogin.Succeeded)
                                             {
-                                                throw new Exception(_localizer["Failed to add login info for LDAP stub account: {0}."]
-                                                    .Format(string.Join("; ", addLogin.Errors.Select(e => $"{e.Code}:{e.Description}"))));
+                                                throw new Exception(Localize("Failed to add login info for LDAP stub account: {0}.",
+                                                    string.Join("; ", addLogin.Errors.Select(e => $"{e.Code}:{e.Description}"))));
                                             }
 
                                             foundUser = await _userManager.FindByNameAsync(samAccountName)
-                                                ?? throw new Exception(_localizer["Failed to locate the user account for the LDAP credential."]);
+                                                ?? throw new Exception(Localize("Failed to locate the user account for the LDAP credential."));
                                         }
                                         else
                                         {
-                                            throw new Exception(_localizer["Failed to create stub account for the LDAP credential: {0}."]
-                                                .Format(string.Join("; ", createResult.Errors.Select(e => $"{e.Code}:{e.Description}"))));
+                                            throw new Exception(Localize("Failed to create stub account for the LDAP credential: {0}.",
+                                                string.Join("; ", createResult.Errors.Select(e => $"{e.Code}:{e.Description}"))));
                                         }
                                     }
 
@@ -202,7 +201,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                         #endregion
 
-                        ModelState.AddModelError(string.Empty, _localizer["Invalid login attempt."]);
+                        ModelState.AddModelError(string.Empty, Localize("Invalid login attempt."));
                         return Page();
                     }
                 }

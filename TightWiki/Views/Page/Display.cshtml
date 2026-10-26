@@ -30,12 +30,12 @@
     <div class="card shadow-sm border-info mb-4">
         <div class="card-header bg-info-subtle border-info">
             <div class="fw-semibold text-dark">
-                <i class="bi bi-clock-history me-2"></i>@Localizer["Viewing a historical version"]
+                <i class="bi bi-clock-history me-2"></i>@Localize("Viewing a historical version")
             </div>
         </div>
         <div class="card-body">
             <div class="mb-3">
-                @Localizer.Format("You are viewing revision {0} of \"{1}\" modified by {2} on {3}.",
+                @Localize("You are viewing revision {0} of \"{1}\" modified by {2} on {3}.",
                     Model.Revision,
                     Model.Name,
                     Model.ModifiedByUserName,
@@ -45,14 +45,14 @@
             <div class="d-flex flex-wrap gap-2">
                 <a class="btn btn-primary btn-sm"
                        href="@WikiConfiguration.BasePath/@Model.Navigation">
-                    <i class="bi bi-arrow-clockwise me-1"></i>@Localizer["View latest revision"]
+                    <i class="bi bi-arrow-clockwise me-1"></i>@Localize("View latest revision")
                 </a>
 
                 @if (await sessionState.HoldsPermission(TwPermission.Moderate))
                 {
                     <a class="btn btn-warning btn-sm"
                            href="@WikiConfiguration.BasePath/@Model.Navigation/revert/@Model.Revision">
-                        <i class="bi bi-arrow-counterclockwise me-1"></i>@Localizer["Revert to revision"] @Model.Revision
+                        <i class="bi bi-arrow-counterclockwise me-1"></i>@Localize("Revert to revision") @Model.Revision
                     </a>
                 }
             </div>
@@ -72,7 +72,7 @@
         @if (WikiConfiguration.EnablePublicProfiles)
         {
             <cite title="Modified By">
-                @Localizer["Last modified by"]
+                @Localize("Last modified by")
                 <a class="text-decoration-none"
                        href="@WikiConfiguration.BasePath/Profile/@Model.ModifiedByUserName/Public">
                     @Model.ModifiedByUserName
@@ -83,7 +83,7 @@
         else
         {
             <cite title="Modified By">
-                @Localizer["Last modified by"] @Model.ModifiedByUserName
+                @Localize("Last modified by") @Model.ModifiedByUserName
                 <span class="mx-1">•</span>@Model.ModifiedDate
             </cite>
         }
@@ -98,7 +98,7 @@
 
     <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
         <div>
-            <h2 class="h4 mb-1">@Localizer["Comments"]</h2>
+            <h2 class="h4 mb-1">@Localize("Comments")</h2>
         </div>
     </div>
 
@@ -111,11 +111,11 @@
                            name="Comment"
                            id="Comment"
                            class="form-control"
-                           placeholder="@Localizer["Type comment..."]" />
+                           placeholder="@Localize("Type comment...")" />
                 </div>
                 <div class="col-12 col-md-auto">
                     <button type="submit" value="Post" class="btn btn-primary w-100">
-                        <i class="bi bi-send me-1"></i>@Localizer["Post"]
+                        <i class="bi bi-send me-1"></i>@Localize("Post")
                     </button>
                 </div>
             </div>
@@ -127,7 +127,7 @@
             <div class="card-body">
                 <a class="text-decoration-none"
                        href="@WikiConfiguration.BasePath/Identity/Account/Login?returnUrl=@Context.Request.Path.Value">
-                    @Localizer["Login to leave a comment"]
+                    @Localize("Login to leave a comment")
                 </a>
             </div>
         </div>
@@ -166,8 +166,8 @@
                             {
                                 <a href="@WikiConfiguration.BasePath/@sessionState.PageNavigation/Comments?Delete=@h.Id"
                                        class="small text-danger text-decoration-none"
-                                       data-tw-confirm="@Localizer["Are you sure you want to delete this comment?"]">
-                                    @Localizer["Delete"]
+                                       data-tw-confirm="@Localize("Are you sure you want to delete this comment?")">
+                                    @Localize("Delete")
                                 </a>
                             }
                         </div>
@@ -180,7 +180,7 @@
     <div class="mt-2">
         <a class="text-decoration-none"
                href="@WikiConfiguration.BasePath/@sessionState.PageNavigation/Comments">
-            @Localizer["View all comments"]
+            @Localize("View all comments")
         </a>
     </div>
 }

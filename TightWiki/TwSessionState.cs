@@ -5,13 +5,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki.Exceptions;
-using TightWiki.Extensions;
 using TightWiki.Library.Caching;
 using TightWiki.Library.Security;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Models;
-using TightWiki.Translations;
 
 namespace TightWiki
 {
@@ -236,8 +234,7 @@ namespace TightWiki
         {
             if (!IsAuthenticated)
             {
-                var localizer = LocalizerFactory.Create();
-                throw new UnauthorizedException(localizer["You are not authorized"]);
+                throw new UnauthorizedException(Localize("You are not authorized"));
             }
         }
 
@@ -248,9 +245,8 @@ namespace TightWiki
         {
             if (!await HoldsPermission(givenCanonical, permissions))
             {
-                var localizer = LocalizerFactory.Create();
-                throw new UnauthorizedException(localizer["You do not have permission to perform the action: {0}"]
-                    .Format(string.Join(", ", permissions.Select(o => localizer[o.ToString()]))));
+                throw new UnauthorizedException(Localize("You do not have permission to perform the action: {0}",
+                    string.Join(", ", permissions.Select(o => Localize(o.ToString())))));
             }
         }
 
@@ -261,9 +257,8 @@ namespace TightWiki
         {
             if (!await HoldsPermission(givenCanonical, permission))
             {
-                var localizer = LocalizerFactory.Create();
-                throw new UnauthorizedException(localizer["You do not have permission to perform the action: {0}"]
-                    .Format(localizer[permission.ToString()]));
+                throw new UnauthorizedException(Localize("You do not have permission to perform the action: {0}",
+                    Localize(permission.ToString())));
             }
         }
 
@@ -274,9 +269,8 @@ namespace TightWiki
         {
             if (!IsAdministrator)
             {
-                var localizer = LocalizerFactory.Create();
-                throw new UnauthorizedException(localizer["You do not have permission to perform the action: {0}"]
-                    .Format(localizer["Administration"].Value));
+                throw new UnauthorizedException(Localize("You do not have permission to perform the action: {0}",
+                    Localize("Administration")));
             }
         }
 

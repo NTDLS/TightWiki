@@ -1,27 +1,26 @@
-﻿using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Localization;
+using NTDLS.Localization;
 using TightWiki.Plugin.Interfaces;
 
 namespace TightWiki.Translations
 {
+    /// <summary>
+    /// Exposes the NTDLS.Localization translations (Translations.db) to plugins and the engine.
+    /// The language is that of the current UI culture, which the request localization middleware sets for each request.
+    /// </summary>
     public class SharedLocalizationText
         : ITwSharedLocalizationText
     {
-        private readonly IStringLocalizer<SharedLocalizer> _localizer;
-
-        public SharedLocalizationText(IStringLocalizer<SharedLocalizer> localizer)
-        {
-            _localizer = localizer;
-        }
-
-        public LocalizedString this[string key] => _localizer[key];
+        public LocalizedString this[string key]
+            => new(key, Localizer.Default.Localize(key));
 
         public LocalizedString this[string key, params object[] arguments]
-            => _localizer[key, arguments];
+            => new(key, Localizer.Default.Localize(key, arguments));
 
         public string Get(string key)
-            => _localizer[key].Value;
+            => Localizer.Default.Localize(key);
 
         public string Format(string key, params object?[] arguments)
-            => _localizer[key, arguments.Select(o => o ?? string.Empty).ToArray()].Value;
+            => Localizer.Default.Localize(key, arguments.Select(o => o ?? string.Empty).ToArray());
     }
 }

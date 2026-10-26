@@ -15,10 +15,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Plugins"]
+            @Localize("Plugins")
         </h3>
         <div class="text-muted">
-            @Localizer["Global configuration for plugins."]
+            @Localize("Global configuration for plugins.")
         </div>
     </div>
 </div>
@@ -26,13 +26,13 @@
 <div class="card shadow-sm mb-3">
     <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <span class="fw-semibold">
-            <i class="bi bi-plug me-2"></i>@Localizer["Plugin Management"]
+            <i class="bi bi-plug me-2"></i>@Localize("Plugin Management")
         </span>
 
         @*
                 <a class="btn btn-success"
                    href="@WikiConfiguration.BasePath/Admin/AddPlugin">
-                <i class="bi bi-plus-circle me-1"></i>@Localizer["Add new Plugin"]
+                <i class="bi bi-plus-circle me-1"></i>@Localize("Add new Plugin")
             </a>
             *@
     </div>
@@ -46,13 +46,13 @@
                 <thead class="table-light">
                     <tr>
                         <th scope="col">
-                            @Localizer["Name"]
+                            @Localize("Name")
                         </th>
                         <th scope="col">
-                            @Localizer["Description"]
+                            @Localize("Description")
                         </th>
                         <th scope="col">
-                            @Localizer["Precedence"]
+                            @Localize("Precedence")
                         </th>
                     </tr>
                 </thead>
@@ -83,7 +83,7 @@ else
     <div class="card shadow-sm">
         <div class="card-body text-muted">
             <i class="bi bi-emoji-frown me-2"></i>
-            @Localizer["There are no plugins configured."]
+            @Localize("There are no plugins configured.")
         </div>
     </div>
 }

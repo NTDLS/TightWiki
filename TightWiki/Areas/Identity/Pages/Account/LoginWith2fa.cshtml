@@ -10,10 +10,10 @@
 }
 
 <h3>
-    @Localizer["Two-factor authentication"]
+    @Localize("Two-factor authentication")
 </h3>
 
-<p>@Localizer["Your login is protected with an authenticator app. Enter your authenticator code below."]</p>
+<p>@Localize("Your login is protected with an authenticator app. Enter your authenticator code below.")</p>
 <hr />
 
 <div class="row">
@@ -33,14 +33,14 @@
                 </label>
             </div>
             <div>
-                <button type="submit" class="btn btn-primary w-100">@Localizer["Log in"]</button>
+                <button type="submit" class="btn btn-primary w-100">@Localize("Log in")</button>
             </div>
         </form>
     </div>
 </div>
 <p>
-    @Localizer["Don't have access to your authenticator device?"]
-    <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@UrlEncoder.Default.Encode(Model.ReturnUrl)">@Localizer["You can log in with a recovery code"]</a>.
+    @Localize("Don't have access to your authenticator device?")
+    <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@UrlEncoder.Default.Encode(Model.ReturnUrl)">@Localize("You can log in with a recovery code")</a>.
 </p>
 
 @section Scripts {

@@ -15,7 +15,7 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Page Search"]
+            @Localize("Page Search")
         </h3>
     </div>
 </div>
@@ -25,7 +25,7 @@
     <div class="card shadow-sm mb-3">
         <div class="card-header">
             <span class="fw-semibold">
-                <i class="bi bi-search me-2"></i>@Localizer["Search"]
+                <i class="bi bi-search me-2"></i>@Localize("Search")
             </span>
         </div>
 
@@ -35,12 +35,12 @@
                     @Html.TextBoxFor(x => x.SearchString, new
                     {
                         @class = "form-control",
-                        placeholder= Localizer["Search pages..."].Value
+                        placeholder= Localize("Search pages...")
                     })
                 </div>
                 <div class="col-12 col-md-auto">
                     <button type="submit" value="Find" class="btn btn-primary w-100">
-                        <i class="bi bi-search me-1"></i>@Localizer["Search"]
+                        <i class="bi bi-search me-1"></i>@Localize("Search")
                     </button>
                 </div>
             </div>
@@ -93,7 +93,7 @@
         <div class="card shadow-sm">
             <div class="card-body text-muted">
                 <i class="bi bi-search me-2"></i>
-                @Localizer["Your search criteria resulted in no pages, simplify your search text."]
+                @Localize("Your search criteria resulted in no pages, simplify your search text.")
             </div>
         </div>
     }

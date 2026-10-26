@@ -1,4 +1,4 @@
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Dapper;
 using DiffPlex;
@@ -6,10 +6,10 @@ using DiffPlex.DiffBuilder;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NTDLS.Helpers;
@@ -63,14 +63,12 @@ namespace TightWiki
                 {
                     config.ModelBinderProviders.Insert(0, new TwInvariantDecimalModelBinderProvider());
                 })
-                .AddDataAnnotationsLocalization()
                 .AddXmlSerializerFormatters()
                 .AddXmlDataContractSerializerFormatters();
 
-            builder.Services.AddLocalization();
-
-            builder.Services.AddSingleton<TranslationDatabase>(); //All of the UI text comes from the Translations.db
-            builder.Services.AddSingleton<IStringLocalizerFactory, TranslationStringLocalizerFactory>();
+            //All of the UI text comes from Translations.db via NTDLS.Localization.
+            NTDLS.Localization.LocalizationDiagnostics.OnWarning = (message, exception) => Console.Error.WriteLine(exception == null ? message : $"{message} {exception.Message}");
+            NTDLS.Localization.LocalizationDiagnostics.OnError = (message, exception) => Console.Error.WriteLine(exception == null ? message : $"{message} {exception}");
 
             builder.Services.AddScoped<ITwSharedLocalizationText, SharedLocalizationText>();
 
@@ -266,7 +264,19 @@ namespace TightWiki
                 }
             });
 
+            //In case this site sits behind a reverse proxy, we need to configure the ForwardedHeadersOptions to read the
+            //  X-Forwarded-For and X-Forwarded-Proto headers. This is important for things like generating correct URLs and handling HTTPS correctly.
+            builder.Services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
+                options.KnownIPNetworks.Clear();
+                options.KnownProxies.Clear();
+            });
+
             var app = builder.Build();
+
+            // First, before anything reads Request.Scheme/Host (authentication challenges, redirects, HSTS).
+            app.UseForwardedHeaders();
 
             TwSignedUrl.Initialize(app.Services.GetRequiredService<IDataProtectionProvider>());
 
@@ -310,10 +320,6 @@ namespace TightWiki
                     }
                 });
             }
-
-            //We are just going to use one giant translation table for all the shared strings in the application for simplicity.
-            //This makes it easy to scan the code and add missing source language entries to the table, as well as to find and reuse existing entries.
-            LocalizerFactory.Initialize(app.Services);
 
             var localizationOptions = app.Services
                 .GetRequiredService<IOptions<RequestLocalizationOptions>>()

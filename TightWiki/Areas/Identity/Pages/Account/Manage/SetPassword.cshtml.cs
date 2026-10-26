@@ -110,7 +110,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = Localizer["Your password has been set."];
+            StatusMessage = Localize("Your password has been set.");
 
             return RedirectToPage();
         }

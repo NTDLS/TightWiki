@@ -119,7 +119,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
 
             if (!is2faTokenValid)
             {
-                ModelState.AddModelError("Input.Code", Localizer["Verification code is invalid."]);
+                ModelState.AddModelError("Input.Code", Localize("Verification code is invalid."));
                 await LoadSharedKeyAndQrCodeUriAsync(user);
                 return Page();
             }
@@ -128,7 +128,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             var userId = await _userManager.GetUserIdAsync(user);
             _logger.LogInformation("User with ID '{UserId}' has enabled 2FA with an authenticator app.", userId);
 
-            StatusMessage = Localizer["Your authenticator app has been verified."];
+            StatusMessage = Localize("Your authenticator app has been verified.");
 
             if (await _userManager.CountRecoveryCodesAsync(user) == 0)
             {

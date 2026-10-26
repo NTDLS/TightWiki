@@ -90,4 +90,4 @@ then browse to http://localhost:5280. Without a secret key nobody can pass the c
 
 Open `/admin` and enter the admin key. Suggestions can be approved (always shown), hidden, restored or deleted.
 `/admin/export.csv` and `/admin/export.json` list the best suggestion for each phrase and language that scores at least
-the chosen minimum, ready to merge into `Translations.db` (for example with a small script, then `LocalizerScan --validate`).
+the chosen minimum, ready to merge into `Translations.db` (for example with a small script, then `LocalizationScan`).

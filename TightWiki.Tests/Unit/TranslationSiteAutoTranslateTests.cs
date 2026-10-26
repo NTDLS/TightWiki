@@ -150,7 +150,7 @@ namespace TightWiki.Tests.Unit
 
             Assert.Equal("object", root.GetProperty("type").GetString());
             Assert.Equal("string", root.GetProperty("properties").GetProperty("translation").GetProperty("type").GetString());
-            Assert.Equal(["translation"], root.GetProperty("required").EnumerateArray().Select(o => o.GetString()).ToArray());
+            Assert.Equal(["translation"], root.GetProperty("required").EnumerateArray().Select(o => o.GetString()!).ToArray());
             Assert.False(root.GetProperty("additionalProperties").GetBoolean()); //nothing but the translation
 
             //And an answer of that shape is read.
@@ -172,12 +172,12 @@ namespace TightWiki.Tests.Unit
         }
 
         [Fact]
-        public void TheModelIsOffAndSilentWithoutAnApiKey()
+        public async Task TheModelIsOffAndSilentWithoutAnApiKey()
         {
             using var model = new EinkrTranslationModel(Options.Create(new EinkrOptions { ApiKey = "" }));
 
             Assert.False(model.IsAvailable);
-            Assert.Null(model.TranslateAsync("Hello", "German").Result);
+            Assert.Null(await model.TranslateAsync("Hello", "German"));
         }
 
         [Fact]

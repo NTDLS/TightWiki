@@ -102,7 +102,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 var user = await _userManager.FindByEmailAsync(Input.Email);
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, _localizer["Verification email sent. Please check your email."]);
+                    ModelState.AddModelError(string.Empty, Localize("Verification email sent. Please check your email."));
                     return Page();
                 }
 
@@ -138,7 +138,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                 await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate.ToString());
 
-                ModelState.AddModelError(string.Empty, _localizer["Verification email sent. Please check your email."]);
+                ModelState.AddModelError(string.Empty, Localize("Verification email sent. Please check your email."));
             }
             catch (Exception ex)
             {

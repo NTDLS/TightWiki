@@ -9,11 +9,11 @@
 }
 
 <h3>
-    @Localizer["Recovery code verification"]
+    @Localize("Recovery code verification")
 </h3>
 
 <p>
-    @Localizer["You have requested to log in with a recovery code. This login will not be remembered until you provide an authenticator app code at log in or disable 2FA and log in again."]
+    @Localize("You have requested to log in with a recovery code. This login will not be remembered until you provide an authenticator app code at log in or disable 2FA and log in again.")
 </p>
 <hr />
 
@@ -22,11 +22,11 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.RecoveryCode" class="form-control" autocomplete="off" placeholder="@Localizer["Recovery code"].Value" />
+                <input asp-for="Input.RecoveryCode" class="form-control" autocomplete="off" placeholder="@Localize("Recovery code")" />
                 <label asp-for="Input.RecoveryCode" class="form-label"></label>
                 <span asp-validation-for="Input.RecoveryCode" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary w-100">@Localizer["Log in"]</button>
+            <button type="submit" class="btn btn-primary w-100">@Localize("Log in")</button>
         </form>
     </div>
 </div>

@@ -13,17 +13,17 @@
 
 <div class="card shadow-lg border-danger mb-3">
     <div class="card-header bg-danger text-white">
-        <strong>@Localizer["Account Deleted!"]</strong>
+        <strong>@Localize("Account Deleted!")</strong>
     </div>
     <div class="card-body">
-        @Localizer["The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile."]
+        @Localize("The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile.")
         <br /><br />
 
         @if (WikiConfiguration.AllowSignup == true)
         {
-            @:@Localizer["Not a member?"] <a href="@WikiConfiguration.BasePath/Identity/Account/Register">@Localizer["Register as a new user"]</a>.<br />
+            @:@Localize("Not a member?") <a href="@WikiConfiguration.BasePath/Identity/Account/Register">@Localize("Register as a new user")</a>.<br />
         }
-        @Localizer["Already a member?"] <a href="@WikiConfiguration.BasePath/Identity/Account/Login">@Localizer["Login"]</a>.<br />
+        @Localize("Already a member?") <a href="@WikiConfiguration.BasePath/Identity/Account/Login">@Localize("Login")</a>.<br />
 
     </div>
 </div>

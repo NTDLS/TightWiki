@@ -14,25 +14,25 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Database"]
+            @Localize("Database")
         </h3>
         <div class="text-muted">
-            @Localizer["Various utilities to assist in management of the SQLite database."]
+            @Localize("Various utilities to assist in management of the SQLite database.")
         </div>
     </div>
 
     <div class="d-flex flex-wrap gap-2">
         @TwConfirmActionHelper.GenerateSafeButton(
             WikiConfiguration.BasePath,
-            Localizer["This will create a backup of all of the databases. This could take some time! Continue?"].Value,
-            Localizer["Back Up Databases"].Value,
+            Localize("This will create a backup of all of the databases. This could take some time! Continue?"),
+            Localize("Back Up Databases"),
             "/Admin/DatabaseBackups/Create",
             Context.Request.Path.Value,
             @class: "btn btn-primary btn-sm d-inline-flex align-items-center")
 
         <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center"
            href="@WikiConfiguration.BasePath/Admin/DatabaseBackups">
-            <i class="bi bi-archive me-1"></i>@Localizer["View Backups"]
+            <i class="bi bi-archive me-1"></i>@Localize("View Backups")
         </a>
     </div>
 </div>
@@ -40,7 +40,7 @@
 <div class="card shadow-sm">
     <div class="card-header">
         <span class="fw-semibold">
-            <i class="bi bi-database me-2"></i>@Localizer["Database Utilities"]
+            <i class="bi bi-database me-2"></i>@Localize("Database Utilities")
         </span>
     </div>
 
@@ -51,19 +51,19 @@
                 <thead class="table-light">
                     <tr>
                         <th scope="col">
-                            @Localizer["Name"]
+                            @Localize("Name")
                         </th>
                         <th scope="col" class="text-nowrap">
-                            @Localizer["Version"]
+                            @Localize("Version")
                         </th>
                         <th scope="col" class="text-nowrap">
-                            @Localizer["Size"]
+                            @Localize("Size")
                         </th>
                         <th scope="col">
-                            @Localizer["Action"]
+                            @Localize("Action")
                         </th>
                         <th scope="col">
-                            @Localizer["Restore"]
+                            @Localize("Restore")
                         </th>
                     </tr>
                 </thead>
@@ -87,24 +87,24 @@
                                 <div class="d-flex flex-wrap gap-2">
                                     @TwConfirmActionHelper.GenerateSafeButton(
                                         WikiConfiguration.BasePath,
-                                        Localizer["This will optimize the database indexes and structure. Continue?"].Value,
-                                        Localizer["Optimize"].Value,
+                                        Localize("This will optimize the database indexes and structure. Continue?"),
+                                        Localize("Optimize"),
                                         $"/Admin/Database/Optimize/{info.Name}",
                                         Context.Request.Path.Value,
                                         @class: "btn btn-primary btn-sm d-inline-flex align-items-center")
 
                                     @TwConfirmActionHelper.GenerateSafeButton(
                                         WikiConfiguration.BasePath,
-                                        Localizer["This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?"].Value,
-                                        Localizer["Vacuum"].Value,
+                                        Localize("This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?"),
+                                        Localize("Vacuum"),
                                         $"/Admin/Database/Vacuum/{info.Name}",
                                         Context.Request.Path.Value,
                                         @class: "btn btn-primary btn-sm d-inline-flex align-items-center")
 
                                     @TwConfirmActionHelper.GenerateSafeButton(
                                         WikiConfiguration.BasePath,
-                                        Localizer["This will check the database integrity and validate all foreign keys. Continue?"].Value,
-                                        Localizer["Verify"].Value,
+                                        Localize("This will check the database integrity and validate all foreign keys. Continue?"),
+                                        Localize("Verify"),
                                         $"/Admin/Database/Verify/{info.Name}",
                                         Context.Request.Path.Value,
                                         @class: "btn btn-primary btn-sm d-inline-flex align-items-center")
@@ -118,16 +118,16 @@
                                     {
                                         @TwConfirmActionHelper.GenerateWarnButton(
                                             WikiConfiguration.BasePath,
-                                            Localizer["This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?"].Value,
-                                            Localizer["Configuration"].Value,
+                                            Localize("This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?"),
+                                            Localize("Configuration"),
                                             $"/Admin/Database/Restore/{TwDefaultDataType.Configurations}",
                                             Context.Request.Path.Value,
                                             @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
 
                                         @TwConfirmActionHelper.GenerateWarnButton(
                                             WikiConfiguration.BasePath,
-                                            Localizer["This will restore all default themes, overwriting any customizations you may have made in the database. Continue?"].Value,
-                                            Localizer["Themes"].Value,
+                                            Localize("This will restore all default themes, overwriting any customizations you may have made in the database. Continue?"),
+                                            Localize("Themes"),
                                             $"/Admin/Database/Restore/{TwDefaultDataType.Themes}",
                                             Context.Request.Path.Value,
                                             @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
@@ -136,32 +136,32 @@
                                     {
                                         @TwConfirmActionHelper.GenerateWarnButton(
                                             WikiConfiguration.BasePath,
-                                            Localizer["This will restore all Wiki Help namespace pages. Continue?"].Value,
-                                            Localizer["Wiki Help Pages"].Value,
+                                            Localize("This will restore all Wiki Help namespace pages. Continue?"),
+                                            Localize("Wiki Help Pages"),
                                             $"/Admin/Database/Restore/{TwDefaultDataType.HelpPages}",
                                             Context.Request.Path.Value,
                                             @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
 
                                         @TwConfirmActionHelper.GenerateWarnButton(
                                             WikiConfiguration.BasePath,
-                                            Localizer["This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?"].Value,
-                                            Localizer["Built-in Pages"].Value,
+                                            Localize("This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?"),
+                                            Localize("Built-in Pages"),
                                             $"/Admin/Database/Restore/{TwDefaultDataType.BuiltinPages}",
                                             Context.Request.Path.Value,
                                             @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
 
                                         @TwConfirmActionHelper.GenerateWarnButton(
                                             WikiConfiguration.BasePath,
-                                            Localizer["This will restore all Include namespace pages. Continue?"].Value,
-                                            Localizer["Include Pages"].Value,
+                                            Localize("This will restore all Include namespace pages. Continue?"),
+                                            Localize("Include Pages"),
                                             $"/Admin/Database/Restore/{TwDefaultDataType.IncludePages}",
                                             Context.Request.Path.Value,
                                             @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
 
                                         @TwConfirmActionHelper.GenerateWarnButton(
                                             WikiConfiguration.BasePath,
-                                            Localizer["This will restore all Feature Templates, overwriting any customizations you may have made. Continue?"].Value,
-                                            Localizer["Feature Templates"].Value,
+                                            Localize("This will restore all Feature Templates, overwriting any customizations you may have made. Continue?"),
+                                            Localize("Feature Templates"),
                                             $"/Admin/Database/Restore/{TwDefaultDataType.FeatureTemplates}",
                                             Context.Request.Path.Value,
                                             @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
@@ -178,7 +178,7 @@
     {
         <div class="card-body text-muted">
             <i class="bi bi-database-x me-2"></i>
-            @Localizer["No database information is available."]
+            @Localize("No database information is available.")
         </div>
     }
 </div>

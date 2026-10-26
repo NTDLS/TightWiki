@@ -143,7 +143,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
 
             await _signInManager.RefreshSignInAsync(user);
             _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = Localizer["Your password has been changed."];
+            StatusMessage = Localize("Your password has been changed.");
 
             return RedirectToPage();
         }

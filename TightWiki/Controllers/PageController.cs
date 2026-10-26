@@ -367,7 +367,7 @@ namespace TightWiki.Controllers
                     {
                         var createUrl = $"{WikiConfiguration.BasePath}/Page/Create?Name={Uri.EscapeDataString(WikiConfiguration.SidebarPage)}";
                         return $"<a class=\"small text-muted\" href=\"{createUrl}\">"
-                            + WebUtility.HtmlEncode(Localizer.Format("Create the sidebar page \"{0}\"", WikiConfiguration.SidebarPage))
+                            + WebUtility.HtmlEncode(Localize("Create the sidebar page \"{0}\"", WikiConfiguration.SidebarPage))
                             + "</a>";
                     }
                     return null;

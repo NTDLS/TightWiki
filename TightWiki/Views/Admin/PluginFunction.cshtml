@@ -15,9 +15,9 @@
 
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
-        <h3 class="mb-1">@Localizer["Plugin"]</h3>
+        <h3 class="mb-1">@Localize("Plugin")</h3>
         <div class="text-muted">
-            @Localizer["Global configuration for plugin function."]
+            @Localize("Global configuration for plugin function.")
         </div>
     </div>
 </div>
@@ -41,13 +41,13 @@
                     <i class="bi bi-question-circle" data-bs-toggle="tooltip" title="Unknown type"></i>
                     break;
             }
-            @Localizer["Plugin Function"]
+            @Localize("Plugin Function")
         </div>
 
         <div class="card-body">
             <div class="d-flex ms-2 mb-1">
                 <div class="fw-semibold" style="width:140px;">
-                    @Localizer["Name"]
+                    @Localize("Name")
                 </div>
                 <div>
                     @Model.Function?.FunctionAttribute.Name
@@ -56,7 +56,7 @@
 
             <div class="d-flex ms-2 mb-1">
                 <div class="fw-semibold" style="width:140px;">
-                    @Localizer["Description"]
+                    @Localize("Description")
                 </div>
                 <div>
                     @Model.Function?.FunctionAttribute.Description
@@ -65,7 +65,7 @@
 
             <div class="d-flex ms-2 mb-1">
                 <div class="fw-semibold" style="width:140px;">
-                    @Localizer["Precedence"]
+                    @Localize("Precedence")
                 </div>
                 <div>
                     @Model.Function?.FunctionAttribute.Precedence
@@ -74,7 +74,7 @@
 
             <div class="d-flex ms-2 mb-1">
                 <div class="fw-semibold" style="width:140px;">
-                    @Localizer["Demarcation"]
+                    @Localize("Demarcation")
                 </div>
                 <div>
                     @Model.Function?.FunctionAttribute.Demarcation
@@ -83,7 +83,7 @@
             
             <div class="d-flex ms-2 mb-1">
                 <div class="fw-semibold" style="width:140px;">
-                    @Localizer["Post Process?"]
+                    @Localize("Post Process?")
                 </div>
                 <div>
                     @Model.Function?.FunctionAttribute.IsPostProcess
@@ -92,7 +92,7 @@
 
             <div class="d-flex ms-2 mb-1">
                 <div class="fw-semibold" style="width:140px;">
-                    @Localizer["First Chance?"]
+                    @Localize("First Chance?")
                 </div>
                 <div>
                     @Model.Function?.FunctionAttribute.IsFirstChance
@@ -101,7 +101,7 @@
 
             <div class="d-flex ms-2 mb-1">
                 <div class="fw-semibold" style="width:140px;">
-                    @Localizer["Wiki Lite?"]
+                    @Localize("Wiki Lite?")
                 </div>
                 <div>
                     @Model.Function?.FunctionAttribute.IsLitePermissiable
@@ -113,7 +113,7 @@
                 <div class="mt-3 pt-2 border-top">
                     <div class="small text-body-secondary mb-1">
                         <i class="bi bi-code-slash me-1"></i>
-                        @Localizer["Function Signature"]
+                        @Localize("Function Signature")
                     </div>
 
                     <div class="font-monospace px-2 py-1">
@@ -142,7 +142,7 @@
         <div class="card shadow-sm mt-2">
             <div class="card-header d-flex align-items-center gap-2">
                 <i class="bi bi-gear"></i>
-                <span class="fw-semibold">@Localizer["Parameters"]</span>
+                <span class="fw-semibold">@Localize("Parameters")</span>
             </div>
 
             <div class="card-body">
