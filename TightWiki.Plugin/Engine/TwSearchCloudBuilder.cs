@@ -16,9 +16,16 @@ namespace TightWiki.Plugin.Engine
         /// The font size of each tag is determined by its relevance score, allowing for a visual
         /// representation of the importance of each page in the search results.
         /// </summary>
+        /// <remarks>This does not check permissions, use the overload that takes the matching pages to show only readable pages.</remarks>
         public static async Task<string> Build(ITwPageRepository pageRepository, string basePath, List<string> searchTokens, int? maxCount = null)
+            => Build(await pageRepository.PageSearch(searchTokens), basePath, maxCount);
+
+        /// <summary>
+        /// Builds a tag cloud HTML representation from the given matching pages.
+        /// </summary>
+        public static string Build(List<TwPage> matchingPages, string basePath, int? maxCount = null)
         {
-            var pages = (await pageRepository.PageSearch(searchTokens))
+            var pages = matchingPages
                 .OrderByDescending(o => o.Score)
                 .ToList();
 

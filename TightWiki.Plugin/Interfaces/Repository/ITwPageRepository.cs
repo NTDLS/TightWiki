@@ -89,6 +89,11 @@ namespace TightWiki.Plugin.Interfaces.Repository
         Task<List<TwPage>> PageSearch(List<string> searchTerms);
 
         /// <summary>
+        /// Returns pages that match the specified search terms, with optional fuzzy matching (null uses the configured setting).
+        /// </summary>
+        Task<List<TwPage>> PageSearch(List<string> searchTerms, bool? allowFuzzyMatching);
+
+        /// <summary>
         /// Returns a paged list of pages that match the specified search terms, with optional fuzzy matching.
         /// </summary>
         Task<List<TwPage>> PageSearchPaged(List<string> searchTerms, int pageNumber, int? pageSize = null, bool? allowFuzzyMatching = null);

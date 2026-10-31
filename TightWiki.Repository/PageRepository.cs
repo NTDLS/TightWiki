@@ -274,19 +274,23 @@ namespace TightWiki.Repository
                 }
                 else
                 {
-                    return await GetExactPageSearchTokens(searchTokens, minimumMatchScore / 2.0);
+                    //Without fuzzy matching there is nothing to combine with, so the full threshold applies (as it does when fuzzy matching is on).
+                    return await GetExactPageSearchTokens(searchTokens, minimumMatchScore);
                 }
             })).EnsureNotNull();
         }
 
         public async Task<List<TwPage>> PageSearch(List<string> searchTerms)
+            => await PageSearch(searchTerms, null);
+
+        public async Task<List<TwPage>> PageSearch(List<string> searchTerms, bool? allowFuzzyMatching)
         {
             if (searchTerms.Count == 0)
             {
                 return new List<TwPage>();
             }
 
-            bool allowFuzzyMatching = await _configurationRepository.Get<bool>(TwConfigGroup.Search, "Allow Fuzzy Matching");
+            allowFuzzyMatching ??= await _configurationRepository.Get<bool>(TwConfigGroup.Search, "Allow Fuzzy Matching");
             var meteredSearchTokens = await GetMeteredPageSearchTokens(searchTerms, allowFuzzyMatching == true);
             if (meteredSearchTokens.Count == 0)
             {

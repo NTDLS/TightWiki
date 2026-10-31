@@ -83,8 +83,24 @@ namespace TightWiki.Plugin.Default.StandardFunctions
         {
             var tokens = searchPhrase.Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
 
-            string html = await TwSearchCloudBuilder.Build(state.Engine.DatabaseManager.PageRepository, state.Engine.WikiConfiguration.BasePath, tokens, top);
+            var pages = await SearchReadablePages(state, tokens);
+
+            string html = TwSearchCloudBuilder.Build(pages, state.Engine.WikiConfiguration.BasePath, top);
             return new TwPluginResult(html);
+        }
+
+        /// <summary>
+        /// Searches for pages that the viewer is allowed to read. The result depends on who is viewing,
+        /// so the rendered page is marked as not cacheable (the page cache is shared between users).
+        /// </summary>
+        private static async Task<List<TwPage>> SearchReadablePages(ITwEngineState state, List<string> searchTerms, bool? allowFuzzyMatching = null)
+        {
+            if (!state.ProcessingInstructions.Contains(TwConstants.TwInstruction.NoCache))
+            {
+                state.ProcessingInstructions.Add(TwConstants.TwInstruction.NoCache);
+            }
+
+            return await TwSearchResults.GetReadablePages(state.Session, state.Engine.DatabaseManager.PageRepository, searchTerms, allowFuzzyMatching);
         }
 
         [TwStandardFunctionPlugin("TagList", "Creates a list of pages by searching the page tags.")]
@@ -135,7 +151,12 @@ namespace TightWiki.Plugin.Default.StandardFunctions
             int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
             var searchTokens = searchPhrase.Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
 
-            var pages = await state.Engine.DatabaseManager.PageRepository.PageSearchPaged(searchTokens, pageNumber, pageSize, allowFuzzyMatching);
+            //Only pages the viewer can read are listed, so this is paged here (after filtering) rather than in the query.
+            var readablePages = await SearchReadablePages(state, searchTokens, allowFuzzyMatching);
+            pageSize = Math.Max(1, pageSize);
+            int pageCount = (readablePages.Count + pageSize - 1) / pageSize;
+            pageNumber = Math.Clamp(pageNumber, 1, Math.Max(1, pageCount));
+            var pages = readablePages.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
             if (pages.Count == 0)
             {
@@ -186,9 +207,9 @@ namespace TightWiki.Plugin.Default.StandardFunctions
                 html.Append("</ul>");
             }
 
-            if (pageSelector && (pageNumber > 1 || pages.Count > 0 && pages.First().PaginationPageCount > 1))
+            if (pageSelector && pageCount > 1)
             {
-                html.Append(TwPageSelectorGenerator.Generate(state.QueryString, pages.FirstOrDefault()?.PaginationPageCount ?? 1, refTag, localizer: state.Localizer));
+                html.Append(TwPageSelectorGenerator.Generate(state.QueryString, pageCount, refTag, localizer: state.Localizer));
             }
 
             return new TwPluginResult(html.ToString())
@@ -351,7 +372,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
             string glossaryName = state.GetNextTagMarker("Glossary");
             var searchTokens = searchPhrase.Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
 
-            var pages = (await state.Engine.DatabaseManager.PageRepository.PageSearch(searchTokens)).Take(top).OrderBy(o => o.Name).ToList();
+            var pages = (await SearchReadablePages(state, searchTokens)).Take(top).OrderBy(o => o.Name).ToList();
             var html = new StringBuilder();
             var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpperInvariant()).Distinct();
 

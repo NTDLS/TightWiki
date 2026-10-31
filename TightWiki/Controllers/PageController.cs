@@ -14,6 +14,7 @@ using TightWiki.Library;
 using TightWiki.Library.Caching;
 using TightWiki.Library.Security;
 using TightWiki.Plugin;
+using TightWiki.Plugin.Engine;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Library;
@@ -492,14 +493,7 @@ namespace TightWiki.Controllers
                 if (searchString.Length > 0)
                 {
                     //Only pages that the user is allowed to read are listed, so this is done before paging.
-                    var readablePages = new List<TwPage>();
-                    foreach (var page in await pageRepository.PageSearch(Utility.SplitToTokens(searchString)))
-                    {
-                        if (await SessionState.HoldsPermission(page.Navigation, TwPermission.Read))
-                        {
-                            readablePages.Add(page);
-                        }
-                    }
+                    var readablePages = await TwSearchResults.GetReadablePages(SessionState, pageRepository, Utility.SplitToTokens(searchString));
 
                     var pageSize = Math.Max(1, await configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size"));
 

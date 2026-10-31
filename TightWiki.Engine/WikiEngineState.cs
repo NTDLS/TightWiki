@@ -107,7 +107,16 @@ namespace TightWiki.Engine
         {
             var childState = new WikiEngineState(Logger, Engine, Localizer, Session, page, revision, OmitMatches.ToArray(), NestDepth + 1);
 
-            return await childState.Transform();
+            var childResult = await childState.Transform();
+
+            //If the included page cannot be shared between users, then neither can the page that includes it.
+            if (childState.ProcessingInstructions.Contains(TwConstants.TwInstruction.NoCache)
+                && !ProcessingInstructions.Contains(TwConstants.TwInstruction.NoCache))
+            {
+                ProcessingInstructions.Add(TwConstants.TwInstruction.NoCache);
+            }
+
+            return childResult;
         }
 
         internal async Task<ITwEngineState> Transform()
