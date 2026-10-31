@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.Globalization;
 using System.IO.Compression;
+using System.Text;
 
 namespace TightWiki.Library
 {
@@ -39,6 +41,86 @@ namespace TightWiki.Library
             var tokens = (tokenString ?? string.Empty).Trim().ToLowerInvariant()
                 .Split([' ', ',', '\t'], StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
             return tokens;
+        }
+
+        /// <summary>
+        /// Splits text into search tokens: runs of letters and digits, without accents, with the original case.
+        /// Everything else (whitespace, punctuation, symbols) separates tokens and is never part of one, so "wiki," yields "wiki".
+        /// Apostrophes are dropped without splitting, so "don't" yields "dont".
+        /// This is used for both indexing pages and parsing search text so that the two always agree.
+        /// </summary>
+        public static List<string> TokenizeText(string? text)
+        {
+            var tokens = new List<string>();
+            var current = new StringBuilder();
+
+            foreach (var c in FoldDiacritics(text))
+            {
+                if (char.IsLetterOrDigit(c))
+                {
+                    current.Append(c);
+                }
+                else if (c != '\'' && c != '’') //Apostrophes are dropped, not separators.
+                {
+                    if (current.Length > 0)
+                    {
+                        tokens.Add(current.ToString());
+                        current.Clear();
+                    }
+                }
+            }
+
+            if (current.Length > 0)
+            {
+                tokens.Add(current.ToString());
+            }
+
+            return tokens;
+        }
+
+        /// <summary>
+        /// Removes accents and other diacritical marks so that "café" and "cafe" compare as equal (e.g. é -> e, ñ -> n).
+        /// Letters that do not decompose into a base letter plus a mark are mapped explicitly (e.g. ß -> ss, ø -> o).
+        /// The result is not lower-cased.
+        /// </summary>
+        public static string FoldDiacritics(string? text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return string.Empty;
+            }
+
+            //Fast path, plain ASCII has nothing to fold.
+            if (text.All(c => c < 0x80))
+            {
+                return text;
+            }
+
+            var sb = new StringBuilder(text.Length);
+            foreach (var c in text.Normalize(NormalizationForm.FormD))
+            {
+                switch (c)
+                {
+                    case 'ß': sb.Append("ss"); continue;
+                    case 'æ': sb.Append("ae"); continue;
+                    case 'Æ': sb.Append("AE"); continue;
+                    case 'œ': sb.Append("oe"); continue;
+                    case 'Œ': sb.Append("OE"); continue;
+                    case 'ø': sb.Append('o'); continue;
+                    case 'Ø': sb.Append('O'); continue;
+                    case 'đ': sb.Append('d'); continue;
+                    case 'Đ': sb.Append('D'); continue;
+                    case 'ł': sb.Append('l'); continue;
+                    case 'Ł': sb.Append('L'); continue;
+                }
+
+                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                {
+                    sb.Append(c);
+                }
+            }
+
+            return sb.ToString().Normalize(NormalizationForm.FormC);
         }
 
         public static string GetMimeType(string fileName)

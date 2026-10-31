@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using NTDLS.Helpers;
 using NTDLS.SqliteDapperWrapper;
+using TightWiki.Library;
 using TightWiki.Library.Caching;
 using TightWiki.Library.Extensions;
 using TightWiki.Library.Security;
@@ -207,14 +208,42 @@ namespace TightWiki.Repository
             });
         }
 
+        /// <summary>The most search terms that are considered, any beyond this are ignored.</summary>
+        private const int MaximumSearchTerms = 20;
+        /// <summary>The longest search term that is considered, longer terms are truncated.</summary>
+        private const int MaximumSearchTermLength = 64;
+
+        /// <summary>
+        /// Puts search terms in the same form as the indexed page tokens (lower case, letters and digits only, without accents),
+        /// and limits their number and length.
+        /// </summary>
+        private static List<string> NormalizeSearchTerms(List<string> searchTerms)
+        {
+            return searchTerms
+                .SelectMany(o => Utility.TokenizeText(o))
+                .Select(o => o.ToLowerInvariant())
+                .Select(o => o.Length > MaximumSearchTermLength ? o.Substring(0, MaximumSearchTermLength) : o)
+                .Where(o => o.Length > 0)
+                .Distinct()
+                .Take(MaximumSearchTerms)
+                .ToList();
+        }
+
         private async Task<List<TwPageSearchToken>> GetMeteredPageSearchTokens(List<string> searchTerms, bool allowFuzzyMatching)
         {
-            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Search, [string.Join(',', searchTerms), allowFuzzyMatching]);
+            searchTerms = NormalizeSearchTerms(searchTerms);
+            if (searchTerms.Count == 0)
+            {
+                return new List<TwPageSearchToken>();
+            }
+
+            var minimumMatchScore = await _configurationRepository.Get<float>(TwConfigGroup.Search, "Minimum Match Score");
+
+            //The cache is cleared whenever a page is indexed, and the settings that change the result are part of the key.
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Search, [string.Join(',', searchTerms), allowFuzzyMatching, minimumMatchScore]);
 
             return (await MemCache.AddOrGetAsync(cacheKey, async () =>
             {
-                var minimumMatchScore = await _configurationRepository.Get<float>(TwConfigGroup.Search, "Minimum Match Score");
-
                 var searchTokens = searchTerms.Select(o =>
                                     new TwPageToken
                                     {
@@ -229,16 +258,19 @@ namespace TightWiki.Repository
 
                     allTokens.AddRange(fuzzyTokens);
 
+                    //A page can be found by both an exact and a fuzzy match, the two contribute to the same score.
+                    //The score that is filtered on is the same score that is reported and used for ordering.
                     return allTokens
                             .GroupBy(token => token.PageId)
-                            .Where(group => group.Sum(g => g.Score) >= minimumMatchScore) // Filtering groups
                             .Select(group => new TwPageSearchToken
                             {
                                 PageId = group.Key,
-                                Match = group.Max(g => g.Match),
-                                Weight = group.Max(g => g.Weight),
-                                Score = group.Max(g => g.Score)
-                            }).ToList();
+                                Match = Math.Min(1.0, group.Sum(g => g.Match)),
+                                Weight = group.Sum(g => g.Weight),
+                                Score = group.Sum(g => g.Score)
+                            })
+                            .Where(token => token.Score >= minimumMatchScore)
+                            .ToList();
                 }
                 else
                 {
@@ -811,6 +843,9 @@ namespace TightWiki.Repository
             await SavePageSearchTokens(pageTokens);
             await UpdatePageReferences(page.Id, state.OutgoingLinks);
 
+            //Cached search matches are now out of date.
+            MemCache.ClearCategory(MemCache.Category.Search);
+
             MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.Page, [page.Id]));
             MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.Page, [page.Navigation]));
         }
@@ -839,10 +874,10 @@ namespace TightWiki.Repository
             var searchConfig = await _configurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.Search);
 
             var exclusionWords = searchConfig?.Value<string>("Word Exclusions")?
-                .Split([',', ';'], StringSplitOptions.RemoveEmptyEntries).Distinct() ?? new List<string>();
+                .Split([',', ';'], StringSplitOptions.RemoveEmptyEntries).Select(o => Utility.FoldDiacritics(o)).Distinct() ?? new List<string>();
             var strippedContent = Html.StripHtml(content);
 
-            var tokens = strippedContent.Split([' ', '\n', '\t', '-', '_']).ToList();
+            var tokens = Utility.TokenizeText(strippedContent);
 
             if (searchConfig?.Value<bool>("Split Camel Case") == true)
             {
@@ -1044,6 +1079,7 @@ namespace TightWiki.Repository
             });
 
             await FlushPageCache(pageId);
+            MemCache.ClearCategory(MemCache.Category.Search); //Pages that are deleted or restored change what can be found.
         }
 
         public async Task MovePageRevisionToDeletedById(int pageId, int revision, Guid userId)
@@ -1104,6 +1140,7 @@ namespace TightWiki.Repository
             });
 
             await FlushPageCache(pageId);
+            MemCache.ClearCategory(MemCache.Category.Search); //Pages that are deleted or restored change what can be found.
         }
 
         public async Task PurgeDeletedPageByPageId(int pageId)
@@ -1118,6 +1155,7 @@ namespace TightWiki.Repository
             await PurgeDeletedPageRevisionsByPageId(pageId);
 
             await FlushPageCache(pageId);
+            MemCache.ClearCategory(MemCache.Category.Search); //Pages that are deleted or restored change what can be found.
         }
 
         public async Task PurgeDeletedPages()

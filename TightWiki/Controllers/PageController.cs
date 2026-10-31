@@ -465,68 +465,55 @@ namespace TightWiki.Controllers
             }
         }
 
+        /// <summary>The longest search text that is accepted, anything beyond this is ignored.</summary>
+        private const int MaximumSearchStringLength = 256;
+
         [AllowAnonymous]
         [HttpGet("Page/Search")]
+        [HttpPost("Page/Search")]
         public async Task<ActionResult> Search()
         {
+            string searchString = string.Empty;
+
             try
             {
-                string searchString = GetQueryValue("SearchString", string.Empty);
-                if (string.IsNullOrEmpty(searchString) == false)
+                searchString = GetQueryValue("SearchString", string.Empty).Trim();
+                if (searchString.Length > MaximumSearchStringLength)
                 {
-                    var model = new PageSearchViewModel()
-                    {
-                        Pages = await pageRepository.PageSearchPaged(Utility.SplitToTokens(searchString), GetQueryValue("page", 1)),
-                        SearchString = searchString
-                    };
-
-                    model.PaginationPageCount = (model.Pages.FirstOrDefault()?.PaginationPageCount ?? 0);
-
-                    return View(model);
+                    searchString = searchString.Substring(0, MaximumSearchStringLength);
                 }
 
-                return View(new PageSearchViewModel()
+                var model = new PageSearchViewModel()
                 {
                     Pages = new(),
                     SearchString = searchString
-                });
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, "An error occurred while searching pages");
-                throw;
-            }
-        }
+                };
 
-        [AllowAnonymous]
-        [HttpPost("Page/Search")]
-        public async Task<ActionResult> Search(PageSearchViewModel model)
-        {
-            try
-            {
-                string searchString = GetQueryValue("SearchString", string.Empty);
-                if (string.IsNullOrEmpty(searchString) == false)
+                if (searchString.Length > 0)
                 {
-                    model = new PageSearchViewModel()
+                    //Only pages that the user is allowed to read are listed, so this is done before paging.
+                    var readablePages = new List<TwPage>();
+                    foreach (var page in await pageRepository.PageSearch(Utility.SplitToTokens(searchString)))
                     {
-                        Pages = await pageRepository.PageSearchPaged(Utility.SplitToTokens(searchString), GetQueryValue("page", 1)),
-                        SearchString = searchString
-                    };
+                        if (await SessionState.HoldsPermission(page.Navigation, TwPermission.Read))
+                        {
+                            readablePages.Add(page);
+                        }
+                    }
 
-                    model.PaginationPageCount = (model.Pages.FirstOrDefault()?.PaginationPageCount ?? 0);
+                    var pageSize = Math.Max(1, await configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size"));
 
-                    return View(model);
+                    model.PaginationPageCount = (readablePages.Count + pageSize - 1) / pageSize;
+                    var pageNumber = Math.Clamp(GetQueryValue("page", 1), 1, Math.Max(1, model.PaginationPageCount));
+
+                    model.Pages = readablePages.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
                 }
 
-                return View(new PageSearchViewModel()
-                {
-                    Pages = new(),
-                    SearchString = searchString
-                });
+                return View(model);
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "An error occurred while searching pages with search string {SearchString}.", model.SearchString);
+                Logger.LogError(ex, "An error occurred while searching pages with search string {SearchString}.", searchString);
                 throw;
             }
         }
