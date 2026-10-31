@@ -16,6 +16,6 @@
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.1" />
 		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="10.0.14" />
 		<PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
-		<PackageReference Include="System.Security.Cryptography.Pkcs" Version="9.0.21" />
+		<PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.14" />
 	</ItemGroup>
 </Project>

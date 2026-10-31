@@ -12,7 +12,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.14" />
-		<PackageReference Include="VPT.Einkr.Client" Version="2.1.0" />
+		<PackageReference Include="VPT.Einkr.Client" Version="2.3.0" />
 	</ItemGroup>
 
 	<ItemGroup>
