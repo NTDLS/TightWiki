@@ -354,8 +354,7 @@ namespace TightWiki
                     try
                     {
                         await databaseManager.ApplyAllSeedData(new TwVerbatimLocalizationText(), userManager, tightEngine,
-                            [TwDefaultDataType.Themes,
-                            TwDefaultDataType.Configurations,
+                            [TwDefaultDataType.Configurations,
                             TwDefaultDataType.FeatureTemplates,
                             TwDefaultDataType.HelpPages]);
 

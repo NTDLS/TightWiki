@@ -25,10 +25,6 @@
         /// </summary>
         public string Navigation { get; set; }
         /// <summary>
-        /// Gets or sets the theme preference for the user.
-        /// </summary>
-        public string? Theme { get; set; }
-        /// <summary>
         /// Gets or sets the time zone identifier associated with the current context.
         /// </summary>
         /// <remarks>The time zone identifier should follow the IANA or Windows time zone naming

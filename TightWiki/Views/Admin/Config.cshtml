@@ -96,17 +96,7 @@
                                     <small class="text-muted">@Localizer[entry.Description]</small>
                                 </label>
                                 <div class="col-sm-10">
-                                    @if ($"{group.Name}:{entry.Name}" == "Customization:Theme")
-                                    {
-                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-select">
-                                            <option value="">@Localize("Select a theme")</option>
-                                            @foreach (var item in Model.Themes)
-                                            {
-                                                <option value="@item.Name" selected=@(entry.Value == item.Name ? "selected" : null)>@item.Name</option>
-                                            }
-                                        </select>
-                                    }
-                                    else if ($"{group.Name}:{entry.Name}" == "Membership:Default Signup Role")
+                                    @if ($"{group.Name}:{entry.Name}" == "Membership:Default Signup Role")
                                     {
                                         <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-select">
                                             <option value="">@Localize("Select a role")</option>
@@ -183,7 +173,7 @@
                         @if (group.Name == "LDAP Authentication")
                         {
                             <hr class="my-4" />
-                            <div class="border rounded p-3 bg-light">
+                            <div class="border rounded p-3 bg-body-secondary">
                                 <h5 class="mb-3">@Localize("Test LDAP Authentication")</h5>
 
                                 <div class="row g-3 align-items-end" id="ldapTestForm">

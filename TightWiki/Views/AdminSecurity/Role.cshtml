@@ -102,13 +102,13 @@
                             <td class="text-nowrap">
                                 @if (string.Equals(permission.PermissionDisposition, "Allow", StringComparison.OrdinalIgnoreCase))
                                 {
-                                    <span class="badge border border-success text-success bg-light rounded-pill px-3 py-2">
+                                    <span class="badge border border-success text-success bg-body-secondary rounded-pill px-3 py-2">
                                         <i class="bi bi-check2 me-1"></i>@permission.PermissionDisposition
                                     </span>
                                 }
                                 else
                                 {
-                                    <span class="badge border border-danger text-danger bg-light rounded-pill px-3 py-2">
+                                    <span class="badge border border-danger text-danger bg-body-secondary rounded-pill px-3 py-2">
                                         <i class="bi bi-ban me-1"></i>@permission.PermissionDisposition
                                     </span>
                                 }
@@ -518,8 +518,8 @@
             <td>
                 ${
                     result.permission.permissionDisposition.toLowerCase() === "allow"
-                        ? `<span class="badge border border-success text-success bg-light rounded-pill px-3 py-2"><i class="bi bi-check2 me-1"></i>${result.permission.permissionDisposition}</span>`                        
-                        : `<span class="badge border border-danger text-danger bg-light rounded-pill px-3 py-2"><i class="bi bi-ban me-1"></i>${result.permission.permissionDisposition}</span>`
+                        ? `<span class="badge border border-success text-success bg-body-secondary rounded-pill px-3 py-2"><i class="bi bi-check2 me-1"></i>${result.permission.permissionDisposition}</span>`                        
+                        : `<span class="badge border border-danger text-danger bg-body-secondary rounded-pill px-3 py-2"><i class="bi bi-ban me-1"></i>${result.permission.permissionDisposition}</span>`
                 }
             </td>
             <td>${result.permission.permission}</td>

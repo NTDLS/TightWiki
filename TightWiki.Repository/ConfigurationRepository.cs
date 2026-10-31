@@ -50,23 +50,6 @@ namespace TightWiki.Repository
             }).EnsureNotNull();
         }
 
-        public async Task<List<TwTheme>> GetAllThemes()
-        {
-            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Configuration);
-
-            return await MemCache.AddOrGet(cacheKey, async () =>
-            {
-                var themes = await ConfigFactory.QueryAsync<TwTheme>("GetAllThemes.sql");
-
-                foreach (var theme in themes)
-                {
-                    theme.Files = theme.DelimitedFiles.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList();
-                }
-
-                return themes;
-            }).EnsureNotNull();
-        }
-
         public async Task<TwWikiDatabaseStatistics> GetWikiDatabaseMetrics()
         {
             return await ConfigFactory.EphemeralAsync(async o =>

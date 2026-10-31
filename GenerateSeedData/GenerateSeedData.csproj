@@ -9,9 +9,7 @@
 
 	<ItemGroup>
 	  <EmbeddedResource Include="Scripts\GetDefaultConfiguration.sql" />
-	  <EmbeddedResource Include="Scripts\GetDefaultThemes.sql" />
 	  <EmbeddedResource Include="Scripts\RecreateDefaultConfigurationTable.sql" />
-	  <EmbeddedResource Include="Scripts\RecreateDefaultThemesTable.sql" />
 	  <EmbeddedResource Include="Scripts\RecreateDefaultWikiPagesTable.sql" />
 	  <EmbeddedResource Include="Scripts\RecreateDefaultFeatureTemplatesTable.sql" />
 	  <EmbeddedResource Include="Scripts\GetFeatureTemplates.sql" />

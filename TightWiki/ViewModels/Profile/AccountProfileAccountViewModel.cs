@@ -5,8 +5,6 @@ namespace TightWiki.ViewModels.Profile
 {
     public partial class AccountProfileAccountViewModel
     {
-        [Display(Name = "Theme")]
-        public string? Theme { get; set; } = string.Empty;
 
         [Required]
         public Guid UserId { get; set; }
@@ -58,7 +56,6 @@ namespace TightWiki.ViewModels.Profile
         {
             return new AccountProfileAccountViewModel
             {
-                Theme = model.Theme,
                 UserId = model.UserId,
                 EmailAddress = model.EmailAddress,
                 AccountName = model.AccountName,

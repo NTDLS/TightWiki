@@ -9,11 +9,6 @@ namespace TightWiki.Plugin.Models
         : ITwAccountProfile
     {
         /// <summary>
-        /// The user's preferred visual theme, or null to use the system default.
-        /// </summary>
-        public string? Theme { get; set; }
-
-        /// <summary>
         /// The unique identifier for this user account.
         /// </summary>
         public Guid UserId { get; set; }

@@ -1692,7 +1692,6 @@ namespace TightWiki.Controllers
                 }
                 var model = new ConfigurationViewModel()
                 {
-                    Themes = await configurationRepository.GetAllThemes(),
                     Roles = await usersRepository.GetAllRoles(),
                     TimeZones = TimeZoneItem.GetAll(),
                     Countries = CountryItem.GetAll(),
@@ -1731,7 +1730,6 @@ namespace TightWiki.Controllers
                 {
                     model = new ConfigurationViewModel()
                     {
-                        Themes = await configurationRepository.GetAllThemes(),
                         Roles = await usersRepository.GetAllRoles(),
                         TimeZones = TimeZoneItem.GetAll(),
                         Countries = CountryItem.GetAll(),
@@ -1755,16 +1753,6 @@ namespace TightWiki.Controllers
                         {
                             model.ErrorMessage = Localize("{0} : {1} is required.", fc.GroupName, fc.EntryName);
                             return View(model);
-                        }
-
-                        if ($"{fc.GroupName}:{fc.EntryName}" == "Customization:Theme")
-                        {
-                            //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
-                            WikiConfiguration.SystemTheme = (await configurationRepository.GetAllThemes()).Single(o => o.Name == value);
-                            if (string.IsNullOrEmpty(SessionState.Profile?.Theme))
-                            {
-                                SessionState.UserTheme = WikiConfiguration.SystemTheme;
-                            }
                         }
 
                         if (fc.IsEncrypted)

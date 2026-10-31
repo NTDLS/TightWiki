@@ -283,7 +283,6 @@ namespace TightWiki.Controllers
                     AccountProfile = AccountProfileAccountViewModel.FromDataModel(
                          await usersRepository.GetAccountProfileByUserId(SessionState.Profile.EnsureNotNull().UserId)),
 
-                    Themes = await configurationRepository.GetAllThemes(),
                     TimeZones = TimeZoneItem.GetAll(),
                     Countries = CountryItem.GetAll(),
                     Languages = LanguageItem.GetAll()
@@ -323,7 +322,6 @@ namespace TightWiki.Controllers
                 model.TimeZones = TimeZoneItem.GetAll();
                 model.Countries = CountryItem.GetAll();
                 model.Languages = LanguageItem.GetAll();
-                model.Themes = await configurationRepository.GetAllThemes();
 
                 //Get the UserId from the logged in context because we do not trust anything from the model.
                 var userId = SessionState.Profile.EnsureNotNull().UserId;
@@ -386,7 +384,6 @@ namespace TightWiki.Controllers
                         new ("language", model.AccountProfile.Language),
                         new ("firstname", model.AccountProfile.FirstName ?? ""),
                         new ("lastname", model.AccountProfile.LastName ?? ""),
-                        new ("theme", model.AccountProfile.Theme ?? ""),
                     };
                 await usersRepository.UpsertUserClaims(UserManager, user, claims);
 
@@ -396,7 +393,7 @@ namespace TightWiki.Controllers
 
                 await UpdateUserCultureCookie(userId);
 
-                //Redirect so that the language and theme are applied immediately.
+                //Redirect so that the language is applied immediately.
                 TempData["SuccessMessage"] = Localize("Your profile has been saved.");
                 return LocalRedirect($"{WikiConfiguration.BasePath}/Profile/My");
             }

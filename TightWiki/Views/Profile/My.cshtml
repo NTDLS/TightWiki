@@ -90,7 +90,7 @@
                             <div class="row g-3">
                                 <div class="col-12">
                                     <label class="form-label fw-semibold">@Localize("Email Address")</label>
-                                    <div class="form-control-plaintext border rounded px-3 py-2 bg-light">
+                                    <div class="form-control-plaintext border rounded px-3 py-2 bg-body-secondary">
                                         @Html.DisplayFor(m => m.AccountProfile.EmailAddress)
                                     </div>
                                     <div class="text-danger small">
@@ -179,24 +179,6 @@
                                     </select>
                                     <div class="text-danger small">
                                         @Html.ValidationMessageFor(m => m.AccountProfile.TimeZone)
-                                    </div>
-                                </div>
-
-                                <div class="col-12">
-                                    <label for="AccountProfile_Theme" class="form-label fw-semibold">
-                                        @Localize("Theme")
-                                    </label>
-                                    <select name="AccountProfile.Theme" id="AccountProfile_Theme" class="form-select">
-                                        <option value="">@Localize("System Default")</option>
-                                        @foreach (var item in Model.Themes)
-                                        {
-                                            <option value="@item.Name" selected="@(Model.AccountProfile.Theme == item.Name ? "selected" : null)">
-                                                @item.Name
-                                            </option>
-                                        }
-                                    </select>
-                                    <div class="text-danger small">
-                                        @Html.ValidationMessageFor(m => m.AccountProfile.Theme)
                                     </div>
                                 </div>
 

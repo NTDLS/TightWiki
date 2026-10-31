@@ -82,7 +82,7 @@
             public static string HTMLLayout { get; } = "HTML Layout";
             /// <summary>Configuration settings related to performance optimizations, such as caching and database tuning.</summary>
             public static string Performance { get; } = "Performance";
-            /// <summary>Configuration settings related to site customization, such as themes and custom CSS.</summary>
+            /// <summary>Configuration settings related to site customization, such as default pages and templates.</summary>
             public static string Customization { get; } = "Customization";
             /// <summary>Configuration settings related to external authentication providers, such as OAuth and OpenID Connect.</summary>
             public static string ExternalAuthentication { get; } = "External Authentication";
@@ -332,14 +332,12 @@
     {
         /// <summary>Default configuration settings.</summary>
         Configurations,
-        /// <summary>Default visual themes.</summary>
-        Themes,
         /// <summary>Built-in help documentation pages.</summary>
-        HelpPages,
+        HelpPages = 2,
         /// <summary>Core built-in wiki pages.</summary>
-        BuiltinPages,
+        BuiltinPages = 3,
         /// <summary>Reusable include pages.</summary>
-        IncludePages,
+        IncludePages = 4,
         /// <summary>Predefined feature templates.</summary>
         FeatureTemplates = 5
     }

@@ -4,7 +4,7 @@ using TightWiki.Plugin.Models;
 namespace TightWiki.Plugin.Interfaces.Repository
 {
     /// <summary>
-    /// Data access for configuration entries, themes, and wiki database metrics, etc.
+    /// Data access for configuration entries and wiki database metrics, etc.
     /// </summary>
     public interface ITwConfigurationRepository
     {
@@ -19,11 +19,6 @@ namespace TightWiki.Plugin.Interfaces.Repository
         /// <param name="groupName">The name of the configuration group.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the configuration entries for the specified group.</returns>
         Task<TwConfigurationEntries> GetConfigurationEntryValuesByGroupName(string groupName);
-
-        /// <summary>
-        /// Gets all themes.
-        /// </summary>
-        Task<List<Models.TwTheme>> GetAllThemes();
 
         /// <summary>
         /// Retrieves statistical metrics for the wiki database.

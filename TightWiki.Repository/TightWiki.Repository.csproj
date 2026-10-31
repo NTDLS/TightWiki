@@ -3,7 +3,7 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Version>2.40.1</Version>
+		<Version>2.41.0</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -44,7 +44,6 @@
 		<None Remove="Scripts\GetAllProfiles.sql" />
 		<None Remove="Scripts\GetAllPublicProfilesPaged.sql" />
 		<None Remove="Scripts\GetAllRoles.sql" />
-		<None Remove="Scripts\GetAllThemes.sql" />
 		<None Remove="Scripts\GetAllUsers.sql" />
 		<None Remove="Scripts\GetAllUsersPaged.sql" />
 		<None Remove="Scripts\GetAssociatedTags.sql" />
@@ -120,9 +119,7 @@
 		<None Remove="Scripts\Initialization\PostInitialization\^000^Config^UpsertConfiguration.sql" />
 		<None Remove="Scripts\Initialization\PostInitialization\^000^Config^UpsertConfigurationGroup.sql" />
 		<None Remove="Scripts\Initialization\PostInitialization\^001^Config^UpsertConfigurationEntry.sql" />
-		<None Remove="Scripts\Initialization\PostInitialization\^002^Config^UpsertTheme.sql" />
 		<None Remove="Scripts\Initialization\PostInitialization\^003^Pages^FeatureTemplate.sql" />
-		<None Remove="Scripts\Initialization\PostInitialization\^003^Pages^UpsertTheme.sql" />
 		<None Remove="Scripts\InsertEmoji.sql" />
 		<None Remove="Scripts\InsertMenuItem.sql" />
 		<None Remove="Scripts\InsertPageComment.sql" />
@@ -185,11 +182,9 @@
 		<EmbeddedResource Include="Scripts\Defaults\GetDefaultConfigurationGroups.sql" />
 		<EmbeddedResource Include="Scripts\Defaults\GetDefaultFeatureTemplates.sql" />
 		<EmbeddedResource Include="Scripts\Defaults\GetDefaultWikiPages.sql" />
-		<EmbeddedResource Include="Scripts\Defaults\GetDefaultThemes.sql" />
 		<EmbeddedResource Include="Scripts\Defaults\GetDefaultConfigurations.sql" />
 		<EmbeddedResource Include="Scripts\Defaults\Merge\MergeConfigurationEntry.sql" />
 		<EmbeddedResource Include="Scripts\Defaults\Merge\MergeFeatureTemplate.sql" />
-		<EmbeddedResource Include="Scripts\Defaults\Merge\MergeTheme.sql" />
 		<EmbeddedResource Include="Scripts\Defaults\Merge\MergeConfigurationGroup.sql" />
 		<EmbeddedResource Include="Scripts\GetTopRecentlyCreatedPagesInfo.sql" />
 		<EmbeddedResource Include="Scripts\GetTopEditedPagesInfo.sql" />
@@ -218,6 +213,9 @@
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.31.1\^001^Statistics^NewStatsStructure.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.34.4\^001^Pages^AddTagNavigation.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.34.4\^001^Statistics^NewStatsStructure.sql" />
+		<EmbeddedResource Include="Scripts\Initialization\Versions\2.41.0\^001^Config^DropThemeTable.sql" />
+		<EmbeddedResource Include="Scripts\Initialization\Versions\2.41.0\^002^Config^RemoveThemeConfigurationEntry.sql" />
+		<EmbeddedResource Include="Scripts\Initialization\Versions\2.41.0\^001^Users^RemoveThemeClaims.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.34.4\^001^Logging^ChangeCollation.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.38.0\^001^Pages^CurrentPageEditors.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.39.0\^001^Pages^RestorePageModifiedDates.sql" />
@@ -291,7 +289,6 @@
 		<EmbeddedResource Include="Scripts\GetAllPagesPaged.sql" />
 		<EmbeddedResource Include="Scripts\GetAllPublicProfilesPaged.sql" />
 		<EmbeddedResource Include="Scripts\GetAllRoles.sql" />
-		<EmbeddedResource Include="Scripts\GetAllThemes.sql" />
 		<EmbeddedResource Include="Scripts\GetAllUsers.sql" />
 		<EmbeddedResource Include="Scripts\GetAllUsersPaged.sql" />
 		<EmbeddedResource Include="Scripts\GetAssociatedTags.sql" />

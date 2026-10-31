@@ -2,7 +2,7 @@
 The configuration for the site. Such as site name, email setup, customizations, etc.
 
 ## Defaults.db
-The default data (configuration, themes, help pages, built-in pages, feature templates) that is used for initial seeding of the other databases and for restoring defaults from the Database admin page. This is part of the application and is re-created at startup.
+The default data (configuration, help pages, built-in pages, feature templates) that is used for initial seeding of the other databases and for restoring defaults from the Database admin page. This is part of the application and is re-created at startup.
 
 ## DeletedPageRevisions.db
 When page revisions are deleted, they are moved to this database. They can be viewed and restored from the Pages admin page.

@@ -352,39 +352,6 @@ namespace TightWiki.Repository.Helpers
 
             #endregion
 
-            #region Seed: Themes.
-
-            if (defaultDataTypes.Contains(TwDefaultDataType.Themes))
-            {
-                Logger.LogInformation("Seeding default themes.");
-                Console.WriteLine("Seeding default themes.");
-                try
-                {
-                    var defaultThemes = DefaultsRepository.DefaultsFactory.Query<TwDefaultTheme>(@"Scripts\Defaults\GetDefaultThemes.sql");
-                    foreach (var defaultTheme in defaultThemes)
-                    {
-                        await ConfigurationRepository.ConfigFactory.ExecuteAsync(@"Scripts\Defaults\Merge\MergeTheme.sql",
-                            new
-                            {
-                                Name = defaultTheme.Name,
-                                DelimitedFiles = defaultTheme.DelimitedFiles,
-                                ClassNavBar = defaultTheme.ClassNavBar,
-                                ClassNavLink = defaultTheme.ClassNavLink,
-                                ClassDropdown = defaultTheme.ClassDropdown,
-                                ClassBranding = defaultTheme.ClassBranding,
-                                EditorTheme = defaultTheme.EditorTheme
-                            });
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Logger.LogError(ex, "An error occurred while seeding default themes.");
-                    Console.WriteLine($"An error occurred while seeding default themes: {ex.GetBaseException().Message}");
-                }
-            }
-
-            #endregion
-
             #region Seed: WikiPages.
 
             if (defaultDataTypes.Contains(TwDefaultDataType.HelpPages)

@@ -49,13 +49,10 @@ namespace TightWiki.Repository.Helpers
             WikiConfiguration.Name = basicConfig?.Value<string>("Name") ?? string.Empty;
             WikiConfiguration.Copyright = basicConfig?.Value<string>("Copyright") ?? string.Empty;
 
-            var themeName = customizationConfig.Value("Theme", "Light");
-
             WikiConfiguration.FixedMenuPosition = customizationConfig.Value("Fixed Header Menu Position", false);
             WikiConfiguration.AllowSignup = membershipConfig.Value("Allow Signup", false);
             WikiConfiguration.DefaultProfileRecentlyModifiedCount = performanceConfig.Value<int>("Default Profile Recently Modified Count");
             WikiConfiguration.PreLoadAnimatedEmojis = performanceConfig.Value<bool>("Pre-Load Animated Emojis");
-            WikiConfiguration.SystemTheme = (await _databaseManager.ConfigurationRepository.GetAllThemes()).Single(o => o.Name == themeName);
             WikiConfiguration.DefaultEmojiHeight = customizationConfig.Value<int>("Default Emoji Height");
             WikiConfiguration.PaginationSize = customizationConfig.Value<int>("Pagination Size");
 

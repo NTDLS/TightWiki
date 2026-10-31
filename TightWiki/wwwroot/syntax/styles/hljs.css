@@ -1,0 +1,215 @@
+/*
+    highlight.js colors. The light styles are from the highlight.js "default" style (Ivan Sagalaev),
+    the dark styles from the softwaremaniacs.org dark style. Selected by the data-bs-theme attribute set by theme.js.
+*/
+
+/* Light (default) */
+:root:not([data-bs-theme]) pre code.hljs,
+:root[data-bs-theme="light"] pre code.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 1em;
+}
+
+:root:not([data-bs-theme]) code.hljs,
+:root[data-bs-theme="light"] code.hljs {
+    padding: 3px 5px;
+}
+
+:root:not([data-bs-theme]) .hljs,
+:root[data-bs-theme="light"] .hljs {
+    background: #F3F3F3;
+    color: #444;
+}
+
+:root:not([data-bs-theme]) .hljs-subst,
+:root[data-bs-theme="light"] .hljs-subst {
+
+}
+
+:root:not([data-bs-theme]) .hljs-formula,
+:root:not([data-bs-theme]) .hljs-attr,
+:root:not([data-bs-theme]) .hljs-property,
+:root:not([data-bs-theme]) .hljs-params,
+:root[data-bs-theme="light"] .hljs-formula,
+:root[data-bs-theme="light"] .hljs-attr,
+:root[data-bs-theme="light"] .hljs-property,
+:root[data-bs-theme="light"] .hljs-params {
+
+}
+
+:root:not([data-bs-theme]) .hljs-comment,
+:root[data-bs-theme="light"] .hljs-comment {
+    color: #697070;
+}
+
+:root:not([data-bs-theme]) .hljs-tag,
+:root:not([data-bs-theme]) .hljs-punctuation,
+:root[data-bs-theme="light"] .hljs-tag,
+:root[data-bs-theme="light"] .hljs-punctuation {
+    color: #444a;
+}
+
+:root:not([data-bs-theme]) .hljs-tag .hljs-name,
+:root:not([data-bs-theme]) .hljs-tag .hljs-attr,
+:root[data-bs-theme="light"] .hljs-tag .hljs-name,
+:root[data-bs-theme="light"] .hljs-tag .hljs-attr {
+    color: #444;
+}
+
+:root:not([data-bs-theme]) .hljs-keyword,
+:root:not([data-bs-theme]) .hljs-attribute,
+:root:not([data-bs-theme]) .hljs-selector-tag,
+:root:not([data-bs-theme]) .hljs-meta .hljs-keyword,
+:root:not([data-bs-theme]) .hljs-doctag,
+:root:not([data-bs-theme]) .hljs-name,
+:root[data-bs-theme="light"] .hljs-keyword,
+:root[data-bs-theme="light"] .hljs-attribute,
+:root[data-bs-theme="light"] .hljs-selector-tag,
+:root[data-bs-theme="light"] .hljs-meta .hljs-keyword,
+:root[data-bs-theme="light"] .hljs-doctag,
+:root[data-bs-theme="light"] .hljs-name {
+    font-weight: bold;
+}
+
+:root:not([data-bs-theme]) .hljs-type,
+:root:not([data-bs-theme]) .hljs-string,
+:root:not([data-bs-theme]) .hljs-number,
+:root:not([data-bs-theme]) .hljs-selector-id,
+:root:not([data-bs-theme]) .hljs-selector-class,
+:root:not([data-bs-theme]) .hljs-quote,
+:root:not([data-bs-theme]) .hljs-template-tag,
+:root:not([data-bs-theme]) .hljs-deletion,
+:root[data-bs-theme="light"] .hljs-type,
+:root[data-bs-theme="light"] .hljs-string,
+:root[data-bs-theme="light"] .hljs-number,
+:root[data-bs-theme="light"] .hljs-selector-id,
+:root[data-bs-theme="light"] .hljs-selector-class,
+:root[data-bs-theme="light"] .hljs-quote,
+:root[data-bs-theme="light"] .hljs-template-tag,
+:root[data-bs-theme="light"] .hljs-deletion {
+    color: #880000;
+}
+
+:root:not([data-bs-theme]) .hljs-title,
+:root:not([data-bs-theme]) .hljs-section,
+:root[data-bs-theme="light"] .hljs-title,
+:root[data-bs-theme="light"] .hljs-section {
+    color: #880000;
+    font-weight: bold;
+}
+
+:root:not([data-bs-theme]) .hljs-regexp,
+:root:not([data-bs-theme]) .hljs-symbol,
+:root:not([data-bs-theme]) .hljs-variable,
+:root:not([data-bs-theme]) .hljs-template-variable,
+:root:not([data-bs-theme]) .hljs-link,
+:root:not([data-bs-theme]) .hljs-selector-attr,
+:root:not([data-bs-theme]) .hljs-operator,
+:root:not([data-bs-theme]) .hljs-selector-pseudo,
+:root[data-bs-theme="light"] .hljs-regexp,
+:root[data-bs-theme="light"] .hljs-symbol,
+:root[data-bs-theme="light"] .hljs-variable,
+:root[data-bs-theme="light"] .hljs-template-variable,
+:root[data-bs-theme="light"] .hljs-link,
+:root[data-bs-theme="light"] .hljs-selector-attr,
+:root[data-bs-theme="light"] .hljs-operator,
+:root[data-bs-theme="light"] .hljs-selector-pseudo {
+    color: #ab5656;
+}
+
+:root:not([data-bs-theme]) .hljs-literal,
+:root[data-bs-theme="light"] .hljs-literal {
+    color: #695;
+}
+
+:root:not([data-bs-theme]) .hljs-built_in,
+:root:not([data-bs-theme]) .hljs-bullet,
+:root:not([data-bs-theme]) .hljs-code,
+:root:not([data-bs-theme]) .hljs-addition,
+:root[data-bs-theme="light"] .hljs-built_in,
+:root[data-bs-theme="light"] .hljs-bullet,
+:root[data-bs-theme="light"] .hljs-code,
+:root[data-bs-theme="light"] .hljs-addition {
+    color: #397300;
+}
+
+:root:not([data-bs-theme]) .hljs-meta,
+:root[data-bs-theme="light"] .hljs-meta {
+    color: #1f7199;
+}
+
+:root:not([data-bs-theme]) .hljs-meta .hljs-string,
+:root[data-bs-theme="light"] .hljs-meta .hljs-string {
+    color: #38a;
+}
+
+:root:not([data-bs-theme]) .hljs-emphasis,
+:root[data-bs-theme="light"] .hljs-emphasis {
+    font-style: italic;
+}
+
+:root:not([data-bs-theme]) .hljs-strong,
+:root[data-bs-theme="light"] .hljs-strong {
+    font-weight: bold;
+}
+
+/* Dark */
+:root[data-bs-theme="dark"] Dark style from softwaremaniacs.org (c) Ivan Sagalaev Maniac@SoftwareManiacs.Org
+
+
+
+.hljs {
+    color #ddd;
+    background #303030;
+}
+
+:root[data-bs-theme="dark"] .hljs-keyword,
+:root[data-bs-theme="dark"] .hljs-selector-tag,
+:root[data-bs-theme="dark"] .hljs-literal,
+:root[data-bs-theme="dark"] .hljs-section,
+:root[data-bs-theme="dark"] .hljs-link {
+    color white;
+}
+
+:root[data-bs-theme="dark"] .hljs-subst {
+    default
+}
+
+:root[data-bs-theme="dark"] .hljs-string,
+:root[data-bs-theme="dark"] .hljs-title,
+:root[data-bs-theme="dark"] .hljs-name,
+:root[data-bs-theme="dark"] .hljs-type,
+:root[data-bs-theme="dark"] .hljs-attribute,
+:root[data-bs-theme="dark"] .hljs-symbol,
+:root[data-bs-theme="dark"] .hljs-bullet,
+:root[data-bs-theme="dark"] .hljs-built_in,
+:root[data-bs-theme="dark"] .hljs-addition,
+:root[data-bs-theme="dark"] .hljs-variable,
+:root[data-bs-theme="dark"] .hljs-template-tag,
+:root[data-bs-theme="dark"] .hljs-template-variable {
+    color #d88;
+}
+
+:root[data-bs-theme="dark"] .hljs-comment,
+:root[data-bs-theme="dark"] .hljs-quote,
+:root[data-bs-theme="dark"] .hljs-deletion,
+:root[data-bs-theme="dark"] .hljs-meta {
+    color #979797;
+}
+
+:root[data-bs-theme="dark"] .hljs-keyword,
+:root[data-bs-theme="dark"] .hljs-selector-tag,
+:root[data-bs-theme="dark"] .hljs-literal,
+:root[data-bs-theme="dark"] .hljs-title,
+:root[data-bs-theme="dark"] .hljs-section,
+:root[data-bs-theme="dark"] .hljs-doctag,
+:root[data-bs-theme="dark"] .hljs-type,
+:root[data-bs-theme="dark"] .hljs-name,
+:root[data-bs-theme="dark"] .hljs-strong {
+    font-weight bold;
+}
+
+:root[data-bs-theme="dark"] .hljs-emphasis {
+    font-style italic;
+}

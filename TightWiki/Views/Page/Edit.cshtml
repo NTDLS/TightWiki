@@ -651,7 +651,7 @@
         $("#uploadedFiles").load("@WikiConfiguration.BasePath/File/PageAttachments/@sessionState.PageNavigationEscaped");
 
         editor = CodeMirror.fromTextArea(document.getElementById("Body"), {
-            theme: "@sessionState.UserTheme.EditorTheme",
+            theme: twTheme.current,
             lineNumbers: true,
             mode: "text/x-tightwiki",
             matchBrackets: true,
@@ -661,6 +661,11 @@
             inputStyle: "contenteditable", // Enables browser's native spellcheck
             spellcheck: true,              // Explicitly enables spellcheck
             autocorrect: true              // Enables autocorrect
+        });
+
+        //Keep the editor in step with the light/dark theme.
+        document.addEventListener("themechange", function (e) {
+            editor.setOption("theme", e.detail.theme);
         });
 
         editor.addKeyMap({
@@ -1221,37 +1226,36 @@
 
                         <!-- Toolbar -->
                         @{
-                            //The toolbar icons come in light and dark variants to suit the editor theme.
-                            string toolbarIconSet = sessionState.UserTheme.EditorTheme == "dark" ? "Dark" : "Light";
-                            string ToolbarIcon(string name) => Url.Content($"~/images/toolbar/toolbar_{toolbarIconSet}_{name}.png");
+                            //The toolbar icons come in light and dark variants, base.css shows the one that suits the active theme.
+                            string ToolbarIcon(string set, string name) => Url.Content($"~/images/toolbar/toolbar_{set}_{name}.png");
                         }
                         <div class="d-flex align-items-center gap-2 mb-2" role="toolbar" aria-label="@Localize("Formatting")">
                             <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localize("Bold")" onclick="surroundSelectionWith('**','**')">
-                                <img src="@ToolbarIcon("Bold")" width="16" height="16" alt="@Localize("Bold")">
+                                <img class="tw-light-only" src="@ToolbarIcon("Light", "Bold")" width="16" height="16" alt="@Localize("Bold")"><img class="tw-dark-only" src="@ToolbarIcon("Dark", "Bold")" width="16" height="16" alt="@Localize("Bold")">
                             </button>
                             <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localize("Italic")" onclick="surroundSelectionWith('//','//')">
-                                <img src="@ToolbarIcon("Italic")" width="16" height="16" alt="@Localize("Italic")">
+                                <img class="tw-light-only" src="@ToolbarIcon("Light", "Italic")" width="16" height="16" alt="@Localize("Italic")"><img class="tw-dark-only" src="@ToolbarIcon("Dark", "Italic")" width="16" height="16" alt="@Localize("Italic")">
                             </button>
                             <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localize("Underline")" onclick="surroundSelectionWith('__','__')">
-                                <img src="@ToolbarIcon("Underline")" width="16" height="16" alt="@Localize("Underline")">
+                                <img class="tw-light-only" src="@ToolbarIcon("Light", "Underline")" width="16" height="16" alt="@Localize("Underline")"><img class="tw-dark-only" src="@ToolbarIcon("Dark", "Underline")" width="16" height="16" alt="@Localize("Underline")">
                             </button>
                             <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localize("Strikethrough")" onclick="surroundSelectionWith('~~','~~')">
-                                <img src="@ToolbarIcon("Strike")" width="16" height="16" alt="@Localize("Strikethrough")">
+                                <img class="tw-light-only" src="@ToolbarIcon("Light", "Strike")" width="16" height="16" alt="@Localize("Strikethrough")"><img class="tw-dark-only" src="@ToolbarIcon("Dark", "Strike")" width="16" height="16" alt="@Localize("Strikethrough")">
                             </button>
                             <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localize("Highlight")" onclick="surroundSelectionWith('!!','!!')">
-                                <img src="@ToolbarIcon("Highlight")" width="16" height="16" alt="@Localize("Highlight")">
+                                <img class="tw-light-only" src="@ToolbarIcon("Light", "Highlight")" width="16" height="16" alt="@Localize("Highlight")"><img class="tw-dark-only" src="@ToolbarIcon("Dark", "Highlight")" width="16" height="16" alt="@Localize("Highlight")">
                             </button>
                             <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localize("Hyperlink")" data-bs-toggle="modal" data-bs-target="#insertLinkModal">
-                                <img src="@ToolbarIcon("Link")" width="16" height="16" alt="@Localize("Hyperlink")">
+                                <img class="tw-light-only" src="@ToolbarIcon("Light", "Link")" width="16" height="16" alt="@Localize("Hyperlink")"><img class="tw-dark-only" src="@ToolbarIcon("Dark", "Link")" width="16" height="16" alt="@Localize("Hyperlink")">
                             </button>
                             <button type="button" class="btn btn-sm btn-outline-secondary p-1" title="@Localize("Emoji")" data-bs-toggle="modal" data-bs-target="#insertEmojiModal">
-                                <img src="@ToolbarIcon("Emoji")" width="16" height="16" alt="@Localize("Emoji")">
+                                <img class="tw-light-only" src="@ToolbarIcon("Light", "Emoji")" width="16" height="16" alt="@Localize("Emoji")"><img class="tw-dark-only" src="@ToolbarIcon("Dark", "Emoji")" width="16" height="16" alt="@Localize("Emoji")">
                             </button>
 
                             <div class="vr"></div>
 
                             <button type="button" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#featureInsertModal">
-                                @Localize("Insert") <img src="@ToolbarIcon("Insert")" width="16" height="16" alt="">
+                                @Localize("Insert") <img class="tw-light-only" src="@ToolbarIcon("Light", "Insert")" width="16" height="16" alt=""><img class="tw-dark-only" src="@ToolbarIcon("Dark", "Insert")" width="16" height="16" alt="">
                             </button>
                         </div>
 

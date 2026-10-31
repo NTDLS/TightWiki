@@ -17,8 +17,9 @@
 @{
     var sessionState = ViewData["SessionState"] as TwSessionState ?? throw new Exception("Wiki State Context cannot be null.");
 
-    var theme = sessionState.UserTheme;
-    string navBarClass = $"navbar navbar-expand-lg tw-navbar {(WikiConfiguration.FixedMenuPosition ? "sticky-top" : "")} {theme.ClassNavBar} border-bottom shadow-sm";
+    string navBarClass = "navbar navbar-expand-lg bg-body-tertiary border-bottom shadow-sm";
+    //The header (not the navbar inside it) is what sticks, a sticky element can only move within its parent.
+    string headerClass = WikiConfiguration.FixedMenuPosition ? "sticky-top" : "";
     var isPageProtected = sessionState.PageInstructions.Contains(TwInstruction.Protect);
 }
 
@@ -48,30 +49,21 @@
         <meta name="keywords" content="@sessionState.PageTags">
     }
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/themes/base/jquery-ui.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.3.1/css/tabulator.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    @if (sessionState.UserTheme.EditorTheme == "dark")
-    {
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.3.1/css/tabulator_midnight.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    }
-
-    @foreach (var file in sessionState.UserTheme.Files)
-    {
-        if (file.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) || file.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
-        {
-            <link rel="stylesheet" href="@file" />
-        }
-        else
-        {
-            <link rel="stylesheet" href="@Url.Content($"~{file}")" />
-        }
-    }
+    @* Only applied while the dark theme is in effect, theme.js switches it on and off. *@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.3.1/css/tabulator_midnight.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" data-theme-only="dark" media="not all" />
+    <link rel="stylesheet" href="@FileVersion.AddFileVersionToPath(Context.Request.PathBase, Url.Content("~/syntax/styles/hljs.css"))" />
 
     @* The version hash makes browsers fetch the stylesheet again whenever it changes. *@
     <link rel="stylesheet" href="@FileVersion.AddFileVersionToPath(Context.Request.PathBase, Url.Content("~/css/base.css"))" />
+
+    @* Applies the light/dark theme, this must come after the stylesheets and before the page is painted. *@
+    <script src="@FileVersion.AddFileVersionToPath(Context.Request.PathBase, Url.Content("~/theme.js"))"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -80,7 +72,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.3.1/js/tabulator.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
-        localStorage.setItem('theme', @Json.Serialize(sessionState.UserTheme.EditorTheme));
         window.twText = @Json.Serialize(new
         {
             confirmTitle = Localize("Are you sure?"),
@@ -95,11 +86,11 @@
 </head>
 
 <body>
-    <header>
+    <header class="@headerClass">
         <nav class="@navBarClass">
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center gap-2" href="@WikiConfiguration.BasePath/">
-                    <span class="site-branding d-inline-flex align-items-center gap-2 @theme.ClassBranding">
+                    <span class="site-branding d-inline-flex align-items-center gap-2">
                         <img src="@Url.Content(WikiConfiguration.BrandImageSmall)"
                              alt="@WikiConfiguration.Name"
                              style="max-height: 28px;" />
@@ -126,7 +117,7 @@
                                 item.Link.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link @theme.ClassNavLink" href="@item.Link" target="_blank" rel="noopener">
+                                    <a class="nav-link" href="@item.Link" target="_blank" rel="noopener">
                                         @Localizer[item.Name]
                                     </a>
                                 </li>
@@ -134,7 +125,7 @@
                             else
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link @theme.ClassNavLink" href="@WikiConfiguration.BasePath@item.Link">
+                                    <a class="nav-link" href="@WikiConfiguration.BasePath@item.Link">
                                         @Localizer[item.Name]
                                     </a>
                                 </li>
@@ -146,7 +137,7 @@
                                                     || (sessionState.Page.Exists && await sessionState.HoldsPermission([TwPermission.Edit, TwPermission.Moderate, TwPermission.Delete])))
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle @theme.ClassNavLink" href="#" id="pageMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="#" id="pageMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     @Localize("Page")
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="pageMenuDropdown">
@@ -167,28 +158,28 @@
                                     {
                                         if (canRead)
                                         {
-                                            <li><a class="dropdown-item @theme.ClassDropdown" href="@pageUrl">@Localize("View")</a></li>
+                                            <li><a class="dropdown-item" href="@pageUrl">@Localize("View")</a></li>
                                         }
                                         if (canEdit)
                                         {
-                                            <li><a class="dropdown-item @theme.ClassDropdown" href="@pageUrl/Edit">@Localize("Edit")</a></li>
+                                            <li><a class="dropdown-item" href="@pageUrl/Edit">@Localize("Edit")</a></li>
                                         }
                                         if (canRead && WikiConfiguration.EnablePageComments)
                                         {
-                                            <li><a class="dropdown-item @theme.ClassDropdown" href="@pageUrl/Comments">@Localize("Comments")</a></li>
+                                            <li><a class="dropdown-item" href="@pageUrl/Comments">@Localize("Comments")</a></li>
                                         }
                                         if (canRead)
                                         {
-                                            <li><a class="dropdown-item @theme.ClassDropdown" href="@pageUrl/Revisions">@Localize("Revisions")</a></li>
-                                            <li><a class="dropdown-item @theme.ClassDropdown" href="@pageUrl/Export">@Localize("Export")</a></li>
+                                            <li><a class="dropdown-item" href="@pageUrl/Revisions">@Localize("Revisions")</a></li>
+                                            <li><a class="dropdown-item" href="@pageUrl/Export">@Localize("Export")</a></li>
                                         }
                                         if (canCreate)
                                         {
-                                            <li><a class="dropdown-item @theme.ClassDropdown" href="@pageUrl/Refresh">@Localize("Refresh")</a></li>
+                                            <li><a class="dropdown-item" href="@pageUrl/Refresh">@Localize("Refresh")</a></li>
                                         }
                                         if (canRevert)
                                         {
-                                            <li><a class="dropdown-item @theme.ClassDropdown" href="@pageUrl/revert/@sessionState.Page.Revision">@Localize("Revert to revision {0}", sessionState.Page.Revision)</a></li>
+                                            <li><a class="dropdown-item" href="@pageUrl/revert/@sessionState.Page.Revision">@Localize("Revert to revision {0}", sessionState.Page.Revision)</a></li>
                                         }
                                     }
 
@@ -200,9 +191,9 @@
                                         }
                                         if (sessionState.ShouldCreatePage)
                                         {
-                                            <li><a class="dropdown-item @theme.ClassDropdown" href="@pageUrl/Create">@Localize("Create \"{0}\"", sessionState.PageNavigation)</a></li>
+                                            <li><a class="dropdown-item" href="@pageUrl/Create">@Localize("Create \"{0}\"", sessionState.PageNavigation)</a></li>
                                         }
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Page/Create">@Localize("Create new page")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Page/Create">@Localize("Create new page")</a></li>
                                     }
 
                                     @if (sessionState.Page.Exists && canDelete)
@@ -217,40 +208,40 @@
                         @if (sessionState.IsAuthenticated && await sessionState.HoldsPermission(TwPermission.Moderate))
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle @theme.ClassNavLink" href="#" id="adminMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="#" id="adminMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     @Localize("Admin")
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="adminMenuDropdown">
                                     @if (sessionState.IsAdministrator)
                                     {
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/AdminSecurity/Accounts">@Localize("Accounts")</a></li>
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/AdminSecurity/Roles">@Localize("Roles")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/AdminSecurity/Accounts">@Localize("Accounts")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/AdminSecurity/Roles">@Localize("Roles")</a></li>
                                         <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Admin/Config">@Localize("Configuration")</a></li>
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Admin/Plugins">@Localize("Plugins")</a></li>
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Admin/Emojis">@Localize("Emojis")</a></li>
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Admin/MenuItems">@Localize("Site Menu")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Admin/Config">@Localize("Configuration")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Admin/Plugins">@Localize("Plugins")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Admin/Emojis">@Localize("Emojis")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Admin/MenuItems">@Localize("Site Menu")</a></li>
                                         <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Admin/PageStatistics">@Localize("Page Statistics")</a></li>
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Admin/Database">@Localize("Database")</a></li>
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Admin/EventLog">@Localize("Event Log")</a></li>
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Admin/Metrics">@Localize("Metrics")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Admin/PageStatistics">@Localize("Page Statistics")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Admin/Database">@Localize("Database")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Admin/EventLog">@Localize("Event Log")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Admin/Metrics">@Localize("Metrics")</a></li>
                                         <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Admin/Attachments">@Localize("Attachments")</a></li>
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Admin/DeletedPages">@Localize("Deleted Pages")</a></li>
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Admin/MissingPages">@Localize("Missing Pages")</a></li>
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Admin/Moderate">@Localize("Moderate")</a></li>
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Admin/Namespaces">@Localize("Namespaces")</a></li>
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Admin/OrphanedPageAttachments">@Localize("Orphaned Attachments")</a></li>
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Admin/Pages">@Localize("Pages")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Admin/Attachments">@Localize("Attachments")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Admin/DeletedPages">@Localize("Deleted Pages")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Admin/MissingPages">@Localize("Missing Pages")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Admin/Moderate">@Localize("Moderate")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Admin/Namespaces">@Localize("Namespaces")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Admin/OrphanedPageAttachments">@Localize("Orphaned Attachments")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Admin/Pages">@Localize("Pages")</a></li>
                                     }
                                     else
                                     {
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Admin/DeletedPages">@Localize("Deleted Pages")</a></li>
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Admin/MissingPages">@Localize("Missing Pages")</a></li>
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Admin/Moderate">@Localize("Moderate")</a></li>
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Admin/Namespaces">@Localize("Namespaces")</a></li>
-                                        <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Admin/Pages">@Localize("Pages")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Admin/DeletedPages">@Localize("Deleted Pages")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Admin/MissingPages">@Localize("Missing Pages")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Admin/Moderate">@Localize("Moderate")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Admin/Namespaces">@Localize("Namespaces")</a></li>
+                                        <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Admin/Pages">@Localize("Pages")</a></li>
                                     }
                                 </ul>
                             </li>
@@ -259,28 +250,38 @@
                         @if (sessionState.IsAuthenticated)
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle @theme.ClassNavLink" href="#" id="myMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="#" id="myMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     @Localize("My")
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="myMenuDropdown">
-                                    <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Profile/My">@Localize("Profile")</a></li>
-                                    <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Identity/Account/Manage">@Localize("Account")</a></li>
+                                    <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Profile/My">@Localize("Profile")</a></li>
+                                    <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Identity/Account/Manage">@Localize("Account")</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item @theme.ClassDropdown" href="@WikiConfiguration.BasePath/Identity/Account/Logout">@Localize("Logout")</a></li>
+                                    <li><a class="dropdown-item" href="@WikiConfiguration.BasePath/Identity/Account/Logout">@Localize("Logout")</a></li>
                                 </ul>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link @theme.ClassNavLink" href="@WikiConfiguration.BasePath/Identity/Account/Login?returnUrl=@UrlEncoder.Default.Encode($"{WikiConfiguration.BasePath}{Context.Request.Path.Value}")">
+                                <a class="nav-link" href="@WikiConfiguration.BasePath/Identity/Account/Login?returnUrl=@UrlEncoder.Default.Encode($"{WikiConfiguration.BasePath}{Context.Request.Path.Value}")">
                                     @Localize("Login")
                                 </a>
                             </li>
                         }
 
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="themeToggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="@Localize("Theme")" aria-label="@Localize("Theme")">
+                                <i id="themeToggleIcon" class="bi bi-circle-half"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="themeToggle">
+                                <li><button type="button" class="dropdown-item" data-theme-choice="auto" onclick="twTheme.set('auto')"><i class="bi bi-circle-half me-2"></i>@Localize("Auto")</button></li>
+                                <li><button type="button" class="dropdown-item" data-theme-choice="light" onclick="twTheme.set('light')"><i class="bi bi-sun-fill me-2"></i>@Localize("Light")</button></li>
+                                <li><button type="button" class="dropdown-item" data-theme-choice="dark" onclick="twTheme.set('dark')"><i class="bi bi-moon-stars-fill me-2"></i>@Localize("Dark")</button></li>
+                            </ul>
+                        </li>
                         <li class="nav-item">
-                            <a class="nav-link @theme.ClassNavLink" href="@WikiConfiguration.BasePath/Page/Localization" title="@Localize("Language")">
+                            <a class="nav-link" href="@WikiConfiguration.BasePath/Page/Localization" title="@Localize("Language")">
                                 @CultureInfo.CurrentCulture.Name.ToUpperInvariant()
                             </a>
                         </li>
@@ -312,7 +313,7 @@
             {
                 <div class="card shadow-sm border-warning mb-3">
                     <div class="card-header bg-warning-subtle border-warning">
-                        <div class="fw-semibold text-dark">
+                        <div class="fw-semibold">
                             <i class="bi bi-exclamation-triangle-fill me-2"></i>@Localize("Default password has not been changed")
                         </div>
                     </div>

@@ -470,7 +470,6 @@ namespace TightWiki.Controllers
                 {
                     AccountProfile = AccountProfileAccountViewModel.FromDataModel(accountProfile),
                     Credential = new CredentialViewModel(),
-                    Themes = await configurationRepository.GetAllThemes(),
                     TimeZones = TimeZoneItem.GetAll(),
                     Countries = CountryItem.GetAll(),
                     Languages = LanguageItem.GetAll(),
@@ -506,7 +505,6 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                model.Themes = await configurationRepository.GetAllThemes();
                 model.TimeZones = TimeZoneItem.GetAll();
                 model.Countries = CountryItem.GetAll();
                 model.Languages = LanguageItem.GetAll();
@@ -601,7 +599,6 @@ namespace TightWiki.Controllers
                         new ("language", model.AccountProfile.Language),
                         new ("firstname", model.AccountProfile.FirstName ?? ""),
                         new ("lastname", model.AccountProfile.LastName ?? ""),
-                        new ("theme", model.AccountProfile.Theme ?? ""),
                     };
                 await usersRepository.UpsertUserClaims(UserManager, user, claims);
 
@@ -612,10 +609,6 @@ namespace TightWiki.Controllers
 
                     MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.User, [profile.Navigation]));
                     MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.User, [profile.UserId]));
-
-                    //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
-                    SessionState.UserTheme = (await configurationRepository.GetAllThemes())
-                        .SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? WikiConfiguration.SystemTheme;
                 }
 
                 //Allow the administrator to confirm/unconfirm the email address.
@@ -698,7 +691,6 @@ namespace TightWiki.Controllers
                         Language = customizationConfig.Value<string>("Default Language", string.Empty)
                     },
                     DefaultRole = defaultSignupRole,
-                    Themes = await configurationRepository.GetAllThemes(),
                     Credential = new CredentialViewModel(),
                     TimeZones = TimeZoneItem.GetAll(),
                     Countries = CountryItem.GetAll(),
@@ -732,7 +724,6 @@ namespace TightWiki.Controllers
                 {
                     return NotifyOfError(ex.GetBaseException().Message, "/");
                 }
-                model.Themes = await configurationRepository.GetAllThemes();
                 model.TimeZones = TimeZoneItem.GetAll();
                 model.Countries = CountryItem.GetAll();
                 model.Languages = LanguageItem.GetAll();
@@ -792,7 +783,6 @@ namespace TightWiki.Controllers
                         new ("language", model.AccountProfile.Language),
                         new ("firstname", model.AccountProfile.FirstName ?? ""),
                         new ("lastname", model.AccountProfile.LastName ?? ""),
-                        new ("theme", model.AccountProfile.Theme ?? ""),
                     };
                     await usersRepository.UpsertUserClaims(UserManager, identityUser, claims);
                 }

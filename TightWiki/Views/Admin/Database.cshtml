@@ -124,13 +124,6 @@
                                             Context.Request.Path.Value,
                                             @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
 
-                                        @TwConfirmActionHelper.GenerateWarnButton(
-                                            WikiConfiguration.BasePath,
-                                            Localize("This will restore all default themes, overwriting any customizations you may have made in the database. Continue?"),
-                                            Localize("Themes"),
-                                            $"/Admin/Database/Restore/{TwDefaultDataType.Themes}",
-                                            Context.Request.Path.Value,
-                                            @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
                                     }
                                     else if (info.Name == "Pages")
                                     {

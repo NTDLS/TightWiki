@@ -25,7 +25,6 @@ namespace TightWiki
         public bool IsAuthenticated { get; set; }
         public ITwAccountProfile? Profile { get; set; }
         public bool IsAdministrator { get; set; }
-        public Plugin.Models.TwTheme UserTheme { get; set; } = new();
         public List<TwApparentPermission> Permissions { get; set; } = new();
 
         #endregion
@@ -101,8 +100,6 @@ namespace TightWiki
 
             IsAuthenticated = false;
 
-            UserTheme = WikiConfiguration.SystemTheme;
-
             if (signInManager.IsSignedIn(user))
             {
                 try
@@ -119,7 +116,6 @@ namespace TightWiki
                             Profile = profile;
                             IsAdministrator = await _databaseManager.UsersRepository.IsUserMemberOfAdministrators(userId);
                             Permissions = await _databaseManager.UsersRepository.GetApparentAccountPermissions(userId);
-                            UserTheme = (await _databaseManager.ConfigurationRepository.GetAllThemes()).SingleOrDefault(o => o.Name == Profile.Theme) ?? WikiConfiguration.SystemTheme;
                             IsAuthenticated = true;
                             return;
                         }

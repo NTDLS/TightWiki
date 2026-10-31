@@ -34,7 +34,7 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 * Admin moderation which is driven by page processing instructions for things like page deletions, review, drafts, etc.
 * Page versioning. Revisions can be viewed by the original page URL with a /r/number route or by logging in a viewing the full page history.
 * Revertible page history.
-* Theme-able, with 25+ built in themes.
+* Light and dark themes. Follows your browser by default, with a light/dark/auto selector in the site header.
 * Drag-drop file uploads / page attachments, images.
 * Versioned file uploads.
 * Namespace support so you can have multiple pages with the same name in different namespaces.
@@ -70,9 +70,6 @@ We've beat the wiki up with more data than this, but this is our standard worklo
 
 # Snippets
 <img width="895" height="588" alt="image" src="https://github.com/user-attachments/assets/24b0d384-82d6-4a8d-acf5-030c44cd7578" />
-
-# Multiple Themes
-<img width="1022" height="702" alt="image" src="https://github.com/user-attachments/assets/af96a6b8-244c-4b9f-9e28-9aea9e35db7a" />
 
 # Emojis Configuration 
 <img width="1009" height="772" alt="image" src="https://github.com/user-attachments/assets/5e169d21-c616-452f-a70d-5d18f1add01e" />

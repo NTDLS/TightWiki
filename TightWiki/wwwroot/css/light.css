@@ -1,4 +1,0 @@
-/*
-    Retained so that themes which still reference this file do not fail to load.
-    Theme-aware site styles now live in base.css, and use Bootstrap's CSS variables.
-*/

@@ -48,22 +48,6 @@ namespace GenerateSeedData
 
             #endregion
 
-            #region Theme.
-
-            Console.WriteLine("Generating: DefaultThemes.");
-
-            defaults.Execute(@"Scripts\RecreateDefaultThemesTable.sql");
-            var themes = configDb.Query<TwDefaultTheme>(@"Scripts\GetDefaultThemes.sql");
-            foreach (var t in themes)
-            {
-                sb.Clear();
-                sb.AppendLine("INSERT INTO DefaultThemes(Name, DelimitedFiles, ClassNavBar, ClassNavLink, ClassDropdown, ClassBranding, EditorTheme)");
-                sb.AppendLine($"SELECT '{ESQ(t.Name)}', '{ESQ(t.DelimitedFiles)}', '{ESQ(t.ClassNavBar)}', '{ESQ(t.ClassNavLink)}', '{ESQ(t.ClassDropdown)}', '{ESQ(t.ClassBranding)}', '{ESQ(t.EditorTheme)}'");
-                defaults.Execute(sb.ToString());
-            }
-
-            #endregion
-
             #region FeatureTemplate.
 
             Console.WriteLine("Generating: DefaultFeatureTemplates.");

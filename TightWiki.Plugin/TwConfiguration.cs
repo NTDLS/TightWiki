@@ -19,11 +19,6 @@ namespace TightWiki.Plugin
         public string BasePath { get; set; } = string.Empty;
 
         /// <summary>
-        /// The default visual theme applied to the wiki UI.
-        /// </summary>
-        public TwTheme SystemTheme { get; set; } = new();
-
-        /// <summary>
         /// Indicates whether the wiki is running in debug mode.
         /// </summary>
         public bool IsDebug { get; set; }
