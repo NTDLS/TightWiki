@@ -112,6 +112,11 @@ namespace TightWiki.Plugin.Interfaces.Repository
         Task<List<TwApparentPermission>> GetApparentRolePermissions(string roleName);
 
         /// <summary>
+        /// Returns true if an anonymous (not signed in) visitor holds the given permission for the page.
+        /// </summary>
+        Task<bool> DoesAnonymousHoldPermission(Plugin.TwPermission permission, Plugin.Models.TwPage page);
+
+        /// <summary>
         /// Returns all available permission disposition types (e.g. Allow, Deny).
         /// </summary>
         Task<List<Models.TwPermissionDisposition>> GetAllPermissionDispositions();

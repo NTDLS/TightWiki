@@ -100,7 +100,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
                 state.ProcessingInstructions.Add(TwConstants.TwInstruction.NoCache);
             }
 
-            return await TwSearchResults.GetReadablePages(state.Session, state.Engine.DatabaseManager.PageRepository, searchTerms, allowFuzzyMatching);
+            return await TwSearchResults.GetReadablePages(state.Session, state.Engine.DatabaseManager.PageRepository, state.Engine.DatabaseManager.UsersRepository, searchTerms, allowFuzzyMatching);
         }
 
         [TwStandardFunctionPlugin("TagList", "Creates a list of pages by searching the page tags.")]

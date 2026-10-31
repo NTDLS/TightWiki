@@ -493,7 +493,7 @@ namespace TightWiki.Controllers
                 if (searchString.Length > 0)
                 {
                     //Only pages that the user is allowed to read are listed, so this is done before paging.
-                    var readablePages = await TwSearchResults.GetReadablePages(SessionState, pageRepository, Utility.SplitToTokens(searchString));
+                    var readablePages = await TwSearchResults.GetReadablePages(SessionState, pageRepository, usersRepository, Utility.SplitToTokens(searchString));
 
                     var pageSize = Math.Max(1, await configurationRepository.Get<int>(TwConfigGroup.Customization, "Pagination Size"));
 

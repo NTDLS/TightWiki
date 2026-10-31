@@ -188,6 +188,12 @@ namespace TightWiki.Repository
             })).EnsureNotNull();
         }
 
+        public async Task<bool> DoesAnonymousHoldPermission(Plugin.TwPermission permission, TwPage page)
+        {
+            var permissions = await GetApparentRolePermissions(TwRoles.Anonymous);
+            return TwPermissionEvaluator.HoldsAny(permissions, [permission], page);
+        }
+
         public async Task<List<Plugin.Models.TwPermissionDisposition>> GetAllPermissionDispositions()
         {
             var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Security);

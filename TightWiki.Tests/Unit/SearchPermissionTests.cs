@@ -36,12 +36,24 @@ namespace TightWiki.Tests.Unit
         }
 
         private ITwPageRepository Repository => fixture.Artifacts.DatabaseManager.PageRepository;
+        private ITwUsersRepository UsersRepository => fixture.Artifacts.DatabaseManager.UsersRepository;
 
         [Fact]
-        public async Task WithoutASessionNothingIsReturned()
+        public async Task WithoutASessionAnonymousPermissionsApply()
         {
-            var pages = await TwSearchResults.GetReadablePages(null, Repository, ["test"]);
-            Assert.Empty(pages);
+            var pages = await TwSearchResults.GetReadablePages(null, Repository, UsersRepository, ["test"]);
+
+            //With no one known to be viewing, an anonymous visitor's permissions apply.
+            var all = await Repository.PageSearch(["test"]);
+            var expected = new List<int>();
+            foreach (var page in all)
+            {
+                if (await UsersRepository.DoesAnonymousHoldPermission(TwPermission.Read, page))
+                {
+                    expected.Add(page.Id);
+                }
+            }
+            Assert.Equal(expected, pages.Select(o => o.Id));
         }
 
         [Fact]
@@ -50,7 +62,7 @@ namespace TightWiki.Tests.Unit
             var all = await Repository.PageSearch(["test"]);
             Assert.NotEmpty(all);
 
-            var readable = await TwSearchResults.GetReadablePages(CreateSession(_ => false), Repository, ["test"]);
+            var readable = await TwSearchResults.GetReadablePages(CreateSession(_ => false), Repository, UsersRepository, ["test"]);
             Assert.Equal(all.Select(o => o.Id), readable.Select(o => o.Id));
         }
 
@@ -59,7 +71,7 @@ namespace TightWiki.Tests.Unit
         {
             Assert.NotEmpty(await Repository.PageSearch(["test"]));
 
-            var readable = await TwSearchResults.GetReadablePages(CreateSession(_ => true), Repository, ["test"]);
+            var readable = await TwSearchResults.GetReadablePages(CreateSession(_ => true), Repository, UsersRepository, ["test"]);
             Assert.Empty(readable);
         }
 
@@ -69,7 +81,7 @@ namespace TightWiki.Tests.Unit
             var all = await Repository.PageSearch(["test"]);
             var denied = all.First().Navigation;
 
-            var readable = await TwSearchResults.GetReadablePages(CreateSession(o => o == denied), Repository, ["test"]);
+            var readable = await TwSearchResults.GetReadablePages(CreateSession(o => o == denied), Repository, UsersRepository, ["test"]);
 
             Assert.DoesNotContain(readable, o => o.Navigation == denied);
             Assert.Equal(all.Count - 1, readable.Count);

@@ -11,21 +11,20 @@ namespace TightWiki.Plugin.Engine
     {
         /// <summary>
         /// Returns the pages that match the search terms and that the session holds Read permission for, best matches first.
-        /// When there is no session, nothing is returned because there is no one to check permissions for.
+        /// When there is no session (no one is known to be viewing), the permissions of an anonymous visitor are used.
         /// </summary>
         public static async Task<List<TwPage>> GetReadablePages(ITwSessionState? session,
-            ITwPageRepository pageRepository, List<string> searchTerms, bool? allowFuzzyMatching = null)
+            ITwPageRepository pageRepository, ITwUsersRepository usersRepository, List<string> searchTerms, bool? allowFuzzyMatching = null)
         {
             var readablePages = new List<TwPage>();
 
-            if (session == null)
-            {
-                return readablePages;
-            }
-
             foreach (var page in await pageRepository.PageSearch(searchTerms, allowFuzzyMatching))
             {
-                if (await session.HoldsPermission(page.Navigation, TwPermission.Read))
+                bool canRead = session != null
+                    ? await session.HoldsPermission(page.Navigation, TwPermission.Read)
+                    : await usersRepository.DoesAnonymousHoldPermission(TwPermission.Read, page);
+
+                if (canRead)
                 {
                     readablePages.Add(page);
                 }
