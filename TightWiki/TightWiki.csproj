@@ -36,7 +36,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="NTDLS.DelegateThreadPooling" Version="2.1.4" />
-		<PackageReference Include="NTDLS.Localization" Version="1.0.2" />
+		<PackageReference Include="NTDLS.Localization" Version="1.0.4" />
 		<PackageReference Include="System.DirectoryServices.Protocols" Version="10.0.14" />
 	</ItemGroup>
 

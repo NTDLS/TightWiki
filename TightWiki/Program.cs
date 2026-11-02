@@ -36,6 +36,8 @@ namespace TightWiki
             var databaseManager = new DatabaseManager(builder.Configuration);
             bool wasDatabaseUpgraded = await databaseManager.ApplyDatabaseUpgradeScripts(databaseManager.Logger);
 
+            databaseManager.Logger.LogInformation(Localize("Database initialization completed."));
+
             //This is the minimum log level for the database logger, which is used for logging application events and errors to the database.
             var minimumLogLevel = Enum.Parse<LogLevel>(builder.Configuration.GetValue("EventLogLevel", LogLevel.Information.ToString()));
 
@@ -138,7 +140,7 @@ namespace TightWiki
                 }
                 else
                 {
-                    await databaseManager.LoggingRepository.WriteException($"Cannot read/write to the specified path for persistent keys: {persistKeysPath}. Check the configuration and path permission.");
+                    await databaseManager.LoggingRepository.WriteException(Localize("Cannot read/write to the specified path for persistent keys: {0}. Check the configuration and path permission.", persistKeysPath));
                 }
             }
 
@@ -158,7 +160,7 @@ namespace TightWiki
                         {
                             OnRemoteFailure = context =>
                             {
-                                context.Response.Redirect(TwNotifyUrl.Build(wikiConfigurationManager.WikiConfiguration.BasePath, error: "External login was canceled."));
+                                context.Response.Redirect(TwNotifyUrl.Build(wikiConfigurationManager.WikiConfiguration.BasePath, error: Localize("External login was canceled.")));
                                 context.HandleResponse();
                                 return Task.CompletedTask;
                             }
@@ -183,7 +185,7 @@ namespace TightWiki
                         {
                             OnRemoteFailure = context =>
                             {
-                                context.Response.Redirect(TwNotifyUrl.Build(wikiConfigurationManager.WikiConfiguration.BasePath, error: "External login was canceled."));
+                                context.Response.Redirect(TwNotifyUrl.Build(wikiConfigurationManager.WikiConfiguration.BasePath, error: Localize("External login was canceled.")));
                                 context.HandleResponse();
                                 return Task.CompletedTask;
                             }
@@ -362,7 +364,7 @@ namespace TightWiki
                     }
                     catch (Exception ex)
                     {
-                        logger.LogError(ex, "An error occurred while applying seed data after database upgrade.");
+                        logger.LogError(ex, Localize("An error occurred while applying seed data after database upgrade."));
                     }
                 }
 
@@ -372,7 +374,7 @@ namespace TightWiki
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An error occurred while validating encryption or creating the admin user.");
+                    logger.LogError(ex, Localize("An error occurred while validating encryption or creating the admin user."));
                 }
             }
 
@@ -384,6 +386,8 @@ namespace TightWiki
                 await selfDocument.CreateNotExisting();
             }
             */
+
+            databaseManager.Logger.LogInformation(Localize("Application initialization complete. Ready for connections!"));
 
             app.Run();
         }
