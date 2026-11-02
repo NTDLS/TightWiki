@@ -36,7 +36,9 @@ namespace TightWiki
             var databaseManager = new DatabaseManager(builder.Configuration);
             bool wasDatabaseUpgraded = await databaseManager.ApplyDatabaseUpgradeScripts(databaseManager.Logger);
 
-            databaseManager.Logger.LogInformation(Localize("Database initialization completed."));
+            var initializedMessage = Localize("Database initialization completed.");
+            databaseManager.Logger.LogInformation(initializedMessage);
+            Console.WriteLine(initializedMessage);
 
             //This is the minimum log level for the database logger, which is used for logging application events and errors to the database.
             var minimumLogLevel = Enum.Parse<LogLevel>(builder.Configuration.GetValue("EventLogLevel", LogLevel.Information.ToString()));
@@ -387,7 +389,12 @@ namespace TightWiki
             }
             */
 
-            databaseManager.Logger.LogInformation(Localize("Application initialization complete. Ready for connections!"));
+            app.Lifetime.ApplicationStarted.Register(() =>
+            {
+                var readyMessage = Localize("Application initialization complete. Ready for connections!");
+                databaseManager.Logger.LogInformation(readyMessage);
+                Console.WriteLine(readyMessage);
+            });
 
             app.Run();
         }
