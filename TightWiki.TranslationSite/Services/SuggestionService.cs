@@ -1,4 +1,4 @@
-using LocalizationScan;
+using NTDLS.Localization;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Options;
 using System.Globalization;

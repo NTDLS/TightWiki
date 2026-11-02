@@ -12,6 +12,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.14" />
+		<PackageReference Include="NTDLS.Localization" Version="1.0.3" />
 		<PackageReference Include="VPT.Einkr.Client" Version="2.3.0" />
 	</ItemGroup>
 
@@ -22,7 +23,6 @@
 		-->
 		<Compile Include="..\TightWiki.Library\SupportedCultures.cs" Link="Shared\SupportedCultures.cs" />
 		<Compile Include="..\TightWiki.Library\CultureInfoSettings.cs" Link="Shared\CultureInfoSettings.cs" />
-		<Compile Include="..\..\LocalizationScan\TranslationValidator.cs" Link="Shared\TranslationValidator.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
