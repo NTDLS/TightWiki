@@ -82,6 +82,8 @@ namespace TightWiki.Tests.Unit
         //External links.
         [InlineData("[[https://example.com]]", "<a href=\"https://example.com\">https://example.com</a>")]
         [InlineData("[[https://example.com, Text]]", "<a href=\"https://example.com\">Text</a>")]
+        [InlineData("[[mailto:user@example.com]]", "<a href=\"mailto:user@example.com\">mailto:user@example.com</a>")]
+        [InlineData("[[mailto:user@example.com, Email me]]", "<a href=\"mailto:user@example.com\">Email me</a>")]
         [InlineData("[[https://example.com, Text, target:blank]]", "<a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Text</a>")]
         [InlineData("[[https://example.com, Text, target:_blank]]", "<a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Text</a>")]
         [InlineData("[[https://example.com, image:https://example.com/i.png]]", "<a href=\"https://example.com\"><img src=\"https://example.com/i.png\" border =\"0\"></a>")]

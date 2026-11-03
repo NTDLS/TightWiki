@@ -532,8 +532,8 @@
             if (!url) {
                 alert(@Json.Serialize(Localize("Enter a URL.")));
                 isValid = false;
-            } else if (!/^https?:\/\//i.test(url)) {
-                alert(@Json.Serialize(Localize("URL must start with")) + " http:// or https://");
+            } else if (!/^(https?:\/\/|mailto:)/i.test(url)) {
+                alert(@Json.Serialize(Localize("URL must start with")) + " http://, https:// or mailto:");
                 isValid = false;
             } else {
 
@@ -1401,7 +1401,7 @@
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="linkMode" id="linkModeUrl" value="url">
-                        <label class="form-check-label" for="linkModeUrl">@Localize("External URL")</label>
+                        <label class="form-check-label" for="linkModeUrl">@Localize("External URL / E-Mail")</label>
                     </div>
                 </div>
 
@@ -1417,7 +1417,7 @@
 
                 <div id="linkExternalDiv" style="display: none;">
                     <label for="insertLinkModalLinkURL" class="form-label fw-bold">@Localize("External URL")</label>
-                    <input id="insertLinkModalLinkURL" type="url" class="form-control" placeholder="https://example.com" />
+                    <input id="insertLinkModalLinkURL" type="url" class="form-control" placeholder="https://example.com or mailto:name@example.com" />
                 </div>
             </div>
 

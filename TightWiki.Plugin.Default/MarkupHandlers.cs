@@ -144,6 +144,7 @@ namespace TightWiki.Plugin.Default
             precedence: 50, isLitePermissiable: true)]
         [TwPluginRegularExpression(@"(\[\[http\:\/\/.+?\]\])")]
         [TwPluginRegularExpression(@"(\[\[https\:\/\/.+?\]\])")]
+        [TwPluginRegularExpression(@"(\[\[mailto\:.+?\]\])")]
         public async Task<TwPluginResult> HandleExternalLinks(ITwEngineState state, TwOrderedMatch match)
         {
             string link = match.Value.Substring(2, match.Value.Length - 4).Trim();
