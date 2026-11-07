@@ -100,7 +100,10 @@ namespace TightWiki
 
             IsAuthenticated = false;
 
-            if (signInManager.IsSignedIn(user))
+            //The cookie identity is recognized by the sign in manager, the identity of a personal API token is not.
+            bool isApiTokenIdentity = user.Identity?.AuthenticationType == TwApiTokenAuthenticationHandler.SchemeName;
+
+            if (signInManager.IsSignedIn(user) || isApiTokenIdentity)
             {
                 try
                 {
@@ -128,10 +131,14 @@ namespace TightWiki
                 }
                 catch (Exception ex)
                 {
-                    await httpContext.SignOutAsync();
-                    if (user.Identity != null)
+                    //A personal API token is not a sign in, there is nothing to sign out of.
+                    if (!isApiTokenIdentity)
                     {
-                        await httpContext.SignOutAsync(user.Identity.AuthenticationType);
+                        await httpContext.SignOutAsync();
+                        if (user.Identity != null)
+                        {
+                            await httpContext.SignOutAsync(user.Identity.AuthenticationType);
+                        }
                     }
 
                     Logger?.LogError(ex, "An error occurred while hydrating the security context.");
