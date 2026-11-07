@@ -3,6 +3,7 @@ using Autofac.Extensions.DependencyInjection;
 using Dapper;
 using DiffPlex;
 using DiffPlex.DiffBuilder;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.DataProtection;
@@ -129,7 +130,8 @@ namespace TightWiki
                     options.SlidingExpiration = true;
                     options.Cookie.IsEssential = true;
 
-                });
+                })
+                .AddScheme<AuthenticationSchemeOptions, TwApiTokenAuthenticationHandler>(TwApiTokenAuthenticationHandler.SchemeName, null);
 
             var persistKeysPath = cookiesConfig.Value("Persist Keys Path", string.Empty);
             if (string.IsNullOrEmpty(persistKeysPath) == false)
