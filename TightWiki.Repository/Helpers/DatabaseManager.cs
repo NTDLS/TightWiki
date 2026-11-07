@@ -27,6 +27,7 @@ namespace TightWiki.Repository.Helpers
         public ITwPageRepository PageRepository { get; private set; }
         public ITwStatisticsRepository StatisticsRepository { get; private set; }
         public ITwUsersRepository UsersRepository { get; private set; }
+        public ApiTokenRepository ApiTokenRepository { get; private set; }
 
         public (string Name, SqliteManagedFactory Factory)[] Databases { get; private set; }
 
@@ -57,6 +58,7 @@ namespace TightWiki.Repository.Helpers
             StatisticsRepository = new StatisticsRepository(configuration, ConfigurationRepository);
             PageRepository = new PageRepository(configuration, ConfigurationRepository, StatisticsRepository);
             UsersRepository = new UsersRepository(configuration, ConfigurationRepository);
+            ApiTokenRepository = new ApiTokenRepository(UsersRepository);
 
             //Backups are stored next to the databases.
             var configDatabaseFile = ConfigurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);

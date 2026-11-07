@@ -114,6 +114,11 @@ namespace TightWiki.Plugin
         public bool EnablePublicProfiles { get; set; }
 
         /// <summary>
+        /// Indicates whether personal API tokens can be created and used to authenticate.
+        /// </summary>
+        public bool EnableApi { get; set; }
+
+        /// <summary>
         /// Indicates whether the navigation menu is fixed to the top of the viewport on scroll.
         /// </summary>
         public bool FixedMenuPosition { get; set; }

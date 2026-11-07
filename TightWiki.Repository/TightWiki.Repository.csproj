@@ -219,6 +219,13 @@
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.34.4\^001^Logging^ChangeCollation.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.38.0\^001^Pages^CurrentPageEditors.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.39.0\^001^Pages^RestorePageModifiedDates.sql" />
+		<EmbeddedResource Include="Scripts\Initialization\Versions\2.41.2\^000^Config^EnableApiConfigurationEntry.sql" />
+		<EmbeddedResource Include="Scripts\Initialization\Versions\2.41.2\^001^Users^ApiTokens.sql" />
+		<EmbeddedResource Include="Scripts\InsertApiToken.sql" />
+		<EmbeddedResource Include="Scripts\GetApiTokensByUserId.sql" />
+		<EmbeddedResource Include="Scripts\GetUserIdByApiTokenHash.sql" />
+		<EmbeddedResource Include="Scripts\DeleteApiTokenByIdAndUserId.sql" />
+		<EmbeddedResource Include="Scripts\DeleteApiTokensByUserId.sql" />
 		<EmbeddedResource Include="Scripts\InsertRole.sql" />
 		<EmbeddedResource Include="Scripts\DoesRoleExist.sql" />
 		<EmbeddedResource Include="Scripts\InsertAccountPermission.sql" />
