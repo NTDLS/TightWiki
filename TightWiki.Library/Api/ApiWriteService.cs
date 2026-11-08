@@ -24,11 +24,17 @@ namespace TightWiki.Library.Api
         }
 
         /// <summary>
-        /// Saves a new revision of the page, the body and the description are replaced. Returns null when the page does not exist.
+        /// Saves a new revision of the page, the body is replaced and the description is kept when it is null.
+        /// Returns null when the page does not exist.
         /// When the result is <see cref="PageSaveError.RevisionConflict"/>, <see cref="PageSaveResult.Page"/> is the current revision.
         /// </summary>
         public async Task<PageSaveResult?> UpdatePage(string givenCanonical, int expectedRevision, string? body, string? description, string? changeSummary)
         {
+            if (Utility.CountOccurrencesOf(givenCanonical, "::") > 1)
+            {
+                return new PageSaveResult() { Error = PageSaveError.NameContainsMultipleNamespaceSeparators };
+            }
+
             var navigation = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
             if (await session.HoldsPermission(navigation, TwPermission.Edit) == false)
             {
@@ -41,7 +47,7 @@ namespace TightWiki.Library.Api
                 return null;
             }
 
-            var result = await Save(existingPage.Id, expectedRevision, existingPage.Name, body, description, changeSummary);
+            var result = await Save(existingPage.Id, expectedRevision, existingPage.Name, body, description ?? existingPage.Description, changeSummary);
             if (result.Error == PageSaveError.RevisionConflict)
             {
                 result.Page = await PageRepository.GetPageRevisionById(existingPage.Id);

@@ -199,6 +199,27 @@ namespace TightWiki.Tests.Unit
         }
 
         [Fact]
+        public async Task AnUpdateKeepsTheDescriptionWhenItIsNull()
+        {
+            var service = await CreateService();
+            var created = await service.CreatePage("ApiWriteServiceTests description", "The body.", "The description.", "Added a page.");
+
+            var kept = await service.UpdatePage(created.Page!.Navigation, created.Page.Revision, "Changed body.", null, "Changed it.");
+            Assert.Equal("The description.", kept!.Page!.Description);
+
+            var cleared = await service.UpdatePage(created.Page.Navigation, kept.Page.Revision, "Changed again.", "", "Cleared it.");
+            Assert.Equal(string.Empty, cleared!.Page!.Description);
+        }
+
+        [Fact]
+        public async Task AnUpdateOfANavigationWithMoreThanOneNamespaceIsRejected()
+        {
+            var result = await (await CreateService()).UpdatePage("one::two::three", 1, "Body", null, "Changed it.");
+
+            Assert.Equal(PageSaveError.NameContainsMultipleNamespaceSeparators, result!.Error);
+        }
+
+        [Fact]
         public async Task AMissingPageIsNotUpdated()
         {
             var result = await (await CreateService()).UpdatePage("ApiWriteServiceTests missing", 1, "Body", null, "Changed it.");

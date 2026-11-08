@@ -59,7 +59,7 @@ namespace TightWiki.Controllers
 
                 if (!ModelState.IsValid)
                 {
-                    context.Result = Error(StatusCodes.Status400BadRequest, Localize("A query parameter is not valid."));
+                    context.Result = Error(StatusCodes.Status400BadRequest, Localize("The request is not valid."));
                     return;
                 }
 

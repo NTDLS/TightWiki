@@ -43,13 +43,13 @@ namespace TightWiki
             });
         }
 
-        [McpServerTool(Name = "update_page"), Description("Saves a new revision of a wiki page, the body and the description are replaced. A change summary is required. The revision is the one from get_page that the edit is based on, if the page has been changed since, the tool fails. Use get_wiki_syntax_help for the markup syntax.")]
+        [McpServerTool(Name = "update_page"), Description("Saves a new revision of a wiki page, the body is replaced. A change summary is required. The revision is the one from get_page that the edit is based on, if the page has been changed since, the tool fails. Use get_wiki_syntax_help for the markup syntax.")]
         public async Task<object> UpdatePage(
             [Description("The navigation of the page.")] string navigation,
             [Description("The revision of the page, from get_page, that the new body is based on.")] int revision,
             [Description("The new body of the page, as wiki markup.")] string body,
             [Description("A short summary of what has been changed. Required.")] string changeSummary,
-            [Description("The new description of the page, empty when omitted.")] string? description = null)
+            [Description("The new description of the page, kept when omitted.")] string? description = null)
         {
             return await Save(service => service.UpdatePage(navigation, revision, body, description, changeSummary));
         }

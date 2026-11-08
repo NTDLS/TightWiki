@@ -51,6 +51,11 @@ namespace TightWiki.Library.Api
 
         public async Task<ApiPageContent?> GetPage(string givenCanonical, int? revision, ApiPageFormat format)
         {
+            if (Utility.CountOccurrencesOf(givenCanonical, "::") > 1)
+            {
+                return null;
+            }
+
             await RequireRead(givenCanonical);
 
             var page = await PageRepository.GetPageRevisionByNavigation(givenCanonical, revision);
@@ -85,6 +90,11 @@ namespace TightWiki.Library.Api
 
         public async Task<ApiPagedList<ApiPageRevision>?> GetPageRevisions(string givenCanonical, int pageNumber)
         {
+            if (Utility.CountOccurrencesOf(givenCanonical, "::") > 1)
+            {
+                return null;
+            }
+
             await RequireRead(givenCanonical);
 
             var navigation = TwNamespaceNavigation.CleanAndValidate(givenCanonical);

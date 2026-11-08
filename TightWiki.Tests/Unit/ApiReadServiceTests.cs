@@ -210,6 +210,13 @@ namespace TightWiki.Tests.Unit
         }
 
         [Fact]
+        public async Task ANavigationWithMoreThanOneNamespaceIsNull()
+        {
+            Assert.Null(await CreateService().GetPage("one::two::three", null, ApiPageFormat.Markup));
+            Assert.Null(await CreateService().GetPageRevisions("one::two::three", 1));
+        }
+
+        [Fact]
         public async Task RevisionHistoryOfANonExistingPageIsNull()
         {
             Assert.Null(await CreateService().GetPageRevisions("this_page_does_not_exist", 1));
