@@ -373,7 +373,7 @@ namespace TightWiki.Repository.Helpers
                     if (defaultDataTypes.Contains(TwDefaultDataType.HelpPages))
                     {
                         defaultWikiPages.AddRange(DefaultsRepository.DefaultsFactory.Query<TwDefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
-                            new { Namespace = "Wiki Help" }));
+                            new { Namespace = Constants.HelpNamespace }));
                     }
                     if (defaultDataTypes.Contains(TwDefaultDataType.IncludePages))
                     {

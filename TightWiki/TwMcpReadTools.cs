@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using ModelContextProtocol;
 using ModelContextProtocol.Server;
 using System.ComponentModel;
+using TightWiki.Library;
 using TightWiki.Library.Api;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
@@ -66,6 +67,19 @@ namespace TightWiki
             [Description("The tag.")] string tag)
         {
             return await Read(service => service.GetTagPages(tag));
+        }
+
+        [McpServerTool(Name = "get_wiki_syntax_help"), Description("Gets the help on the wiki markup syntax. Use it before writing wiki pages. Without a page name it lists the help pages.")]
+        public async Task<object> GetWikiSyntaxHelp(
+            [Description("The name of a help page from the list, without the namespace. Omit it to list the help pages.")] string? page = null)
+        {
+            if (string.IsNullOrWhiteSpace(page))
+            {
+                return await Read(service => service.GetNamespacePages(Constants.HelpNamespace));
+            }
+
+            var navigation = $"{Constants.HelpNamespace}::{page}";
+            return await Read(service => service.GetPage(navigation, null, ApiPageFormat.Markup));
         }
 
         /// <summary>
