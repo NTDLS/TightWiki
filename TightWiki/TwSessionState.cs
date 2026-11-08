@@ -93,6 +93,22 @@ namespace TightWiki
             return this;
         }
 
+        /// <summary>
+        /// This method is used to hydrate the session state outside of controllers and pages, for example from the MCP tools.
+        /// </summary>
+        public async Task<TwSessionState> Hydrate(ILogger<ITwEngine> logger, SignInManager<IdentityUser> signInManager,
+            HttpContext httpContext, TwConfiguration wikiConfiguration, ITwDatabaseManager databaseManager)
+        {
+            Page = new TwPage() { Name = WikiConfiguration.Name };
+            WikiConfiguration = wikiConfiguration;
+            Logger = logger;
+            QueryString = httpContext.Request.Query;
+            _databaseManager = databaseManager;
+
+            await HydrateSecurityContext(httpContext, signInManager, httpContext.User);
+            return this;
+        }
+
         private async Task HydrateSecurityContext(HttpContext httpContext, SignInManager<IdentityUser> signInManager, ClaimsPrincipal user)
         {
             if (_databaseManager == null)

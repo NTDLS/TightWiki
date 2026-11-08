@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NTDLS.Helpers;
+using System.Security.Claims;
 using TightWiki.Engine;
 using TightWiki.Library;
 using TightWiki.Library.Dummy;
@@ -247,6 +248,11 @@ namespace TightWiki
 
             builder.Services.AddControllersWithViews();
 
+            //Whether /mcp is available and who may call it is decided per request, see MapMcp below.
+            builder.Services.AddMcpServer()
+                .WithHttpTransport(options => options.Stateless = true)
+                .WithTools<TwMcpReadTools>();
+
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
             builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
             {
@@ -348,6 +354,46 @@ namespace TightWiki
             app.MapControllerRoute(
                 name: "Page_Edit",
                 pattern: "Page/{givenCanonical}/Edit");
+
+            //Like /v1/, the MCP endpoint is answered only when enabled and authenticated only by an API token, never by the
+            //  sign-in cookie. The gate wraps the endpoint itself, so wiki pages that happen to live under /mcp are untouched.
+            app.MapMcp("/mcp").Add(endpointBuilder =>
+            {
+                var mcpEndpoint = endpointBuilder.RequestDelegate!;
+                endpointBuilder.RequestDelegate = async context =>
+                {
+                    var wikiConfiguration = context.RequestServices.GetRequiredService<TwConfiguration>();
+                    if (!wikiConfiguration.EnableApi || !wikiConfiguration.EnableMcp)
+                    {
+                        context.Response.StatusCode = StatusCodes.Status404NotFound;
+                        await context.Response.WriteAsJsonAsync(new { error = Localize("Not found.") });
+                        return;
+                    }
+
+                    try
+                    {
+                        var authentication = await context.AuthenticateAsync(TwApiTokenAuthenticationHandler.SchemeName);
+                        if (authentication.Failure != null)
+                        {
+                            context.Response.Headers.WWWAuthenticate = "Bearer";
+                            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                            await context.Response.WriteAsJsonAsync(new { error = Localize("The API token is not valid.") });
+                            return;
+                        }
+
+                        context.User = authentication.Principal ?? new ClaimsPrincipal(new ClaimsIdentity());
+                    }
+                    catch (Exception ex)
+                    {
+                        context.RequestServices.GetRequiredService<ILogger<Program>>().LogError(ex, "Error in the MCP endpoint while authenticating the request");
+                        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                        await context.Response.WriteAsJsonAsync(new { error = Localize("The request failed.") });
+                        return;
+                    }
+
+                    await mcpEndpoint(context);
+                };
+            });
 
             using (var scope = app.Services.CreateScope())
             {

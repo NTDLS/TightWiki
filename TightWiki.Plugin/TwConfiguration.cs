@@ -119,6 +119,11 @@ namespace TightWiki.Plugin
         public bool EnableApi { get; set; }
 
         /// <summary>
+        /// Indicates whether the MCP endpoint is available. It also requires <see cref="EnableApi"/>.
+        /// </summary>
+        public bool EnableMcp { get; set; }
+
+        /// <summary>
         /// Indicates whether the navigation menu is fixed to the top of the viewport on scroll.
         /// </summary>
         public bool FixedMenuPosition { get; set; }
