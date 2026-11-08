@@ -63,6 +63,7 @@ namespace TightWiki.Repository.Helpers
             WikiConfiguration.EnablePublicProfiles = functionalityConfig.Value<bool>("Enable Public Profiles");
             WikiConfiguration.EnableApi = functionalityConfig.Value("Enable API", false);
             WikiConfiguration.EnableMcp = functionalityConfig.Value("Enable MCP", false);
+            WikiConfiguration.AllowApiWrites = functionalityConfig.Value("Allow API Writes", false);
             WikiConfiguration.ShowCommentsOnPageFooter = functionalityConfig.Value<bool>("Show Comments on Page Footer");
             WikiConfiguration.ShowChangeSummaryWhenEditing = functionalityConfig.Value<bool>("Show Change Summary when Editing");
             WikiConfiguration.RequireChangeSummaryWhenEditing = functionalityConfig.Value<bool>("Require Change Summary when Editing");
