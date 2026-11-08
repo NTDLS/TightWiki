@@ -25,16 +25,19 @@ namespace TightWiki
         private readonly ApiTokenRepository _apiTokenRepository;
         private readonly ITwUsersRepository _usersRepository;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
         public TwApiTokenAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger, UrlEncoder encoder, TwConfiguration wikiConfiguration,
-            ApiTokenRepository apiTokenRepository, ITwUsersRepository usersRepository, UserManager<IdentityUser> userManager)
+            ApiTokenRepository apiTokenRepository, ITwUsersRepository usersRepository,
+            UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
             : base(options, logger, encoder)
         {
             _wikiConfiguration = wikiConfiguration;
             _apiTokenRepository = apiTokenRepository;
             _usersRepository = usersRepository;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -70,6 +73,13 @@ namespace TightWiki
             if (user == null || await _userManager.IsLockedOutAsync(user))
             {
                 return AuthenticateResult.Fail("The user does not exist or is locked out.");
+            }
+
+            // The password sign-in also requires a confirmed account when "Require Email Verification" is on.
+            // LDAP and external sign-ins do not, so an account with such a login is not held to it.
+            if (!await _signInManager.CanSignInAsync(user) && (await _userManager.GetLoginsAsync(user)).Count == 0)
+            {
+                return AuthenticateResult.Fail("The account is not confirmed.");
             }
 
             var identity = new ClaimsIdentity(SchemeName);

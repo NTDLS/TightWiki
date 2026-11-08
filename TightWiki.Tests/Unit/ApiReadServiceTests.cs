@@ -32,17 +32,20 @@ namespace TightWiki.Tests.Unit
             }
         }
 
-        private ApiReadService CreateService(Func<string?, bool> denyWhen)
+        private ApiReadService CreateService(Func<string?, bool> denyWhen, bool anonymous = false)
         {
             var session = DispatchProxy.Create<ITwSessionState, SelectiveSession>();
             var proxy = (SelectiveSession)(object)session;
             proxy.Inner = fixture.CreateWikiSession();
+            proxy.Inner.Profile = anonymous ? null : new TwAccountProfile();
             proxy.DenyWhen = denyWhen;
 
             return new ApiReadService(session, fixture.Artifacts.Engine, fixture.Artifacts.Localizer);
         }
 
         private ApiReadService CreateService() => CreateService(_ => false);
+
+        private ApiReadService CreateAnonymousService() => CreateService(_ => false, anonymous: true);
 
         private ITwPageRepository Repository => fixture.Artifacts.DatabaseManager.PageRepository;
 
@@ -207,6 +210,26 @@ namespace TightWiki.Tests.Unit
 
             Assert.Equal(DateTimeKind.Utc, page!.ModifiedDate.Kind);
             Assert.Equal(DateTimeKind.Utc, revisions!.Items.First().ModifiedDate.Kind);
+        }
+
+        [Fact]
+        public async Task AnAnonymousSessionCannotReadTheMarkupOrTheRevisionHistory()
+        {
+            var navigation = await GetExistingNavigation();
+            var service = CreateAnonymousService();
+
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => service.GetPage(navigation, null, ApiPageFormat.Markup));
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => service.GetPageRevisions(navigation, 1));
+        }
+
+        [Fact]
+        public async Task AnAnonymousSessionCanReadTheRenderedPage()
+        {
+            var navigation = await GetExistingNavigation();
+            var service = CreateAnonymousService();
+
+            Assert.NotEmpty((await service.GetPage(navigation, null, ApiPageFormat.Html))!.Body);
+            Assert.NotEmpty((await service.GetPage(navigation, null, ApiPageFormat.Text))!.Body);
         }
 
         [Fact]

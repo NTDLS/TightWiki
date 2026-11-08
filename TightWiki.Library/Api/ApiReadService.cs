@@ -58,6 +58,11 @@ namespace TightWiki.Library.Api
 
             await RequireRead(givenCanonical);
 
+            if (format == ApiPageFormat.Markup)
+            {
+                RequireSignedIn();
+            }
+
             var page = await PageRepository.GetPageRevisionByNavigation(givenCanonical, revision);
             if (page == null)
             {
@@ -96,6 +101,7 @@ namespace TightWiki.Library.Api
             }
 
             await RequireRead(givenCanonical);
+            RequireSignedIn();
 
             var navigation = TwNamespaceNavigation.CleanAndValidate(givenCanonical);
             if (await PageRepository.GetPageInfoByNavigation(navigation) == null)
@@ -179,6 +185,18 @@ namespace TightWiki.Library.Api
             if (await session.HoldsPermission(givenCanonical, Plugin.TwPermission.Read) == false)
             {
                 throw new UnauthorizedAccessException("You do not have permission to read this page.");
+            }
+        }
+
+        /// <summary>
+        /// The web pages show the wiki markup (Export) and the revision history (Revisions) only to signed in users.
+        /// A session without a profile is anonymous.
+        /// </summary>
+        private void RequireSignedIn()
+        {
+            if (session.Profile == null)
+            {
+                throw new UnauthorizedAccessException("An API token is required to read this.");
             }
         }
 

@@ -31,7 +31,7 @@ namespace TightWiki
             return await Read(service => service.SearchPages(query, page));
         }
 
-        [McpServerTool(Name = "get_page"), Description("Gets a wiki page, by default as the wiki markup it was saved with.")]
+        [McpServerTool(Name = "get_page"), Description("Gets a wiki page, by default as the wiki markup it was saved with. The markup requires an API token, without one use plainText.")]
         public async Task<object> GetPage(
             [Description("The navigation of the page, for example \"Home\" or \"Namespace :: Page\".")] string navigation,
             [Description("The revision to get, the current revision if omitted.")] int? revision = null,
@@ -41,7 +41,7 @@ namespace TightWiki
             return await Read(service => service.GetPage(navigation, revision, format));
         }
 
-        [McpServerTool(Name = "get_page_revisions"), Description("Lists the revisions of a wiki page, newest first.")]
+        [McpServerTool(Name = "get_page_revisions"), Description("Lists the revisions of a wiki page, newest first. Requires an API token.")]
         public async Task<object> GetPageRevisions(
             [Description("The navigation of the page.")] string navigation,
             [Description("The number of the result page, starting at 1.")] int page = 1)
@@ -69,7 +69,7 @@ namespace TightWiki
             return await Read(service => service.GetTagPages(tag));
         }
 
-        [McpServerTool(Name = "get_wiki_syntax_help"), Description("Gets the help on the wiki markup syntax. Use it before writing wiki pages. Without a page name it lists the help pages.")]
+        [McpServerTool(Name = "get_wiki_syntax_help"), Description("Gets the help on the wiki markup syntax. Use it before writing wiki pages. Without a page name it lists the help pages. Reading a help page requires an API token.")]
         public async Task<object> GetWikiSyntaxHelp(
             [Description("The name of a help page from the list, without the namespace. Omit it to list the help pages.")] string? page = null)
         {
