@@ -251,7 +251,8 @@ namespace TightWiki
             //Whether /mcp is available and who may call it is decided per request, see MapMcp below.
             builder.Services.AddMcpServer()
                 .WithHttpTransport(options => options.Stateless = true)
-                .WithTools<TwMcpReadTools>();
+                .WithTools<TwMcpReadTools>()
+                .WithTools<TwMcpWriteTools>();
 
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
             builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
