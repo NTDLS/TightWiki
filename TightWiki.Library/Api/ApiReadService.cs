@@ -67,7 +67,7 @@ namespace TightWiki.Library.Api
                 Revision = page.Revision,
                 MostCurrentRevision = page.MostCurrentRevision,
                 ModifiedByUserName = page.ModifiedByUserName,
-                ModifiedDate = page.ModifiedDate
+                ModifiedDate = AsUtc(page.ModifiedDate)
             };
 
             if (format == ApiPageFormat.Markup)
@@ -101,13 +101,20 @@ namespace TightWiki.Library.Api
                 PageCount = revisions.FirstOrDefault()?.PaginationPageCount ?? 0
             };
 
+            if (revisions.Count == 0 && result.PageNumber > 1)
+            {
+                //The page number is past the last page, so the page count is taken from the first page.
+                var firstPage = await PageRepository.GetPageRevisionsInfoByNavigationPaged(navigation, 1);
+                result.PageCount = firstPage.FirstOrDefault()?.PaginationPageCount ?? 0;
+            }
+
             foreach (var revision in revisions)
             {
                 result.Items.Add(new ApiPageRevision()
                 {
                     Revision = revision.Revision,
                     ModifiedByUserName = revision.ModifiedByUserName,
-                    ModifiedDate = revision.ModifiedDate,
+                    ModifiedDate = AsUtc(revision.ModifiedDate),
                     ChangeSummary = revision.ChangeSummary
                 });
             }
@@ -178,6 +185,14 @@ namespace TightWiki.Library.Api
             }
 
             return readablePages;
+        }
+
+        /// <summary>
+        /// The database stores UTC but returns the dates without a kind, so they would be written to JSON without the "Z".
+        /// </summary>
+        private static DateTime AsUtc(DateTime date)
+        {
+            return DateTime.SpecifyKind(date, DateTimeKind.Utc);
         }
 
         private static List<ApiPageSummary> ToSummaries(IEnumerable<TwPage> pages)

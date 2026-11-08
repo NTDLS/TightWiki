@@ -186,6 +186,30 @@ namespace TightWiki.Tests.Unit
         }
 
         [Fact]
+        public async Task RevisionHistoryPastTheLastPageKeepsThePageCount()
+        {
+            var navigation = await GetExistingNavigation();
+
+            var revisions = await CreateService().GetPageRevisions(navigation, 1000);
+
+            Assert.NotNull(revisions);
+            Assert.Empty(revisions.Items);
+            Assert.True(revisions.PageCount > 0);
+        }
+
+        [Fact]
+        public async Task DatesAreMarkedAsUtc()
+        {
+            var navigation = await GetExistingNavigation();
+
+            var page = await CreateService().GetPage(navigation, null, ApiPageFormat.Markup);
+            var revisions = await CreateService().GetPageRevisions(navigation, 1);
+
+            Assert.Equal(DateTimeKind.Utc, page!.ModifiedDate.Kind);
+            Assert.Equal(DateTimeKind.Utc, revisions!.Items.First().ModifiedDate.Kind);
+        }
+
+        [Fact]
         public async Task RevisionHistoryOfANonExistingPageIsNull()
         {
             Assert.Null(await CreateService().GetPageRevisions("this_page_does_not_exist", 1));
