@@ -8,11 +8,14 @@ using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki.Library;
 using TightWiki.Library.Caching;
+using TightWiki.Library.Security;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Library;
 using TightWiki.Plugin.Models;
+using TightWiki.Repository;
+using TightWiki.Repository.Models;
 using TightWiki.ViewModels.Profile;
 using TightWiki.ViewModels.Utility;
 using static TightWiki.Library.ImagesUtility;
@@ -31,7 +34,8 @@ namespace TightWiki.Controllers
             SignInManager<IdentityUser> signInManager,
             TwConfiguration wikiConfiguration,
             UserManager<IdentityUser> userManager,
-            ITwDatabaseManager databaseManager
+            ITwDatabaseManager databaseManager,
+            ApiTokenRepository apiTokenRepository
         )
         : TwController<ProfileController>(logger, signInManager, userManager, localizer, wikiConfiguration, databaseManager)
     {
@@ -406,6 +410,148 @@ namespace TightWiki.Controllers
 
         #endregion
 
+        #region API Tokens.
+
+        /// <summary>
+        /// Lists the personal API tokens of the current user.
+        /// </summary>
+        [Authorize]
+        [HttpGet("ApiTokens")]
+        public async Task<ActionResult> ApiTokens()
+        {
+            try
+            {
+                if (!WikiConfiguration.EnableApi)
+                {
+                    return NotFound();
+                }
+
+                try
+                {
+                    await SessionState.RequireAuthorizedPermission();
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                SessionState.Page.Name = Localize("API Tokens");
+
+                return View(new ApiTokensViewModel
+                {
+                    Tokens = await GetLocalizedApiTokens(SessionState.Profile.EnsureNotNull().UserId)
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error retrieving API tokens for user {UserId}", SessionState.Profile?.UserId);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Creates a personal API token. The token is returned only in the response to this request, never in a
+        /// redirect, URL or TempData, and only its hash is stored.
+        /// </summary>
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        //The page contains a token that must not be kept by the browser or any proxy.
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [HttpPost("ApiTokens")]
+        public async Task<ActionResult> ApiTokens(ApiTokensViewModel model)
+        {
+            try
+            {
+                if (!WikiConfiguration.EnableApi)
+                {
+                    return NotFound();
+                }
+
+                try
+                {
+                    await SessionState.RequireAuthorizedPermission();
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                SessionState.Page.Name = Localize("API Tokens");
+
+                //Get the UserId from the logged in context because we do not trust anything from the model.
+                var userId = SessionState.Profile.EnsureNotNull().UserId;
+
+                model.NewToken = null;
+                if (ModelState.IsValid)
+                {
+                    var token = ApiTokenUtility.GenerateToken();
+                    await apiTokenRepository.InsertApiToken(userId, model.Name.Trim(), ApiTokenUtility.HashToken(token));
+
+                    model.NewToken = token;
+                    model.Name = string.Empty;
+                    ModelState.Clear();
+                }
+
+                model.Tokens = await GetLocalizedApiTokens(userId);
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error creating API token for user {UserId}", SessionState.Profile?.UserId);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Revokes one of the personal API tokens of the current user.
+        /// </summary>
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        [HttpPost("ApiTokens/Revoke")]
+        public async Task<ActionResult> RevokeApiToken(int tokenId)
+        {
+            try
+            {
+                if (!WikiConfiguration.EnableApi)
+                {
+                    return NotFound();
+                }
+
+                try
+                {
+                    await SessionState.RequireAuthorizedPermission();
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+
+                //Get the UserId from the logged in context because we do not trust anything from the form.
+                var userId = SessionState.Profile.EnsureNotNull().UserId;
+
+                await apiTokenRepository.DeleteApiTokenByIdAndUserId(tokenId, userId);
+
+                return NotifyOfSuccess(Localize("The API token has been revoked."), "/Profile/ApiTokens");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error revoking API token {TokenId} for user {UserId}", tokenId, SessionState.Profile?.UserId);
+                throw;
+            }
+        }
+
+        [NonAction]
+        private async Task<List<TwApiToken>> GetLocalizedApiTokens(Guid userId)
+        {
+            var tokens = await apiTokenRepository.GetApiTokensByUserId(userId);
+            foreach (var token in tokens)
+            {
+                token.CreatedDate = SessionState.LocalizeDateTime(token.CreatedDate);
+            }
+            return tokens;
+        }
+
+        #endregion
+
         #region Delete.
 
         /// <summary>
@@ -441,6 +587,7 @@ namespace TightWiki.Controllers
 
                 await SignInManager.SignOutAsync();
 
+                await apiTokenRepository.DeleteApiTokensByUserId(profile.UserId);
                 await usersRepository.AnonymizeProfile(profile.UserId);
                 MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.User, [profile.Navigation]));
 

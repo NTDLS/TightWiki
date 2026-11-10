@@ -9,6 +9,7 @@ using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Models;
+using TightWiki.Repository;
 using TightWiki.RequestModels;
 using TightWiki.ViewModels.AdminSecurity;
 using TightWiki.ViewModels.Shared;
@@ -28,7 +29,8 @@ namespace TightWiki.Controllers
             SignInManager<IdentityUser> signInManager,
             TwConfiguration wikiConfiguration,
             UserManager<IdentityUser> userManager,
-            ITwDatabaseManager databaseManager
+            ITwDatabaseManager databaseManager,
+            ApiTokenRepository apiTokenRepository
         )
         : TwController<AdminSecurityController>(logger, signInManager, userManager, localizer, wikiConfiguration, databaseManager)
     {
@@ -914,6 +916,7 @@ namespace TightWiki.Controllers
                         throw new Exception(string.Join("<br />\r\n", result.Errors.Select(o => o.Description)));
                     }
 
+                    await apiTokenRepository.DeleteApiTokensByUserId(profile.UserId);
                     await usersRepository.AnonymizeProfile(profile.UserId);
                     MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.User, [profile.Navigation]));
 
