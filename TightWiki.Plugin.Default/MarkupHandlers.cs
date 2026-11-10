@@ -558,7 +558,7 @@ namespace TightWiki.Plugin.Default
             {
                 string value = match.Value.Substring(headingMarkers).Trim();
                 double fontSize = 2.2 - (7 - headingMarkers) * 0.2;
-                string markup = $"<span class=\"mb-0\" style=\"font-size: {fontSize:F1}rem;\">{value}</span>\r\n";
+                string markup = FormattableString.Invariant($"<span class=\"mb-0\" style=\"font-size: {fontSize:F1}rem;\">{value}</span>\r\n");
                 return new TwPluginResult(markup);
             }
 
