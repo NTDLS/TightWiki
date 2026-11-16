@@ -35,19 +35,30 @@
 
     function copyToClipboard(fileName, contentType, element) {
         //The editor loads attachment-uploader.js, which chooses ##Image, ##Video, ##Audio or ##File from the file's type.
-        const tag = TwAttachmentUploader.tagFor(fileName, contentType);
+        copyText(TwAttachmentUploader.tagFor(fileName, contentType), @Json.Serialize(Localize("Tag Copied")), element);
+    }
 
-        navigator.clipboard.writeText(tag).then(function () {
-            const originalContent = element.innerHTML;
-            const originalClass = element.className;
+    //Just the name, for use inside another function, such as a video's poster.
+    function copyName(fileName, element) {
+        copyText(fileName, @Json.Serialize(Localize("Name Copied")), element);
+    }
+
+    function copyText(text, copiedLabel, element) {
+        navigator.clipboard.writeText(text).then(function () {
+            //Keep the button's own look the first time, so clicking again while it says "Copied" restores it correctly.
+            if (!element.dataset.originalContent) {
+                element.dataset.originalContent = element.innerHTML;
+                element.dataset.originalClass = element.className;
+            }
+            clearTimeout(element.copiedTimer);
 
             element.innerHTML = '<i class="bi bi-check-circle me-1"></i>';
-            element.append(@Json.Serialize(Localize("Tag Copied")));
+            element.append(copiedLabel);
             element.className = 'btn btn-thin btn-success';
 
-            setTimeout(function () {
-                element.innerHTML = originalContent;
-                element.className = originalClass;
+            element.copiedTimer = setTimeout(function () {
+                element.innerHTML = element.dataset.originalContent;
+                element.className = element.dataset.originalClass;
             }, 2000);
         }).catch(function (error) {
             console.error(@Json.Serialize(Localize("Error copying text")), error);
@@ -62,9 +73,13 @@
             <a href="@WikiConfiguration.BasePath/File/Binary/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.Name</a> <span class="file-meta">(@x.FriendlySize)</span>
             <a href="@WikiConfiguration.BasePath/File/Revisions/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.FileRevision @Localize("revisions")</a>
         </div>
-        <div class="d-inline-flex gap-1">
+        <div class="d-inline-flex gap-1 flex-shrink-0 text-nowrap">
             <button type="button" class="btn btn-thin btn-primary" data-file="@x.Name" data-content-type="@x.ContentType" onclick="copyToClipboard(this.dataset.file, this.dataset.contentType, this)">
                 <i class="bi bi-clipboard me-1"></i>@Localize("Copy Tag")
+            </button>
+            <button type="button" class="btn btn-thin btn-outline-primary" data-file="@x.Name" onclick="copyName(this.dataset.file, this)"
+                    title="@Localize("Copy just the file name, for example to use as a video's poster")">
+                <i class="bi bi-clipboard me-1"></i>@Localize("Copy Name")
             </button>
             @if (await sessionState.HoldsPermission(TwPermission.Delete))
             {
