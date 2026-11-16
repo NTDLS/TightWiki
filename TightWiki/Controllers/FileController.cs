@@ -3,13 +3,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
-using System.Web;
+using TightWiki.Exceptions;
 using TightWiki.Library;
 using TightWiki.Library.Caching;
+using TightWiki.Library.Security;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Interfaces;
 using TightWiki.Plugin.Interfaces.Repository;
 using TightWiki.Plugin.Models;
+using TightWiki.Repository;
 using TightWiki.ViewModels.File;
 
 using TwPermission = TightWiki.Plugin.TwPermission;
@@ -25,7 +27,8 @@ namespace TightWiki.Controllers
             SignInManager<IdentityUser> signInManager,
             TwConfiguration wikiConfiguration,
             UserManager<IdentityUser> userManager,
-            ITwDatabaseManager databaseManager
+            ITwDatabaseManager databaseManager,
+            TwAttachmentUploads attachmentUploads
         )
         : TwController<FileController>(logger, signInManager, userManager, localizer, wikiConfiguration, databaseManager)
     {
@@ -382,127 +385,217 @@ namespace TightWiki.Controllers
             }
         }
 
-        /// <summary>
-        /// Uploads a file by drag drop.
-        /// </summary>
-        [Authorize]
-        [HttpPost("UploadDragDrop/{givenPageNavigation}")]
-        public async Task<ActionResult> UploadDragDrop(string givenPageNavigation, List<IFormFile> postedFiles)
+        #region Uploads.
+
+        public class StartUploadRequest
         {
-            try
-            {
-                try
-                {
-                    await SessionState.RequirePermission(givenPageNavigation, [TwPermission.Create, TwPermission.Edit]);
-                }
-                catch (Exception ex)
-                {
-                    return NotifyOfError(ex.GetBaseException().Message, "/");
-                }
-                try
-                {
-                    var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
-
-                    var page = (await pageRepository.GetPageInfoByNavigation(pageNavigation.Canonical)).EnsureNotNull();
-
-                    foreach (IFormFile file in postedFiles)
-                    {
-                        if (file != null)
-                        {
-                            var fileSize = file.Length;
-                            if (fileSize > 0)
-                            {
-                                if (fileSize > WikiConfiguration.MaxAttachmentFileSize)
-                                {
-                                    return Json(new { message = Localize("Could not attach file: [{0}], too large.", file.FileName) });
-                                }
-
-                                var fileName = HttpUtility.UrlDecode(file.FileName);
-
-                                await pageRepository.UpsertPageFile(new TwPageFileAttachment()
-                                {
-                                    Data = Utility.ConvertHttpFileToBytes(file),
-                                    CreatedDate = DateTime.UtcNow,
-                                    PageId = page.Id,
-                                    Name = fileName,
-                                    FileNavigation = TwNavigation.Clean(fileName),
-                                    Size = fileSize,
-                                    ContentType = Utility.GetMimeType(fileName)
-                                }, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
-                            }
-                        }
-                    }
-                    return Json(new { success = true, message = Localize("files: {0:n0}", postedFiles.Count) });
-                }
-                catch (Exception ex)
-                {
-                    Logger.LogError(ex, "Failed to upload file");
-                    return StatusCode(500, new { success = false, message = Localize("An error occurred: {0}", ex.Message) });
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, "Failed to upload file via drag and drop");
-                throw;
-            }
+            public string FileName { get; set; } = string.Empty;
+            public long Size { get; set; }
         }
 
         /// <summary>
-        /// Uploads a file by manually selecting it for upload.
+        /// Starts an attachment upload. The content is then sent in pieces with UploadPiece and attached with CompleteUpload.
         /// </summary>
         [Authorize]
-        [HttpPost("ManualUpload/{givenPageNavigation}")]
-        public async Task<ActionResult> ManualUpload(string givenPageNavigation, IFormFile fileData)
+        [HttpPost("Upload/Start/{givenPageNavigation}")]
+        public async Task<ActionResult> StartUpload(string givenPageNavigation, [FromBody] StartUploadRequest request)
         {
             try
             {
-                try
+                await SessionState.RequirePermission(givenPageNavigation, [TwPermission.Create, TwPermission.Edit]);
+
+                var fileName = Path.GetFileName(request.FileName?.Trim() ?? string.Empty);
+                if (string.IsNullOrEmpty(fileName))
                 {
-                    await SessionState.RequirePermission(givenPageNavigation, [TwPermission.Create, TwPermission.Edit]);
+                    return UploadError(StatusCodes.Status400BadRequest, Localize("The file has no name."));
                 }
-                catch (Exception ex)
+                if (request.Size <= 0)
                 {
-                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                    return UploadError(StatusCodes.Status400BadRequest, Localize("Could not attach file: [{0}], it is empty.", fileName));
                 }
+                if (request.Size > WikiConfiguration.MaxAttachmentFileSize)
+                {
+                    return UploadError(StatusCodes.Status413PayloadTooLarge, Localize("Could not attach file: [{0}], it is larger than the {1} allowed.",
+                        fileName, NTDLS.Helpers.Formatters.FileSize(WikiConfiguration.MaxAttachmentFileSize)));
+                }
+
+                var freeSpace = GetFreeSpace(attachmentUploads.Storage.RootPath);
+                if (freeSpace != null && freeSpace < request.Size + MinimumFreeSpaceAfterUpload)
+                {
+                    return UploadError(StatusCodes.Status507InsufficientStorage, Localize("Could not attach file: [{0}], there is not enough free disk space on the server.", fileName));
+                }
+
                 var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
-
-                var page = (await pageRepository.GetPageInfoByNavigation(pageNavigation.Canonical)).EnsureNotNull();
-
-                if (fileData != null)
+                var page = await pageRepository.GetPageInfoByNavigation(pageNavigation.Canonical);
+                if (page == null)
                 {
-                    var fileSize = fileData.Length;
-                    if (fileSize > 0)
-                    {
-                        if (fileSize > WikiConfiguration.MaxAttachmentFileSize)
-                        {
-                            return Content(Localize("Could not save the attached file, too large"));
-                        }
-
-                        var fileName = HttpUtility.UrlDecode(fileData.FileName);
-
-                        await pageRepository.UpsertPageFile(new TwPageFileAttachment()
-                        {
-                            Data = Utility.ConvertHttpFileToBytes(fileData),
-                            CreatedDate = DateTime.UtcNow,
-                            PageId = page.Id,
-                            Name = fileName,
-                            FileNavigation = TwNavigation.Clean(fileName),
-                            Size = fileSize,
-                            ContentType = Utility.GetMimeType(fileName)
-                        }, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
-
-                        return Content(Localize("Success"));
-                    }
+                    return UploadError(StatusCodes.Status404NotFound, Localize("The page was not found, save the page before uploading files."));
                 }
 
-                return Content(Localize("Failure"));
+                var upload = attachmentUploads.Start(CurrentUserId, page.Id, pageNavigation.Canonical, fileName, request.Size);
+
+                return Json(new { uploadId = upload.UploadId, maxPieceSize = TwAttachmentUploads.MaxPieceSize, received = 0L });
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Failed to manually upload file");
-                throw;
+                return UploadError(ex, "Failed to start an attachment upload.");
             }
         }
+
+        /// <summary>
+        /// Returns how much of an upload the server has, so an interrupted upload can continue from there.
+        /// </summary>
+        [Authorize]
+        [HttpGet("Upload/{uploadId}")]
+        public ActionResult UploadStatus(string uploadId)
+        {
+            try
+            {
+                var upload = attachmentUploads.Get(uploadId, CurrentUserId);
+                return Json(new { uploadId = upload.UploadId, size = upload.Size, received = attachmentUploads.GetReceived(uploadId) });
+            }
+            catch (Exception ex)
+            {
+                return UploadError(ex, "Failed to get the status of an attachment upload.");
+            }
+        }
+
+        /// <summary>
+        /// Receives one piece of an upload as the raw request body, at the given offset.
+        /// </summary>
+        [Authorize]
+        [HttpPut("Upload/{uploadId}/{offset:long}")]
+        [RequestSizeLimit(TwAttachmentUploads.MaxPieceSize + 1024 * 1024)]
+        public async Task<ActionResult> UploadPiece(string uploadId, long offset)
+        {
+            try
+            {
+                var upload = attachmentUploads.Get(uploadId, CurrentUserId);
+                var received = await attachmentUploads.AppendAsync(upload, offset, Request.Body, HttpContext.RequestAborted);
+                return Json(new { received });
+            }
+            catch (Exception ex)
+            {
+                return UploadError(ex, "Failed to receive a piece of an attachment upload.");
+            }
+        }
+
+        /// <summary>
+        /// Attaches a completely received upload to the page. A new file revision is only created if the content changed.
+        /// </summary>
+        [Authorize]
+        [HttpPost("Upload/{uploadId}/Complete")]
+        public async Task<ActionResult> CompleteUpload(string uploadId)
+        {
+            try
+            {
+                var upload = attachmentUploads.Get(uploadId, CurrentUserId);
+
+                //Permissions may have changed while the file was being uploaded.
+                await SessionState.RequirePermission(upload.PageNavigation, [TwPermission.Create, TwPermission.Edit]);
+
+                return await attachmentUploads.WithLock<ActionResult>(uploadId, async () =>
+                {
+                    var partPath = attachmentUploads.GetPartPath(uploadId);
+                    var received = attachmentUploads.GetReceived(uploadId);
+                    if (received != upload.Size)
+                    {
+                        return UploadError(StatusCodes.Status409Conflict, Localize("The upload is not complete."), received);
+                    }
+
+                    int dataHash;
+                    await using (var stream = new FileStream(partPath, FileMode.Open, FileAccess.Read, FileShare.Read,
+                        1024 * 1024, FileOptions.Asynchronous | FileOptions.SequentialScan))
+                    {
+                        dataHash = await SecurityUtility.Crc32Async(stream, HttpContext.RequestAborted);
+                    }
+
+                    var changed = await pageRepository.UpsertPageFileFromIncoming(new TwPageFileAttachment()
+                    {
+                        CreatedDate = DateTime.UtcNow,
+                        PageId = upload.PageId,
+                        Name = upload.FileName,
+                        FileNavigation = TwNavigation.Clean(upload.FileName),
+                        Size = upload.Size,
+                        ContentType = Utility.GetMimeType(upload.FileName)
+                    }, partPath, dataHash, CurrentUserId);
+
+                    attachmentUploads.Delete(uploadId);
+
+                    return Json(new { success = true, fileName = upload.FileName, changed });
+                });
+            }
+            catch (Exception ex)
+            {
+                return UploadError(ex, "Failed to complete an attachment upload.");
+            }
+        }
+
+        /// <summary>
+        /// Cancels an upload and deletes what was received.
+        /// </summary>
+        [Authorize]
+        [HttpDelete("Upload/{uploadId}")]
+        public async Task<ActionResult> CancelUpload(string uploadId)
+        {
+            try
+            {
+                attachmentUploads.Get(uploadId, CurrentUserId);
+                return await attachmentUploads.WithLock<ActionResult>(uploadId, () =>
+                {
+                    attachmentUploads.Delete(uploadId);
+                    return Task.FromResult<ActionResult>(Json(new { success = true }));
+                });
+            }
+            catch (Exception ex)
+            {
+                return UploadError(ex, "Failed to cancel an attachment upload.");
+            }
+        }
+
+        /// <summary>
+        /// Uploads must leave this much disk space free, so a large upload can not fill the disk the databases are on.
+        /// </summary>
+        private const long MinimumFreeSpaceAfterUpload = 512L * 1024 * 1024;
+
+        private Guid CurrentUserId => (SessionState.Profile?.UserId).EnsureNotNullOrEmpty();
+
+        private static long? GetFreeSpace(string path)
+        {
+            try
+            {
+                var root = Path.GetPathRoot(Path.GetFullPath(path));
+                return string.IsNullOrEmpty(root) ? null : new DriveInfo(root).AvailableFreeSpace;
+            }
+            catch
+            {
+                return null; //Not a drive that can be queried, such as a network share.
+            }
+        }
+
+        private JsonResult UploadError(int statusCode, string message, long? received = null)
+        {
+            Response.StatusCode = statusCode;
+            return Json(new { success = false, message, received });
+        }
+
+        private JsonResult UploadError(Exception ex, string logMessage)
+        {
+            switch (ex.GetBaseException())
+            {
+                case TwAttachmentUploadException uploadException:
+                    return UploadError(uploadException.StatusCode, Localize(uploadException.Message), uploadException.Received);
+                case UnauthorizedException:
+                    return UploadError(StatusCodes.Status403Forbidden, ex.GetBaseException().Message);
+                case OperationCanceledException:
+                    return UploadError(499, Localize("The upload was interrupted."));
+                default:
+                    Logger.LogError(ex, logMessage);
+                    return UploadError(StatusCodes.Status500InternalServerError, Localize("An error occurred: {0}", ex.GetBaseException().Message));
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// Allows a user to delete a page attachment from a page.

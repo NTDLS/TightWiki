@@ -13,6 +13,7 @@
 		<PackageReference Include="System.DirectoryServices.Protocols" Version="10.0.14" />
 		<PackageReference Include="MailKit" Version="4.18.2" />
 		<PackageReference Include="System.Runtime.Caching" Version="10.0.14" />
+		<PackageReference Include="System.IO.Hashing" Version="10.0.12" />
 	</ItemGroup>
 
 	<ItemGroup>

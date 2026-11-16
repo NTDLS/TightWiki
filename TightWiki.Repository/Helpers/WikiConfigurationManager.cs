@@ -75,7 +75,7 @@ namespace TightWiki.Repository.Helpers
             WikiConfiguration.EnableSidebar = customizationConfig?.Value("Enable Sidebar", false) ?? false;
             WikiConfiguration.SidebarPage = customizationConfig?.Value("Sidebar Page", string.Empty) ?? string.Empty;
             WikiConfiguration.MaxAvatarFileSize = filesAndAttachmentsConfig.Value<int>("Max Avatar File Size");
-            WikiConfiguration.MaxAttachmentFileSize = filesAndAttachmentsConfig.Value<int>("Max Attachment File Size");
+            WikiConfiguration.MaxAttachmentFileSize = filesAndAttachmentsConfig.Value<long>("Max Attachment File Size");
             WikiConfiguration.MaxEmojiFileSize = filesAndAttachmentsConfig.Value<int>("Max Emoji File Size");
 
             await ReloadMenu();

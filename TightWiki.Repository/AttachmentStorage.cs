@@ -121,6 +121,58 @@ namespace TightWiki.Repository
             }
         }
 
+        public string GetIncomingPath(string fileName)
+        {
+            if (string.IsNullOrWhiteSpace(fileName) || fileName != Path.GetFileName(fileName))
+            {
+                throw new ArgumentException("Expected a file name without a path.", nameof(fileName));
+            }
+
+            Directory.CreateDirectory(IncomingPath);
+            return Path.Combine(IncomingPath, fileName);
+        }
+
+        public void Import(int pageFileId, int revision, string incomingPath)
+        {
+            var fullIncomingPath = Path.GetFullPath(incomingPath);
+            if (!string.Equals(Path.GetDirectoryName(fullIncomingPath), IncomingPath, StringComparison.OrdinalIgnoreCase))
+            {
+                throw new ArgumentException("Only files in the staging directory can be imported.", nameof(incomingPath));
+            }
+
+            Directory.CreateDirectory(GetDirectory(pageFileId));
+            File.Move(fullIncomingPath, GetPath(pageFileId, revision), overwrite: true);
+        }
+
+        public int DeleteStaleIncoming(TimeSpan olderThan)
+        {
+            if (!Directory.Exists(IncomingPath))
+            {
+                return 0;
+            }
+
+            int deleted = 0;
+            var threshold = DateTime.UtcNow - olderThan;
+
+            foreach (var file in new DirectoryInfo(IncomingPath).EnumerateFiles())
+            {
+                try
+                {
+                    if (file.LastWriteTimeUtc < threshold)
+                    {
+                        file.Delete();
+                        deleted++;
+                    }
+                }
+                catch (IOException)
+                {
+                    //In use, so not abandoned.
+                }
+            }
+
+            return deleted;
+        }
+
         private string GetDirectory(int pageFileId)
             => Path.Combine(RootPath, pageFileId.ToString(CultureInfo.InvariantCulture));
 

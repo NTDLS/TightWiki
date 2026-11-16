@@ -1763,6 +1763,21 @@ namespace TightWiki.Repository
         }
 
         public async Task UpsertPageFile(TwPageFileAttachment item, Guid userId)
+            => await UpsertPageFile(item, SecurityUtility.Crc32(item.Data),
+                async (pageFileId, revision) => await _attachmentStorage.WriteAsync(pageFileId, revision, item.Data), userId);
+
+        public async Task<bool> UpsertPageFileFromIncoming(TwPageFileAttachment item, string incomingPath, int dataHash, Guid userId)
+            => await UpsertPageFile(item, dataHash,
+                (pageFileId, revision) => { _attachmentStorage.Import(pageFileId, revision, incomingPath); return Task.CompletedTask; }, userId);
+
+        /// <summary>
+        /// Attaches a file to the current revision of a page. A new file revision is only created when the content
+        ///  differs (by hash) from the revision that is currently attached.
+        /// </summary>
+        /// <param name="storeContent">Puts the content into the attachment storage as the given page file id and revision.
+        /// Only called when a new revision is created, before its row is inserted.</param>
+        /// <returns>True if a new file revision was created, false if the content was unchanged.</returns>
+        private async Task<bool> UpsertPageFile(TwPageFileAttachment item, int newDataHash, Func<int, int, Task> storeContent, Guid userId)
         {
             bool hasFileChanged = false;
 
@@ -1787,8 +1802,7 @@ namespace TightWiki.Repository
                             FileNavigation = item.FileNavigation,
                             ContentType = item.ContentType,
                             Size = item.Size,
-                            CreatedDate = item.CreatedDate,
-                            Data = item.Data
+                            CreatedDate = item.CreatedDate
                         };
 
                         o.Execute("InsertPageFile.sql", InsertPageFileParam);
@@ -1802,7 +1816,6 @@ namespace TightWiki.Repository
 
 
                     int currentFileRevision = 0;
-                    var newDataHash = SecurityUtility.Crc32(item.Data);
 
                     var currentlyAttachedFile = await GetPageCurrentRevisionAttachmentByFileNavigation(o, item.PageId, item.FileNavigation);
                     if (currentlyAttachedFile != null)
@@ -1847,7 +1860,7 @@ namespace TightWiki.Repository
                         }
 
                         //The content goes to the attachment storage before its row is inserted, so a row never points at missing content.
-                        await _attachmentStorage.WriteAsync(pageFileInfo.PageFileId, currentFileRevision, item.Data);
+                        await storeContent(pageFileInfo.PageFileId, currentFileRevision);
                         writtenContent = new TwPageFileRevisionKey { PageFileId = pageFileInfo.PageFileId, Revision = currentFileRevision };
 
                         var insertPageFileRevisionParam = new
@@ -1890,6 +1903,8 @@ namespace TightWiki.Repository
                     throw;
                 }
             });
+
+            return hasFileChanged;
         }
 
         #endregion

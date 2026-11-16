@@ -26,8 +26,21 @@ namespace TightWiki.Library.Security
         public static int Crc32(string text)
             => (int)(new Crc32()).Get(Encoding.Unicode.GetBytes(text));
 
+        /// <summary>
+        /// The standard (IEEE) CRC-32, the same value the Crc32 class calculates, using the hardware accelerated implementation.
+        /// </summary>
         public static int Crc32(byte[] bytes)
-            => (int)(new Crc32()).Get(bytes);
+            => unchecked((int)System.IO.Hashing.Crc32.HashToUInt32(bytes));
+
+        /// <summary>
+        /// The same CRC-32 as Crc32(byte[]), calculated while reading the stream so its content is never all in memory.
+        /// </summary>
+        public static async Task<int> Crc32Async(Stream stream, CancellationToken cancellationToken = default)
+        {
+            var crc = new System.IO.Hashing.Crc32();
+            await crc.AppendAsync(stream, cancellationToken);
+            return unchecked((int)crc.GetCurrentHashAsUInt32());
+        }
 
         public static string Sha1(string text)
             => BitConverter.ToString(SHA1.HashData(Encoding.Unicode.GetBytes(text))).Replace("-", "");

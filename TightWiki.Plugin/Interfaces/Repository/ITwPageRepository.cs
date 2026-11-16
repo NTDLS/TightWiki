@@ -480,6 +480,16 @@ namespace TightWiki.Plugin.Interfaces.Repository
         Task UpsertPageFile(TwPageFileAttachment item, Guid userId);
 
         /// <summary>
+        /// Attaches a completely received upload to the current revision of a page. If the content is new, the file is moved
+        /// from the attachment storage's staging directory into place; if it matches the attached revision nothing changes and
+        /// the file is left where it is for the caller to delete. The item's Data is not used.
+        /// </summary>
+        /// <param name="incomingPath">The received file, in the attachment storage's staging directory.</param>
+        /// <param name="dataHash">The CRC-32 of the file's content.</param>
+        /// <returns>True if a new file revision was created, false if the content was unchanged.</returns>
+        Task<bool> UpsertPageFileFromIncoming(TwPageFileAttachment item, string incomingPath, int dataHash, Guid userId);
+
+        /// <summary>
         /// Moves the content of attachments that are still stored in the pages and deleted pages databases into the
         /// attachment storage, one revision at a time. A revision's database copy is only cleared once its file has been
         /// read back and matches. Safe to stop at any point and run again: it continues with what is left.

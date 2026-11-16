@@ -5,6 +5,7 @@
 @using TightWiki.ViewModels.Page
 @inject ITwSharedLocalizationText Localizer
 @inject TwConfiguration WikiConfiguration
+@inject Microsoft.AspNetCore.Mvc.ViewFeatures.IFileVersionProvider FileVersion
 
 @model PageEditViewModel
 @{
@@ -291,6 +292,33 @@
 </script>
 <!-- Emoji Auto-complete: END -->
 
+<script src="@FileVersion.AddFileVersionToPath(Context.Request.PathBase, Url.Content("~/attachment-uploader.js"))"></script>
+<script>
+    //Created when the page is in edit mode and the user can attach files, see below.
+    let attachmentUploader = null;
+
+    function createAttachmentUploader(statusElement) {
+        return new TwAttachmentUploader({
+            startUrl: '@WikiConfiguration.BasePath/File/Upload/Start/@sessionState.PageNavigationEscaped',
+            uploadUrl: '@WikiConfiguration.BasePath/File/Upload/',
+            statusElement: statusElement,
+            text: {
+                waiting: @Json.Serialize(Localize("Waiting")),
+                uploading: @Json.Serialize(Localize("Uploading")),
+                finishing: @Json.Serialize(Localize("Finishing")),
+                done: @Json.Serialize(Localize("Attached")),
+                unchanged: @Json.Serialize(Localize("Unchanged, already attached")),
+                cancelled: @Json.Serialize(Localize("Cancelled")),
+                failed: @Json.Serialize(Localize("Failed")),
+                retrying: @Json.Serialize(Localize("Connection lost, retrying")),
+                cancel: @Json.Serialize(Localize("Cancel")),
+                leaveWarning: @Json.Serialize(Localize("Files are still uploading. Leaving now will cancel them."))
+            },
+            onAllDone: () => $("#uploadedFiles").load("@WikiConfiguration.BasePath/File/PageAttachments/@sessionState.PageNavigationEscaped")
+        });
+    }
+</script>
+
 <!-- Clipboard image pasting: BEGIN -->
 <script>
     function addClipboardImagePasteUpload(editor) {
@@ -324,32 +352,18 @@
             if (files.length === 0) return; //Let normal text paste continue
             e.preventDefault(); //We found images; stop the browser from pasting base64 content
 
-            //Build FormData the same way our drag/drop uses it
-            const formData = new FormData();
-            const chosenNames = [];
-            let count = 0;
-
-            for (const file of files) {
-                const safeName = suggestFilenameForPaste(file, count++);
-                formData.append("postedFiles", file, safeName);
-                chosenNames.push(safeName);
-            }
-
-            const resp = await fetch('@Url.Action("UploadDragDrop", "File")/@sessionState.PageNavigationEscaped', {
-                method: 'POST',
-                body: formData
-            });
-            const result = await resp.json();
-
-            //Insert tags at cursor
+            //Remember where the cursor was, the user may keep typing while the images upload.
             const doc = editor.getDoc();
             const cursor = doc.getCursor();
-            const tags = chosenNames.map(n => toWikiimageTag(n)).join("\n");
-            doc.replaceRange(tags, cursor);
 
-           //Refresh the attachments list
-           $("#uploadedFiles").load("@WikiConfiguration.BasePath/File/PageAttachments/@sessionState.PageNavigationEscaped");
+            let count = 0;
+            const results = await attachmentUploader.upload(files.map(file => ({ file, name: suggestFilenameForPaste(file, count++) })));
 
+            //Insert tags for the images that were attached.
+            const tags = results.filter(r => r.success).map(r => toWikiimageTag(r.fileName)).join("\n");
+            if (tags) {
+                doc.replaceRange(tags, cursor);
+            }
          } catch (err) {
            const uploadStatus = document.getElementById('uploadStatus');
            if (uploadStatus) {
@@ -758,6 +772,7 @@
             const fileInput = document.getElementById('fileInput');
             const uploadStatus = document.getElementById('uploadStatus');
 
+            attachmentUploader = createAttachmentUploader(uploadStatus);
             addClipboardImagePasteUpload(editor);
 
             // Handle dragover event
@@ -814,34 +829,12 @@
             });
         }
 
-        // Function to handle file upload
+        //Files of any size are uploaded in pieces, with progress shown in #uploadStatus.
         function handleFileUpload(files) {
-            const formData = new FormData();
-            for (let i = 0; i < files.length; i++) {
-                formData.append('postedFiles', files[i]);
+            if (files && files.length > 0) {
+                attachmentUploader.upload(files);
             }
-
-            uploadFiles(formData);
-        }
-
-        // Function to upload files using fetch API
-        function uploadFiles(formData) {
-            fetch('@Url.Action("UploadDragDrop", "File")/@sessionState.PageNavigationEscaped', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.json())  // Read the response as JSON
-                .then(result => {
-                    if (result.success) {
-                        uploadStatus.innerHTML = `<p>@Localize("Upload successful") - ${result.message}</p>`;
-                    } else {
-                        uploadStatus.innerHTML = `<p>@Localize("Error") - ${result.message}</p>`;
-                    }
-                    $("#uploadedFiles").load("@WikiConfiguration.BasePath/File/PageAttachments/@sessionState.PageNavigationEscaped");
-                })
-                .catch(error => {
-                    uploadStatus.innerHTML = `<p>@Localize("Unexpected Error"): ${error.message}</p>`;
-                });
+            fileInput.value = ''; //So choosing the same file again still uploads it.
         }
 
        function onInsertEmoji(item){

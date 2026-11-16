@@ -42,6 +42,14 @@ namespace TightWiki.Tests
                         var databasePath = configuration.GetConnectionString("DatabasePath").EnsureNotNull();
                         Directory.CreateDirectory(originalDatabasePath);
 
+                        //The databases are copied fresh, so attachment files left by a previous run would belong to ids
+                        //  that the fresh databases hand out again.
+                        var attachmentsPath = Path.Combine(databasePath, "Attachments");
+                        if (Directory.Exists(attachmentsPath))
+                        {
+                            Directory.Delete(attachmentsPath, true);
+                        }
+
                         //Copy all prod-release databases to the test directory.
                         foreach (var file in Directory.GetFiles(originalDatabasePath))
                         {

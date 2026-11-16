@@ -50,5 +50,24 @@ namespace TightWiki.Plugin.Interfaces
         /// Returns the full path of every stored attachment file (uploads still being written are excluded).
         /// </summary>
         IEnumerable<string> EnumerateFiles();
+
+        /// <summary>
+        /// Returns the full path of a file in the staging directory, where uploads are received before they become
+        /// a page file revision. The staging directory is on the same volume as the stored files.
+        /// </summary>
+        /// <param name="fileName">A file name only, never a path.</param>
+        string GetIncomingPath(string fileName);
+
+        /// <summary>
+        /// Moves a completely received file from the staging directory into place as the content of a page file revision,
+        /// replacing anything already stored for that revision. The source file no longer exists afterwards.
+        /// </summary>
+        void Import(int pageFileId, int revision, string incomingPath);
+
+        /// <summary>
+        /// Deletes files in the staging directory that have not been written to for the given time: uploads that were abandoned.
+        /// </summary>
+        /// <returns>The number of files deleted.</returns>
+        int DeleteStaleIncoming(TimeSpan olderThan);
     }
 }
