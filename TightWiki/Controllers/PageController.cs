@@ -1348,6 +1348,16 @@ namespace TightWiki.Controllers
         {
             try
             {
+                //Checked before the image cache so that a cached image is never served to someone who can not read the page.
+                try
+                {
+                    await SessionState.RequirePermission(givenPageNavigation, TwPermission.Read);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+
                 var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
                 var fileNavigation = new TwNamespaceNavigation(givenFileNavigation);
 
