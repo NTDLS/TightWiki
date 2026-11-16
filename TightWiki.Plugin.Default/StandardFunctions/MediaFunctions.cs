@@ -1,4 +1,5 @@
 ﻿using NTDLS.Helpers;
+using System.Net;
 using System.Text;
 using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Functions;
@@ -119,6 +120,121 @@ namespace TightWiki.Plugin.Default.StandardFunctions
             }
         }
 
+        /// <summary>
+        /// Video formats that browsers can play. Others (.avi, .mov, .wmv, .mkv) are offered as a download.
+        /// </summary>
+        private static readonly HashSet<string> PlayableVideoTypes = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "video/mp4", "video/webm", "video/ogg"
+        };
+
+        /// <summary>
+        /// Audio formats that browsers can play.
+        /// </summary>
+        private static readonly HashSet<string> PlayableAudioTypes = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "audio/mpeg", "audio/mp3", "audio/mp4", "audio/x-m4a", "audio/aac", "audio/ogg", "application/ogg",
+            "audio/wav", "audio/x-wav", "audio/wave", "audio/vnd.wave", "audio/webm", "audio/flac", "audio/x-flac"
+        };
+
+        [TwStandardFunctionPlugin("Video", "Plays a video that is attached to the page (MP4, WebM or Ogg). Other formats are shown as a download link.")]
+        public async Task<TwPluginResult> Video(ITwEngineState state,
+            string name, int? width = null, string? poster = null, bool loop = false, bool muted = false, bool autoplay = false)
+        {
+            var media = await ResolveMedia(state, name);
+            if (media.Attachment == null)
+            {
+                throw new Exception($"File not found [{WebUtility.HtmlEncode(name)}]");
+            }
+
+            if (!PlayableVideoTypes.Contains(media.Attachment.ContentType))
+            {
+                return new TwPluginResult(NotPlayable(state, media.Url, media.Attachment));
+            }
+
+            var attributes = new StringBuilder("controls preload=\"metadata\" playsinline class=\"img-fluid\"");
+            if (width > 0) attributes.Append($" width=\"{width}\"");
+            if (loop) attributes.Append(" loop");
+            //Browsers only start playing by themselves when the sound is off.
+            if (autoplay) attributes.Append(" autoplay muted");
+            else if (muted) attributes.Append(" muted");
+
+            if (!string.IsNullOrWhiteSpace(poster))
+            {
+                var posterMedia = await ResolveMedia(state, poster);
+                if (posterMedia.Attachment != null)
+                {
+                    attributes.Append($" poster=\"{WebUtility.HtmlEncode(posterMedia.Url)}\"");
+                }
+            }
+
+            return new TwPluginResult(
+                $"<video {attributes}>"
+                + $"<source src=\"{WebUtility.HtmlEncode(media.Url)}\" type=\"{WebUtility.HtmlEncode(media.Attachment.ContentType)}\" />"
+                + DownloadLink(state, media.Url, media.Attachment)
+                + "</video>");
+        }
+
+        [TwStandardFunctionPlugin("Audio", "Plays audio that is attached to the page (MP3, M4A, Ogg, WAV, WebM or FLAC). Other formats are shown as a download link.")]
+        public async Task<TwPluginResult> Audio(ITwEngineState state, string name, bool loop = false)
+        {
+            var media = await ResolveMedia(state, name);
+            if (media.Attachment == null)
+            {
+                throw new Exception($"File not found [{WebUtility.HtmlEncode(name)}]");
+            }
+
+            if (!PlayableAudioTypes.Contains(media.Attachment.ContentType))
+            {
+                return new TwPluginResult(NotPlayable(state, media.Url, media.Attachment));
+            }
+
+            return new TwPluginResult(
+                $"<audio controls preload=\"metadata\"{(loop ? " loop" : string.Empty)}>"
+                + $"<source src=\"{WebUtility.HtmlEncode(media.Url)}\" type=\"{WebUtility.HtmlEncode(media.Attachment.ContentType)}\" />"
+                + DownloadLink(state, media.Url, media.Attachment)
+                + "</audio>");
+        }
+
+        /// <summary>
+        /// Finds an attachment by name, either on this page or, written as "Page Name/file.mp4", on another page.
+        /// Returns the URL that streams it (with seeking) and its details, which are null if it does not exist.
+        /// </summary>
+        private static async Task<(string Url, TwPageFileAttachmentInfo? Attachment)> ResolveMedia(ITwEngineState state, string name)
+        {
+            string navigation = state.Page.Navigation;
+            bool isPageForeign = false;
+
+            if (name.Contains('/'))
+            {
+                int slashIndex = name.IndexOf('/');
+                navigation = TwNamespaceNavigation.CleanAndValidate(name.Substring(0, slashIndex));
+                name = name.Substring(slashIndex + 1);
+                isPageForeign = true;
+            }
+
+            var fileNavigation = TwNamespaceNavigation.CleanAndValidate(name);
+
+            //Files on other pages are not versioned with this page, so they are always the current revision.
+            int? pageRevision = isPageForeign ? null : state.Revision;
+
+            var attachment = await state.Engine.DatabaseManager.PageRepository
+                .GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, fileNavigation, pageRevision);
+
+            var url = $"{state.Engine.WikiConfiguration.BasePath}/Page/Binary/{navigation}/{fileNavigation}"
+                + (pageRevision != null ? $"/{pageRevision}" : string.Empty);
+
+            return (url, attachment);
+        }
+
+        private static string DownloadLink(ITwEngineState state, string url, TwPageFileAttachmentInfo attachment)
+            => $"<a href=\"{WebUtility.HtmlEncode(url)}\">{WebUtility.HtmlEncode(string.Format(state.Localizer["Download {0}"].Value, attachment.Name))}</a>";
+
+        private static string NotPlayable(ITwEngineState state, string url, TwPageFileAttachmentInfo attachment)
+            => $"<div class=\"alert alert-secondary\" role=\"note\">"
+            + WebUtility.HtmlEncode(state.Localizer["This file can not be played in the browser."].Value)
+            + $" {DownloadLink(state, url, attachment)} ({WebUtility.HtmlEncode(attachment.FriendlySize)})</div>";
+
         [TwStandardFunctionPlugin("File", "Displays a file download link.")]
         public async Task<TwPluginResult> File(ITwEngineState state, string name, string linkText, bool showSize = false)
         {
@@ -168,7 +284,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
                     return new TwPluginResult(image);
                 }
             }
-            throw new Exception($"File not found [{name}]");
+            throw new Exception($"File not found [{WebUtility.HtmlEncode(name)}]");
         }
     }
 }

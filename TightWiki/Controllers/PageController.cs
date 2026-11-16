@@ -1370,17 +1370,18 @@ namespace TightWiki.Controllers
                     return File(cached.Bytes, cached.ContentType);
                 }
 
-                var file = await pageRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
+                var file = await pageRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision, loadContent: false);
 
                 if (file != null)
                 {
-                    if (file.ContentType == "image/x-icon")
+                    if (!CanResizeImage(file))
                     {
-                        //We do not handle the resizing of icon file. Maybe later....
-                        return File(file.Data, file.ContentType);
+                        //Icons, vector images, very large images and anything that is not an image are sent as they are.
+                        return AttachmentContent(file);
                     }
 
-                    var img = new MagickImage(file.Data);
+                    var data = await ReadAttachmentContent(file);
+                    var img = new MagickImage(data);
 
                     if (scale > 500)
                     {
@@ -1408,15 +1409,15 @@ namespace TightWiki.Controllers
 
                         if (file.ContentType.Equals("image/gif", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            var resized = ImagesUtility.ResizeGifImage(file.Data, width, height);
+                            var resized = ImagesUtility.ResizeGifImage(data, width, height);
                             return File(resized, "image/gif");
                         }
                         else
                         {
                             using var image = ImagesUtility.ResizeImage(img, (uint)width, (uint)height);
                             using var ms = new MemoryStream();
-                            file.ContentType = ImagesUtility.BestEffortConvertImage(image, ms, file.ContentType);
-                            var cacheItem = new TwImageCacheItem(ms.ToArray(), file.ContentType);
+                            var resizedContentType = ImagesUtility.BestEffortConvertImage(image, ms, file.ContentType);
+                            var cacheItem = new TwImageCacheItem(ms.ToArray(), resizedContentType);
                             MemCache.Set(cacheKey, cacheItem);
                             return File(cacheItem.Bytes, cacheItem.ContentType);
                         }
@@ -1439,7 +1440,7 @@ namespace TightWiki.Controllers
                     }
                     else
                     {
-                        return File(file.Data, file.ContentType);
+                        return AttachmentContent(file);
                     }
                 }
                 else
@@ -1479,10 +1480,16 @@ namespace TightWiki.Controllers
 
                 string givenScale = GetQueryValue("Scale", "100");
 
-                var file = await pageRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
+                var file = await pageRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision, loadContent: false);
                 if (file != null)
                 {
-                    var img = new MagickImage(Utility.Decompress(file.Data));
+                    if (!CanResizeImage(file))
+                    {
+                        return AttachmentContent(file);
+                    }
+
+                    //Attachments are stored as they were uploaded (only emoji are stored compressed).
+                    var img = new MagickImage(await ReadAttachmentContent(file));
 
                     int parsedScale = int.Parse(givenScale);
                     if (parsedScale > 500)
@@ -1556,11 +1563,11 @@ namespace TightWiki.Controllers
                 var pageNavigation = new TwNamespaceNavigation(givenPageNavigation);
                 var fileNavigation = new TwNamespaceNavigation(givenFileNavigation);
 
-                var file = await pageRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
+                var file = await pageRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision, loadContent: false);
 
                 if (file != null)
                 {
-                    return File(file.Data.ToArray(), file.ContentType);
+                    return AttachmentContent(file);
                 }
                 else
                 {

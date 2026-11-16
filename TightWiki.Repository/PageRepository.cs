@@ -1572,7 +1572,7 @@ namespace TightWiki.Repository
             return await PagesFactory.QuerySingleOrDefaultAsync<TwPageFileAttachmentInfo>("GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation.sql", param);
         }
 
-        public async Task<TwPageFileAttachment?> GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? fileRevision = null)
+        public async Task<TwPageFileAttachment?> GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? fileRevision = null, bool loadContent = true)
         {
             var param = new
             {
@@ -1581,13 +1581,14 @@ namespace TightWiki.Repository
                 FileRevision = fileRevision
             };
 
-            return await LoadAttachmentContent(
-                await PagesFactory.QuerySingleOrDefaultAsync<TwPageFileAttachment>("GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql", param));
+            var attachment = await PagesFactory.QuerySingleOrDefaultAsync<TwPageFileAttachment>("GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql", param);
+            return loadContent ? await LoadAttachmentContent(attachment) : attachment;
         }
 
-        public async Task<TwPageFileAttachment?> GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null)
+        public async Task<TwPageFileAttachment?> GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null, bool loadContent = true)
         {
-            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Page, [pageNavigation, fileNavigation, pageRevision]);
+            //Cached separately with and without content, so the details of a large file can be cached without its content.
+            var cacheKey = MemCacheKeyFunction.Build(MemCache.Category.Page, [pageNavigation, fileNavigation, pageRevision, loadContent]);
 
             return await MemCache.AddOrGetAsync(cacheKey, async () =>
             {
@@ -1598,8 +1599,9 @@ namespace TightWiki.Repository
                     PageRevision = pageRevision
                 };
 
-                return await LoadAttachmentContent(await PagesFactory.QuerySingleOrDefaultAsync<TwPageFileAttachment>(
-                    "GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation.sql", param));
+                var attachment = await PagesFactory.QuerySingleOrDefaultAsync<TwPageFileAttachment>(
+                    "GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation.sql", param);
+                return loadContent ? await LoadAttachmentContent(attachment) : attachment;
             });
         }
 

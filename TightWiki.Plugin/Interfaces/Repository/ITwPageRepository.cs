@@ -447,12 +447,16 @@ namespace TightWiki.Plugin.Interfaces.Repository
         /// <summary>
         /// Returns the full file attachment including content, located by page navigation, file navigation, and optional file revision.
         /// </summary>
-        Task<TwPageFileAttachment?> GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? fileRevision = null);
+        /// <param name="loadContent">False to skip reading content from the attachment storage, so a large file is not read into
+        /// memory. Data then only holds content still stored in the database (attachments not yet moved to the storage).</param>
+        Task<TwPageFileAttachment?> GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? fileRevision = null, bool loadContent = true);
 
         /// <summary>
         /// Returns the full file attachment including content, located by page navigation, page revision, and file navigation.
         /// </summary>
-        Task<TwPageFileAttachment?> GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null);
+        /// <param name="loadContent">False to skip reading content from the attachment storage, so a large file is not read into
+        /// memory. Data then only holds content still stored in the database (attachments not yet moved to the storage).</param>
+        Task<TwPageFileAttachment?> GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null, bool loadContent = true);
 
         /// <summary>
         /// Returns a paged list of revision history entries for a specific file attachment on a page.

@@ -48,6 +48,71 @@ namespace TightWiki.Controllers
             }
         }
 
+        /// <summary>
+        /// The largest image that is read into memory to be resized. Larger images are sent as they are.
+        /// </summary>
+        protected const long MaxImageProcessingSize = 64L * 1024 * 1024;
+
+        /// <summary>
+        /// Returns the content of an attachment. Content in the attachment storage is streamed from disk with range support,
+        ///  so video can be seeked and downloads can be resumed without the file being read into memory. Attachments not
+        ///  yet moved to the storage are sent from the content that was read from the database.
+        /// </summary>
+        [NonAction]
+        protected ActionResult AttachmentContent(Plugin.Models.TwPageFileAttachment file)
+        {
+            var contentType = string.IsNullOrWhiteSpace(file.ContentType) ? "application/octet-stream" : file.ContentType;
+
+            //The browser must use the type we send rather than guess one from the content.
+            Response.Headers["X-Content-Type-Options"] = "nosniff";
+
+            //An uploaded HTML or SVG file opened directly would otherwise run its scripts as the wiki. The sandbox does not
+            //  affect files shown in a page (img, video, audio), but it does stop the browser's PDF viewer, so PDFs are left out.
+            if (!contentType.Equals("application/pdf", StringComparison.OrdinalIgnoreCase))
+            {
+                Response.Headers["Content-Security-Policy"] = "sandbox";
+            }
+
+            var disposition = new Microsoft.Net.Http.Headers.ContentDispositionHeaderValue(IsShownInline(contentType) ? "inline" : "attachment");
+            disposition.SetHttpFileName(string.IsNullOrWhiteSpace(file.Name) ? "attachment" : file.Name);
+            Response.Headers.ContentDisposition = disposition.ToString();
+
+            var path = DatabaseManager.AttachmentStorage.GetPath(file.Id, file.Revision);
+            if (System.IO.File.Exists(path))
+            {
+                return PhysicalFile(path, contentType, enableRangeProcessing: true);
+            }
+            return File(file.Data, contentType, enableRangeProcessing: true);
+        }
+
+        /// <summary>
+        /// Returns the content of an attachment as bytes, from the attachment storage or, for attachments not yet moved there,
+        ///  the content that was read from the database. Only for content that has to be in memory, such as an image to resize.
+        /// </summary>
+        [NonAction]
+        protected async Task<byte[]> ReadAttachmentContent(Plugin.Models.TwPageFileAttachment file)
+            => await DatabaseManager.AttachmentStorage.ReadAllBytesAsync(file.Id, file.Revision) ?? file.Data;
+
+        /// <summary>
+        /// Returns true if an image can be resized in memory: a raster image type that is not too large.
+        /// </summary>
+        [NonAction]
+        protected static bool CanResizeImage(Plugin.Models.TwPageFileAttachment file)
+            => file.ContentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase)
+            && !file.ContentType.Equals("image/x-icon", StringComparison.OrdinalIgnoreCase)
+            && !file.ContentType.Equals("image/svg+xml", StringComparison.OrdinalIgnoreCase)
+            && file.Size <= MaxImageProcessingSize;
+
+        /// <summary>
+        /// Files the browser shows itself. Everything else is downloaded.
+        /// </summary>
+        private static bool IsShownInline(string contentType)
+            => (contentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase) && !contentType.Equals("image/svg+xml", StringComparison.OrdinalIgnoreCase))
+            || contentType.StartsWith("video/", StringComparison.OrdinalIgnoreCase)
+            || contentType.StartsWith("audio/", StringComparison.OrdinalIgnoreCase)
+            || contentType.Equals("application/pdf", StringComparison.OrdinalIgnoreCase)
+            || contentType.Equals("text/plain", StringComparison.OrdinalIgnoreCase);
+
         [NonAction]
         protected V? GetQueryValue<V>(string key)
         {
