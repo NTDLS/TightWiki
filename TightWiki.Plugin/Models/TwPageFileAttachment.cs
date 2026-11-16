@@ -29,6 +29,11 @@ namespace TightWiki.Plugin.Models
         public int PageId { get; set; }
 
         /// <summary>
+        /// The revision of the file (not of the page) that this content belongs to.
+        /// </summary>
+        public int Revision { get; set; }
+
+        /// <summary>
         /// The original file name of the attachment.
         /// </summary>
         public string Name { get; set; } = string.Empty;

@@ -210,6 +210,7 @@ namespace TightWiki.Controllers
                 var model = new DatabaseBackupsViewModel()
                 {
                     BackupPath = DatabaseManager.BackupPath,
+                    AttachmentPath = DatabaseManager.AttachmentStorage.RootPath,
                     Backups = DatabaseManager.GetDatabaseBackups()
                 };
 
@@ -227,6 +228,14 @@ namespace TightWiki.Controllers
         [Authorize]
         [HttpPost("DatabaseBackups/Create")]
         public async Task<ActionResult> CreateDatabaseBackup(ConfirmActionViewModel model)
+            => await CreateDatabaseBackup(model, includeAttachments: false);
+
+        [Authorize]
+        [HttpPost("DatabaseBackups/CreateWithAttachments")]
+        public async Task<ActionResult> CreateDatabaseBackupWithAttachments(ConfirmActionViewModel model)
+            => await CreateDatabaseBackup(model, includeAttachments: true);
+
+        private async Task<ActionResult> CreateDatabaseBackup(ConfirmActionViewModel model, bool includeAttachments)
         {
             try
             {
@@ -243,7 +252,7 @@ namespace TightWiki.Controllers
                 {
                     try
                     {
-                        var backup = await DatabaseManager.BackupDatabases();
+                        var backup = await DatabaseManager.BackupDatabases(includeAttachments);
                         return NotifyOfSuccess(Localize("The database backup '{0}' has been created.", backup.FileName), model.YesRedirectURL);
                     }
                     catch (Exception ex)

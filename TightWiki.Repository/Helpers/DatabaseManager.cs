@@ -32,6 +32,8 @@ namespace TightWiki.Repository.Helpers
 
         public string BackupPath { get; private set; }
 
+        public ITwAttachmentStorage AttachmentStorage { get; private set; }
+
         /// <summary>
         /// We expose this here because it is the earliest we can prop upa database logger.
         /// </summary>
@@ -53,15 +55,21 @@ namespace TightWiki.Repository.Helpers
             var minimumLogLevel = Enum.Parse<LogLevel>(configuration.GetValue("EventLogLevel", LogLevel.Information.ToString()));
             Logger = new DatabaseLogger(LoggingRepository, minimumLogLevel);
 
+            //Backups and (unless configured otherwise) attachments are stored next to the databases.
+            var configDatabaseFile = ConfigurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);
+            var databaseDirectory = Path.GetDirectoryName(configDatabaseFile)
+                ?? throw new Exception("Could not determine directory of configuration database file");
+
+            BackupPath = Path.Combine(databaseDirectory, "Backups");
+
+            var attachmentPath = ConfigurationManagerExtensions.NormalizeDirectorySeparators(configuration.GetValue<string>("AttachmentPath"));
+            AttachmentStorage = new AttachmentStorage(string.IsNullOrWhiteSpace(attachmentPath)
+                ? Path.Combine(databaseDirectory, "Attachments") : attachmentPath);
+
             EmojiRepository = new EmojiRepository(configuration, ConfigurationRepository);
             StatisticsRepository = new StatisticsRepository(configuration, ConfigurationRepository);
-            PageRepository = new PageRepository(configuration, ConfigurationRepository, StatisticsRepository);
+            PageRepository = new PageRepository(configuration, ConfigurationRepository, StatisticsRepository, AttachmentStorage, LoggingRepository);
             UsersRepository = new UsersRepository(configuration, ConfigurationRepository);
-
-            //Backups are stored next to the databases.
-            var configDatabaseFile = ConfigurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);
-            BackupPath = Path.Combine(Path.GetDirectoryName(configDatabaseFile)
-                ?? throw new Exception("Could not determine directory of configuration database file"), "Backups");
 
             Databases =
                 [
@@ -639,7 +647,7 @@ namespace TightWiki.Repository.Helpers
         }
 
 
-        public async Task<TwDatabaseBackup> BackupDatabases()
+        public async Task<TwDatabaseBackup> BackupDatabases(bool includeAttachments = false)
         {
             Directory.CreateDirectory(BackupPath);
 
@@ -657,7 +665,32 @@ namespace TightWiki.Repository.Helpers
                     await database.Factory.ExecuteAsync($"VACUUM INTO '{snapshotPath}'");
                 }
 
-                ZipFile.CreateFromDirectory(workPath, temporaryZipPath, CompressionLevel.Optimal, false);
+                //Create mode writes each entry straight to the file, so large attachments are never held in memory.
+                using (var zip = ZipFile.Open(temporaryZipPath, ZipArchiveMode.Create))
+                {
+                    foreach (var snapshotPath in Directory.EnumerateFiles(workPath))
+                    {
+                        zip.CreateEntryFromFile(snapshotPath, Path.GetFileName(snapshotPath), CompressionLevel.Optimal);
+                    }
+
+                    if (includeAttachments)
+                    {
+                        //The attachments are copied after the database snapshots were taken. Content uploaded in the meantime
+                        //  is included but harmless; content purged in the meantime is skipped.
+                        foreach (var attachmentPath in AttachmentStorage.EnumerateFiles())
+                        {
+                            var entryName = "Attachments/" + Path.GetRelativePath(AttachmentStorage.RootPath, attachmentPath).Replace('\\', '/');
+                            try
+                            {
+                                //Images, video and documents are already compressed, compressing them again only costs time.
+                                zip.CreateEntryFromFile(attachmentPath, entryName, CompressionLevel.NoCompression);
+                            }
+                            catch (FileNotFoundException)
+                            {
+                            }
+                        }
+                    }
+                }
 
                 var timestamp = DateTime.UtcNow.ToString("yyyyMMdd-HHmmss");
                 var fileName = $"TightWiki-Backup-{timestamp}.zip";

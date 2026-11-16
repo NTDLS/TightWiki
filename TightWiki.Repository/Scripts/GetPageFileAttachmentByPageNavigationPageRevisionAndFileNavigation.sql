@@ -1,4 +1,5 @@
 SELECT
+	PFR.Revision,
 	PF.[Id] as [Id],
 	PF.[PageId] as [PageId],
 	PF.[Name] as [Name],

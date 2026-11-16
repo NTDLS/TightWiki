@@ -20,6 +20,8 @@ namespace TightWiki.Repository
     {
         readonly private ITwConfigurationRepository _configurationRepository;
         readonly private ITwStatisticsRepository _statisticsRepository;
+        readonly private ITwAttachmentStorage _attachmentStorage;
+        readonly private ITwLoggingRepository _loggingRepository;
 
         public SqliteManagedFactory PagesFactory { get; private set; }
         public SqliteManagedFactory DeletedPagesFactory { get; private set; }
@@ -27,10 +29,14 @@ namespace TightWiki.Repository
 
         public PageRepository(IConfiguration configuration,
             ITwConfigurationRepository configurationRepository,
-            ITwStatisticsRepository statisticsRepository)
+            ITwStatisticsRepository statisticsRepository,
+            ITwAttachmentStorage attachmentStorage,
+            ITwLoggingRepository loggingRepository)
         {
             _configurationRepository = configurationRepository;
             _statisticsRepository = statisticsRepository;
+            _attachmentStorage = attachmentStorage;
+            _loggingRepository = loggingRepository;
 
             var configDatabaseFile = configurationRepository.ConfigFactory.Ephemeral(o => o.NativeConnection.DataSource);
 
@@ -742,6 +748,8 @@ namespace TightWiki.Repository
             }
             else
             {
+                var revisionsBefore = await PagesFactory.QueryAsync<TwPageFileRevisionKey>("GetAllPageFileRevisionKeys.sql");
+
                 await PagesFactory.EphemeralAsync(async o =>
                 {
                     var transaction = o.BeginTransaction();
@@ -756,6 +764,43 @@ namespace TightWiki.Repository
                         throw;
                     }
                 });
+
+                await TruncateAttachmentContent(revisionsBefore);
+            }
+        }
+
+        /// <summary>
+        /// TruncateAllPageRevisions.sql keeps only the latest revision of each page file and renumbers it to revision 1.
+        /// This does the same to the attachment storage: the latest revision's content becomes revision 1 and the
+        ///  content of every other revision, and of page files that no longer exist, is deleted.
+        /// </summary>
+        private async Task TruncateAttachmentContent(List<TwPageFileRevisionKey> revisionsBefore)
+        {
+            var remainingPageFileIds = (await PagesFactory.QueryAsync<TwPageFileRevisionKey>("GetAllPageFileRevisionKeys.sql"))
+                .Select(o => o.PageFileId).ToHashSet();
+
+            foreach (var pageFile in revisionsBefore.GroupBy(o => o.PageFileId))
+            {
+                try
+                {
+                    var keptRevision = remainingPageFileIds.Contains(pageFile.Key)
+                        ? pageFile.Max(o => o.Revision) : (int?)null;
+
+                    foreach (var revision in pageFile.Select(o => o.Revision).Where(o => o != keptRevision))
+                    {
+                        _attachmentStorage.Delete(pageFile.Key, revision);
+                    }
+
+                    if (keptRevision != null)
+                    {
+                        _attachmentStorage.MoveRevision(pageFile.Key, keptRevision.Value, 1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _loggingRepository.WriteException($"Failed to truncate the attachment content for page file {pageFile.Key}.",
+                        ex.GetBaseException().Message, ex.StackTrace);
+                }
             }
         }
 
@@ -1154,7 +1199,9 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
+            var purgedContent = await DeletedPagesFactory.QueryAsync<TwPageFileRevisionKey>("GetPageFileRevisionKeysByPageId.sql", param);
             await DeletedPagesFactory.ExecuteAsync("PurgeDeletedPageByPageId.sql", param);
+            await DeleteUnreferencedAttachmentContent(purgedContent);
 
             await PurgeDeletedPageRevisionsByPageId(pageId);
 
@@ -1164,7 +1211,9 @@ namespace TightWiki.Repository
 
         public async Task PurgeDeletedPages()
         {
+            var purgedContent = await DeletedPagesFactory.QueryAsync<TwPageFileRevisionKey>("GetAllPageFileRevisionKeys.sql");
             await DeletedPagesFactory.ExecuteAsync("PurgeDeletedPages.sql");
+            await DeleteUnreferencedAttachmentContent(purgedContent);
 
             await PurgeDeletedPageRevisions();
         }
@@ -1461,6 +1510,7 @@ namespace TightWiki.Repository
                 Revision = revision
             };
             await PagesFactory.ExecuteAsync("DeletePageAttachmentRevision.sql", param);
+            await DeleteUnreferencedAttachmentContent([new TwPageFileRevisionKey { PageFileId = pageFileId, Revision = revision }]);
         }
 
         public async Task<List<TwOrphanedPageAttachment>> GetOrphanedPageAttachmentsPaged(
@@ -1479,7 +1529,11 @@ namespace TightWiki.Repository
         }
 
         public async Task PurgeOrphanedPageAttachments()
-            => await PagesFactory.ExecuteAsync("PurgeOrphanedPageAttachments.sql");
+        {
+            var purgedContent = await PagesFactory.QueryAsync<TwPageFileRevisionKey>("GetOrphanedPageFileRevisionKeys.sql");
+            await PagesFactory.ExecuteAsync("PurgeOrphanedPageAttachments.sql");
+            await DeleteUnreferencedAttachmentContent(purgedContent);
+        }
 
         public async Task PurgeOrphanedPageAttachment(int pageFileId, int revision)
         {
@@ -1489,6 +1543,7 @@ namespace TightWiki.Repository
                 Revision = revision
             };
             await PagesFactory.ExecuteAsync("PurgeOrphanedPageAttachment.sql", param);
+            await DeleteUnreferencedAttachmentContent([new TwPageFileRevisionKey { PageFileId = pageFileId, Revision = revision }]);
         }
 
         public async Task<List<TwPageFileAttachmentInfo>> GetPageFilesInfoByPageNavigationAndPageRevisionPaged(string pageNavigation, int pageNumber, int? pageSize = null, int? pageRevision = null)
@@ -1526,7 +1581,8 @@ namespace TightWiki.Repository
                 FileRevision = fileRevision
             };
 
-            return await PagesFactory.QuerySingleOrDefaultAsync<TwPageFileAttachment>("GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql", param);
+            return await LoadAttachmentContent(
+                await PagesFactory.QuerySingleOrDefaultAsync<TwPageFileAttachment>("GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql", param));
         }
 
         public async Task<TwPageFileAttachment?> GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null)
@@ -1542,9 +1598,53 @@ namespace TightWiki.Repository
                     PageRevision = pageRevision
                 };
 
-                return await PagesFactory.QuerySingleOrDefaultAsync<TwPageFileAttachment>(
-                    "GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation.sql", param);
+                return await LoadAttachmentContent(await PagesFactory.QuerySingleOrDefaultAsync<TwPageFileAttachment>(
+                    "GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation.sql", param));
             });
+        }
+
+        /// <summary>
+        /// Fills in the content of an attachment from the attachment storage. Attachments uploaded before the
+        /// storage existed are not there yet, they keep the content that was read from the database.
+        /// </summary>
+        private async Task<TwPageFileAttachment?> LoadAttachmentContent(TwPageFileAttachment? attachment)
+        {
+            if (attachment != null)
+            {
+                var content = await _attachmentStorage.ReadAllBytesAsync(attachment.Id, attachment.Revision);
+                if (content != null)
+                {
+                    attachment.Data = content;
+                }
+            }
+            return attachment;
+        }
+
+        /// <summary>
+        /// Deletes the stored content of page file revisions that are no longer in either the pages database or the
+        ///  deleted pages database. Called after rows were deleted, with the keys of the rows that may have been removed.
+        /// A failure here never fails the operation that deleted the rows: a file left behind is harmless.
+        /// </summary>
+        private async Task DeleteUnreferencedAttachmentContent(IEnumerable<TwPageFileRevisionKey> candidates)
+        {
+            foreach (var key in candidates.DistinctBy(o => (o.PageFileId, o.Revision)))
+            {
+                try
+                {
+                    var param = new { key.PageFileId, key.Revision };
+
+                    if (await PagesFactory.ExecuteScalarAsync<int>("DoesPageFileRevisionExist.sql", param) == 0
+                        && await DeletedPagesFactory.ExecuteScalarAsync<int>("DoesPageFileRevisionExist.sql", param) == 0)
+                    {
+                        _attachmentStorage.Delete(key.PageFileId, key.Revision);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _loggingRepository.WriteException($"Failed to delete the attachment content for page file {key.PageFileId}, revision {key.Revision}.",
+                        ex.GetBaseException().Message, ex.StackTrace);
+                }
+            }
         }
 
         public async Task<List<TwPageFileAttachmentInfo>> GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged(string pageNavigation, string fileNavigation, int pageNumber)
@@ -1605,6 +1705,9 @@ namespace TightWiki.Repository
         public async Task UpsertPageFile(TwPageFileAttachment item, Guid userId)
         {
             bool hasFileChanged = false;
+
+            //The content written to the attachment storage, so it can be removed if the database changes are rolled back.
+            TwPageFileRevisionKey? writtenContent = null;
 
             await PagesFactory.EphemeralAsync(async o =>
             {
@@ -1675,6 +1778,18 @@ namespace TightWiki.Repository
                         //The file has changed (or is newly inserted), bump the file revision.
                         await o.ExecuteAsync("UpdatePageFileRevision.sql", updatePageFileRevisionParam);
 
+                        //Writing over the content of a revision that already exists would replace a file that is in use, so stop
+                        //  here. Before attachments were stored on disk, the insert below would have failed for the same reason.
+                        if (await o.ExecuteScalarAsync<int>("DoesPageFileRevisionExist.sql",
+                            new { PageFileId = pageFileInfo.PageFileId, Revision = currentFileRevision }) != 0)
+                        {
+                            throw new Exception($"Revision {currentFileRevision} of page file {pageFileInfo.PageFileId} already exists.");
+                        }
+
+                        //The content goes to the attachment storage before its row is inserted, so a row never points at missing content.
+                        await _attachmentStorage.WriteAsync(pageFileInfo.PageFileId, currentFileRevision, item.Data);
+                        writtenContent = new TwPageFileRevisionKey { PageFileId = pageFileInfo.PageFileId, Revision = currentFileRevision };
+
                         var insertPageFileRevisionParam = new
                         {
                             PageFileId = pageFileInfo.PageFileId,
@@ -1682,12 +1797,11 @@ namespace TightWiki.Repository
                             Size = item.Size,
                             CreatedDate = item.CreatedDate,
                             CreatedByUserId = userId,
-                            Data = item.Data,
+                            Data = Array.Empty<byte>(), //The content is in the attachment storage, the column is only used by older attachments.
                             FileRevision = currentFileRevision,
                             DataHash = newDataHash,
                         };
 
-                        //Insert the actual file data.
                         await o.ExecuteAsync("InsertPageFileRevision.sql", insertPageFileRevisionParam);
 
                         var associatePageFileAttachmentWithPageRevisionParam = new
@@ -1708,6 +1822,11 @@ namespace TightWiki.Repository
                 catch
                 {
                     transaction.Rollback();
+
+                    if (writtenContent != null)
+                    {
+                        _attachmentStorage.Delete(writtenContent.PageFileId, writtenContent.Revision);
+                    }
                     throw;
                 }
             });

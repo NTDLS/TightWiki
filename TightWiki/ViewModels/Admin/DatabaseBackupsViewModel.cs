@@ -6,6 +6,7 @@ namespace TightWiki.ViewModels.Admin
         : TwViewModel
     {
         public string BackupPath { get; set; } = string.Empty;
+        public string AttachmentPath { get; set; } = string.Empty;
         public List<TwDatabaseBackup> Backups { get; set; } = new();
     }
 }

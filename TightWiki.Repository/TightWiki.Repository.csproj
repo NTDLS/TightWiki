@@ -405,6 +405,10 @@
 		<EmbeddedResource Include="Scripts\UpsertCurrentPageEditor.sql" />
 		<EmbeddedResource Include="Scripts\DeleteCurrentPageEditor.sql" />
 		<EmbeddedResource Include="Scripts\GetCurrentPageEditors.sql" />
+		<EmbeddedResource Include="Scripts\DoesPageFileRevisionExist.sql" />
+		<EmbeddedResource Include="Scripts\GetAllPageFileRevisionKeys.sql" />
+		<EmbeddedResource Include="Scripts\GetPageFileRevisionKeysByPageId.sql" />
+		<EmbeddedResource Include="Scripts\GetOrphanedPageFileRevisionKeys.sql" />
 	</ItemGroup>
 
 	<ItemGroup>

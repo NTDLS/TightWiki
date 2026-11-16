@@ -45,6 +45,10 @@ namespace TightWiki.Plugin.Interfaces
         /// Gets the repository used to access and manage user data.
         /// </summary>
         ITwUsersRepository UsersRepository { get; }
+        /// <summary>
+        /// Gets the storage that holds the content of page file attachments.
+        /// </summary>
+        ITwAttachmentStorage AttachmentStorage { get; }
 
         /// <summary>
         /// Applies all required seed data to the system using the provided localization, user management, engine, and
@@ -119,8 +123,9 @@ namespace TightWiki.Plugin.Interfaces
         /// <summary>
         /// Creates a zip file containing a consistent snapshot of every database. The databases remain in use while this is done.
         /// </summary>
+        /// <param name="includeAttachments">Also copy the attachment files into the zip, under "Attachments/".</param>
         /// <returns>A task that represents the asynchronous operation. The task result describes the backup that was created.</returns>
-        Task<TwDatabaseBackup> BackupDatabases();
+        Task<TwDatabaseBackup> BackupDatabases(bool includeAttachments = false);
 
         /// <summary>
         /// Returns all of the database backups, newest first.
