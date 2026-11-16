@@ -1620,6 +1620,66 @@ namespace TightWiki.Repository
             return attachment;
         }
 
+        public async Task<(int Moved, int Failed, int Remaining)> MoveAttachmentContentToStorage(CancellationToken cancellationToken = default)
+        {
+            int moved = 0, failed = 0, remaining = 0;
+
+            foreach (var (databaseName, factory) in new[] { ("Pages", PagesFactory), ("DeletedPages", DeletedPagesFactory) })
+            {
+                var keys = await factory.QueryAsync<TwPageFileRevisionKey>("GetPageFileRevisionKeysWithDatabaseContent.sql");
+
+                for (int i = 0; i < keys.Count; i++)
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        remaining += keys.Count - i;
+                        break;
+                    }
+
+                    var key = keys[i];
+                    var param = new { key.PageFileId, key.Revision };
+
+                    try
+                    {
+                        //Read one revision at a time, so only one file's content is in memory.
+                        var content = await factory.ExecuteScalarAsync<byte[]>("GetPageFileRevisionDatabaseContent.sql", param);
+                        if (content == null || content.Length == 0)
+                        {
+                            continue; //Deleted or already moved since the list was read.
+                        }
+
+                        await _attachmentStorage.WriteAsync(key.PageFileId, key.Revision, content);
+
+                        var written = await _attachmentStorage.ReadAllBytesAsync(key.PageFileId, key.Revision);
+                        if (written == null || !written.AsSpan().SequenceEqual(content))
+                        {
+                            //Remove the bad copy so reads keep using the database content.
+                            _attachmentStorage.Delete(key.PageFileId, key.Revision);
+                            failed++;
+                            await _loggingRepository.WriteException(
+                                $"Attachment migration: the file written for page file {key.PageFileId}, revision {key.Revision} ({databaseName} database) did not match the database content. It was left in the database.");
+                            continue;
+                        }
+
+                        await factory.ExecuteAsync("ClearPageFileRevisionDatabaseContent.sql", param);
+                        moved++;
+
+                        //If the row was purged while it was being copied, its file is not needed.
+                        await DeleteUnreferencedAttachmentContent([key]);
+                    }
+                    catch (Exception ex)
+                    {
+                        failed++;
+                        await _loggingRepository.WriteException(
+                            $"Attachment migration: failed to move page file {key.PageFileId}, revision {key.Revision} ({databaseName} database). It was left in the database.",
+                            ex.GetBaseException().Message, ex.StackTrace);
+                    }
+                }
+            }
+
+            return (moved, failed, remaining);
+        }
+
         /// <summary>
         /// Deletes the stored content of page file revisions that are no longer in either the pages database or the
         ///  deleted pages database. Called after rows were deleted, with the keys of the rows that may have been removed.

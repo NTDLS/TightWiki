@@ -168,6 +168,69 @@ namespace TightWiki.Tests.Unit
         }
 
         [Fact]
+        public async Task OlderAttachmentsAreMovedToTheStorage()
+        {
+            var databaseManager = fixture.Artifacts.DatabaseManager;
+            var repository = databaseManager.PageRepository;
+            var storage = databaseManager.AttachmentStorage;
+            var userId = Guid.NewGuid();
+
+            var pageName = $"Attachment Migration {Guid.NewGuid():N}";
+            var navigation = TwNavigation.Clean(pageName);
+            var pageId = await repository.UpsertPage(fixture.Artifacts.Engine, fixture.Artifacts.Localizer, new TwPage
+            {
+                Name = pageName,
+                Navigation = navigation,
+                Body = "An attachment migration test page.",
+                Description = string.Empty,
+                CreatedByUserId = userId,
+                ModifiedByUserId = userId,
+                CreatedDate = DateTime.UtcNow,
+                ModifiedDate = DateTime.UtcNow
+            }, fixture.CreateWikiSession());
+
+            var content = Encoding.UTF8.GetBytes("stored the old way");
+            await repository.UpsertPageFile(new TwPageFileAttachment
+            {
+                PageId = pageId,
+                Name = "old.txt",
+                FileNavigation = "old-txt",
+                ContentType = "text/plain",
+                Size = content.Length,
+                CreatedDate = DateTime.UtcNow,
+                Data = content
+            }, userId);
+
+            var attachment = await repository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(navigation, "old-txt");
+            Assert.NotNull(attachment);
+
+            //Make it look like an attachment from before the storage existed: content in the database, no file.
+            await repository.PagesFactory.ExecuteAsync("UPDATE PageFileRevision SET Data = @Data WHERE PageFileId = @Id AND Revision = 1",
+                new { Data = content, attachment.Id });
+            storage.Delete(attachment.Id, 1);
+
+            //A cancelled run moves nothing and reports what is left.
+            var cancelled = await repository.MoveAttachmentContentToStorage(new CancellationToken(canceled: true));
+            Assert.Equal(0, cancelled.Moved);
+            Assert.True(cancelled.Remaining > 0);
+            Assert.False(storage.Exists(attachment.Id, 1));
+
+            var result = await repository.MoveAttachmentContentToStorage();
+            Assert.True(result.Moved > 0);
+            Assert.Equal(0, result.Failed);
+            Assert.Equal(0, result.Remaining);
+
+            Assert.Equal(content, await storage.ReadAllBytesAsync(attachment.Id, 1));
+            Assert.Equal(0, await repository.PagesFactory.ExecuteScalarAsync<int>(
+                "SELECT length(Data) FROM PageFileRevision WHERE PageFileId = @Id AND Revision = 1", new { attachment.Id }));
+            Assert.Equal("stored the old way", Encoding.UTF8.GetString(
+                (await repository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(navigation, "old-txt"))!.Data));
+
+            //Nothing is left, so running it again does nothing.
+            Assert.Equal((0, 0, 0), await repository.MoveAttachmentContentToStorage());
+        }
+
+        [Fact]
         public async Task BackupsCanIncludeTheAttachments()
         {
             var databaseManager = fixture.Artifacts.DatabaseManager;

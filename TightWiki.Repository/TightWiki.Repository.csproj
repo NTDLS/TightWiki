@@ -409,6 +409,9 @@
 		<EmbeddedResource Include="Scripts\GetAllPageFileRevisionKeys.sql" />
 		<EmbeddedResource Include="Scripts\GetPageFileRevisionKeysByPageId.sql" />
 		<EmbeddedResource Include="Scripts\GetOrphanedPageFileRevisionKeys.sql" />
+		<EmbeddedResource Include="Scripts\GetPageFileRevisionKeysWithDatabaseContent.sql" />
+		<EmbeddedResource Include="Scripts\GetPageFileRevisionDatabaseContent.sql" />
+		<EmbeddedResource Include="Scripts\ClearPageFileRevisionDatabaseContent.sql" />
 	</ItemGroup>
 
 	<ItemGroup>

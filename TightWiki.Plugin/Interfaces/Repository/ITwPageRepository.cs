@@ -479,6 +479,15 @@ namespace TightWiki.Plugin.Interfaces.Repository
         /// </summary>
         Task UpsertPageFile(TwPageFileAttachment item, Guid userId);
 
+        /// <summary>
+        /// Moves the content of attachments that are still stored in the pages and deleted pages databases into the
+        /// attachment storage, one revision at a time. A revision's database copy is only cleared once its file has been
+        /// read back and matches. Safe to stop at any point and run again: it continues with what is left.
+        /// </summary>
+        /// <returns>How many revisions were moved, how many could not be moved (each one is logged), and how many remain
+        /// because the operation was cancelled.</returns>
+        Task<(int Moved, int Failed, int Remaining)> MoveAttachmentContentToStorage(CancellationToken cancellationToken = default);
+
         #endregion
 
         #region Current page editors.
