@@ -167,6 +167,7 @@ namespace TightWiki.Tests.Unit
 
             var attachment = await repository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(navigation, "video-mp4");
             Assert.NotNull(attachment);
+            Assert.Equal(Path.Combine(storage.RootPath, attachment.Id.ToString(), "1.mp4"), storage.FindPath(attachment.Id, 1));
             Assert.Equal("first upload", Encoding.UTF8.GetString(attachment.Data));
 
             //The same content again is not a new revision, and the received file is left for the caller to delete.

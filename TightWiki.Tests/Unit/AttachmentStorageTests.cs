@@ -24,11 +24,47 @@ namespace TightWiki.Tests.Unit
             var storage = new AttachmentStorage(_root);
             var content = Encoding.UTF8.GetBytes("hello");
 
-            await storage.WriteAsync(12, 3, content);
+            await storage.WriteAsync(12, 3, "Holiday Video.MP4", content);
 
             Assert.True(storage.Exists(12, 3));
-            Assert.Equal(Path.Combine(_root, "12", "3.bin"), storage.GetPath(12, 3));
+            Assert.Equal(Path.Combine(_root, "12", "3.mp4"), storage.FindPath(12, 3));
             Assert.Equal(content, await storage.ReadAllBytesAsync(12, 3));
+        }
+
+        [Theory]
+        [InlineData("report.pdf", ".pdf")]
+        [InlineData("Photo.JPEG", ".jpeg")]
+        [InlineData("archive.tar.gz", ".gz")]
+        [InlineData("README", "")]
+        [InlineData("odd.na me", "")]
+        [InlineData("dots.", "")]
+        [InlineData("long.abcdefghijklmnopq", "")]
+        [InlineData("..\\..\\escape.exe", ".exe")]
+        public void OnlyPlainExtensionsAreKept(string fileName, string expected)
+            => Assert.Equal(expected, AttachmentStorage.GetStoredExtension(fileName));
+
+        [Fact]
+        public async Task ANewVersionOfARevisionReplacesTheOldOneWhateverItsExtension()
+        {
+            var storage = new AttachmentStorage(_root);
+            await storage.WriteAsync(9, 1, "clip.mov", [1]);
+            await storage.WriteAsync(9, 1, "clip.mp4", [2]);
+
+            Assert.Equal([Path.Combine(_root, "9", "1.mp4")], storage.EnumerateFiles().ToList());
+        }
+
+        [Fact]
+        public async Task RevisionsAreNotConfusedWithOthersThatStartWithTheSameDigits()
+        {
+            var storage = new AttachmentStorage(_root);
+            await storage.WriteAsync(4, 10, "ten.txt", [10]);
+            await storage.WriteAsync(4, 1, "one", [1]);
+
+            Assert.Equal([1], await storage.ReadAllBytesAsync(4, 1));
+            Assert.Equal([10], await storage.ReadAllBytesAsync(4, 10));
+
+            storage.Delete(4, 1);
+            Assert.True(storage.Exists(4, 10));
         }
 
         [Fact]
@@ -37,6 +73,7 @@ namespace TightWiki.Tests.Unit
             var storage = new AttachmentStorage(_root);
 
             Assert.False(storage.Exists(1, 1));
+            Assert.Null(storage.FindPath(1, 1));
             Assert.Null(await storage.ReadAllBytesAsync(1, 1));
         }
 
@@ -44,8 +81,8 @@ namespace TightWiki.Tests.Unit
         public async Task DeletingTheLastRevisionRemovesItsDirectory()
         {
             var storage = new AttachmentStorage(_root);
-            await storage.WriteAsync(5, 1, [1]);
-            await storage.WriteAsync(5, 2, [2]);
+            await storage.WriteAsync(5, 1, "a.png", [1]);
+            await storage.WriteAsync(5, 2, "a.png", [2]);
 
             storage.Delete(5, 1);
             Assert.True(Directory.Exists(Path.Combine(_root, "5")));
@@ -57,26 +94,28 @@ namespace TightWiki.Tests.Unit
         }
 
         [Fact]
-        public async Task MovingARevisionReplacesTheTarget()
+        public async Task MovingARevisionKeepsItsExtensionAndReplacesTheTarget()
         {
             var storage = new AttachmentStorage(_root);
-            await storage.WriteAsync(7, 1, [1]);
-            await storage.WriteAsync(7, 4, [4]);
+            await storage.WriteAsync(7, 1, "old.gif", [1]);
+            await storage.WriteAsync(7, 4, "new.png", [4]);
 
             storage.MoveRevision(7, 4, 1);
 
             Assert.False(storage.Exists(7, 4));
+            Assert.Equal(Path.Combine(_root, "7", "1.png"), storage.FindPath(7, 1));
             Assert.Equal([4], await storage.ReadAllBytesAsync(7, 1));
+            Assert.Single(storage.EnumerateFiles());
         }
 
         [Fact]
         public async Task EnumerationSkipsUploadsInProgress()
         {
             var storage = new AttachmentStorage(_root);
-            await storage.WriteAsync(1, 1, [1]);
-            File.WriteAllBytes(Path.Combine(_root, ".incoming", "unfinished.bin"), [0]);
+            await storage.WriteAsync(1, 1, "a.txt", [1]);
+            File.WriteAllBytes(Path.Combine(_root, ".incoming", "unfinished.part"), [0]);
 
-            Assert.Equal([storage.GetPath(1, 1)], storage.EnumerateFiles().ToList());
+            Assert.Equal([storage.FindPath(1, 1)], storage.EnumerateFiles().ToList());
         }
     }
 
@@ -130,7 +169,7 @@ namespace TightWiki.Tests.Unit
             Assert.NotNull(first);
             Assert.Equal(1, first.Revision);
             Assert.Equal("first", Encoding.UTF8.GetString(first.Data));
-            Assert.True(storage.Exists(first.Id, 1));
+            Assert.Equal(Path.Combine(storage.RootPath, first.Id.ToString(), "1.txt"), storage.FindPath(first.Id, 1));
             Assert.Equal(0, await repository.PagesFactory.ExecuteScalarAsync<int>(
                 "SELECT length(Data) FROM PageFileRevision WHERE PageFileId = @Id AND Revision = 1", new { first.Id }));
 
@@ -221,6 +260,7 @@ namespace TightWiki.Tests.Unit
             Assert.Equal(0, result.Remaining);
 
             Assert.Equal(content, await storage.ReadAllBytesAsync(attachment.Id, 1));
+            Assert.EndsWith("1.txt", storage.FindPath(attachment.Id, 1));
             Assert.Equal(0, await repository.PagesFactory.ExecuteScalarAsync<int>(
                 "SELECT length(Data) FROM PageFileRevision WHERE PageFileId = @Id AND Revision = 1", new { attachment.Id }));
             Assert.Equal("stored the old way", Encoding.UTF8.GetString(
@@ -234,7 +274,7 @@ namespace TightWiki.Tests.Unit
         public async Task BackupsCanIncludeTheAttachments()
         {
             var databaseManager = fixture.Artifacts.DatabaseManager;
-            await databaseManager.AttachmentStorage.WriteAsync(999999, 1, Encoding.UTF8.GetBytes("backed up"));
+            await databaseManager.AttachmentStorage.WriteAsync(999999, 1, "backed up.txt", Encoding.UTF8.GetBytes("backed up"));
 
             var withAttachments = await databaseManager.BackupDatabases(includeAttachments: true);
             var withoutAttachments = await databaseManager.BackupDatabases();
@@ -243,7 +283,7 @@ namespace TightWiki.Tests.Unit
                 using (var zip = System.IO.Compression.ZipFile.OpenRead(Path.Combine(databaseManager.BackupPath, withAttachments.FileName)))
                 {
                     Assert.Contains(zip.Entries, o => o.FullName == "pages.db" || o.FullName == "Pages.db");
-                    var entry = zip.GetEntry("Attachments/999999/1.bin");
+                    var entry = zip.GetEntry("Attachments/999999/1.txt");
                     Assert.NotNull(entry);
                     using var reader = new StreamReader(entry.Open());
                     Assert.Equal("backed up", reader.ReadToEnd());

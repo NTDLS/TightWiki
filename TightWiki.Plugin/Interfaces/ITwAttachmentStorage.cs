@@ -2,11 +2,12 @@ namespace TightWiki.Plugin.Interfaces
 {
     /// <summary>
     /// Stores the content of page file attachments outside of the database. The database keeps the metadata
-    /// (name, type, size, hash) and each file revision's content is kept here, identified by its page file id and revision.
+    /// (name, type, size, hash) and each file revision's content is kept here, identified by its page file id and revision
+    /// and named with the extension of the file that was uploaded.
     /// </summary>
     /// <remarks>Revisions are never modified once written: a changed file is stored as a new revision.
     /// Attachments uploaded before this storage existed still have their content in the database, so callers
-    /// fall back to the database content when <see cref="Exists"/> returns false.</remarks>
+    /// fall back to the database content when <see cref="FindPath"/> returns null.</remarks>
     public interface ITwAttachmentStorage
     {
         /// <summary>
@@ -15,9 +16,9 @@ namespace TightWiki.Plugin.Interfaces
         string RootPath { get; }
 
         /// <summary>
-        /// Returns the full path of the file that holds the given page file revision, whether or not it exists.
+        /// Returns the full path of the file that holds the given page file revision, or null if it is not stored here.
         /// </summary>
-        string GetPath(int pageFileId, int revision);
+        string? FindPath(int pageFileId, int revision);
 
         /// <summary>
         /// Returns true if the content of the given page file revision is stored here.
@@ -25,10 +26,11 @@ namespace TightWiki.Plugin.Interfaces
         bool Exists(int pageFileId, int revision);
 
         /// <summary>
-        /// Stores the content of a page file revision, replacing any file already at that location.
+        /// Stores the content of a page file revision, replacing anything already stored for it.
         /// The file only appears at its final location once it has been completely written.
         /// </summary>
-        Task WriteAsync(int pageFileId, int revision, byte[] data);
+        /// <param name="fileName">The name of the uploaded file. Only its extension is used.</param>
+        Task WriteAsync(int pageFileId, int revision, string fileName, byte[] data);
 
         /// <summary>
         /// Returns the content of a page file revision, or null if it is not stored here.
@@ -41,8 +43,8 @@ namespace TightWiki.Plugin.Interfaces
         void Delete(int pageFileId, int revision);
 
         /// <summary>
-        /// Renames the content of a page file revision to another revision of the same file, replacing
-        /// anything already stored as the target revision. Does nothing if the source is not stored here.
+        /// Renames the content of a page file revision to another revision of the same file, keeping its extension and
+        /// replacing anything already stored as the target revision. Does nothing if the source is not stored here.
         /// </summary>
         void MoveRevision(int pageFileId, int fromRevision, int toRevision);
 
@@ -62,7 +64,8 @@ namespace TightWiki.Plugin.Interfaces
         /// Moves a completely received file from the staging directory into place as the content of a page file revision,
         /// replacing anything already stored for that revision. The source file no longer exists afterwards.
         /// </summary>
-        void Import(int pageFileId, int revision, string incomingPath);
+        /// <param name="fileName">The name of the uploaded file. Only its extension is used.</param>
+        void Import(int pageFileId, int revision, string fileName, string incomingPath);
 
         /// <summary>
         /// Deletes files in the staging directory that have not been written to for the given time: uploads that were abandoned.

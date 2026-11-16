@@ -1650,7 +1650,7 @@ namespace TightWiki.Repository
                             continue; //Deleted or already moved since the list was read.
                         }
 
-                        await _attachmentStorage.WriteAsync(key.PageFileId, key.Revision, content);
+                        await _attachmentStorage.WriteAsync(key.PageFileId, key.Revision, key.Name ?? string.Empty, content);
 
                         var written = await _attachmentStorage.ReadAllBytesAsync(key.PageFileId, key.Revision);
                         if (written == null || !written.AsSpan().SequenceEqual(content))
@@ -1766,11 +1766,11 @@ namespace TightWiki.Repository
 
         public async Task UpsertPageFile(TwPageFileAttachment item, Guid userId)
             => await UpsertPageFile(item, SecurityUtility.Crc32(item.Data),
-                async (pageFileId, revision) => await _attachmentStorage.WriteAsync(pageFileId, revision, item.Data), userId);
+                async (pageFileId, revision) => await _attachmentStorage.WriteAsync(pageFileId, revision, item.Name, item.Data), userId);
 
         public async Task<bool> UpsertPageFileFromIncoming(TwPageFileAttachment item, string incomingPath, int dataHash, Guid userId)
             => await UpsertPageFile(item, dataHash,
-                (pageFileId, revision) => { _attachmentStorage.Import(pageFileId, revision, incomingPath); return Task.CompletedTask; }, userId);
+                (pageFileId, revision) => { _attachmentStorage.Import(pageFileId, revision, item.Name, incomingPath); return Task.CompletedTask; }, userId);
 
         /// <summary>
         /// Attaches a file to the current revision of a page. A new file revision is only created when the content

@@ -21,7 +21,7 @@ Contains site pages, the details of their file attachments, tags, processing ins
 Attachments uploaded before attachments were stored on disk also have their content in this database.
 
 ## Attachments
-Not a database. The content of file attachments, one file per attachment revision, named `{PageFileId}\{Revision}.bin`.
+Not a database. The content of file attachments, one file per attachment revision, named `{PageFileId}\{Revision}` plus the extension of the uploaded file, for example `83\2.mp4`.
 It is next to the databases unless the `AttachmentPath` setting in appsettings.json says otherwise.
 
 ## Statistics.db

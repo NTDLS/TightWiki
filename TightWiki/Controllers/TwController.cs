@@ -77,8 +77,8 @@ namespace TightWiki.Controllers
             disposition.SetHttpFileName(string.IsNullOrWhiteSpace(file.Name) ? "attachment" : file.Name);
             Response.Headers.ContentDisposition = disposition.ToString();
 
-            var path = DatabaseManager.AttachmentStorage.GetPath(file.Id, file.Revision);
-            if (System.IO.File.Exists(path))
+            var path = DatabaseManager.AttachmentStorage.FindPath(file.Id, file.Revision);
+            if (path != null)
             {
                 return PhysicalFile(path, contentType, enableRangeProcessing: true);
             }
