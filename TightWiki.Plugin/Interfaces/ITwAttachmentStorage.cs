@@ -29,7 +29,10 @@ namespace TightWiki.Plugin.Interfaces
         /// Stores the content of a page file revision, replacing anything already stored for it.
         /// The file only appears at its final location once it has been completely written.
         /// </summary>
+        /// <param name="pageFileId">The page file the content belongs to.</param>
+        /// <param name="revision">The revision of the page file.</param>
         /// <param name="fileName">The name of the uploaded file. Only its extension is used.</param>
+        /// <param name="data">The content to store.</param>
         Task WriteAsync(int pageFileId, int revision, string fileName, byte[] data);
 
         /// <summary>
@@ -64,7 +67,10 @@ namespace TightWiki.Plugin.Interfaces
         /// Moves a completely received file from the staging directory into place as the content of a page file revision,
         /// replacing anything already stored for that revision. The source file no longer exists afterwards.
         /// </summary>
+        /// <param name="pageFileId">The page file the content belongs to.</param>
+        /// <param name="revision">The revision of the page file.</param>
         /// <param name="fileName">The name of the uploaded file. Only its extension is used.</param>
+        /// <param name="incomingPath">The received file, from <see cref="GetIncomingPath"/>.</param>
         void Import(int pageFileId, int revision, string fileName, string incomingPath);
 
         /// <summary>

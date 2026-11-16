@@ -447,6 +447,9 @@ namespace TightWiki.Plugin.Interfaces.Repository
         /// <summary>
         /// Returns the full file attachment including content, located by page navigation, file navigation, and optional file revision.
         /// </summary>
+        /// <param name="pageNavigation">The navigation of the page the file is attached to.</param>
+        /// <param name="fileNavigation">The navigation of the file.</param>
+        /// <param name="fileRevision">The file revision, or null for the current one.</param>
         /// <param name="loadContent">False to skip reading content from the attachment storage, so a large file is not read into
         /// memory. Data then only holds content still stored in the database (attachments not yet moved to the storage).</param>
         Task<TwPageFileAttachment?> GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? fileRevision = null, bool loadContent = true);
@@ -454,6 +457,9 @@ namespace TightWiki.Plugin.Interfaces.Repository
         /// <summary>
         /// Returns the full file attachment including content, located by page navigation, page revision, and file navigation.
         /// </summary>
+        /// <param name="pageNavigation">The navigation of the page the file is attached to.</param>
+        /// <param name="fileNavigation">The navigation of the file.</param>
+        /// <param name="pageRevision">The page revision, or null for the current one.</param>
         /// <param name="loadContent">False to skip reading content from the attachment storage, so a large file is not read into
         /// memory. Data then only holds content still stored in the database (attachments not yet moved to the storage).</param>
         Task<TwPageFileAttachment?> GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null, bool loadContent = true);
@@ -488,8 +494,10 @@ namespace TightWiki.Plugin.Interfaces.Repository
         /// from the attachment storage's staging directory into place; if it matches the attached revision nothing changes and
         /// the file is left where it is for the caller to delete. The item's Data is not used.
         /// </summary>
+        /// <param name="item">The file's metadata and the page it is attached to.</param>
         /// <param name="incomingPath">The received file, in the attachment storage's staging directory.</param>
         /// <param name="dataHash">The CRC-32 of the file's content.</param>
+        /// <param name="userId">The user who uploaded the file.</param>
         /// <returns>True if a new file revision was created, false if the content was unchanged.</returns>
         Task<bool> UpsertPageFileFromIncoming(TwPageFileAttachment item, string incomingPath, int dataHash, Guid userId);
 

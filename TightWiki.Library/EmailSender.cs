@@ -41,7 +41,7 @@ namespace TightWiki.Library
                 var options = smtpUseSSL ? SecureSocketOptions.SslOnConnect : SecureSocketOptions.StartTlsWhenAvailable;
                 await client.ConnectAsync(smtpAddress, smtpPort, options);
                 await client.AuthenticateAsync(smtpUsername, smtpPassword);
-                await client.SendAsync(message);
+                await client.SendAsync(new SmtpSendRequest(message));
                 await client.DisconnectAsync(true);
             }
             catch (Exception ex)

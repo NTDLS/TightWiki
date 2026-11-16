@@ -84,9 +84,9 @@ namespace TightWiki.Repository
         /// Returns the upload if it exists and belongs to the user, otherwise throws a 404 so that one user can not
         ///  find out about another user's uploads.
         /// </summary>
-        public TwAttachmentUpload Get(string uploadId, Guid userId)
+        public TwAttachmentUpload Get(string? uploadId, Guid userId)
         {
-            if (!UploadIdPattern().IsMatch(uploadId ?? string.Empty))
+            if (uploadId == null || !UploadIdPattern().IsMatch(uploadId))
             {
                 throw new TwAttachmentUploadException(404, "The upload was not found.");
             }

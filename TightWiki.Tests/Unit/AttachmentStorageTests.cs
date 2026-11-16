@@ -1,5 +1,4 @@
 using System.Text;
-using TightWiki.Library;
 using TightWiki.Plugin;
 using TightWiki.Plugin.Models;
 using TightWiki.Repository;
@@ -115,7 +114,7 @@ namespace TightWiki.Tests.Unit
             await storage.WriteAsync(1, 1, "a.txt", [1]);
             File.WriteAllBytes(Path.Combine(_root, ".incoming", "unfinished.part"), [0]);
 
-            Assert.Equal([storage.FindPath(1, 1)], storage.EnumerateFiles().ToList());
+            Assert.Equal([storage.FindPath(1, 1)!], storage.EnumerateFiles().ToList());
         }
     }
 
