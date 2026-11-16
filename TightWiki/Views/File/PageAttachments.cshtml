@@ -74,13 +74,17 @@
             <a href="@WikiConfiguration.BasePath/File/Revisions/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.FileRevision @Localize("revisions")</a>
         </div>
         <div class="d-inline-flex gap-1 flex-shrink-0 text-nowrap">
-            <button type="button" class="btn btn-thin btn-primary" data-file="@x.Name" data-content-type="@x.ContentType" onclick="copyToClipboard(this.dataset.file, this.dataset.contentType, this)">
-                <i class="bi bi-clipboard me-1"></i>@Localize("Copy Tag")
-            </button>
-            <button type="button" class="btn btn-thin btn-outline-primary" data-file="@x.Name" onclick="copyName(this.dataset.file, this)"
-                    title="@Localize("Copy just the file name, for example to use as a video's poster")">
-                <i class="bi bi-clipboard me-1"></i>@Localize("Copy Name")
-            </button>
+            <div class="btn-group" role="group" aria-label="@Localize("Copy")">
+                <button type="button" class="btn btn-thin btn-primary" data-file="@x.Name" data-content-type="@x.ContentType" onclick="copyToClipboard(this.dataset.file, this.dataset.contentType, this)"
+                        title="@Localize("Copy the wiki function that shows this file")">
+                    <i class="bi bi-clipboard me-1"></i>@Localize("Copy Tag")
+                </button>
+                @* The divider shows where one button ends, both halves are the same color. *@
+                <button type="button" class="btn btn-thin btn-primary" style="border-left-color: rgba(255, 255, 255, 0.45);" data-file="@x.Name" onclick="copyName(this.dataset.file, this)"
+                        title="@Localize("Copy just the file name, for example to use as a video's poster")">
+                    <i class="bi bi-clipboard me-1"></i>@Localize("Copy Name")
+                </button>
+            </div>
             @if (await sessionState.HoldsPermission(TwPermission.Delete))
             {
                 <button type="button" class="btn btn-thin btn-danger" data-file="@x.FileNavigation" onclick="detachFile(this.dataset.file)">@Localize("Detach")</button>
