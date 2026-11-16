@@ -263,8 +263,27 @@
                         }
                         else
                         {
+                            //Return the user to the page they are on (including its query string) after logging in. A page can
+                            //  supply its own target, such as the notification page which points at the page that was denied.
+                            //  The account pages pass along their own return URL so that logging in never lands back on them.
+                            var loginReturnUrl = ViewData["LoginReturnUrl"] as string;
+                            if (string.IsNullOrEmpty(loginReturnUrl))
+                            {
+                                if (Context.Request.Path.StartsWithSegments("/Identity"))
+                                {
+                                    loginReturnUrl = Context.Request.Query["returnUrl"];
+                                    if (string.IsNullOrEmpty(loginReturnUrl) || !Url.IsLocalUrl(loginReturnUrl))
+                                    {
+                                        loginReturnUrl = $"{WikiConfiguration.BasePath}/";
+                                    }
+                                }
+                                else
+                                {
+                                    loginReturnUrl = $"{WikiConfiguration.BasePath}{Context.Request.Path.Value}{Context.Request.QueryString}";
+                                }
+                            }
                             <li class="nav-item">
-                                <a class="nav-link" href="@WikiConfiguration.BasePath/Identity/Account/Login?returnUrl=@UrlEncoder.Default.Encode($"{WikiConfiguration.BasePath}{Context.Request.Path.Value}")">
+                                <a class="nav-link" href="@WikiConfiguration.BasePath/Identity/Account/Login?returnUrl=@UrlEncoder.Default.Encode(loginReturnUrl)">
                                     @Localize("Login")
                                 </a>
                             </li>

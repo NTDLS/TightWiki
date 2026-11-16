@@ -11,6 +11,9 @@
     Layout = "_Layout";
 
     bool hasRedirect = !string.IsNullOrEmpty(Model.RedirectURL);
+    bool hasLogin = !string.IsNullOrEmpty(Model.LoginReturnURL);
+    bool redirectsHome = Model.RedirectURL == $"{WikiConfiguration.BasePath}/";
+    string loginUrl = $"{WikiConfiguration.BasePath}/Identity/Account/Login?returnUrl={Uri.EscapeDataString(Model.LoginReturnURL)}";
     bool autoRedirect = hasRedirect
         && string.IsNullOrEmpty(Model.NotifyErrorMessage)
         && string.IsNullOrEmpty(Model.NotifyWarningMessage)
@@ -55,10 +58,14 @@
             <div class="tw-message">@string.Join("\n", lines.Skip(1))</div>
         }
 
-        @if (hasRedirect)
+        @if (hasRedirect || hasLogin)
         {
             <div class="mt-2">
-                @if (autoRedirect)
+                @if (!hasRedirect)
+                {
+                    <a class="btn btn-sm btn-primary" href="@loginUrl">@Localize("Log In")</a>
+                }
+                else if (autoRedirect)
                 {
                     //Encode the translated sentence, then swap its placeholders for the link and countdown markup.
                     var sentence = System.Net.WebUtility.HtmlEncode(
@@ -70,7 +77,11 @@
                 }
                 else
                 {
-                    <a href="@Model.RedirectURL">@Localize("Continue")</a>
+                    <a class="btn btn-sm btn-outline-secondary" href="@Model.RedirectURL">@(redirectsHome ? Localize("Return to Home Page") : Localize("Continue"))</a>
+                    @if (hasLogin)
+                    {
+                        <a class="btn btn-sm btn-primary ms-2" href="@loginUrl">@Localize("Log In")</a>
+                    }
                 }
             </div>
         }

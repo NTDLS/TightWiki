@@ -187,7 +187,8 @@ namespace TightWiki.Controllers
         {
             try
             {
-                return Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, warning: message, redirectUrl: $"{WikiConfiguration.BasePath}{redirectUrl}"));
+                return Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, warning: message, redirectUrl: $"{WikiConfiguration.BasePath}{redirectUrl}",
+                    loginReturnUrl: TwNotifyUrl.LoginReturnUrlFor(HttpContext, WikiConfiguration.BasePath)));
             }
             catch (Exception ex)
             {
@@ -200,7 +201,8 @@ namespace TightWiki.Controllers
         {
             try
             {
-                return Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, error: message, redirectUrl: $"{WikiConfiguration.BasePath}{redirectUrl}"));
+                return Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, error: message, redirectUrl: $"{WikiConfiguration.BasePath}{redirectUrl}",
+                    loginReturnUrl: TwNotifyUrl.LoginReturnUrlFor(HttpContext, WikiConfiguration.BasePath)));
             }
             catch (Exception ex)
             {
@@ -226,7 +228,8 @@ namespace TightWiki.Controllers
         {
             try
             {
-                return Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, warning: message));
+                return Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, warning: message,
+                    loginReturnUrl: TwNotifyUrl.LoginReturnUrlFor(HttpContext, WikiConfiguration.BasePath)));
             }
             catch (Exception ex)
             {
@@ -239,7 +242,8 @@ namespace TightWiki.Controllers
         {
             try
             {
-                return Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, error: message));
+                return Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, error: message,
+                    loginReturnUrl: TwNotifyUrl.LoginReturnUrlFor(HttpContext, WikiConfiguration.BasePath)));
             }
             catch (Exception ex)
             {

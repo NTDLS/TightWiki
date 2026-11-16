@@ -55,7 +55,8 @@ namespace TightWiki
     /// <summary>
     /// The content of the notification page.
     /// </summary>
-    public record TwNotifyPayload(string? Success, string? Warning, string? Error, string? RedirectUrl, int RedirectTimeout);
+    /// <param name="LoginReturnUrl">When set, the page offers a "Log In" button that returns the user to this URL after logging in.</param>
+    public record TwNotifyPayload(string? Success, string? Warning, string? Error, string? RedirectUrl, int RedirectTimeout, string? LoginReturnUrl = null);
 
     /// <summary>
     /// The content of the confirm-action page.
@@ -70,7 +71,21 @@ namespace TightWiki
         /// Builds a signed URL to the notification page. The redirect URL, if any, must already include the base path.
         /// </summary>
         public static string Build(string basePath, string? success = null, string? warning = null, string? error = null,
-            string? redirectUrl = null, int redirectTimeout = 0)
-            => $"{basePath}/Utility/Notify?t={TwSignedUrl.Protect(new TwNotifyPayload(success, warning, error, redirectUrl, redirectTimeout), Lifetime)}";
+            string? redirectUrl = null, int redirectTimeout = 0, string? loginReturnUrl = null)
+            => $"{basePath}/Utility/Notify?t={TwSignedUrl.Protect(new TwNotifyPayload(success, warning, error, redirectUrl, redirectTimeout, loginReturnUrl), Lifetime)}";
+
+        /// <summary>
+        /// When an anonymous user is shown a warning or error while viewing a page (such as not having permission to read it),
+        /// returns the URL of that page so the notification can offer to log in and come back to it. Otherwise returns null.
+        /// </summary>
+        public static string? LoginReturnUrlFor(HttpContext context, string basePath)
+        {
+            if (context.User.Identity?.IsAuthenticated == true || !HttpMethods.IsGet(context.Request.Method))
+            {
+                return null;
+            }
+
+            return $"{basePath}{context.Request.Path}{context.Request.QueryString}";
+        }
     }
 }
