@@ -75,7 +75,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{WikiConfiguration.BasePath}/");
+                ReturnUrl = SafeReturnUrl(returnUrl);
 
                 if (!string.IsNullOrEmpty(ErrorMessage))
                 {
@@ -99,7 +99,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             {
                 var ldapAuthenticationConfiguration = await _configurationRepository.GetConfigurationEntryValuesByGroupName(TwConfigGroup.LDAPAuthentication);
 
-                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{WikiConfiguration.BasePath}/");
+                ReturnUrl = SafeReturnUrl(returnUrl);
 
                 ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
@@ -140,7 +140,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                                 if (foundUser != null && await _usersRepository.GetBasicProfileByUserId(Guid.Parse(foundUser.Id)) != null)
                                 {
                                     await SignInManager.SignInAsync(foundUser, Input.RememberMe);
-                                    return Redirect(returnUrl);
+                                    return Redirect(ReturnUrl);
                                 }
                                 else
                                 {
@@ -191,11 +191,11 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                                         //User exits but does not have a profile.
                                         //This means that the user has authenticated with LDSP, but has yet to complete the signup process.
-                                        return RedirectToPage($"{WikiConfiguration.BasePath}/Account/LdapLoginSupplemental", new { UserId = foundUser.Id, ReturnUrl = returnUrl });
+                                        return RedirectToPage($"{WikiConfiguration.BasePath}/Account/LdapLoginSupplemental", new { UserId = foundUser.Id, ReturnUrl });
                                     }
                                 }
 
-                                return Redirect(returnUrl);
+                                return Redirect(ReturnUrl);
                             }
                         }
 
@@ -217,6 +217,15 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        /// <summary>
+        /// Only ever return the user to a page on this wiki, falling back to the home page.
+        /// </summary>
+        private string SafeReturnUrl(string returnUrl)
+        {
+            var url = WebUtility.UrlDecode(returnUrl ?? string.Empty);
+            return Url.IsLocalUrl(url) ? url : $"{WikiConfiguration.BasePath}/";
         }
 
         private async Task UpdateUserCultureCookie()

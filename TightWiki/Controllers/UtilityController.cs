@@ -35,12 +35,16 @@ namespace TightWiki.Controllers
                     model.NotifyErrorMessage = payload.Error ?? string.Empty;
                     model.RedirectURL = Url.IsLocalUrl(payload.RedirectUrl) ? payload.RedirectUrl : string.Empty;
                     model.RedirectTimeout = payload.RedirectTimeout;
+                    model.LoginReturnURL = !SessionState.IsAuthenticated && Url.IsLocalUrl(payload.LoginReturnUrl) ? payload.LoginReturnUrl : string.Empty;
                 }
                 else
                 {
                     model.NotifyWarningMessage = Localize("This notification has expired or is not valid.");
                     model.RedirectURL = $"{WikiConfiguration.BasePath}/";
                 }
+
+                //The top-menu "Login" link would otherwise return here, where this one-time notification may have expired.
+                ViewData["LoginReturnUrl"] = string.IsNullOrEmpty(model.LoginReturnURL) ? $"{WikiConfiguration.BasePath}/" : model.LoginReturnURL;
 
                 return View(model);
             }

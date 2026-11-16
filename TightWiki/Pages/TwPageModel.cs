@@ -64,18 +64,22 @@ namespace TightWiki.Pages
             => Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, success: message, redirectUrl: $"{WikiConfiguration.BasePath}{redirectUrl}", redirectTimeout: 5));
 
         protected RedirectResult NotifyOfWarning(string message, string redirectUrl)
-            => Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, warning: message, redirectUrl: $"{WikiConfiguration.BasePath}{redirectUrl}"));
+            => Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, warning: message, redirectUrl: $"{WikiConfiguration.BasePath}{redirectUrl}",
+                loginReturnUrl: TwNotifyUrl.LoginReturnUrlFor(HttpContext, WikiConfiguration.BasePath)));
 
         protected RedirectResult NotifyOfError(string message, string redirectUrl)
-            => Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, error: message, redirectUrl: $"{WikiConfiguration.BasePath}{redirectUrl}"));
+            => Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, error: message, redirectUrl: $"{WikiConfiguration.BasePath}{redirectUrl}",
+                loginReturnUrl: TwNotifyUrl.LoginReturnUrlFor(HttpContext, WikiConfiguration.BasePath)));
 
         protected RedirectResult NotifyOfSuccess(string message)
             => Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, success: message));
 
         protected RedirectResult NotifyOfWarning(string message)
-            => Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, warning: message));
+            => Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, warning: message,
+                loginReturnUrl: TwNotifyUrl.LoginReturnUrlFor(HttpContext, WikiConfiguration.BasePath)));
 
         protected RedirectResult NotifyOfError(string message)
-            => Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, error: message));
+            => Redirect(TwNotifyUrl.Build(WikiConfiguration.BasePath, error: message,
+                loginReturnUrl: TwNotifyUrl.LoginReturnUrlFor(HttpContext, WikiConfiguration.BasePath)));
     }
 }

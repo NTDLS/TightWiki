@@ -8,5 +8,6 @@
         public string NotifyErrorMessage { get; set; } = string.Empty;
         public string RedirectURL { get; set; } = string.Empty;
         public int RedirectTimeout { get; set; }
+        public string LoginReturnURL { get; set; } = string.Empty;
     }
 }
