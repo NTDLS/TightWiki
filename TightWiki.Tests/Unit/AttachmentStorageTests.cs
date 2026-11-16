@@ -309,12 +309,16 @@ namespace TightWiki.Tests.Unit
             var repository = fixture.Artifacts.DatabaseManager.PageRepository;
             var storage = fixture.Artifacts.DatabaseManager.AttachmentStorage;
 
+            //Only one that is still on a page can be read through a page.
             var legacy = await repository.PagesFactory.QueryFirstOrDefaultAsync<TwPageFileRevisionKey>(
-                "SELECT PageFileId, Revision FROM PageFileRevision WHERE length(Data) > 0 LIMIT 1");
+                @"SELECT PFR.PageFileId, PFR.Revision FROM PageFileRevision as PFR
+                  INNER JOIN PageFile as PF ON PF.Id = PFR.PageFileId
+                  INNER JOIN Page as P ON P.Id = PF.PageId
+                  WHERE length(PFR.Data) > 0 LIMIT 1");
 
             if (legacy == null)
             {
-                return; //The seed databases have no attachments stored the old way.
+                return; //The seed databases have no attachments on a page that are stored the old way.
             }
 
             Assert.False(storage.Exists(legacy.PageFileId, legacy.Revision));

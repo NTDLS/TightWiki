@@ -385,9 +385,7 @@
 
      //Convert filename to TightWiki tag.
      function toWikiimageTag(name) {
-       const ext = (name.split('.').pop() || '').toLowerCase();
-       const isImage = ['png','jpg','jpeg','gif','bmp','webp','avif','tif','tiff'].includes(ext);
-       return isImage ? `##Image("${name}")` : `##File(${name})`;
+       return TwAttachmentUploader.tagFor(name);
      }
 </script>
 <!-- Clipboard image pasting: END -->

@@ -33,10 +33,9 @@
         });
     }
 
-    function copyToClipboard(fileName, element) {
-        const ext = fileName.split('.').pop().toLowerCase();
-        const isImage = ['png', 'jpg', 'jpeg', 'gif', 'bmp'].includes(ext);
-        const tag = (isImage ? '##Image(' : '##File(') + fileName + ')';
+    function copyToClipboard(fileName, contentType, element) {
+        //The editor loads attachment-uploader.js, which chooses ##Image, ##Video, ##Audio or ##File from the file's type.
+        const tag = TwAttachmentUploader.tagFor(fileName, contentType);
 
         navigator.clipboard.writeText(tag).then(function () {
             const originalContent = element.innerHTML;
@@ -64,7 +63,7 @@
             <a href="@WikiConfiguration.BasePath/File/Revisions/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.FileRevision @Localize("revisions")</a>
         </div>
         <div class="d-inline-flex gap-1">
-            <button type="button" class="btn btn-thin btn-primary" data-file="@x.Name" onclick="copyToClipboard(this.dataset.file, this)">
+            <button type="button" class="btn btn-thin btn-primary" data-file="@x.Name" data-content-type="@x.ContentType" onclick="copyToClipboard(this.dataset.file, this.dataset.contentType, this)">
                 <i class="bi bi-clipboard me-1"></i>@Localize("Copy Tag")
             </button>
             @if (await sessionState.HoldsPermission(TwPermission.Delete))

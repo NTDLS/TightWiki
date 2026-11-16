@@ -287,5 +287,24 @@
         }
     }
 
+    //Used when the server did not say what type a file is, such as a file pasted from the clipboard without one.
+    const typeByExtension = {
+        png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", gif: "image/gif", bmp: "image/bmp", webp: "image/webp",
+        avif: "image/avif", tif: "image/tiff", tiff: "image/tiff", svg: "image/svg+xml", ico: "image/x-icon",
+        mp4: "video/mp4", m4v: "video/mp4", mov: "video/quicktime", webm: "video/webm", ogv: "video/ogg",
+        mp3: "audio/mpeg", m4a: "audio/mp4", aac: "audio/aac", oga: "audio/ogg", wav: "audio/wav", flac: "audio/flac"
+    };
+
+    //The wiki function that shows an attachment: ##Image, ##Video, ##Audio, or ##File for anything else.
+    //The name is always quoted, so names with commas or parentheses work.
+    TwAttachmentUploader.tagFor = function (name, contentType) {
+        const type = (contentType || typeByExtension[(name.split(".").pop() || "").toLowerCase()] || "").toLowerCase();
+        const fn = type.startsWith("image/") ? "Image"
+            : type.startsWith("video/") ? "Video"
+            : type.startsWith("audio/") ? "Audio"
+            : "File";
+        return "##" + fn + "(\"" + name.replace(/"/g, "\\\"") + "\")";
+    };
+
     window.TwAttachmentUploader = TwAttachmentUploader;
 })();

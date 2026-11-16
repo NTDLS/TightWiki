@@ -130,12 +130,20 @@ namespace TightWiki.Plugin.Default.StandardFunctions
         }
 
         /// <summary>
-        /// Video formats that browsers can play. Others (.avi, .mov, .wmv, .mkv) are offered as a download.
+        /// Video formats that browsers can play. Others (.avi, .wmv, .mkv) are offered as a download.
         /// </summary>
         private static readonly HashSet<string> PlayableVideoTypes = new(StringComparer.OrdinalIgnoreCase)
         {
-            "video/mp4", "video/webm", "video/ogg"
+            "video/mp4", "video/webm", "video/ogg", "video/quicktime"
         };
+
+        /// <summary>
+        /// QuickTime (.mov) is the MP4 container's predecessor, and phones and cameras record H.264 in it. Browsers that
+        ///  do not claim QuickTime support still play those files when told they are MP4, but not every .mov uses a codec
+        ///  the browser has (such as HEVC on some systems), so these also get a download link under the player.
+        /// </summary>
+        private static string PlayerSourceType(string contentType)
+            => contentType.Equals("video/quicktime", StringComparison.OrdinalIgnoreCase) ? "video/mp4" : contentType;
 
         /// <summary>
         /// Audio formats that browsers can play.
@@ -146,7 +154,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
             "audio/wav", "audio/x-wav", "audio/wave", "audio/vnd.wave", "audio/webm", "audio/flac", "audio/x-flac"
         };
 
-        [TwStandardFunctionPlugin("Video", "Plays a video that is attached to the page (MP4, WebM or Ogg). Other formats are shown as a download link.")]
+        [TwStandardFunctionPlugin("Video", "Plays a video that is attached to the page (MP4, MOV, WebM or Ogg). Other formats are shown as a download link.")]
         public async Task<TwPluginResult> Video(ITwEngineState state,
             string name, int? width = null, string? poster = null, bool loop = false, bool muted = false, bool autoplay = false)
         {
@@ -177,11 +185,19 @@ namespace TightWiki.Plugin.Default.StandardFunctions
                 }
             }
 
-            return new TwPluginResult(
-                $"<video {attributes}>"
-                + $"<source src=\"{WebUtility.HtmlEncode(media.Url)}\" type=\"{WebUtility.HtmlEncode(media.Attachment.ContentType)}\" />"
+            var html = $"<video {attributes}>"
+                + $"<source src=\"{WebUtility.HtmlEncode(media.Url)}\" type=\"{WebUtility.HtmlEncode(PlayerSourceType(media.Attachment.ContentType))}\" />"
                 + DownloadLink(state, media.Url, media.Attachment)
-                + "</video>");
+                + "</video>";
+
+            if (!PlayerSourceType(media.Attachment.ContentType).Equals(media.Attachment.ContentType, StringComparison.OrdinalIgnoreCase))
+            {
+                html += "<div class=\"small text-muted\">"
+                    + WebUtility.HtmlEncode(state.Localizer["If the video does not play:"].Value)
+                    + $" {DownloadLink(state, media.Url, media.Attachment)}</div>";
+            }
+
+            return new TwPluginResult(html);
         }
 
         [TwStandardFunctionPlugin("Audio", "Plays audio that is attached to the page (MP3, M4A, Ogg, WAV, WebM or FLAC). Other formats are shown as a download link.")]
@@ -231,7 +247,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
             + $" {DownloadLink(state, url, attachment)} ({WebUtility.HtmlEncode(attachment.FriendlySize)})</div>";
 
         [TwStandardFunctionPlugin("File", "Displays a file download link.")]
-        public async Task<TwPluginResult> File(ITwEngineState state, string name, string linkText, bool showSize = false)
+        public async Task<TwPluginResult> File(ITwEngineState state, string name, string? linkText = null, bool showSize = false)
         {
             var attachment = await ResolveAttachment(state, name);
             if (attachment.Info == null)

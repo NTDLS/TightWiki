@@ -60,6 +60,31 @@ namespace TightWiki.Tests.Unit
         }
 
         [Fact]
+        public async Task QuickTimeVideoIsPlayedAsMp4WithADownloadLink()
+        {
+            //Phones and cameras record H.264 in .mov files, which browsers play when told they are MP4.
+            var pageName = await CreatePageWithAttachments(("Marlin 1895 45-70 11.MOV", "video/quicktime"));
+            var navigation = TwNavigation.Clean(pageName);
+
+            var html = (await fixture.WikiTransform(pageName, "##Video(\"Marlin 1895 45-70 11.MOV\")")).HtmlResult;
+
+            Assert.Contains($"<source src=\"/Page/Binary/{navigation}/marlin_1895_45-70_11_mov\" type=\"video/mp4\" />", html);
+            Assert.Contains("If the video does not play:", html);
+            Assert.DoesNotContain("can not be played", html);
+        }
+
+        [Fact]
+        public async Task FileLinkTextIsOptional()
+        {
+            var pageName = await CreatePageWithAttachments(("notes.txt", "text/plain"));
+            var navigation = TwNavigation.Clean(pageName);
+
+            var html = (await fixture.WikiTransform(pageName, "##File(\"notes.txt\")")).HtmlResult;
+
+            Assert.Contains($"<a href=\"/Page/Binary/{navigation}/notes_txt\">notes.txt</a>", html);
+        }
+
+        [Fact]
         public async Task AutoplayIsAlwaysMuted()
         {
             //Browsers refuse to start a video with sound by itself.

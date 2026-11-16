@@ -6,7 +6,8 @@ SELECT
 	PF.Name
 FROM
 	PageFileRevision as PFR
-INNER JOIN PageFile as PF
+--A LEFT JOIN, so revisions whose PageFile row is gone are moved too (without an extension, as they have no name).
+LEFT OUTER JOIN PageFile as PF
 	ON PF.Id = PFR.PageFileId
 WHERE
 	length(PFR.Data) > 0
