@@ -99,9 +99,9 @@ namespace TightWiki.Tests.Unit
         [InlineData("[[Home, image:Builtin :: Media/TightWiki Icon 6.png, target:blank]]", "<a href=\"/home\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"/Page/Image/Builtin :: Media/TightWiki Icon 6.png?Scale=100\" /></a>")]
         [InlineData("[[Home, image:Builtin :: Media/TightWiki Icon 6.png, 25, target:blank]]", "<a href=\"/home\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"/Page/Image/Builtin :: Media/TightWiki Icon 6.png?Scale=25\" /></a>")]
         //Invalid options.
-        [InlineData("[[Home, Text, bogus]]", "unknown argument \"bogus\"")]
+        [InlineData("[[Home, Text, bogus]]", "unknown argument &quot;bogus&quot;")]
         [InlineData("[[Home, Text, target:blank, target:self]]", "target specified more than once")]
-        [InlineData("[[https://example.com, Text, target:]]", "invalid target \"target:\"")]
+        [InlineData("[[https://example.com, Text, target:]]", "invalid target &quot;target:&quot;")]
         public async Task LinkMarkup(string input, string expected)
         {
             var session = fixture.CreateWikiSession();

@@ -63,61 +63,70 @@ namespace TightWiki.Plugin.Default.StandardFunctions
             string name, int? scale = null, string? altText = null, string? @class = null, int? maxWidth = null)
         {
             altText ??= name;
-            @class ??= "img-fluid";
+            var classAttribute = $"class=\"{WebUtility.HtmlEncode(@class ?? "img-fluid")}\"";
 
-            bool explicitNamespace = name.Contains("::");
-            bool isPageForeignImage = false;
-
-            if (@class != null)
+            if (name.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase)
+                || name.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
             {
-                @class = $"class=\"{@class}\"";
-            }
-            else
-            {
-                @class = "class=\"img-fluid\"";
+                var url = WebUtility.HtmlEncode(name);
+                return new TwPluginResult($"<a href=\"{url}\" target=\"_blank\"><img src=\"{url}\" border=\"0\" alt=\"{WebUtility.HtmlEncode(altText)}\" {classAttribute} /></a>");
             }
 
-            string navigation = state.Page.Navigation;
-            if (name.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
+            //An image that is not found still gets its tag, so the page shows where it belongs.
+            var attachment = await ResolveAttachment(state, name);
+            var link = $"{state.Engine.WikiConfiguration.BasePath}/Page/Image/{attachment.PageNavigation}/{attachment.FileNavigation}"
+                + (attachment.PageRevision != null ? $"/{attachment.PageRevision}" : string.Empty);
+
+            var queryParams = new List<string>();
+            if (scale != null && scale != 100) queryParams.Add($"Scale={scale}");
+            if (maxWidth != null) queryParams.Add($"MaxWidth={maxWidth}");
+            var source = queryParams.Count > 0 ? $"{link}?{string.Join('&', queryParams)}" : link;
+
+            return new TwPluginResult($"<a href=\"{WebUtility.HtmlEncode(link)}\" target=\"_blank\"><img src=\"{WebUtility.HtmlEncode(source)}\" border=\"0\" alt=\"{WebUtility.HtmlEncode(altText)}\" {classAttribute} /></a>");
+        }
+
+        /// <summary>
+        /// Where an attachment named in a function is, and its details if it exists.
+        /// </summary>
+        /// <param name="PageRevision">The revision of the page to read it from, null for the current revision.</param>
+        private record ResolvedAttachment(string PageNavigation, string FileNavigation, int? PageRevision, TwPageFileAttachmentInfo? Info);
+
+        /// <summary>
+        /// Finds an attachment named in a function: "file.png" on this page, or "Page Name/file.png" on another page.
+        /// For another page named without a namespace, when the file is not found there it is also looked for on the page
+        ///  of that name in this page's namespace, so pages in a namespace can refer to each other by their short names.
+        /// </summary>
+        private static async Task<ResolvedAttachment> ResolveAttachment(ITwEngineState state, string name)
+        {
+            var repository = state.Engine.DatabaseManager.PageRepository;
+
+            int slashIndex = name.IndexOf('/');
+            if (slashIndex < 0)
             {
-                string image = $"<a href=\"{name}\" target=\"_blank\"><img src=\"{name}\" border=\"0\" alt=\"{altText}\" {@class} /></a>";
-                return new TwPluginResult(image);
-            }
-            else if (name.Contains('/'))
-            {
-                //Allow loading attached images from other pages.
-                int slashIndex = name.IndexOf('/');
-                navigation = TwNamespaceNavigation.CleanAndValidate(name.Substring(0, slashIndex));
-                name = name.Substring(slashIndex + 1);
-                isPageForeignImage = true;
+                //Files on this page are versioned with it.
+                var fileNavigation = TwNamespaceNavigation.CleanAndValidate(name);
+                var info = await repository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(state.Page.Navigation, fileNavigation, state.Revision);
+                return new ResolvedAttachment(state.Page.Navigation, fileNavigation, state.Revision, info);
             }
 
-            if (explicitNamespace == false && state.Page.Namespace != null)
+            var pageName = name.Substring(0, slashIndex);
+            var foreignFileNavigation = TwNamespaceNavigation.CleanAndValidate(name.Substring(slashIndex + 1));
+
+            //Files on other pages are not versioned with this page, so they are always that page's current revision.
+            var pageNavigation = TwNamespaceNavigation.CleanAndValidate(pageName);
+            var foreignInfo = await repository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(pageNavigation, foreignFileNavigation, null);
+
+            if (foreignInfo == null && !pageName.Contains("::") && !string.IsNullOrWhiteSpace(state.Page.Namespace))
             {
-                if (state.Engine.DatabaseManager.PageRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, TwNamespaceNavigation.CleanAndValidate(name), state.Revision) == null)
+                var namespacedNavigation = TwNamespaceNavigation.CleanAndValidate($"{state.Page.Namespace} :: {pageName}");
+                var namespacedInfo = await repository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(namespacedNavigation, foreignFileNavigation, null);
+                if (namespacedInfo != null)
                 {
-                    //If the image does not exist, and no namespace was specified, but the page has a namespace - then default to the pages namespace.
-                    navigation = TwNamespaceNavigation.CleanAndValidate($"{state.Page.Namespace}::{name}");
+                    return new ResolvedAttachment(namespacedNavigation, foreignFileNavigation, null, namespacedInfo);
                 }
             }
 
-            var queryParams = new List<string>();
-            if (scale != 100) queryParams.Add($"Scale={scale}");
-            if (maxWidth != null) queryParams.Add($"MaxWidth={maxWidth}");
-
-            if (state.Revision != null && isPageForeignImage == false)
-            {
-                //Check for isPageForeignImage because we don't version foreign page files.
-                string link = $"/Page/Image/{navigation}/{TwNamespaceNavigation.CleanAndValidate(name)}/{state.Revision}";
-                string image = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{state.Engine.WikiConfiguration.BasePath}{link}?{string.Join('&', queryParams)}\" border=\"0\" alt=\"{altText}\" {@class} /></a>";
-                return new TwPluginResult(image);
-            }
-            else
-            {
-                string link = $"/Page/Image/{navigation}/{TwNamespaceNavigation.CleanAndValidate(name)}";
-                string image = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{state.Engine.WikiConfiguration.BasePath}{link}?{string.Join('&', queryParams)}\" border=\"0\" alt=\"{altText}\" {@class} /></a>";
-                return new TwPluginResult(image);
-            }
+            return new ResolvedAttachment(pageNavigation, foreignFileNavigation, null, foreignInfo);
         }
 
         /// <summary>
@@ -144,7 +153,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
             var media = await ResolveMedia(state, name);
             if (media.Attachment == null)
             {
-                throw new Exception($"File not found [{WebUtility.HtmlEncode(name)}]");
+                throw new Exception($"File not found [{name}]");
             }
 
             if (!PlayableVideoTypes.Contains(media.Attachment.ContentType))
@@ -181,7 +190,7 @@ namespace TightWiki.Plugin.Default.StandardFunctions
             var media = await ResolveMedia(state, name);
             if (media.Attachment == null)
             {
-                throw new Exception($"File not found [{WebUtility.HtmlEncode(name)}]");
+                throw new Exception($"File not found [{name}]");
             }
 
             if (!PlayableAudioTypes.Contains(media.Attachment.ContentType))
@@ -202,30 +211,16 @@ namespace TightWiki.Plugin.Default.StandardFunctions
         /// </summary>
         private static async Task<(string Url, TwPageFileAttachmentInfo? Attachment)> ResolveMedia(ITwEngineState state, string name)
         {
-            string navigation = state.Page.Navigation;
-            bool isPageForeign = false;
-
-            if (name.Contains('/'))
-            {
-                int slashIndex = name.IndexOf('/');
-                navigation = TwNamespaceNavigation.CleanAndValidate(name.Substring(0, slashIndex));
-                name = name.Substring(slashIndex + 1);
-                isPageForeign = true;
-            }
-
-            var fileNavigation = TwNamespaceNavigation.CleanAndValidate(name);
-
-            //Files on other pages are not versioned with this page, so they are always the current revision.
-            int? pageRevision = isPageForeign ? null : state.Revision;
-
-            var attachment = await state.Engine.DatabaseManager.PageRepository
-                .GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, fileNavigation, pageRevision);
-
-            var url = $"{state.Engine.WikiConfiguration.BasePath}/Page/Binary/{navigation}/{fileNavigation}"
-                + (pageRevision != null ? $"/{pageRevision}" : string.Empty);
-
-            return (url, attachment);
+            var attachment = await ResolveAttachment(state, name);
+            return (BinaryUrl(state, attachment), attachment.Info);
         }
+
+        /// <summary>
+        /// The URL that sends an attachment's content, with range support so video can be seeked.
+        /// </summary>
+        private static string BinaryUrl(ITwEngineState state, ResolvedAttachment attachment)
+            => $"{state.Engine.WikiConfiguration.BasePath}/Page/Binary/{attachment.PageNavigation}/{attachment.FileNavigation}"
+            + (attachment.PageRevision != null ? $"/{attachment.PageRevision}" : string.Empty);
 
         private static string DownloadLink(ITwEngineState state, string url, TwPageFileAttachmentInfo attachment)
             => $"<a href=\"{WebUtility.HtmlEncode(url)}\">{WebUtility.HtmlEncode(string.Format(state.Localizer["Download {0}"].Value, attachment.Name))}</a>";
@@ -238,53 +233,19 @@ namespace TightWiki.Plugin.Default.StandardFunctions
         [TwStandardFunctionPlugin("File", "Displays a file download link.")]
         public async Task<TwPluginResult> File(ITwEngineState state, string name, string linkText, bool showSize = false)
         {
-            bool explicitNamespace = name.Contains("::");
-            bool isPageForeignFile = false;
-
-            string navigation = state.Page.Navigation;
-            if (name.Contains('/'))
+            var attachment = await ResolveAttachment(state, name);
+            if (attachment.Info == null)
             {
-                //Allow loading attached images from other pages.
-                int slashIndex = name.IndexOf("/");
-                navigation = TwNamespaceNavigation.CleanAndValidate(name.Substring(0, slashIndex));
-                name = name.Substring(slashIndex + 1);
-                isPageForeignFile = true;
+                throw new Exception($"File not found [{name}]");
             }
 
-            if (explicitNamespace == false && state.Page.Namespace != null)
+            string text = linkText ?? name;
+            if (showSize)
             {
-                if (state.Engine.DatabaseManager.PageRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, TwNamespaceNavigation.CleanAndValidate(name), state.Revision) == null)
-                {
-                    //If the image does not exist, and no namespace was specified, but the page has a namespace - then default to the pages namespace.
-                    navigation = TwNamespaceNavigation.CleanAndValidate($"{state.Page.Namespace}::{name}");
-                }
+                text += $" ({attachment.Info.FriendlySize})";
             }
 
-            var attachment = await state.Engine.DatabaseManager.PageRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, TwNamespaceNavigation.CleanAndValidate(name), state.Revision);
-            if (attachment != null)
-            {
-                string alt = linkText ?? name;
-
-                if (showSize)
-                {
-                    alt += $" ({attachment.FriendlySize})";
-                }
-
-                if (state.Revision != null && isPageForeignFile == false)
-                {
-                    //Check for isPageForeignImage because we don't version foreign page files.
-                    string link = $"/Page/Binary/{navigation}/{TwNamespaceNavigation.CleanAndValidate(name)}/{state.Revision}";
-                    string image = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}{link}\">{alt}</a>";
-                    return new TwPluginResult(image);
-                }
-                else
-                {
-                    string link = $"/Page/Binary/{navigation}/{TwNamespaceNavigation.CleanAndValidate(name)}";
-                    string image = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}{link}\">{alt}</a>";
-                    return new TwPluginResult(image);
-                }
-            }
-            throw new Exception($"File not found [{WebUtility.HtmlEncode(name)}]");
+            return new TwPluginResult($"<a href=\"{WebUtility.HtmlEncode(BinaryUrl(state, attachment))}\">{WebUtility.HtmlEncode(text)}</a>");
         }
     }
 }

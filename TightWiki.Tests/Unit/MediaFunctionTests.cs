@@ -8,16 +8,18 @@ namespace TightWiki.Tests.Unit
     public class MediaFunctionTests(TwEngineFixture fixture)
         : IClassFixture<TwEngineFixture>
     {
-        private async Task<string> CreatePageWithAttachments(params (string Name, string ContentType)[] files)
+        private Task<string> CreatePageWithAttachments(params (string Name, string ContentType)[] files)
+            => CreateNamedPageWithAttachments($"Media Test {Guid.NewGuid():N}", files);
+
+        private async Task<string> CreateNamedPageWithAttachments(string pageName, params (string Name, string ContentType)[] files)
         {
             var repository = fixture.Artifacts.DatabaseManager.PageRepository;
             var userId = Guid.NewGuid();
-            var pageName = $"Media Test {Guid.NewGuid():N}";
 
             var pageId = await repository.UpsertPage(fixture.Artifacts.Engine, fixture.Artifacts.Localizer, new TwPage
             {
                 Name = pageName,
-                Navigation = TwNavigation.Clean(pageName),
+                Navigation = TwNamespaceNavigation.CleanAndValidate(pageName),
                 Body = "A media test page.",
                 Description = string.Empty,
                 CreatedByUserId = userId,
@@ -90,6 +92,65 @@ namespace TightWiki.Tests.Unit
             var html = (await fixture.WikiTransform(pageName, "##Audio(song.mp3, :loop=true)")).HtmlResult;
 
             Assert.Contains($"<audio controls preload=\"metadata\" loop><source src=\"/Page/Binary/{navigation}/song_mp3\" type=\"audio/mpeg\" />", html);
+        }
+
+        [Fact]
+        public async Task PagesInANamespaceCanReferToEachOtherByShortName()
+        {
+            var ns = $"Ns{Guid.NewGuid():N}";
+            await CreateNamedPageWithAttachments($"{ns} :: Gallery", ("logo.png", "image/png"), ("guide.pdf", "application/pdf"));
+            var galleryNavigation = TwNamespaceNavigation.CleanAndValidate($"{ns} :: Gallery");
+
+            var html = (await fixture.WikiTransform($"{ns} :: Article", "##Image(Gallery/logo.png)\n##File(Gallery/guide.pdf, The guide)")).HtmlResult;
+
+            Assert.Contains($"src=\"/Page/Image/{galleryNavigation}/logo_png\"", html);
+            Assert.Contains($"<a href=\"/Page/Binary/{galleryNavigation}/guide_pdf\">The guide</a>", html);
+        }
+
+        [Fact]
+        public async Task AFullyNamedPageIsNotRedirectedToTheNamespace()
+        {
+            //"Other :: Gallery/logo.png" names its namespace, so a missing file is reported rather than looked for elsewhere.
+            var ns = $"Ns{Guid.NewGuid():N}";
+            await CreateNamedPageWithAttachments($"{ns} :: Gallery", ("logo.png", "image/png"));
+
+            var html = (await fixture.WikiTransform($"{ns} :: Article", "##File(Other :: Gallery/logo.png, x)")).HtmlResult;
+
+            Assert.Contains("File not found [Other :: Gallery/logo.png]", html);
+        }
+
+        [Fact]
+        public async Task ImageAttributesCanNotAddMarkup()
+        {
+            var pageName = await CreatePageWithAttachments(("logo.png", "image/png"));
+
+            var html = (await fixture.WikiTransform(pageName, "##Image(logo.png, 50, \"a\\\" onerror=\\\"alert(1)\", \"x\\\" onclick=\\\"y\")")).HtmlResult;
+
+            Assert.DoesNotContain("\" onerror=\"", html);
+            Assert.DoesNotContain("\" onclick=\"", html);
+            Assert.Contains("?Scale=50\"", html);
+        }
+
+        [Fact]
+        public async Task FileLinkTextCanNotAddMarkup()
+        {
+            var pageName = await CreatePageWithAttachments(("notes.txt", "text/plain"));
+
+            var html = (await fixture.WikiTransform(pageName, "##File(notes.txt, \"Tom & Jerry\")")).HtmlResult;
+
+            Assert.Contains(">Tom &amp; Jerry</a>", html);
+        }
+
+        [Fact]
+        public async Task ErrorsAreShownAsText()
+        {
+            var pageName = await CreatePageWithAttachments();
+
+            var html = (await fixture.WikiTransform(pageName, "##File(\"<script>alert(1)</script>.txt\", x)")).HtmlResult;
+
+            Assert.DoesNotContain("<script>alert(1)</script>", html);
+            Assert.Contains("File not found", html);
+            Assert.DoesNotContain("</font></a>", html);
         }
 
         [Fact]
