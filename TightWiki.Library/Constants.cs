@@ -12,5 +12,7 @@
         public const string DEFAULTUSERNAME = "admin@tightwiki.com";
         public const string DEFAULTACCOUNT = "admin";
         public const string DEFAULTPASSWORD = "2Tight2Wiki@";
+
+        public const string HelpNamespace = "Wiki Help"; //The namespace the default help pages are seeded into.
     }
 }

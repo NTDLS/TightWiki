@@ -35,6 +35,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="ModelContextProtocol.AspNetCore" Version="2.4.0" />
 		<PackageReference Include="NTDLS.DelegateThreadPooling" Version="2.1.4" />
 		<PackageReference Include="NTDLS.Localization" Version="1.0.4" />
 		<PackageReference Include="System.DirectoryServices.Protocols" Version="10.0.14" />
