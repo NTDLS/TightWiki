@@ -1179,60 +1179,40 @@ namespace TightWiki.Controllers
 
                 model.FeatureTemplates = await pageRepository.GetAllFeatureTemplates();
 
-                if (WikiConfiguration.ShowChangeSummaryWhenEditing
-                    && WikiConfiguration.RequireChangeSummaryWhenEditing
-                    && string.IsNullOrEmpty(model.ChangeSummary))
+                var saveService = new PageSaveService(SessionState, tightEngine, Localizer);
+                var saveResult = await saveService.SavePage(model.Id, model.Revision, model.Name, model.Body, model.Description, model.ChangeSummary);
+
+                switch (saveResult.Error)
                 {
-                    ModelState.AddModelError("ChangeSummary", Localize("A change summary is required for page edits."));
-                    return View(model);
+                    case PageSaveError.ChangeSummaryRequired:
+                        ModelState.AddModelError("ChangeSummary", Localize("A change summary is required for page edits."));
+                        return View(model);
+                    case PageSaveError.NameContainsUnsafeCharacters:
+                        ModelState.AddModelError("Name", Localize("The page name contains characters which are disallowed: {0}.",
+                            string.Join(' ', Utility.UnsafePageNameCharacters)));
+                        return View(model);
+                    case PageSaveError.NameContainsMultipleNamespaceSeparators:
+                        ModelState.AddModelError("Name", Localize("The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters."));
+                        return View(model);
+                    case PageSaveError.CreateNotPermitted:
+                        return NotifyOfError(Localize("You do not have permission to perform the action: {0}", Localize(TwPermission.Create.ToString())), "/");
+                    case PageSaveError.EditNotPermitted:
+                        return NotifyOfError(Localize("You do not have permission to perform the action: {0}", Localize(TwPermission.Edit.ToString())), "/");
+                    case PageSaveError.PageProtected:
+                        return NotifyOfError(Localize("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed."));
+                    case PageSaveError.RevisionConflict:
+                        model.FeatureTemplates = await pageRepository.GetAllFeatureTemplates();
+                        ModelState.AddModelError(string.Empty, Localize("This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving."));
+                        return View(model);
+                    case PageSaveError.NameAlreadyExists:
+                        ModelState.AddModelError("Name", Localize("The page name you entered already exists."));
+                        return View(model);
                 }
 
-                if (Utility.PageNameContainsUnsafeCharacters(model.Name))
-                {
-                    ModelState.AddModelError("Name", Localize("The page name contains characters which are disallowed: {0}.",
-                        string.Join(' ', Utility.UnsafePageNameCharacters)));
-                    return View(model);
-                }
-
-                if (Utility.CountOccurrencesOf(model.Name, "::") > 1)
-                {
-                    ModelState.AddModelError("Name", Localize("The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters."));
-                    return View(model);
-                }
+                var page = saveResult.Page.EnsureNotNull();
 
                 if (model.Id == 0) //Saving a new page.
                 {
-                    var navigation = TwNamespaceNavigation.CleanAndValidate(model.Name);
-
-                    try
-                    {
-                        await SessionState.RequirePermission(navigation, TwPermission.Create);
-                    }
-                    catch (Exception ex)
-                    {
-                        return NotifyOfError(ex.GetBaseException().Message, "/");
-                    }
-                    var page = new TwPage()
-                    {
-                        CreatedDate = DateTime.UtcNow,
-                        CreatedByUserId = SessionState.Profile.EnsureNotNull().UserId,
-                        ModifiedDate = DateTime.UtcNow,
-                        ModifiedByUserId = SessionState.Profile.UserId,
-                        Body = model.Body ?? "",
-                        Name = model.Name,
-                        ChangeSummary = model.ChangeSummary ?? string.Empty,
-                        Navigation = navigation,
-                        Description = model.Description ?? ""
-                    };
-
-                    if (await pageRepository.GetPageInfoByNavigation(page.Navigation) != null)
-                    {
-                        ModelState.AddModelError("Name", Localize("The page name you entered already exists."));
-                        return View(model);
-                    }
-
-                    page.Id = await pageRepository.UpsertPage(tightEngine, Localizer, page, SessionState);
-
                     await SessionState.SetPageId(page.Id);
                     await pageRepository.DeleteCurrentPageEditor(page.Id, SessionState.Profile.EnsureNotNull().UserId);
 
@@ -1240,54 +1220,7 @@ namespace TightWiki.Controllers
                 }
                 else
                 {
-                    var navigation = TwNamespaceNavigation.CleanAndValidate(model.Name);
-
-                    try
-                    {
-                        await SessionState.RequirePermission(navigation, TwPermission.Edit);
-                    }
-                    catch (Exception ex)
-                    {
-                        return NotifyOfError(ex.GetBaseException().Message, "/");
-                    }
-                    var page = (await pageRepository.GetPageRevisionById(model.Id)).EnsureNotNull();
-                    var instructions = await pageRepository.GetPageProcessingInstructionsByPageId(page.Id);
-                    if (instructions.Contains(TwInstruction.Protect) && !await SessionState.HoldsPermission(navigation, TwPermission.Moderate))
-                    {
-                        return NotifyOfError(Localize("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed."));
-                    }
-
-                    if (page.Revision != model.Revision)
-                    {
-                        model.FeatureTemplates = await pageRepository.GetAllFeatureTemplates();
-                        ModelState.AddModelError(string.Empty, Localize("This page was modified by someone else while you were editing it. Please reload the page to get the latest version before saving."));
-                        return View(model);
-                    }
-
-                    string originalNavigation = string.Empty;
-
-                    model.Navigation = navigation;
-
-                    if (!page.Navigation.Equals(model.Navigation, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        if (await pageRepository.GetPageInfoByNavigation(model.Navigation) != null)
-                        {
-                            ModelState.AddModelError("Name", Localize("The page name you entered already exists."));
-                            return View(model);
-                        }
-
-                        originalNavigation = page.Navigation; //So we can clear cache and this also indicates that we need to redirect to the new name.
-                    }
-
-                    page.ModifiedDate = DateTime.UtcNow;
-                    page.ModifiedByUserId = SessionState.Profile.EnsureNotNull().UserId;
-                    page.Body = model.Body ?? "";
-                    page.Name = model.Name;
-                    page.ChangeSummary = model.ChangeSummary ?? string.Empty;
-                    page.Navigation = TwNamespaceNavigation.CleanAndValidate(model.Name);
-                    page.Description = model.Description ?? "";
-
-                    await pageRepository.UpsertPage(tightEngine, Localizer, page, SessionState);
+                    model.Navigation = page.Navigation;
 
                     await SessionState.SetPageId(page.Id);
                     await pageRepository.DeleteCurrentPageEditor(page.Id, SessionState.Profile.EnsureNotNull().UserId);
@@ -1298,10 +1231,8 @@ namespace TightWiki.Controllers
                     model.Revision = await pageRepository.GetCurrentPageRevision(page.Id);
                     model.SuccessMessage = Localize("The page was saved.");
 
-                    if (string.IsNullOrWhiteSpace(originalNavigation) == false)
+                    if (string.IsNullOrWhiteSpace(saveResult.OriginalNavigation) == false)
                     {
-                        MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.Page, [originalNavigation]));
-                        MemCache.ClearCategory(MemCacheKey.Build(MemCache.Category.Page, [page.Id]));
                         return Redirect($"{WikiConfiguration.BasePath}/{page.Navigation}/Edit");
                     }
 
