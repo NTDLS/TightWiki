@@ -16,12 +16,6 @@
         <h3 class="mb-1">@Localize("Profile")</h3>
         <div class="text-muted">@Localize("This is your profile, do with it what you may.")</div>
     </div>
-    @if (WikiConfiguration.EnableApi)
-    {
-        <a class="btn btn-outline-primary" href="@WikiConfiguration.BasePath/Profile/ApiTokens">
-            <i class="bi bi-key me-1"></i>@Localize("API Tokens")
-        </a>
-    }
 </div>
 
 @using (Html.BeginForm(null, null, null, FormMethod.Post, true, new { action = $"{WikiConfiguration.BasePath}{Context.Request.Path}", enctype = "multipart/form-data" }))
@@ -38,6 +32,13 @@
                 <button type="submit" class="btn btn-primary">
                     <i class="bi bi-floppy me-1"></i>@Localize("Save")
                 </button>
+
+                @if (WikiConfiguration.EnableApi)
+                {
+                    <a class="btn btn-outline-primary" href="@WikiConfiguration.BasePath/Profile/ApiTokens">
+                        <i class="bi bi-key me-1"></i>@Localize("API Tokens")
+                    </a>
+                }
 
                 @TwConfirmActionHelper.GenerateDangerButton(
                     WikiConfiguration.BasePath,
