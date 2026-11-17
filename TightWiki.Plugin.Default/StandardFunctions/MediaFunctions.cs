@@ -1,4 +1,5 @@
 ﻿using NTDLS.Helpers;
+using System.Net;
 using System.Text;
 using TightWiki.Plugin.Attributes;
 using TightWiki.Plugin.Attributes.Functions;
@@ -62,113 +63,205 @@ namespace TightWiki.Plugin.Default.StandardFunctions
             string name, int? scale = null, string? altText = null, string? @class = null, int? maxWidth = null)
         {
             altText ??= name;
-            @class ??= "img-fluid";
+            var classAttribute = $"class=\"{WebUtility.HtmlEncode(@class ?? "img-fluid")}\"";
 
-            bool explicitNamespace = name.Contains("::");
-            bool isPageForeignImage = false;
-
-            if (@class != null)
+            if (name.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase)
+                || name.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
             {
-                @class = $"class=\"{@class}\"";
-            }
-            else
-            {
-                @class = "class=\"img-fluid\"";
+                var url = WebUtility.HtmlEncode(name);
+                return new TwPluginResult($"<a href=\"{url}\" target=\"_blank\"><img src=\"{url}\" border=\"0\" alt=\"{WebUtility.HtmlEncode(altText)}\" {classAttribute} /></a>");
             }
 
-            string navigation = state.Page.Navigation;
-            if (name.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
-            {
-                string image = $"<a href=\"{name}\" target=\"_blank\"><img src=\"{name}\" border=\"0\" alt=\"{altText}\" {@class} /></a>";
-                return new TwPluginResult(image);
-            }
-            else if (name.Contains('/'))
-            {
-                //Allow loading attached images from other pages.
-                int slashIndex = name.IndexOf('/');
-                navigation = TwNamespaceNavigation.CleanAndValidate(name.Substring(0, slashIndex));
-                name = name.Substring(slashIndex + 1);
-                isPageForeignImage = true;
-            }
-
-            if (explicitNamespace == false && state.Page.Namespace != null)
-            {
-                if (state.Engine.DatabaseManager.PageRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, TwNamespaceNavigation.CleanAndValidate(name), state.Revision) == null)
-                {
-                    //If the image does not exist, and no namespace was specified, but the page has a namespace - then default to the pages namespace.
-                    navigation = TwNamespaceNavigation.CleanAndValidate($"{state.Page.Namespace}::{name}");
-                }
-            }
+            //An image that is not found still gets its tag, so the page shows where it belongs.
+            var attachment = await ResolveAttachment(state, name);
+            var link = $"{state.Engine.WikiConfiguration.BasePath}/Page/Image/{attachment.PageNavigation}/{attachment.FileNavigation}"
+                + (attachment.PageRevision != null ? $"/{attachment.PageRevision}" : string.Empty);
 
             var queryParams = new List<string>();
-            if (scale != 100) queryParams.Add($"Scale={scale}");
+            if (scale != null && scale != 100) queryParams.Add($"Scale={scale}");
             if (maxWidth != null) queryParams.Add($"MaxWidth={maxWidth}");
+            var source = queryParams.Count > 0 ? $"{link}?{string.Join('&', queryParams)}" : link;
 
-            if (state.Revision != null && isPageForeignImage == false)
-            {
-                //Check for isPageForeignImage because we don't version foreign page files.
-                string link = $"/Page/Image/{navigation}/{TwNamespaceNavigation.CleanAndValidate(name)}/{state.Revision}";
-                string image = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{state.Engine.WikiConfiguration.BasePath}{link}?{string.Join('&', queryParams)}\" border=\"0\" alt=\"{altText}\" {@class} /></a>";
-                return new TwPluginResult(image);
-            }
-            else
-            {
-                string link = $"/Page/Image/{navigation}/{TwNamespaceNavigation.CleanAndValidate(name)}";
-                string image = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{state.Engine.WikiConfiguration.BasePath}{link}?{string.Join('&', queryParams)}\" border=\"0\" alt=\"{altText}\" {@class} /></a>";
-                return new TwPluginResult(image);
-            }
+            return new TwPluginResult($"<a href=\"{WebUtility.HtmlEncode(link)}\" target=\"_blank\"><img src=\"{WebUtility.HtmlEncode(source)}\" border=\"0\" alt=\"{WebUtility.HtmlEncode(altText)}\" {classAttribute} /></a>");
         }
 
-        [TwStandardFunctionPlugin("File", "Displays a file download link.")]
-        public async Task<TwPluginResult> File(ITwEngineState state, string name, string linkText, bool showSize = false)
+        /// <summary>
+        /// Where an attachment named in a function is, and its details if it exists.
+        /// </summary>
+        /// <param name="PageRevision">The revision of the page to read it from, null for the current revision.</param>
+        private record ResolvedAttachment(string PageNavigation, string FileNavigation, int? PageRevision, TwPageFileAttachmentInfo? Info);
+
+        /// <summary>
+        /// Finds an attachment named in a function: "file.png" on this page, or "Page Name/file.png" on another page.
+        /// For another page named without a namespace, when the file is not found there it is also looked for on the page
+        ///  of that name in this page's namespace, so pages in a namespace can refer to each other by their short names.
+        /// </summary>
+        private static async Task<ResolvedAttachment> ResolveAttachment(ITwEngineState state, string name)
         {
-            bool explicitNamespace = name.Contains("::");
-            bool isPageForeignFile = false;
+            var repository = state.Engine.DatabaseManager.PageRepository;
 
-            string navigation = state.Page.Navigation;
-            if (name.Contains('/'))
+            int slashIndex = name.IndexOf('/');
+            if (slashIndex < 0)
             {
-                //Allow loading attached images from other pages.
-                int slashIndex = name.IndexOf("/");
-                navigation = TwNamespaceNavigation.CleanAndValidate(name.Substring(0, slashIndex));
-                name = name.Substring(slashIndex + 1);
-                isPageForeignFile = true;
+                //Files on this page are versioned with it.
+                var fileNavigation = TwNamespaceNavigation.CleanAndValidate(name);
+                var info = await repository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(state.Page.Navigation, fileNavigation, state.Revision);
+                return new ResolvedAttachment(state.Page.Navigation, fileNavigation, state.Revision, info);
             }
 
-            if (explicitNamespace == false && state.Page.Namespace != null)
+            var pageName = name.Substring(0, slashIndex);
+            var foreignFileNavigation = TwNamespaceNavigation.CleanAndValidate(name.Substring(slashIndex + 1));
+
+            //Files on other pages are not versioned with this page, so they are always that page's current revision.
+            var pageNavigation = TwNamespaceNavigation.CleanAndValidate(pageName);
+            var foreignInfo = await repository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(pageNavigation, foreignFileNavigation, null);
+
+            if (foreignInfo == null && !pageName.Contains("::") && !string.IsNullOrWhiteSpace(state.Page.Namespace))
             {
-                if (state.Engine.DatabaseManager.PageRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, TwNamespaceNavigation.CleanAndValidate(name), state.Revision) == null)
+                var namespacedNavigation = TwNamespaceNavigation.CleanAndValidate($"{state.Page.Namespace} :: {pageName}");
+                var namespacedInfo = await repository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(namespacedNavigation, foreignFileNavigation, null);
+                if (namespacedInfo != null)
                 {
-                    //If the image does not exist, and no namespace was specified, but the page has a namespace - then default to the pages namespace.
-                    navigation = TwNamespaceNavigation.CleanAndValidate($"{state.Page.Namespace}::{name}");
+                    return new ResolvedAttachment(namespacedNavigation, foreignFileNavigation, null, namespacedInfo);
                 }
             }
 
-            var attachment = await state.Engine.DatabaseManager.PageRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, TwNamespaceNavigation.CleanAndValidate(name), state.Revision);
-            if (attachment != null)
+            return new ResolvedAttachment(pageNavigation, foreignFileNavigation, null, foreignInfo);
+        }
+
+        /// <summary>
+        /// Video formats that browsers can play. Others (.avi, .wmv, .mkv) are offered as a download.
+        /// </summary>
+        private static readonly HashSet<string> PlayableVideoTypes = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "video/mp4", "video/webm", "video/ogg", "video/quicktime"
+        };
+
+        /// <summary>
+        /// QuickTime (.mov) is the MP4 container's predecessor, and phones and cameras record H.264 in it. Browsers that
+        ///  do not claim QuickTime support still play those files when told they are MP4, but not every .mov uses a codec
+        ///  the browser has (such as HEVC on some systems), so these also get a download link under the player.
+        /// </summary>
+        private static string PlayerSourceType(string contentType)
+            => contentType.Equals("video/quicktime", StringComparison.OrdinalIgnoreCase) ? "video/mp4" : contentType;
+
+        /// <summary>
+        /// Audio formats that browsers can play.
+        /// </summary>
+        private static readonly HashSet<string> PlayableAudioTypes = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "audio/mpeg", "audio/mp3", "audio/mp4", "audio/x-m4a", "audio/aac", "audio/ogg", "application/ogg",
+            "audio/wav", "audio/x-wav", "audio/wave", "audio/vnd.wave", "audio/webm", "audio/flac", "audio/x-flac"
+        };
+
+        [TwStandardFunctionPlugin("Video", "Plays a video that is attached to the page (MP4, MOV, WebM or Ogg). Other formats are shown as a download link.")]
+        public async Task<TwPluginResult> Video(ITwEngineState state,
+            string name, int? width = null, string? poster = null, bool loop = false, bool muted = false, bool autoplay = false)
+        {
+            var media = await ResolveMedia(state, name);
+            if (media.Attachment == null)
             {
-                string alt = linkText ?? name;
+                throw new Exception($"File not found [{name}]");
+            }
 
-                if (showSize)
-                {
-                    alt += $" ({attachment.FriendlySize})";
-                }
+            if (!PlayableVideoTypes.Contains(media.Attachment.ContentType))
+            {
+                return new TwPluginResult(NotPlayable(state, media.Url, media.Attachment));
+            }
 
-                if (state.Revision != null && isPageForeignFile == false)
+            var attributes = new StringBuilder("controls preload=\"metadata\" playsinline class=\"img-fluid\"");
+            if (width > 0) attributes.Append($" width=\"{width}\"");
+            if (loop) attributes.Append(" loop");
+            //Browsers only start playing by themselves when the sound is off.
+            if (autoplay) attributes.Append(" autoplay muted");
+            else if (muted) attributes.Append(" muted");
+
+            if (!string.IsNullOrWhiteSpace(poster))
+            {
+                var posterMedia = await ResolveMedia(state, poster);
+                if (posterMedia.Attachment != null)
                 {
-                    //Check for isPageForeignImage because we don't version foreign page files.
-                    string link = $"/Page/Binary/{navigation}/{TwNamespaceNavigation.CleanAndValidate(name)}/{state.Revision}";
-                    string image = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}{link}\">{alt}</a>";
-                    return new TwPluginResult(image);
-                }
-                else
-                {
-                    string link = $"/Page/Binary/{navigation}/{TwNamespaceNavigation.CleanAndValidate(name)}";
-                    string image = $"<a href=\"{state.Engine.WikiConfiguration.BasePath}{link}\">{alt}</a>";
-                    return new TwPluginResult(image);
+                    attributes.Append($" poster=\"{WebUtility.HtmlEncode(posterMedia.Url)}\"");
                 }
             }
-            throw new Exception($"File not found [{name}]");
+
+            var html = $"<video {attributes}>"
+                + $"<source src=\"{WebUtility.HtmlEncode(media.Url)}\" type=\"{WebUtility.HtmlEncode(PlayerSourceType(media.Attachment.ContentType))}\" />"
+                + DownloadLink(state, media.Url, media.Attachment)
+                + "</video>";
+
+            if (!PlayerSourceType(media.Attachment.ContentType).Equals(media.Attachment.ContentType, StringComparison.OrdinalIgnoreCase))
+            {
+                html += "<div class=\"small text-muted\">"
+                    + WebUtility.HtmlEncode(state.Localizer["If the video does not play:"].Value)
+                    + $" {DownloadLink(state, media.Url, media.Attachment)}</div>";
+            }
+
+            return new TwPluginResult(html);
+        }
+
+        [TwStandardFunctionPlugin("Audio", "Plays audio that is attached to the page (MP3, M4A, Ogg, WAV, WebM or FLAC). Other formats are shown as a download link.")]
+        public async Task<TwPluginResult> Audio(ITwEngineState state, string name, bool loop = false)
+        {
+            var media = await ResolveMedia(state, name);
+            if (media.Attachment == null)
+            {
+                throw new Exception($"File not found [{name}]");
+            }
+
+            if (!PlayableAudioTypes.Contains(media.Attachment.ContentType))
+            {
+                return new TwPluginResult(NotPlayable(state, media.Url, media.Attachment));
+            }
+
+            return new TwPluginResult(
+                $"<audio controls preload=\"metadata\"{(loop ? " loop" : string.Empty)}>"
+                + $"<source src=\"{WebUtility.HtmlEncode(media.Url)}\" type=\"{WebUtility.HtmlEncode(media.Attachment.ContentType)}\" />"
+                + DownloadLink(state, media.Url, media.Attachment)
+                + "</audio>");
+        }
+
+        /// <summary>
+        /// Finds an attachment by name, either on this page or, written as "Page Name/file.mp4", on another page.
+        /// Returns the URL that streams it (with seeking) and its details, which are null if it does not exist.
+        /// </summary>
+        private static async Task<(string Url, TwPageFileAttachmentInfo? Attachment)> ResolveMedia(ITwEngineState state, string name)
+        {
+            var attachment = await ResolveAttachment(state, name);
+            return (BinaryUrl(state, attachment), attachment.Info);
+        }
+
+        /// <summary>
+        /// The URL that sends an attachment's content, with range support so video can be seeked.
+        /// </summary>
+        private static string BinaryUrl(ITwEngineState state, ResolvedAttachment attachment)
+            => $"{state.Engine.WikiConfiguration.BasePath}/Page/Binary/{attachment.PageNavigation}/{attachment.FileNavigation}"
+            + (attachment.PageRevision != null ? $"/{attachment.PageRevision}" : string.Empty);
+
+        private static string DownloadLink(ITwEngineState state, string url, TwPageFileAttachmentInfo attachment)
+            => $"<a href=\"{WebUtility.HtmlEncode(url)}\">{WebUtility.HtmlEncode(string.Format(state.Localizer["Download {0}"].Value, attachment.Name))}</a>";
+
+        private static string NotPlayable(ITwEngineState state, string url, TwPageFileAttachmentInfo attachment)
+            => $"<div class=\"alert alert-secondary\" role=\"note\">"
+            + WebUtility.HtmlEncode(state.Localizer["This file can not be played in the browser."].Value)
+            + $" {DownloadLink(state, url, attachment)} ({WebUtility.HtmlEncode(attachment.FriendlySize)})</div>";
+
+        [TwStandardFunctionPlugin("File", "Displays a file download link.")]
+        public async Task<TwPluginResult> File(ITwEngineState state, string name, string? linkText = null, bool showSize = false)
+        {
+            var attachment = await ResolveAttachment(state, name);
+            if (attachment.Info == null)
+            {
+                throw new Exception($"File not found [{name}]");
+            }
+
+            string text = linkText ?? name;
+            if (showSize)
+            {
+                text += $" ({attachment.Info.FriendlySize})";
+            }
+
+            return new TwPluginResult($"<a href=\"{WebUtility.HtmlEncode(BinaryUrl(state, attachment))}\">{WebUtility.HtmlEncode(text)}</a>");
         }
     }
 }

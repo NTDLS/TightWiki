@@ -447,12 +447,22 @@ namespace TightWiki.Plugin.Interfaces.Repository
         /// <summary>
         /// Returns the full file attachment including content, located by page navigation, file navigation, and optional file revision.
         /// </summary>
-        Task<TwPageFileAttachment?> GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? fileRevision = null);
+        /// <param name="pageNavigation">The navigation of the page the file is attached to.</param>
+        /// <param name="fileNavigation">The navigation of the file.</param>
+        /// <param name="fileRevision">The file revision, or null for the current one.</param>
+        /// <param name="loadContent">False to skip reading content from the attachment storage, so a large file is not read into
+        /// memory. Data then only holds content still stored in the database (attachments not yet moved to the storage).</param>
+        Task<TwPageFileAttachment?> GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? fileRevision = null, bool loadContent = true);
 
         /// <summary>
         /// Returns the full file attachment including content, located by page navigation, page revision, and file navigation.
         /// </summary>
-        Task<TwPageFileAttachment?> GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null);
+        /// <param name="pageNavigation">The navigation of the page the file is attached to.</param>
+        /// <param name="fileNavigation">The navigation of the file.</param>
+        /// <param name="pageRevision">The page revision, or null for the current one.</param>
+        /// <param name="loadContent">False to skip reading content from the attachment storage, so a large file is not read into
+        /// memory. Data then only holds content still stored in the database (attachments not yet moved to the storage).</param>
+        Task<TwPageFileAttachment?> GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null, bool loadContent = true);
 
         /// <summary>
         /// Returns a paged list of revision history entries for a specific file attachment on a page.
@@ -478,6 +488,27 @@ namespace TightWiki.Plugin.Interfaces.Repository
         /// Inserts or updates a page file attachment record. Associates the upload with the specified user.
         /// </summary>
         Task UpsertPageFile(TwPageFileAttachment item, Guid userId);
+
+        /// <summary>
+        /// Attaches a completely received upload to the current revision of a page. If the content is new, the file is moved
+        /// from the attachment storage's staging directory into place; if it matches the attached revision nothing changes and
+        /// the file is left where it is for the caller to delete. The item's Data is not used.
+        /// </summary>
+        /// <param name="item">The file's metadata and the page it is attached to.</param>
+        /// <param name="incomingPath">The received file, in the attachment storage's staging directory.</param>
+        /// <param name="dataHash">The CRC-32 of the file's content.</param>
+        /// <param name="userId">The user who uploaded the file.</param>
+        /// <returns>True if a new file revision was created, false if the content was unchanged.</returns>
+        Task<bool> UpsertPageFileFromIncoming(TwPageFileAttachment item, string incomingPath, int dataHash, Guid userId);
+
+        /// <summary>
+        /// Moves the content of attachments that are still stored in the pages and deleted pages databases into the
+        /// attachment storage, one revision at a time. A revision's database copy is only cleared once its file has been
+        /// read back and matches. Safe to stop at any point and run again: it continues with what is left.
+        /// </summary>
+        /// <returns>How many revisions were moved, how many could not be moved (each one is logged), and how many remain
+        /// because the operation was cancelled.</returns>
+        Task<(int Moved, int Failed, int Remaining)> MoveAttachmentContentToStorage(CancellationToken cancellationToken = default);
 
         #endregion
 

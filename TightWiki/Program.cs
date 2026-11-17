@@ -109,6 +109,7 @@ namespace TightWiki
             builder.Services.AddSingleton<ITwPageRepository>(databaseManager.PageRepository);
             builder.Services.AddSingleton<ITwUsersRepository>(databaseManager.UsersRepository);
             builder.Services.AddSingleton<ITwDatabaseManager>(databaseManager);
+            builder.Services.AddSingleton(new TightWiki.Repository.TwAttachmentUploads(databaseManager.AttachmentStorage));
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = requireConfirmedAccount)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -394,9 +395,35 @@ namespace TightWiki
                 var readyMessage = Localize("Application initialization complete. Ready for connections!");
                 databaseManager.Logger.LogInformation(readyMessage);
                 Console.WriteLine(readyMessage);
+
+                //Attachments uploaded before they were stored on disk are moved there in the background. Until each one is
+                //  moved it is still read from the database, so the site does not need to wait for this.
+                _ = Task.Run(() => MoveAttachmentContentToStorage(databaseManager, app.Lifetime.ApplicationStopping));
             });
 
             app.Run();
+        }
+
+        private static async Task MoveAttachmentContentToStorage(DatabaseManager databaseManager, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var (moved, failed, remaining) = await databaseManager.PageRepository.MoveAttachmentContentToStorage(cancellationToken);
+
+                if (moved > 0 || failed > 0 || remaining > 0)
+                {
+                    var message = $"Attachment migration: moved {moved:n0} attachment revisions from the database to {databaseManager.AttachmentStorage.RootPath}."
+                        + (failed > 0 ? $" {failed:n0} could not be moved and are still read from the database, see the logged errors." : string.Empty)
+                        + (remaining > 0 ? $" {remaining:n0} remain because the site was stopping, they will be moved at the next start." : string.Empty);
+
+                    databaseManager.Logger.LogInformation(message);
+                    Console.WriteLine(message);
+                }
+            }
+            catch (Exception ex)
+            {
+                databaseManager.Logger.LogError(ex, "Attachment migration failed.");
+            }
         }
 
         private static bool CanReadWrite(string path)

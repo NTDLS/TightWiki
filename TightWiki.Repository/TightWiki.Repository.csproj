@@ -3,7 +3,7 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Version>2.41.1</Version>
+		<Version>2.42.0</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -216,6 +216,7 @@
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.41.0\^001^Config^DropThemeTable.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.41.0\^002^Config^RemoveThemeConfigurationEntry.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.41.0\^001^Users^RemoveThemeClaims.sql" />
+		<EmbeddedResource Include="Scripts\Initialization\Versions\2.42.0\^001^Config^RaiseMaxAttachmentFileSize.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.34.4\^001^Logging^ChangeCollation.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.38.0\^001^Pages^CurrentPageEditors.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.39.0\^001^Pages^RestorePageModifiedDates.sql" />
@@ -405,6 +406,13 @@
 		<EmbeddedResource Include="Scripts\UpsertCurrentPageEditor.sql" />
 		<EmbeddedResource Include="Scripts\DeleteCurrentPageEditor.sql" />
 		<EmbeddedResource Include="Scripts\GetCurrentPageEditors.sql" />
+		<EmbeddedResource Include="Scripts\DoesPageFileRevisionExist.sql" />
+		<EmbeddedResource Include="Scripts\GetAllPageFileRevisionKeys.sql" />
+		<EmbeddedResource Include="Scripts\GetPageFileRevisionKeysByPageId.sql" />
+		<EmbeddedResource Include="Scripts\GetOrphanedPageFileRevisionKeys.sql" />
+		<EmbeddedResource Include="Scripts\GetPageFileRevisionKeysWithDatabaseContent.sql" />
+		<EmbeddedResource Include="Scripts\GetPageFileRevisionDatabaseContent.sql" />
+		<EmbeddedResource Include="Scripts\ClearPageFileRevisionDatabaseContent.sql" />
 	</ItemGroup>
 
 	<ItemGroup>

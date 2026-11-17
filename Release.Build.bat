@@ -29,6 +29,12 @@ del .\Data\defaults.db
 copy .\Data\*.* Publish\TightWiki.Windows.x64\Deployment\data
 copy .\Data\*.* Publish\TightWiki.Linux.x64\Deployment\data
 
+REM -------------------Attachment content, which pages.db refers to. Uploads still being received (.incoming) are not packaged.
+xcopy .\Data\Attachments Publish\TightWiki.Windows.x64\Deployment\data\Attachments\ /E /I /Q /Y
+xcopy .\Data\Attachments Publish\TightWiki.Linux.x64\Deployment\data\Attachments\ /E /I /Q /Y
+rd .\Publish\TightWiki.Windows.x64\Deployment\data\Attachments\.incoming /q /s
+rd .\Publish\TightWiki.Linux.x64\Deployment\data\Attachments\.incoming /q /s
+
 7z.exe a -tzip -r -mx9 ".\Publish\TightWiki.Windows.x64.zip" ".\Publish\TightWiki.Windows.x64\Deployment\*.*"
 7z.exe a -tzip -r -mx9 ".\Publish\TightWiki.Linux.x64.zip" ".\Publish\TightWiki.Linux.x64\Deployment\*.*"
 

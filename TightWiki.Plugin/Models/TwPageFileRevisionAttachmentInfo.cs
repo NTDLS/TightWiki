@@ -19,7 +19,7 @@
         /// <summary>
         /// The size of the attached file in bytes.
         /// </summary>
-        public int Size { get; set; }
+        public long Size { get; set; }
 
         /// <summary>
         /// A hash of the file content used to detect changes between revisions.

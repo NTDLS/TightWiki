@@ -194,9 +194,9 @@ namespace TightWiki.Plugin
         public int MaxAvatarFileSize { get; set; } = 1048576;
 
         /// <summary>
-        /// The maximum allowed file size in bytes for page file attachments. Defaults to 5MB.
+        /// The maximum allowed file size in bytes for page file attachments. Defaults to 4GB.
         /// </summary>
-        public int MaxAttachmentFileSize { get; set; } = 5242880;
+        public long MaxAttachmentFileSize { get; set; } = 4294967296;
 
         /// <summary>
         /// The maximum allowed file size in bytes for emoji image uploads. Defaults to 512KB.

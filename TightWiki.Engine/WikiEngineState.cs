@@ -571,9 +571,9 @@ namespace TightWiki.Engine
             var html = new StringBuilder();
 
             html.AppendLine("<div class=\"card bg-warning mb-3\">");
-            html.AppendLine($"  <div class=\"card-header\"><strong>{header}</strong></div>");
+            html.AppendLine($"  <div class=\"card-header\"><strong>{System.Net.WebUtility.HtmlEncode(header)}</strong></div>");
             html.AppendLine("  <div class=\"card-body\">");
-            html.AppendLine($"    <p class=\"card-text mb-0\">{exceptionText}</p>");
+            html.AppendLine($"    <p class=\"card-text mb-0\">{System.Net.WebUtility.HtmlEncode(exceptionText)}</p>");
             html.AppendLine("  </div>");
             html.AppendLine("</div>");
 
@@ -658,7 +658,8 @@ namespace TightWiki.Engine
 
             var matchSet = new MatchSet()
             {
-                Content = $"<i><font size=\"3\" color=\"#BB0000\">{{{value}}}</font></a>",
+                //Error messages are text: they can repeat what the page author typed, which must not become markup.
+                Content = $"<i><font size=\"3\" color=\"#BB0000\">{{{System.Net.WebUtility.HtmlEncode(value)}}}</font></i>",
                 AllowNestedDecode = false,
                 MatchType = TwMatchType.Error
             };

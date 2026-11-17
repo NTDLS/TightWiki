@@ -153,3 +153,6 @@ TightWiki.TranslationSite/obj/
 
 #Live suggestions and votes for the translations site, these must never be committed.
 TightWiki.TranslationSite/App_Data/
+
+# Uploads still being received, never part of the wiki content.
+Data/Attachments/.incoming/
