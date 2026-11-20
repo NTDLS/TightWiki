@@ -32,14 +32,14 @@ namespace TightWiki
             [Description("A short summary of what has been changed. Required.")] string changeSummary,
             [Description("The description of the page.")] string? description = null)
         {
-            return await Save(service =>
+            return await Save(async service =>
             {
                 if (string.IsNullOrWhiteSpace(name))
                 {
                     throw new McpException(Localize("The page name is required."));
                 }
 
-                return service.CreatePage(name, body, description, changeSummary);
+                return await service.CreatePage(name, body, description, changeSummary);
             });
         }
 
@@ -74,11 +74,8 @@ namespace TightWiki
 
             try
             {
-                var result = await save(new ApiWriteService(sessionState, tightEngine, localizer, ApiWriteService.McpSource));
-                if (result == null)
-                {
-                    throw new McpException(Localize("Not found."));
-                }
+                var result = await save(new ApiWriteService(sessionState, tightEngine, localizer, ApiWriteService.McpSource))
+                    ?? throw new McpException(Localize("Not found."));
 
                 if (result.Error != PageSaveError.None)
                 {
@@ -98,7 +95,7 @@ namespace TightWiki
         /// <summary>
         /// The same texts as the /v1/ API, a revision conflict also tells the current revision.
         /// </summary>
-        private string SaveErrorMessage(PageSaveResult result)
+        private static string SaveErrorMessage(PageSaveResult result)
         {
             switch (result.Error)
             {
