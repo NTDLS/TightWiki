@@ -54,6 +54,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly ITwSharedLocalizationText _localizer;
         private readonly ITwConfigurationRepository _configurationRepository;
         private readonly ITwUsersRepository _usersRepository;
+        private readonly SignupNotificationService _signupNotificationService;
 
         public ExternalLoginSupplementalModel(
                 ILogger<ITwEngine> logger,
@@ -64,6 +65,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 TwConfiguration wikiConfiguration,
                 ITwConfigurationRepository configurationRepository,
                 ITwUsersRepository usersRepository,
+                SignupNotificationService signupNotificationService,
                 ITwDatabaseManager databaseManager
             )
             : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
@@ -73,6 +75,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             _localizer = localizer;
             _configurationRepository = configurationRepository;
             _usersRepository = usersRepository;
+            _signupNotificationService = signupNotificationService;
         }
 
         [BindProperty]
@@ -184,6 +187,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 };
 
                 await _usersRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
+
+                await _signupNotificationService.NotifyAdministrators(Guid.Parse(user.Id));
 
                 await SignInManager.SignInAsync(user, isPersistent: false);
             }
