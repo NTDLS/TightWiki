@@ -84,6 +84,11 @@ namespace TightWiki.Plugin
         public string HTMLFooter { get; set; } = string.Empty;
 
         /// <summary>
+        /// Custom HTML injected inside the &lt;header&gt; element, before the navigation bar.
+        /// </summary>
+        public string HTMLPreHeader { get; set; } = string.Empty;
+
+        /// <summary>
         /// Custom HTML injected immediately before the page body content.
         /// </summary>
         public string HTMLPreBody { get; set; } = string.Empty;

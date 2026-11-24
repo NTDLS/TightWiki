@@ -90,6 +90,10 @@
 
 <body>
     <header class="@headerClass">
+        @if (!string.IsNullOrWhiteSpace(WikiConfiguration.HTMLPreHeader))
+        {
+            @Html.Raw(WikiConfiguration.HTMLPreHeader)
+        }
         <nav class="@navBarClass">
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center gap-2" href="@WikiConfiguration.BasePath/">
