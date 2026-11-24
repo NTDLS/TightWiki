@@ -29,6 +29,11 @@ namespace TightWiki.Plugin
         public bool AllowSignup { get; set; }
 
         /// <summary>
+        /// The HTML the user must agree to when signing up. When empty, no agreement is asked for.
+        /// </summary>
+        public string SignupTerms { get; set; } = string.Empty;
+
+        /// <summary>
         /// Indicates whether LDAP authentication is enabled.
         /// </summary>
         public bool EnableLDAPAuthentication { get; set; }

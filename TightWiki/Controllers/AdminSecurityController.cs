@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
+using System.Globalization;
 using System.Security.Claims;
 using TightWiki.Library;
 using TightWiki.Library.Caching;
@@ -480,6 +481,13 @@ namespace TightWiki.Controllers
 
                 model.AccountProfile.CreatedDate = SessionState.LocalizeDateTime(model.AccountProfile.CreatedDate);
                 model.AccountProfile.ModifiedDate = SessionState.LocalizeDateTime(model.AccountProfile.ModifiedDate);
+
+                var user = (await UserManager.FindByIdAsync(accountProfile.UserId.ToString())).EnsureNotNull();
+                var termsAcceptedClaim = (await UserManager.GetClaimsAsync(user)).FirstOrDefault(c => c.Type == "termsaccepted");
+                if (termsAcceptedClaim != null && DateTime.TryParse(termsAcceptedClaim.Value, null, DateTimeStyles.RoundtripKind, out var termsAcceptedUtc))
+                {
+                    model.TermsAcceptedDate = SessionState.LocalizeDateTime(termsAcceptedUtc);
+                }
 
                 return View(model);
             }

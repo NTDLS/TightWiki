@@ -45,6 +45,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
         [Display(Name = "Language")]
         [Required]
         public string Language { get; set; } = string.Empty;
+
+        public bool AcceptTerms { get; set; }
     }
 
     public class LdapLoginSupplementalModel : TwPageModel
@@ -138,6 +140,11 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                 await PopulateDefaults();
 
+                if (SignupTermsRequired && !Input.AcceptTerms)
+                {
+                    ModelState.AddModelError("Input.AcceptTerms", Localize("You must agree to the terms to sign up."));
+                }
+
                 if (!ModelState.IsValid)
                 {
                     return Page();
@@ -174,6 +181,11 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     new ("firstname", Input.FirstName ?? ""),
                     new ("lastname", Input.LastName ?? ""),
                 };
+
+                if (SignupTermsRequired)
+                {
+                    claimsToAdd.Add(new Claim("termsaccepted", DateTime.UtcNow.ToString("o")));
+                }
 
                 await _usersRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
 

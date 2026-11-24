@@ -17,6 +17,11 @@ namespace TightWiki.Pages
         public SignInManager<IdentityUser> SignInManager { get; private set; } = signInManager;
         public TwConfiguration WikiConfiguration { get; private set; } = wikiConfiguration;
 
+        /// <summary>
+        /// True when the administrator has entered signup terms that every new user has to agree to.
+        /// </summary>
+        public bool SignupTermsRequired => !string.IsNullOrWhiteSpace(WikiConfiguration.SignupTerms);
+
         public string SuccessMessage { get; set; } = string.Empty;
         public string WarningMessage { get; set; } = string.Empty;
         public string ErrorMessage { get; set; } = string.Empty;
