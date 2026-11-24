@@ -44,6 +44,11 @@ namespace TightWiki.Plugin
         public string BrandImageSmall { get; set; } = string.Empty;
 
         /// <summary>
+        /// Whether the brand (small brand image and wiki name) is hidden in the navigation bar.
+        /// </summary>
+        public bool HideNavbarBrand { get; set; }
+
+        /// <summary>
         /// The display name of the wiki site.
         /// </summary>
         public string Name { get; set; } = string.Empty;

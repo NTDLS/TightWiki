@@ -20,6 +20,7 @@
     string navBarClass = "navbar navbar-expand-lg bg-body-tertiary border-bottom shadow-sm";
     //The header (not the navbar inside it) is what sticks, a sticky element can only move within its parent.
     string headerClass = WikiConfiguration.FixedMenuPosition ? "sticky-top" : "";
+    string navBarTogglerClass = WikiConfiguration.HideNavbarBrand ? "navbar-toggler ms-auto" : "navbar-toggler";
     var isPageProtected = sessionState.PageInstructions.Contains(TwInstruction.Protect);
 }
 
@@ -96,16 +97,19 @@
         }
         <nav class="@navBarClass">
             <div class="container">
-                <a class="navbar-brand d-flex align-items-center gap-2" href="@WikiConfiguration.BasePath/">
-                    <span class="site-branding d-inline-flex align-items-center gap-2">
-                        <img src="@Url.Content(WikiConfiguration.BrandImageSmall)"
-                             alt="@WikiConfiguration.Name"
-                             style="max-height: 28px;" />
-                        <span>@WikiConfiguration.Name</span>
-                    </span>
-                </a>
+                @if (!WikiConfiguration.HideNavbarBrand)
+                {
+                    <a class="navbar-brand d-flex align-items-center gap-2" href="@WikiConfiguration.BasePath/">
+                        <span class="site-branding d-inline-flex align-items-center gap-2">
+                            <img src="@Url.Content(WikiConfiguration.BrandImageSmall)"
+                                 alt="@WikiConfiguration.Name"
+                                 style="max-height: 28px;" />
+                            <span>@WikiConfiguration.Name</span>
+                        </span>
+                    </a>
+                }
 
-                <button class="navbar-toggler"
+                <button class="@navBarTogglerClass"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#mainNavbar"
