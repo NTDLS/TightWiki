@@ -71,9 +71,11 @@ namespace TightWiki.Repository.Helpers
             WikiConfiguration.IncludeSearchOnNavbar = searchConfig.Value<bool>("Include Search on Navbar");
             WikiConfiguration.HTMLHeader = htmlConfig?.Value<string>("Header") ?? string.Empty;
             WikiConfiguration.HTMLFooter = htmlConfig?.Value<string>("Footer") ?? string.Empty;
+            WikiConfiguration.HTMLPreHeader = htmlConfig?.Value<string>("Pre-Header") ?? string.Empty;
             WikiConfiguration.HTMLPreBody = htmlConfig?.Value<string>("Pre-Body") ?? string.Empty;
             WikiConfiguration.HTMLPostBody = htmlConfig?.Value<string>("Post-Body") ?? string.Empty;
             WikiConfiguration.BrandImageSmall = customizationConfig?.Value<string>("Brand Image (Small)") ?? string.Empty;
+            WikiConfiguration.HideNavbarBrand = customizationConfig?.Value("Hide Navbar Brand", false) ?? false;
             WikiConfiguration.FooterBlurb = customizationConfig?.Value<string>("FooterBlurb") ?? string.Empty;
             WikiConfiguration.EnableSidebar = customizationConfig?.Value("Enable Sidebar", false) ?? false;
             WikiConfiguration.SidebarPage = customizationConfig?.Value("Sidebar Page", string.Empty) ?? string.Empty;

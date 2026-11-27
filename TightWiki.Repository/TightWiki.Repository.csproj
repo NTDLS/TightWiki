@@ -224,6 +224,8 @@
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.43.0\^002^Config^EnableMcpConfigurationEntry.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.43.0\^003^Config^AllowApiWritesConfigurationEntry.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.43.0\^001^Users^ApiTokens.sql" />
+		<EmbeddedResource Include="Scripts\Initialization\Versions\2.43.1\^003^Config^PreHeaderConfigurationEntry.sql" />
+		<EmbeddedResource Include="Scripts\Initialization\Versions\2.43.1\^004^Config^HideNavbarBrandConfigurationEntry.sql" />
 		<EmbeddedResource Include="Scripts\InsertApiToken.sql" />
 		<EmbeddedResource Include="Scripts\GetApiTokensByUserId.sql" />
 		<EmbeddedResource Include="Scripts\GetUserIdByApiTokenHash.sql" />
