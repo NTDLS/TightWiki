@@ -51,6 +51,7 @@ namespace TightWiki.Repository.Helpers
 
             WikiConfiguration.FixedMenuPosition = customizationConfig.Value("Fixed Header Menu Position", false);
             WikiConfiguration.AllowSignup = membershipConfig.Value("Allow Signup", false);
+            WikiConfiguration.SignupTerms = membershipConfig.Value("Signup Terms", string.Empty);
             WikiConfiguration.DefaultProfileRecentlyModifiedCount = performanceConfig.Value<int>("Default Profile Recently Modified Count");
             WikiConfiguration.PreLoadAnimatedEmojis = performanceConfig.Value<bool>("Pre-Load Animated Emojis");
             WikiConfiguration.DefaultEmojiHeight = customizationConfig.Value<int>("Default Emoji Height");

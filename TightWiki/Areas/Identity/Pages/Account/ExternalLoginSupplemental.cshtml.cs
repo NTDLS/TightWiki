@@ -41,6 +41,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
         [Display(Name = "Language")]
         [Required]
         public string Language { get; set; } = string.Empty;
+
+        public bool AcceptTerms { get; set; }
     }
 
 
@@ -54,6 +56,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly ITwSharedLocalizationText _localizer;
         private readonly ITwConfigurationRepository _configurationRepository;
         private readonly ITwUsersRepository _usersRepository;
+        private readonly SignupNotificationService _signupNotificationService;
 
         public ExternalLoginSupplementalModel(
                 ILogger<ITwEngine> logger,
@@ -64,6 +67,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 TwConfiguration wikiConfiguration,
                 ITwConfigurationRepository configurationRepository,
                 ITwUsersRepository usersRepository,
+                SignupNotificationService signupNotificationService,
                 ITwDatabaseManager databaseManager
             )
             : base(logger, signInManager, localizer, wikiConfiguration, databaseManager)
@@ -73,6 +77,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             _localizer = localizer;
             _configurationRepository = configurationRepository;
             _usersRepository = usersRepository;
+            _signupNotificationService = signupNotificationService;
         }
 
         [BindProperty]
@@ -129,6 +134,11 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                 await PopulateDefaults();
 
+                if (SignupTermsRequired && !Input.AcceptTerms)
+                {
+                    ModelState.AddModelError("Input.AcceptTerms", Localize("You must agree to the terms to sign up."));
+                }
+
                 if (!ModelState.IsValid)
                 {
                     return Page();
@@ -183,7 +193,14 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     new ("lastname", Input.LastName ?? ""),
                 };
 
+                if (SignupTermsRequired)
+                {
+                    claimsToAdd.Add(new Claim("termsaccepted", DateTime.UtcNow.ToString("o")));
+                }
+
                 await _usersRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
+
+                await _signupNotificationService.NotifyAdministrators(Guid.Parse(user.Id));
 
                 await SignInManager.SignInAsync(user, isPersistent: false);
             }

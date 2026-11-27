@@ -134,6 +134,21 @@
                             </div>
                         </div>
 
+                        @if (Model.SignupTermsRequired)
+                        {
+                            <div class="col-12">
+                                <div class="border rounded p-3 mb-2">@Html.Raw(Model.WikiConfiguration.SignupTerms)</div>
+                                <div class="form-check">
+                                    <input class="form-check-input" asp-for="Input.AcceptTerms" />
+                                    <label for="Input_AcceptTerms" class="form-check-label fw-semibold">
+                                        @Localize("I agree to the terms above.")
+                                    </label>
+                                </div>
+                                <div class="text-danger small">
+                                    @Html.ValidationMessageFor(m => m.Input.AcceptTerms)
+                                </div>
+                            </div>
+                        }
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary w-100">
                                 <i class="bi bi-person-check me-1"></i>@Localize("Complete Signup")

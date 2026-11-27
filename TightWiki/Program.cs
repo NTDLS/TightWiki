@@ -104,6 +104,7 @@ namespace TightWiki
             builder.Services.AddSingleton(wikiConfigurationManager);
             builder.Services.AddSingleton(wikiConfigurationManager.WikiConfiguration);
             builder.Services.AddSingleton<ITwEmailSender, EmailSender>();
+            builder.Services.AddSingleton<SignupNotificationService>();
             builder.Services.AddSingleton<ITwConfigurationRepository>(databaseManager.ConfigurationRepository);
             builder.Services.AddSingleton<ITwLoggingRepository>(databaseManager.LoggingRepository);
             builder.Services.AddSingleton<ITwEmojiRepository>(databaseManager.EmojiRepository);

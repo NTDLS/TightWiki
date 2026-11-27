@@ -14,5 +14,6 @@ namespace TightWiki.ViewModels.AdminSecurity
         public AccountProfileAccountViewModel AccountProfile { get; set; } = new();
         public CredentialViewModel Credential { get; set; } = new();
         public string DefaultRole { get; set; } = string.Empty;
+        public DateTime? TermsAcceptedDate { get; set; }
     }
 }

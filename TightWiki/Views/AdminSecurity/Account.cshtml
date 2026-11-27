@@ -182,6 +182,14 @@
                                     <div class="text-danger small">@Html.ValidationMessageFor(m => m.AccountProfile.TimeZone)</div>
                                 </div>
 
+                                @if (Model.TermsAcceptedDate != null)
+                                {
+                                    <div class="col-12">
+                                        <span class="fw-semibold">@Localize("Agreed to the signup terms:")</span>
+                                        @Model.TermsAcceptedDate.Value
+                                    </div>
+                                }
+
                             </div>
                         </div>
                     </div>
